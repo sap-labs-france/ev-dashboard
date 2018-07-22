@@ -2,6 +2,7 @@
 	"general": {
 		"app_name": "Charge-Angels",
 		"last_update": "V1.8.12 (18 Juillet)",
+		"about_us": "A Propos",
 		"unexpected_error_backend": "Une erreur inattendue s'est produite",
 		"id": "ID",
 		"location": "Location",

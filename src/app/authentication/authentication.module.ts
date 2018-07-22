@@ -5,10 +5,11 @@ import { MaterialModule } from '../app.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationGuard } from './authentication-guard';
 import { AuthenticationRoutes } from './authentication.routing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { RegisterComponent } from './register/register.component';
 import { PricingComponent } from './pricing/pricing.component';
-import { LockComponent } from './lock/lock.component';
+import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -17,13 +18,14 @@ import { LoginComponent } from './login/login.component';
     RouterModule.forChild(AuthenticationRoutes),
     FormsModule,
     MaterialModule,
+    TranslateModule,
     ReactiveFormsModule
   ],
   declarations: [
     LoginComponent,
     RegisterComponent,
     PricingComponent,
-    LockComponent
+    RetrievePasswordComponent
   ],
   providers: [
     AuthenticationGuard

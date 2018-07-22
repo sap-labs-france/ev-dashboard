@@ -1,26 +1,22 @@
 import { Routes } from '@angular/router';
 
 import { RegisterComponent } from './register/register.component';
-import { PricingComponent } from './pricing/pricing.component';
-import { LockComponent } from './lock/lock.component';
+import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
 import { LoginComponent } from './login/login.component';
 
 export const AuthenticationRoutes: Routes = [
 
     {
         path: '',
-        children: [ {
+        children: [{
             path: 'login',
             component: LoginComponent
         }, {
-            path: 'lock',
-            component: LockComponent
+            path: 'retrieve-password',
+            component: RetrievePasswordComponent
         }, {
             path: 'register',
             component: RegisterComponent
-        }, {
-            path: 'pricing',
-            component: PricingComponent
         }]
     }
 ];

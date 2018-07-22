@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-    selector: 'app-lock-cmp',
-    templateUrl: './lock.component.html'
+    selector: 'app-retrieve-password-cmp',
+    templateUrl: './retrieve-password.component.html'
 })
 
-export class LockComponent implements OnInit, OnDestroy {
+export class RetrievePasswordComponent implements OnInit, OnDestroy {
     test: Date = new Date();
     ngOnInit() {
       const body = document.getElementsByTagName('body')[0];
@@ -21,6 +21,5 @@ export class LockComponent implements OnInit, OnDestroy {
       const body = document.getElementsByTagName('body')[0];
       body.classList.remove('lock-page');
       body.classList.remove('off-canvas-sidebar');
-
     }
 }

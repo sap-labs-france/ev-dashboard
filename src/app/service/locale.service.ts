@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from '../service/central-server.service';
+import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class LocaleService {

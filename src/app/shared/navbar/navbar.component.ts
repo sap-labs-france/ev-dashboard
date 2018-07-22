@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive } from '@angular/core';
-import { ROUTES } from '../.././sidebar/sidebar.component';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
+import { ROUTES } from '../../sidebar/sidebar.component';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
 const misc: any = {
     navbar_menu_visible: 0,
     active_collapse: true,
@@ -23,70 +23,71 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     private _router: Subscription;
+    private $layer;
 
     @ViewChild('app-navbar-cmp') button: any;
 
-    constructor(location: Location, private renderer: Renderer, private element: ElementRef, private router: Router,) {
+    constructor(location: Location, private renderer: Renderer, private element: ElementRef, private router: Router, ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
-    minimizeSidebar(){
-      const body = document.getElementsByTagName('body')[0];
+    minimizeSidebar() {
+        const body = document.getElementsByTagName('body')[0];
 
-      if (misc.sidebar_mini_active === true) {
-          body.classList.remove('sidebar-mini');
-          misc.sidebar_mini_active = false;
+        if (misc.sidebar_mini_active === true) {
+            body.classList.remove('sidebar-mini');
+            misc.sidebar_mini_active = false;
 
-      } else {
-          setTimeout(function() {
-              body.classList.add('sidebar-mini');
+        } else {
+            setTimeout(function () {
+                body.classList.add('sidebar-mini');
 
-              misc.sidebar_mini_active = true;
-          }, 300);
-      }
+                misc.sidebar_mini_active = true;
+            }, 300);
+        }
 
-      // we simulate the window Resize so the charts will get updated in realtime.
-      const simulateWindowResize = setInterval(function() {
-          window.dispatchEvent(new Event('resize'));
-      }, 180);
+        // we simulate the window Resize so the charts will get updated in realtime.
+        const simulateWindowResize = setInterval(function () {
+            window.dispatchEvent(new Event('resize'));
+        }, 180);
 
-      // we stop the simulation of Window Resize after the animations are completed
-      setTimeout(function() {
-          clearInterval(simulateWindowResize);
-      }, 1000);
+        // we stop the simulation of Window Resize after the animations are completed
+        setTimeout(function () {
+            clearInterval(simulateWindowResize);
+        }, 1000);
     }
-    hideSidebar(){
-      const body = document.getElementsByTagName('body')[0];
-      const sidebar = document.getElementsByClassName('sidebar')[0];
+    hideSidebar() {
+        const body = document.getElementsByTagName('body')[0];
+        const sidebar = document.getElementsByClassName('sidebar')[0];
 
-      if (misc.hide_sidebar_active === true) {
-          setTimeout(function() {
-              body.classList.remove('hide-sidebar');
-              misc.hide_sidebar_active = false;
-          }, 300);
-          setTimeout(function () {
-              sidebar.classList.remove('animation');
-          }, 600);
-          sidebar.classList.add('animation');
+        if (misc.hide_sidebar_active === true) {
+            setTimeout(function () {
+                body.classList.remove('hide-sidebar');
+                misc.hide_sidebar_active = false;
+            }, 300);
+            setTimeout(function () {
+                sidebar.classList.remove('animation');
+            }, 600);
+            sidebar.classList.add('animation');
 
-      } else {
-          setTimeout(function() {
-            body.classList.add('hide-sidebar');
-              // $('.sidebar').addClass('animation');
-              misc.hide_sidebar_active = true;
-          }, 300);
-      }
+        } else {
+            setTimeout(function () {
+                body.classList.add('hide-sidebar');
+                // $('.sidebar').addClass('animation');
+                misc.hide_sidebar_active = true;
+            }, 300);
+        }
 
-      // we simulate the window Resize so the charts will get updated in realtime.
-      const simulateWindowResize = setInterval(function() {
-          window.dispatchEvent(new Event('resize'));
-      }, 180);
+        // we simulate the window Resize so the charts will get updated in realtime.
+        const simulateWindowResize = setInterval(function () {
+            window.dispatchEvent(new Event('resize'));
+        }, 180);
 
-      // we stop the simulation of Window Resize after the animations are completed
-      setTimeout(function() {
-          clearInterval(simulateWindowResize);
-      }, 1000);
+        // we stop the simulation of Window Resize after the animations are completed
+        setTimeout(function () {
+            clearInterval(simulateWindowResize);
+        }, 1000);
     }
 
     ngOnInit() {
@@ -102,22 +103,22 @@ export class NavbarComponent implements OnInit {
             misc.hide_sidebar_active = true;
         }
         this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-          const $layer = document.getElementsByClassName('close-layer')[0];
-          if ($layer) {
-            $layer.remove();
-          }
+            this.$layer = document.getElementsByClassName('close-layer')[0];
+            if (this.$layer) {
+                this.$layer.remove();
+            }
         });
     }
     onResize(event) {
-      if ($(window).width() > 991) {
-        return false;
-      }
-      return true;
+        if ($(window).width() > 991) {
+            return false;
+        }
+        return true;
     }
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const body = document.getElementsByTagName('body')[0];
-        setTimeout(function(){
+        setTimeout(function () {
             toggleButton.classList.add('toggled');
         }, 500);
         body.classList.add('nav-open');
@@ -138,46 +139,46 @@ export class NavbarComponent implements OnInit {
         }
         const body = document.getElementsByTagName('body')[0];
 
-        var $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        if (this.mobile_menu_visible == 1) {
+        const $toggle = document.getElementsByClassName('navbar-toggler')[0];
+        if (this.mobile_menu_visible === 1) {
             // $('html').removeClass('nav-open');
             body.classList.remove('nav-open');
-            if ($layer) {
-                $layer.remove();
+            if (this.$layer) {
+                this.$layer.remove();
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $toggle.classList.remove('toggled');
             }, 400);
 
             this.mobile_menu_visible = 0;
         } else {
-            setTimeout(function() {
+            setTimeout(function () {
                 $toggle.classList.add('toggled');
             }, 430);
 
-            var $layer = document.createElement('div');
-            $layer.setAttribute('class', 'close-layer');
+            this.$layer = document.createElement('div');
+            this.$layer.setAttribute('class', 'close-layer');
 
 
             if (body.querySelectorAll('.main-panel')) {
-                document.getElementsByClassName('main-panel')[0].appendChild($layer);
-            }else if (body.classList.contains('off-canvas-sidebar')) {
-                document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
+                document.getElementsByClassName('main-panel')[0].appendChild(this.$layer);
+            } else if (body.classList.contains('off-canvas-sidebar')) {
+                document.getElementsByClassName('wrapper-full-page')[0].appendChild(this.$layer);
             }
 
-            setTimeout(function() {
-                $layer.classList.add('visible');
+            setTimeout(function () {
+                this.$layer.classList.add('visible');
             }, 100);
 
-            $layer.onclick = function() { //asign a function
-              body.classList.remove('nav-open');
-              this.mobile_menu_visible = 0;
-              $layer.classList.remove('visible');
-              setTimeout(function() {
-                  $layer.remove();
-                  $toggle.classList.remove('toggled');
-              }, 400);
+            this.$layer.onclick = function () { // Assign a function
+                body.classList.remove('nav-open');
+                this.mobile_menu_visible = 0;
+                this.$layer.classList.remove('visible');
+                setTimeout(function () {
+                    this.$layer.remove();
+                    $toggle.classList.remove('toggled');
+                }, 400);
             }.bind(this);
 
             body.classList.add('nav-open');
@@ -187,13 +188,13 @@ export class NavbarComponent implements OnInit {
     }
 
     getTitle() {
-        let titlee: any = this.location.prepareExternalUrl(this.location.path());
+        const titlee: any = this.location.prepareExternalUrl(this.location.path());
         for (let i = 0; i < this.listTitles.length; i++) {
-            if (this.listTitles[i].type === "link" && this.listTitles[i].path === titlee) {
+            if (this.listTitles[i].type === 'link' && this.listTitles[i].path === titlee) {
                 return this.listTitles[i].title;
-            } else if (this.listTitles[i].type === "sub") {
+            } else if (this.listTitles[i].type === 'sub') {
                 for (let j = 0; j < this.listTitles[i].children.length; j++) {
-                    let subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
+                    const subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
                     if (subtitle === titlee) {
                         return this.listTitles[i].children[j].title;
                     }

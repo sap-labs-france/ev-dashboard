@@ -17,15 +17,15 @@ export const AppRoutes: Routes = [
                 loadChildren: './dashboard/dashboard.module#DashboardModule'
             }, {
                 path: '',
-                loadChildren: './userpage/user.module#UserModule'
+                loadChildren: './user/user.module#UserModule'
             }
         ]
     }, {
         path: '',
         component: AuthLayoutComponent,
         children: [{
-            path: 'pages',
-            loadChildren: './pages/pages.module#PagesModule'
+            path: 'authentication',
+            loadChildren: './authentication/authentication.module#AuthenticationModule'
         }]
     }
 ];

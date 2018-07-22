@@ -1,18 +1,33 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthGuard } from './auth-guard';
+import { MaterialModule } from '../app.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationGuard } from './authentication-guard';
+import { AuthenticationRoutes } from './authentication.routing';
+
+import { RegisterComponent } from './register/register.component';
+import { PricingComponent } from './pricing/pricing.component';
+import { LockComponent } from './lock/lock.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    RouterModule.forChild(AuthenticationRoutes),
+    FormsModule,
+    MaterialModule,
+    ReactiveFormsModule
   ],
   declarations: [
+    LoginComponent,
+    RegisterComponent,
+    PricingComponent,
+    LockComponent
   ],
   providers: [
-    AuthGuard
+    AuthenticationGuard
   ]
 })
-export class AuthenticationModule {
-}
+
+export class AuthenticationModule {}

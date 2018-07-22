@@ -1,7 +1,7 @@
 {
 	"general": {
 		"app_name": "Charge-Angels",
-		"last_update": "V1.8.12 (18th, July)",
+		"last_update": "Version 1.8.12 (18th, July)",
 		"about_us": "About Us",
 		"unexpected_error_backend": "An unexpected error occured",
 		"id": "ID",
@@ -246,6 +246,7 @@
 		"sign_in": "Sign in",
 		"sign_up": "Sign Up",
 		"sign_out": "Sign out",
+		"email": "Email",
 		"forgot_password": "Forgot password?",
 		"email_already_exists": "Email already exist",
 		"email_does_not_exist": "Email does not exist",

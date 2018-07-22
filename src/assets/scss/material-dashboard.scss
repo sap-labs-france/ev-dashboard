@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
- @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
- @import "core/variables";
- @import "core/mixins";
- @import "~bootstrap/scss/bootstrap";
- @import "core/reboot";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "core/variables";
+@import "core/mixins";
+@import "~bootstrap/scss/bootstrap";
+@import "core/reboot";
 
 // Core Components
 @import "core/layout";
@@ -60,27 +60,20 @@
 @import "dashboard/fixed-plugin";
 @import "dashboard/tables";
 @import "dashboard/misc";
-@import "dashboard/pages";
-
- // Components for PRO
- @import "dashboard/social-buttons";
- @import "dashboard/fileupload";
-
- //plugin css
- @import "plugins/plugin-nouislider";
- @import "plugins/animate";
- @import "plugins/sweetalert2";
- @import "plugins/datatables.net";
- @import "plugins/jquery.jvectormap";
- @import "plugins/plugin-datetime-picker";
- @import "plugins/fullcalendar";
- @import "plugins/wizard-card";
- @import "plugins/chartist";
- @import "~chartist/dist/scss/chartist";
- @import "plugins/select-bootstrap";
- @import "plugins/perfect-scrollbar";
- @import "plugins/plugin-tagsinput";
-
-
-
+@import "dashboard/pages"; // Components for PRO
+@import "dashboard/social-buttons";
+@import "dashboard/fileupload"; //plugin css
+@import "plugins/plugin-nouislider";
+@import "plugins/animate";
+@import "plugins/sweetalert2";
+@import "plugins/datatables.net";
+@import "plugins/jquery.jvectormap";
+@import "plugins/plugin-datetime-picker";
+@import "plugins/fullcalendar";
+@import "plugins/wizard-card";
+@import "plugins/chartist";
+@import "~chartist/dist/scss/chartist";
+@import "plugins/select-bootstrap";
+@import "plugins/perfect-scrollbar";
+@import "plugins/plugin-tagsinput";
 @import "dashboard/responsive";

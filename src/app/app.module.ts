@@ -142,13 +142,17 @@ export class AppModule {
   constructor(
       private centralServerService: CentralServerService,
       private translateService: TranslateService) {
+
     // Default
     let language = translateService.getBrowserLang();
+    // let language = 'fr';
+
     // Get current user
     const loggedUser = this.centralServerService.getCurrentUser()
     if (loggedUser) {
       language = loggedUser['language'];
     }
+
     // Supported
     translateService.addLangs(['en', 'fr']);
     // Default EN

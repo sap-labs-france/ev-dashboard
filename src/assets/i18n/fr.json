@@ -1,22 +1,4 @@
 {
-	"owlDateTimePicker": {
-		"upSecondLabel": "Ajouter une seconde",
-		"downSecondLabel": "Retirer une seconde",
-		"upMinuteLabel": "Ajouter une minute",
-		"downMinuteLabel": "Retirer une minute",
-		"upHourLabel": "Ajouter une heure",
-		"downHourLabel": "Retirer une heure",
-		"prevMonthLabel": "Mois Précédent",
-		"nextMonthLabel": "Mois Suivant",
-		"prevYearLabel": "Année Précédente",
-		"nextYearLabel": "Année Suivante",
-		"switchToMonthViewLabel": "Changer vers mois",
-		"switchToYearViewLabel": "Changer vers année",
-		"cancelBtnLabel": "Fermer",
-		"setBtnLabel": "Confirmer",
-		"rangeFromLabel": "De",
-		"rangeToLabel": "A"
-	},
 	"general": {
 		"app_name": "Charge-Angels",
 		"last_update": "V1.8.12 (18 Juillet)",

@@ -9,7 +9,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { CentralServerService } from './service/central-server.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { LocalStorageService } from './service/local-storage.service';
 import { ConfigService } from './service/config.service';
 import {
@@ -130,6 +130,9 @@ export function configFactory(config: ConfigService) {
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
+    exports: [
+      TranslateModule
+    ],
     providers: [
       CentralServerService,
       LocalStorageService,
@@ -138,4 +141,22 @@ export function configFactory(config: ConfigService) {
     ],
     bootstrap:    [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+      private centralServerService: CentralServerService,
+      private translateService: TranslateService) {
+    // Default
+    let language = translateService.getBrowserLang();
+    // Get current user
+    const loggedUser = this.centralServerService.getCurrentUser()
+    if (loggedUser) {
+      language = loggedUser['language'];
+    }
+    // Supported
+    translateService.addLangs(['en', 'fr']);
+    // Default EN
+    translateService.setDefaultLang('en');
+    // Use the browser's langage or default to EN
+    translateService.use(language.match(/en|fr/) ? language : 'en');
+  }
+}

@@ -1,38 +1,49 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { CentralServerService } from '../../service/central-server.service';
+import { MessageService } from '../../service/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { Users } from '../../utils/Users';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
 @Component({
     selector: 'app-login-cmp',
-    styleUrls: ['./login.component.scss'],
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, OnDestroy {
     private toggleButton: any;
     private sidebarVisible: boolean;
     private nativeElement: Node;
+    public returnUrl: String;
     public formGroup: FormGroup;
     public email: AbstractControl;
     public password: AbstractControl;
     public acceptEula: AbstractControl;
+    private messages: Object;
 
     constructor(
         private element: ElementRef,
         private centralServerService: CentralServerService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private messageService: MessageService,
         private translate: TranslateService,
         private formBuilder: FormBuilder) {
+
         // Set
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
+        // Load the tranlated messages
+        this.translate.get('authentication', {}).subscribe((messages) => {
+            this.messages = messages;
+        });
         // Init Form
         this.formGroup = formBuilder.group({
             'email': new FormControl('',
                 Validators.compose([
-                    Validators.required
+                    Validators.required,
+                    Validators.email
                 ])),
             'password': new FormControl('',
                 Validators.compose([
@@ -60,6 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             // after 1000 ms we add the class animated to the login/register card
             card.classList.remove('card-hidden');
         }, 700);
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     sidebarToggle() {
@@ -86,7 +99,44 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     login(user: Object): void {
-        console.log(this.formGroup.valid);
-        console.log(user);
+        // Login
+        this.centralServerService.login(user).subscribe((result) => {
+            // Success
+            this.centralServerService.loggingSucceeded(result.token);
+            // login successful so redirect to return url
+            this.router.navigate([this.returnUrl]);
+        }, (error) => {
+            // Check error code
+            switch (error.status) {
+                // User Agreement not checked
+                case 520:
+                    // You must accept
+                    this.messageService.showErrorMessage(this.messages['must_accept_eula']);
+                    break;
+
+                // Unknown Email
+                case 550:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['email_does_not_exist']);
+                    break;
+
+                // Account is locked
+                case 570:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['account_locked']);
+                    break;
+
+                // Account not Active
+                case 580:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['account_not_active']);
+                    break;
+
+                default:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
+                    break;
+            }
+        });
     }
 }

@@ -8,7 +8,7 @@
           <div class="card card-login card-hidden">
             <div class="card-header card-header-info text-center">
               <div class="social-line">
-                <img class="logo-img" src="/assets/img/logo-low.gif"/>
+                <img class="w-50 mb-2" src="/assets/img/logo-low.gif"/>
               </div>
               <h4 class="card-title">{{"authentication.sign_in" | translate}}</h4>
             </div>
@@ -21,6 +21,7 @@
                     </span>
                     <mat-form-field>
                       <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email" required>
+                      <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                       <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
@@ -39,8 +40,15 @@
                   </div>
                 </div>
               </span>
+              <span class="bmd-form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend justify-content-center mt-3 ml-2">
+                    <mat-checkbox [formControl]="acceptEula" required>{{'authentication.accept' | translate}} <a class="auth-link" href="/authentication/eula" target="_blank">{{'authentication.eula' | translate}}</a></mat-checkbox>
+                  </div>
+                </div>
+              </span>
             </div>
-            <div class="card-footer justify-content-center">
+            <div class="card-footer justify-content-center mb-4">
               <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}</button>
             </div>
           </div>

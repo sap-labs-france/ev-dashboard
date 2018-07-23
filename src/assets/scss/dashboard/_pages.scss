@@ -151,8 +151,11 @@
       padding: 0px 30px 0px 10px;
 
       .input-group {
+        .input-group-prepend{
+            width: 100%;
+        }
         .input-group-text {
-          padding: 15px 15px 0 15px;
+          padding: 0px 15px 0 15px;
         }
         .form-control{
           padding-bottom: 10px;
@@ -199,7 +202,6 @@
 
         .card-footer {
             border:none;
-            padding-top: 0;
         }
 
 

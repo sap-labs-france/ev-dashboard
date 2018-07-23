@@ -4,7 +4,7 @@
     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
     <div class="container">
       <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-        <form class="form" method="" action="">
+        <form class="form" [formGroup]="formGroup" (ngSubmit)="login(formGroup.value)">
           <div class="card card-login card-hidden">
             <div class="card-header card-header-info text-center">
               <div class="social-line">
@@ -19,8 +19,11 @@
                     <span class="input-group-text">
                       <i class="material-icons">email</i>
                     </span>
+                    <mat-form-field>
+                      <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email" required>
+                      <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                    </mat-form-field>
                   </div>
-                  <input type="email" class="form-control" placeholder="{{'authentication.email' | translate}}">
                 </div>
               </span>
               <span class="bmd-form-group">
@@ -29,13 +32,16 @@
                     <span class="input-group-text">
                       <i class="material-icons">lock_outline</i>
                     </span>
+                    <mat-form-field>
+                      <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [formControl]="password" required>
+                      <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                    </mat-form-field>
                   </div>
-                  <input type="password" class="form-control" placeholder="{{'authentication.password' | translate}}">
                 </div>
               </span>
             </div>
             <div class="card-footer justify-content-center">
-              <a href="#pablo" class="btn btn-info btn-link btn-lg">{{"authentication.sign_in" | translate}}</a>
+              <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}</button>
             </div>
           </div>
         </form>

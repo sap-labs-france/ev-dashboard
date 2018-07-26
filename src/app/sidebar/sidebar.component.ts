@@ -71,7 +71,7 @@ export class SidebarComponent implements OnInit {
 
     logout() {
         // Logoff
-        this.centralServerService.logout().subscribe((result) => {
+        this.centralServerService.logout().subscribe(() => {
             // Clear
             this.centralServerService.logoutSucceeded();
             // Redirect to login page with the return url

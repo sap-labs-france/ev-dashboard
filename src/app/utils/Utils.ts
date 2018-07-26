@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Router, NavigationExtras, ActivatedRoute, Params } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 
 export class Utils {
   static showFullScreenOverlay() {

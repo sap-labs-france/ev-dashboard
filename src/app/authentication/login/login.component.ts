@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { CentralServerService } from '../../service/central-server.service';
-import { MessageService } from '../../service/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CentralServerService } from '../../service/central-server.service';
+import { MessageService } from '../../service/message.service';
 
 declare var $: any;
 
@@ -23,13 +23,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private messages: Object;
 
     constructor(
-        private element: ElementRef,
-        private centralServerService: CentralServerService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private messageService: MessageService,
-        private translate: TranslateService,
-        private formBuilder: FormBuilder) {
+            private element: ElementRef,
+            private centralServerService: CentralServerService,
+            private route: ActivatedRoute,
+            private router: Router,
+            private messageService: MessageService,
+            private translate: TranslateService,
+            private formBuilder: FormBuilder) {
 
         // Set
         this.nativeElement = element.nativeElement;
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.messages = messages;
         });
         // Init Form
-        this.formGroup = formBuilder.group({
+        this.formGroup = this.formBuilder.group({
             'email': new FormControl('',
                 Validators.compose([
                     Validators.required,
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     Validators.required
                 ]))
         });
-        // Form
+        // Get controls
         this.email = this.formGroup.controls['email'];
         this.password = this.formGroup.controls['password'];
         this.acceptEula = this.formGroup.controls['acceptEula'];

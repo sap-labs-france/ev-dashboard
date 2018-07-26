@@ -11,6 +11,7 @@ import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-transla
 import { LocalStorageService } from './service/local-storage.service';
 import { ConfigService } from './service/config.service';
 import { MessageService } from './service/message.service';
+import { RecaptchaModule } from 'ng-recaptcha';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -113,6 +114,7 @@ export function configFactory(config: ConfigService) {
     SidebarModule,
     NavbarModule,
     FooterModule,
+    RecaptchaModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

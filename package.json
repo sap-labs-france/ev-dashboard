@@ -9,7 +9,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:ssl": "ng serve --ssl 1 --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
+    "start:ssl": "ng serve --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",

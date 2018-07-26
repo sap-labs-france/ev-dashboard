@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import PerfectScrollbar from 'perfect-scrollbar';
+import { CentralServerService } from '../service/central-server.service';
+import { Router } from '@angular/router';
+import { log } from 'util';
 
 declare const $: any;
 
@@ -37,6 +39,11 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
 
+    constructor(
+        private router: Router,
+        private centralServerService: CentralServerService) {
+    }
+
     isMobileMenu() {
         if ($(window).width() > 991) {
             return false;
@@ -60,5 +67,20 @@ export class SidebarComponent implements OnInit {
             bool = true;
         }
         return bool;
+    }
+
+    logout() {
+        // Logoff
+        this.centralServerService.logout().subscribe((result) => {
+            // Clear
+            this.centralServerService.logoutSucceeded();
+            // Redirect to login page with the return url
+            this.router.navigate(['/authentication/login']);
+        }, (error) => {
+            // Clear
+            this.centralServerService.logoutSucceeded();
+            // Redirect to login page with the return url
+            this.router.navigate(['/authentication/login']);
+        });
     }
 }

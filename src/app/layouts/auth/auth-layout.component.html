@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-lg bg-primary navbar-transparent navbar-absolute" color-on-scroll="500">
   <div class="container">
     <div class="navbar-wrapper">
-      <a class="navbar-brand d-none d-sm-none d-md-block" [routerLink]="['/']">{{'general.app_name' | translate}}&copy;</a>
+      <div class="d-block">
+        <a class="navbar-brand ml-0 pb-0" href="http://www.chargeangels.fr/" target="_blank">{{'general.app_name' | translate}}&copy;</a>
+        <div class="small">{{"general.last_update" | translate}}</div>
+      </div>
     </div>
-    <button mat-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+    <button mat-button class="navbar-toggler pr-0" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>

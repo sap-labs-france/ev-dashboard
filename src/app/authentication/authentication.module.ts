@@ -12,6 +12,7 @@ import { MaterialModule } from '../app.module';
 import { RegisterComponent } from './register/register.component';
 import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
 import { LoginComponent } from './login/login.component';
+import { EulaComponent } from './eula/eula.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { LoginComponent } from './login/login.component';
   ],
   declarations: [
     LoginComponent,
+    EulaComponent,
     RegisterComponent,
     RetrievePasswordComponent
   ],

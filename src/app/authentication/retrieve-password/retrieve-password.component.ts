@@ -10,7 +10,7 @@ import { Utils } from '../../utils/Utils';
 @Component({
     selector: 'app-retrieve-password-cmp',
     templateUrl: './retrieve-password.component.html'
-})
+  })
 
 export class RetrievePasswordComponent implements OnInit, OnDestroy {
     public email: AbstractControl;

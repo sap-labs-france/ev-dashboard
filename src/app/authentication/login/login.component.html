@@ -25,10 +25,6 @@
                       <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
-                </div>
-              </span>
-              <span class="bmd-form-group">
-                <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
                       <i class="material-icons">lock_outline</i>
@@ -39,12 +35,8 @@
                     </mat-form-field>
                   </div>
                 </div>
-              </span>
-              <span class="bmd-form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend justify-content-center mt-3 ml-2">
-                    <mat-checkbox [formControl]="acceptEula" required><span class="adapt-font-size">{{'authentication.accept' | translate}} </span><a class="auth-link" href="/authentication/eula" target="_blank"><span class="adapt-font-size">{{'authentication.eula' | translate}}</span></a></mat-checkbox>
-                  </div>
+                <div class="input-group-prepend justify-content-center mt-3 ml-2">
+                  <mat-checkbox [formControl]="acceptEula" required><span class="adapt-font-size">{{'authentication.accept' | translate}} </span><a class="auth-link" href="/authentication/eula" target="_blank"><span class="adapt-font-size">{{'authentication.eula' | translate}}</span></a></mat-checkbox>
                 </div>
               </span>
             </div>

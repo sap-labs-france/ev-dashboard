@@ -4,7 +4,7 @@
       <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
       <div class="container">
         <div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
-          <form class="form" [formGroup]="formGroup" (ngSubmit)="resetPassword(formGroup.value)">
+          <form class="form" [formGroup]="formGroup" (ngSubmit)="register(formGroup.value)">
             <div class="card card-login card-hidden">
               <div class="card-header card-header-info text-center h-25">
                 <div class="social-line">
@@ -46,13 +46,15 @@
                       </span>
                       <mat-form-field>
                         <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [formControl]="password" required>
+                        <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
                         <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                     <div class="input-group-prepend input-group-no-icon">
                       <mat-form-field>
-                        <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}" [formControl]="repeatPassword" required>
+                        <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}" [formControl]="repeatPassword" [errorStateMatcher]="parentErrorStateMatcher" required>
                         <mat-error *ngIf="repeatPassword.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="!repeatPassword.hasError('required') && passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                     <div class="input-group-prepend justify-content-center mt-3 ml-2">

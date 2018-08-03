@@ -1,7 +1,7 @@
 {
 	"general": {
 		"app_name": "Charge-Angels",
-		"last_update": "Version 1.8.12 (18th, July)",
+		"last_update": "Version 2.0.0 (3rd, August)",
 		"about_us": "About Us",
 		"unexpected_error_backend": "An unexpected error occured",
 		"mandatory_field": "Required field",
@@ -245,7 +245,8 @@
 		"password": "Password",
 		"invalid_password": "Enter a valid password",
 		"repeat_password": "Repeat Password",
-		"password_rule": "1 lowercase, 1 uppercase, 1 number, 1 special char and 8 chars long",
+		"password_rule": "Must contain 1 letter lowercase and uppercase, 1 number, 1 special char and 8 chars long",
+		"password_not_equal": "Les mots de passe ne sont pas identiques",
 		"sign_in": "Sign in",
 		"sign_up": "Sign Up",
 		"sign_out": "Sign out",

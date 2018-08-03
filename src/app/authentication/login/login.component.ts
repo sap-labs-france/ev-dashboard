@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CentralServerService } from '../../service/central-server.service';
 import { MessageService } from '../../service/message.service';
@@ -23,13 +23,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     private messages: Object;
 
     constructor(
-            private element: ElementRef,
-            private centralServerService: CentralServerService,
-            private route: ActivatedRoute,
-            private router: Router,
-            private messageService: MessageService,
-            private translate: TranslateService,
-            private formBuilder: FormBuilder) {
+        private element: ElementRef,
+        private centralServerService: CentralServerService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private messageService: MessageService,
+        private translate: TranslateService) {
 
         // Set
         this.nativeElement = element.nativeElement;
@@ -39,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.messages = messages;
         });
         // Init Form
-        this.formGroup = this.formBuilder.group({
+        this.formGroup = new FormGroup({
             'email': new FormControl('',
                 Validators.compose([
                     Validators.required,

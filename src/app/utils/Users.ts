@@ -1,6 +1,4 @@
-import { AbstractControl, FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { log } from 'util';
+import { AbstractControl } from '@angular/forms';
 
 export class Users {
   public static USER_STATUS_PENDING = 'P';
@@ -43,19 +41,5 @@ export class Users {
     }
 
     return { invalidPassword: true };
-  }
-
-  public static validateEqual(formGroup: FormGroup, firstField, secondField) {
-    const field1: FormControl = <FormControl>formGroup.controls[firstField];
-    const field2: FormControl = <FormControl>formGroup.controls[secondField];
-    // Equals
-    if (field1.value === field2.value) {
-      console.log('====================================');
-      console.log("EQUAL");
-      console.log('====================================');
-      return null;
-    }
-    // Not Equal
-    return { notEqual: true };
   }
 }

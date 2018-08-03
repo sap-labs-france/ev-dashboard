@@ -246,7 +246,7 @@
 		"invalid_password": "Enter a valid password",
 		"repeat_password": "Repeat Password",
 		"password_rule": "Must contain 1 letter lowercase and uppercase, 1 number, 1 special char and 8 chars long",
-		"password_not_equal": "Les mots de passe ne sont pas identiques",
+		"password_not_equal": "Passwords are not identical",
 		"sign_in": "Sign in",
 		"sign_up": "Sign Up",
 		"sign_out": "Sign out",

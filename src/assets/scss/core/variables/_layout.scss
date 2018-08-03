@@ -29,3 +29,12 @@ $res320: 320px; // IPhone 5
 .input-group-no-icon {
   margin-left: 56px;
 }
+
+mat-form-field .mat-form-field {
+  &-underline {
+    position: static;
+  }
+  &-subscript-wrapper {
+    position: static;
+  }
+}

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 
 export class Utils {
   static showFullScreenOverlay() {
@@ -17,6 +18,17 @@ export class Utils {
       const backgroundImageElem = document.getElementsByClassName('ui-lightbox-content')[0];
       backgroundImageElem['style']['background'] = 'transparent';
     }, 100);
+  }
+
+  public static validateEqual(formGroup: FormGroup, firstField, secondField) {
+    const field1: FormControl = <FormControl>formGroup.controls[firstField];
+    const field2: FormControl = <FormControl>formGroup.controls[secondField];
+    // Equals
+    if (field1.value === field2.value) {
+      return null;
+    }
+    // Not Equal
+    return { notEqual: true };
   }
 
   static hideFullScreenOverlay() {

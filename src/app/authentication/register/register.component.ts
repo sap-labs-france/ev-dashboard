@@ -6,6 +6,7 @@ import { CentralServerService } from '../../service/central-server.service';
 import { ConfigService } from '../../service/config.service';
 import { MessageService } from '../../service/message.service';
 import { Users } from '../../utils/Users';
+import { Utils } from '../../utils/Utils';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 
 @Component({
@@ -65,7 +66,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         Validators.required
                     ])),
             }, (passwordFormGroup: FormGroup) => {
-                return Users.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
+                return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
             }),
             'captcha': new FormControl('',
                 Validators.compose([

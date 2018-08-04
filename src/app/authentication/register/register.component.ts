@@ -33,11 +33,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private messageService: MessageService,
-        private translate: TranslateService,
+        private translateService: TranslateService,
         private formBuilder: FormBuilder,
         private configService: ConfigService) {
         // Load the tranlated messages
-        this.translate.get('authentication', {}).subscribe((messages) => {
+        this.translateService.get('authentication', {}).subscribe((messages) => {
             this.messages = messages;
         });
         // Init Form
@@ -106,47 +106,43 @@ export class RegisterComponent implements OnInit, OnDestroy {
         body.classList.remove('off-canvas-sidebar');
     }
 
-    register(data) {
-        console.log('====================================');
-        console.log(data);
-        console.log('====================================');
-        //   // Yes: Update
-        //   this.centralServerService.resetUserPassword(data).subscribe((response) => {
-        //     // Success
-        //     if (response.status && response.status === 'Success') {
-        //       // Show message`
-        //       this.messageService.showSuccessMessage(
-        //         this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
-        //       // Go back to login
-        //       this.router.navigate(['/authentication/login']);
-        //       // Unexpected Error
-        //     } else {
-        //       Utils.handleError(JSON.stringify(response),
-        //           this.router, this.messageService, this.messages['reset_password_error']).subscribe(() => {
-        //         // Reset
-        //         this.recaptcha.reset();
-        //       });
-        //     }
-        //   }, (error) => {
-        //     // Reset
-        //     this.recaptcha.reset();
-        //     // Check status error code
-        //     switch (error.status) {
-        //       // Hash no longer valid
-        //       case 540:
-        //         // Report the error
-        //         this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
-        //         break;
-        //       // Email does not exist
-        //       case 550:
-        //         // Report the error
-        //         this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
-        //         break;
-        //       default:
-        //         // Report the error
-        //         Utils.handleHttpError(error, this.router, this.messageService, this.messages['reset_password_error']);
-        //         break;
-        //     }
-        //   });
+    register(user) {
+        if (this.formGroup.valid) {
+            // Create
+            this.centralServerService.registerUser(user).subscribe((response) => {
+                // Ok?
+                if (response.status && response.status === 'Success') {
+                    // Show success
+                    this.messageService.showSuccessMessage(this.messages['register_user_success']);
+                    // login successful so redirect to return url
+                    this.router.navigate(['/authentication/login'], { queryParams: { email: this.email.value } });
+                } else {
+                    // Unexpected Error
+                    Utils.handleError(JSON.stringify(response), this.router,
+                        this.messageService, this.messages['register_user_error']);
+                }
+            }, (error) => {
+                // Enabled again
+                this.recaptcha.reset();
+                // Check status
+                switch (error.status) {
+                    // Email already exists
+                    case 510:
+                        // Show error
+                        this.messageService.showErrorMessage(this.messages['email_already_exists']);
+                        break;
+
+                    // User Agreement not checked
+                    case 520:
+                        // You must accept
+                        this.messageService.showErrorMessage(this.messages['must_accept_eula']);
+                        break;
+
+                    default:
+                        // No longer exists!
+                        Utils.handleHttpError(error, this.router, this.messageService, this.messages['register_user_error']);
+                }
+            });
+        }
     }
 }

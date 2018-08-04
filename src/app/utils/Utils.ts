@@ -99,23 +99,25 @@ export class Utils {
     return messageService.showErrorMessage(errorMessage);
   }
 
-  static handleHttpError(error, router, messageService, errorMessage): Observable<any> {
+  static handleHttpError(error, router, messageService, errorMessage) {
     // Check error
     switch (error.status) {
       // Server connection error`
       case 0:
-        return messageService.showErrorMessageConnectionLost();
+        messageService.showErrorMessage(errorMessage);
+        break;
 
       // Unauthorized!
       case 401:
         // Not logged in so redirect to login page with the return url
-        router.navigate(['/auth/login']);
+        router.navigate(['/authentication/login']);
         break;
 
       // Backend issue
       default:
         console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
-        return messageService.showErrorMessage(errorMessage);
+        messageService.showErrorMessage(errorMessage);
+        break;
     }
   }
 

@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private messageService: MessageService,
-        private translate: TranslateService) {
+        private translateService: TranslateService) {
 
         // Set
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
         // Load the tranlated messages
-        this.translate.get('authentication', {}).subscribe((messages) => {
+        this.translateService.get('authentication', {}).subscribe((messages) => {
             this.messages = messages;
         });
         // Init Form
@@ -57,6 +57,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.email = this.formGroup.controls['email'];
         this.password = this.formGroup.controls['password'];
         this.acceptEula = this.formGroup.controls['acceptEula'];
+        // Check URL params
+        const email = this.route.snapshot.queryParamMap.get('email');
+        if (email) {
+            this.email.setValue(email);
+        }
     }
 
     ngOnInit() {

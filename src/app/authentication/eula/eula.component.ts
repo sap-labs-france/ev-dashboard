@@ -9,12 +9,12 @@ export class EulaComponent implements OnInit {
   public eulaText: string;
 
   constructor(
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private centralServerService: CentralServerService) {
   }
 
   ngOnInit() {
-    this.centralServerService.getEndUserLicenseAgreement(this.translate.getBrowserLang()).subscribe((uela) => {
+    this.centralServerService.getEndUserLicenseAgreement(this.translateService.getBrowserLang()).subscribe((uela) => {
       this.eulaText = uela.text;
     });
   }

@@ -26,10 +26,10 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private configService: ConfigService) {
     // Load the tranlated messages
-    this.translate.get('authentication', {}).subscribe((messages) => {
+    this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
     // Init Form

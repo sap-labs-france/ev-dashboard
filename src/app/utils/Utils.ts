@@ -110,7 +110,7 @@ export class Utils {
       // Unauthorized!
       case 401:
         // Not logged in so redirect to login page with the return url
-        router.navigate(['/authentication/login']);
+        router.navigate(['/auth/login']);
         break;
 
       // Backend issue

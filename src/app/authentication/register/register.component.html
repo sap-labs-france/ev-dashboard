@@ -58,7 +58,7 @@
                       </mat-form-field>
                     </div>
                     <div class="input-group-prepend justify-content-center mt-3 ml-2">
-                      <mat-checkbox [formControl]="acceptEula" required><span class="adapt-font-size">{{'authentication.accept' | translate}} </span><a class="auth-link" href="/authentication/eula" target="_blank"><span class="adapt-font-size">{{'authentication.eula' | translate}}</span></a></mat-checkbox>
+                      <mat-checkbox [formControl]="acceptEula" required><span class="adapt-font-size">{{'authentication.accept' | translate}} </span><a class="auth-link" href="/auth/eula" target="_blank"><span class="adapt-font-size">{{'authentication.eula' | translate}}</span></a></mat-checkbox>
                     </div>
                     <div class="input-group-prepend mt-2 captcha-container">
                       <re-captcha #recaptcha formControlName="captcha" [siteKey]="captchaSiteKey" class="captcha">

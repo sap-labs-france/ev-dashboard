@@ -75,12 +75,12 @@ export class SidebarComponent implements OnInit {
             // Clear
             this.centralServerService.logoutSucceeded();
             // Redirect to login page with the return url
-            this.router.navigate(['/authentication/login']);
+            this.router.navigate(['/auth/login']);
         }, (error) => {
             // Clear
             this.centralServerService.logoutSucceeded();
             // Redirect to login page with the return url
-            this.router.navigate(['/authentication/login']);
+            this.router.navigate(['/auth/login']);
         });
     }
 }

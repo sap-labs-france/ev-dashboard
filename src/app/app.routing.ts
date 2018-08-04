@@ -24,7 +24,7 @@ export const AppRoutes: Routes = [
         path: '',
         component: AuthLayoutComponent,
         children: [{
-            path: 'authentication',
+            path: 'auth',
             loadChildren: './authentication/authentication.module#AuthenticationModule'
         }]
     }

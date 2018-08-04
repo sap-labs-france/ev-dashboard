@@ -19,7 +19,7 @@
         max-height: 42px;
 
         img {
-            width: 75px;
+            width: 60px;
             top: 13px;
             left: 10px;
             position: absolute;
@@ -264,7 +264,8 @@
         a.logo-normal{
             display: block;
             opacity: 1;
-            padding-left: 30px;
+            padding-left: 15px;
+            margin-top: -5px;
             @include transform-translate-x(0px);
         }
 

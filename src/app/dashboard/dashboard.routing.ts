@@ -5,9 +5,10 @@ import { AuthenticationGuard } from '../authentication/authentication-guard';
 
 export const DashboardRoutes: Routes = [
     {
+
         path: '',
         children: [
-            { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthenticationGuard ] }
+            { path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard] }
         ]
     }
 ];

@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MdModule } from '../md/md.module';
+import { MaterialModule } from '../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationGuard } from '../authentication/authentication-guard';
 
@@ -14,6 +16,8 @@ import { DashboardRoutes } from './dashboard.routing';
         RouterModule.forChild(DashboardRoutes),
         TranslateModule,
         FormsModule,
+        MdModule,
+        MaterialModule
     ],
     declarations: [
         DashboardComponent

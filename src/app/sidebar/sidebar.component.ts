@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CentralServerService } from '../service/central-server.service';
+import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
-import { log } from 'util';
+import { Users } from '../utils/Users';
+import { Notifications } from '../utils/Notifications';
+import 'rxjs/add/operator/debounceTime';
 
 declare const $: any;
 
@@ -36,12 +39,67 @@ export const ROUTES: RouteInfo[] = [
     selector: 'app-sidebar-cmp',
     templateUrl: 'sidebar.component.html',
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: any[];
+    public loggedUser;
+    public loggedUserImage = Users.USER_NO_PICTURE;
+    private userSubscription;
 
     constructor(
+        private configService: ConfigService,
         private router: Router,
         private centralServerService: CentralServerService) {
+    }
+
+    ngOnInit() {
+        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        // Get the logged user
+        this.loggedUser = this.centralServerService.getLoggedUser();
+        // Read user
+        this.updateUserImage();
+        // Subscribe to user's change
+        this.userSubscription = this.centralServerService.getSubjectUser().debounceTime(
+                this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {
+            // Update user?
+            if (notifInfo['data']['id'] === this.loggedUser.id) {
+                // Deleted?
+                if (notifInfo.action === Notifications.NOTIF_ACTION_DELETE) {
+                    // Log off user
+                    this.signout();
+                } else {
+                    // Same user: Update it
+                    this.updateUserImage();
+                }
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        // Subscribe to user's change
+        this.userSubscription.unsubscribe();
+    }
+
+    updateUserImage() {
+        // Get the user's image
+        this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
+            // Keep
+            this.loggedUserImage = (image.image ? image.image : Users.USER_NO_PICTURE).toString();
+        });
+    }
+
+    public signout() {
+        // Logoff
+        this.centralServerService.logout().subscribe((result) => {
+            // Clear
+            this.centralServerService.logoutSucceeded();
+            // Redirect to login page with the return url
+            this.router.navigate(['/auth/login']);
+        }, (error) => {
+            // Clear
+            this.centralServerService.logoutSucceeded();
+            // Redirect to login page with the return url
+            this.router.navigate(['/auth/login']);
+        });
     }
 
     isMobileMenu() {
@@ -51,14 +109,9 @@ export class SidebarComponent implements OnInit {
         return true;
     };
 
-    ngOnInit() {
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-    }
-
     updatePS(): void {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
             const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
-            // let ps = new PerfectScrollbar(elemSidebar, { wheelSpeed: 2, suppressScrollX: true });
         }
     }
     isMac(): boolean {

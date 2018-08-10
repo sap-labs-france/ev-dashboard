@@ -4,7 +4,7 @@
             <img src="/assets/img/logo-low.gif" />
         </div>
     </a>
-    <a href="https://www.creative-tim.com" class="simple-text logo-normal">
+    <a href="http://www.chargeangels.fr/" target="_blank" class="simple-text logo-normal">
         {{'general.app_name' | translate}}
     </a>
 </div>
@@ -12,13 +12,16 @@
 <div class="sidebar-wrapper">
     <div class="user">
         <div class="photo">
-            <img src="./assets/img/faces/avatar.jpg" />
+            <img [src]="loggedUserImage" />
         </div>
         <div class="user-info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                 <span>
-                    FABIANO Serge
+                    {{loggedUser.name}}
                     <b class="caret"></b>
+                </span>
+                <span>
+                    {{loggedUser.firstName}}
                 </span>
             </a>
             <div class="collapse" id="collapseExample">

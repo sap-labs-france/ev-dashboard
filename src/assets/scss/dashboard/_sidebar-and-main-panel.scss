@@ -317,8 +317,8 @@
     }
 
     .user{
-        padding-bottom: 20px;
-        margin:20px auto 0;
+        padding-bottom: 10px;
+        margin: 10px auto 0;
         position: relative;
 
         &:after{
@@ -332,14 +332,14 @@
         }
 
         .photo{
-            width: 34px;
-            height: 34px;
+            width: 45px;
+            height: 45px;
             overflow: hidden;
             float: left;
             z-index: 5;
             margin-right: 11px;
             border-radius: 50%;
-            margin-left: 23px;
+            margin-left: 17px;
             @include shadow-big();
             @extend .animation-transition-general;
 

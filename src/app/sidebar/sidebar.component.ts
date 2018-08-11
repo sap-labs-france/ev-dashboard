@@ -46,17 +46,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private userSubscription;
 
     constructor(
-        private configService: ConfigService,
-        private router: Router,
-        private centralServerService: CentralServerService) {
-    }
-
-    ngOnInit() {
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
+            private configService: ConfigService,
+            private router: Router,
+            private centralServerService: CentralServerService) {
         // Get the logged user
         this.loggedUser = this.centralServerService.getLoggedUser();
         // Read user
         this.updateUserImage();
+    }
+
+    ngOnInit() {
+        this.menuItems = ROUTES.filter(menuItem => menuItem);
         // Subscribe to user's change
         this.userSubscription = this.centralServerService.getSubjectUser().debounceTime(
                 this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {

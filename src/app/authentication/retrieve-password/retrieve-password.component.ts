@@ -22,12 +22,12 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   @ViewChild('recaptcha') public recaptcha;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private configService: ConfigService) {
+      private centralServerService: CentralServerService,
+      private router: Router,
+      private route: ActivatedRoute,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;

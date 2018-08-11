@@ -27,15 +27,15 @@
             <div class="collapse" id="collapseExample">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a [routerLink]="['/user']" class="nav-link">
-                            <span class="sidebar-mini">EP</span>
-                            <span class="sidebar-normal">Edit Profile</span>
+                        <a [routerLink]="['/users/user/', loggedUser.id]" class="nav-link">
+                            <span class="sidebar-mini">{{'users.edit_profile_short' | translate}}</span>
+                            <span class="sidebar-normal">{{'users.edit_profile' | translate}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="javascript:void(0)" (click)="logout()" class="nav-link">
-                            <span class="sidebar-mini">LO</span>
-                            <span class="sidebar-normal">Log Out</span>
+                            <span class="sidebar-mini">{{'authentication.sign_out_short' | translate}}</span>
+                            <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
                         </a>
                     </li>
                 </ul>

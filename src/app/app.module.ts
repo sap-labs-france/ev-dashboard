@@ -5,6 +5,9 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CentralServerService } from './service/central-server.service';
+import { SpinnerService } from './service/spinner.service';
+import { LocaleService } from './service/locale.service';
+import { AuthorizationService } from './service/authorization-service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -12,6 +15,8 @@ import { LocalStorageService } from './service/local-storage.service';
 import { ConfigService } from './service/config.service';
 import { MessageService } from './service/message.service';
 import { RecaptchaModule } from 'ng-recaptcha';
+
+import * as $ from 'jquery';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -135,6 +140,9 @@ export function configFactory(config: ConfigService) {
   ],
   providers: [
     CentralServerService,
+    AuthorizationService,
+    SpinnerService,
+    LocaleService,
     LocalStorageService,
     MessageService,
     ConfigService,

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
 import { CentralServerService } from '../../service/central-server.service';
 import { ConfigService } from '../../service/config.service';
 import { MessageService } from '../../service/message.service';
@@ -29,13 +29,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     @ViewChild('recaptcha') public recaptcha;
 
     constructor(
-        private centralServerService: CentralServerService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private messageService: MessageService,
-        private translateService: TranslateService,
-        private formBuilder: FormBuilder,
-        private configService: ConfigService) {
+            private centralServerService: CentralServerService,
+            private router: Router,
+            private messageService: MessageService,
+            private translateService: TranslateService,
+            private configService: ConfigService) {
         // Load the tranlated messages
         this.translateService.get('authentication', {}).subscribe((messages) => {
             this.messages = messages;

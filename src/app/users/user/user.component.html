@@ -9,25 +9,25 @@
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
                     <a class="nav-link active" href="#profile" data-toggle="tab">
-                      <i class="material-icons">portrait</i> General
+                      <i class="material-icons">portrait</i> {{'users.profile' | translate}}
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#messages" data-toggle="tab">
-                      <i class="material-icons">location_on</i> Address
+                    <a class="nav-link" href="#address" data-toggle="tab">
+                      <i class="material-icons">location_on</i> {{'general.address' | translate}}
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#settings" data-toggle="tab">
-                      <i class="material-icons">lock</i> Password
+                    <a class="nav-link" href="#password" data-toggle="tab">
+                      <i class="material-icons">lock</i> {{'authentication.password' | translate}}
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="#settings" data-toggle="tab">
-                        <i class="material-icons">more_horiz</i> Miscs
+                      <a class="nav-link" href="#miscs" data-toggle="tab">
+                        <i class="material-icons">more_horiz</i> {{'users.miscs' | translate}}
                         <div class="ripple-container"></div>
                       </a>
                     </li>
@@ -36,28 +36,41 @@
             </div>
           </div>
           <div class="card-body">
-            <form class="form" [formGroup]="formGroup" (ngSubmit)="saveUser(formGroup.value)">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <mat-form-field class="">
-                      <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
-                      <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-                    </mat-form-field>
+            <div class="tab-content">
+              <div class="tab-pane active" id="profile">
+                <form class="form" [formGroup]="formGroup" (ngSubmit)="saveUser(formGroup.value)">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field class="">
+                          <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
+                          <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field class="">
+                          <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
+                          <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <mat-form-field class="">
-                      <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
-                      <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
+                  <button mat-raised-button type="submit" class="btn btn-rose pull-right">{{'users.save_profile' | translate}}</button>
+                  <div class="clearfix"></div>
+                </form>
               </div>
-              <button mat-raised-button type="submit" class="btn btn-rose pull-right">{{'general.save' | translate}}</button>
-              <div class="clearfix"></div>
-            </form>
+              <div class="tab-pane" id="address">
+                Address
+              </div>
+              <div class="tab-pane" id="password">
+                Password
+              </div>
+              <div class="tab-pane" id="miscs">
+                Miscs
+              </div>
+            </div>
           </div>
           <div class="card-footer">
             <div class="card-avatar">

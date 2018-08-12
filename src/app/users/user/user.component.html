@@ -2,17 +2,30 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <div class="card card-profile">
-          <div class="card-avatar">
-            <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
-              <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                  <img [src]="image" class="" alt="...">                
-              </div>
-              <div>
-                <span class="btn btn-default btn-file">
-                  <input type="file" name="...">
-                </span>
-                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+        <div class="card card-profile card-testimonial">
+          <div class="card-header card-header-tabs card-header-rose">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                      <i class="material-icons">bug_report</i> Bugs
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#messages" data-toggle="tab">
+                      <i class="material-icons">code</i> Website
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#settings" data-toggle="tab">
+                      <i class="material-icons">cloud</i> Server
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -23,6 +36,7 @@
                   <div class="form-group">
                     <mat-form-field class="">
                       <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
+                      <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -30,6 +44,7 @@
                   <div class="form-group">
                     <mat-form-field class="">
                       <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
+                      <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -37,6 +52,21 @@
               <button mat-raised-button type="submit" class="btn btn-rose pull-right">{{'general.save' | translate}}</button>
               <div class="clearfix"></div>
             </form>
+          </div>
+          <div class="card-footer">
+            <div class="card-avatar">
+              <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
+                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                    <img [src]="image" class="" alt="...">                
+                </div>
+                <div>
+                  <span class="btn btn-default btn-file">
+                    <input type="file" name="...">
+                  </span>
+                  <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput"></a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

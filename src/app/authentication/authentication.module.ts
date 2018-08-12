@@ -19,11 +19,11 @@ import { EulaComponent } from './eula/eula.component';
     CommonModule,
     RouterModule.forChild(AuthenticationRoutes),
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     TranslateModule,
     RecaptchaModule,
-    RecaptchaFormsModule,
-    ReactiveFormsModule
+    RecaptchaFormsModule
   ],
   declarations: [
     LoginComponent,

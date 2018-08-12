@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,16 +22,13 @@ export class UserComponent implements OnInit {
     public userRoles;
     public userLocales;
     public isAdmin;
-    public defaultPicture = Users.USER_NO_PICTURE;
-
-    public user;
     public originalEmail;
+    public image = Users.USER_NO_PICTURE;
 
     public formGroup: FormGroup;
     public id: AbstractControl;
     public name: AbstractControl;
     public firstName: AbstractControl;
-    public image: AbstractControl;
     public email: AbstractControl;
     public phone: AbstractControl;
     public mobile: AbstractControl;
@@ -106,7 +103,6 @@ export class UserComponent implements OnInit {
                     Validators.compose([
                     Validators.required
                 ])),
-            'image': new FormControl(''),
             'email': new FormControl('',
                 Validators.compose([
                     Validators.required,
@@ -183,7 +179,6 @@ export class UserComponent implements OnInit {
         this.id = this.formGroup.controls['id'];
         this.name = this.formGroup.controls['name'];
         this.firstName = this.formGroup.controls['firstName'];
-        this.image = this.formGroup.controls['image'];
         this.email = this.formGroup.controls['email'];
         this.phone = this.formGroup.controls['phone'];
         this.mobile = this.formGroup.controls['mobile'];
@@ -221,83 +216,77 @@ export class UserComponent implements OnInit {
             // Show spinner
             this.spinnerService.show();
             // Yes, get it
-            this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((foundUser) => {
-                // Keep it
-                this.user = foundUser;
-                console.log('====================================');
-                console.log(foundUser);
-                console.log('====================================');
+            this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
+                // Init form
+                if (user.id) {
+                    this.formGroup.controls.id.setValue(user.id);
+                }
+                if (user.name) {
+                    this.formGroup.controls.name.setValue(user.name);
+                }
+                if (user.firstName) {
+                    this.formGroup.controls.firstName.setValue(user.firstName);
+                }
+                if (user.email) {
+                    this.formGroup.controls.email.setValue(user.email);
+                    this.originalEmail = user.email;
+                }
+                if (user.phone) {
+                    this.formGroup.controls.phone.setValue(user.phone);
+                }
+                if (user.mobile) {
+                    this.formGroup.controls.mobile.setValue(user.mobile);
+                }
+                if (user.iNumber) {
+                    this.formGroup.controls.iNumber.setValue(user.iNumber);
+                }
+                if (user.costCenter) {
+                    this.formGroup.controls.costCenter.setValue(user.costCenter);
+                }
+                if (user.status) {
+                    this.formGroup.controls.status.setValue(user.status);
+                }
+                if (user.role) {
+                    this.formGroup.controls.role.setValue(user.role);
+                }
+                if (user.locale) {
+                    this.formGroup.controls.locale.setValue(user.locale);
+                }
+                if (user.tagIDs) {
+                    this.formGroup.controls.tagIDs.setValue(user.tagIDs);
+                }
+                if (user.address && user.address.address1) {
+                    this.address.controls.address1.setValue(user.address.address1);
+                }
+                if (user.address && user.address.address2) {
+                    this.address.controls.address2.setValue(user.address.address2);
+                }
+                if (user.address && user.address.postalCode) {
+                    this.address.controls.postalCode.setValue(user.address.postalCode);
+                }
+                if (user.address && user.address.city) {
+                    this.address.controls.city.setValue(user.address.city);
+                }
+                if (user.address && user.address.department) {
+                    this.address.controls.department.setValue(user.address.department);
+                }
+                if (user.address && user.address.region) {
+                    this.address.controls.region.setValue(user.address.region);
+                }
+                if (user.address && user.address.country) {
+                    this.address.controls.country.setValue(user.address.country);
+                }
+                if (user.address && user.address.latitude) {
+                    this.address.controls.latitude.setValue(user.address.latitude);
+                }
+                if (user.address && user.address.longitude) {
+                    this.address.controls.longitude.setValue(user.address.longitude);
+                }
                 // Yes, get image
                 return this.centralServerService.getUserImage(this.activatedRoute.snapshot.params['id']);
             }).subscribe((userImage) => {
-                // Init form
-                if (this.user.id) {
-                    this.formGroup.controls.id.setValue(this.user.id);
-                }
-                if (this.user.name) {
-                    this.formGroup.controls.name.setValue(this.user.name);
-                }
-                if (this.user.firstName) {
-                    this.formGroup.controls.firstName.setValue(this.user.firstName);
-                }
-                if (this.user.email) {
-                    this.formGroup.controls.email.setValue(this.user.email);
-                    this.originalEmail = this.user.email;
-                }
-                if (this.user.phone) {
-                    this.formGroup.controls.phone.setValue(this.user.phone);
-                }
-                if (this.user.mobile) {
-                    this.formGroup.controls.mobile.setValue(this.user.mobile);
-                }
-                if (this.user.iNumber) {
-                    this.formGroup.controls.iNumber.setValue(this.user.iNumber);
-                }
-                if (this.user.costCenter) {
-                    this.formGroup.controls.costCenter.setValue(this.user.costCenter);
-                }
-                if (this.user.status) {
-                    this.formGroup.controls.status.setValue(this.user.status);
-                }
-                if (this.user.role) {
-                    this.formGroup.controls.role.setValue(this.user.role);
-                }
-                if (this.user.locale) {
-                    this.formGroup.controls.locale.setValue(this.user.locale);
-                }
-                if (this.user.tagIDs) {
-                    this.formGroup.controls.tagIDs.setValue(this.user.tagIDs);
-                }
-                if (userImage) {
-                    this.user.image = userImage.image;
-                    this.formGroup.controls.image.setValue(this.user.image);
-                }
-                if (this.user.address && this.user.address.address1) {
-                    this.address.controls.address1.setValue(this.user.address.address1);
-                }
-                if (this.user.address && this.user.address.address2) {
-                    this.address.controls.address2.setValue(this.user.address.address2);
-                }
-                if (this.user.address && this.user.address.postalCode) {
-                    this.address.controls.postalCode.setValue(this.user.address.postalCode);
-                }
-                if (this.user.address && this.user.address.city) {
-                    this.address.controls.city.setValue(this.user.address.city);
-                }
-                if (this.user.address && this.user.address.department) {
-                    this.address.controls.department.setValue(this.user.address.department);
-                }
-                if (this.user.address && this.user.address.region) {
-                    this.address.controls.region.setValue(this.user.address.region);
-                }
-                if (this.user.address && this.user.address.country) {
-                    this.address.controls.country.setValue(this.user.address.country);
-                }
-                if (this.user.address && this.user.address.latitude) {
-                    this.address.controls.latitude.setValue(this.user.address.latitude);
-                }
-                if (this.user.address && this.user.address.longitude) {
-                    this.address.controls.longitude.setValue(this.user.address.longitude);
+                if (userImage && userImage.image) {
+                    this.image = userImage.image.toString();
                 }
                 // Hide
                 this.spinnerService.hide();
@@ -319,5 +308,16 @@ export class UserComponent implements OnInit {
                 }
             });
         }
+    }
+
+    saveUser(user) {
+        // Set the image
+        this.image = jQuery('.fileinput-preview img')[0]['src'];
+        if (this.image === Users.USER_NO_PICTURE) {
+            this.image = null;
+        }
+        // Set to user
+        user.image = this.image;
+        console.log(user);
     }
 }

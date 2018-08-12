@@ -4,29 +4,37 @@
       <div class="col-md-12">
         <div class="card card-profile">
           <div class="card-avatar">
-            <a href="#pablo">
-              <img class="img" src="./assets/img/faces/marc.jpg" />
-            </a>
+            <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
+              <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                  <img [src]="image" class="" alt="...">                
+              </div>
+              <div>
+                <span class="btn btn-default btn-file">
+                  <input type="file" name="...">
+                </span>
+                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+              </div>
+            </div>
           </div>
           <div class="card-body">
-            <form>
+            <form class="form" [formGroup]="formGroup" (ngSubmit)="saveUser(formGroup.value)">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field class="">
-                      <input appSetAutoFocus matInput placeholder="Name" type="text">
+                      <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field class="">
-                      <input matInput placeholder="First Name" type="text">
+                      <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
                     </mat-form-field>
                   </div>
                 </div>
               </div>
-              <button mat-raised-button type="submit" class="btn btn-rose pull-right">Update Profile</button>
+              <button mat-raised-button type="submit" class="btn btn-rose pull-right">{{'general.save' | translate}}</button>
               <div class="clearfix"></div>
             </form>
           </div>

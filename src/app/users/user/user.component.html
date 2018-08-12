@@ -9,23 +9,29 @@
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
                     <a class="nav-link active" href="#profile" data-toggle="tab">
-                      <i class="material-icons">bug_report</i> Bugs
+                      <i class="material-icons">portrait</i> General
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#messages" data-toggle="tab">
-                      <i class="material-icons">code</i> Website
+                      <i class="material-icons">location_on</i> Address
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#settings" data-toggle="tab">
-                      <i class="material-icons">cloud</i> Server
+                      <i class="material-icons">lock</i> Password
                       <div class="ripple-container"></div>
                     </a>
                   </li>
-                </ul>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#settings" data-toggle="tab">
+                        <i class="material-icons">more_horiz</i> Miscs
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                  </ul>
               </div>
             </div>
           </div>
@@ -57,16 +63,14 @@
             <div class="card-avatar">
               <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
                 <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                    <img [src]="image" class="" alt="...">                
+                  <img [src]="image" class="" alt="...">
                 </div>
-                <div>
-                  <span class="btn btn-default btn-file">
-                    <input type="file" name="...">
-                  </span>
-                  <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput"></a>
+                <div style="display:none">
+                  <input type="file" name="...">
                 </div>
               </div>
             </div>
+            <button href="javascript:void(0)" (click)="clearImage()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
           </div>
         </div>
       </div>

@@ -58,12 +58,12 @@ export class UserComponent implements OnInit {
             private centralServerService: CentralServerService,
             private messageService: MessageService,
             private spinnerService: SpinnerService,
-            private translate: TranslateService,
+            private translateService: TranslateService,
             private localeService: LocaleService,
             private activatedRoute: ActivatedRoute,
             private router: Router) {
         // Get translated messages
-        this.translate.get('users', {}).subscribe((messages) => {
+        this.translateService.get('users', {}).subscribe((messages) => {
             this.messages = messages;
         });
         this.updateMode = (this.activatedRoute.snapshot.params['id'] ? true : false);
@@ -295,6 +295,12 @@ export class UserComponent implements OnInit {
                 this.spinnerService.hide();
                 // Handle error
                 switch (error.status) {
+                    // Server not responding
+                    case 0:
+                        // Report the error
+                        this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+                        break;
+
                     // Not found
                     case 550:
                         // Transaction not found`
@@ -304,7 +310,7 @@ export class UserComponent implements OnInit {
                     default:
                         // Unexpected error`
                         Utils.handleHttpError(error, this.router, this.messageService,
-                            this.translate.instant('general.unexpected_error_backend'));
+                            this.translateService.instant('general.unexpected_error_backend'));
                 }
             });
         }
@@ -313,11 +319,16 @@ export class UserComponent implements OnInit {
     saveUser(user) {
         // Set the image
         this.image = jQuery('.fileinput-preview img')[0]['src'];
-        if (this.image === Users.USER_NO_PICTURE) {
+        // Check no user?
+        if (this.image.endsWith(Users.USER_NO_PICTURE)) {
             this.image = null;
         }
         // Set to user
         user.image = this.image;
         console.log(user);
+    }
+
+    clearImage() {
+        jQuery('.fileinput-preview img')[0]['src'] = Users.USER_NO_PICTURE;
     }
 }

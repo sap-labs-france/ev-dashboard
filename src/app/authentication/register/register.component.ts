@@ -124,6 +124,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.recaptcha.reset();
                 // Check status
                 switch (error.status) {
+                    // Server not responding
+                    case 0:
+                        // Report the error
+                        this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+                        break;
+
                     // Email already exists
                     case 510:
                         // Show error

@@ -102,6 +102,12 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
       this.recaptcha.reset();
       // Check status error code
       switch (error.status) {
+        // Server not responding
+        case 0:
+            // Report the error
+            this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+            break;
+
         // Hash no longer valid
         case 540:
           // Report the error

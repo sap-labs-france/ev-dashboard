@@ -53,6 +53,7 @@
 		"auto_refresh": "Auto Refresh",
 		"sort_date_desc": "Sort Date Desc.",
 		"search_placeholder": "Search...",
+		"backend_not_running": "Cannot connect to the central server",
 		"error_backend": "Error occured while connecting to the central server",
 		"success_backend": "Connection to the central server has been restored",
 		"menu": {

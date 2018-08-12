@@ -112,16 +112,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
             // Check error code
             switch (error.status) {
+                // Server not responding
+                case 0:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+                    break;
+
                 // User Agreement not checked
                 case 520:
                     // You must accept
                     this.messageService.showErrorMessage(this.messages['must_accept_eula']);
-                    break;
-
-                // Unknown Email
-                case 550:
-                    // Report the error
-                    this.messageService.showErrorMessage(this.messages['email_does_not_exist']);
                     break;
 
                 // Account is locked

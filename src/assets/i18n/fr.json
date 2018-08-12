@@ -53,6 +53,7 @@
 		"auto_refresh": "Rafraichissement Auto",
 		"sort_date_desc": "Tri Date Décr.",
 		"search_placeholder": "Rechercher...",
+		"backend_not_running": "Impossible de se conncter au serveur central",
 		"error_backend": "Une erreur est survenue pendant la connexion au serveur central",
 		"success_backend": "La connexion avec le serveur central a été restaurée",
 		"menu": {

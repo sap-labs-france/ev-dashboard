@@ -1,8 +1,8 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive } from '@angular/core';
-import { ROUTES } from '../.././sidebar/sidebar.component';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
+import { ROUTES } from '../../sidebar/sidebar.component';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
 const misc: any = {
     navbar_menu_visible: 0,
     active_collapse: true,
@@ -31,6 +31,7 @@ export class NavbarComponent implements OnInit {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
+
     minimizeSidebar(){
       const body = document.getElementsByTagName('body')[0];
 
@@ -56,6 +57,7 @@ export class NavbarComponent implements OnInit {
           clearInterval(simulateWindowResize);
       }, 1000);
     }
+
     hideSidebar(){
       const body = document.getElementsByTagName('body')[0];
       const sidebar = document.getElementsByClassName('sidebar')[0];
@@ -108,12 +110,14 @@ export class NavbarComponent implements OnInit {
           }
         });
     }
+
     onResize(event) {
       if ($(window).width() > 991) {
         return false;
       }
       return true;
     }
+
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const body = document.getElementsByTagName('body')[0];
@@ -123,13 +127,15 @@ export class NavbarComponent implements OnInit {
         body.classList.add('nav-open');
 
         this.sidebarVisible = true;
-    };
+    }
+
     sidebarClose() {
         const body = document.getElementsByTagName('body')[0];
         this.toggleButton.classList.remove('toggled');
         this.sidebarVisible = false;
         body.classList.remove('nav-open');
-    };
+    }
+
     sidebarToggle() {
         if (this.sidebarVisible === false) {
             this.sidebarOpen();
@@ -187,13 +193,13 @@ export class NavbarComponent implements OnInit {
     }
 
     getTitle() {
-        let titlee: any = this.location.prepareExternalUrl(this.location.path());
+        const titlee: any = this.location.prepareExternalUrl(this.location.path());
         for (let i = 0; i < this.listTitles.length; i++) {
-            if (this.listTitles[i].type === "link" && this.listTitles[i].path === titlee) {
+            if (this.listTitles[i].type === 'link' && this.listTitles[i].path === titlee) {
                 return this.listTitles[i].title;
-            } else if (this.listTitles[i].type === "sub") {
+            } else if (this.listTitles[i].type === 'sub') {
                 for (let j = 0; j < this.listTitles[i].children.length; j++) {
-                    let subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
+                    const subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
                     if (subtitle === titlee) {
                         return this.listTitles[i].children[j].title;
                     }
@@ -202,6 +208,7 @@ export class NavbarComponent implements OnInit {
         }
         return 'Dashboard';
     }
+
     getPath() {
         return this.location.prepareExternalUrl(this.location.path());
     }

@@ -24,7 +24,6 @@
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/sweetalert2/src/sweetalert2.scss",
-              "src/assets/css/demo.css",
               "src/assets/scss/material-dashboard.scss"
             ],
             "scripts": [
@@ -127,7 +126,6 @@
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/sweetalert2/src/sweetalert2.scss",
-              "src/assets/css/demo.css",
               "src/assets/scss/material-dashboard.scss"
             ],
             "assets": [

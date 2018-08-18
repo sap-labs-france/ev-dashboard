@@ -4,14 +4,17 @@
             <img src="/assets/img/logo-low.gif" />
         </div>
     </a>
-    <a href="http://www.chargeangels.fr/" target="_blank" class="simple-text logo-normal">
+    <div class="simple-text logo-normal">
         {{'general.app_name' | translate}}
         <div>
-            <a routerLink="/release-notes" class="app-version">
+            <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
                 {{'general.last_update' | translate}}
             </a>
+            <span *ngIf="!isAdmin" class="app-version">
+                {{'general.last_update' | translate}}
+            </span>
         </div>
-    </a>
+    </div>
 </div>
 
 <div class="sidebar-wrapper">

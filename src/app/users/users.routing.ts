@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
 import { UserComponent } from './user/user.component';
-import { AuthenticationGuard } from '../authentication/authentication-guard';
+import { RouteGuardService } from '../service/route-guard.service';
 
 export const UserRoutes: Routes = [
-    // { path: '', component: UsersComponent, canActivate: [AuthenticationGuard] },
-    // { path: 'users', component: UsersComponent, canActivate: [AuthenticationGuard] },
-    { path: 'user', component: UserComponent, canActivate: [AuthenticationGuard] },
-    { path: 'user/:id', component: UserComponent, canActivate: [AuthenticationGuard] }
+    // { path: '', component: UsersComponent, canActivate: [RouteGuardService] },
+    // { path: 'users', component: UsersComponent, canActivate: [RouteGuardService] },
+    { path: 'user', component: UserComponent, canActivate: [RouteGuardService] },
+    { path: 'user/:id', component: UserComponent, canActivate: [RouteGuardService] }
 ];

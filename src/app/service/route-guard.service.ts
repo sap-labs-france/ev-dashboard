@@ -1,12 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { CentralServerService } from '../service/central-server.service';
-import { AuthorizationService } from '../service/authorization-service';
-import { MessageService } from '../service/message.service';
+import { CentralServerService } from './central-server.service';
+import { AuthorizationService } from './authorization-service';
+import { MessageService } from './message.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
-export class AuthenticationGuard implements CanActivate {
+export class RouteGuardService implements CanActivate {
   constructor(
     private router: Router,
     private messageService: MessageService,

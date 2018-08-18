@@ -251,7 +251,7 @@
         }
         .simple-text {
             text-transform: uppercase;
-            padding: $padding-small-vertical $padding-zero;
+            padding: $padding-small-vertical $padding-zero $padding-small-vertical $padding-large-vertical;
             display: inline-block;
             font-size: 18px;
             color: $black-color;
@@ -304,7 +304,7 @@
         }
         a {
             color: $black-color;
-            padding: $padding-base-vertical 15px;
+            padding: $padding-base-vertical $padding-large-vertical;
             white-space: nowrap;
         }
         .user-info {

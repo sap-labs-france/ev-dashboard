@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdModule } from '../md/md.module';
 import { MaterialModule } from '../app.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthenticationGuard } from '../authentication/authentication-guard';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
@@ -21,9 +20,6 @@ import { DashboardRoutes } from './dashboard.routing';
     ],
     declarations: [
         DashboardComponent
-    ],
-    providers: [
-        AuthenticationGuard
     ]
 })
 

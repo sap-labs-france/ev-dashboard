@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CentralServerService } from '../service/central-server.service';
+import { AuthorizationService } from '../service/authorization-service';
 import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
 import { Users } from '../utils/Users';
@@ -44,11 +45,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public loggedUser;
     public loggedUserImage = Users.USER_NO_PICTURE;
     private userSubscription;
+    public isAdmin = false;
 
     constructor(
             private configService: ConfigService,
             private router: Router,
+            private authorizationService: AuthorizationService,
             private centralServerService: CentralServerService) {
+        // Set admin
+        this.isAdmin = this.authorizationService.isAdmin();
         // Get the logged user
         this.loggedUser = this.centralServerService.getLoggedUser();
         // Read user

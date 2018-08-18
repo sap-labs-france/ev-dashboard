@@ -6,7 +6,6 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AuthenticationGuard } from './authentication-guard';
 import { AuthenticationRoutes } from './authentication.routing';
 import { MaterialModule } from '../app.module';
 import { RegisterComponent } from './register/register.component';
@@ -30,9 +29,6 @@ import { EulaComponent } from './eula/eula.component';
     EulaComponent,
     RegisterComponent,
     RetrievePasswordComponent
-  ],
-  providers: [
-    AuthenticationGuard
   ]
 })
 

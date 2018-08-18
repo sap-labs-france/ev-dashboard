@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { AuthenticationGuard } from './authentication/authentication-guard';
+import { RouteGuardService } from './service/route-guard.service';
 
 export const AppRoutes: Routes = [
     {
@@ -13,7 +13,7 @@ export const AppRoutes: Routes = [
         children: [
             { path: '', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
-            { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [AuthenticationGuard], data: { forAdminOnly: true } },
+            { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true } },
         ]
     }, {
         path: '', component: AuthLayoutComponent,

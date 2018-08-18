@@ -1,8 +1,8 @@
 // var Authorization = require('node-authorization').Authorization;
 import { Injectable } from '@angular/core';
 import { Authorization } from 'node-authorization';
-import { CentralServerService } from '../service/central-server.service';
-import { ConfigService } from '../service/config.service';
+import { CentralServerService } from './central-server.service';
+import { ConfigService } from './config.service';
 import { AuthorizationConstants } from './authorization-constants';
 import { User } from '../model/user';
 

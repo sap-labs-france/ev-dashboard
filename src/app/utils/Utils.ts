@@ -31,15 +31,6 @@ export class Utils {
     return { notEqual: true };
   }
 
-  static hideFullScreenOverlay() {
-    const overlayElem = document.getElementsByClassName('ui-dialog-mask')[0];
-    // Found?
-    if (overlayElem) {
-      // Remove
-      overlayElem.remove();
-    }
-  }
-
   // Update`
   static updateJSon(source, dest) {
     let i;
@@ -104,7 +95,7 @@ export class Utils {
     switch (error.status) {
       // Server connection error`
       case 0:
-        messageService.showErrorMessage(errorMessage);
+        messageService.showErrorMessageConnectionLost();
         break;
 
       // Unauthorized!

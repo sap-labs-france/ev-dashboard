@@ -57,6 +57,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 'password': new FormControl('',
                     Validators.compose([
                         Validators.required,
+                        Users.passwordWithNoSpace,
                         Users.validatePassword
                     ])),
                 'repeatPassword': new FormControl('',

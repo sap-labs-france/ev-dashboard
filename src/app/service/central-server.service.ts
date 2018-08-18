@@ -706,7 +706,7 @@ export class CentralServerService {
   getUserStatusByKey(statusKey) {
     // Return the found key
     const statuses = this.getUserStatuses().filter(
-      status => status.key === statusKey );
+      status => status.key === statusKey);
     return (statuses && statuses.length > 0 ? statuses[0] :
       { key: 'U', description: this.translateService.instant('users.status_unknown', {}) });
   }
@@ -1223,7 +1223,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionsActive` +
-        (queryString.length > 0 ? '?' + queryString : ''),
+      (queryString.length > 0 ? '?' + queryString : ''),
       this.buildHeaderOptions())
       .map(this.extractData)
       .catch(this.handleError);

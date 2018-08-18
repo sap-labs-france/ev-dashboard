@@ -42,4 +42,14 @@ export class Users {
 
     return { invalidPassword: true };
   }
+
+  public static passwordWithNoSpace(control: AbstractControl) {
+    // Check
+    if (!control.value || /^[^\s].+[^\s]$/.test(control.value)) {
+      // Ok
+      return null;
+    }
+
+    return { noSpace: true };
+  }
 }

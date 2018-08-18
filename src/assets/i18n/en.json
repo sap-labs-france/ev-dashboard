@@ -1,7 +1,7 @@
 {
 	"general": {
 		"app_name": "Charge-Angels",
-		"last_update": "Version 2.0.0 (3rd, August)",
+		"last_update": "Version 2.0.0",
 		"about_us": "About Us",
 		"unexpected_error_backend": "An unexpected error occured",
 		"mandatory_field": "Required field",
@@ -37,7 +37,7 @@
 		"warning": "Warning",
 		"success": "Success",
 		"error": "Error",
-		"drag_drop":"Drag & Drop",
+		"drag_drop": "Drag & Drop",
 		"picture": "Picture",
 		"search": "Search",
 		"search_place": "Search Address",
@@ -239,6 +239,7 @@
 		"accept": "I accept the",
 		"eula": "End-user License Agreement",
 		"must_accept_eula": "You must accept the End-user License Agreement",
+		"no_space_in_password": "No space is allowed at the beginning and the end",
 		"title": "Sign in to Charge-Angels",
 		"register": "Register",
 		"signup_link": "New user? Sign up!",

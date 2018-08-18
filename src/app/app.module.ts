@@ -15,6 +15,8 @@ import { LocalStorageService } from './service/local-storage.service';
 import { ConfigService } from './service/config.service';
 import { MessageService } from './service/message.service';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
+import { AuthenticationGuard } from './authentication/authentication-guard';
 
 import * as $ from 'jquery';
 import {
@@ -133,7 +135,8 @@ export function configFactory(config: ConfigService) {
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    ReleaseNotesComponent
   ],
   exports: [
     TranslateModule
@@ -141,6 +144,7 @@ export function configFactory(config: ConfigService) {
   providers: [
     CentralServerService,
     AuthorizationService,
+    AuthenticationGuard,
     SpinnerService,
     LocaleService,
     LocalStorageService,

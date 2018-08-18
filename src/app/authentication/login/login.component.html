@@ -1,4 +1,3 @@
-
 <div class="wrapper wrapper-full-page">
   <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('./assets/img/login.jpg'); background-size: cover; background-position: top center;">
     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
@@ -8,7 +7,7 @@
           <div class="card card-login card-hidden">
             <div class="card-header card-header-info text-center h-25">
               <div class="social-line">
-                <img class="w-50 mb-2" src="/assets/img/logo-low.gif"/>
+                <img class="w-50 mb-2" src="/assets/img/logo-low.gif" />
               </div>
               <h4 class="card-title">{{"authentication.sign_in" | translate}}</h4>
             </div>
@@ -32,11 +31,17 @@
                     <mat-form-field>
                       <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [formControl]="password" required>
                       <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="input-group-prepend justify-content-center mt-3 ml-2">
-                  <mat-checkbox [formControl]="acceptEula" required><span class="adapt-font-size">{{'authentication.accept' | translate}} </span><a class="auth-link" href="/auth/eula" target="_blank"><span class="adapt-font-size">{{'authentication.eula' | translate}}</span></a></mat-checkbox>
+                  <mat-checkbox [formControl]="acceptEula" required>
+                    <span class="adapt-font-size">{{'authentication.accept' | translate}} </span>
+                    <a class="auth-link" href="/auth/eula" target="_blank">
+                      <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
+                    </a>
+                  </mat-checkbox>
                 </div>
               </span>
             </div>

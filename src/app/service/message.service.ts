@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -22,7 +23,12 @@ export class MessageService {
       </div>
     `;
 
-  constructor() {
+  constructor(
+    private translateService: TranslateService) {
+  }
+
+  showErrorMessageConnectionLost() {
+    this.showErrorMessage(this.translateService.instant('general.error_backend'));
   }
 
   showMessage(message: string, title?: string) {

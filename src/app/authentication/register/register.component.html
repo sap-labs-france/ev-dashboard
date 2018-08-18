@@ -46,8 +46,9 @@
                       </span>
                       <mat-form-field>
                         <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [formControl]="password" required>
-                        <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
                         <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
+                        <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                     <div class="input-group-prepend input-group-no-icon">

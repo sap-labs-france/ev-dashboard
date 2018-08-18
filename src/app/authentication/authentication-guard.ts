@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CentralServerService } from '../service/central-server.service';
+import { AuthorizationService } from '../service/authorization-service';
 import { MessageService } from '../service/message.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,15 +10,21 @@ export class AuthenticationGuard implements CanActivate {
   constructor(
     private router: Router,
     private messageService: MessageService,
+    private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private centralServerService: CentralServerService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const queryParams = {};
+    const forAdminOnly = route.data['forAdminOnly'];
 
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
+      // Check if Admin?
+      if (forAdminOnly && !this.authorizationService.isAdmin()) {
+        return false;
+      }
       // logged in so return true
       return true;
     }

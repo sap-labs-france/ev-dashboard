@@ -1,7 +1,7 @@
 {
 	"general": {
 		"app_name": "Charge-Angels",
-		"last_update": "Version 2.0.0 (3 Août)",
+		"last_update": "Version 2.0.0",
 		"about_us": "A Propos",
 		"unexpected_error_backend": "Une erreur inattendue s'est produite",
 		"id": "ID",
@@ -37,7 +37,7 @@
 		"warning": "Avertissement",
 		"success": "Succès",
 		"error": "Erreur",
-		"drag_drop":"Glisser & Déposer",
+		"drag_drop": "Glisser & Déposer",
 		"picture": "Image",
 		"search": "Rechercher",
 		"search_place": "Rechercher Adresse",
@@ -239,6 +239,7 @@
 		"accept": "J'accepte les",
 		"eula": "Conditions Générales d'Utilisation",
 		"must_accept_eula": "Vous devez accepter les Conditions Générales d'Utilisation",
+		"no_space_in_password": "Espace interdit au debut et à la fin",
 		"title": "Connectez-vous sur Charge-Angels",
 		"register": "Enregistrez-vous sur Charge-Angels",
 		"signup_link": "Nouvel utilisateur? Créez un compte!",

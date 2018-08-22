@@ -4,7 +4,7 @@
             <img src="/assets/img/logo-low.gif" />
         </div>
     </a>
-    <div class="simple-text logo-normal">
+    <a class="simple-text logo-normal" href="javascript:void(0)">
         {{'general.app_name' | translate}}
         <div>
             <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
@@ -14,7 +14,7 @@
                 {{'general.last_update' | translate}}
             </span>
         </div>
-    </div>
+    </a>
 </div>
 
 <div class="sidebar-wrapper">
@@ -36,13 +36,13 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a [routerLink]="['/users/user/', loggedUser.id]" class="nav-link">
-                            <span class="sidebar-mini">{{'users.edit_profile_short' | translate}}</span>
+                            <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
                             <span class="sidebar-normal">{{'users.edit_profile' | translate}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="javascript:void(0)" (click)="logout()" class="nav-link">
-                            <span class="sidebar-mini">{{'authentication.sign_out_short' | translate}}</span>
+                            <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">lock</i></span>
                             <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
                         </a>
                     </li>

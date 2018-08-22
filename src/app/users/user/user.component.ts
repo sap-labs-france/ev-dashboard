@@ -54,14 +54,14 @@ export class UserComponent implements OnInit {
     public repeatPassword: AbstractControl;
 
     constructor(
-            private authorizationService: AuthorizationService,
-            private centralServerService: CentralServerService,
-            private messageService: MessageService,
-            private spinnerService: SpinnerService,
-            private translateService: TranslateService,
-            private localeService: LocaleService,
-            private activatedRoute: ActivatedRoute,
-            private router: Router) {
+        private authorizationService: AuthorizationService,
+        private centralServerService: CentralServerService,
+        private messageService: MessageService,
+        private spinnerService: SpinnerService,
+        private translateService: TranslateService,
+        private localeService: LocaleService,
+        private activatedRoute: ActivatedRoute,
+        private router: Router) {
         // Get translated messages
         this.translateService.get('users', {}).subscribe((messages) => {
             this.messages = messages;
@@ -96,11 +96,11 @@ export class UserComponent implements OnInit {
         this.formGroup = new FormGroup({
             'id': new FormControl(''),
             'name': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.required
                 ])),
             'firstName': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.required
                 ])),
             'email': new FormControl('',
@@ -109,23 +109,23 @@ export class UserComponent implements OnInit {
                     Validators.email
                 ])),
             'phone': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
                 ])),
             'mobile': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
                 ])),
             'iNumber': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.pattern('^[A-Z]{1}[0-9]{6}$')
                 ])),
             'tagIDs': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.pattern('^[A-Z0-9,]*$')
                 ])),
             'costCenter': new FormControl('',
-                    Validators.compose([
+                Validators.compose([
                     Validators.pattern('^[0-9]*$')
                 ])),
             'status': new FormControl(Users.USER_STATUS_ACTIVE,
@@ -316,7 +316,7 @@ export class UserComponent implements OnInit {
         }
     }
 
-    saveUser(user) {
+    updateUserImage(user) {
         // Set the image
         this.image = jQuery('.fileinput-preview img')[0]['src'];
         // Check no user?
@@ -325,7 +325,46 @@ export class UserComponent implements OnInit {
         }
         // Set to user
         user.image = this.image;
-        console.log(user);
+    }
+
+    saveUser(user) {
+        // Show
+        this.spinnerService.show();
+        // Set the image
+        this.updateUserImage(user);
+        // Yes: Update
+        this.centralServerService.updateUser(user).subscribe(response => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === 'Success') {
+                // Ok
+                this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
+                    { 'userFullName': user.firstName + ' ' + user.name }));
+            } else {
+                Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
+            }
+        }, (error) => {
+            // Hide
+            this.spinnerService.hide();
+            // Check status
+            switch (error.status) {
+                // Email already exists
+                case 510:
+                    // Show error
+                    this.messageService.showErrorMessage(
+                        this.translateService.instant('authentication.email_already_exists'));
+                    break;
+                // User deleted
+                case 550:
+                    // Show error
+                    this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+                    break;
+                default:
+                    // No longer exists!
+                    Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
+            }
+        });
     }
 
     clearImage() {

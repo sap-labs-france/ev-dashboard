@@ -517,6 +517,8 @@
 		"role_corporate": "Corporate",
 		"role_invalid": "Role invalide",
 		"user_not_found": "Utilisateur inconnu",
+		"invalid_phone_number": "Numéro de téléphone invalide",
+		"invalid_tag_ids": "Seulement les majuscules etldes nombres sont authorisés",
 		"locale": "Language",
 		"locale_invalid": "Locale invalide",
 		"locale_desc_english": "Anglais",

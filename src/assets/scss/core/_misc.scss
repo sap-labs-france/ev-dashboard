@@ -39,6 +39,10 @@ a.app-version {
     cursor: pointer;
 }
 
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
 // Prevent highlight on mobile
 * {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);

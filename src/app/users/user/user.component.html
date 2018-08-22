@@ -40,9 +40,18 @@
               <div class="tab-pane active" id="profile">
                 <form class="form" [formGroup]="formGroup" (ngSubmit)="saveUser(formGroup.value)">
                   <div class="row">
+                    <mat-toolbar color="default">
+                      <mat-toolbar-row>
+                        <button [disabled]="!formGroup.valid" mat-raised-button type="submit" class="btn btn-rose">
+                          {{'users.save_profile' | translate}}
+                        </button>
+                        <span class="toolbar-spacer"></span>
+                        <mat-icon (click)="refresh()" class="icon-clickable">refresh</mat-icon>
+                      </mat-toolbar-row>
+                    </mat-toolbar>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <mat-form-field class="">
+                        <mat-form-field>
                           <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
                           <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
@@ -50,14 +59,81 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <mat-form-field class="">
+                        <mat-form-field>
                           <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
                           <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.email' | translate}}" type="text" [formControl]="email" required>
+                          <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
+                          <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                          <span matPrefix><i class="material-icons">email</i>&nbsp;</span>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.phone' | translate}}" type="text" [formControl]="phone" required>
+                          <mat-error *ngIf="phone.hasError('pattern')">{{"users.invalid_phone_number" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.mobile' | translate}}" type="text" [formControl]="mobile" required>
+                          <mat-error *ngIf="mobile.hasError('pattern')">{{"users.invalid_phone_number" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="isAdmin" class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <mat-select placeholder="{{'users.status' | translate}}" [formControl]="status">
+                            <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus.key">
+                              {{userStatus.description}}
+                            </mat-option>
+                          </mat-select> 
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.tag_ids' | translate}}" type="text" [formControl]="tagIDs" required>
+                          <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
+                          <mat-error *ngIf="tagIDs.hasError('pattern')">{{"users.invalid_tag_ids" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="isAdmin" class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <mat-select placeholder="{{'users.role' | translate}}" [formControl]="role">
+                            <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
+                              {{userRole.description}}
+                            </mat-option>
+                          </mat-select> 
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <mat-select placeholder="{{'users.locale' | translate}}" [formControl]="locale">
+                            <mat-option *ngFor="let userLocale of userLocales" [value]="userLocale.key">
+                              {{userLocale.description}}
+                            </mat-option>
+                          </mat-select> 
+                        </mat-form-field>
+                      </div>
+                    </div>
                   </div>
-                  <button mat-raised-button type="submit" class="btn btn-rose pull-right">{{'users.save_profile' | translate}}</button>
                   <div class="clearfix"></div>
                 </form>
               </div>

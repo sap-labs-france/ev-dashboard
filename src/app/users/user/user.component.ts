@@ -210,6 +210,10 @@ export class UserComponent implements OnInit {
         jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
     }
 
+    refresh() {
+        this.loadUser();
+    }
+
     loadUser() {
         // Get the Charger?
         if (this.updateMode) {

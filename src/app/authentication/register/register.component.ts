@@ -26,6 +26,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     public acceptEula: AbstractControl;
     private messages: Object;
     public captchaSiteKey: string;
+    public hidePassword = true;
+    public hideRepeatPassword = true;
     @ViewChild('recaptcha') public recaptcha;
 
     constructor(

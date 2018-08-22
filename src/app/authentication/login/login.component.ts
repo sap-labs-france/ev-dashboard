@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public password: AbstractControl;
     public acceptEula: AbstractControl;
     private messages: Object;
+    public hidePassword = true;
 
     constructor(
             private element: ElementRef,

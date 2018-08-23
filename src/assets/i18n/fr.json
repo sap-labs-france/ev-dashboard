@@ -17,6 +17,8 @@
 		"country": "Pays",
 		"latitude": "Latitude",
 		"longitude": "Longitude",
+		"show_place": "Voir Adresse",
+		"invalid_value": "Valeur invalide",
 		"home": "Racine",
 		"details": "Détails",
 		"create": "Créer",

@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { LocaleService } from '../../service/locale.service';
 import { CentralServerService } from '../../service/central-server.service';
 import { SpinnerService } from '../../service/spinner.service';
@@ -16,6 +18,7 @@ import 'rxjs/add/operator/mergeMap';
     templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
+    @ViewChild('placesRef') placesRef: GooglePlaceDirective;
     private messages;
     private updateMode;
     public userStatuses;
@@ -208,6 +211,44 @@ export class UserComponent implements OnInit {
         });
         // Scroll up
         jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
+    }
+
+    setAddress(address: Address) {
+        // Set data
+        address.address_components.forEach(((address_component) => {
+            switch (address_component.types[0]) {
+                // Postal Code
+                case 'postal_code':
+                    this.address.controls.postalCode.setValue(address_component.long_name);
+                    break;
+                // Town
+                case 'locality':
+                    this.address.controls.city.setValue(address_component.long_name);
+                    break;
+                // Department
+                case 'administrative_area_level_2':
+                    this.address.controls.department.setValue(address_component.long_name);
+                    break;
+                // Region
+                case 'administrative_area_level_1':
+                    this.address.controls.region.setValue(address_component.long_name);
+                    break;
+                // Country
+                case 'country':
+                    this.address.controls.country.setValue(address_component.long_name);
+                    break;
+            }
+        }));
+        // Address
+        this.address.controls.address1.setValue(address.name);
+        // Latitude
+        this.address.controls.latitude.setValue(address.geometry.location.lat());
+        // Longitude
+        this.address.controls.longitude.setValue(address.geometry.location.lng());
+    }
+
+    showPlace() {
+        window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
     }
 
     refresh() {

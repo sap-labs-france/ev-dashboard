@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { MaterialModule } from '../app.module';
 import { AutofocusDirective } from '../directives/auto-focus.directive';
@@ -16,6 +17,7 @@ import { UserRoutes } from './users.routing';
         FormsModule,
         ReactiveFormsModule,
         TranslateModule,
+        GooglePlaceModule,
         MaterialModule
     ],
     declarations: [

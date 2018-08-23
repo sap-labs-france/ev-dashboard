@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-profile card-testimonial">
-          <div class="card-header card-header-tabs card-header-rose">
+          <div class="card-header card-header-tabs card-header-danger">
             <div class="nav-tabs-navigation">
               <div class="nav-tabs-wrapper">
-                  <ul class="nav nav-tabs" data-tabs="tabs">
+                <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
                     <a class="nav-link active" href="#profile" data-toggle="tab">
                       <i class="material-icons">portrait</i> {{name.value}} {{firstName.value}}
@@ -26,29 +26,33 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="#miscs" data-toggle="tab">
-                        <i class="material-icons">more_horiz</i> {{'users.miscs' | translate}}
-                        <div class="ripple-container"></div>
-                      </a>
-                    </li>
-                  </ul>
+                    <a class="nav-link" href="#miscs" data-toggle="tab">
+                      <i class="material-icons">more_horiz</i> {{'users.miscs' | translate}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <span class="toolbar-spacer"></span>
+                  <button class="btn btn-info mat-raised-button" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">save</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                    </span>
+                  </button>
+                  <button class="btn btn-info mat-raised-button" (click)="refresh()">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">refresh</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.refresh' | translate}}</span> 
+                    </span>
+                  </button>
+                </ul>
               </div>
             </div>
           </div>
           <div class="card-body">
-            <div class="tab-content">
-              <div class="tab-pane active" id="profile">
-                <form class="form" [formGroup]="formGroup" (ngSubmit)="saveUser(formGroup.value)">
+            <form class="form" [formGroup]="formGroup">
+              <div class="tab-content">
+                <div class="tab-pane active" id="profile">
                   <div class="row">
-                    <mat-toolbar color="default">
-                      <mat-toolbar-row>
-                        <button [disabled]="!formGroup.valid" mat-raised-button type="submit" class="btn btn-rose">
-                          {{'users.save_profile' | translate}}
-                        </button>
-                        <span class="toolbar-spacer"></span>
-                        <mat-icon (click)="refresh()" class="icon-clickable">refresh</mat-icon>
-                      </mat-toolbar-row>
-                    </mat-toolbar>
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
@@ -71,7 +75,6 @@
                           <input matInput placeholder="{{'users.email' | translate}}" type="text" [formControl]="email" required>
                           <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                           <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-                          <span matPrefix><i class="material-icons">email</i>&nbsp;</span>
                         </mat-form-field>
                       </div>
                     </div>
@@ -98,7 +101,7 @@
                             <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus.key">
                               {{userStatus.description}}
                             </mat-option>
-                          </mat-select> 
+                          </mat-select>
                         </mat-form-field>
                       </div>
                     </div>
@@ -118,7 +121,7 @@
                             <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
                               {{userRole.description}}
                             </mat-option>
-                          </mat-select> 
+                          </mat-select>
                         </mat-form-field>
                       </div>
                     </div>
@@ -129,24 +132,99 @@
                             <mat-option *ngFor="let userLocale of userLocales" [value]="userLocale.key">
                               {{userLocale.description}}
                             </mat-option>
-                          </mat-select> 
+                          </mat-select>
                         </mat-form-field>
                       </div>
                     </div>
                   </div>
                   <div class="clearfix"></div>
-                </form>
+                </div>
+                <div class="tab-pane" id="address">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="setAddress($event)"
+                            placeholder="{{'general.address1' | translate}}" type="text" [formControl]="address1">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.address2' | translate}}" type="text" [formControl]="address2">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.postal_code' | translate}}" type="text" [formControl]="postalCode">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.city' | translate}}" type="text" [formControl]="city">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.department' | translate}}" type="text" [formControl]="department">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.region' | translate}}" type="text" [formControl]="region">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.country' | translate}}" type="text" [formControl]="country">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude">
+                          <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
+                          <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <button class="btn btn-info mat-raised-button" (click)="showPlace()" [disabled]="latitude.errors || longitude.errors">
+                        <span class="mat-button-wrapper">
+                          <i class="material-icons">location_on</i>
+                          <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.show_place' | translate}}</span> 
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="password">
+                  Password
+                </div>
+                <div class="tab-pane" id="miscs">
+                  Miscs
+                </div>
               </div>
-              <div class="tab-pane" id="address">
-                Address
-              </div>
-              <div class="tab-pane" id="password">
-                Password
-              </div>
-              <div class="tab-pane" id="miscs">
-                Miscs
-              </div>
-            </div>
+            </form>
           </div>
           <div class="card-footer">
             <div class="card-avatar">

@@ -2,7 +2,7 @@
 .btn{
   position: relative;
   padding: 12px 30px;
-  margin: $bmd-btn-margin-bottom 1px;
+  margin: $bmd-btn-margin-bottom 5px;
   min-width: auto;
   font-size: .75rem; //  12px
   font-weight: 400;
@@ -19,6 +19,9 @@
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
   @include undo-bs-tab-focus();
+  @media screen and (max-width: $res375) {
+    width: 100%;
+  }
 
   //--
   // Colors

@@ -17,6 +17,8 @@
 		"country": "Country",
 		"latitude": "Latitude",
 		"longitude": "Longitude",
+		"show_place": "View Place",
+		"invalid_value": "Invalid value",
 		"home": "Home",
 		"details": "Details",
 		"create": "Create",

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { LocaleService } from '../../service/locale.service';
 import { CentralServerService } from '../../service/central-server.service';
@@ -18,7 +17,6 @@ import 'rxjs/add/operator/mergeMap';
     templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
-    @ViewChild('placesRef') placesRef: GooglePlaceDirective;
     private messages;
     private updateMode;
     public userStatuses;

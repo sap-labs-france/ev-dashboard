@@ -32,12 +32,6 @@
                     </a>
                   </li>
                   <span class="toolbar-spacer"></span>
-                  <button class="btn btn-info mat-raised-button" (click)="saveUser(formGroup.value)">
-                    <span class="mat-button-wrapper">
-                      <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
-                    </span>
-                  </button>
                   <button class="btn btn-info mat-raised-button" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
@@ -87,7 +81,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.phone' | translate}}" type="text" [formControl]="phone" required>
+                          <input matInput placeholder="{{'users.phone' | translate}}" type="text" [formControl]="phone">
                           <mat-error *ngIf="phone.hasError('pattern')">{{"users.invalid_phone_number" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -95,7 +89,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.mobile' | translate}}" type="text" [formControl]="mobile" required>
+                          <input matInput placeholder="{{'users.mobile' | translate}}" type="text" [formControl]="mobile">
                           <mat-error *ngIf="mobile.hasError('pattern')">{{"users.invalid_phone_number" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -114,7 +108,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.tag_ids' | translate}}" type="text" [formControl]="tagIDs" required>
+                          <input matInput placeholder="{{'users.tag_ids' | translate}}" type="text" [formControl]="tagIDs">
                           <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
                           <mat-error *ngIf="tagIDs.hasError('pattern')">{{"users.invalid_tag_ids" | translate}}</mat-error>
                         </mat-form-field>
@@ -149,28 +143,47 @@
                   <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
                 </div>
                 <div class="tab-pane" id="password">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <mat-form-field>
-                        <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
-                        <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
-                        <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
-                      </mat-form-field>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
+                          <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                          <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
+                          <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <mat-form-field>
-                        <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}" [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword" [errorStateMatcher]="parentErrorStateMatcher">
-                        <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        <mat-error *ngIf="repeatPassword.value && passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>
-                      </mat-form-field>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}" [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword" [errorStateMatcher]="parentErrorStateMatcher">
+                          <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                          <mat-error *ngIf="passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="tab-pane" id="miscs">
-                  Miscs
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.inumber' | translate}}" type="text" [formControl]="iNumber">
+                          <mat-error *ngIf="iNumber.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput placeholder="{{'users.cost_center' | translate}}" type="text" [formControl]="costCenter">
+                          <mat-error *ngIf="costCenter.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>

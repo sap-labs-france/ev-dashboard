@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import { AuthorizationService } from '../../service/authorization-service';
 import { MessageService } from '../../service/message.service';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import 'rxjs/add/operator/mergeMap';
 
 @Component({
@@ -17,6 +18,7 @@ import 'rxjs/add/operator/mergeMap';
     templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
+    public parentErrorStateMatcher = new ParentErrorStateMatcher();
     private messages;
     public userStatuses;
     public userRoles;
@@ -56,16 +58,16 @@ export class UserComponent implements OnInit {
     public repeatPassword: AbstractControl;
 
     constructor(
-        private authorizationService: AuthorizationService,
-        private centralServerService: CentralServerService,
-        private messageService: MessageService,
-        private spinnerService: SpinnerService,
-        private translateService: TranslateService,
-        private localeService: LocaleService,
-        private activatedRoute: ActivatedRoute,
-        private router: Router) {
+            private authorizationService: AuthorizationService,
+            private centralServerService: CentralServerService,
+            private messageService: MessageService,
+            private spinnerService: SpinnerService,
+            private translateService: TranslateService,
+            private localeService: LocaleService,
+            private activatedRoute: ActivatedRoute,
+            private router: Router) {
         // Check auth
-        if (!this.activatedRoute.snapshot.params['id'] || 
+        if (!this.activatedRoute.snapshot.params['id'] ||
             !authorizationService.canUpdateUser({ 'id': this.activatedRoute.snapshot.params['id'] })) {
             // Not authorized
             this.router.navigate(['/']);
@@ -315,6 +317,9 @@ export class UserComponent implements OnInit {
             if (user.address && user.address.longitude) {
                 this.address.controls.longitude.setValue(user.address.longitude);
             }
+            // Reset password
+            this.passwords.controls.password.setValue('');
+            this.passwords.controls.repeatPassword.setValue('');
             // Yes, get image
             return this.centralServerService.getUserImage(this.activatedRoute.snapshot.params['id']);
         }).subscribe((userImage) => {
@@ -352,54 +357,55 @@ export class UserComponent implements OnInit {
         // Set the image
         this.image = jQuery('.fileinput-preview img')[0]['src'];
         // Check no user?
-        if (this.image.endsWith(Users.USER_NO_PICTURE)) {
-            this.image = null;
+        if (!this.image.endsWith(Users.USER_NO_PICTURE)) {
+            // Set to user
+            user.image = this.image;
+        } else {
+            // No image
+            user.image = null;
         }
-        // Set to user
-        user.image = this.image;
     }
 
     saveUser(user) {
-        console.log('====================================');
-        console.log(user);
-        console.log('====================================');
-        // // Show
-        // this.spinnerService.show();
-        // // Set the image
-        // this.updateUserImage(user);
-        // // Yes: Update
-        // this.centralServerService.updateUser(user).subscribe(response => {
-        //     // Hide
-        //     this.spinnerService.hide();
-        //     // Ok?
-        //     if (response.status === 'Success') {
-        //         // Ok
-        //         this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
-        //             { 'userFullName': user.firstName + ' ' + user.name }));
-        //     } else {
-        //         Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
-        //     }
-        // }, (error) => {
-        //     // Hide
-        //     this.spinnerService.hide();
-        //     // Check status
-        //     switch (error.status) {
-        //         // Email already exists
-        //         case 510:
-        //             // Show error
-        //             this.messageService.showErrorMessage(
-        //                 this.translateService.instant('authentication.email_already_exists'));
-        //             break;
-        //         // User deleted
-        //         case 550:
-        //             // Show error
-        //             this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
-        //             break;
-        //         default:
-        //             // No longer exists!
-        //             Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
-        //     }
-        // });
+        // Show
+        this.spinnerService.show();
+        // Set the image
+        this.updateUserImage(user);
+        // Yes: Update
+        this.centralServerService.updateUser(user).subscribe(response => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === 'Success') {
+                // Ok
+                this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
+                    { 'userFullName': user.firstName + ' ' + user.name }));
+                // Refresh
+                this.refresh();
+            } else {
+                Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
+            }
+        }, (error) => {
+            // Hide
+            this.spinnerService.hide();
+            // Check status
+            switch (error.status) {
+                // Email already exists
+                case 510:
+                    // Show error
+                    this.messageService.showErrorMessage(
+                        this.translateService.instant('authentication.email_already_exists'));
+                    break;
+                // User deleted
+                case 550:
+                    // Show error
+                    this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+                    break;
+                default:
+                    // No longer exists!
+                    Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
+            }
+        });
     }
 
     clearImage() {

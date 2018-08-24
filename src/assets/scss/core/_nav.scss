@@ -34,5 +34,9 @@
 .nav {
   .nav-item {
     position: relative;
+    @media screen and (max-width: $res375) {
+      width: 100%;
+      text-align: left;
+    }
   }
 }

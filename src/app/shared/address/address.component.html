@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="setAddress($event)"
+          placeholder="{{'general.address1' | translate}}" type="text" [formControl]="address1">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.address2' | translate}}" type="text" [formControl]="address2">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.postal_code' | translate}}" type="text" [formControl]="postalCode">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.city' | translate}}" type="text" [formControl]="city">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.department' | translate}}" type="text" [formControl]="department">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.region' | translate}}" type="text" [formControl]="region">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.country' | translate}}" type="text" [formControl]="country">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude">
+        <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
+        <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-6 text-left">
+    <button class="btn btn-info mat-raised-button" (click)="showPlace()" type="button" [disabled]="latitude.errors || longitude.errors">
+      <span class="mat-button-wrapper">
+        <i class="material-icons">location_on</i>
+        <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.show_place' | translate}}</span> 
+      </span>
+    </button>
+  </div>
+</div>

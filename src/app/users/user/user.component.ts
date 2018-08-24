@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +18,6 @@ import 'rxjs/add/operator/mergeMap';
 })
 export class UserComponent implements OnInit {
     private messages;
-    private updateMode;
     public userStatuses;
     public userRoles;
     public userLocales;
@@ -63,31 +62,22 @@ export class UserComponent implements OnInit {
         private localeService: LocaleService,
         private activatedRoute: ActivatedRoute,
         private router: Router) {
+        // Check auth
+        if (!this.activatedRoute.snapshot.params['id'] || 
+            !authorizationService.canUpdateUser({ 'id': this.activatedRoute.snapshot.params['id'] })) {
+            // Not authorized
+            this.router.navigate(['/']);
+        }
         // Get translated messages
         this.translateService.get('users', {}).subscribe((messages) => {
             this.messages = messages;
         });
-        this.updateMode = (this.activatedRoute.snapshot.params['id'] ? true : false);
         // Get statuses
         this.userStatuses = this.centralServerService.getUserStatuses();
         // Get Roles
         this.userRoles = this.centralServerService.getUserRoles();
         // Get Locales
         this.userLocales = this.localeService.getLocales();
-        // Check auth
-        if (this.updateMode) {
-            // Check auth on Update
-            if (!authorizationService.canUpdateUser({ 'id': this.activatedRoute.snapshot.params['id'] })) {
-                // Not authorize
-                this.router.navigate(['/']);
-            }
-        } else {
-            // Check auth on Create
-            if (!authorizationService.canCreateUser()) {
-                // Not authorized
-                this.router.navigate(['/']);
-            }
-        }
         // Admin?
         this.isAdmin = this.authorizationService.isAdmin();
     }
@@ -254,109 +244,106 @@ export class UserComponent implements OnInit {
     }
 
     loadUser() {
-        // Get the Charger?
-        if (this.updateMode) {
-            // Show spinner
-            this.spinnerService.show();
-            // Yes, get it
-            this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
-                // Init form
-                if (user.id) {
-                    this.formGroup.controls.id.setValue(user.id);
-                }
-                if (user.name) {
-                    this.formGroup.controls.name.setValue(user.name);
-                }
-                if (user.firstName) {
-                    this.formGroup.controls.firstName.setValue(user.firstName);
-                }
-                if (user.email) {
-                    this.formGroup.controls.email.setValue(user.email);
-                    this.originalEmail = user.email;
-                }
-                if (user.phone) {
-                    this.formGroup.controls.phone.setValue(user.phone);
-                }
-                if (user.mobile) {
-                    this.formGroup.controls.mobile.setValue(user.mobile);
-                }
-                if (user.iNumber) {
-                    this.formGroup.controls.iNumber.setValue(user.iNumber);
-                }
-                if (user.costCenter) {
-                    this.formGroup.controls.costCenter.setValue(user.costCenter);
-                }
-                if (user.status) {
-                    this.formGroup.controls.status.setValue(user.status);
-                }
-                if (user.role) {
-                    this.formGroup.controls.role.setValue(user.role);
-                }
-                if (user.locale) {
-                    this.formGroup.controls.locale.setValue(user.locale);
-                }
-                if (user.tagIDs) {
-                    this.formGroup.controls.tagIDs.setValue(user.tagIDs);
-                }
-                if (user.address && user.address.address1) {
-                    this.address.controls.address1.setValue(user.address.address1);
-                }
-                if (user.address && user.address.address2) {
-                    this.address.controls.address2.setValue(user.address.address2);
-                }
-                if (user.address && user.address.postalCode) {
-                    this.address.controls.postalCode.setValue(user.address.postalCode);
-                }
-                if (user.address && user.address.city) {
-                    this.address.controls.city.setValue(user.address.city);
-                }
-                if (user.address && user.address.department) {
-                    this.address.controls.department.setValue(user.address.department);
-                }
-                if (user.address && user.address.region) {
-                    this.address.controls.region.setValue(user.address.region);
-                }
-                if (user.address && user.address.country) {
-                    this.address.controls.country.setValue(user.address.country);
-                }
-                if (user.address && user.address.latitude) {
-                    this.address.controls.latitude.setValue(user.address.latitude);
-                }
-                if (user.address && user.address.longitude) {
-                    this.address.controls.longitude.setValue(user.address.longitude);
-                }
-                // Yes, get image
-                return this.centralServerService.getUserImage(this.activatedRoute.snapshot.params['id']);
-            }).subscribe((userImage) => {
-                if (userImage && userImage.image) {
-                    this.image = userImage.image.toString();
-                }
-                // Hide
-                this.spinnerService.hide();
-            }, (error) => {
-                // Hide
-                this.spinnerService.hide();
-                // Handle error
-                switch (error.status) {
-                    // Server not responding
-                    case 0:
-                        // Report the error
-                        this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
-                        break;
+        // Show spinner
+        this.spinnerService.show();
+        // Yes, get it
+        this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
+            // Init form
+            if (user.id) {
+                this.formGroup.controls.id.setValue(user.id);
+            }
+            if (user.name) {
+                this.formGroup.controls.name.setValue(user.name);
+            }
+            if (user.firstName) {
+                this.formGroup.controls.firstName.setValue(user.firstName);
+            }
+            if (user.email) {
+                this.formGroup.controls.email.setValue(user.email);
+                this.originalEmail = user.email;
+            }
+            if (user.phone) {
+                this.formGroup.controls.phone.setValue(user.phone);
+            }
+            if (user.mobile) {
+                this.formGroup.controls.mobile.setValue(user.mobile);
+            }
+            if (user.iNumber) {
+                this.formGroup.controls.iNumber.setValue(user.iNumber);
+            }
+            if (user.costCenter) {
+                this.formGroup.controls.costCenter.setValue(user.costCenter);
+            }
+            if (user.status) {
+                this.formGroup.controls.status.setValue(user.status);
+            }
+            if (user.role) {
+                this.formGroup.controls.role.setValue(user.role);
+            }
+            if (user.locale) {
+                this.formGroup.controls.locale.setValue(user.locale);
+            }
+            if (user.tagIDs) {
+                this.formGroup.controls.tagIDs.setValue(user.tagIDs);
+            }
+            if (user.address && user.address.address1) {
+                this.address.controls.address1.setValue(user.address.address1);
+            }
+            if (user.address && user.address.address2) {
+                this.address.controls.address2.setValue(user.address.address2);
+            }
+            if (user.address && user.address.postalCode) {
+                this.address.controls.postalCode.setValue(user.address.postalCode);
+            }
+            if (user.address && user.address.city) {
+                this.address.controls.city.setValue(user.address.city);
+            }
+            if (user.address && user.address.department) {
+                this.address.controls.department.setValue(user.address.department);
+            }
+            if (user.address && user.address.region) {
+                this.address.controls.region.setValue(user.address.region);
+            }
+            if (user.address && user.address.country) {
+                this.address.controls.country.setValue(user.address.country);
+            }
+            if (user.address && user.address.latitude) {
+                this.address.controls.latitude.setValue(user.address.latitude);
+            }
+            if (user.address && user.address.longitude) {
+                this.address.controls.longitude.setValue(user.address.longitude);
+            }
+            // Yes, get image
+            return this.centralServerService.getUserImage(this.activatedRoute.snapshot.params['id']);
+        }).subscribe((userImage) => {
+            if (userImage && userImage.image) {
+                this.image = userImage.image.toString();
+            }
+            // Hide
+            this.spinnerService.hide();
+        }, (error) => {
+            // Hide
+            this.spinnerService.hide();
+            // Handle error
+            switch (error.status) {
+                // Server not responding
+                case 0:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+                    break;
 
-                    // Not found
-                    case 550:
-                        // Transaction not found`
-                        Utils.handleHttpError(error, this.router, this.messageService,
-                            this.messages['user_not_found']);
-                        break;
-                    default:
-                        // Unexpected error`
-                        Utils.handleHttpError(error, this.router, this.messageService,
-                            this.translateService.instant('general.unexpected_error_backend'));
-                }
-            });
-        }
+                // Not found
+                case 550:
+                    // Transaction not found`
+                    Utils.handleHttpError(error, this.router, this.messageService,
+                        this.messages['user_not_found']);
+                    break;
+                default:
+                    // Unexpected error`
+                    Utils.handleHttpError(error, this.router, this.messageService,
+                        this.translateService.instant('general.unexpected_error_backend'));
+            }
+        });
     }
 
     updateUserImage(user) {
@@ -371,43 +358,46 @@ export class UserComponent implements OnInit {
     }
 
     saveUser(user) {
-        // Show
-        this.spinnerService.show();
-        // Set the image
-        this.updateUserImage(user);
-        // Yes: Update
-        this.centralServerService.updateUser(user).subscribe(response => {
-            // Hide
-            this.spinnerService.hide();
-            // Ok?
-            if (response.status === 'Success') {
-                // Ok
-                this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
-                    { 'userFullName': user.firstName + ' ' + user.name }));
-            } else {
-                Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
-            }
-        }, (error) => {
-            // Hide
-            this.spinnerService.hide();
-            // Check status
-            switch (error.status) {
-                // Email already exists
-                case 510:
-                    // Show error
-                    this.messageService.showErrorMessage(
-                        this.translateService.instant('authentication.email_already_exists'));
-                    break;
-                // User deleted
-                case 550:
-                    // Show error
-                    this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
-                    break;
-                default:
-                    // No longer exists!
-                    Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
-            }
-        });
+        console.log('====================================');
+        console.log(user);
+        console.log('====================================');
+        // // Show
+        // this.spinnerService.show();
+        // // Set the image
+        // this.updateUserImage(user);
+        // // Yes: Update
+        // this.centralServerService.updateUser(user).subscribe(response => {
+        //     // Hide
+        //     this.spinnerService.hide();
+        //     // Ok?
+        //     if (response.status === 'Success') {
+        //         // Ok
+        //         this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
+        //             { 'userFullName': user.firstName + ' ' + user.name }));
+        //     } else {
+        //         Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
+        //     }
+        // }, (error) => {
+        //     // Hide
+        //     this.spinnerService.hide();
+        //     // Check status
+        //     switch (error.status) {
+        //         // Email already exists
+        //         case 510:
+        //             // Show error
+        //             this.messageService.showErrorMessage(
+        //                 this.translateService.instant('authentication.email_already_exists'));
+        //             break;
+        //         // User deleted
+        //         case 550:
+        //             // Show error
+        //             this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+        //             break;
+        //         default:
+        //             // No longer exists!
+        //             Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
+        //     }
+        // });
     }
 
     clearImage() {

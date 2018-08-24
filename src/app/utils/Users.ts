@@ -39,17 +39,15 @@ export class Users {
       // Ok
       return null;
     }
-
     return { invalidPassword: true };
   }
 
   public static passwordWithNoSpace(control: AbstractControl) {
     // Check
-    if (!control.value || /^[^\s].+[^\s]$/.test(control.value)) {
+    if (!control.value || (!control.value.startsWith(' ') && !control.value.endsWith(' '))) {
       // Ok
       return null;
     }
-
     return { noSpace: true };
   }
 }

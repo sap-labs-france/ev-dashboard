@@ -24,6 +24,8 @@ export class UserComponent implements OnInit {
     public isAdmin;
     public originalEmail;
     public image = Users.USER_NO_PICTURE;
+    public hideRepeatPassword = true;
+    public hidePassword = true;
 
     public formGroup: FormGroup;
     public id: AbstractControl;
@@ -155,12 +157,12 @@ export class UserComponent implements OnInit {
             'passwords': new FormGroup({
                 'password': new FormControl('',
                     Validators.compose([
-                        Validators.required,
+                        Users.passwordWithNoSpace,
                         Users.validatePassword
                     ])),
                 'repeatPassword': new FormControl('',
                     Validators.compose([
-                        Validators.required
+                        Users.validatePassword
                     ])),
             }, (passwordFormGroup: FormGroup) => {
                 return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');

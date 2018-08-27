@@ -155,7 +155,7 @@ export class CentralServerService {
     return this.subjectLogging.asObservable();
   }
 
-  buildHeaderOptions() {
+  buildHeaders() {
     const header = {
       'Content-Type': 'application/json',
     };
@@ -164,9 +164,7 @@ export class CentralServerService {
       header['Authorization'] = 'Bearer ' + this.getCurrentUserToken();
     }
     // Build Header
-    const headers = new Headers(header);
-    // Build Request Option
-    return new RequestOptions({ headers: headers });
+    return new Headers(header);
   }
 
   initSocketIO() {
@@ -304,7 +302,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Companies?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -321,7 +319,7 @@ export class CentralServerService {
     queryString = filters.join('&');
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Company?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -345,7 +343,7 @@ export class CentralServerService {
     queryString = filters.join('&');
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/IsAuthorized?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -355,7 +353,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/CompanyLogos`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -365,7 +363,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/CompanyLogo?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -375,7 +373,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/CompanyDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -385,7 +383,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/CompanyUpdate`,
-      company, this.buildHeaderOptions())
+      company, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -395,19 +393,23 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/CompanyCreate`,
-      company, this.buildHeaderOptions())
+      company, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getSites(searchValue = null, withCompany = false, withSiteAreas = false, withChargeBoxes = false): Observable<Site[]> {
+  getSites(searchValue = null, userID = null, withCompany = false, withSiteAreas = false, withChargeBoxes = false): Observable<Site[]> {
     // Verify init
     this._checkInit();
     // Set filter
     const filters = [];
     let queryString = '';
+    // Set Values
     if (searchValue) {
       filters.push(`Search=${searchValue}`);
+    }
+    if (userID) {
+      filters.push(`UserID=${userID}`);
     }
     // Site Areas
     if (withSiteAreas) {
@@ -428,7 +430,7 @@ export class CentralServerService {
     // Execute the REST service
     return this.http.get(
       `${this.centralServerRESTServiceSecuredURL}/Sites?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -449,7 +451,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Site?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -459,7 +461,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteImages`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -469,7 +471,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteImage?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -479,7 +481,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/SiteDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -489,7 +491,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/SiteUpdate`,
-      site, this.buildHeaderOptions())
+      site, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -504,7 +506,7 @@ export class CentralServerService {
         'numberOfConnectedPhase': chargingStation.numberOfConnectedPhase,
         'chargingStationURL': chargingStation.chargingStationURL
       },
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -514,7 +516,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/SiteCreate`,
-      site, this.buildHeaderOptions())
+      site, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -534,7 +536,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreas?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -544,7 +546,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteArea?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -554,7 +556,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreaImages`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -564,7 +566,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreaImage?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -574,7 +576,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -584,7 +586,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/SiteAreaUpdate`,
-      siteArea, this.buildHeaderOptions())
+      siteArea, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -594,7 +596,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/SiteAreaCreate`,
-      siteArea, this.buildHeaderOptions())
+      siteArea, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -617,7 +619,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Users?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -627,7 +629,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserImages`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -637,7 +639,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserImage?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -647,7 +649,9 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/User?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({
+        headers: this.buildHeaders()
+      }))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -657,7 +661,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Pricing`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -667,7 +671,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionYears`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -687,7 +691,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/PricingUpdate`,
-      pricing, this.buildHeaderOptions())
+      pricing, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -743,7 +747,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Vehicles?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -753,7 +757,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Vehicle?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -763,7 +767,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleImages`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -773,7 +777,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleImage?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -783,7 +787,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/VehicleDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -797,7 +801,7 @@ export class CentralServerService {
     }
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/VehicleUpdate`,
-      vehicle, this.buildHeaderOptions())
+      vehicle, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -807,7 +811,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/VehicleCreate`,
-      vehicle, this.buildHeaderOptions())
+      vehicle, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -835,7 +839,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturers?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -845,7 +849,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturer?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -855,7 +859,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerLogos`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -865,7 +869,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerLogo?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -875,7 +879,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -885,7 +889,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerUpdate`,
-      vehicleManufacturer, this.buildHeaderOptions())
+      vehicleManufacturer, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -895,7 +899,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerCreate`,
-      vehicleManufacturer, this.buildHeaderOptions())
+      vehicleManufacturer, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -958,7 +962,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceAuthURL}/Login`, user, this.buildHeaderOptions())
+    return this.http.post(`${this.centralServerRESTServiceAuthURL}/Login`, user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1031,7 +1035,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceAuthURL}/Logout`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1059,7 +1063,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceAuthURL}/Reset`,
-      data, this.buildHeaderOptions())
+      data, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1069,7 +1073,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceAuthURL}/RegisterUser`,
-      user, this.buildHeaderOptions())
+      user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1088,7 +1092,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/UserCreate`,
-      user, this.buildHeaderOptions())
+      user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1098,7 +1102,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL}/UserUpdate`,
-      user, this.buildHeaderOptions())
+      user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1109,7 +1113,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/UserDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1120,7 +1124,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1159,7 +1163,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Loggings?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1202,7 +1206,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionsCompleted?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1224,7 +1228,7 @@ export class CentralServerService {
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionsActive` +
       (queryString.length > 0 ? '?' + queryString : ''),
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1238,7 +1242,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConsumptionStatistics?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1252,7 +1256,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationUsageStatistics?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1266,7 +1270,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserConsumptionStatistics?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1280,7 +1284,7 @@ export class CentralServerService {
     }
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserUsageStatistics?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1309,7 +1313,7 @@ export class CentralServerService {
       queryString += `&EndDateTime=${endDateTime}`;
     }
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationTransactions?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1321,7 +1325,7 @@ export class CentralServerService {
     const queryString = `ID=${id}`;
     // Call
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Transaction?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1343,7 +1347,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStations${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1353,7 +1357,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStation?ID=${chargeBoxID}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1364,7 +1368,7 @@ export class CentralServerService {
     // Execute the REST service
     const queryString = `ChargeBoxID=${chargeBoxID}`;
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConfiguration?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1380,7 +1384,7 @@ export class CentralServerService {
             "maxIntensity": "${maxIntensity}"
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1397,7 +1401,7 @@ export class CentralServerService {
             "value": "${value}"
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1416,7 +1420,7 @@ export class CentralServerService {
       queryString += '&StartDateTime=' + startDateTime;
     }
     return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConsumptionFromTransaction?${queryString}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1432,7 +1436,7 @@ export class CentralServerService {
             "type": "${type}"
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1448,7 +1452,7 @@ export class CentralServerService {
             "tagID": "${tagID}"
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1464,7 +1468,7 @@ export class CentralServerService {
             "transactionId": ${transactionId}
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1475,7 +1479,7 @@ export class CentralServerService {
     // Execute
     return this.http.put(`${this.centralServerRESTServiceSecuredURL.toString()}/TransactionSoftStop`,
       `{ "transactionId": "${transactionId}" }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1486,7 +1490,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/TransactionDelete?ID=${id}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1497,7 +1501,7 @@ export class CentralServerService {
     // Execute
     return this.http.post(`${this.centralServerRESTServiceSecuredURL}/TransactionRefund`,
       { 'id': id },
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1513,7 +1517,7 @@ export class CentralServerService {
             "transactionId": ${transactionId}
           }
         }`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1526,7 +1530,7 @@ export class CentralServerService {
 				{
 					"chargeBoxID": "${chargeBoxID}"
 				}`,
-      this.buildHeaderOptions())
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }

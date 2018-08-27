@@ -8,10 +8,14 @@ import { CentralServerService } from '../../service/central-server.service';
 import { SpinnerService } from '../../service/spinner.service';
 import { AuthorizationService } from '../../service/authorization-service';
 import { MessageService } from '../../service/message.service';
+import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
-import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import 'rxjs/add/operator/mergeMap';
+import { DataSource } from '@angular/cdk/table';
+import { Site } from '../../model/site';
+import { CollectionViewer } from '@angular/cdk/collections';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-user-cmp',
@@ -28,6 +32,7 @@ export class UserComponent implements OnInit {
     public image = Users.USER_NO_PICTURE;
     public hideRepeatPassword = true;
     public hidePassword = true;
+    public siteDataSource: SiteDataSource;
 
     public formGroup: FormGroup;
     public id: AbstractControl;
@@ -84,6 +89,12 @@ export class UserComponent implements OnInit {
         this.userLocales = this.localeService.getLocales();
         // Admin?
         this.isAdmin = this.authorizationService.isAdmin();
+        // Create table data source
+        this.siteDataSource = new SiteDataSource(
+            this.messageService,
+            this.translateService,
+            this.router,
+            this.centralServerService);
     }
 
     ngOnInit() {
@@ -412,3 +423,49 @@ export class UserComponent implements OnInit {
         jQuery('.fileinput-preview img')[0]['src'] = Users.USER_NO_PICTURE;
     }
 }
+
+class SiteDataSource implements DataSource<Site> {
+    private sitesSubject = new BehaviorSubject<Site[]>([]);
+
+    constructor(
+        private messageService: MessageService,
+        private translateService: TranslateService,
+        private router: Router,
+        private centralServerService: CentralServerService) {
+    }
+
+    connect(collectionViewer: CollectionViewer): Observable<Site[]> {
+        return this.sitesSubject.asObservable();
+    }
+
+    disconnect(collectionViewer: CollectionViewer): void {
+        this.sitesSubject.complete();
+    }
+
+    load(params) {
+        console.log('====================================');
+        console.log(params);
+        console.log('====================================');
+        // Get data
+        this.centralServerService.getSites().subscribe((sites) =>  {
+            // Return sites
+            this.sitesSubject.next(sites);
+        }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
+        });
+    }
+
+    getColumnsDefs() {
+        // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+        return [
+            { id: 'id', name: 'ID', sorted: true, order: 'asc' },
+            { id: 'name', name: 'Name' }
+        ];
+    }
+
+    getPaginatorPageSizes() {
+        return [1, 5, 10, 25, 100];
+    }
+}
+

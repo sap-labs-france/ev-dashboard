@@ -10,6 +10,7 @@ import { AutofocusDirective } from '../directives/auto-focus.directive';
 import { UserComponent } from './user/user.component';
 import { UserRoutes } from './users.routing';
 import { AddressComponent } from '../shared/address/address.component';
+import { TableComponent } from '../shared/table/table.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { AddressComponent } from '../shared/address/address.component';
     declarations: [
         UserComponent,
         AddressComponent,
+        TableComponent,
         AutofocusDirective
     ]
 })

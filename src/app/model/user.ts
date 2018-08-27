@@ -29,4 +29,5 @@ export class User {
   role: String;
   locale: String;
   auths: any;
+  numberOfSites: number;
 }

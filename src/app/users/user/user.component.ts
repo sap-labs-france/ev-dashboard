@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { SpinnerService } from '../../service/spinner.service';
 import { AuthorizationService } from '../../service/authorization-service';
 import { MessageService } from '../../service/message.service';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
+import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 import 'rxjs/add/operator/mergeMap';
@@ -16,12 +17,15 @@ import { DataSource } from '@angular/cdk/table';
 import { Site } from '../../model/site';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { User } from '../../model/user';
+import { TableComponent } from '../../shared/table/table.component';
 
 @Component({
     selector: 'app-user-cmp',
     templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
+    @ViewChild('siteTable') siteTable: TableComponent;
     public parentErrorStateMatcher = new ParentErrorStateMatcher();
     private messages;
     public userStatuses;
@@ -29,7 +33,7 @@ export class UserComponent implements OnInit {
     public userLocales;
     public isAdmin;
     public originalEmail;
-    public image = Users.USER_NO_PICTURE;
+    public image = Constants.USER_NO_PICTURE;
     public hideRepeatPassword = true;
     public hidePassword = true;
     public siteDataSource: SiteDataSource;
@@ -134,11 +138,11 @@ export class UserComponent implements OnInit {
                 Validators.compose([
                     Validators.pattern('^[0-9]*$')
                 ])),
-            'status': new FormControl(Users.USER_STATUS_ACTIVE,
+            'status': new FormControl(Constants.USER_STATUS_ACTIVE,
                 Validators.compose([
                     Validators.required
                 ])),
-            'role': new FormControl(Users.USER_ROLE_BASIC,
+            'role': new FormControl(Constants.USER_ROLE_BASIC,
                 Validators.compose([
                     Validators.required
                 ])),
@@ -263,6 +267,10 @@ export class UserComponent implements OnInit {
         this.spinnerService.show();
         // Yes, get it
         this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
+            // Set user
+            this.siteDataSource.setUser(user);
+            // Reload the table
+            this.siteTable.loadData();
             // Init form
             if (user.id) {
                 this.formGroup.controls.id.setValue(user.id);
@@ -368,7 +376,7 @@ export class UserComponent implements OnInit {
         // Set the image
         this.image = jQuery('.fileinput-preview img')[0]['src'];
         // Check no user?
-        if (!this.image.endsWith(Users.USER_NO_PICTURE)) {
+        if (!this.image.endsWith(Constants.USER_NO_PICTURE)) {
             // Set to user
             user.image = this.image;
         } else {
@@ -420,12 +428,13 @@ export class UserComponent implements OnInit {
     }
 
     clearImage() {
-        jQuery('.fileinput-preview img')[0]['src'] = Users.USER_NO_PICTURE;
+        jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
     }
 }
 
 class SiteDataSource implements DataSource<Site> {
     private sitesSubject = new BehaviorSubject<Site[]>([]);
+    private user: User;
 
     constructor(
         private messageService: MessageService,
@@ -446,14 +455,25 @@ class SiteDataSource implements DataSource<Site> {
         console.log('====================================');
         console.log(params);
         console.log('====================================');
-        // Get data
-        this.centralServerService.getSites().subscribe((sites) =>  {
+        // User provided?
+        if (this.user) {
+            // Yes: Get data
+            this.centralServerService.getSites({
+                searchValue: params.search
+            }, {
+                skip: params.pageIndex * params.pageSize,
+                limit: params.pageSize
+            }).subscribe((sites) =>  {
+                // Return sites
+                this.sitesSubject.next(sites);
+            }, (error) => {
+                // No longer exists!
+                Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
+            });
+        } else {
             // Return sites
-            this.sitesSubject.next(sites);
-        }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
-        });
+            this.sitesSubject.next([]);
+        }
     }
 
     getColumnsDefs() {
@@ -466,6 +486,19 @@ class SiteDataSource implements DataSource<Site> {
 
     getPaginatorPageSizes() {
         return [1, 5, 10, 25, 100];
+    }
+
+    setUser(user: User) {
+        // Set user
+        this.user = user;
+    }
+
+    getNumberOfRecords(): number {
+        // Check
+        if (!this.user) {
+            return 0;
+        }
+        return this.user.numberOfSites;
     }
 }
 

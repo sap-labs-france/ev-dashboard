@@ -3,6 +3,7 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 
 export class Utils {
+
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
     const field1: FormControl = <FormControl>formGroup.controls[firstField];
     const field2: FormControl = <FormControl>formGroup.controls[secondField];

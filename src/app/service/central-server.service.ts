@@ -22,12 +22,13 @@ import { ChargerConsumption } from '../model/charger-consumption';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
 import * as io from 'socket.io-client';
-import { Authorizations } from '../utils/Authorizations';
+import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+import { Paging } from '../model/paging';
 
 @Injectable()
 export class CentralServerService {
@@ -174,103 +175,103 @@ export class CentralServerService {
       this.socket = io(this.centralServerRESTServiceBaseURL);
 
       // Monitor Companies`
-      this.socket.on(Authorizations.ENTITY_COMPANIES, () => {
+      this.socket.on(Constants.ENTITY_COMPANIES, () => {
         // Notify
         this.subjectCompanies.next();
       });
 
       // Monitor Company
-      this.socket.on(Authorizations.ENTITY_COMPANY, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_COMPANY, (notifInfo) => {
         // Notify
         this.subjectCompany.next(notifInfo);
       });
 
       // Monitor Sites
-      this.socket.on(Authorizations.ENTITY_SITES, () => {
+      this.socket.on(Constants.ENTITY_SITES, () => {
         // Notify
         this.subjectSites.next();
       });
 
       // Monitor Site
-      this.socket.on(Authorizations.ENTITY_SITE, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_SITE, (notifInfo) => {
         // Notify
         this.subjectSite.next(notifInfo);
       });
 
       // Monitor Site Areas
-      this.socket.on(Authorizations.ENTITY_SITE_AREAS, () => {
+      this.socket.on(Constants.ENTITY_SITE_AREAS, () => {
         // Notify
         this.subjectSiteAreas.next();
       });
 
       // Monitor Site Area
-      this.socket.on(Authorizations.ENTITY_SITE_AREA, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_SITE_AREA, (notifInfo) => {
         // Notify
         this.subjectSiteArea.next(notifInfo);
       });
 
       // Monitor Users
-      this.socket.on(Authorizations.ENTITY_USERS, () => {
+      this.socket.on(Constants.ENTITY_USERS, () => {
         // Notify
         this.subjectUsers.next();
       });
 
       // Monitor User
-      this.socket.on(Authorizations.ENTITY_USER, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_USER, (notifInfo) => {
         // Notify
         this.subjectUser.next(notifInfo);
       });
 
       // Monitor Vehicles
-      this.socket.on(Authorizations.ENTITY_VEHICLES, () => {
+      this.socket.on(Constants.ENTITY_VEHICLES, () => {
         // Notify
         this.subjectVehicles.next();
       });
 
       // Monitor Vehicle
-      this.socket.on(Authorizations.ENTITY_VEHICLE, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_VEHICLE, (notifInfo) => {
         // Notify
         this.subjectVehicle.next(notifInfo);
       });
 
       // Monitor Vehicle Manufacturers
-      this.socket.on(Authorizations.ENTITY_VEHICLE_MANUFACTURERS, () => {
+      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURERS, () => {
         // Notify
         this.subjectVehicleManufacturers.next();
       });
 
       // Monitor Vehicle Manufacturer
-      this.socket.on(Authorizations.ENTITY_VEHICLE_MANUFACTURER, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURER, (notifInfo) => {
         // Notify
         this.subjectVehicleManufacturer.next(notifInfo);
       });
 
       // Monitor Transactions
-      this.socket.on(Authorizations.ENTITY_TRANSACTIONS, () => {
+      this.socket.on(Constants.ENTITY_TRANSACTIONS, () => {
         // Notify
         this.subjectTransactions.next();
       });
 
       // Monitor Transaction
-      this.socket.on(Authorizations.ENTITY_TRANSACTION, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_TRANSACTION, (notifInfo) => {
         // Notify
         this.subjectTransaction.next(notifInfo);
       });
 
       // Monitor Charging Stations
-      this.socket.on(Authorizations.ENTITY_CHARGING_STATIONS, () => {
+      this.socket.on(Constants.ENTITY_CHARGING_STATIONS, () => {
         // Notify
         this.subjectChargingStations.next();
       });
 
       // Monitor Charging Station
-      this.socket.on(Authorizations.ENTITY_CHARGING_STATION, (notifInfo) => {
+      this.socket.on(Constants.ENTITY_CHARGING_STATION, (notifInfo) => {
         // Notify
         this.subjectChargingStation.next(notifInfo);
       });
 
       // Monitor Logging
-      this.socket.on(Authorizations.ENTITY_LOGGING, () => {
+      this.socket.on(Constants.ENTITY_LOGGING, () => {
         // Notify
         this.subjectLogging.next();
       });
@@ -284,6 +285,17 @@ export class CentralServerService {
       this.socket.disconnect();
       // Clear
       this.socket = null;
+    }
+  }
+
+  buildPaging(paging: Paging, filters) {
+    // Limit
+    if (paging.limit) {
+      filters.push(`Limit=${paging.limit}`);
+    }
+    // Skip
+    if (paging.skip) {
+      filters.push(`Skip=${paging.skip}`);
     }
   }
 
@@ -397,32 +409,37 @@ export class CentralServerService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-
-  getSites(searchValue = null, userID = null, withCompany = false, withSiteAreas = false, withChargeBoxes = false): Observable<Site[]> {
+  /*
+  searchValue = null, userID = null, withCompany = false, withSiteAreas = false,
+      withChargeBoxes = false, limit = Constants.DEFAULT_LIMIT, skip =  Constants.DEFAULT_SKIP
+  */
+  getSites(params, paging: Paging = Constants.DEFAULT_PAGING): Observable<Site[]> {
     // Verify init
     this._checkInit();
     // Set filter
     const filters = [];
     let queryString = '';
     // Set Values
-    if (searchValue) {
-      filters.push(`Search=${searchValue}`);
+    if (params.searchValue) {
+      filters.push(`Search=${params.searchValue}`);
     }
-    if (userID) {
-      filters.push(`UserID=${userID}`);
+    if (params.userID) {
+      filters.push(`UserID=${params.userID}`);
     }
     // Site Areas
-    if (withSiteAreas) {
-      filters.push(`WithSiteAreas=${withSiteAreas}`);
+    if (params.withSiteAreas) {
+      filters.push(`WithSiteAreas=${params.withSiteAreas}`);
     }
     // Company
-    if (withCompany) {
-      filters.push(`WithCompany=${withCompany}`);
+    if (params.withCompany) {
+      filters.push(`WithCompany=${params.withCompany}`);
     }
     // Charge Boxes
-    if (withChargeBoxes) {
-      filters.push(`WithChargeBoxes=${withChargeBoxes}`);
+    if (params.withChargeBoxes) {
+      filters.push(`WithChargeBoxes=${params.withChargeBoxes}`);
     }
+    // Build Paging
+    this.buildPaging(paging, filters);
     // Build the query string
     if (filters.length > 0) {
       queryString = filters.join('&');

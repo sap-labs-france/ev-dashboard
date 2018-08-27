@@ -4,7 +4,7 @@ import { AuthorizationService } from '../service/authorization-service';
 import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
 import { Users } from '../utils/Users';
-import { Notifications } from '../utils/Notifications';
+import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/debounceTime';
 
 declare const $: any;
@@ -43,7 +43,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: any[];
     public loggedUser;
-    public loggedUserImage = Users.USER_NO_PICTURE;
+    public loggedUserImage = Constants.USER_NO_PICTURE;
     private userSubscription;
     public isAdmin = false;
 
@@ -68,7 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             // Update user?
             if (notifInfo['data']['id'] === this.loggedUser.id) {
                 // Deleted?
-                if (notifInfo.action === Notifications.NOTIF_ACTION_DELETE) {
+                if (notifInfo.action === Constants.NOTIF_ACTION_DELETE) {
                     // Log off user
                     this.signout();
                 } else {
@@ -88,7 +88,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // Get the user's image
         this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
             // Keep
-            this.loggedUserImage = (image.image ? image.image : Users.USER_NO_PICTURE).toString();
+            this.loggedUserImage = (image.image ? image.image : Constants.USER_NO_PICTURE).toString();
         });
     }
 

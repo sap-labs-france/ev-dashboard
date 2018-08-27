@@ -20,6 +20,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public columns: string[];
   public columnNames: string[];
   public pageSizes = [];
+  public pageLength = 0;
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
 
@@ -43,12 +44,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Subscribe to search changes
     this.searchSourceSubject.debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis)
-      .distinctUntilChanged().subscribe(() => {
-        // Reset paginator
-        this.paginator.pageIndex = 0;
-        // Load data
-        this.loadData();
-      });
+        .distinctUntilChanged().subscribe(() => {
+      // Reset paginator
+      this.paginator.pageIndex = 0;
+      // Load data
+      this.loadData();
+    });
   }
 
   ngAfterViewInit() {
@@ -71,9 +72,11 @@ export class TableComponent implements OnInit, AfterViewInit {
       search: this.searchInput.nativeElement.value,
       sortField: this.sort.active,
       sortOrder: this.sort.direction,
-      pageIndex: this.paginator.pageIndex,
+      paginator: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize
     });
+    // Update page length
+    this.pageLength = Math.trunc(this.dataSource.getNumberOfRecords() / this.paginator.pageSize);
   }
 
   applyFilter(filterValue: string) {

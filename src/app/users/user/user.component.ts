@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ import { CollectionViewer } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../model/user';
 import { TableComponent } from '../../shared/table/table.component';
+import { MatSort, MatPaginator } from '@angular/material';
 
 @Component({
     selector: 'app-user-cmp',
@@ -269,8 +270,6 @@ export class UserComponent implements OnInit {
         this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
             // Set user
             this.siteDataSource.setUser(user);
-            // Reload the table
-            this.siteTable.loadData();
             // Init form
             if (user.id) {
                 this.formGroup.controls.id.setValue(user.id);
@@ -435,12 +434,27 @@ export class UserComponent implements OnInit {
 class SiteDataSource implements DataSource<Site> {
     private sitesSubject = new BehaviorSubject<Site[]>([]);
     private user: User;
+    private paginator: MatPaginator;
+    private sort: MatSort;
+    private searchInput: ElementRef;
 
     constructor(
         private messageService: MessageService,
         private translateService: TranslateService,
         private router: Router,
         private centralServerService: CentralServerService) {
+    }
+
+    setPaginator(paginator: MatPaginator) {
+        this.paginator = paginator;
+    }
+
+    setSort(sort: MatSort) {
+        this.sort = sort;
+    }
+
+    setSearchInput(searchInput: ElementRef) {
+        this.searchInput = searchInput;
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Site[]> {
@@ -451,19 +465,22 @@ class SiteDataSource implements DataSource<Site> {
         this.sitesSubject.complete();
     }
 
-    load(params) {
-        console.log('====================================');
-        console.log(params);
-        console.log('====================================');
+    load() {
+        // this.sort.active
+        // this.sort.direction
         // User provided?
         if (this.user) {
+            // Update page length
+            this.updatePaginator();
             // Yes: Get data
             this.centralServerService.getSites({
-                searchValue: params.search
-            }, {
-                skip: params.pageIndex * params.pageSize,
-                limit: params.pageSize
-            }).subscribe((sites) =>  {
+                searchValue: this.searchInput.nativeElement.value
+            }, { // Paging
+                skip: this.paginator.pageIndex * this.paginator.pageSize,
+                limit: this.paginator.pageSize
+            }, [ // Ordering
+                { field: this.sort.active, direction: this.sort.direction }
+            ]).subscribe((sites) =>  {
                 // Return sites
                 this.sitesSubject.next(sites);
             }, (error) => {
@@ -471,16 +488,22 @@ class SiteDataSource implements DataSource<Site> {
                 Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
             });
         } else {
+            // Update page length
+            this.updatePaginator();
             // Return sites
             this.sitesSubject.next([]);
         }
     }
 
-    getColumnsDefs() {
+    updatePaginator(): any {
+        this.paginator.length = Math.trunc(this.getNumberOfRecords() / this.paginator.pageSize);
+    }
+
+    getColumnDefs() {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
-            { id: 'id', name: 'ID', sorted: true, order: 'asc' },
-            { id: 'name', name: 'Name' }
+            { id: 'id', name: 'ID' },
+            { id: 'name', name: 'Name', sorted: true, direction: 'asc' }
         ];
     }
 
@@ -491,6 +514,8 @@ class SiteDataSource implements DataSource<Site> {
     setUser(user: User) {
         // Set user
         this.user = user;
+        // Reload the table
+        this.load();
     }
 
     getNumberOfRecords(): number {

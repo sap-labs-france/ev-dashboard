@@ -20,7 +20,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   public columns: string[];
   public columnNames: string[];
   public pageSizes = [];
-  public pageLength = 0;
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
 
@@ -37,11 +36,18 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Set columns
-    this.columnsDef = this.dataSource.getColumnsDefs();
-    this.columns = this.dataSource.getColumnsDefs().map( (column) => column.id);
-    this.columnNames = this.dataSource.getColumnsDefs().map( (column) => column.name);
+    this.columnsDef = this.dataSource.getColumnDefs();
+    this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
+    this.columnNames = this.dataSource.getColumnDefs().map( (column) => column.name);
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
+    // Sort
+    const columnDef = this.dataSource.getColumnDefs().find((column) => column.sorted === true);
+    if (columnDef) {
+      // Set Sorting
+      this.sort.active = columnDef.id;
+      this.sort.direction = columnDef.direction;
+    }
     // Subscribe to search changes
     this.searchSourceSubject.debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis)
         .distinctUntilChanged().subscribe(() => {
@@ -53,6 +59,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // Set Paginator
+    this.dataSource.setPaginator(this.paginator);
+    // Set Sort
+    this.dataSource.setSort(this.sort);
+    // Set Search
+    this.dataSource.setSearchInput(this.searchInput);
     // Load the data
     this.loadData();
     // Paginator changed
@@ -68,15 +80,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   loadData() {
     // Load data source
-    this.dataSource.load({
-      search: this.searchInput.nativeElement.value,
-      sortField: this.sort.active,
-      sortOrder: this.sort.direction,
-      paginator: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize
-    });
-    // Update page length
-    this.pageLength = Math.trunc(this.dataSource.getNumberOfRecords() / this.paginator.pageSize);
+    this.dataSource.load();
   }
 
   applyFilter(filterValue: string) {

@@ -29,6 +29,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 import { Paging } from '../model/paging';
+import { Ordering } from '../model/ordering';
 
 @Injectable()
 export class CentralServerService {
@@ -288,6 +289,17 @@ export class CentralServerService {
     }
   }
 
+  buildOrdering(ordering: Ordering[], filters) {
+    // Check
+    if (ordering && ordering.length) {
+      // Set
+      ordering.forEach((order) => {
+        filters.push(`SortFields=${order.field}`);
+        filters.push(`SortDirs=${order.direction}`);
+      });
+    }
+  }
+
   buildPaging(paging: Paging, filters) {
     // Limit
     if (paging.limit) {
@@ -413,7 +425,7 @@ export class CentralServerService {
   searchValue = null, userID = null, withCompany = false, withSiteAreas = false,
       withChargeBoxes = false, limit = Constants.DEFAULT_LIMIT, skip =  Constants.DEFAULT_SKIP
   */
-  getSites(params, paging: Paging = Constants.DEFAULT_PAGING): Observable<Site[]> {
+  getSites(params, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Site[]> {
     // Verify init
     this._checkInit();
     // Set filter
@@ -440,6 +452,8 @@ export class CentralServerService {
     }
     // Build Paging
     this.buildPaging(paging, filters);
+    // Build Ordering
+    this.buildOrdering(ordering, filters);
     // Build the query string
     if (filters.length > 0) {
       queryString = filters.join('&');

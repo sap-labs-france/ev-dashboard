@@ -4,7 +4,7 @@
 
 <div class="mat-elevation-z8">
     <!-- Table -->
-  <table mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+  <table mat-table [dataSource]="dataSource" matSort matSortDisableClear>
     <!-- Columns -->
     <ng-container *ngFor="let column of columns, index as i" [matColumnDef]="column">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnNames[i]}}</th>
@@ -17,5 +17,5 @@
   </table>
 
   <!-- Paginator -->
-  <mat-paginator [length]="pageLength" [pageSizeOptions]="pageSizes"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="pageSizes"></mat-paginator>
 </div>

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CentralServerService } from '../service/central-server.service';
+import { WebSocketService } from '../service/web-socket.service';
 import { AuthorizationService } from '../service/authorization-service';
 import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
-import { Users } from '../utils/Users';
 import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/debounceTime';
 
@@ -51,7 +51,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
             private configService: ConfigService,
             private router: Router,
             private authorizationService: AuthorizationService,
-            private centralServerService: CentralServerService) {
+            private centralServerService: CentralServerService,
+            private webSocketService: WebSocketService) {
         // Set admin
         this.isAdmin = this.authorizationService.isAdmin();
         // Get the logged user
@@ -63,7 +64,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         // Subscribe to user's change
-        this.userSubscription = this.centralServerService.getSubjectUser().debounceTime(
+        this.userSubscription = this.webSocketService.getSubjectUser().debounceTime(
                 this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {
             // Update user?
             if (notifInfo['data']['id'] === this.loggedUser.id) {

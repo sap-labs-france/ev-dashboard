@@ -1,30 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { Charger } from '../model/charger';
 import { Pricing } from '../model/pricing';
 import { Log } from '../model/log';
 import { User } from '../model/user';
 import { Vehicle } from '../model/vehicle';
 import { VehicleManufacturer } from '../model/vehicleManufacturer';
-import { Company } from '../model/company';
 import { Site } from '../model/site';
 import { Image } from '../model/image';
 import { Images } from '../model/images';
 import { Logo } from '../model/logo';
 import { SiteArea } from '../model/site-area';
-import { SubjectInfo } from '../model/subject-info';
 import { ActionResponse } from '../model/action-response';
 import { Transaction } from '../model/transaction';
 import { ChargerConfiguration } from '../model/charger-configuration';
 import { ChargerConsumption } from '../model/charger-consumption';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
-import * as io from 'socket.io-client';
 import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
+import { WebSocketService } from './web-socket.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -33,38 +30,21 @@ import { Ordering } from '../model/ordering';
 
 @Injectable()
 export class CentralServerService {
-  private centralServerRESTServiceBaseURL: String;
-  private centralServerRESTServiceSecuredURL: String;
-  private centralServerRESTServiceClientUtilURL: String;
-  private centralServerRESTServiceAuthURL: String;
-  private subjectChargingStations = new Subject<SubjectInfo>();
-  private subjectChargingStation = new Subject<SubjectInfo>();
-  private subjectCompanies = new Subject<SubjectInfo>();
-  private subjectCompany = new Subject<SubjectInfo>();
-  private subjectSites = new Subject<SubjectInfo>();
-  private subjectSite = new Subject<SubjectInfo>();
-  private subjectSiteAreas = new Subject<SubjectInfo>();
-  private subjectSiteArea = new Subject<SubjectInfo>();
-  private subjectUsers = new Subject<SubjectInfo>();
-  private subjectUser = new Subject<SubjectInfo>();
-  private subjectVehicles = new Subject<SubjectInfo>();
-  private subjectVehicle = new Subject<SubjectInfo>();
-  private subjectVehicleManufacturers = new Subject<SubjectInfo>();
-  private subjectVehicleManufacturer = new Subject<SubjectInfo>();
-  private subjectTransactions = new Subject<SubjectInfo>();
-  private subjectTransaction = new Subject<SubjectInfo>();
-  private subjectLogging = new Subject<SubjectInfo>();
-  private centralSystemServerConfig;
-  private initialized: Boolean;
-  private socket;
-  private currentUserToken;
-  private currentUser;
+    private centralRestServerServiceBaseURL: String;
+    private centralRestServerServiceSecuredURL: String;
+    private centralRestServerServiceClientUtilURL: String;
+    private centralRestServerServiceAuthURL: String;
+    private centralSystemServerConfig;
+    private initialized = false;
+    private currentUserToken;
+    private currentUser;
 
   constructor(
-    private http: Http,
-    private translateService: TranslateService,
-    private localStorageService: LocalStorageService,
-    private configService: ConfigService) {
+      private http: Http,
+      private translateService: TranslateService,
+      private localStorageService: LocalStorageService,
+      private webSocketService: WebSocketService,
+      private configService: ConfigService) {
     // Default
     this.initialized = false;
   }
@@ -76,85 +56,19 @@ export class CentralServerService {
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
       // Central Service URL
-      this.centralServerRESTServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
+      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      // Set Web Socket URL
+      this.webSocketService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
-      this.centralServerRESTServiceAuthURL = this.centralServerRESTServiceBaseURL + '/client/auth';
+      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API
-      this.centralServerRESTServiceSecuredURL = this.centralServerRESTServiceBaseURL + '/client/api';
+      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API
-      this.centralServerRESTServiceClientUtilURL = this.centralServerRESTServiceBaseURL + '/client/util';
+      this.centralRestServerServiceClientUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Done
       this.initialized = true;
     }
-  }
-
-  getSubjectCompanies(): Observable<SubjectInfo> {
-    return this.subjectCompanies.asObservable();
-  }
-
-  getSubjectCompany(): Observable<SubjectInfo> {
-    return this.subjectCompany.asObservable();
-  }
-
-  getSubjectSites(): Observable<SubjectInfo> {
-    return this.subjectSites.asObservable();
-  }
-
-  getSubjectSite(): Observable<SubjectInfo> {
-    return this.subjectSite.asObservable();
-  }
-
-  getSubjectSiteAreas(): Observable<SubjectInfo> {
-    return this.subjectSiteAreas.asObservable();
-  }
-
-  getSubjectSiteArea(): Observable<SubjectInfo> {
-    return this.subjectSiteArea.asObservable();
-  }
-
-  getSubjectUsers(): Observable<SubjectInfo> {
-    return this.subjectUsers.asObservable();
-  }
-
-  getSubjectUser(): Observable<SubjectInfo> {
-    return this.subjectUser.asObservable();
-  }
-
-  getSubjectVehicles(): Observable<SubjectInfo> {
-    return this.subjectVehicles.asObservable();
-  }
-
-  getSubjectVehicle(): Observable<SubjectInfo> {
-    return this.subjectVehicle.asObservable();
-  }
-
-  getSubjectVehicleManufacturers(): Observable<SubjectInfo> {
-    return this.subjectVehicleManufacturers.asObservable();
-  }
-
-  getSubjectVehicleManufacturer(): Observable<SubjectInfo> {
-    return this.subjectVehicleManufacturer.asObservable();
-  }
-
-  getSubjectTransactions(): Observable<SubjectInfo> {
-    return this.subjectTransactions.asObservable();
-  }
-
-  getSubjectTransaction(): Observable<SubjectInfo> {
-    return this.subjectTransaction.asObservable();
-  }
-
-  getSubjectChargingStations(): Observable<SubjectInfo> {
-    return this.subjectChargingStations.asObservable();
-  }
-
-  getSubjectChargingStation(): Observable<SubjectInfo> {
-    return this.subjectChargingStation.asObservable();
-  }
-
-  getSubjectLogging(): Observable<SubjectInfo> {
-    return this.subjectLogging.asObservable();
   }
 
   buildHeaders() {
@@ -167,126 +81,6 @@ export class CentralServerService {
     }
     // Build Header
     return new Headers(header);
-  }
-
-  initSocketIO() {
-    // Check: socket not initialised and user logged
-    if (!this.socket && this.getCurrentUser()) {
-      // Connect to Socket IO
-      this.socket = io(this.centralServerRESTServiceBaseURL);
-
-      // Monitor Companies`
-      this.socket.on(Constants.ENTITY_COMPANIES, () => {
-        // Notify
-        this.subjectCompanies.next();
-      });
-
-      // Monitor Company
-      this.socket.on(Constants.ENTITY_COMPANY, (notifInfo) => {
-        // Notify
-        this.subjectCompany.next(notifInfo);
-      });
-
-      // Monitor Sites
-      this.socket.on(Constants.ENTITY_SITES, () => {
-        // Notify
-        this.subjectSites.next();
-      });
-
-      // Monitor Site
-      this.socket.on(Constants.ENTITY_SITE, (notifInfo) => {
-        // Notify
-        this.subjectSite.next(notifInfo);
-      });
-
-      // Monitor Site Areas
-      this.socket.on(Constants.ENTITY_SITE_AREAS, () => {
-        // Notify
-        this.subjectSiteAreas.next();
-      });
-
-      // Monitor Site Area
-      this.socket.on(Constants.ENTITY_SITE_AREA, (notifInfo) => {
-        // Notify
-        this.subjectSiteArea.next(notifInfo);
-      });
-
-      // Monitor Users
-      this.socket.on(Constants.ENTITY_USERS, () => {
-        // Notify
-        this.subjectUsers.next();
-      });
-
-      // Monitor User
-      this.socket.on(Constants.ENTITY_USER, (notifInfo) => {
-        // Notify
-        this.subjectUser.next(notifInfo);
-      });
-
-      // Monitor Vehicles
-      this.socket.on(Constants.ENTITY_VEHICLES, () => {
-        // Notify
-        this.subjectVehicles.next();
-      });
-
-      // Monitor Vehicle
-      this.socket.on(Constants.ENTITY_VEHICLE, (notifInfo) => {
-        // Notify
-        this.subjectVehicle.next(notifInfo);
-      });
-
-      // Monitor Vehicle Manufacturers
-      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURERS, () => {
-        // Notify
-        this.subjectVehicleManufacturers.next();
-      });
-
-      // Monitor Vehicle Manufacturer
-      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURER, (notifInfo) => {
-        // Notify
-        this.subjectVehicleManufacturer.next(notifInfo);
-      });
-
-      // Monitor Transactions
-      this.socket.on(Constants.ENTITY_TRANSACTIONS, () => {
-        // Notify
-        this.subjectTransactions.next();
-      });
-
-      // Monitor Transaction
-      this.socket.on(Constants.ENTITY_TRANSACTION, (notifInfo) => {
-        // Notify
-        this.subjectTransaction.next(notifInfo);
-      });
-
-      // Monitor Charging Stations
-      this.socket.on(Constants.ENTITY_CHARGING_STATIONS, () => {
-        // Notify
-        this.subjectChargingStations.next();
-      });
-
-      // Monitor Charging Station
-      this.socket.on(Constants.ENTITY_CHARGING_STATION, (notifInfo) => {
-        // Notify
-        this.subjectChargingStation.next(notifInfo);
-      });
-
-      // Monitor Logging
-      this.socket.on(Constants.ENTITY_LOGGING, () => {
-        // Notify
-        this.subjectLogging.next();
-      });
-    }
-  }
-
-  resetSocketIO() {
-    // Check: socket not initialised and user logged
-    if (this.socket) {
-      // Close
-      this.socket.disconnect();
-      // Clear
-      this.socket = null;
-    }
   }
 
   buildOrdering(ordering: Ordering[], filters) {
@@ -311,120 +105,6 @@ export class CentralServerService {
     }
   }
 
-  getCompanies(searchValue = null): Observable<Company[]> {
-    // Verify init
-    this._checkInit();
-    // Set filter
-    const filters = [];
-    let queryString = '';
-    if (searchValue) {
-      filters.push(`Search=${searchValue}`);
-    }
-    // Build the query string
-    if (filters.length > 0) {
-      queryString = filters.join('&');
-    }
-    // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Companies?${queryString}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getCompany(id): Observable<Company> {
-    // Verify init
-    this._checkInit();
-    // Set filter
-    const filters = [];
-    let queryString;
-    // Set ID
-    filters.push(`ID=${id}`);
-    // Build the query string
-    queryString = filters.join('&');
-    // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Company?${queryString}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  isAuthorized(action, arg1, arg2): Observable<any> {
-    // Verify init
-    this._checkInit();
-    // Set filter
-    const filters = [];
-    let queryString;
-    // Set Action
-    filters.push(`Action=${action}`);
-    // Set Args
-    if (arg1) {
-      filters.push(`Arg1=${arg1}`);
-    }
-    if (arg2) {
-      filters.push(`Arg2=${arg2}`);
-    }
-    // Build the query string
-    queryString = filters.join('&');
-    // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/IsAuthorized?${queryString}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getCompanyLogos(): Observable<Logo[]> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/CompanyLogos`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getCompanyLogo(id): Observable<Logo> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/CompanyLogo?ID=${id}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  deleteCompany(id): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/CompanyDelete?ID=${id}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  updateCompany(company): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/CompanyUpdate`,
-      company, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  createCompany(company): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/CompanyCreate`,
-      company, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-  /*
-  searchValue = null, userID = null, withCompany = false, withSiteAreas = false,
-      withChargeBoxes = false, limit = Constants.DEFAULT_LIMIT, skip =  Constants.DEFAULT_SKIP
-  */
   getSites(params, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Site[]> {
     // Verify init
     this._checkInit();
@@ -460,7 +140,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.http.get(
-      `${this.centralServerRESTServiceSecuredURL}/Sites?${queryString}`,
+      `${this.centralRestServerServiceSecuredURL}/Sites?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -481,7 +161,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Site?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Site?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -491,7 +171,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteImages`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteImages`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -501,7 +181,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteImage?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteImage?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -511,7 +191,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/SiteDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -521,7 +201,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/SiteUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/SiteUpdate`,
       site, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -531,7 +211,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/ChargingStationUpdateParams`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`,
       {
         'id': chargingStation.id,
         'numberOfConnectedPhase': chargingStation.numberOfConnectedPhase,
@@ -546,7 +226,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/SiteCreate`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/SiteCreate`,
       site, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -566,7 +246,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreas?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteAreas?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -576,7 +256,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteArea?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteArea?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -586,7 +266,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreaImages`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteAreaImages`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -596,7 +276,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/SiteAreaImage?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/SiteAreaImage?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -606,7 +286,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -616,7 +296,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/SiteAreaUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/SiteAreaUpdate`,
       siteArea, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -626,7 +306,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/SiteAreaCreate`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/SiteAreaCreate`,
       siteArea, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -649,7 +329,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Users?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Users?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -659,7 +339,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserImages`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/UserImages`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -669,7 +349,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserImage?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -679,7 +359,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/User?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
       new RequestOptions({
         headers: this.buildHeaders()
       }))
@@ -691,7 +371,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Pricing`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Pricing`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -701,7 +381,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionYears`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/TransactionYears`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -712,7 +392,7 @@ export class CentralServerService {
     this._checkInit();
     const queryString = `Language=${language}`;
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceAuthURL}/EndUserLicenseAgreement?${queryString}`)
+    return this.http.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?${queryString}`)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -721,7 +401,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/PricingUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/PricingUpdate`,
       pricing, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -777,7 +457,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Vehicles?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Vehicles?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -787,7 +467,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Vehicle?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Vehicle?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -797,7 +477,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleImages`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleImages`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -807,7 +487,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleImage?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleImage?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -817,7 +497,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/VehicleDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/VehicleDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -831,7 +511,7 @@ export class CentralServerService {
       vehicle.withVehicleImages = true;
     }
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/VehicleUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/VehicleUpdate`,
       vehicle, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -841,7 +521,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/VehicleCreate`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/VehicleCreate`,
       vehicle, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -869,7 +549,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturers?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturers?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -879,7 +559,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturer?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturer?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -889,7 +569,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerLogos`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturerLogos`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -899,7 +579,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerLogo?ID=${id}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturerLogo?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -909,7 +589,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturerDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -919,7 +599,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturerUpdate`,
       vehicleManufacturer, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -929,7 +609,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/VehicleManufacturerCreate`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/VehicleManufacturerCreate`,
       vehicleManufacturer, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -993,7 +673,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceAuthURL}/Login`, user, new RequestOptions({headers: this.buildHeaders()}))
+    return this.http.post(`${this.centralRestServerServiceAuthURL}/Login`, user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1004,7 +684,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setCurrentUserToken(token, true);
     // Init Socket IO
-    this.initSocketIO();
+    this.webSocketService.initSocketIO();
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
@@ -1065,7 +745,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceAuthURL}/Logout`,
+    return this.http.get(`${this.centralRestServerServiceAuthURL}/Logout`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1077,14 +757,14 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.clearCurrentUserToken();
     // Disconnect
-    this.resetSocketIO();
+    this.webSocketService.resetSocketIO();
   }
 
   getLoggedUser() {
     // Verify init
     this._checkInit();
     // Init Socket IO
-    this.initSocketIO();
+    this.webSocketService.initSocketIO();
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.getCurrentUser();
   }
@@ -1093,7 +773,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceAuthURL}/Reset`,
+    return this.http.post(`${this.centralRestServerServiceAuthURL}/Reset`,
       data, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1103,7 +783,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceAuthURL}/RegisterUser`,
+    return this.http.post(`${this.centralRestServerServiceAuthURL}/RegisterUser`,
       user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1113,7 +793,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceClientUtilURL}/Ping`)
+    return this.http.get(`${this.centralRestServerServiceClientUtilURL}/Ping`)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -1122,7 +802,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/UserCreate`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/UserCreate`,
       user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1132,7 +812,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL}/UserUpdate`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL}/UserUpdate`,
       user, new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1143,7 +823,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/UserDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1154,7 +834,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1193,7 +873,7 @@ export class CentralServerService {
     }
     // Execute the REST service
     // Execute
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Loggings?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Loggings?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1236,7 +916,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionsCompleted?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1257,7 +937,7 @@ export class CentralServerService {
       queryString = filters.join('&');
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/TransactionsActive` +
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/TransactionsActive` +
       (queryString.length > 0 ? '?' + queryString : ''),
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
@@ -1272,7 +952,7 @@ export class CentralServerService {
       queryString += `&SiteID=${siteID}`;
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConsumptionStatistics?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1286,7 +966,7 @@ export class CentralServerService {
       queryString += `&SiteID=${siteID}`;
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationUsageStatistics?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationUsageStatistics?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1300,7 +980,7 @@ export class CentralServerService {
       queryString += `&SiteID=${siteID}`;
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserConsumptionStatistics?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/UserConsumptionStatistics?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1314,7 +994,7 @@ export class CentralServerService {
       queryString += `&SiteID=${siteID}`;
     }
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/UserUsageStatistics?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/UserUsageStatistics?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1343,7 +1023,7 @@ export class CentralServerService {
       }
       queryString += `&EndDateTime=${endDateTime}`;
     }
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationTransactions?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactions?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1355,7 +1035,7 @@ export class CentralServerService {
     // Build Query String
     const queryString = `ID=${id}`;
     // Call
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/Transaction?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Transaction?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1377,7 +1057,7 @@ export class CentralServerService {
       queryString = '?' + filters.join('&');
     }
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStations${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1387,7 +1067,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStation?ID=${chargeBoxID}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation?ID=${chargeBoxID}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1398,7 +1078,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const queryString = `ChargeBoxID=${chargeBoxID}`;
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConfiguration?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1408,7 +1088,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationSetMaxIntensitySocket`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationSetMaxIntensitySocket`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1424,7 +1104,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationChangeConfiguration`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationChangeConfiguration`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1450,7 +1130,7 @@ export class CentralServerService {
       }
       queryString += '&StartDateTime=' + startDateTime;
     }
-    return this.http.get(`${this.centralServerRESTServiceSecuredURL}/ChargingStationConsumptionFromTransaction?${queryString}`,
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionFromTransaction?${queryString}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1460,7 +1140,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationReset`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationReset`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1476,7 +1156,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationStartTransaction`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationStartTransaction`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1492,7 +1172,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationStopTransaction`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationStopTransaction`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1508,7 +1188,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralServerRESTServiceSecuredURL.toString()}/TransactionSoftStop`,
+    return this.http.put(`${this.centralRestServerServiceSecuredURL.toString()}/TransactionSoftStop`,
       `{ "transactionId": "${transactionId}" }`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
@@ -1520,7 +1200,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.http.delete(`${this.centralServerRESTServiceSecuredURL}/TransactionDelete?ID=${id}`,
+    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
@@ -1530,7 +1210,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL}/TransactionRefund`,
+    return this.http.post(`${this.centralRestServerServiceSecuredURL}/TransactionRefund`,
       { 'id': id },
       new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
@@ -1541,7 +1221,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationUnlockConnector`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationUnlockConnector`, `
         {
           "chargeBoxID": "${chargeBoxID}",
           "args": {
@@ -1557,7 +1237,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralServerRESTServiceSecuredURL.toString()}/ChargingStationClearCache`, `
+    return this.http.post(`${this.centralRestServerServiceSecuredURL.toString()}/ChargingStationClearCache`, `
 				{
 					"chargeBoxID": "${chargeBoxID}"
 				}`,

@@ -67,15 +67,18 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
     this.loadData();
-    // Paginator changed
-    this.paginator.page.subscribe(() => this.loadData());
-    // Sort changed
-    this.sort.sortChange.subscribe(() => {
-        // Reset paginator
-        this.paginator.pageIndex = 0;
-        // Load data
-        this.loadData();
-    });
+  }
+
+  handleSortChanged() {
+    // Reset paginator
+    this.paginator.pageIndex = 0;
+    // Load data
+    this.loadData();
+  }
+
+  handlePageChanged() {
+    // Load data
+    this.loadData();
   }
 
   loadData() {

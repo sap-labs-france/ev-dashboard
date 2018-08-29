@@ -15,13 +15,10 @@ import { Utils } from '../../utils/Utils';
 import 'rxjs/add/operator/mergeMap';
 import { DataSource } from '@angular/cdk/table';
 import { Site } from '../../model/site';
-import { CollectionViewer } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../model/user';
 import { TableComponent } from '../../shared/table/table.component';
-import { MatSort, MatPaginator } from '@angular/material';
-import { Paging } from '../../model/paging';
-import { Ordering } from '../../model/ordering';
+import { TableDataSource } from '../../shared/table/table-data-source';
+import { TableColumnDef } from '../../model/table-column-def';
 
 @Component({
     selector: 'app-user-cmp',
@@ -433,86 +430,7 @@ export class UserComponent implements OnInit {
     }
 }
 
-abstract class CommonDataSource<T> {
-    private subject = new BehaviorSubject<T[]>([]);
-    private searchInput: ElementRef;
-    private paginator: MatPaginator;
-    private sort: MatSort;
-
-    getSubjet(): BehaviorSubject<T[]> {
-        return this.subject;
-    }
-
-    setPaginator(paginator: MatPaginator) {
-        this.paginator = paginator;
-    }
-
-    getPaginator(): MatPaginator {
-        return this.paginator;
-    }
-
-    setSort(sort: MatSort) {
-        this.sort = sort;
-    }
-
-    getSort(): MatSort {
-        return this.sort;
-    }
-
-    setSearchInput(searchInput: ElementRef) {
-        this.searchInput = searchInput;
-    }
-
-    connect(collectionViewer: CollectionViewer): Observable<T[]> {
-        return this.subject.asObservable();
-    }
-
-    disconnect(collectionViewer: CollectionViewer): void {
-        this.subject.complete();
-    }
-
-    updatePaginator() {
-        this.paginator.length = Math.trunc(this.getNumberOfRecords() / this.paginator.pageSize);
-    }
-
-    getPaginatorPageSizes() {
-        return [5, 10, 25, 100];
-    }
-
-    getSearch(): TableSearch {
-        return { search: this.searchInput.nativeElement.value };
-    }
-
-    getPaging(): Paging {
-        return {
-            skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-            limit: this.getPaginator().pageSize
-        };
-    }
-
-    getOrdering(): Ordering[] {
-        return [
-            { field: this.getSort().active, direction: this.getSort().direction }
-        ]
-    }
-
-    abstract getNumberOfRecords(): number;
-
-    abstract getColumnDefs(): TableColumnDef[];
-}
-
-interface TableColumnDef {
-    id: string;
-    name: string;
-    sorted?: boolean;
-    direction?: string;
-}
-
-interface TableSearch {
-    search: string;
-}
-
-class SiteDataSource extends CommonDataSource<Site> implements DataSource<Site> {
+class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
 
     constructor(

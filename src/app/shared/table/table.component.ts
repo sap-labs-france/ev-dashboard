@@ -18,7 +18,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource;
   public columnDefs = [];
   public columns: string[];
-  public columnNames: string[];
   public pageSizes = [];
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
@@ -38,7 +37,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Set columns
     this.columnDefs = this.dataSource.getColumnDefs();
     this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
-    this.columnNames = this.dataSource.getColumnDefs().map( (column) => column.name);
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Sort
@@ -54,7 +52,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       // Reset paginator
       this.paginator.pageIndex = 0;
       // Load data
-      this.loadData();
+      this.load();
     });
   }
 
@@ -66,22 +64,37 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
-    this.loadData();
+    this.load();
+  }
+
+  getRowValue(row: any, column: string) {
+    // Check JSon sub-props
+    if (column.indexOf('.') > 0) {
+      // Yes: get the sub-property
+      let nextProp = row;
+      // Get the Json value
+      column.split('.').forEach((oneColumn) => {
+        nextProp = nextProp[oneColumn];
+      });
+      return nextProp;
+    }
+    // Return the property
+    return row[column];
   }
 
   handleSortChanged() {
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Load data
-    this.loadData();
+    this.load();
   }
 
   handlePageChanged() {
     // Load data
-    this.loadData();
+    this.load();
   }
 
-  loadData() {
+  load() {
     // Load data source
     this.dataSource.load();
   }

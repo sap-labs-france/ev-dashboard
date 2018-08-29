@@ -7,8 +7,8 @@
   <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
     <!-- Columns -->
     <ng-container *ngFor="let column of columns, index as i" [matColumnDef]="column">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnNames[i]}}</th>
-      <td mat-cell [class]="columnDefs[i].class" *matCellDef="let row">{{row[column]}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnDefs[i].name}}</th>
+      <td mat-cell [class]="columnDefs[i].class" *matCellDef="let row">{{getRowValue(row, column)}}</td>
     </ng-container>
 
     <!-- Rows -->

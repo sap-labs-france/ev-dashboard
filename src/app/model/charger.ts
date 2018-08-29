@@ -1,32 +1,32 @@
-export class Connector {
-  connectorId: Number;
-  errorCode: String;
-  currentConsumption: Number;
-  totalConsumption: Number;
-  power: Number;
-  status: String;
+export interface Connector {
+  connectorId: number;
+  errorCode: string;
+  currentConsumption: number;
+  totalConsumption: number;
+  power: number;
+  status: string;
   activeForUser: boolean;
-  activeTransactionID: Number;
+  activeTransactionID: number;
 }
 
-export class Charger {
-  id: String;
-  chargePointVendor: String;
-  chargePointModel: String;
-  chargePointSerialNumber: String;
-  chargeBoxSerialNumber: String;
-  firmwareVersion: String;
-  iccid: String;
-  imsi: String;
+export interface Charger {
+  id: string;
+  chargePointVendor: string;
+  chargePointModel: string;
+  chargePointSerialnumber: string;
+  chargeBoxSerialnumber: string;
+  firmwareVersion: string;
+  iccid: string;
+  imsi: string;
   lastReboot: Date;
-  meterType: String;
-  meterSerialNumber: String;
-  endpoint: String;
-  ocppVersion: String;
+  meterType: string;
+  meterSerialnumber: string;
+  endpoint: string;
+  ocppVersion: string;
   lastHeartBeat: Date;
   lastHeartBeatChanged: boolean;
   inactive: boolean;
   chargingStationURL: string;
-  numberOfConnectedPhase: Number;
+  numberOfConnectedPhase: number;
   connectors: Connector[];
 }

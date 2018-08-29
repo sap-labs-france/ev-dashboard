@@ -1,12 +1,12 @@
 import { Vehicle } from './vehicle';
 
-export class VehicleManufacturer {
-  id: String;
-  logo: String;
-  name: String;
+export interface VehicleManufacturer {
+  id: string;
+  logo: string;
+  name: string;
   vehicles: Vehicle[];
-  createdBy: String;
+  createdBy: string;
   createdOn: Date;
-  lastChangedBy: String;
+  lastChangedBy: string;
   lastChangedOn: Date;
 }

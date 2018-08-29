@@ -16,7 +16,7 @@ export class LocaleService {
   }
 
   updateLanguage() {
-    const loggedUser = this.centralServerService.getCurrentUser();
+    const loggedUser = this.centralServerService.getLoggedUserFromToken();
     if (loggedUser) {
       this.language = loggedUser.language;
     } else {

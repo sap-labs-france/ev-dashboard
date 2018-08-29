@@ -20,6 +20,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../model/user';
 import { TableComponent } from '../../shared/table/table.component';
 import { MatSort, MatPaginator } from '@angular/material';
+import { Paging } from '../../model/paging';
+import { Ordering } from '../../model/ordering';
 
 @Component({
     selector: 'app-user-cmp',
@@ -431,58 +433,106 @@ export class UserComponent implements OnInit {
     }
 }
 
-class SiteDataSource implements DataSource<Site> {
-    private sitesSubject = new BehaviorSubject<Site[]>([]);
-    private user: User;
+abstract class CommonDataSource<T> {
+    private subject = new BehaviorSubject<T[]>([]);
+    private searchInput: ElementRef;
     private paginator: MatPaginator;
     private sort: MatSort;
-    private searchInput: ElementRef;
 
-    constructor(
-        private messageService: MessageService,
-        private translateService: TranslateService,
-        private router: Router,
-        private centralServerService: CentralServerService) {
+    getSubjet(): BehaviorSubject<T[]> {
+        return this.subject;
     }
 
     setPaginator(paginator: MatPaginator) {
         this.paginator = paginator;
     }
 
+    getPaginator(): MatPaginator {
+        return this.paginator;
+    }
+
     setSort(sort: MatSort) {
         this.sort = sort;
+    }
+
+    getSort(): MatSort {
+        return this.sort;
     }
 
     setSearchInput(searchInput: ElementRef) {
         this.searchInput = searchInput;
     }
 
-    connect(collectionViewer: CollectionViewer): Observable<Site[]> {
-        return this.sitesSubject.asObservable();
+    connect(collectionViewer: CollectionViewer): Observable<T[]> {
+        return this.subject.asObservable();
     }
 
     disconnect(collectionViewer: CollectionViewer): void {
-        this.sitesSubject.complete();
+        this.subject.complete();
+    }
+
+    updatePaginator() {
+        this.paginator.length = Math.trunc(this.getNumberOfRecords() / this.paginator.pageSize);
+    }
+
+    getPaginatorPageSizes() {
+        return [5, 10, 25, 100];
+    }
+
+    getSearch(): TableSearch {
+        return { search: this.searchInput.nativeElement.value };
+    }
+
+    getPaging(): Paging {
+        return {
+            skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
+            limit: this.getPaginator().pageSize
+        };
+    }
+
+    getOrdering(): Ordering[] {
+        return [
+            { field: this.getSort().active, direction: this.getSort().direction }
+        ]
+    }
+
+    abstract getNumberOfRecords(): number;
+
+    abstract getColumnDefs(): TableColumnDef[];
+}
+
+interface TableColumnDef {
+    id: string;
+    name: string;
+    sorted?: boolean;
+    direction?: string;
+}
+
+interface TableSearch {
+    search: string;
+}
+
+class SiteDataSource extends CommonDataSource<Site> implements DataSource<Site> {
+    private user: User;
+
+    constructor(
+            private messageService: MessageService,
+            private translateService: TranslateService,
+            private router: Router,
+            private centralServerService: CentralServerService) {
+        super();
     }
 
     load() {
-        // this.sort.active
-        // this.sort.direction
         // User provided?
         if (this.user) {
-            // Update page length
+            // Update page length (number of sites is in User)
             this.updatePaginator();
             // Yes: Get data
-            this.centralServerService.getSites({
-                searchValue: this.searchInput.nativeElement.value
-            }, { // Paging
-                skip: this.paginator.pageIndex * this.paginator.pageSize,
-                limit: this.paginator.pageSize
-            }, [ // Ordering
-                { field: this.sort.active, direction: this.sort.direction }
-            ]).subscribe((sites) =>  {
+            this.centralServerService.getSites(this.getSearch(),
+                    this.getPaging(), this.getOrdering()).subscribe((sites) =>  {
                 // Return sites
-                this.sitesSubject.next(sites);
+                this.getSubjet().next(sites);
             }, (error) => {
                 // No longer exists!
                 Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
@@ -491,24 +541,16 @@ class SiteDataSource implements DataSource<Site> {
             // Update page length
             this.updatePaginator();
             // Return sites
-            this.sitesSubject.next([]);
+            this.getSubjet().next([]);
         }
     }
 
-    updatePaginator(): any {
-        this.paginator.length = Math.trunc(this.getNumberOfRecords() / this.paginator.pageSize);
-    }
-
-    getColumnDefs() {
+    getColumnDefs(): TableColumnDef[] {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
             { id: 'id', name: 'ID' },
             { id: 'name', name: 'Name', sorted: true, direction: 'asc' }
         ];
-    }
-
-    getPaginatorPageSizes() {
-        return [1, 5, 10, 25, 100];
     }
 
     setUser(user: User) {

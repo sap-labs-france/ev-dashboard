@@ -1,15 +1,15 @@
 import { User } from './user';
 
-export class ConsumptionValue {
+export interface ConsumptionValue {
   date: Date;
-  value: Number;
+  value: number;
 }
 
-export class ChargerConsumption {
-  chargeBoxID: String;
-  totalConsumption: Number;
-  connectorId: Number;
-  transactionId: Number;
+export interface ChargerConsumption {
+  chargeBoxID: string;
+  totalConsumption: number;
+  connectorId: number;
+  transactionId: number;
   startDateTime: Date;
   endDateTime: Date;
   user: User;

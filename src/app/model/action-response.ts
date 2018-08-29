@@ -1,4 +1,4 @@
-export class ActionResponse {
-  status: String;
-  error: String;
+export interface ActionResponse {
+  status: string;
+  error: string;
 }

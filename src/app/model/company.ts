@@ -1,12 +1,12 @@
 import { Address } from './commons';
 
-export class Company {
-  id: String;
-  name: String;
+export interface Company {
+  id: string;
+  name: string;
   address: Address;
-  logo: String;
-  createdBy: String;
+  logo: string;
+  createdBy: string;
   createdOn: Date;
-  lastChangedBy: String;
+  lastChangedBy: string;
   lastChangedOn: Date;
 }

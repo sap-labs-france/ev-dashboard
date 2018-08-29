@@ -1,7 +1,7 @@
-export class SubjectInfo {
-  action: String;
+export interface SubjectInfo {
+  action: string;
   data: {
-    id: String;
-    type: String;
+    id: string;
+    type: string;
   };
 }

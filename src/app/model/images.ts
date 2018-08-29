@@ -1,4 +1,4 @@
-export class Images {
-  id: String;
-  images: String[];
+export interface Images {
+  id: string;
+  images: string[];
 }

@@ -16,6 +16,8 @@ import { LocalStorageService } from './local-storage.service';
 import { WebSocketService } from './web-socket.service';
 import { Paging } from '../model/paging';
 import { Ordering } from '../model/ordering';
+import { Status } from '../model/status';
+import { Role } from '../model/role';
 
 @Injectable()
 export class CentralServerService {
@@ -62,14 +64,14 @@ export class CentralServerService {
       'Content-Type': 'application/json',
     };
     // Check token
-    if (this.getCurrentUserToken()) {
-      header['Authorization'] = 'Bearer ' + this.getCurrentUserToken();
+    if (this.getLoggedUserToken()) {
+      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
     }
     // Build Header
     return new Headers(header);
   }
 
-  buildOrdering(ordering: Ordering[], queryString) {
+  buildOrdering(ordering: Ordering[], queryString: any) {
     // Check
     if (ordering && ordering.length) {
       if (!queryString['SortFields']) {
@@ -84,7 +86,7 @@ export class CentralServerService {
     }
   }
 
-  buildPaging(paging: Paging, queryString) {
+  buildPaging(paging: Paging, queryString: any) {
     // Limit
     if (paging.limit) {
       queryString['Limit'] = paging.limit;
@@ -95,7 +97,7 @@ export class CentralServerService {
     }
   }
 
-  getSites(params, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Site[]> {
+  getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Site[]> {
     // Verify init
     this._checkInit();
     // Set filter
@@ -134,7 +136,7 @@ export class CentralServerService {
       .catch(this.handleError);
   }
 
-  getUserImage(id): Observable<Image> {
+  getUserImage(id: string): Observable<Image> {
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -144,7 +146,7 @@ export class CentralServerService {
       .catch(this.handleError);
   }
 
-  getUser(id): Observable<User> {
+  getUser(id: string): Observable<User> {
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -156,7 +158,7 @@ export class CentralServerService {
       .catch(this.handleError);
   }
 
-  getEndUserLicenseAgreement(language) {
+  getEndUserLicenseAgreement(language: string) {
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -165,7 +167,7 @@ export class CentralServerService {
       .catch(this.handleError);
   }
 
-  getUserStatuses() {
+  getUserStatuses(): Status[] {
     // Return
     return [
       { key: 'A', description: this.translateService.instant('users.status_active', {}) },
@@ -176,14 +178,14 @@ export class CentralServerService {
     ];
   }
 
-  getUserStatusByKey(statusKey) {
+  getUserStatusByKey(statusKey): Status {
     // Return the found key
     const foundStatus = this.getUserStatuses().find(
       (status) => status.key === statusKey);
     return (foundStatus ? foundStatus : { key: 'U', description: this.translateService.instant('users.status_unknown', {}) });
   }
 
-  getUserRoles() {
+  getUserRoles(): Role[] {
     // Return
     return [
       { key: 'A', description: this.translateService.instant('users.role_admin', {}) },
@@ -193,9 +195,9 @@ export class CentralServerService {
     ];
   }
 
-  getUserRoleByKey(roleKey) {
+  getUserRoleByKey(roleKey): Role {
     // Return the found key
-    const foundRole = this.getUserRoles().filter(
+    const foundRole = this.getUserRoles().find(
       (role) => role.key === roleKey);
     return (foundRole ? foundRole : { key: 'U', description: this.translateService.instant('users.role_unknown', {}) });
   }
@@ -214,14 +216,14 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Keep it local (iFrame use case)
-    this.setCurrentUserToken(token, true);
+    this.setLoggedUserToken(token, true);
     // Init Socket IO
     this.webSocketService.initSocketIO();
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
 
-  setCurrentUserToken(token, writeInLocalStorage?) {
+  setLoggedUserToken(token: string, writeInLocalStorage?: boolean) {
     // Keep token
     this.currentUserToken = token;
     this.currentUser = null;
@@ -237,31 +239,31 @@ export class CentralServerService {
     }
   }
 
-  getCurrentUser() {
+  getLoggedUserFromToken(): User {
     // Get the token
     if (!this.currentUser) {
       // Decode the token
       this.localStorageService.getItem('token').subscribe((token) => {
         // Keep it local (iFrame use case)
-        this.setCurrentUserToken(token);
+        this.setLoggedUserToken(token);
       });
     }
     return this.currentUser;
   }
 
-  getCurrentUserToken() {
+  getLoggedUserToken(): string {
     // Get the token
     if (!this.currentUserToken) {
       // Decode the token
       this.localStorageService.getItem('token').subscribe((token) => {
         // Keep it local (iFrame use case)
-        this.setCurrentUserToken(token);
+        this.setLoggedUserToken(token);
       });
     }
     return this.currentUserToken;
   }
 
-  clearCurrentUserToken() {
+  clearLoggedUserToken() {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
@@ -269,8 +271,8 @@ export class CentralServerService {
     this.localStorageService.removeItem('token');
   }
 
-  isAuthenticated() {
-    return this.getCurrentUserToken() != null && !new JwtHelperService().isTokenExpired(this.getCurrentUserToken());
+  isAuthenticated(): boolean {
+    return this.getLoggedUserToken() != null && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
   logout(): Observable<any> {
@@ -287,18 +289,18 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Keep it local (iFrame use case)
-    this.clearCurrentUserToken();
+    this.clearLoggedUserToken();
     // Disconnect
     this.webSocketService.resetSocketIO();
   }
 
-  getLoggedUser() {
+  getLoggedUser(): User {
     // Verify init
     this._checkInit();
     // Init Socket IO
     this.webSocketService.initSocketIO();
     // Return the user (should have already been initialized as the token is retrieved async)
-    return this.getCurrentUser();
+    return this.getLoggedUserFromToken();
   }
 
   resetUserPassword(data) {

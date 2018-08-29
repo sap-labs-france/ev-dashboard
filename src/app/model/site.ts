@@ -3,22 +3,22 @@ import { SiteArea } from './site-area';
 import { Company } from './company';
 import { User } from './user';
 
-export class Site {
-  id: String;
-  name: String;
+export interface Site {
+  id: string;
+  name: string;
   companyID: string;
   company: Company;
   siteAreas: SiteArea[];
   address: Address;
-  image: String;
+  image: string;
   images: Object[];
-  gps: String;
+  gps: string;
   consumptionData: Object;
   occupationData: Object;
-  userIDs: String[];
+  userIDs: string[];
   users: User[];
-  createdBy: String;
+  createdBy: string;
   createdOn: Date;
-  lastChangedBy: String;
+  lastChangedBy: string;
   lastChangedOn: Date;
 }

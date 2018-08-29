@@ -1,4 +1,4 @@
-export class Logo {
-  id: String;
-  logo: String;
+export interface Logo {
+  id: string;
+  logo: string;
 }

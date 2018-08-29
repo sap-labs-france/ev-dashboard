@@ -1,11 +1,11 @@
-export class Log {
-  level: String;
-  source: String;
-  module: String;
-  method: String;
+export interface Log {
+  level: string;
+  source: string;
+  module: string;
+  method: string;
   timestamp: Date;
-  action: String;
-  type: String;
-  message: String;
-  detailedMessages: String[];
+  action: string;
+  type: string;
+  message: string;
+  detailedMessages: string[];
 }

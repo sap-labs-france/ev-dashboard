@@ -1,23 +1,23 @@
 import { Charger } from './charger';
 import { User } from './user';
 
-export class Transaction {
-  id: Number;
+export interface Transaction {
+  id: number;
   timestamp: Date;
   chargeBox: Charger;
-  connectorId: Number;
-  meterStart: Number;
+  connectorId: number;
+  meterStart: number;
   user: User;
-  tagID: String;
+  tagID: string;
   stop: {
     user: User;
-    tagID: String;
+    tagID: string;
     timestamp: Date;
-    meterStop: Number;
-    totalConsumption: Number;
-    price: Number;
-    priceUnit: String;
+    meterStop: number;
+    totalConsumption: number;
+    price: number;
+    priceUnit: string;
   };
-  dateTimeString: String;
-  consumptionString: String;
+  dateTimestring: string;
+  consumptionstring: string;
 }

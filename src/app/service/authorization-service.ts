@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Authorization } from 'node-authorization';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
-import { AuthorizationConstants } from './authorization-constants';
+import { Constants } from '../utils/Constants';
 import { User } from '../model/user';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class AuthorizationService {
   private authorizationConfig;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private config: ConfigService) {
+      private centralServerService: CentralServerService,
+      private config: ConfigService) {
     // Get config
     this.authorizationConfig = config.getAuthorization();
     // Check
@@ -24,7 +24,7 @@ export class AuthorizationService {
     }
   }
 
-  getAuthorization() {
+  getAuthorization(): any {
     // Get the logged user
     const currentLoggedUser = this.centralServerService.getLoggedUser();
     // Check
@@ -38,235 +38,235 @@ export class AuthorizationService {
     return this.loggedUserAuthorization;
   }
 
-  canListLogging() {
+  canListLogging(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_LOGGINGS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_LOGGINGS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canListChargingStations() {
+  canListChargingStations(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATIONS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATIONS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canGetConfigurationChargingStation(chargingStation) {
+  canGetConfigurationChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_GET_CONFIGURATION,
+        'Action': Constants.ACTION_GET_CONFIGURATION,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canRebootChargingStation(chargingStation) {
+  canRebootChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_RESET,
+        'Action': Constants.ACTION_RESET,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canClearCacheChargingStation(chargingStation) {
+  canClearCacheChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_CLEAR_CACHE,
+        'Action': Constants.ACTION_CLEAR_CACHE,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canStartTransactionChargingStation(chargingStation) {
+  canStartTransactionChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_START_TRANSACTION,
+        'Action': Constants.ACTION_START_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canStopTransactionChargingStation(chargingStation) {
+  canStopTransactionChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_STOP_TRANSACTION,
+        'Action': Constants.ACTION_STOP_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canUnlockConnectorChargingStation(chargingStation) {
+  canUnlockConnectorChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_UNLOCK_CONNECTOR,
+        'Action': Constants.ACTION_UNLOCK_CONNECTOR,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canPerformActionOnChargingStation(chargingStation, action) {
+  canPerformActionOnChargingStation(chargingStation, action): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
         'Action': action,
         'ChargingStationID': chargingStation.id
       });
   }
 
-  canReadChargingStation(chargingStation) {
+  canReadChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'ChargingStationID': chargingStation.id,
       });
   }
 
-  canDeleteChargingStation(chargingStation) {
+  canDeleteChargingStation(chargingStation): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_CHARGING_STATION,
+    return this.canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'ChargingStationID': chargingStation.id,
       });
   }
 
-  canListCompanies() {
+  canListCompanies(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_COMPANIES,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_COMPANIES,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadCompany(company) {
+  canReadCompany(company): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_COMPANY,
+    return this.canPerformAction(Constants.ENTITY_COMPANY,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'CompanyID': company.id
       });
   }
 
-  canCreateCompany() {
+  canCreateCompany(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_COMPANY,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_COMPANY,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateCompany(company) {
+  canUpdateCompany(company): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_COMPANY,
+    return this.canPerformAction(Constants.ENTITY_COMPANY,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'CompanyID': company.id
       });
   }
 
-  canDeleteCompany(company) {
+  canDeleteCompany(company): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_COMPANY,
+    return this.canPerformAction(Constants.ENTITY_COMPANY,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'CompanyID': company.id
       });
   }
 
-  canListSites() {
+  canListSites(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITES,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_SITES,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadSite(site) {
+  canReadSite(site): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE,
+    return this.canPerformAction(Constants.ENTITY_SITE,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'SiteID': site.id
       });
   }
 
-  canCreateSite() {
+  canCreateSite(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_SITE,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateSite(site) {
+  canUpdateSite(site): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE,
+    return this.canPerformAction(Constants.ENTITY_SITE,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'SiteID': site.id
       });
   }
 
-  canDeleteSite(site) {
+  canDeleteSite(site): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE,
+    return this.canPerformAction(Constants.ENTITY_SITE,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'SiteID': site.id
       });
   }
 
-  canListSiteAreas() {
+  canListSiteAreas(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE_AREAS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_SITE_AREAS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadSiteArea(siteArea) {
+  canReadSiteArea(siteArea): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE_AREA,
+    return this.canPerformAction(Constants.ENTITY_SITE_AREA,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'SiteAreaID': siteArea.id
       });
   }
 
-  canCreateSiteArea() {
+  canCreateSiteArea(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE_AREA,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_SITE_AREA,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateSiteArea(siteArea) {
+  canUpdateSiteArea(siteArea): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE_AREA,
+    return this.canPerformAction(Constants.ENTITY_SITE_AREA,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'SiteAreaID': siteArea.id
       });
   }
 
-  canDeleteSiteArea(siteArea) {
+  canDeleteSiteArea(siteArea): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_SITE_AREA,
+    return this.canPerformAction(Constants.ENTITY_SITE_AREA,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'SiteAreaID': siteArea.id
       });
   }
 
-  canListUsers() {
+  canListUsers(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USERS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_USERS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canListTransactions() {
+  canListTransactions(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_TRANSACTIONS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_TRANSACTIONS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadTransaction(transaction) {
+  canReadTransaction(transaction): boolean {
     // Check auth
     if (transaction.user) {
       // Check
-      return this.canPerformAction(AuthorizationConstants.ENTITY_TRANSACTION,
+      return this.canPerformAction(Constants.ENTITY_TRANSACTION,
         {
-          'Action': AuthorizationConstants.ACTION_READ,
+          'Action': Constants.ACTION_READ,
           'UserID': transaction.user.id
         });
       // Admin?
@@ -276,13 +276,13 @@ export class AuthorizationService {
     return true;
   }
 
-  canUpdateTransaction(transaction) {
+  canUpdateTransaction(transaction): boolean {
     // Check auth
     if (transaction.user) {
       // Check
-      return this.canPerformAction(AuthorizationConstants.ENTITY_TRANSACTION,
+      return this.canPerformAction(Constants.ENTITY_TRANSACTION,
         {
-          'Action': AuthorizationConstants.ACTION_UPDATE,
+          'Action': Constants.ACTION_UPDATE,
           'UserID': transaction.user.id
         });
       // Admin?
@@ -292,13 +292,13 @@ export class AuthorizationService {
     return true;
   }
 
-  canDeleteTransaction(transaction) {
+  canDeleteTransaction(transaction): boolean {
     // Check auth
     if (transaction.user) {
       // Check
-      return this.canPerformAction(AuthorizationConstants.ENTITY_TRANSACTION,
+      return this.canPerformAction(Constants.ENTITY_TRANSACTION,
         {
-          'Action': AuthorizationConstants.ACTION_DELETE,
+          'Action': Constants.ACTION_DELETE,
           'UserID': transaction.user.id
         });
       // Admin?
@@ -308,143 +308,139 @@ export class AuthorizationService {
     return true;
   }
 
-  canReadUser(user) {
+  canReadUser(user): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USER,
+    return this.canPerformAction(Constants.ENTITY_USER,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'UserID': user.id
       });
   }
 
-  canLogoutUser(user) {
+  canLogoutUser(user): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USER,
+    return this.canPerformAction(Constants.ENTITY_USER,
       {
-        'Action': AuthorizationConstants.ACTION_LOGOUT,
+        'Action': Constants.ACTION_LOGOUT,
         'UserID': user.id
       });
   }
 
-  canCreateUser() {
+  canCreateUser(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USER,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_USER,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateUser(user) {
+  canUpdateUser(user): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USER,
+    return this.canPerformAction(Constants.ENTITY_USER,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'UserID': user.id
       });
   }
 
-  canDeleteUser(user) {
+  canDeleteUser(user): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_USER,
+    return this.canPerformAction(Constants.ENTITY_USER,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'UserID': user.id
       });
   }
 
-  canListVehicles() {
+  canListVehicles(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLES,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_VEHICLES,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadVehicle(vehicle) {
+  canReadVehicle(vehicle): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'VehicleID': vehicle.id
       });
   }
 
-  canCreateVehicle() {
+  canCreateVehicle(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_VEHICLE,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateVehicle(vehicle) {
+  canUpdateVehicle(vehicle): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'VehicleID': vehicle.id
       });
   }
 
-  canDeleteVehicle(vehicle) {
+  canDeleteVehicle(vehicle): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'VehicleID': vehicle.id
       });
   }
 
-  canListVehicleManufacturers() {
+  canListVehicleManufacturers(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE_MANUFACTURERS,
-      { 'Action': AuthorizationConstants.ACTION_LIST });
+    return this.canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURERS,
+      { 'Action': Constants.ACTION_LIST });
   }
 
-  canReadVehicleManufacturer(vehicleManufacturer) {
+  canReadVehicleManufacturer(vehicleManufacturer): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE_MANUFACTURER,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURER,
       {
-        'Action': AuthorizationConstants.ACTION_READ,
+        'Action': Constants.ACTION_READ,
         'VehicleManufacturerID': vehicleManufacturer.id
       });
   }
 
-  canCreateVehicleManufacturer() {
+  canCreateVehicleManufacturer(): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE_MANUFACTURER,
-      { 'Action': AuthorizationConstants.ACTION_CREATE });
+    return this.canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURER,
+      { 'Action': Constants.ACTION_CREATE });
   }
 
-  canUpdateVehicleManufacturer(vehicleManufacturer) {
+  canUpdateVehicleManufacturer(vehicleManufacturer): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE_MANUFACTURER,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURER,
       {
-        'Action': AuthorizationConstants.ACTION_UPDATE,
+        'Action': Constants.ACTION_UPDATE,
         'VehicleManufacturerID': vehicleManufacturer.id
       });
   }
 
-  canDeleteVehicleManufacturer(vehicleManufacturer) {
+  canDeleteVehicleManufacturer(vehicleManufacturer): boolean {
     // Check
-    return this.canPerformAction(AuthorizationConstants.ENTITY_VEHICLE_MANUFACTURER,
+    return this.canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURER,
       {
-        'Action': AuthorizationConstants.ACTION_DELETE,
+        'Action': Constants.ACTION_DELETE,
         'VehicleManufacturerID': vehicleManufacturer.id
       });
   }
 
-  isAdmin() {
-    return this.centralServerService.getLoggedUser().role === AuthorizationConstants.ROLE_ADMIN;
+  isAdmin(): boolean {
+    return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
   }
 
-  isBasic() {
-    return this.centralServerService.getLoggedUser().role === AuthorizationConstants.ROLE_BASIC;
+  isBasic(): boolean {
+    return this.centralServerService.getLoggedUser().role === Constants.ROLE_BASIC;
   }
 
-  isCorporate() {
-    return this.centralServerService.getLoggedUser().role === AuthorizationConstants.ROLE_CORPORATE;
+  isDemo(): boolean {
+    return this.centralServerService.getLoggedUser().role === Constants.ROLE_DEMO;
   }
 
-  isDemo() {
-    return this.centralServerService.getLoggedUser().role === AuthorizationConstants.ROLE_DEMO;
-  }
-
-  canPerformAction(entity, fieldNamesValues) {
+  canPerformAction(entity, fieldNamesValues): boolean {
     // Create Auth
     const auth = this.getAuthorization();
     // Check

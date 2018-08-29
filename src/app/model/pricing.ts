@@ -1,6 +1,6 @@
-export class Pricing {
-  id: String;
+export interface Pricing {
+  id: string;
   timestamp: Date;
-  priceKWH: Number;
-  priceUnit: String;
+  priceKWH: number;
+  priceUnit: string;
 }

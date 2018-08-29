@@ -1,13 +1,11 @@
 import { Charger } from './charger';
-import { Company } from './company';
 import { Site } from './site';
-import { Address } from './commons';
 
-export class SiteArea {
-  id: String;
-  name: String;
-  image: String;
-  accessControl: Boolean;
+export interface SiteArea {
+  id: string;
+  name: string;
+  image: string;
+  accessControl: boolean;
   siteID: string;
   site: Site;
   chargeBoxes: Charger[];

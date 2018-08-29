@@ -166,7 +166,7 @@ export class AppModule {
     // let language = 'fr';
 
     // Get current user
-    const loggedUser = this.centralServerService.getCurrentUser()
+    const loggedUser = this.centralServerService.getLoggedUserFromToken()
     if (loggedUser) {
       language = loggedUser['language'];
     }

@@ -1,4 +1,4 @@
-export class Ordering {
+export interface Ordering {
   field: string;
   direction: string;
 }

@@ -1,4 +1,4 @@
-export class Paging {
+export interface Paging {
   limit: number;
   skip: number;
 }

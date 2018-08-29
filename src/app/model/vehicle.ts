@@ -1,21 +1,21 @@
-export class Vehicle {
-  id: String;
-  images: String[];
-  numberOfImages: Number;
-  manufacturer: String;
-  model: String;
-  batteryKW: Number;
-  autonomyKmWLTP: Number;
-  autonomyKmReal: Number;
-  horsePower: Number;
-  torqueNm: Number;
-  performance0To100kmh: Number;
-  weightKg: Number;
-  lengthMeter: Number;
-  widthMeter: Number;
-  heightMeter: Number;
-  createdBy: String;
+export interface Vehicle {
+  id: string;
+  images: string[];
+  numberOfImages: number;
+  manufacturer: string;
+  model: string;
+  batteryKW: number;
+  autonomyKmWLTP: number;
+  autonomyKmReal: number;
+  horsePower: number;
+  torqueNm: number;
+  performance0To100kmh: number;
+  weightKg: number;
+  lengthMeter: number;
+  widthMeter: number;
+  heightMeter: number;
+  createdBy: string;
   createdOn: Date;
-  lastChangedBy: String;
+  lastChangedBy: string;
   lastChangedOn: Date;
 }

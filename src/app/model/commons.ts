@@ -1,12 +1,12 @@
 
-export class Address {
-  address1: String;
-  address2: String;
-  postalCode: String;
-  city: String;
-  department: String;
-  region: String;
-  country: String;
-  latitude: Number;
-  longitude: Number;
+export interface Address {
+  address1: string;
+  address2: string;
+  postalCode: string;
+  city: string;
+  department: string;
+  region: string;
+  country: string;
+  latitude: number;
+  longitude: number;
 }

@@ -1,11 +1,11 @@
-export class ChargerConfiguration {
-  chargeBoxID: String;
+export interface ChargerConfiguration {
+  chargeBoxID: string;
   timestamp: Date;
   configuration: [
     {
-      value: String;
-      readonly: Boolean;
-      key: String;
+      value: string;
+      readonly: boolean;
+      key: string;
     }
   ];
 }

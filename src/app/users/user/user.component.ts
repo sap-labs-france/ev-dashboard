@@ -466,8 +466,8 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
     getColumnDefs(): TableColumnDef[] {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
-            { id: 'id', name: 'ID' },
-            { id: 'name', name: 'Name', sorted: true, direction: 'asc' }
+            { id: 'id', name: 'ID', class: 'text-left'},
+            { id: 'name', name: 'Name', class: 'text-left', sorted: true, direction: 'asc' }
         ];
     }
 

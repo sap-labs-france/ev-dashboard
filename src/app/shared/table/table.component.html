@@ -8,7 +8,7 @@
     <!-- Columns -->
     <ng-container *ngFor="let column of columns, index as i" [matColumnDef]="column">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnNames[i]}}</th>
-      <td mat-cell *matCellDef="let row">{{row[column]}}</td>
+      <td mat-cell [class]="columnDefs[i].class" *matCellDef="let row">{{row[column]}}</td>
     </ng-container>
 
     <!-- Rows -->

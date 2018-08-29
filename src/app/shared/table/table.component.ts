@@ -16,7 +16,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource;
-  public columnsDef = [];
+  public columnDefs = [];
   public columns: string[];
   public columnNames: string[];
   public pageSizes = [];
@@ -36,7 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Set columns
-    this.columnsDef = this.dataSource.getColumnDefs();
+    this.columnDefs = this.dataSource.getColumnDefs();
     this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
     this.columnNames = this.dataSource.getColumnDefs().map( (column) => column.name);
     // Paginator

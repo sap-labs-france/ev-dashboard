@@ -7,6 +7,18 @@ table {
   width: 100%;
 }
 
+th {
+  font-weight: bold;
+}
+
 td, th {
-  width: 25%;
+  font-size: 1rem;
+}
+
+th:first-child, td:first-child {
+  padding: 0 20px;
+}
+
+th:nth-child(n+2), td:nth-child(n+2) {
+  padding-right: 20px;
 }

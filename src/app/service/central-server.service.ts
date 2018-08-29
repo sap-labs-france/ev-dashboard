@@ -103,8 +103,8 @@ export class CentralServerService {
     // Set filter
     const queryString = {};
     // Set Values
-    if (params.searchValue) {
-      queryString['Search'] = params.searchValue;
+    if (params.search) {
+      queryString['Search'] = params.search;
     }
     if (params.userID) {
       queryString['UserID'] = params.userID;

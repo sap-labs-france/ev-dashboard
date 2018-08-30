@@ -11,78 +11,86 @@ interface TableSearch {
 }
 
 export abstract class TableDataSource<T> {
-  private subject = new BehaviorSubject<T[]>([]);
-  private searchInput: ElementRef;
-  private paginatorUp: MatPaginator;
-  private paginatorDown: MatPaginator;
-  private sort: MatSort;
+    private subject = new BehaviorSubject<T[]>([]);
+    private searchInput: ElementRef;
+    private paginatorUp: MatPaginator;
+    private paginatorDown: MatPaginator;
+    private sort: MatSort;
+    private numberOfRecords = 0;
 
-  getSubjet(): BehaviorSubject<T[]> {
-      return this.subject;
-  }
+    getSubjet(): BehaviorSubject<T[]> {
+        return this.subject;
+    }
 
-  setPaginatorUp(paginator: MatPaginator) {
-      this.paginatorUp = paginator;
-  }
+    setPaginatorUp(paginator: MatPaginator) {
+        this.paginatorUp = paginator;
+    }
 
-  setPaginatorDown(paginator: MatPaginator) {
-      this.paginatorDown = paginator;
-  }
+    setPaginatorDown(paginator: MatPaginator) {
+        this.paginatorDown = paginator;
+    }
 
-  getPaginator(): MatPaginator {
-      // Return one of them
-      return this.paginatorUp;
-  }
+    getPaginator(): MatPaginator {
+        // Return one of them
+        return this.paginatorUp;
+    }
 
-  setSort(sort: MatSort) {
-      this.sort = sort;
-  }
+    setSort(sort: MatSort) {
+        this.sort = sort;
+    }
 
-  getSort(): MatSort {
-      return this.sort;
-  }
+    getSort(): MatSort {
+        return this.sort;
+    }
 
-  setSearchInput(searchInput: ElementRef) {
-      this.searchInput = searchInput;
-  }
+    setSearchInput(searchInput: ElementRef) {
+        this.searchInput = searchInput;
+    }
 
-  connect(collectionViewer: CollectionViewer): Observable<T[]> {
-      return this.subject.asObservable();
-  }
+    connect(collectionViewer: CollectionViewer): Observable<T[]> {
+        return this.subject.asObservable();
+    }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-      this.subject.complete();
-  }
+    disconnect(collectionViewer: CollectionViewer): void {
+        this.subject.complete();
+    }
 
-  updatePaginator() {
-      this.paginatorUp.length = Math.trunc(this.getNumberOfRecords() / this.paginatorUp.pageSize);
-      this.paginatorDown.length = this.paginatorUp.length;
-  }
+    updatePaginator() {
+        this.paginatorUp.length = this.getNumberOfRecords();
+        this.paginatorDown.length = this.getNumberOfRecords();
+    }
 
-  getPaginatorPageSizes() {
-      return [15, 25, 50, 100];
-  }
+    getPaginatorPageSizes() {
+        return [15, 25, 50, 100];
+    }
 
-  getSearch(): TableSearch {
-      return { search: this.searchInput.nativeElement.value };
-  }
+    getSearch(): TableSearch {
+        return { search: this.searchInput.nativeElement.value };
+    }
 
-  getPaging(): Paging {
-      return {
-          skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-          limit: this.getPaginator().pageSize
-      };
-  }
+    getPaging(): Paging {
+        return {
+            skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
+            limit: this.getPaginator().pageSize
+        };
+    }
 
-  getOrdering(): Ordering[] {
-      return [
-          { field: this.getSort().active, direction: this.getSort().direction }
-      ]
-  }
+    getOrdering(): Ordering[] {
+        return [
+            { field: this.getSort().active, direction: this.getSort().direction }
+        ]
+    }
 
-  abstract loadData();
 
-  abstract getNumberOfRecords(): number;
+    setNumberOfRecords(numberOfRecords: number) {
+        this.numberOfRecords = numberOfRecords;
+    }
 
-  abstract getColumnDefs(): TableColumnDef[];
+    getNumberOfRecords(): number {
+        return this.numberOfRecords;
+    }
+
+    abstract loadData();
+
+    abstract getColumnDefs(): TableColumnDef[];
 }

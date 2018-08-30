@@ -22,3 +22,8 @@ export interface Site {
   lastChangedBy: string;
   lastChangedOn: Date;
 }
+
+export interface SiteResult {
+  count: number,
+  result: Site[]
+}

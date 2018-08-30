@@ -66,14 +66,15 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
     }
 
     loadData() {
-        this.numberOfRecords = 1000;
-        // Update page length
-        // this.updatePaginator();
         // Get data
         this.centralServerService.getLogs(this.getSearch(),
                 this.getPaging(), this.getOrdering()).subscribe((logs) =>  {
+            // Set number of records
+            this.numberOfRecords = logs.count;
+            // Update page length
+            this.updatePaginator();
             // Add the users in the message
-            logs.map((log) => {
+            logs.result.map((log) => {
                 let user;
                 // Set User
                 if (log.user) {
@@ -90,7 +91,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 return log;
             });
             // Return logs
-            this.getSubjet().next(logs);
+            this.getSubjet().next(logs.result);
         }, (error) => {
             // No longer exists!
             Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('general.error_backend'));

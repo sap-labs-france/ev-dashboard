@@ -11,3 +11,8 @@ export interface Log {
   actionOnUser: string,
   detailedMessages: string[];
 }
+
+export interface LogResult {
+  count: number,
+  result: Log[]
+}

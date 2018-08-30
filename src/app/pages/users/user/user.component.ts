@@ -442,13 +442,15 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
     loadData() {
         // User provided?
         if (this.user) {
-            // Update page length (number of sites is in User)
-            this.updatePaginator();
             // Yes: Get data
             this.centralServerService.getSites(this.getSearch(),
                     this.getPaging(), this.getOrdering()).subscribe((sites) =>  {
+                // Set number of records
+                this.setNumberOfRecords(sites.count);
+                // Update page length (number of sites is in User)
+                this.updatePaginator();
                 // Return sites
-                this.getSubjet().next(sites);
+                this.getSubjet().next(sites.result);
             }, (error) => {
                 // No longer exists!
                 Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('general.error_backend'));
@@ -475,14 +477,6 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
         this.user = user;
         // Reload the table
         this.loadData();
-    }
-
-    getNumberOfRecords(): number {
-        // Check
-        if (!this.user) {
-            return 0;
-        }
-        return this.user.numberOfSites;
     }
 }
 

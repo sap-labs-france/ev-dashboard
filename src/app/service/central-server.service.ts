@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 import { User } from '../model/user';
-import { Site } from '../model/site';
+import { Site, SiteResult } from '../model/site';
 import { Image } from '../model/image';
 import { ActionResponse } from '../model/action-response';
 import { ConfigService } from './config.service';
@@ -18,7 +18,7 @@ import { Paging } from '../model/paging';
 import { Ordering } from '../model/ordering';
 import { Status } from '../model/status';
 import { Role } from '../model/role';
-import { Log } from '../model/log';
+import { Log, LogResult } from '../model/log';
 
 @Injectable()
 export class CentralServerService {
@@ -98,7 +98,7 @@ export class CentralServerService {
     }
   }
 
-  getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Site[]> {
+  getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
     // Verify init
     this._checkInit();
     // Set filter
@@ -137,7 +137,7 @@ export class CentralServerService {
       .catch(this.handleError);
   }
 
-  getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Log[]> {
+  getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
     // dateFrom, level, type, chargingStation, search, action, numberOfLogs, sortDate
     // Verify init
     this._checkInit();

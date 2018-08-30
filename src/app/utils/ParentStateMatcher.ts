@@ -6,7 +6,7 @@ export class ParentErrorStateMatcher implements ErrorStateMatcher {
     const controlTouched = !!(control && (control.dirty || control.touched));
     const controlInvalid = !!(control && control.invalid);
     const parentInvalid = !!(control && control.parent && control.parent.invalid && (control.parent.dirty || control.parent.touched));
-    
+
     return controlTouched && (controlInvalid || parentInvalid);
   }
 }

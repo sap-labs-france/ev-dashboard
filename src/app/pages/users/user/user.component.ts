@@ -3,22 +3,22 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { LocaleService } from '../../service/locale.service';
-import { CentralServerService } from '../../service/central-server.service';
-import { SpinnerService } from '../../service/spinner.service';
-import { AuthorizationService } from '../../service/authorization-service';
-import { MessageService } from '../../service/message.service';
-import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
-import { Constants } from '../../utils/Constants';
-import { Users } from '../../utils/Users';
-import { Utils } from '../../utils/Utils';
+import { LocaleService } from '../../../service/locale.service';
+import { CentralServerService } from '../../../service/central-server.service';
+import { SpinnerService } from '../../../service/spinner.service';
+import { AuthorizationService } from '../../../service/authorization-service';
+import { MessageService } from '../../../service/message.service';
+import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
+import { Constants } from '../../../utils/Constants';
+import { Users } from '../../../utils/Users';
+import { Utils } from '../../../utils/Utils';
 import 'rxjs/add/operator/mergeMap';
 import { DataSource } from '@angular/cdk/table';
-import { Site } from '../../model/site';
-import { User } from '../../model/user';
-import { TableComponent } from '../../shared/table/table.component';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { TableColumnDef } from '../../model/table-column-def';
+import { Site } from '../../../model/site';
+import { User } from '../../../model/user';
+import { TableComponent } from '../../../shared/table/table.component';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { TableColumnDef } from '../../../model/table-column-def';
 
 @Component({
     selector: 'app-user-cmp',

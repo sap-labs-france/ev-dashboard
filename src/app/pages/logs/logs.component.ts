@@ -3,14 +3,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataSource } from '@angular/cdk/table';
 import 'rxjs/add/operator/mergeMap';
-import { LocaleService } from '../service/locale.service';
-import { CentralServerService } from '../service/central-server.service';
-import { SpinnerService } from '../service/spinner.service';
-import { AuthorizationService } from '../service/authorization-service';
-import { MessageService } from '../service/message.service';
-import { TableDataSource } from '../shared/table/table-data-source';
-import { TableColumnDef } from '../model/table-column-def';
-import { Log } from '../model/log';
+import { LocaleService } from '../../service/locale.service';
+import { CentralServerService } from '../../service/central-server.service';
+import { SpinnerService } from '../../service/spinner.service';
+import { AuthorizationService } from '../../service/authorization-service';
+import { MessageService } from '../../service/message.service';
+import { TableDataSource } from '../../shared/table/table-data-source';
+import { TableColumnDef } from '../../model/table-column-def';
+import { Log } from '../../model/log';
 
 @Component({
     selector: 'app-logs-cmp',

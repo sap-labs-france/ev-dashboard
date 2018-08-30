@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { UserComponent } from './user/user.component';
-import { RouteGuardService } from '../service/route-guard.service';
+import { RouteGuardService } from '../../service/route-guard.service';
 
 export const UserRoutes: Routes = [
     // { path: '', component: UsersComponent, canActivate: [RouteGuardService] },

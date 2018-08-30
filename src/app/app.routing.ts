@@ -11,9 +11,10 @@ export const AppRoutes: Routes = [
     }, {
         path: '', component: AdminLayoutComponent,
         children: [
-            { path: '', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'users', loadChildren: './users/users.module#UsersModule' },
-            { path: 'logs', loadChildren: './logs/logs.module#LogsModule' },
+            { path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule' },
+            { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule' },
+            { path: 'users', loadChildren: './pages/users/users.module#UsersModule' },
+            { path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule' },
             { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true } },
         ]
     }, {

@@ -5,7 +5,6 @@ export class Constants {
   public static ROLE_ADMIN = 'A';
   public static ROLE_BASIC = 'B';
   public static ROLE_DEMO = 'D';
-  public static ROLE_CORPORATE = 'C';
   public static ENTITY_VEHICLE_MANUFACTURER = 'VehicleManufacturer';
   public static ENTITY_VEHICLE_MANUFACTURERS = 'VehicleManufacturers';
   public static ENTITY_VEHICLE = 'Vehicle';

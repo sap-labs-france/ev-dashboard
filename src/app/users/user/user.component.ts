@@ -441,7 +441,7 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
         super();
     }
 
-    load() {
+    loadData() {
         // User provided?
         if (this.user) {
             // Update page length (number of sites is in User)
@@ -476,7 +476,7 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
         // Set user
         this.user = user;
         // Reload the table
-        this.load();
+        this.loadData();
     }
 
     getNumberOfRecords(): number {

@@ -3,7 +3,10 @@
 </mat-form-field>
 
 <div class="mat-elevation-z8">
-    <!-- Table -->
+  <!-- Paginator -->
+  <mat-paginator #paginatorUp [pageSizeOptions]="pageSizes" (page)="handlePageChangedUp()" ></mat-paginator>
+
+  <!-- Table -->
   <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
     <!-- Columns -->
     <ng-container *ngFor="let column of columns, index as i" [matColumnDef]="column">
@@ -17,5 +20,5 @@
   </table>
 
   <!-- Paginator -->
-  <mat-paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()" ></mat-paginator>
+  <mat-paginator #paginatorDown [pageSizeOptions]="pageSizes" (page)="handlePageChangedDown()" ></mat-paginator>
 </div>

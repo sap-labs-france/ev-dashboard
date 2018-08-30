@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { TableDataSource } from './table-data-source';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -15,14 +16,15 @@ import 'rxjs/add/operator/distinctUntilChanged';
   templateUrl: 'table.component.html',
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  @Input() dataSource;
+  @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
   public pageSizes = [];
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('paginatorUp') paginatorUp: MatPaginator;
+  @ViewChild('paginatorDown') paginatorDown: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -50,21 +52,23 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.searchSourceSubject.debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis)
         .distinctUntilChanged().subscribe(() => {
       // Reset paginator
-      this.paginator.pageIndex = 0;
+      this.paginatorUp.pageIndex = 0;
+      this.paginatorDown.pageIndex = 0;
       // Load data
-      this.load();
+      this.loadData();
     });
   }
 
   ngAfterViewInit() {
     // Set Paginator
-    this.dataSource.setPaginator(this.paginator);
+    this.dataSource.setPaginatorUp(this.paginatorUp);
+    this.dataSource.setPaginatorDown(this.paginatorDown);
     // Set Sort
     this.dataSource.setSort(this.sort);
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
-    this.load();
+    this.loadData();
   }
 
   getRowValue(row: any, column: string) {
@@ -84,28 +88,31 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   handleSortChanged() {
     // Reset paginator
-    this.paginator.pageIndex = 0;
+    this.paginatorUp.pageIndex = 0;
+    this.paginatorDown.pageIndex = 0;
     // Load data
-    this.load();
+    this.loadData();
   }
 
-  handlePageChanged() {
+  handlePageChangedDown() {
+    // Update the other paginator
+    this.paginatorUp.pageIndex = this.paginatorDown.pageIndex;
+    this.paginatorUp.pageSize = this.paginatorDown.pageSize;
     // Load data
-    this.load();
+    this.loadData();
   }
 
-  load() {
+  handlePageChangedUp() {
+    // Update the other paginator
+    this.paginatorDown.pageIndex = this.paginatorUp.pageIndex;
+    this.paginatorDown.pageSize = this.paginatorUp.pageSize;
+    // Load data
+    this.loadData();
+  }
+
+  loadData() {
     // Load data source
-    this.dataSource.load();
-  }
-
-  applyFilter(filterValue: string) {
-    // Set filter
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.dataSource.loadData();
   }
 
   rowClick(row) {

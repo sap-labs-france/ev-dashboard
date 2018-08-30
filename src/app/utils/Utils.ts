@@ -85,6 +85,7 @@ export class Utils {
       // Server connection error`
       case 0:
         messageService.showErrorMessageConnectionLost();
+        router.navigate(['/auth/login']);
         break;
 
       // Unauthorized!

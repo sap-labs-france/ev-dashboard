@@ -22,3 +22,34 @@ th:first-child, td:first-child {
 th:nth-child(n+2), td:nth-child(n+2) {
   padding-right: 20px;
 }
+
+/** Logs **/
+.logs-col-status {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.col-date {
+  width: 175px;
+  min-width: 175px;
+  max-width: 175px;
+}
+
+.col-user {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.col-action {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.col-message {
+  width: 800px;
+  min-width: 800px;
+  max-width: 800px;
+}

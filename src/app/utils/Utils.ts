@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 
 export class Utils {
@@ -18,60 +17,6 @@ export class Utils {
     }
     // Not Equal
     return { notEqual: true };
-  }
-
-  // Update`
-  static updateJSon(source, dest) {
-    let i;
-    // Browse each props
-    for (const property in source) {
-      // Array?
-      if (Array.isArray(source[property])) {
-        // Handle update of array
-        for (i = 0; i < source[property].length; i++) {
-          // Check
-          if (!dest[property][i]) {
-            // Init
-            dest[property][i] = {};
-          }
-          // Call recursive
-          Utils.updateJSon(source[property][i], dest[property][i]);
-        }
-
-        // Handle removal in dest
-        const foundElems = [];
-        for (i = 0; i < dest[property].length; i++) {
-          // Check
-          if (!source[property][i]) {
-            // Keep index
-            foundElems.push(i);
-          }
-        }
-        // Remove by descending to avoid messing up the indexes
-        for (i = foundElems.length - 1; i >= 0; i--) {
-          // Remove
-          dest[property].splice(foundElems[i], 1);
-        }
-      } else {
-        // Update the property
-        dest[property] = source[property];
-      }
-    }
-  }
-
-  static removeObjectNotInNewList(currentObjects, newObjects) {
-    // Remove Site Areas by descending to avoid messing up the indexes
-    for (let i = currentObjects.length - 1; i >= 0; i--) {
-      // Current
-      const foundNewObject = newObjects.find((newObject) => {
-        return (newObject.id === currentObjects[i].id);
-      });
-      // Found?
-      if (!foundNewObject) {
-        // No, Remove it
-        currentObjects.splice(i, 1);
-      }
-    }
   }
 
   static handleError(error, router, messageService, errorMessage?): Observable<any> {
@@ -102,47 +47,41 @@ export class Utils {
     }
   }
 
-  static getUrlWithoutQueryString(url) {
-    let urlWithoutQueryString;
-    const queryStringIndex = url.indexOf('?');
-
-    if (queryStringIndex >= 0) {
-      urlWithoutQueryString = url.substring(0, queryStringIndex);
-    } else {
-      urlWithoutQueryString = url;
+  static convertToDate(date) {
+    // Check
+    if (!date) {
+      return date;
     }
-    return urlWithoutQueryString;
+    // Check Type
+    if (!(date instanceof Date)) {
+      return new Date(date);
+    }
+    return date;
   }
 
-  static navTo(path: any[], router: Router, route: ActivatedRoute) {
-    const navigationExtras: NavigationExtras = {};
-    const navFrom = route.snapshot.queryParams['from'];
-
-    if (navFrom) {
-      // Array?
-      if (Array.isArray(navFrom)) {
-        navFrom.push(router.url);
-        navigationExtras.queryParams = { 'from': navFrom };
-      } else {
-        navigationExtras.queryParams = { 'from': [navFrom, router.url] };
-      }
-    } else {
-      navigationExtras.queryParams = { 'from': router.url };
+  static convertToInteger(id) {
+    let changedID = id;
+    if (!id) {
+      return 0;
     }
-    // Navigate
-    router.navigate(path, navigationExtras);
+    // Check
+    if (typeof id === 'string') {
+      // Create Object
+      changedID = parseInt(id, 10);
+    }
+    return changedID;
   }
 
-  static navBack(router: Router, route: ActivatedRoute) {
-    const navFrom = route.snapshot.queryParams['from'];
-    let navBackFrom;
-
-    // Array?
-    if (Array.isArray(navFrom)) {
-      navBackFrom = navFrom.splice(navFrom.length - 1, 1)[0];
-    } else {
-      navBackFrom = navFrom;
+  static convertToFloat(id) {
+    let changedID = id;
+    if (!id) {
+      return 0;
     }
-    router.navigateByUrl(navBackFrom);
+    // Check
+    if (typeof id === 'string') {
+      // Create Object
+      changedID = parseFloat(id);
+    }
+    return changedID;
   }
 }

@@ -65,15 +65,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.isAdmin = this.authorizationService.isAdmin();
         // Get the logged user
         this.loggedUser = this.centralServerService.getLoggedUser();
-        // Update Menu Langage
-        ROUTES.map((route) => {
-            return Object.assign(route, { title: translateService.instant(`general.menu.${route.title}`) })
-        });
         // Read user
         this.updateUserImage();
     }
 
     ngOnInit() {
+        // Translate menu items
+        ROUTES.map((route) => {
+            return Object.assign(route, { title: this.translateService.instant(`general.menu.${route.title}`) })
+        });
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         // Subscribe to user's change
         this.userSubscription = this.webSocketService.getSubjectUser().debounceTime(

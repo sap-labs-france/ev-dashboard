@@ -6,6 +6,8 @@ import { ConfigService } from '../../service/config.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { TableDataSource } from './table-data-source';
+import { TableColumnDef } from '../../model/table-column-def';
+import { Utils } from '../../utils/Utils';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -71,19 +73,42 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  getRowValue(row: any, column: string) {
-    // Check JSon sub-props
-    if (column.indexOf('.') > 0) {
+  getRowValue(row: any, columnDef: TableColumnDef) {
+    let propertyValue = row[columnDef.id];
+
+    // Check if ID contains multiple IDs
+    if (columnDef.id.indexOf('.') > 0) {
       // Yes: get the sub-property
-      let nextProp = row;
+      propertyValue = row;
       // Get the Json value
-      column.split('.').forEach((oneColumn) => {
-        nextProp = nextProp[oneColumn];
+      columnDef.id.split('.').forEach((id) => {
+        propertyValue = propertyValue[id];
       });
-      return nextProp;
+    }
+
+    // Type?
+    switch (columnDef.type) {
+      // Date
+      case 'date':
+        propertyValue = Utils.convertToDate(propertyValue);
+        break;
+      // Integer
+      case 'integer':
+        propertyValue = Utils.convertToInteger(propertyValue);
+        break;
+        // Float
+      case 'float':
+        propertyValue = Utils.convertToFloat(propertyValue);
+        break;
+    }
+
+    // Format?
+    if (columnDef.formatter) {
+      // Yes
+      propertyValue = columnDef.formatter(propertyValue, columnDef.formatterOptions);
     }
     // Return the property
-    return row[column];
+    return propertyValue;
   }
 
   handleSortChanged() {

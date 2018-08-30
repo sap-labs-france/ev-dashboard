@@ -7,5 +7,7 @@ export interface Log {
   action: string;
   type: string;
   message: string;
+  user: string,
+  actionOnUser: string,
   detailedMessages: string[];
 }

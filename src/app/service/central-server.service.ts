@@ -18,6 +18,7 @@ import { Paging } from '../model/paging';
 import { Ordering } from '../model/ordering';
 import { Status } from '../model/status';
 import { Role } from '../model/role';
+import { Log } from '../model/log';
 
 @Injectable()
 export class CentralServerService {
@@ -132,6 +133,56 @@ export class CentralServerService {
         headers: this.buildHeaders(),
         params: queryString
       }))
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Log[]> {
+    // dateFrom, level, type, chargingStation, search, action, numberOfLogs, sortDate
+    // Verify init
+    this._checkInit();
+    // Set filter
+    const queryString = {};
+    // Set Values
+    if (params.search) {
+      queryString['Search'] = params.search;
+    }
+    if (params.dateFrom) {
+      queryString['DateFrom'] = params.dateFrom;
+    }
+    if (params.level) {
+      queryString['Level'] = params.level;
+    }
+    if (params.type) {
+      queryString['Type'] = params.type;
+    }
+    if (params.chargingStation) {
+      queryString['ChargingStation'] = params.chargingStation;
+    }
+    if (params.action) {
+      queryString['Action'] = params.action;
+    }
+    // Build Paging
+    this.buildPaging(paging, queryString);
+    // Build Ordering
+    this.buildOrdering(ordering, queryString);
+    // Execute the REST service
+    // Execute
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Loggings?${queryString}`,
+      new RequestOptions({
+        headers: this.buildHeaders(),
+        params: queryString
+      }))
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getLog(id): Observable<Log> {
+    // Verify init
+    this._checkInit();
+    // Call
+    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
+      new RequestOptions({headers: this.buildHeaders()}))
       .map(this.extractData)
       .catch(this.handleError);
   }

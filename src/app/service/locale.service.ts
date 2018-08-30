@@ -33,6 +33,15 @@ export class LocaleService {
     }
   }
 
+  getCurrentFullLocaleForJS() {
+    switch (this.language) {
+      case 'en':
+        return 'en-US';
+      case 'fr':
+        return 'fr-FR';
+    }
+  }
+
   getLocales() {
     const locales = [];
     // en, fr...

@@ -7,17 +7,21 @@
   <mat-paginator #paginatorUp [pageSizeOptions]="pageSizes" (page)="handlePageChangedUp()" ></mat-paginator>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
-    <!-- Columns -->
-    <ng-container *ngFor="let column of columns, index as i" [matColumnDef]="column">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{columnDefs[i].name}}</th>
-      <td mat-cell [class]="columnDefs[i].class" *matCellDef="let row">{{getRowValue(row, column)}}</td>
-    </ng-container>
+  <div style="overflow: auto">
+    <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
+      <!-- Columns -->
+      <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
+        <th mat-header-cell [class]="(columnDef.class?columnDef.class:'')" 
+          *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
+        <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
+          *matCellDef="let row" [innerHtml]="getRowValue(row, columnDef)"></td>
+      </ng-container>
 
-    <!-- Rows -->
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;" (click)="rowClick(row)"></tr>
-  </table>
+      <!-- Rows -->
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;" (click)="rowClick(row)"></tr>
+    </table>
+  </div>
 
   <!-- Paginator -->
   <mat-paginator #paginatorDown [pageSizeOptions]="pageSizes" (page)="handlePageChangedDown()" ></mat-paginator>

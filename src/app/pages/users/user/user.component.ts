@@ -16,7 +16,6 @@ import 'rxjs/add/operator/mergeMap';
 import { DataSource } from '@angular/cdk/table';
 import { Site } from '../../../model/site';
 import { User } from '../../../model/user';
-import { TableComponent } from '../../../shared/table/table.component';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableColumnDef } from '../../../model/table-column-def';
 
@@ -25,7 +24,6 @@ import { TableColumnDef } from '../../../model/table-column-def';
     templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
-    @ViewChild('siteTable') siteTable: TableComponent;
     public parentErrorStateMatcher = new ParentErrorStateMatcher();
     private messages;
     public userStatuses;
@@ -453,7 +451,7 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
                 this.getSubjet().next(sites);
             }, (error) => {
                 // No longer exists!
-                Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('sites.update_error'));
+                Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('general.error_backend'));
             });
         } else {
             // Update page length

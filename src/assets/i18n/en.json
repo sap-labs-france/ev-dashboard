@@ -61,29 +61,21 @@
 		"menu": {
 			"dashboard": "Dashboard",
 			"charging_stations": "Landscape",
-			"transactions": {
-				"transactions": "Sessions",
-				"active": "Active",
-				"history": "History"
-			},
-			"statistics": {
-				"statistics": "Statistics",
-				"consumption": "Consumption",
-				"usage": "Usage"
-			},
-			"organisations": {
-				"organisations": "Organisations",
-				"companies": "Companies",
-				"sites": "Sites",
-				"site_areas": "Site Areas"
-			},
+			"transactions": "Sessions",
+			"active": "Active",
+			"history": "History",
+			"statistics": "Statistics",
+			"consumption": "Consumption",
+			"usage": "Usage",
+			"organisations": "Organisations",
+			"companies": "Companies",
+			"sites": "Sites",
+			"site_areas": "Site Areas",
 			"users": "Users",
-			"transports": {
-				"transports": "Transports",
-				"manufacturers": "Manufacturers",
-				"vehicles": "Vehicles"
-			},
-			"logging": "Logging",
+			"transports": "Transports",
+			"manufacturers": "Manufacturers",
+			"vehicles": "Vehicles",
+			"logs": "Logs",
 			"pricing": "Pricing"
 		}
 	},
@@ -475,7 +467,7 @@
 		"graphic_time_title": "Time",
 		"not_connected_to_charging_station": "Your are currently not connected to a charging station"
 	},
-	"logging": {
+	"logs": {
 		"logging_number": "Log(s)",
 		"debug": "Debug",
 		"info": "Info",

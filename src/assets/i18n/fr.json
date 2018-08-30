@@ -61,29 +61,21 @@
 		"menu": {
 			"dashboard": "Tableau de bord",
 			"charging_stations": "Paysage",
-			"transactions": {
-				"transactions": "Sessions",
-				"active": "Actives",
-				"history": "Historique"
-			},
-			"statistics": {
-				"statistics": "Statistiques",
-				"consumption": "Consommation",
-				"usage": "Utilisation"
-			},
-			"organisations": {
-				"organisations": "Organisations",
-				"companies": "Entreprises",
-				"sites": "Sites",
-				"site_areas": "Zones"
-			},
+			"transactions": "Sessions",
+			"active": "Actives",
+			"history": "Historique",
+			"statistics": "Statistiques",
+			"consumption": "Consommation",
+			"usage": "Utilisation",
+			"organisations": "Organisations",
+			"companies": "Entreprises",
+			"sites": "Sites",
+			"site_areas": "Zones",
 			"users": "Utilisateurs",
-			"transports": {
-				"transports": "Transports",
-				"manufacturers": "Constructeurs",
-				"vehicles": "Véhicules"
-			},
-			"logging": "Journal Logs",
+			"transports": "Transports",
+			"manufacturers": "Constructeurs",
+			"vehicles": "Véhicules",
+			"logs": "Logs",
 			"pricing": "Prix"
 		}
 	},
@@ -475,7 +467,7 @@
 		"graphic_time_title": "Heure",
 		"not_connected_to_charging_station": "Vous n'êtes pas connecté à une borne"
 	},
-	"logging": {
+	"logs": {
 		"logging_number": "Log(s)",
 		"debug": "Debug",
 		"info": "Info.",

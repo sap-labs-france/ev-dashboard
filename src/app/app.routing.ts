@@ -13,6 +13,7 @@ export const AppRoutes: Routes = [
         children: [
             { path: '', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'users', loadChildren: './users/users.module#UsersModule' },
+            { path: 'logs', loadChildren: './logs/logs.module#LogsModule' },
             { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true } },
         ]
     }, {

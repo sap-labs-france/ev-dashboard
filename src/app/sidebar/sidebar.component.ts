@@ -6,6 +6,7 @@ import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
 import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/debounceTime';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -30,9 +31,15 @@ export interface ChildrenItems {
 export const ROUTES: RouteInfo[] = [
     {
         path: '/dashboard',
-        title: 'Dashboard',
+        title: 'dashboard',
         type: 'link',
         icontype: 'dashboard'
+    },
+    {
+        path: '/logs',
+        title: 'logs',
+        type: 'link',
+        icontype: 'list'
     }
 ];
 
@@ -51,12 +58,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
             private configService: ConfigService,
             private router: Router,
             private authorizationService: AuthorizationService,
+            private translateService: TranslateService,
             private centralServerService: CentralServerService,
             private webSocketService: WebSocketService) {
         // Set admin
         this.isAdmin = this.authorizationService.isAdmin();
         // Get the logged user
         this.loggedUser = this.centralServerService.getLoggedUser();
+        // Update Menu Langage
+        ROUTES.map((route) => {
+            return Object.assign(route, { title: translateService.instant(`general.menu.${route.title}`) })
+        });
         // Read user
         this.updateUserImage();
     }

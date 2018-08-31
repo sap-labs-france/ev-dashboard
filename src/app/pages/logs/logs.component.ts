@@ -9,10 +9,9 @@ import { SpinnerService } from '../../service/spinner.service';
 import { AuthorizationService } from '../../service/authorization-service';
 import { MessageService } from '../../service/message.service';
 import { TableDataSource } from '../../shared/table/table-data-source';
-import { TableColumnDef } from '../../model/table-column-def';
-import { Log } from '../../model/log';
 import { Utils } from '../../utils/Utils';
 import { Formatters } from '../../utils/Formatters';
+import { TableColumnDef, Log } from '../../common.types';
 
 @Component({
     selector: 'app-logs-cmp',

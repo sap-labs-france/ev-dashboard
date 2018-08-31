@@ -2,9 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer } from '@angular/cdk/collections';
-import { TableColumnDef } from '../../model/table-column-def';
-import { Paging } from '../../model/paging';
-import { Ordering } from '../../model/ordering';
+import { TableColumnDef, Paging, Ordering } from '../../common.types';
 
 interface TableSearch {
     search: string;

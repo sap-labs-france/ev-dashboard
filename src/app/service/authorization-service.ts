@@ -4,7 +4,7 @@ import { Authorization } from 'node-authorization';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 import { Constants } from '../utils/Constants';
-import { User } from '../model/user';
+import { User } from '../common.types';
 
 @Injectable()
 export class AuthorizationService {

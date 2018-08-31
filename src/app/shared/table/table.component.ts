@@ -6,7 +6,7 @@ import { ConfigService } from '../../service/config.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef } from '../../model/table-column-def';
+import { TableColumnDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 
 /**

@@ -4,21 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
-import { User } from '../model/user';
-import { Site, SiteResult } from '../model/site';
-import { Image } from '../model/image';
-import { ActionResponse } from '../model/action-response';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { WebSocketService } from './web-socket.service';
-import { Paging } from '../model/paging';
-import { Ordering } from '../model/ordering';
-import { Status } from '../model/status';
-import { Role } from '../model/role';
-import { Log, LogResult } from '../model/log';
+import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image, User, Status, Role } from '../common.types';
 
 @Injectable()
 export class CentralServerService {

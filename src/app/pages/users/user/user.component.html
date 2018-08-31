@@ -52,7 +52,7 @@
             <form class="form" [formGroup]="formGroup">
               <div class="tab-content">
                 <div class="tab-pane active" id="profile">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
                       <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
@@ -146,7 +146,7 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="tab-pane" id="address">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
                       <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
@@ -155,7 +155,7 @@
                   <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
                 </div>
                 <div class="tab-pane" id="password">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
                       <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
@@ -184,7 +184,7 @@
                   </div>
                 </div>
                 <div class="tab-pane" id="miscs">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
                       <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 

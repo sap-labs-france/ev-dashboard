@@ -22,7 +22,6 @@
             ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
-              "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],
@@ -31,25 +30,11 @@
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
               "node_modules/moment/moment.js",
-              "node_modules/arrive/src/arrive.js",
               "node_modules/hammerjs/hammer.min.js",
-              "node_modules/web-animations-js/web-animations.min.js",
-              "node_modules/chartist/dist/chartist.js",
-              "node_modules/chartist-plugin-zoom/dist/chartist-plugin-zoom.js",
-              "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/nouislider/distribute/nouislider.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-              "node_modules/datatables/media/js/jquery.dataTables.js",
-              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
-              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
-              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
-              "node_modules/jquery-validation/dist/jquery.validate.min.js"
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"
             ]
           },
           "configurations": {
@@ -99,32 +84,14 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
               "node_modules/moment/moment.js",
               "node_modules/arrive/src/arrive.js",
               "node_modules/hammerjs/hammer.min.js",
-              "node_modules/web-animations-js/web-animations.min.js",
-              "node_modules/chartist/dist/chartist.js",
-              "node_modules/chartist-plugin-zoom/dist/chartist-plugin-zoom.js",
-              "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/nouislider/distribute/nouislider.min.js",
-              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-              "node_modules/datatables/media/js/jquery.dataTables.js",
-              "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
-              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
-              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
-              "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
-              "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],

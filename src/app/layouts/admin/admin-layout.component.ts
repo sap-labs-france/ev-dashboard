@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, HostListener, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { NavItem, NavItemType } from '../../md/md.module';
+import { NavItem, NavItemType } from '../../common.types';
 import { Subscription } from 'rxjs/Subscription';
 import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent } from '@angular/common';
 import 'rxjs/add/operator/filter';
@@ -30,20 +30,21 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
         const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
-        this.location.subscribe((ev:PopStateEvent) => {
+        this.location.subscribe((ev: PopStateEvent) => {
             this.lastPoppedUrl = ev.url;
         });
-         this.router.events.subscribe((event:any) => {
+         this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationStart) {
-               if (event.url != this.lastPoppedUrl)
+               if (event.url !== this.lastPoppedUrl) {
                    this.yScrollStack.push(window.scrollY);
+               }
            } else if (event instanceof NavigationEnd) {
-               if (event.url == this.lastPoppedUrl) {
+               if (event.url === this.lastPoppedUrl) {
                    this.lastPoppedUrl = undefined;
                    window.scrollTo(0, this.yScrollStack.pop());
-               }
-               else
+               } else {
                    window.scrollTo(0, 0);
+               }
            }
         });
         this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
@@ -55,8 +56,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
             let ps = new PerfectScrollbar(elemMainPanel);
             ps = new PerfectScrollbar(elemSidebar);
             html.classList.add('perfect-scrollbar-on');
-        }
-        else {
+        } else {
             html.classList.add('perfect-scrollbar-off');
         }
         this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {

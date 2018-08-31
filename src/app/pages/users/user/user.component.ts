@@ -14,10 +14,8 @@ import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import 'rxjs/add/operator/mergeMap';
 import { DataSource } from '@angular/cdk/table';
-import { Site } from '../../../model/site';
-import { User } from '../../../model/user';
+import { TableColumnDef, User, Site } from '../../../common.types';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { TableColumnDef } from '../../../model/table-column-def';
 
 @Component({
     selector: 'app-user-cmp',

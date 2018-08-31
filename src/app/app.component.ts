@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { SpinnerService } from './service/spinner.service';
 
 @Component({
     selector: 'app-my-app',
     templateUrl: './app.component.html'
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   private _router: Subscription;
 
-  constructor( private router: Router ) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private router: Router ) {
   }
 
     ngOnInit() {
@@ -22,5 +25,13 @@ export class AppComponent implements OnInit {
           modalBackdrop.remove();
         }
       });
+    }
+
+    ngAfterViewInit() {
+      // Hide
+      setTimeout(() => {
+        // Hide
+        this.spinnerService.hide();
+      }, 1000);
     }
 }

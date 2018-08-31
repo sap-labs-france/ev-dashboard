@@ -72,7 +72,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // Translate menu items
         ROUTES.map((route) => {
-            return Object.assign(route, { title: this.translateService.instant(`general.menu.${route.title}`) })
+            // Translate
+            route.title = this.translateService.instant(`general.menu.${route.title}`);
+            return route;
         });
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         // Subscribe to user's change

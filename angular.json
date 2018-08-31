@@ -88,7 +88,7 @@
               "node_modules/arrive/src/arrive.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"
             ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",

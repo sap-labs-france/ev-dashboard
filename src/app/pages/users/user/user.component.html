@@ -38,12 +38,6 @@
                     </a>
                   </li>
                   <span class="toolbar-spacer"></span>
-                  <button class="btn btn-info mat-raised-button" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid">
-                    <span class="mat-button-wrapper">
-                      <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
-                    </span>
-                  </button>
                   <button class="btn btn-info mat-raised-button" (click)="refresh()">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">refresh</i>
@@ -58,6 +52,12 @@
             <form class="form" [formGroup]="formGroup">
               <div class="tab-content">
                 <div class="tab-pane active" id="profile">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">save</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                    </span>
+                  </button>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -146,9 +146,21 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="tab-pane" id="address">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">save</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                    </span>
+                  </button>
                   <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
                 </div>
                 <div class="tab-pane" id="password">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">save</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                    </span>
+                  </button>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -172,6 +184,12 @@
                   </div>
                 </div>
                 <div class="tab-pane" id="miscs">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.touched">
+                    <span class="mat-button-wrapper">
+                      <i class="material-icons">save</i>
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                    </span>
+                  </button>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">

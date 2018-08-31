@@ -54,8 +54,6 @@ export class LogsComponent implements OnInit {
 }
 
 class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
-    private numberOfRecords = 0;
-
     constructor(
             private localeService: LocaleService,
             private messageService: MessageService,
@@ -70,7 +68,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
         this.centralServerService.getLogs(this.getSearch(),
                 this.getPaging(), this.getOrdering()).subscribe((logs) =>  {
             // Set number of records
-            this.numberOfRecords = logs.count;
+            this.setNumberOfRecords(logs.count);
             // Update page length
             this.updatePaginator();
             // Add the users in the message
@@ -128,10 +126,6 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 class: 'text-left col-message'
             }
         ];
-    }
-
-    getNumberOfRecords(): number {
-        return this.numberOfRecords;
     }
 }
 

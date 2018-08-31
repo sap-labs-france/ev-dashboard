@@ -257,10 +257,13 @@ export class UserComponent implements OnInit {
     }
 
     refresh() {
+        // Load User
         this.loadUser();
     }
 
     loadUser() {
+        // Init
+        this.formGroup.markAsUntouched();
         // Show spinner
         this.spinnerService.show();
         // Yes, get it

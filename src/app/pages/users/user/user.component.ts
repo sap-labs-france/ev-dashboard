@@ -430,6 +430,7 @@ export class UserComponent implements OnInit {
 
 class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
+    private sites: Site[] = [];
 
     constructor(
             private messageService: MessageService,
@@ -451,6 +452,8 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
                 this.updatePaginator();
                 // Return sites
                 this.getSubjet().next(sites.result);
+                // Keep it
+                this.sites = sites.result;
             }, (error) => {
                 // No longer exists!
                 Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -478,6 +481,10 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
         this.user = user;
         // Reload the table
         this.loadData();
+    }
+
+    getData(): Site[] {
+        return this.sites;
     }
 }
 

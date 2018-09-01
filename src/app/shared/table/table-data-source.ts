@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
-import { CollectionViewer } from '@angular/cdk/collections';
+import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
 import { TableColumnDef, Paging, Ordering } from '../../common.types';
 
 interface TableSearch {
@@ -15,6 +15,28 @@ export abstract class TableDataSource<T> {
     private paginatorDown: MatPaginator;
     private sort: MatSort;
     private numberOfRecords = 0;
+    private selectionEnabled = false;
+    private multiSelection = false;
+    private selectionModel: SelectionModel<T>;
+
+    setMultiSelection(multiSelection: boolean) {
+        this.multiSelection = multiSelection;
+    }
+
+    setSelectionEnabled(selectionEnabled: boolean) {
+        this.selectionEnabled = selectionEnabled;
+    }
+
+    isSelectionEnabled(): boolean {
+        return this.selectionEnabled;
+    }
+
+    getSelectionModel(): SelectionModel<T> {
+        if (!this.selectionModel) {
+            this.selectionModel = new SelectionModel<T>(this.multiSelection, []);
+        }
+        return this.selectionModel;
+    }
 
     getSubjet(): BehaviorSubject<T[]> {
         return this.subject;
@@ -59,7 +81,7 @@ export abstract class TableDataSource<T> {
     }
 
     getPaginatorPageSizes() {
-        return [15, 25, 50, 100];
+        return [15, 25, 50, 100, 250, 500];
     }
 
     getSearch(): TableSearch {
@@ -89,6 +111,8 @@ export abstract class TableDataSource<T> {
     }
 
     abstract loadData();
+
+    abstract getData(): T[];
 
     abstract getColumnDefs(): TableColumnDef[];
 }

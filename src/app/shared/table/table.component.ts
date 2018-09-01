@@ -7,6 +7,7 @@ import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
 import { TableColumnDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
+import { SelectionModel } from '@angular/cdk/collections';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -23,6 +24,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public pageSizes = [];
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
+  private selection: SelectionModel<any>;
 
   @ViewChild('paginatorUp') paginatorUp: MatPaginator;
   @ViewChild('paginatorDown') paginatorDown: MatPaginator;
@@ -37,9 +39,16 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // Set Selection
+    this.selection = this.dataSource.getSelectionModel();
     // Set columns
     this.columnDefs = this.dataSource.getColumnDefs();
     this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
+    // Selection enabled?
+    if (this.dataSource.isSelectionEnabled()) {
+      // Add column select
+      this.columns = ['select', ...this.columns];
+    }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Sort
@@ -70,6 +79,20 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
     this.loadData();
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.getData().length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
   getRowValue(row: any, columnDef: TableColumnDef) {
@@ -140,6 +163,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   rowClick(row) {
+    console.log('====================================');
     console.log(row);
+    console.log('====================================');
   }
 }

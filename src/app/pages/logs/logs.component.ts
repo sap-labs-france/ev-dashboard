@@ -52,6 +52,8 @@ export class LogsComponent implements OnInit {
 }
 
 class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
+    private logs: Log[] = [];
+
     constructor(
             private localeService: LocaleService,
             private messageService: MessageService,
@@ -59,6 +61,10 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             private router: Router,
             private centralServerService: CentralServerService) {
         super();
+        // Enable selection
+        this.setSelectionEnabled(true);
+        // Enable multi selection
+        this.setMultiSelection(true);
     }
 
     loadData() {
@@ -88,11 +94,17 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             });
             // Return logs
             this.getSubjet().next(logs.result);
+            // Keep the result
+            this.logs = logs.result;
         }, (error) => {
             // No longer exists!
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                 this.translateService.instant('general.error_backend'));
         });
+    }
+
+    getData(): Log[] {
+        return this.logs;
     }
 
     getColumnDefs(): TableColumnDef[] {
@@ -102,9 +114,9 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 id: 'level',
                 name: this.translateService.instant('logs.status'),
                 formatter: Formatters.formatLogLevel,
-                formatterOptions: { iconClass: '' },
+                formatterOptions: { iconClass: 'pt-1' },
                 headerClass: 'logs-col-status',
-                class: 'text-center logs-col-status'
+                class: 'logs-col-status'
             },
             {
                 id: 'timestamp',
@@ -129,6 +141,10 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 class: 'text-left col-message'
             }
         ];
+    }
+
+    getPaginatorPageSizes() {
+        return [15, 25, 50, 100, 250, 500, 1000, 2000];
     }
 }
 

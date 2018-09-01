@@ -4,14 +4,30 @@
 
 <div class="mat-elevation-z8">
   <!-- Paginator -->
-  <mat-paginator #paginatorUp [pageSizeOptions]="pageSizes" (page)="handlePageChangedUp()" ></mat-paginator>
+  <mat-paginator #paginatorUp [pageSizeOptions]="pageSizes" (page)="handlePageChangedUp()" showFirstLastButtons></mat-paginator>
 
   <!-- Table -->
-  <div style="overflow: auto">
+  <div style="overflow: auto; height: 65vh">
     <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef class="col-select pt-2">
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" class="col-select pt-2">
+          <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
-        <th mat-header-cell [class]="(columnDef.headerClass?columnDef.headerClass:'')" 
+        <th mat-header-cell [class]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
           *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
           *matCellDef="let row" [innerHtml]="getRowValue(row, columnDef)"></td>
@@ -24,5 +40,5 @@
   </div>
 
   <!-- Paginator -->
-  <mat-paginator #paginatorDown [pageSizeOptions]="pageSizes" (page)="handlePageChangedDown()" ></mat-paginator>
+  <mat-paginator #paginatorDown [pageSizeOptions]="pageSizes" (page)="handlePageChangedDown()" showFirstLastButtons></mat-paginator>
 </div>

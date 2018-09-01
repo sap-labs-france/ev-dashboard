@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DataSource } from '@angular/cdk/table';
-import 'rxjs/add/operator/mergeMap';
 import { LocaleService } from '../../service/locale.service';
 import { CentralServerService } from '../../service/central-server.service';
 import { SpinnerService } from '../../service/spinner.service';

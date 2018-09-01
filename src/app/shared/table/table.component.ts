@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import { TableDataSource } from './table-data-source';
 import { TableColumnDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
@@ -50,15 +49,15 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
-    // Subscribe to search changes
-    this.searchSourceSubject.debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis)
-        .distinctUntilChanged().subscribe(() => {
-      // Reset paginator
-      this.paginatorUp.pageIndex = 0;
-      this.paginatorDown.pageIndex = 0;
-      // Load data
-      this.loadData();
-    });
+    this.searchSourceSubject.pipe(
+      debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+      distinctUntilChanged()).subscribe(() => {
+        // Reset paginator
+        this.paginatorUp.pageIndex = 0;
+        this.paginatorDown.pageIndex = 0;
+        // Load data
+        this.loadData();
+      });
   }
 
   ngAfterViewInit() {

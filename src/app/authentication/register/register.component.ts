@@ -119,7 +119,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
                 } else {
                     // Unexpected Error
-                    Utils.handleError(JSON.stringify(response), this.router,
+                    Utils.handleError(JSON.stringify(response),
                         this.messageService, this.messages['register_user_error']);
                 }
             }, (error) => {
@@ -127,12 +127,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.recaptcha.reset();
                 // Check status
                 switch (error.status) {
-                    // Server not responding
-                    case 0:
-                        // Report the error
-                        this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
-                        break;
-
                     // Email already exists
                     case 510:
                         // Show error
@@ -146,9 +140,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         break;
 
                     default:
-                        // No longer exists!
-                        Utils.handleHttpError(error, this.router, this.messageService, this.messages['register_user_error']);
-                }
+                        // Unexpected error`
+                        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                            this.translateService.instant('general.unexpected_error_backend'));
+                    }
             });
         }
     }

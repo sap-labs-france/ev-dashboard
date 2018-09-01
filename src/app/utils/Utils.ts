@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormControl } from '@angular/forms';
+import { CentralServerService } from '../service/central-server.service';
+import { MessageService } from '../service/message.service';
+import { Router } from '@angular/router';
 
 export class Utils {
 
@@ -19,17 +22,25 @@ export class Utils {
     return { notEqual: true };
   }
 
-  static handleError(error, router, messageService, errorMessage?): Observable<any> {
+  static handleError(error, messageService, errorMessage?): Observable<any> {
     console.log(`Error: ${errorMessage}: ${error}`);
     return messageService.showErrorMessage(errorMessage);
   }
 
-  static handleHttpError(error, router, messageService, errorMessage) {
+  static handleHttpError(error, router: Router,
+      messageService: MessageService,
+      centralServerService: CentralServerService,
+      errorMessage) {
     // Check error
     switch (error.status) {
       // Server connection error`
       case 0:
         messageService.showErrorMessageConnectionLost();
+        if (centralServerService.isAuthenticated()) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+        }
+        // Login
         router.navigate(['/auth/login']);
         break;
 

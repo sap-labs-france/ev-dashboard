@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
+import { Response, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, ObservableInput } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
+import { throwError, of } from 'rxjs';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { WebSocketService } from './web-socket.service';
-import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image, User, Status, Role } from '../common.types';
+import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image, User, Status, Role, RouteInfo } from '../common.types';
 
 @Injectable()
 export class CentralServerService {
@@ -23,7 +23,7 @@ export class CentralServerService {
     private currentUser;
 
   constructor(
-      private http: Http,
+      private httpClient: HttpClient,
       private translateService: TranslateService,
       private localStorageService: LocalStorageService,
       private webSocketService: WebSocketService,
@@ -52,6 +52,26 @@ export class CentralServerService {
     }
   }
 
+  getRoutes(): Observable<RouteInfo[]> {
+    // Menu Items
+    return of([
+      {
+        id: 'dashboard',
+        path: '/dashboard',
+        title: 'Dashboard',
+        type: 'link',
+        icontype: 'dashboard'
+    },
+    {
+        id: 'logs',
+        path: '/logs',
+        title: 'Logs',
+        type: 'link',
+        icontype: 'list'
+      }
+    ]);
+  }
+
   buildHeaders() {
     const header = {
       'Content-Type': 'application/json',
@@ -62,6 +82,18 @@ export class CentralServerService {
     }
     // Build Header
     return new Headers(header);
+  }
+
+  buildHttpHeaders() {
+    const header = {
+      'Content-Type': 'application/json',
+    };
+    // Check token
+    if (this.getLoggedUserToken()) {
+      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
+    }
+    // Build Header
+    return new HttpHeaders(header);
   }
 
   buildOrdering(ordering: Ordering[], queryString: any) {
@@ -119,14 +151,15 @@ export class CentralServerService {
     // Build Ordering
     this.buildOrdering(ordering, queryString);
     // Execute the REST service
-    return this.http.get(
+    return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/Sites?${queryString}`,
-      new RequestOptions({
-        headers: this.buildHeaders(),
+      {
+        headers: this.buildHttpHeaders(),
         params: queryString
-      }))
-      .map(this.extractData)
-      .catch(this.handleError);
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
@@ -160,55 +193,64 @@ export class CentralServerService {
     this.buildOrdering(ordering, queryString);
     // Execute the REST service
     // Execute
-    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Loggings?${queryString}`,
-      new RequestOptions({
-        headers: this.buildHeaders(),
+    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings?${queryString}`,
+      {
+        headers: this.buildHttpHeaders(),
         params: queryString
-      }))
-      .map(this.extractData)
-      .catch(this.handleError);
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   getLog(id): Observable<Log> {
     // Verify init
     this._checkInit();
     // Call
-    return this.http.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
+    {
+      headers: this.buildHttpHeaders()
+    })
+    .pipe(
+      catchError(this.handleHttpError)
+    );
+}
 
   getUserImage(id: string): Observable<Image> {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
+    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+}
 
   getUser(id: string): Observable<User> {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
-      new RequestOptions({
-        headers: this.buildHeaders()
-      }))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   getEndUserLicenseAgreement(language: string) {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
+    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`)
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+}
 
   getUserStatuses(): Status[] {
     // Return
@@ -249,10 +291,13 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
-        new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+          catchError(this.handleHttpError)
+      );
   }
 
   loggingSucceeded(token) {
@@ -322,10 +367,13 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.http.get(`${this.centralRestServerServiceAuthURL}/Logout`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/Logout`,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+          catchError(this.handleHttpError)
+      );
   }
 
   logoutSucceeded() {
@@ -350,40 +398,52 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralRestServerServiceAuthURL}/Reset`,
-      data, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+          catchError(this.handleHttpError)
+      );
   }
 
   registerUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralRestServerServiceAuthURL}/RegisterUser`,
-      user, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   createUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.post(`${this.centralRestServerServiceSecuredURL}/UserCreate`,
-      user, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserCreate`, user,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   updateUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.http.put(`${this.centralRestServerServiceSecuredURL}/UserUpdate`,
-      user, new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
   deleteUser(id): Observable<ActionResponse> {
@@ -391,18 +451,16 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.http.delete(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
-      new RequestOptions({headers: this.buildHeaders()}))
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
   }
 
-  private extractData(res: Response) {
-    // Must be JSon response
-    return res.json() || [];
-  }
-
-  private handleError(error: Response | any) {
+  private handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = { status: 0, message: '' };
     if (error instanceof Response) {
@@ -412,6 +470,6 @@ export class CentralServerService {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();
     }
-    return Observable.throw(errMsg);
+    return throwError(errMsg);
   }
 }

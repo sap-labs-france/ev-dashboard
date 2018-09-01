@@ -11,7 +11,7 @@
     <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
-        <th mat-header-cell [class]="(columnDef.class?columnDef.class:'')" 
+        <th mat-header-cell [class]="(columnDef.headerClass?columnDef.headerClass:'')" 
           *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
           *matCellDef="let row" [innerHtml]="getRowValue(row, columnDef)"></td>

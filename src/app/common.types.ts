@@ -1,5 +1,22 @@
 import { SortDirection } from '@angular/material/typings';
 
+export interface RouteInfo {
+  id: string;
+  path: string;
+  title: string;
+  type: string;
+  icontype: string;
+  collapse?: string;
+  children?: ChildrenItems[];
+}
+
+export interface ChildrenItems {
+  path: string;
+  title: string;
+  ab: string;
+  type?: string;
+}
+
 export interface DropdownLink {
   title: string;
   iconClass?: string;
@@ -218,6 +235,7 @@ export interface TableColumnDef {
   id: string;
   name: string;
   type?: string;
+  headerClass?: string;
   class?: string;
   formatter?: Function,
   formatterOptions?: any,

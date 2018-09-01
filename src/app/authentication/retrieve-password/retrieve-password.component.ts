@@ -92,7 +92,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
         // Unexpected Error
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.router, this.messageService, this.messages['reset_password_error']).subscribe(() => {
+          this.messageService, this.messages['reset_password_error']).subscribe(() => {
             // Reset
             this.recaptcha.reset();
           });
@@ -102,12 +102,6 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
       this.recaptcha.reset();
       // Check status error code
       switch (error.status) {
-        // Server not responding
-        case 0:
-            // Report the error
-            this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
-            break;
-
         // Hash no longer valid
         case 540:
           // Report the error
@@ -119,10 +113,10 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
           this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
           break;
         default:
-          // Report the error
-          Utils.handleHttpError(error, this.router, this.messageService, this.messages['reset_password_error']);
-          break;
-      }
+          // Unexpected error`
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              this.translateService.instant('general.unexpected_error_backend'));
+}
     });
   }
 }

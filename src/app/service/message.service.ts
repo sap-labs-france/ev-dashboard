@@ -28,7 +28,7 @@ export class MessageService {
   }
 
   showErrorMessageConnectionLost() {
-    this.showErrorMessage(this.translateService.instant('general.error_backend'));
+    this.showErrorMessage(this.translateService.instant('general.backend_not_running'));
   }
 
   showMessage(message: string, title?: string) {

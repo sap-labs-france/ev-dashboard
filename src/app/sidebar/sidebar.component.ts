@@ -10,39 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
-// Metadata
-export interface RouteInfo {
-    path: string;
-    title: string;
-    type: string;
-    icontype: string;
-    collapse?: string;
-    children?: ChildrenItems[];
-}
-
-export interface ChildrenItems {
-    path: string;
-    title: string;
-    ab: string;
-    type?: string;
-}
-
-// Menu Items
-export const ROUTES: RouteInfo[] = [
-    {
-        path: '/dashboard',
-        title: 'dashboard',
-        type: 'link',
-        icontype: 'dashboard'
-    },
-    {
-        path: '/logs',
-        title: 'logs',
-        type: 'link',
-        icontype: 'list'
-    }
-];
-
 @Component({
     selector: 'app-sidebar-cmp',
     templateUrl: 'sidebar.component.html',
@@ -61,6 +28,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
             private translateService: TranslateService,
             private centralServerService: CentralServerService,
             private webSocketService: WebSocketService) {
+        // Load the tranlated messages
+        this.translateService.get('general', {}).subscribe((messages) => {
+            // Get the routes
+            this.centralServerService.getRoutes().subscribe((routes) => {
+                // Translate menu items
+                routes.map((route) => {
+                    // Translate
+                    route.title = messages['menu'][route.id];
+                    return route;
+                });
+                this.menuItems = routes.filter(menuItem => menuItem);
+            });
+        });
         // Set admin
         this.isAdmin = this.authorizationService.isAdmin();
         // Get the logged user
@@ -70,13 +50,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // Translate menu items
-        ROUTES.map((route) => {
-            // Translate
-            route.title = this.translateService.instant(`general.menu.${route.title}`);
-            return route;
-        });
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
         // Subscribe to user's change
         this.userSubscription = this.webSocketService.getSubjectUser().debounceTime(
                 this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {

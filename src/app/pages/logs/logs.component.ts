@@ -91,7 +91,8 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             this.getSubjet().next(logs.result);
         }, (error) => {
             // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('general.error_backend'));
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                this.translateService.instant('general.error_backend'));
         });
     }
 
@@ -102,7 +103,8 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 id: 'level',
                 name: this.translateService.instant('logs.status'),
                 formatter: Formatters.formatLogLevel,
-                formatterOptions: { iconClass: 'ml-2' },
+                formatterOptions: { iconClass: '' },
+                headerClass: 'logs-col-status',
                 class: 'text-center logs-col-status'
             },
             {
@@ -110,6 +112,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 type: 'date',
                 formatter: Formatters.createDateTimeFormatter(this.localeService).format,
                 name: this.translateService.instant('logs.date'),
+                headerClass: 'col-date',
                 class: 'text-left col-date',
                 sorted: true,
                 direction: 'desc'
@@ -117,11 +120,13 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             {
                 id: 'action',
                 name: this.translateService.instant('logs.action'),
+                headerClass: 'col-action',
                 class: 'text-left col-action'
             },
             {
                 id: 'message',
                 name: this.translateService.instant('logs.message'),
+                headerClass: 'col-message',
                 class: 'text-left col-message'
             }
         ];

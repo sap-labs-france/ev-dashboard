@@ -345,25 +345,22 @@ export class UserComponent implements OnInit {
             // Hide
             this.spinnerService.hide();
         }, (error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
             // Hide
             this.spinnerService.hide();
             // Handle error
             switch (error.status) {
-                // Server not responding
-                case 0:
-                    // Report the error
-                    this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
-                    break;
-
                 // Not found
                 case 550:
                     // Transaction not found`
-                    Utils.handleHttpError(error, this.router, this.messageService,
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                         this.messages['user_not_found']);
                     break;
                 default:
                     // Unexpected error`
-                    Utils.handleHttpError(error, this.router, this.messageService,
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                         this.translateService.instant('general.unexpected_error_backend'));
             }
         });
@@ -399,7 +396,8 @@ export class UserComponent implements OnInit {
                 // Refresh
                 this.refresh();
             } else {
-                Utils.handleError(JSON.stringify(response), this.router, this.messageService, this.messages['update_error']);
+                Utils.handleError(JSON.stringify(response),
+                this.messageService, this.messages['update_error']);
             }
         }, (error) => {
             // Hide
@@ -419,7 +417,8 @@ export class UserComponent implements OnInit {
                     break;
                 default:
                     // No longer exists!
-                    Utils.handleHttpError(error, this.router, this.messageService, this.messages['update_error']);
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                        this.messages['update_error']);
             }
         });
     }
@@ -454,7 +453,8 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
                 this.getSubjet().next(sites.result);
             }, (error) => {
                 // No longer exists!
-                Utils.handleHttpError(error, this.router, this.messageService, this.translateService.instant('general.error_backend'));
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                    this.translateService.instant('general.error_backend'));
             });
         } else {
             // Update page length

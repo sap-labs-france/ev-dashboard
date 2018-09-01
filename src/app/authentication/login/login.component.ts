@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CentralServerService } from '../../service/central-server.service';
 import { MessageService } from '../../service/message.service';
 import { Users } from '../../utils/Users';
+import { Utils } from '../../utils/Utils';
 
 declare var $: any;
 
@@ -115,12 +116,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
             // Check error code
             switch (error.status) {
-                // Server not responding
-                case 0:
-                    // Report the error
-                    this.messageService.showErrorMessage(this.translateService.instant('general.backend_not_running'));
-                    break;
-
                 // User Agreement not checked
                 case 520:
                     // You must accept
@@ -140,9 +135,9 @@ export class LoginComponent implements OnInit, OnDestroy {
                     break;
 
                 default:
-                    // Report the error
-                    this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
-                    break;
+                    // Unexpected error`
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                        this.translateService.instant('general.unexpected_error_backend'));
             }
         });
     }

@@ -10,7 +10,7 @@ import { MessageService } from '../../service/message.service';
 import { TableDataSource } from '../../shared/table/table-data-source';
 import { Utils } from '../../utils/Utils';
 import { Formatters } from '../../utils/Formatters';
-import { TableColumnDef, Log } from '../../common.types';
+import { TableColumnDef, Log, TableDef } from '../../common.types';
 
 @Component({
     selector: 'app-logs-cmp',

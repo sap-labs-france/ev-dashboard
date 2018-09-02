@@ -1,4 +1,4 @@
-<mat-form-field>
+<mat-form-field *ngIf="dataSource.isSearchEnabled()">
   <input matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)" #searchInput>
 </mat-form-field>
 
@@ -12,7 +12,7 @@
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="col-select pt-2">
-          <mat-checkbox [hidden]="!multiSelectionEnabled" (change)="$event ? masterToggle() : null"
+          <mat-checkbox [hidden]="!dataSource.isLineSelectionEnabled()" (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
@@ -23,6 +23,7 @@
             [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
+        <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Columns -->
@@ -31,11 +32,13 @@
           *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
           *matCellDef="let row" [innerHtml]="getRowValue(row, columnDef)"></td>
+        <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
       </ng-container>
 
       <!-- Rows -->
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: columns;" (click)="rowClick(row)"></tr>
+      <tr [hidden]="!dataSource.isFooterEnabled()" mat-footer-row *matFooterRowDef="columns; sticky: true"></tr>
     </table>
   </div>
 

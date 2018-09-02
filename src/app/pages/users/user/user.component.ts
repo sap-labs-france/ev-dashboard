@@ -14,7 +14,7 @@ import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import 'rxjs/add/operator/mergeMap';
 import { DataSource } from '@angular/cdk/table';
-import { TableColumnDef, User, Site } from '../../../common.types';
+import { TableColumnDef, User, Site, TableDef } from '../../../common.types';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 
 @Component({
@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
     public image = Constants.USER_NO_PICTURE;
     public hideRepeatPassword = true;
     public hidePassword = true;
-    public siteDataSource: SiteDataSource;
+    public userSitesDataSource: UserSitesDataSource;
 
     public formGroup: FormGroup;
     public id: AbstractControl;
@@ -90,7 +90,7 @@ export class UserComponent implements OnInit {
         // Admin?
         this.isAdmin = this.authorizationService.isAdmin();
         // Create table data source
-        this.siteDataSource = new UserSiteDataSource(
+        this.userSitesDataSource = new UserSitesDataSource(
             this.messageService,
             this.translateService,
             this.router,
@@ -261,7 +261,7 @@ export class UserComponent implements OnInit {
 
     loadSites() {
         // Load
-        this.siteDataSource.loadData();
+        this.userSitesDataSource.loadData();
     }
 
     loadUser() {
@@ -272,7 +272,7 @@ export class UserComponent implements OnInit {
         // Yes, get it
         this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
             // Set user
-            this.siteDataSource.setUser(user);
+            this.userSitesDataSource.setUser(user);
             // Init form
             if (user.id) {
                 this.formGroup.controls.id.setValue(user.id);
@@ -430,7 +430,7 @@ export class UserComponent implements OnInit {
     }
 }
 
-class UserSiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
+class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
 
     constructor(
@@ -439,10 +439,6 @@ class UserSiteDataSource extends TableDataSource<Site> implements DataSource<Sit
             private router: Router,
             private centralServerService: CentralServerService) {
         super();
-        // Enable selection
-        this.setSelectionEnabled(true);
-        // Enable multiple selection
-        this.setMultiSelectionEnabled(true);
     }
 
     loadData() {
@@ -472,6 +468,15 @@ class UserSiteDataSource extends TableDataSource<Site> implements DataSource<Sit
         }
     }
 
+    getTableDef(): TableDef {
+        return {
+            lineSelection: {
+                enabled: true,
+                multiple: true
+            }
+        };
+    }
+
     getColumnDefs(): TableColumnDef[] {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
@@ -486,4 +491,3 @@ class UserSiteDataSource extends TableDataSource<Site> implements DataSource<Sit
         this.user = user;
     }
 }
-

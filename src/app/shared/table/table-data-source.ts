@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef } from '../../common.types';
 
 interface TableSearch {
     search: string;
@@ -15,25 +15,29 @@ export abstract class TableDataSource<T> {
     private paginatorDown: MatPaginator;
     private sort: MatSort;
     private numberOfRecords = 0;
-    private selectionEnabled = false;
-    private multiSelectionEnabled = false;
+    private tableDef: TableDef = {};
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
 
-    setMultiSelectionEnabled(multiSelection: boolean) {
-        this.multiSelectionEnabled = multiSelection;
+    constructor() {
+        // Retrieve table definition
+        this.tableDef = this.getTableDef();
+    }
+
+    isLineSelectionEnabled(): boolean {
+        return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.enabled;
     }
 
     isMultiSelectionEnabled(): boolean {
-        return this.multiSelectionEnabled;
+        return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.multiple;
     }
 
-    setSelectionEnabled(selectionEnabled: boolean) {
-        this.selectionEnabled = selectionEnabled;
+    isFooterEnabled(): boolean {
+        return this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     }
 
-    isSelectionEnabled(): boolean {
-        return this.selectionEnabled;
+    isSearchEnabled(): boolean {
+        return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     }
 
     getSelectionModel(): SelectionModel<T> {
@@ -122,6 +126,14 @@ export abstract class TableDataSource<T> {
 
     getData(): T[] {
         return this.data;
+    }
+
+    getTableDef(): TableDef {
+        return {
+            search: {
+                enabled: true
+            }
+        };
     }
 
     abstract loadData();

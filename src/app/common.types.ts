@@ -231,9 +231,23 @@ export interface SubjectInfo {
   };
 }
 
+export interface TableDef {
+  lineSelection?: {
+    enabled: boolean;
+    multiple?: boolean;
+  },
+  footer?: {
+    enabled: boolean;
+  },
+  search?: {
+    enabled: boolean;
+  }
+}
+
 export interface TableColumnDef {
   id: string;
   name: string;
+  footerName?: string;
   type?: string;
   headerClass?: string;
   class?: string;

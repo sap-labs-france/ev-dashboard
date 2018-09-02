@@ -31,6 +31,10 @@ th:nth-child(n+2), td:nth-child(n+2) {
   overflow: initial;
 }
 
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
 .table-header {
   background-color: white;
 }

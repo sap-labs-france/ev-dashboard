@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef } from '../../common.types';
+import { TableColumnDef, TableDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -25,7 +25,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
   private selection: SelectionModel<any>;
-  private multiSelectionEnabled = false;
+  private tableDef: TableDef;
+  private footer = false;
 
   @ViewChild('paginatorUp') paginatorUp: MatPaginator;
   @ViewChild('paginatorDown') paginatorDown: MatPaginator;
@@ -40,17 +41,17 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // Set Selection
+    // Get table def
+    this.tableDef = this.dataSource.getTableDef();
+    // Get Selection
     this.selection = this.dataSource.getSelectionModel();
-    // Set columns
+    // Get column defs
     this.columnDefs = this.dataSource.getColumnDefs();
     this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
     // Selection enabled?
-    if (this.dataSource.isSelectionEnabled()) {
+    if (this.dataSource.isLineSelectionEnabled()) {
       // Add column select
       this.columns = ['select', ...this.columns];
-      // Set multi selection
-      this.multiSelectionEnabled = this.dataSource.isMultiSelectionEnabled();
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();

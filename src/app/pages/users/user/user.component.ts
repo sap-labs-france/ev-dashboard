@@ -95,6 +95,10 @@ export class UserComponent implements OnInit {
             this.translateService,
             this.router,
             this.centralServerService);
+        // Enable selection
+        this.siteDataSource.setSelectionEnabled(true);
+        // Enable multiple selection
+        this.siteDataSource.setMultiSelection(true);
     }
 
     ngOnInit() {
@@ -259,6 +263,11 @@ export class UserComponent implements OnInit {
         this.loadUser();
     }
 
+    loadSites() {
+        // Load
+        this.siteDataSource.loadData();
+    }
+
     loadUser() {
         // Init
         this.formGroup.markAsUntouched();
@@ -345,9 +354,6 @@ export class UserComponent implements OnInit {
             // Hide
             this.spinnerService.hide();
         }, (error) => {
-            console.log('====================================');
-            console.log(error);
-            console.log('====================================');
             // Hide
             this.spinnerService.hide();
             // Handle error

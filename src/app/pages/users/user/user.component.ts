@@ -473,6 +473,9 @@ class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Si
             lineSelection: {
                 enabled: true,
                 multiple: true
+            },
+            search: {
+                enabled: true
             }
         };
     }

@@ -16,12 +16,16 @@ export abstract class TableDataSource<T> {
     private sort: MatSort;
     private numberOfRecords = 0;
     private selectionEnabled = false;
-    private multiSelection = false;
+    private multiSelectionEnabled = false;
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
 
-    setMultiSelection(multiSelection: boolean) {
-        this.multiSelection = multiSelection;
+    setMultiSelectionEnabled(multiSelection: boolean) {
+        this.multiSelectionEnabled = multiSelection;
+    }
+
+    isMultiSelectionEnabled(): boolean {
+        return this.multiSelectionEnabled;
     }
 
     setSelectionEnabled(selectionEnabled: boolean) {
@@ -34,7 +38,8 @@ export abstract class TableDataSource<T> {
 
     getSelectionModel(): SelectionModel<T> {
         if (!this.selectionModel) {
-            this.selectionModel = new SelectionModel<T>(this.multiSelection, []);
+            this.selectionModel = new SelectionModel<T>(
+                this.isMultiSelectionEnabled(), []);
         }
         return this.selectionModel;
     }

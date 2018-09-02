@@ -12,7 +12,7 @@
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="col-select pt-2">
-          <mat-checkbox (change)="$event ? masterToggle() : null"
+          <mat-checkbox [hidden]="!multiSelectionEnabled" (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>

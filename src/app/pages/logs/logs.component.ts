@@ -59,10 +59,6 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             private router: Router,
             private centralServerService: CentralServerService) {
         super();
-        // Enable selection
-        this.setSelectionEnabled(true);
-        // Enable multi selection
-        this.setMultiSelection(true);
     }
 
     loadData() {

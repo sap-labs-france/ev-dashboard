@@ -25,6 +25,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
   private selection: SelectionModel<any>;
+  private multiSelectionEnabled = false;
 
   @ViewChild('paginatorUp') paginatorUp: MatPaginator;
   @ViewChild('paginatorDown') paginatorDown: MatPaginator;
@@ -48,6 +49,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     if (this.dataSource.isSelectionEnabled()) {
       // Add column select
       this.columns = ['select', ...this.columns];
+      // Set multi selection
+      this.multiSelectionEnabled = this.dataSource.isMultiSelectionEnabled();
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
@@ -169,8 +172,5 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   rowClick(row) {
-    console.log('====================================');
-    console.log(row);
-    console.log('====================================');
   }
 }

@@ -90,15 +90,11 @@ export class UserComponent implements OnInit {
         // Admin?
         this.isAdmin = this.authorizationService.isAdmin();
         // Create table data source
-        this.siteDataSource = new SiteDataSource(
+        this.siteDataSource = new UserSiteDataSource(
             this.messageService,
             this.translateService,
             this.router,
             this.centralServerService);
-        // Enable selection
-        this.siteDataSource.setSelectionEnabled(true);
-        // Enable multiple selection
-        this.siteDataSource.setMultiSelection(true);
     }
 
     ngOnInit() {
@@ -434,7 +430,7 @@ export class UserComponent implements OnInit {
     }
 }
 
-class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
+class UserSiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
 
     constructor(
@@ -443,6 +439,10 @@ class SiteDataSource extends TableDataSource<Site> implements DataSource<Site> {
             private router: Router,
             private centralServerService: CentralServerService) {
         super();
+        // Enable selection
+        this.setSelectionEnabled(true);
+        // Enable multiple selection
+        this.setMultiSelectionEnabled(true);
     }
 
     loadData() {

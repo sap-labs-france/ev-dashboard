@@ -18,6 +18,7 @@ export abstract class TableDataSource<T> {
     private selectionEnabled = false;
     private multiSelection = false;
     private selectionModel: SelectionModel<T>;
+    private data: T[] = [];
 
     setMultiSelection(multiSelection: boolean) {
         this.multiSelection = multiSelection;
@@ -110,9 +111,14 @@ export abstract class TableDataSource<T> {
         return this.numberOfRecords;
     }
 
+    setData(data: T[]) {
+        this.data = data;
+    }
+
+    getData(): T[] {
+        return this.data;
+    }
+
     abstract loadData();
-
-    abstract getData(): T[];
-
     abstract getColumnDefs(): TableColumnDef[];
 }

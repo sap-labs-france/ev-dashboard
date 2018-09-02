@@ -52,8 +52,6 @@ export class LogsComponent implements OnInit {
 }
 
 class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
-    private logs: Log[] = [];
-
     constructor(
             private localeService: LocaleService,
             private messageService: MessageService,
@@ -95,16 +93,12 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             // Return logs
             this.getSubjet().next(logs.result);
             // Keep the result
-            this.logs = logs.result;
+            this.setData(logs.result);
         }, (error) => {
             // No longer exists!
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                 this.translateService.instant('general.error_backend'));
         });
-    }
-
-    getData(): Log[] {
-        return this.logs;
     }
 
     getColumnDefs(): TableColumnDef[] {

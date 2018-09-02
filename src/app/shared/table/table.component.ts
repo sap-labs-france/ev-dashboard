@@ -137,6 +137,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Reset paginator
     this.paginatorUp.pageIndex = 0;
     this.paginatorDown.pageIndex = 0;
+    // Clear Selection
+    this.selection.clear();
     // Load data
     this.loadData();
   }
@@ -145,6 +147,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Update the other paginator
     this.paginatorUp.pageIndex = this.paginatorDown.pageIndex;
     this.paginatorUp.pageSize = this.paginatorDown.pageSize;
+    // Clear Selection
+    this.selection.clear();
     // Load data
     this.loadData();
   }
@@ -153,6 +157,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Update the other paginator
     this.paginatorDown.pageIndex = this.paginatorUp.pageIndex;
     this.paginatorDown.pageSize = this.paginatorUp.pageSize;
+    // Clear Selection
+    this.selection.clear();
     // Load data
     this.loadData();
   }

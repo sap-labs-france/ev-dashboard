@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CentralServerService } from '../service/central-server.service';
-import { WebSocketService } from '../service/web-socket.service';
+import { CentralServerNotificationService } from '../service/central-server-notification.service';
 import { AuthorizationService } from '../service/authorization-service';
 import { ConfigService } from '../service/config.service';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             private authorizationService: AuthorizationService,
             private translateService: TranslateService,
             private centralServerService: CentralServerService,
-            private webSocketService: WebSocketService) {
+            private centralServerNotificationService: CentralServerNotificationService) {
         // Load the tranlated messages
         this.translateService.get('general', {}).subscribe((messages) => {
             // Get the routes
@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // Subscribe to user's change
-        this.userSubscription = this.webSocketService.getSubjectUser().debounceTime(
+        this.userSubscription = this.centralServerNotificationService.getSubjectUser().debounceTime(
                 this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {
             // Update user?
             if (notifInfo['data']['id'] === this.loggedUser.id) {

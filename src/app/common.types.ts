@@ -1,4 +1,5 @@
 import { SortDirection } from '@angular/material/typings';
+import { Observable } from 'rxjs';
 
 export interface RouteInfo {
   id: string;
@@ -241,6 +242,15 @@ export interface TableDef {
   },
   search?: {
     enabled: boolean;
+  },
+  actions?: {
+    refresh: {
+      enabled: boolean;
+    },
+    autoRefresh?: {
+      enabled: boolean;
+      defaultValue?: boolean;
+    }
   }
 }
 

@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SubjectInfo } from '../common.types';
-import { ConfigService } from './config.service';
 import * as io from 'socket.io-client';
 import { Constants } from '../utils/Constants';
 
 @Injectable()
-export class WebSocketService {
+export class CentralServerNotificationService {
   private centralRestServerServiceURL: String;
   private subjectChargingStations = new Subject<SubjectInfo>();
   private subjectChargingStation = new Subject<SubjectInfo>();
@@ -25,7 +24,7 @@ export class WebSocketService {
   private subjectVehicleManufacturer = new Subject<SubjectInfo>();
   private subjectTransactions = new Subject<SubjectInfo>();
   private subjectTransaction = new Subject<SubjectInfo>();
-  private subjectLogging = new Subject<SubjectInfo>();
+  private subjectLoggings = new Subject<SubjectInfo>();
   private socket;
 
   constructor() {
@@ -99,8 +98,8 @@ export class WebSocketService {
     return this.subjectChargingStation.asObservable();
   }
 
-  getSubjectLogging(): Observable<SubjectInfo> {
-    return this.subjectLogging.asObservable();
+  getSubjectLoggings(): Observable<SubjectInfo> {
+    return this.subjectLoggings.asObservable();
   }
 
   initSocketIO() {
@@ -206,9 +205,9 @@ export class WebSocketService {
       });
 
       // Monitor Logging
-      this.socket.on(Constants.ENTITY_LOGGING, () => {
+      this.socket.on(Constants.ENTITY_LOGGINGS, () => {
         // Notify
-        this.subjectLogging.next();
+        this.subjectLoggings.next();
       });
     }
   }

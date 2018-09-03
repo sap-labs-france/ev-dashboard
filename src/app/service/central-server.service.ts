@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
-import { WebSocketService } from './web-socket.service';
+import { CentralServerNotificationService } from './central-server-notification.service';
 import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image, User, Status, Role, RouteInfo } from '../common.types';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class CentralServerService {
       private httpClient: HttpClient,
       private translateService: TranslateService,
       private localStorageService: LocalStorageService,
-      private webSocketService: WebSocketService,
+      private centralServerNotificationService: CentralServerNotificationService,
       private configService: ConfigService) {
     // Default
     this.initialized = false;
@@ -42,7 +42,7 @@ export class CentralServerService {
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
       // Set Web Socket URL
-      this.webSocketService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
+      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API
@@ -306,7 +306,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    this.webSocketService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO();
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
@@ -382,14 +382,14 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.clearLoggedUserToken();
     // Disconnect
-    this.webSocketService.resetSocketIO();
+    this.centralServerNotificationService.resetSocketIO();
   }
 
   getLoggedUser(): User {
     // Verify init
     this._checkInit();
     // Init Socket IO
-    this.webSocketService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO();
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.getLoggedUserFromToken();
   }

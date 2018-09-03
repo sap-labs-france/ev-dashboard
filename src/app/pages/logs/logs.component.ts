@@ -6,11 +6,13 @@ import { LocaleService } from '../../service/locale.service';
 import { CentralServerService } from '../../service/central-server.service';
 import { SpinnerService } from '../../service/spinner.service';
 import { AuthorizationService } from '../../service/authorization-service';
+import { CentralServerNotificationService } from '../../service/central-server-notification.service';
 import { MessageService } from '../../service/message.service';
 import { TableDataSource } from '../../shared/table/table-data-source';
 import { Utils } from '../../utils/Utils';
 import { Formatters } from '../../utils/Formatters';
-import { TableColumnDef, Log, TableDef } from '../../common.types';
+import { TableColumnDef, Log, SubjectInfo, TableDef } from '../../common.types';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-logs-cmp',
@@ -26,6 +28,7 @@ export class LogsComponent implements OnInit {
             private centralServerService: CentralServerService,
             private messageService: MessageService,
             private spinnerService: SpinnerService,
+            private centralServerNotificationService: CentralServerNotificationService,
             private translateService: TranslateService,
             private localeService: LocaleService,
             private activatedRoute: ActivatedRoute,
@@ -42,6 +45,7 @@ export class LogsComponent implements OnInit {
             this.messageService,
             this.translateService,
             this.router,
+            this.centralServerNotificationService,
             this.centralServerService);
     }
 
@@ -57,8 +61,13 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
             private messageService: MessageService,
             private translateService: TranslateService,
             private router: Router,
+            private centralServerNotificationService: CentralServerNotificationService,
             private centralServerService: CentralServerService) {
         super();
+    }
+
+    getAutoRefreshSubject(): Observable<SubjectInfo> {
+        return this.centralServerNotificationService.getSubjectLoggings();
     }
 
     loadData() {
@@ -87,7 +96,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
                 return log;
             });
             // Return logs
-            this.getSubjet().next(logs.result);
+            this.getDataSubjet().next(logs.result);
             // Keep the result
             this.setData(logs.result);
         }, (error) => {
@@ -135,6 +144,23 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
 
     getPaginatorPageSizes() {
         return [15, 25, 50, 100, 250, 500, 1000, 2000];
+    }
+
+    getTableDef(): TableDef {
+        return Object.assign(super.getTableDef(), {
+            search: {
+                enabled: true
+            },
+            actions: {
+                refresh: {
+                    enabled: true
+                },
+                autoRefresh: {
+                    enabled: true,
+                    defaultValue: true
+                }
+            }
+        });
     }
 }
 

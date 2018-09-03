@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { MatPaginator, MatSort, MatSlideToggleChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef, TableDef } from '../../common.types';
+import { TableColumnDef, TableDef, SubjectInfo } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -17,7 +17,7 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['table.component.scss'],
   templateUrl: 'table.component.html',
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
@@ -27,6 +27,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   private selection: SelectionModel<any>;
   private tableDef: TableDef;
   private footer = false;
+  public autoRefeshChecked = true;
+  private autoRefreshSubscription: Subscription;
 
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -37,6 +39,20 @@ export class TableComponent implements OnInit, AfterViewInit {
       private translateService: TranslateService) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+  }
+
+  autoRefreshChanged(slide: MatSlideToggleChange) {
+    // Enabled?
+    if (slide.checked) {
+      // Listen for changes
+      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
+        this.dataSource.loadData();
+      });
+    // Unregister?
+    } else if (this.autoRefreshSubscription) {
+      // Yes
+      this.autoRefreshSubscription.unsubscribe();
+    }
   }
 
   ngOnInit() {
@@ -52,6 +68,13 @@ export class TableComponent implements OnInit, AfterViewInit {
       // Add column select
       this.columns = ['select', ...this.columns];
     }
+    // Check Auto Refresh default value
+    if (this.dataSource.isAutoRefreshEnabled() && this.dataSource.getAutoRefreshDefaultValue()) {
+      // Listen for changes
+      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
+        this.dataSource.loadData();
+      });
+    }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Sort
@@ -61,6 +84,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
+    // Search
     this.searchSourceSubject.pipe(
       debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
       distinctUntilChanged()).subscribe(() => {
@@ -68,7 +92,8 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.paginator.pageIndex = 0;
         // Load data
         this.loadData();
-      });
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -82,11 +107,24 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
+  ngOnDestroy() {
+    // Unregister?
+    if (this.autoRefreshSubscription) {
+      // Yes
+      this.autoRefreshSubscription.unsubscribe();
+    }
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.getData().length;
     return numSelected === numRows;
+  }
+
+  refresh() {
+    // Reload
+    this.dataSource.loadData();
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

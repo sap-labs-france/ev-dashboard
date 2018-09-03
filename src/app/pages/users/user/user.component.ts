@@ -456,7 +456,7 @@ class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Si
                 // Update page length (number of sites is in User)
                 this.updatePaginator();
                 // Return sites
-                this.getSubjet().next(sites.result);
+                this.getDataSubjet().next(sites.result);
                 // Keep it
                 this.setData(sites.result);
             }, (error) => {
@@ -468,7 +468,7 @@ class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Si
             // Update page length
             this.updatePaginator();
             // Return sites
-            this.getSubjet().next([]);
+            this.getDataSubjet().next([]);
         }
     }
 

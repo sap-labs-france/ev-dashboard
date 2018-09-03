@@ -71,8 +71,17 @@ tr.mat-footer-row {
   max-width: 80px;
 }
 
+.col-master-select {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+  border-bottom-width:0;
+}
+
 .col-select {
   width: 70px;
+  min-width: 70px;
+  max-width: 70px;
   border-bottom-width:0;
 }
 

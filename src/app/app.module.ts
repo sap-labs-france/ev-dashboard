@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CentralServerService } from './service/central-server.service';
-import { WebSocketService } from './service/web-socket.service';
+import { CentralServerNotificationService } from './service/central-server-notification.service';
 import { SpinnerService } from './service/spinner.service';
 import { LocaleService } from './service/locale.service';
 import { AuthorizationService } from './service/authorization-service';
@@ -144,7 +144,7 @@ export function configFactory(config: ConfigService) {
   ],
   providers: [
     CentralServerService,
-    WebSocketService,
+    CentralServerNotificationService,
     AuthorizationService,
     RouteGuardService,
     SpinnerService,

@@ -2,14 +2,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering, TableDef } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo } from '../../common.types';
 
 interface TableSearch {
     search: string;
 }
 
 export abstract class TableDataSource<T> {
-    private subject = new BehaviorSubject<T[]>([]);
+    private dataSubject = new BehaviorSubject<T[]>([]);
     private searchInput: ElementRef;
     private paginator: MatPaginator;
     private sort: MatSort;
@@ -21,6 +21,29 @@ export abstract class TableDataSource<T> {
     constructor() {
         // Retrieve table definition
         this.tableDef = this.getTableDef();
+    }
+
+    isAutoRefreshEnabled(): boolean {
+        return this.tableDef && this.tableDef.actions &&
+            this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.enabled;
+    }
+
+    getAutoRefreshDefaultValue(): boolean {
+        return this.tableDef && this.tableDef.actions &&
+            this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.defaultValue;
+    }
+
+    getAutoRefreshSubject(): Observable<SubjectInfo> {
+     return null;
+    }
+
+    hasActions(): boolean {
+        return this.tableDef && this.tableDef.hasOwnProperty('actions');
+    }
+
+    isRefreshEnabled(): boolean {
+        return this.tableDef && this.tableDef.actions &&
+            this.tableDef.actions.refresh && this.tableDef.actions.refresh.enabled;
     }
 
     isLineSelectionEnabled(): boolean {
@@ -47,8 +70,8 @@ export abstract class TableDataSource<T> {
         return this.selectionModel;
     }
 
-    getSubjet(): BehaviorSubject<T[]> {
-        return this.subject;
+    getDataSubjet(): BehaviorSubject<T[]> {
+        return this.dataSubject;
     }
 
     setPaginator(paginator: MatPaginator) {
@@ -73,11 +96,11 @@ export abstract class TableDataSource<T> {
     }
 
     connect(collectionViewer: CollectionViewer): Observable<T[]> {
-        return this.subject.asObservable();
+        return this.dataSubject.asObservable();
     }
 
     disconnect(collectionViewer: CollectionViewer): void {
-        this.subject.complete();
+        this.dataSubject.complete();
     }
 
     updatePaginator() {
@@ -126,6 +149,11 @@ export abstract class TableDataSource<T> {
         return {
             search: {
                 enabled: true
+            },
+            actions: {
+                refresh: {
+                    enabled: true
+                }
             }
         };
     }

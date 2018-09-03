@@ -28,8 +28,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   private tableDef: TableDef;
   private footer = false;
 
-  @ViewChild('paginatorUp') paginatorUp: MatPaginator;
-  @ViewChild('paginatorDown') paginatorDown: MatPaginator;
+  @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -66,8 +65,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
       distinctUntilChanged()).subscribe(() => {
         // Reset paginator
-        this.paginatorUp.pageIndex = 0;
-        this.paginatorDown.pageIndex = 0;
+        this.paginator.pageIndex = 0;
         // Load data
         this.loadData();
       });
@@ -75,8 +73,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // Set Paginator
-    this.dataSource.setPaginatorUp(this.paginatorUp);
-    this.dataSource.setPaginatorDown(this.paginatorDown);
+    this.dataSource.setPaginator(this.paginator);
     // Set Sort
     this.dataSource.setSort(this.sort);
     // Set Search
@@ -139,28 +136,14 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   handleSortChanged() {
     // Reset paginator
-    this.paginatorUp.pageIndex = 0;
-    this.paginatorDown.pageIndex = 0;
+    this.paginator.pageIndex = 0;
     // Clear Selection
     this.selection.clear();
     // Load data
     this.loadData();
   }
 
-  handlePageChangedDown() {
-    // Update the other paginator
-    this.paginatorUp.pageIndex = this.paginatorDown.pageIndex;
-    this.paginatorUp.pageSize = this.paginatorDown.pageSize;
-    // Clear Selection
-    this.selection.clear();
-    // Load data
-    this.loadData();
-  }
-
-  handlePageChangedUp() {
-    // Update the other paginator
-    this.paginatorDown.pageIndex = this.paginatorUp.pageIndex;
-    this.paginatorDown.pageSize = this.paginatorUp.pageSize;
+  handlePageChanged() {
     // Clear Selection
     this.selection.clear();
     // Load data

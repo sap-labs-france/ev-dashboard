@@ -3,9 +3,14 @@
 </mat-form-field>
 
 <div class="mat-elevation-z8">
-  <!-- Paginator -->
-  <mat-paginator #paginatorUp [pageSizeOptions]="pageSizes" (page)="handlePageChangedUp()" showFirstLastButtons></mat-paginator>
-
+  <mat-toolbar>
+    <button class="btn btn-info mat-raised-button">
+      <span class="mat-button-wrapper">
+        <i class="material-icons">refresh</i>
+        <span class="btn-label">&nbsp;&nbsp;&nbsp;Refresh</span>
+      </span>
+    </button>
+  </mat-toolbar>
   <!-- Table -->
   <div style="overflow: auto; height: 65vh">
     <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
@@ -42,6 +47,6 @@
     </table>
   </div>
 
-  <!-- Paginator -->
-  <mat-paginator #paginatorDown [pageSizeOptions]="pageSizes" (page)="handlePageChangedDown()" showFirstLastButtons></mat-paginator>
+  <!-- Paginator: can show showFirstLastButtons -->
+  <mat-paginator #paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()" ></mat-paginator>
 </div>

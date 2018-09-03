@@ -11,8 +11,7 @@ interface TableSearch {
 export abstract class TableDataSource<T> {
     private subject = new BehaviorSubject<T[]>([]);
     private searchInput: ElementRef;
-    private paginatorUp: MatPaginator;
-    private paginatorDown: MatPaginator;
+    private paginator: MatPaginator;
     private sort: MatSort;
     private numberOfRecords = 0;
     private tableDef: TableDef = {};
@@ -52,17 +51,13 @@ export abstract class TableDataSource<T> {
         return this.subject;
     }
 
-    setPaginatorUp(paginator: MatPaginator) {
-        this.paginatorUp = paginator;
-    }
-
-    setPaginatorDown(paginator: MatPaginator) {
-        this.paginatorDown = paginator;
+    setPaginator(paginator: MatPaginator) {
+        this.paginator = paginator;
     }
 
     getPaginator(): MatPaginator {
         // Return one of them
-        return this.paginatorUp;
+        return this.paginator;
     }
 
     setSort(sort: MatSort) {
@@ -86,8 +81,7 @@ export abstract class TableDataSource<T> {
     }
 
     updatePaginator() {
-        this.paginatorUp.length = this.getNumberOfRecords();
-        this.paginatorDown.length = this.getNumberOfRecords();
+        this.paginator.length = this.getNumberOfRecords();
     }
 
     getPaginatorPageSizes() {

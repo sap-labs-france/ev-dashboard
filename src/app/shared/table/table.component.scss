@@ -39,6 +39,31 @@ tr.mat-footer-row {
   background-color: white;
 }
 
+
+.site-col-name {
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.col-city {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.col-country {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+}
+
+.company-col-name {
+  width: 200px;
+  min-width: 200px;
+  max-width: 20px;
+}
+
 /** Logs **/
 .logs-col-status {
   width: 80px;

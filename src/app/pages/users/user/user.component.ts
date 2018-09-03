@@ -257,6 +257,10 @@ export class UserComponent implements OnInit {
     refresh() {
         // Load User
         this.loadUser();
+        // Reload Site?
+        if (this.userSitesDataSource) {
+            this.userSitesDataSource.loadData();
+        }
     }
 
     loadSites() {
@@ -483,9 +487,21 @@ class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Si
     getColumnDefs(): TableColumnDef[] {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
-            { id: 'name', name: this.translateService.instant('sites.name'), class: 'text-left', sorted: true, direction: 'asc' },
-            { id: 'address.city', name: this.translateService.instant('general.city'), class: 'text-left' },
-            { id: 'address.country', name: this.translateService.instant('general.country'), class: 'text-left' }
+            {
+                id: 'name',
+                name: this.translateService.instant('sites.name'),
+                class: 'text-left site-col-name',
+                sorted: true,
+                direction: 'asc' },
+            {
+                id: 'address.city',
+                name: this.translateService.instant('general.city'),
+                class: 'text-left col-city'
+            },
+            {
+                id: 'address.country',
+                name: this.translateService.instant('general.country'),
+                class: 'text-left col-country' }
         ];
     }
 

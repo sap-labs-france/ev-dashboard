@@ -1,4 +1,4 @@
-import { LocaleService } from '../service/locale.service';
+import { LocaleService } from '../services/locale.service';
 
 export class Formatters {
     static createDateTimeFormatter(localeService: LocaleService,

@@ -1,10 +1,10 @@
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Site, User, TableDef, TableColumnDef } from '../../../common.types';
 import { DataSource } from '@angular/cdk/table';
-import { MessageService } from '../../../service/message.service';
+import { MessageService } from '../../../services/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { CentralServerService } from '../../../service/central-server.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { Utils } from '../../../utils/Utils';
 
 export class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Site> {

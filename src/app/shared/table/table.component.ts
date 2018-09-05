@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ConfigService } from '../../service/config.service';
-import { TableDataSource } from './table-data-source';
 import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
-import { Utils } from '../../utils/Utils';
-import { SelectionModel } from '@angular/cdk/collections';
-import { CentralServerService } from '../../service/central-server.service';
+import { ConfigService } from '../../services/config.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
+import { Utils } from '../../utils/Utils';
 
 /**
  * @title Data table with sorting, pagination, and filtering.

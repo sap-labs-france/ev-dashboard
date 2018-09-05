@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CentralServerService } from '../service/central-server.service';
-import { CentralServerNotificationService } from '../service/central-server-notification.service';
-import { AuthorizationService } from '../service/authorization-service';
-import { ConfigService } from '../service/config.service';
+import { CentralServerService } from '../services/central-server.service';
+import { CentralServerNotificationService } from '../services/central-server-notification.service';
+import { AuthorizationService } from '../services/authorization-service';
+import { ConfigService } from '../services/config.service';
 import { Router } from '@angular/router';
 import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/debounceTime';

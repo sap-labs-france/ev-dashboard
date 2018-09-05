@@ -1,20 +1,20 @@
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef } from '../../common.types';
+import { Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/table';
-import { LocaleService } from '../../service/locale.service';
-import { MessageService } from '../../service/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { CentralServerNotificationService } from '../../service/central-server-notification.service';
-import { CentralServerService } from '../../service/central-server.service';
-import { Observable } from 'rxjs';
-import { Formatters } from '../../utils/Formatters';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../shared/table/table-data-source';
+import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef } from '../../common.types';
+import { CentralServerNotificationService } from '../../services/central-server-notification.service';
 import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
+import { CentralServerService } from '../../services/central-server.service';
+import { LocaleService } from '../../services/locale.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { LogSourceTableFilter } from './filters/log-source-filter';
 import { LogLevelTableFilter } from './filters/log-level-filter';
+import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
-import { SpinnerService } from '../../service/spinner.service';
 
 export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
   constructor(

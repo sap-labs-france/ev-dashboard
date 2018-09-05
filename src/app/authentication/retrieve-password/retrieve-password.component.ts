@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
-import { CentralServerService } from '../../service/central-server.service';
-import { ConfigService } from '../../service/config.service';
-import { MessageService } from '../../service/message.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { ConfigService } from '../../services/config.service';
+import { MessageService } from '../../services/message.service';
 import { Utils } from '../../utils/Utils';
 
 @Component({

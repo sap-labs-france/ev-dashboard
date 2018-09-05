@@ -210,11 +210,6 @@ export interface Pricing {
   priceUnit: string;
 }
 
-export interface Role {
-  key: string;
-  description: string;
-}
-
 export interface SiteArea {
   id: string;
   name: string;
@@ -248,11 +243,6 @@ export interface Site {
 export interface SiteResult {
   count: number,
   result: Site[]
-}
-
-export interface Status {
-  key: string;
-  description: string;
 }
 
 export interface SubjectInfo {

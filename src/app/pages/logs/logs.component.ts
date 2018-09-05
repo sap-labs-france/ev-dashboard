@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from '../../service/locale.service';
-import { CentralServerService } from '../../service/central-server.service';
-import { SpinnerService } from '../../service/spinner.service';
-import { AuthorizationService } from '../../service/authorization-service';
-import { CentralServerNotificationService } from '../../service/central-server-notification.service';
-import { MessageService } from '../../service/message.service';
+import { LocaleService } from '../../services/locale.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { AuthorizationService } from '../../services/authorization-service';
+import { CentralServerNotificationService } from '../../services/central-server-notification.service';
+import { MessageService } from '../../services/message.service';
 import { LogDataSource } from './log-data-source-table';
 
 @Component({

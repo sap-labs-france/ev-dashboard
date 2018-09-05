@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import 'rxjs/add/operator/mergeMap';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { LocaleService } from '../../../service/locale.service';
-import { CentralServerService } from '../../../service/central-server.service';
-import { SpinnerService } from '../../../service/spinner.service';
-import { AuthorizationService } from '../../../service/authorization-service';
-import { MessageService } from '../../../service/message.service';
+import { LocaleService } from '../../../services/locale.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { MessageService } from '../../../services/message.service';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { UserSitesDataSource } from './user-site-data-source-table';
 import { Constants } from '../../../utils/Constants';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'app-user-cmp',

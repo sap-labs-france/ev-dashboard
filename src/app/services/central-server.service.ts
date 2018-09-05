@@ -11,7 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, Status, Role, RouteInfo, ChargerResult } from '../common.types';
+  User, RouteInfo, ChargerResult, KeyValue } from '../common.types';
 
 @Injectable()
 export class CentralServerService {
@@ -258,34 +258,44 @@ export class CentralServerService {
       );
 }
 
-  getUserStatuses(): Observable<Status[]> {
+  getUserStatuses(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'A', description: this.translateService.instant('users.status_active', {}) },
-      { key: 'B', description: this.translateService.instant('users.status_blocked', {}) },
-      { key: 'I', description: this.translateService.instant('users.status_inactive', {}) },
-      { key: 'L', description: this.translateService.instant('users.status_locked', {}) },
-      { key: 'P', description: this.translateService.instant('users.status_pending', {}) }
+      { key: 'A', value: this.translateService.instant('users.status_active', {}) },
+      { key: 'B', value: this.translateService.instant('users.status_blocked', {}) },
+      { key: 'I', value: this.translateService.instant('users.status_inactive', {}) },
+      { key: 'L', value: this.translateService.instant('users.status_locked', {}) },
+      { key: 'P', value: this.translateService.instant('users.status_pending', {}) }
     ]);
   }
 
-  getUserRoles(): Observable<Role[]> {
+  getUserRoles(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'A', description: this.translateService.instant('users.role_admin') },
-      { key: 'B', description: this.translateService.instant('users.role_basic') },
-      { key: 'C', description: this.translateService.instant('users.role_corporate') },
-      { key: 'D', description: this.translateService.instant('users.role_demo') }
+      { key: 'A', value: this.translateService.instant('users.role_admin') },
+      { key: 'B', value: this.translateService.instant('users.role_basic') },
+      { key: 'C', value: this.translateService.instant('users.role_corporate') },
+      { key: 'D', value: this.translateService.instant('users.role_demo') }
     ]);
   }
 
-  getLogStatus(): Observable<Status[]> {
+  getLogStatus(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'E', description: this.translateService.instant('logs.error') },
-      { key: 'W', description: this.translateService.instant('logs.warning') },
-      { key: 'I', description: this.translateService.instant('logs.info') },
-      { key: 'D', description: this.translateService.instant('logs.debug') }
+      { key: 'E', value: this.translateService.instant('logs.error') },
+      { key: 'W', value: this.translateService.instant('logs.warning') },
+      { key: 'I', value: this.translateService.instant('logs.info') },
+      { key: 'D', value: this.translateService.instant('logs.debug') }
+    ]);
+  }
+
+  getLogActions(): Observable<KeyValue[]> {
+    // Return
+    return of([
+      { key: 'E', value: this.translateService.instant('logs.error') },
+      { key: 'W', value: this.translateService.instant('logs.warning') },
+      { key: 'I', value: this.translateService.instant('logs.info') },
+      { key: 'D', value: this.translateService.instant('logs.debug') }
     ]);
   }
 

@@ -1,6 +1,6 @@
 import { Constants } from '../../../utils/Constants';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from '../../../service/central-server.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { TableFilterDef } from '../../../common.types';
 
@@ -27,7 +27,7 @@ export class LogLevelTableFilter implements TableFilter  {
       // Create
       statuses.forEach((status) => {
         // Add
-        this.filter.items.push({ key: status.key, value: status.description });
+        this.filter.items.push({ key: status.key, value: status.value });
       });
     });
   }

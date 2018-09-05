@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CentralServerService } from '../service/central-server.service';
-import { MessageService } from '../service/message.service';
+import { CentralServerService } from '../services/central-server.service';
+import { MessageService } from '../services/message.service';
 import { Router } from '@angular/router';
 
 export class Utils {

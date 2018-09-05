@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { SpinnerService } from './service/spinner.service';
+import { SpinnerService } from './services/spinner.service';
 
 @Component({
     selector: 'app-my-app',

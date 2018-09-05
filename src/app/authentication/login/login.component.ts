@@ -2,8 +2,8 @@ import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CentralServerService } from '../../service/central-server.service';
-import { MessageService } from '../../service/message.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { MessageService } from '../../services/message.service';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from './central-server.service';
+import { KeyValue } from '../common.types';
 
 @Injectable()
 export class LocaleService {
@@ -42,7 +43,7 @@ export class LocaleService {
     }
   }
 
-  getLocales() {
+  getLocales(): KeyValue[] {
     const locales = [];
     // en, fr...
     const configLocales = this.configService.getLocales();
@@ -50,7 +51,7 @@ export class LocaleService {
     configLocales.fullSupported.forEach(localeFull => {
       locales.push({
         key: localeFull,
-        description: this.getFullLocaleDescription(localeFull)
+        value: this.getFullLocaleDescription(localeFull)
       });
     });
     return locales;

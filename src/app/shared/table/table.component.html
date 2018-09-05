@@ -1,14 +1,8 @@
-<mat-form-field *ngIf="dataSource.isSearchEnabled()">
-  <input matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)" #searchInput>
-</mat-form-field>
-
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
-  <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters()">
-
+  <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()">
     <!-- Actions Row -->
     <mat-toolbar-row *ngIf="dataSource.hasActions()">
-
       <!-- Create Left Actions -->
       <div [class]="(actionDef.class ? 'filter-row ' + actionDef.class : 'filter-row')" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
@@ -38,7 +32,7 @@
     </mat-toolbar-row>
 
     <!-- Filters Row -->
-    <mat-toolbar-row *ngIf="dataSource.hasFilters()">
+    <mat-toolbar-row *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()">
       <!-- Create Filters -->
       <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
         <mat-form-field *ngIf="filterDef.type === 'dropdown'">
@@ -47,6 +41,10 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <!-- Search -->
+      <mat-form-field *ngIf="dataSource.isSearchEnabled()">
+        <input #searchInput matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)">
+      </mat-form-field>
     </mat-toolbar-row>
   </mat-toolbar>
 

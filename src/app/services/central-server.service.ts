@@ -10,30 +10,32 @@ import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
-import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue } from '../common.types';
+import {
+  ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
+  User, RouteInfo, ChargerResult, KeyValue
+} from '../common.types';
 
 @Injectable()
 export class CentralServerService {
-    private centralRestServerServiceBaseURL: String;
-    private centralRestServerServiceSecuredURL: String;
-    private centralRestServerServiceAuthURL: String;
-    private centralSystemServerConfig;
-    private initialized = false;
-    private currentUserToken;
-    private currentUser;
+  private centralRestServerServiceBaseURL: String;
+  private centralRestServerServiceSecuredURL: String;
+  private centralRestServerServiceAuthURL: String;
+  private centralSystemServerConfig;
+  private initialized = false;
+  private currentUserToken;
+  private currentUser;
 
   constructor(
-      private httpClient: HttpClient,
-      private translateService: TranslateService,
-      private localStorageService: LocalStorageService,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private configService: ConfigService) {
+    private httpClient: HttpClient,
+    private translateService: TranslateService,
+    private localStorageService: LocalStorageService,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private configService: ConfigService) {
     // Default
     this.initialized = false;
   }
 
-  _checkInit() {
+  private _checkInit() {
     // initialized?
     if (!this.initialized) {
       // No: Process the init
@@ -53,7 +55,7 @@ export class CentralServerService {
     }
   }
 
-  getRoutes(): Observable<RouteInfo[]> {
+  public getRoutes(): Observable<RouteInfo[]> {
     // Menu Items
     return of([
       {
@@ -62,8 +64,8 @@ export class CentralServerService {
         title: 'Dashboard',
         type: 'link',
         icontype: 'dashboard'
-    },
-    {
+      },
+      {
         id: 'logs',
         path: '/logs',
         title: 'Logs',
@@ -73,19 +75,7 @@ export class CentralServerService {
     ]);
   }
 
-  buildHeaders() {
-    const header = {
-      'Content-Type': 'application/json',
-    };
-    // Check token
-    if (this.getLoggedUserToken()) {
-      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
-    }
-    // Build Header
-    return new Headers(header);
-  }
-
-  buildHttpHeaders() {
+  private _buildHttpHeaders() {
     const header = {
       'Content-Type': 'application/json',
     };
@@ -97,7 +87,7 @@ export class CentralServerService {
     return new HttpHeaders(header);
   }
 
-  buildOrdering(ordering: Ordering[], queryString: any) {
+  private _buildOrdering(ordering: Ordering[], queryString: any) {
     // Check
     if (ordering && ordering.length) {
       if (!queryString['SortFields']) {
@@ -112,7 +102,7 @@ export class CentralServerService {
     }
   }
 
-  buildPaging(paging: Paging, queryString: any) {
+  private _buildPaging(paging: Paging, queryString: any) {
     // Limit
     if (paging.limit) {
       queryString['Limit'] = paging.limit;
@@ -123,85 +113,18 @@ export class CentralServerService {
     }
   }
 
-  getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
+  public getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
     // Verify init
     this._checkInit();
-    // Set filter
-    const queryString = {};
-    // Set Values
-    if (params.search) {
-      queryString['Search'] = params.search;
-    }
-    if (params.userID) {
-      queryString['UserID'] = params.userID;
-    }
-    // Site Areas
-    if (params.withSiteAreas) {
-      queryString['WithSiteAreas'] = params.withSiteAreas;
-    }
-    // Company
-    if (params.withCompany) {
-      queryString['WithCompany'] = params.withCompany;
-    }
-    // Charge Boxes
-    if (params.withChargeBoxes) {
-      queryString['WithChargeBoxes'] = params.withChargeBoxes;
-    }
     // Build Paging
-    this.buildPaging(paging, queryString);
+    this._buildPaging(paging, params);
     // Build Ordering
-    this.buildOrdering(ordering, queryString);
+    this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
-      `${this.centralRestServerServiceSecuredURL}/Sites?${queryString}`,
+      `${this.centralRestServerServiceSecuredURL}/Sites`,
       {
-        headers: this.buildHttpHeaders(),
-        params: queryString
-      })
-      .pipe(
-        catchError(this.handleHttpError)
-      );
-  }
-
-  getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
-    // Verify init
-    this._checkInit();
-    // Set filter
-    const queryString = {};
-    // Set Values
-    if (params.search) {
-      queryString['Search'] = params.search;
-    }
-    if (params.withNoSiteArea) {
-      queryString['WithNoSiteArea'] = params.withNoSiteArea;
-    }
-    // Build Paging
-    this.buildPaging(paging, queryString);
-    // Build Ordering
-    this.buildOrdering(ordering, queryString);
-    // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
-      {
-        headers: this.buildHttpHeaders(),
-        params: queryString
-      })
-      .pipe(
-        catchError(this.handleHttpError)
-      );
-  }
-
-  getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
-    // Verify init
-    this._checkInit();
-    // Build Paging
-    this.buildPaging(paging, params);
-    // Build Ordering
-    this.buildOrdering(ordering, params);
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
-      {
-        headers: this.buildHttpHeaders(),
+        headers: this._buildHttpHeaders(),
         params
       })
       .pipe(
@@ -209,46 +132,83 @@ export class CentralServerService {
       );
   }
 
-  getLog(id): Observable<Log> {
+  public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
     // Verify init
     this._checkInit();
-    // Call
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
-    {
-      headers: this.buildHttpHeaders()
-    })
-    .pipe(
-      catchError(this.handleHttpError)
-    );
-}
-
-  getUserImage(id: string): Observable<Image> {
-    // Verify init
-    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
       {
-        headers: this.buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this.handleHttpError)
-      );
-}
-
-  getUser(id: string): Observable<User> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
-      {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError)
       );
   }
 
-  getEndUserLicenseAgreement(language: string) {
+  public getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
+  public getLog(id): Observable<Log> {
+    // Verify init
+    this._checkInit();
+    // Call
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
+  public getUserImage(id: string): Observable<Image> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
+  public getUser(id: string): Observable<User> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
+  public getEndUserLicenseAgreement(language: string) {
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -256,9 +216,9 @@ export class CentralServerService {
       .pipe(
         catchError(this.handleHttpError)
       );
-}
+  }
 
-  getUserStatuses(): Observable<KeyValue[]> {
+  public getUserStatuses(): Observable<KeyValue[]> {
     // Return
     return of([
       { key: 'A', value: this.translateService.instant('users.status_active', {}) },
@@ -269,7 +229,7 @@ export class CentralServerService {
     ]);
   }
 
-  getUserRoles(): Observable<KeyValue[]> {
+  public getUserRoles(): Observable<KeyValue[]> {
     // Return
     return of([
       { key: 'A', value: this.translateService.instant('users.role_admin') },
@@ -279,7 +239,7 @@ export class CentralServerService {
     ]);
   }
 
-  getLogStatus(): Observable<KeyValue[]> {
+  public getLogStatus(): Observable<KeyValue[]> {
     // Return
     return of([
       { key: 'E', value: this.translateService.instant('logs.error') },
@@ -289,7 +249,7 @@ export class CentralServerService {
     ]);
   }
 
-  getLogActions(): Observable<KeyValue[]> {
+  public getLogActions(): Observable<KeyValue[]> {
     // Return
     return of([
       { key: 'Authorize', value: 'Authorize' },
@@ -343,20 +303,20 @@ export class CentralServerService {
     ]);
   }
 
-  login(user): Observable<any> {
+  public login(user): Observable<any> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
-          catchError(this.handleHttpError)
+        catchError(this.handleHttpError)
       );
   }
 
-  loggingSucceeded(token) {
+  public loggingSucceeded(token) {
     // Verify init
     this._checkInit();
     // Keep it local (iFrame use case)
@@ -367,7 +327,7 @@ export class CentralServerService {
     this.translateService.use(this.getLoggedUser().language);
   }
 
-  setLoggedUserToken(token: string, writeInLocalStorage?: boolean) {
+  public setLoggedUserToken(token: string, writeInLocalStorage?: boolean) {
     // Keep token
     this.currentUserToken = token;
     this.currentUser = null;
@@ -383,7 +343,7 @@ export class CentralServerService {
     }
   }
 
-  getLoggedUserFromToken(): User {
+  public getLoggedUserFromToken(): User {
     // Get the token
     if (!this.currentUser) {
       // Decode the token
@@ -395,7 +355,7 @@ export class CentralServerService {
     return this.currentUser;
   }
 
-  getLoggedUserToken(): string {
+  public getLoggedUserToken(): string {
     // Get the token
     if (!this.currentUserToken) {
       // Decode the token
@@ -407,7 +367,7 @@ export class CentralServerService {
     return this.currentUserToken;
   }
 
-  clearLoggedUserToken() {
+  public clearLoggedUserToken() {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
@@ -415,24 +375,24 @@ export class CentralServerService {
     this.localStorageService.removeItem('token');
   }
 
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     return this.getLoggedUserToken() != null && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
-  logout(): Observable<any> {
+  public logout(): Observable<any> {
     // Verify init
     this._checkInit();
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/Logout`,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
-          catchError(this.handleHttpError)
+        catchError(this.handleHttpError)
       );
   }
 
-  logoutSucceeded() {
+  public logoutSucceeded() {
     // Verify init
     this._checkInit();
     // Keep it local (iFrame use case)
@@ -441,7 +401,7 @@ export class CentralServerService {
     this.centralServerNotificationService.resetSocketIO();
   }
 
-  getLoggedUser(): User {
+  public getLoggedUser(): User {
     // Verify init
     this._checkInit();
     // Init Socket IO
@@ -450,66 +410,66 @@ export class CentralServerService {
     return this.getLoggedUserFromToken();
   }
 
-  resetUserPassword(data) {
+  public resetUserPassword(data) {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
-          catchError(this.handleHttpError)
+        catchError(this.handleHttpError)
       );
   }
 
-  registerUser(user): Observable<ActionResponse> {
+  public registerUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError)
       );
   }
 
-  createUser(user): Observable<ActionResponse> {
+  public createUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserCreate`, user,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError)
       );
   }
 
-  updateUser(user): Observable<ActionResponse> {
+  public updateUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError)
       );
   }
 
-  deleteUser(id): Observable<ActionResponse> {
+  public deleteUser(id): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
       {
-        headers: this.buildHttpHeaders()
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this.handleHttpError)

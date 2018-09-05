@@ -3,7 +3,7 @@ import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef } from '../../common.types';
+import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../common.types';
 import { CentralServerNotificationService } from '../../services/central-server-notification.service';
 import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
@@ -29,11 +29,11 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
     super();
   }
 
-  getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  loadData() {
+  public loadData() {
     // Show
     this.spinnerService.show();
     // Get data
@@ -75,12 +75,20 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
       });
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  public getTableDef(): TableDef {
+    return {
+      search: {
+          enabled: true
+      }
+    };
+  }
+
+  public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     return [
       {
         id: 'level',
-        name: this.translateService.instant('logs.status'),
+        name: this.translateService.instant('logs.level'),
         formatter: Formatters.formatLogLevel,
         formatterOptions: { iconClass: 'pt-1' },
         headerClass: 'logs-col-level',
@@ -117,23 +125,23 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
     ];
   }
 
-  getPaginatorPageSizes() {
+  public getPaginatorPageSizes() {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  getTableActionsDef(): TableActionDef[] {
+  public getTableActionsDef(): TableActionDef[] {
     return [
       new TableRefreshAction(this.translateService).getActionDef()
     ];
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  public getTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(this.translateService, false).getActionDef()
     ];
   }
 
-  getTableFiltersDef(): TableFilterDef[] {
+  public getTableFiltersDef(): TableFilterDef[] {
     return [
       new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
@@ -141,4 +149,3 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
     ];
   }
 }
-

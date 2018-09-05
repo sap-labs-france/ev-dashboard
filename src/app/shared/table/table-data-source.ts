@@ -136,7 +136,11 @@ export abstract class TableDataSource<T> {
     }
 
     public getSearchValue(): string {
-        return this.searchInput.nativeElement.value;
+        // Check
+        if (this.searchInput) {
+            return this.searchInput.nativeElement.value;
+        }
+        return '';
     }
 
     public connect(collectionViewer: CollectionViewer): Observable<T[]> {
@@ -200,12 +204,7 @@ export abstract class TableDataSource<T> {
     }
 
     public getTableDef(): TableDef {
-        // Return default
-        return {
-            search: {
-                enabled: true
-            }
-        };
+        return {};
     }
 
     public filterChanged(filter: TableFilterDef) {

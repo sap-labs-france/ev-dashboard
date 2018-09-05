@@ -2,11 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo } from '../../common.types';
-
-interface TableSearch {
-    search: string;
-}
+import { TableColumnDef, TableSearch, Paging, Ordering, TableDef, SubjectInfo } from '../../common.types';
 
 export abstract class TableDataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
@@ -108,7 +104,7 @@ export abstract class TableDataSource<T> {
     }
 
     getPaginatorPageSizes() {
-        return [15, 25, 50, 100, 250, 500];
+        return [25, 50, 100, 250, 500];
     }
 
     getSearch(): TableSearch {

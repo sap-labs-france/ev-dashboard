@@ -27,6 +27,11 @@ th:nth-child(n+2), td:nth-child(n+2) {
   padding-right: 20px;
 }
 
+.filter-row {
+  width: 150px; 
+  margin-right: 10px;
+}
+
 .mat-column-select {
   overflow: initial;
 }

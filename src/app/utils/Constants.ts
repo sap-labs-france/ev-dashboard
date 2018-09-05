@@ -1,3 +1,4 @@
+import { FilterType } from "../common.types";
 
 
 export class Constants {
@@ -106,4 +107,8 @@ export class Constants {
   public static VEHICLE_WITH_NO_IMAGES = false;
   public static VEHICLE_NO_IMAGE = 'assets/img/theme/no-logo.jpg';
   public static VEHICLE_NO_LOGO = 'assets/img/theme/no-logo.jpg';
+
+  /* Filter */
+  public static FILTER_ALL_KEY = 'all';
+  public static FILTER_TYPE_DROPDOWN: FilterType = 'dropdown';
 }

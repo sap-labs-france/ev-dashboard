@@ -5,9 +5,105 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef, TableDef, SubjectInfo } from '../../common.types';
+import { TableColumnDef, TableDef, FilterType } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 import { SelectionModel } from '@angular/cdk/collections';
+import { CentralServerService } from '../../service/central-server.service';
+import { Constants } from '../../utils/Constants';
+
+interface KeyValue {
+  key: string;
+  value: string;
+}
+
+interface FilterDef {
+  id: string;
+  type: FilterType;
+  name: string;
+  currentValue?: string;
+  class?: string;
+  items?: KeyValue[]
+}
+
+interface Filter {
+  // Return a filter
+  getFilterDef(): FilterDef;
+  getValue(): any;
+}
+
+class LogStatusFilter implements Filter  {
+  // Default filter
+  private filter: FilterDef = {
+    id: 'Level',
+    type: Constants.FILTER_TYPE_DROPDOWN,
+    name: 'Status',
+    currentValue: Constants.FILTER_ALL_KEY,
+    items: []
+  }
+
+  constructor(
+      private translateService: TranslateService,
+      private centralServerService: CentralServerService) {
+    // translate the name
+    this.filter.name = this.translateService.instant('logs.status');
+    // Add <All>
+    this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
+    // Get the Chargers
+    centralServerService.getLogStatus().subscribe((statuses) => {
+      // Create
+      statuses.forEach((status) => {
+        // Add
+        this.filter.items.push({ key: status.key, value: status.description });
+      });
+    });
+  }
+
+  // Return filter
+  getFilterDef(): FilterDef {
+    return this.filter;
+  }
+
+  getValue() {
+    return this.filter.currentValue;
+  }
+}
+
+class ChargingStationFilter implements Filter  {
+  // Default filter
+  private filter: FilterDef = {
+    id: 'Source',
+    type: Constants.FILTER_TYPE_DROPDOWN,
+    name: 'Chargers',
+    currentValue: Constants.FILTER_ALL_KEY,
+    items: []
+  }
+
+  constructor(
+      private translateService: TranslateService,
+      private centralServerService: CentralServerService) {
+    // translate the name
+    this.filter.name = this.translateService.instant('logs.source');
+    // Add <All>
+    this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
+    // Get the Chargers
+    centralServerService.getChargers({}).subscribe((chargers) => {
+      // Create
+      chargers.result.forEach((charger) => {
+        // Add
+        this.filter.items.push({ key: charger.id, value: charger.id });
+      });
+    });
+  }
+
+  getValue() {
+    return this.filter.currentValue;
+  }
+
+  // Return filter
+  getFilterDef(): FilterDef {
+    return this.filter;
+  }
+}
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -29,30 +125,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private footer = false;
   public autoRefeshChecked = true;
   private autoRefreshSubscription: Subscription;
-
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
 
+  private filters = [];
+
   constructor(
       private configService: ConfigService,
+      private centralServerService: CentralServerService,
       private translateService: TranslateService) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-  }
-
-  autoRefreshChanged(slide: MatSlideToggleChange) {
-    // Enabled?
-    if (slide.checked) {
-      // Listen for changes
-      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
-        this.dataSource.loadData();
-      });
-    // Unregister?
-    } else if (this.autoRefreshSubscription) {
-      // Yes
-      this.autoRefreshSubscription.unsubscribe();
-    }
+    this.filters.push(new LogStatusFilter(
+      this.translateService, this.centralServerService).getFilterDef());
+    this.filters.push(new ChargingStationFilter(
+      this.translateService, this.centralServerService).getFilterDef());
   }
 
   ngOnInit() {
@@ -110,6 +198,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     // Unregister?
     if (this.autoRefreshSubscription) {
+      // Yes
+      this.autoRefreshSubscription.unsubscribe();
+    }
+  }
+
+  autoRefreshChanged(slide: MatSlideToggleChange) {
+    // Enabled?
+    if (slide.checked) {
+      // Listen for changes
+      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
+        this.dataSource.loadData();
+      });
+    // Unregister?
+    } else if (this.autoRefreshSubscription) {
       // Yes
       this.autoRefreshSubscription.unsubscribe();
     }

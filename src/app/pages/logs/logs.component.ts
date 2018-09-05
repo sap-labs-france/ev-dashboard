@@ -143,7 +143,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
     }
 
     getPaginatorPageSizes() {
-        return [15, 25, 50, 100, 250, 500, 1000, 2000];
+        return [25, 50, 100, 250, 500, 1000, 2000];
     }
 
     getTableDef(): TableDef {

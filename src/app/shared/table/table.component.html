@@ -5,18 +5,32 @@
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
   <mat-toolbar *ngIf="dataSource.hasActions()">
-    <!-- Refresh Button -->
-    <button class="btn btn-info mat-raised-button"  *ngIf="dataSource.isRefreshEnabled()" (click)="refresh()">
-      <span class="mat-button-wrapper">
-        <i class="material-icons">refresh</i>
-        <span class="btn-label">&nbsp;&nbsp;&nbsp;Refresh</span>
-      </span>
-    </button>
-    <span class="toolbar-spacer"></span>
-    <!-- Auto Refresh -->
-    <mat-slide-toggle *ngIf="dataSource.isAutoRefreshEnabled()" [checked]="dataSource.getAutoRefreshDefaultValue()" (change)="autoRefreshChanged($event)">
-      {{'general.auto_refresh' | translate}}
-    </mat-slide-toggle>
+      <!-- Button Row -->
+      <mat-toolbar-row>
+      <!-- Refresh Button -->
+      <button class="btn btn-info mat-raised-button"  *ngIf="dataSource.isRefreshEnabled()" (click)="refresh()">
+        <span class="mat-button-wrapper">
+          <i class="material-icons">refresh</i>
+          <span class="btn-label">&nbsp;&nbsp;&nbsp;Refresh</span>
+        </span>
+      </button>
+      <span class="toolbar-spacer"></span>
+      <!-- Auto Refresh -->
+      <mat-slide-toggle *ngIf="dataSource.isAutoRefreshEnabled()" [checked]="dataSource.getAutoRefreshDefaultValue()" (change)="autoRefreshChanged($event)">
+        {{'general.auto_refresh' | translate}}
+      </mat-slide-toggle>
+    </mat-toolbar-row>
+    <!-- Filter Row -->
+    <mat-toolbar-row>
+      <!-- Create Filters -->
+      <div [class]="(filter.class ? 'filter-row ' + filter.class : 'filter-row')" *ngFor="let filter of filters; let i=index">
+        <mat-form-field *ngIf="filter.type == 'dropdown'">
+          <mat-select [placeholder]="filter.name" [(value)]="filter.currentValue">
+            <mat-option *ngFor="let item of filter.items" [value]="item.key">{{item.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-toolbar-row>
   </mat-toolbar>
 
   <!-- Table -->

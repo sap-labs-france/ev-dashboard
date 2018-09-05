@@ -1,5 +1,6 @@
 import { SortDirection } from '@angular/material/typings';
-import { Observable } from 'rxjs';
+
+export declare type FilterType = 'dropdown' | '';
 
 export interface RouteInfo {
   id: string;
@@ -103,6 +104,11 @@ export interface Charger {
   chargingStationURL: string;
   numberOfConnectedPhase: number;
   connectors: Connector[];
+}
+
+export interface ChargerResult {
+  count: number,
+  result: Charger[]
 }
 
 export interface Address {
@@ -265,6 +271,10 @@ export interface TableColumnDef {
   formatterOptions?: any,
   sorted?: boolean;
   direction?: SortDirection;
+}
+
+export interface TableSearch {
+  search: string;
 }
 
 export interface Transaction {

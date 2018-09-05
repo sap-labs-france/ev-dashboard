@@ -82,9 +82,13 @@ export class UserComponent implements OnInit {
             this.messages = messages;
         });
         // Get statuses
-        this.userStatuses = this.centralServerService.getUserStatuses();
+        this.centralServerService.getUserStatuses().subscribe((userStatuses) => {
+            this.userStatuses = userStatuses;
+        });
         // Get Roles
-        this.userRoles = this.centralServerService.getUserRoles();
+        this.centralServerService.getUserRoles().subscribe((userRoles) => {
+            this.userRoles = userRoles;
+        });
         // Get Locales
         this.userLocales = this.localeService.getLocales();
         // Admin?

@@ -10,7 +10,8 @@ import { Constants } from '../utils/Constants';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
-import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image, User, Status, Role, RouteInfo } from '../common.types';
+import { ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
+  User, Status, Role, RouteInfo, ChargerResult } from '../common.types';
 
 @Injectable()
 export class CentralServerService {
@@ -162,8 +163,34 @@ export class CentralServerService {
       );
   }
 
+  getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
+    // Verify init
+    this._checkInit();
+    // Set filter
+    const queryString = {};
+    // Set Values
+    if (params.search) {
+      queryString['Search'] = params.search;
+    }
+    if (params.withNoSiteArea) {
+      queryString['WithNoSiteArea'] = params.withNoSiteArea;
+    }
+    // Build Paging
+    this.buildPaging(paging, queryString);
+    // Build Ordering
+    this.buildOrdering(ordering, queryString);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: queryString
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
   getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
-    // dateFrom, level, type, chargingStation, search, action, numberOfLogs, sortDate
     // Verify init
     this._checkInit();
     // Set filter
@@ -181,8 +208,8 @@ export class CentralServerService {
     if (params.type) {
       queryString['Type'] = params.type;
     }
-    if (params.chargingStation) {
-      queryString['ChargingStation'] = params.chargingStation;
+    if (params.source) {
+      queryString['Source'] = params.source;
     }
     if (params.action) {
       queryString['Action'] = params.action;
@@ -193,7 +220,7 @@ export class CentralServerService {
     this.buildOrdering(ordering, queryString);
     // Execute the REST service
     // Execute
-    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings?${queryString}`,
+    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
       {
         headers: this.buildHttpHeaders(),
         params: queryString
@@ -252,39 +279,35 @@ export class CentralServerService {
       );
 }
 
-  getUserStatuses(): Status[] {
+  getUserStatuses(): Observable<Status[]> {
     // Return
-    return [
+    return of([
       { key: 'A', description: this.translateService.instant('users.status_active', {}) },
       { key: 'B', description: this.translateService.instant('users.status_blocked', {}) },
       { key: 'I', description: this.translateService.instant('users.status_inactive', {}) },
       { key: 'L', description: this.translateService.instant('users.status_locked', {}) },
       { key: 'P', description: this.translateService.instant('users.status_pending', {}) }
-    ];
+    ]);
   }
 
-  getUserStatusByKey(statusKey): Status {
-    // Return the found key
-    const foundStatus = this.getUserStatuses().find(
-      (status) => status.key === statusKey);
-    return (foundStatus ? foundStatus : { key: 'U', description: this.translateService.instant('users.status_unknown', {}) });
-  }
-
-  getUserRoles(): Role[] {
+  getUserRoles(): Observable<Role[]> {
     // Return
-    return [
-      { key: 'A', description: this.translateService.instant('users.role_admin', {}) },
-      { key: 'B', description: this.translateService.instant('users.role_basic', {}) },
-      { key: 'C', description: this.translateService.instant('users.role_corporate', {}) },
-      { key: 'D', description: this.translateService.instant('users.role_demo', {}) }
-    ];
+    return of([
+      { key: 'A', description: this.translateService.instant('users.role_admin') },
+      { key: 'B', description: this.translateService.instant('users.role_basic') },
+      { key: 'C', description: this.translateService.instant('users.role_corporate') },
+      { key: 'D', description: this.translateService.instant('users.role_demo') }
+    ]);
   }
 
-  getUserRoleByKey(roleKey): Role {
-    // Return the found key
-    const foundRole = this.getUserRoles().find(
-      (role) => role.key === roleKey);
-    return (foundRole ? foundRole : { key: 'U', description: this.translateService.instant('users.role_unknown', {}) });
+  getLogStatus(): Observable<Status[]> {
+    // Return
+    return of([
+      { key: 'E', description: this.translateService.instant('logs.error') },
+      { key: 'W', description: this.translateService.instant('logs.warning') },
+      { key: 'I', description: this.translateService.instant('logs.info') },
+      { key: 'D', description: this.translateService.instant('logs.debug') }
+    ]);
   }
 
   login(user): Observable<any> {

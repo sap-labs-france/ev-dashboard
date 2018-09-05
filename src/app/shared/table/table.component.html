@@ -5,11 +5,14 @@
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
   <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters()">
-    <!-- Button Row -->
+
+    <!-- Actions Row -->
     <mat-toolbar-row *ngIf="dataSource.hasActions()">
-      <!-- Create Filters -->
+
+      <!-- Create Left Actions -->
       <div [class]="(actionDef.class ? 'filter-row ' + actionDef.class : 'filter-row')" *ngFor="let actionDef of actionsDef; let i=index">
-        <button class="btn btn-info mat-raised-button"  *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
+        <!-- Action Button -->
+        <button *ngIf="actionDef.type === 'button'" class="btn btn-info mat-raised-button" (click)="actionTriggered(actionDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
             <span class="btn-label">{{actionDef.name}}</span>
@@ -17,12 +20,24 @@
         </button>
       </div>
       <span class="toolbar-spacer"></span>
-      <!-- Auto Refresh -->
-      <mat-slide-toggle *ngIf="dataSource.isAutoRefreshEnabled()" [checked]="dataSource.getAutoRefreshDefaultValue()" (change)="autoRefreshChanged($event)">
-        {{'general.auto_refresh' | translate}}
-      </mat-slide-toggle>
+
+      <!-- Create Right Actions -->
+      <div [class]="(actionRightDef.class ? 'filter-row ' + actionRightDef.class : 'filter-row')" *ngFor="let actionRightDef of actionsRightDef; let i=index">
+        <!-- Action Button -->
+        <button *ngIf="actionRightDef.type === 'button'" class="btn btn-info mat-raised-button" (click)="actionTriggered(actionRightDef)">
+          <span class="mat-button-wrapper">
+            <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
+            <span class="btn-label">{{actionRightDef.name}}</span>
+          </span>
+        </button>
+        <!-- Action Slide -->
+        <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
+          {{actionRightDef.name}}
+        </mat-slide-toggle>
+      </div>
     </mat-toolbar-row>
-    <!-- Filter Row -->
+
+    <!-- Filters Row -->
     <mat-toolbar-row *ngIf="dataSource.hasFilters()">
       <!-- Create Filters -->
       <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
@@ -41,7 +56,7 @@
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="text-left col-master-select pt-2">
-          <mat-checkbox [hidden]="!dataSource.isLineSelectionEnabled()" (change)="$event ? masterToggle() : null"
+          <mat-checkbox [hidden]="!dataSource.isLineSelectionEnabled()" (change)="$event ? masterSelectToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
@@ -60,7 +75,7 @@
         <th mat-header-cell [class]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
           *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
-          *matCellDef="let row" [innerHtml]="getRowValue(row, columnDef)"></td>
+          *matCellDef="let row" [innerHtml]="buildRowValue(row, columnDef)"></td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
       </ng-container>
 

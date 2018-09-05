@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
-import { MatPaginator, MatSort, MatSlideToggleChange } from '@angular/material';
+import { MatPaginator, MatSort } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
 import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
@@ -30,9 +30,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private tableDef: TableDef;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
+  private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   public autoRefeshChecked = true;
-  private autoRefreshSubscription: Subscription;
   private filters: TableFilter[] = [];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -53,33 +53,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filtersDef = this.dataSource.getTableFiltersDef();
     // Get Actions def
     this.actionsDef = this.dataSource.getTableActionsDef();
-    // Get Selection
+    // Get Actions Right def
+    this.actionsRightDef = this.dataSource.getTableActionsRightDef();
+    // Get Selection Model
     this.selection = this.dataSource.getSelectionModel();
     // Get column defs
     this.columnDefs = this.dataSource.getTableColumnDefs();
+    // Get columns
     this.columns = this.columnDefs.map( (column) => column.id);
-    // Selection enabled?
+    // Line Selection enabled?
     if (this.dataSource.isLineSelectionEnabled()) {
-      // Add column select
+      // Yes: Add column select
       this.columns = ['select', ...this.columns];
-    }
-    // Check Auto Refresh default value
-    if (this.dataSource.isAutoRefreshEnabled() && this.dataSource.getAutoRefreshDefaultValue()) {
-      // Listen for changes
-      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
-        this.dataSource.loadData();
-      });
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Find Sorted columns
     const columnDef = this.columnDefs.find((column) => column.sorted === true);
+    // Found?
     if (columnDef) {
-      // Set Sorting
+      // Yes: Set Sorting
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
-    // Search
+    // Listen to Search change
     this.searchSourceSubject.pipe(
       debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
       distinctUntilChanged()).subscribe(() => {
@@ -103,25 +100,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Unregister?
-    if (this.autoRefreshSubscription) {
-      // Yes
-      this.autoRefreshSubscription.unsubscribe();
-    }
-  }
-
-  autoRefreshChanged(slide: MatSlideToggleChange) {
-    // Enabled?
-    if (slide.checked) {
-      // Listen for changes
-      this.autoRefreshSubscription = this.dataSource.getAutoRefreshSubject().subscribe(() => {
-        this.dataSource.loadData();
-      });
-    // Unregister?
-    } else if (this.autoRefreshSubscription) {
-      // Yes
-      this.autoRefreshSubscription.unsubscribe();
-    }
+    // Unregister
+    this.dataSource.unregisterToDataChange();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -131,29 +111,29 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return numSelected === numRows;
   }
 
-  refresh() {
-    // Reload
-    this.dataSource.loadData();
-  }
-
   filterChanged(filterDef: TableFilterDef) {
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  actionTriggered(actionDef: TableActionDef, event) {
+    // Slide?
+    if (actionDef.type === 'slide') {
+      // Slide is one way bind and needs it value to be updated manually
+      actionDef.currentValue = event.checked;
+    }
     // Get Actions def
     this.dataSource.actionTriggered(actionDef);
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  // Selects all rows if they are not all selected; otherwise clear selection.
+  masterSelectToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
-  getRowValue(row: any, columnDef: TableColumnDef) {
+  buildRowValue(row: any, columnDef: TableColumnDef) {
     let propertyValue = row[columnDef.id];
 
     // Check if ID contains multiple IDs

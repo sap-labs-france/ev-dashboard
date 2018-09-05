@@ -7,7 +7,8 @@ import { TableFilterDef } from '../../../common.types';
 export class LogSourceTableFilter implements TableFilter  {
   // Default filter
   private filter: TableFilterDef = {
-    id: 'Source',
+    id: 'source',
+    httpId: 'Source',
     type: Constants.FILTER_TYPE_DROPDOWN,
     name: 'Source',
     currentValue: Constants.FILTER_ALL_KEY,
@@ -29,10 +30,6 @@ export class LogSourceTableFilter implements TableFilter  {
         this.filter.items.push({ key: charger.id, value: charger.id });
       });
     });
-  }
-
-  getValue() {
-    return this.filter.currentValue;
   }
 
   // Return filter

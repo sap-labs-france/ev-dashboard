@@ -10,9 +10,10 @@ export interface KeyValue {
 
 export interface TableFilterDef {
   id: string;
+  httpId: string;
   type: FilterType;
   name: string;
-  currentValue?: string;
+  currentValue?: any;
   class?: string;
   items?: KeyValue[]
 }
@@ -20,7 +21,7 @@ export interface TableFilterDef {
 export interface TableActionDef {
   id: string;
   type: ActionType;
-  currentValue?: string;
+  currentValue?: any;
   name: string;
   icon?: string;
   class?: string;

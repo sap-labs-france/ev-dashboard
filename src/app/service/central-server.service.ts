@@ -193,37 +193,16 @@ export class CentralServerService {
   getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
     // Verify init
     this._checkInit();
-    // Set filter
-    const queryString = {};
-    // Set Values
-    if (params.search) {
-      queryString['Search'] = params.search;
-    }
-    if (params.dateFrom) {
-      queryString['DateFrom'] = params.dateFrom;
-    }
-    if (params.level) {
-      queryString['Level'] = params.level;
-    }
-    if (params.type) {
-      queryString['Type'] = params.type;
-    }
-    if (params.source) {
-      queryString['Source'] = params.source;
-    }
-    if (params.action) {
-      queryString['Action'] = params.action;
-    }
     // Build Paging
-    this.buildPaging(paging, queryString);
+    this.buildPaging(paging, params);
     // Build Ordering
-    this.buildOrdering(ordering, queryString);
+    this.buildOrdering(ordering, params);
     // Execute the REST service
     // Execute
     return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
       {
         headers: this.buildHttpHeaders(),
-        params: queryString
+        params
       })
       .pipe(
         catchError(this.handleHttpError)

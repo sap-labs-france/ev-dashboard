@@ -48,7 +48,6 @@ tr.mat-footer-row {
   background-color: white;
 }
 
-
 .site-col-name {
   width: 300px;
   min-width: 300px;
@@ -74,10 +73,16 @@ tr.mat-footer-row {
 }
 
 /** Logs **/
-.logs-col-status {
+.logs-col-level {
   width: 80px;
   min-width: 80px;
   max-width: 80px;
+}
+
+.logs-col-source {
+  width: 175px;
+  min-width: 175px;
+  max-width: 175px;
 }
 
 .col-master-select {

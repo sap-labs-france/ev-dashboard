@@ -1,8 +1,9 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
 import { TableColumnDef, TableSearch, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
+import { Constants } from '../../utils/Constants';
 
 export abstract class TableDataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
@@ -10,13 +11,15 @@ export abstract class TableDataSource<T> {
     private paginator: MatPaginator;
     private sort: MatSort;
     private numberOfRecords = 0;
-    private actionsDef: TableActionDef[];
-    private filtersDef: TableFilterDef[];
     private tableDef: TableDef;
+    private actionsDef: TableActionDef[];
+    private actionsRightDef: TableActionDef[];
+    private filtersDef: TableFilterDef[];
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
+    private dataChangeSubscription: Subscription;
 
-    checkInitialized(): any {
+    private _checkInitialized(): any {
         // Check
         if (!this.tableDef) {
             this.tableDef = this.getTableDef();
@@ -26,83 +29,80 @@ export abstract class TableDataSource<T> {
         }
         if (!this.actionsDef) {
             this.actionsDef = this.getTableActionsDef();
+            // Check known actions
+            this._checkKnownActions(this.actionsRightDef);
+        }
+        if (!this.actionsRightDef) {
+            // Get
+            this.actionsRightDef = this.getTableActionsRightDef();
+            // Check known actions
+            this._checkKnownActions(this.actionsRightDef);
         }
     }
 
-    isAutoRefreshEnabled(): boolean {
+    private _checkKnownActions(actionsDef: TableActionDef[]): any {
         // Check
-        this.checkInitialized();
-        // return this.tableDef && this.tableDef.actions &&
-        //     this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.enabled;
-        return false;
+        if (actionsDef) {
+            // Check
+            actionsDef.forEach((actionDef) => {
+                // Check known actions
+                switch (actionDef.id) {
+                    // Auto Refresh
+                    case 'auto-refresh':
+                        // Check Change Listener
+                        if (actionDef.currentValue) {
+                            // Activate
+                            this.registerToDataChange();
+                        }
+                        break;
+                }
+            });
+        }
     }
 
-    getAutoRefreshDefaultValue(): boolean {
+    public hasActions(): boolean {
         // Check
-        this.checkInitialized();
-        // return this.tableDef && this.tableDef.actions &&
-        //     this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.defaultValue;
-        return false;
-    }
-
-    getAutoRefreshSubject(): Observable<SubjectInfo> {
-        // Check
-        this.checkInitialized();
-        // Return
-        return null;
-    }
-
-    hasActions(): boolean {
-        // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.actionsDef && this.actionsDef.length > 0;
     }
 
-    hasFilters(): boolean {
+    public hasFilters(): boolean {
         // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.filtersDef && this.filtersDef.length > 0;
     }
 
-    isRefreshEnabled(): boolean {
+    public isLineSelectionEnabled(): boolean {
         // Check
-        this.checkInitialized();
-        // return this.tableDef && this.tableDef.actions &&
-        //     this.tableDef.actions.refresh && this.tableDef.actions.refresh.enabled;
-        return false;
-    }
-
-    isLineSelectionEnabled(): boolean {
-        // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.enabled;
     }
 
-    isMultiSelectionEnabled(): boolean {
+    public isMultiSelectionEnabled(): boolean {
         // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.multiple;
     }
 
-    isFooterEnabled(): boolean {
+    public isFooterEnabled(): boolean {
         // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     }
 
-    isSearchEnabled(): boolean {
+    public isSearchEnabled(): boolean {
         // Check
-        this.checkInitialized();
+        this._checkInitialized();
         // Return
         return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     }
 
-    getSelectionModel(): SelectionModel<T> {
+    public getSelectionModel(): SelectionModel<T> {
         if (!this.selectionModel) {
             this.selectionModel = new SelectionModel<T>(
                 this.isMultiSelectionEnabled(), []);
@@ -110,89 +110,97 @@ export abstract class TableDataSource<T> {
         return this.selectionModel;
     }
 
-    getDataSubjet(): BehaviorSubject<T[]> {
+    public getDataSubjet(): BehaviorSubject<T[]> {
         return this.dataSubject;
     }
 
-    setPaginator(paginator: MatPaginator) {
+    public setPaginator(paginator: MatPaginator) {
         this.paginator = paginator;
     }
 
-    getPaginator(): MatPaginator {
+    public getPaginator(): MatPaginator {
         // Return one of them
         return this.paginator;
     }
 
-    setSort(sort: MatSort) {
+    public setSort(sort: MatSort) {
         this.sort = sort;
     }
 
-    getSort(): MatSort {
+    public getSort(): MatSort {
         return this.sort;
     }
 
-    setSearchInput(searchInput: ElementRef) {
+    public setSearchInput(searchInput: ElementRef) {
         this.searchInput = searchInput;
     }
 
-    connect(collectionViewer: CollectionViewer): Observable<T[]> {
+    public getSearchValue(): string {
+        return this.searchInput.nativeElement.value;
+    }
+
+    public connect(collectionViewer: CollectionViewer): Observable<T[]> {
         return this.dataSubject.asObservable();
     }
 
-    disconnect(collectionViewer: CollectionViewer): void {
+    public disconnect(collectionViewer: CollectionViewer): void {
         this.dataSubject.complete();
     }
 
-    updatePaginator() {
+    public updatePaginator() {
         this.paginator.length = this.getNumberOfRecords();
     }
 
-    getPaginatorPageSizes() {
+    public getPaginatorPageSizes() {
         return [25, 50, 100, 250, 500];
     }
 
-    getSearch(): TableSearch {
-        return { search: this.searchInput.nativeElement.value };
-    }
-
-    getPaging(): Paging {
+    public getPaging(): Paging {
         return {
             skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
             limit: this.getPaginator().pageSize
         };
     }
 
-    getOrdering(): Ordering[] {
+    public getOrdering(): Ordering[] {
         return [
             { field: this.getSort().active, direction: this.getSort().direction }
         ]
     }
 
-    setNumberOfRecords(numberOfRecords: number) {
+    public setNumberOfRecords(numberOfRecords: number) {
         this.numberOfRecords = numberOfRecords;
     }
 
-    getNumberOfRecords(): number {
+    public getNumberOfRecords(): number {
         return this.numberOfRecords;
     }
 
-    setData(data: T[]) {
+    public setData(data: T[]) {
         this.data = data;
     }
 
-    getData(): T[] {
+    public getData(): T[] {
         return this.data;
     }
 
-    getTableActionsDef(): TableActionDef[] {
+    public getTableActionsDef(): TableActionDef[] {
+        // Return default
         return [];
     }
 
-    getTableFiltersDef(): TableFilterDef[] {
+    public getTableActionsRightDef(): TableActionDef[] {
+        // Return default
         return [];
     }
 
-    getTableDef(): TableDef {
+    public getTableFiltersDef(): TableFilterDef[] {
+        // Return default
+        return [];
+    }
+
+    public getTableDef(): TableDef {
+        // Return default
         return {
             search: {
                 enabled: true
@@ -200,12 +208,18 @@ export abstract class TableDataSource<T> {
         };
     }
 
-    filterChanged(filterDef: TableFilterDef) {
-        // Default: Reload data
+    public filterChanged(filter: TableFilterDef) {
+        // Update Filter
+        const foundFilter = this.filtersDef.find((filterDef) => {
+            return filterDef.id === filter.id;
+        });
+        // Update value
+        foundFilter.currentValue = filter.currentValue;
+        // Reload data
         this.loadData();
     }
 
-    actionTriggered(actionDef: TableActionDef) {
+    public actionTriggered(actionDef: TableActionDef) {
         // Check common actions
         switch (actionDef.id) {
             // Refresh
@@ -213,7 +227,57 @@ export abstract class TableDataSource<T> {
                 // Reload data
                 this.loadData();
                 break;
+            // Auto Refresh
+            case 'auto-refresh':
+                // Check Change Listener
+                if (actionDef.currentValue) {
+                    // Activate
+                    this.registerToDataChange();
+                } else {
+                    // Disable
+                    this.unregisterToDataChange();
+                }
+                break;
         }
+    }
+
+    public getDataChangeSubject(): Observable<SubjectInfo> {
+        // Return
+        throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
+    }
+
+    public registerToDataChange() {
+      // Listen for changes
+      if (!this.dataChangeSubscription) {
+        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
+            this.loadData();
+        });
+      }
+    }
+
+    public unregisterToDataChange() {
+        // Exist?
+        if (this.dataChangeSubscription) {
+            // Unregister
+            this.dataChangeSubscription.unsubscribe();
+            this.dataChangeSubscription = null;
+        }
+    }
+
+    public getFilterValues(withSearch: boolean = true) {
+        const filterJson = {};
+        // Parse filters
+        this.filtersDef.forEach((filterDef) => {
+            // Check the 'All' value
+            if (filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+                filterJson[filterDef.httpId] = filterDef.currentValue;
+            }
+        });
+        // With Search?
+        if (withSearch) {
+            filterJson['Search'] = this.getSearchValue();
+        }
+        return filterJson;
     }
 
     abstract getTableColumnDefs(): TableColumnDef[];

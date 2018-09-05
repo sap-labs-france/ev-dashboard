@@ -4,10 +4,11 @@ import { CentralServerService } from '../../../service/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { TableFilterDef } from '../../../common.types';
 
-export class LogStatusTableFilter implements TableFilter  {
+export class LogLevelTableFilter implements TableFilter  {
   // Default filter
   private filter: TableFilterDef = {
-    id: 'Level',
+    id: 'level',
+    httpId: 'Level',
     type: Constants.FILTER_TYPE_DROPDOWN,
     name: 'Level',
     currentValue: Constants.FILTER_ALL_KEY,
@@ -34,9 +35,5 @@ export class LogStatusTableFilter implements TableFilter  {
   // Return filter
   getFilterDef(): TableFilterDef {
     return this.filter;
-  }
-
-  getValue() {
-    return this.filter.currentValue;
   }
 }

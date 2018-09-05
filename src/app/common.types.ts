@@ -2,6 +2,26 @@ import { SortDirection } from '@angular/material/typings';
 
 export declare type FilterType = 'dropdown' | '';
 
+export interface KeyValue {
+  key: string;
+  value: string;
+}
+
+export interface TableFilterDef {
+  id: string;
+  type: FilterType;
+  name: string;
+  currentValue?: string;
+  class?: string;
+  items?: KeyValue[]
+}
+
+export interface TableActionDef {
+  id: string;
+  name: string;
+  class?: string;
+}
+
 export interface RouteInfo {
   id: string;
   path: string;
@@ -248,15 +268,6 @@ export interface TableDef {
   },
   search?: {
     enabled: boolean;
-  },
-  actions?: {
-    refresh: {
-      enabled: boolean;
-    },
-    autoRefresh?: {
-      enabled: boolean;
-      defaultValue?: boolean;
-    }
   }
 }
 

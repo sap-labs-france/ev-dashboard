@@ -11,8 +11,10 @@ import { MessageService } from '../../service/message.service';
 import { TableDataSource } from '../../shared/table/table-data-source';
 import { Utils } from '../../utils/Utils';
 import { Formatters } from '../../utils/Formatters';
-import { TableColumnDef, Log, SubjectInfo, TableDef } from '../../common.types';
+import { TableColumnDef, Log, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
 import { Observable } from 'rxjs';
+import { LogSourceTableFilter } from './filters/log-source-filter';
+import { LogStatusTableFilter } from './filters/log-status-filter';
 
 @Component({
     selector: 'app-logs-cmp',
@@ -146,21 +148,15 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
         return [25, 50, 100, 250, 500, 1000, 2000];
     }
 
-    getTableDef(): TableDef {
-        return Object.assign(super.getTableDef(), {
-            search: {
-                enabled: true
-            },
-            actions: {
-                refresh: {
-                    enabled: true
-                },
-                autoRefresh: {
-                    enabled: true,
-                    defaultValue: true
-                }
-            }
-        });
+    getTableActionsDef(): TableActionDef[] {
+        return [];
+    }
+
+    getTableFiltersDef(): TableFilterDef[] {
+        return [
+            new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
+            new LogStatusTableFilter(this.translateService, this.centralServerService).getFilterDef()
+        ];
     }
 }
 

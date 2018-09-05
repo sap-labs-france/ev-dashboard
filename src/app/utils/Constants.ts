@@ -1,5 +1,4 @@
-import { FilterType } from "../common.types";
-
+import { FilterType } from '../common.types';
 
 export class Constants {
   /* Authorization */

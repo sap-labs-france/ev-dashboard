@@ -4,9 +4,9 @@
 
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
-  <mat-toolbar *ngIf="dataSource.hasActions()">
-      <!-- Button Row -->
-      <mat-toolbar-row>
+  <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters()">
+    <!-- Button Row -->
+    <mat-toolbar-row *ngIf="dataSource.hasActions()">
       <!-- Refresh Button -->
       <button class="btn btn-info mat-raised-button"  *ngIf="dataSource.isRefreshEnabled()" (click)="refresh()">
         <span class="mat-button-wrapper">
@@ -21,12 +21,12 @@
       </mat-slide-toggle>
     </mat-toolbar-row>
     <!-- Filter Row -->
-    <mat-toolbar-row>
+    <mat-toolbar-row *ngIf="dataSource.hasFilters()">
       <!-- Create Filters -->
-      <div [class]="(filter.class ? 'filter-row ' + filter.class : 'filter-row')" *ngFor="let filter of filters; let i=index">
-        <mat-form-field *ngIf="filter.type == 'dropdown'">
-          <mat-select [placeholder]="filter.name" [(value)]="filter.currentValue">
-            <mat-option *ngFor="let item of filter.items" [value]="item.key">{{item.value}}</mat-option>
+      <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
+        <mat-form-field *ngIf="filterDef.type == 'dropdown'">
+          <mat-select [placeholder]="filterDef.name" [(value)]="filterDef.currentValue">
+            <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

@@ -474,6 +474,7 @@
 		"warning": "Warning",
 		"error": "Error",
 		"status": "Status",
+		"level": "Level",
 		"date": "Date",
 		"source": "Source",
 		"user": "User",

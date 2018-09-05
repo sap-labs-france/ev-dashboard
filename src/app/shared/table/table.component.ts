@@ -5,105 +5,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef, TableDef, FilterType } from '../../common.types';
+import { TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CentralServerService } from '../../service/central-server.service';
-import { Constants } from '../../utils/Constants';
-
-interface KeyValue {
-  key: string;
-  value: string;
-}
-
-interface FilterDef {
-  id: string;
-  type: FilterType;
-  name: string;
-  currentValue?: string;
-  class?: string;
-  items?: KeyValue[]
-}
-
-interface Filter {
-  // Return a filter
-  getFilterDef(): FilterDef;
-  getValue(): any;
-}
-
-class LogStatusFilter implements Filter  {
-  // Default filter
-  private filter: FilterDef = {
-    id: 'Level',
-    type: Constants.FILTER_TYPE_DROPDOWN,
-    name: 'Status',
-    currentValue: Constants.FILTER_ALL_KEY,
-    items: []
-  }
-
-  constructor(
-      private translateService: TranslateService,
-      private centralServerService: CentralServerService) {
-    // translate the name
-    this.filter.name = this.translateService.instant('logs.status');
-    // Add <All>
-    this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
-    // Get the Chargers
-    centralServerService.getLogStatus().subscribe((statuses) => {
-      // Create
-      statuses.forEach((status) => {
-        // Add
-        this.filter.items.push({ key: status.key, value: status.description });
-      });
-    });
-  }
-
-  // Return filter
-  getFilterDef(): FilterDef {
-    return this.filter;
-  }
-
-  getValue() {
-    return this.filter.currentValue;
-  }
-}
-
-class ChargingStationFilter implements Filter  {
-  // Default filter
-  private filter: FilterDef = {
-    id: 'Source',
-    type: Constants.FILTER_TYPE_DROPDOWN,
-    name: 'Chargers',
-    currentValue: Constants.FILTER_ALL_KEY,
-    items: []
-  }
-
-  constructor(
-      private translateService: TranslateService,
-      private centralServerService: CentralServerService) {
-    // translate the name
-    this.filter.name = this.translateService.instant('logs.source');
-    // Add <All>
-    this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
-    // Get the Chargers
-    centralServerService.getChargers({}).subscribe((chargers) => {
-      // Create
-      chargers.result.forEach((charger) => {
-        // Add
-        this.filter.items.push({ key: charger.id, value: charger.id });
-      });
-    });
-  }
-
-  getValue() {
-    return this.filter.currentValue;
-  }
-
-  // Return filter
-  getFilterDef(): FilterDef {
-    return this.filter;
-  }
-}
+import { TableFilter } from './filters/table-filter';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -122,14 +28,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   private selection: SelectionModel<any>;
   private tableDef: TableDef;
+  private filtersDef: TableFilterDef[] = [];
   private footer = false;
   public autoRefeshChecked = true;
   private autoRefreshSubscription: Subscription;
+  private filters: TableFilter[] = [];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
-
-  private filters = [];
 
   constructor(
       private configService: ConfigService,
@@ -137,15 +43,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       private translateService: TranslateService) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-    this.filters.push(new LogStatusFilter(
-      this.translateService, this.centralServerService).getFilterDef());
-    this.filters.push(new ChargingStationFilter(
-      this.translateService, this.centralServerService).getFilterDef());
   }
 
   ngOnInit() {
-    // Get table def
+    // Get Table def
     this.tableDef = this.dataSource.getTableDef();
+    // Get Filters def
+    this.filtersDef = this.dataSource.getTableFiltersDef();
+    console.log('====================================');
+    console.log(this.filtersDef);
+    console.log(this.dataSource.hasFilters());
+    console.log('====================================');
+    // Get Actions def
     // Get Selection
     this.selection = this.dataSource.getSelectionModel();
     // Get column defs

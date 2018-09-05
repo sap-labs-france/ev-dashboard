@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
-import { TableColumnDef, TableSearch, Paging, Ordering, TableDef, SubjectInfo } from '../../common.types';
+import { TableColumnDef, TableSearch, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
 
 export abstract class TableDataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
@@ -10,51 +10,92 @@ export abstract class TableDataSource<T> {
     private paginator: MatPaginator;
     private sort: MatSort;
     private numberOfRecords = 0;
-    private tableDef: TableDef = {};
+    private actionsDef: TableActionDef[];
+    private filtersDef: TableFilterDef[];
+    private tableDef: TableDef;
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
 
-    constructor() {
-        // Retrieve table definition
-        this.tableDef = this.getTableDef();
+    checkInitialized(): any {
+        // Check
+        if (!this.tableDef) {
+            this.tableDef = this.getTableDef();
+        }
+        if (!this.filtersDef) {
+            this.filtersDef = this.getTableFiltersDef();
+        }
     }
 
     isAutoRefreshEnabled(): boolean {
-        return this.tableDef && this.tableDef.actions &&
-            this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.enabled;
+        // Check
+        this.checkInitialized();
+        // return this.tableDef && this.tableDef.actions &&
+        //     this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.enabled;
+        return false;
     }
 
     getAutoRefreshDefaultValue(): boolean {
-        return this.tableDef && this.tableDef.actions &&
-            this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.defaultValue;
+        // Check
+        this.checkInitialized();
+        // return this.tableDef && this.tableDef.actions &&
+        //     this.tableDef.actions.autoRefresh && this.tableDef.actions.autoRefresh.defaultValue;
+        return false;
     }
 
     getAutoRefreshSubject(): Observable<SubjectInfo> {
-     return null;
+        // Check
+        this.checkInitialized();
+        // Return
+        return null;
     }
 
     hasActions(): boolean {
-        return this.tableDef && this.tableDef.hasOwnProperty('actions');
+        // Check
+        this.checkInitialized();
+        // Return
+        return this.actionsDef && this.actionsDef.length > 0;
+    }
+
+    hasFilters(): boolean {
+        // Check
+        this.checkInitialized();
+        // Return
+        return this.filtersDef && this.filtersDef.length > 0;
     }
 
     isRefreshEnabled(): boolean {
-        return this.tableDef && this.tableDef.actions &&
-            this.tableDef.actions.refresh && this.tableDef.actions.refresh.enabled;
+        // Check
+        this.checkInitialized();
+        // return this.tableDef && this.tableDef.actions &&
+        //     this.tableDef.actions.refresh && this.tableDef.actions.refresh.enabled;
+        return false;
     }
 
     isLineSelectionEnabled(): boolean {
+        // Check
+        this.checkInitialized();
+        // Return
         return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.enabled;
     }
 
     isMultiSelectionEnabled(): boolean {
+        // Check
+        this.checkInitialized();
+        // Return
         return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.multiple;
     }
 
     isFooterEnabled(): boolean {
+        // Check
+        this.checkInitialized();
+        // Return
         return this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     }
 
     isSearchEnabled(): boolean {
+        // Check
+        this.checkInitialized();
+        // Return
         return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     }
 
@@ -124,7 +165,6 @@ export abstract class TableDataSource<T> {
         ]
     }
 
-
     setNumberOfRecords(numberOfRecords: number) {
         this.numberOfRecords = numberOfRecords;
     }
@@ -141,15 +181,18 @@ export abstract class TableDataSource<T> {
         return this.data;
     }
 
+    getTableActionsDef(): TableActionDef[] {
+        return [];
+    }
+
+    getTableFiltersDef(): TableFilterDef[] {
+        return [];
+    }
+
     getTableDef(): TableDef {
         return {
             search: {
                 enabled: true
-            },
-            actions: {
-                refresh: {
-                    enabled: true
-                }
             }
         };
     }

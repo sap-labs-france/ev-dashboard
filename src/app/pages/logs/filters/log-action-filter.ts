@@ -11,6 +11,7 @@ export class LogActionTableFilter implements TableFilter  {
     httpId: 'Action',
     type: Constants.FILTER_TYPE_DROPDOWN,
     name: 'Action',
+    class: 'filter-action',
     currentValue: Constants.FILTER_ALL_KEY,
     items: []
   }

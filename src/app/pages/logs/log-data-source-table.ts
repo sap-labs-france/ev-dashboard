@@ -15,6 +15,7 @@ import { LogSourceTableFilter } from './filters/log-source-filter';
 import { LogLevelTableFilter } from './filters/log-level-filter';
 import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
+import { LogActionTableFilter } from './filters/log-action-filter';
 
 export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
   constructor(
@@ -135,7 +136,8 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
   getTableFiltersDef(): TableFilterDef[] {
     return [
       new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
-      new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef()
+      new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
+      new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
     ];
   }
 }

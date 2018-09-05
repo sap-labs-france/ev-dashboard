@@ -1,6 +1,7 @@
 import { SortDirection } from '@angular/material/typings';
 
 export declare type FilterType = 'dropdown' | '';
+export declare type ActionType = 'button' | 'slide' | '';
 
 export interface KeyValue {
   key: string;
@@ -18,7 +19,10 @@ export interface TableFilterDef {
 
 export interface TableActionDef {
   id: string;
+  type: ActionType;
+  currentValue?: string;
   name: string;
+  icon?: string;
   class?: string;
 }
 

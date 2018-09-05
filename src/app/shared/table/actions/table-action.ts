@@ -1,6 +1,6 @@
 import { TableActionDef } from '../../../common.types';
 
 export interface TableAction {
-    // Return a filter
+    // Return an action
     getActionDef(): TableActionDef;
 }

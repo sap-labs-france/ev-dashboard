@@ -15,6 +15,7 @@ import { TableColumnDef, Log, SubjectInfo, TableActionDef, TableFilterDef } from
 import { Observable } from 'rxjs';
 import { LogSourceTableFilter } from './filters/log-source-filter';
 import { LogStatusTableFilter } from './filters/log-status-filter';
+import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
 
 @Component({
     selector: 'app-logs-cmp',
@@ -108,7 +109,7 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
         });
     }
 
-    getColumnDefs(): TableColumnDef[] {
+    getTableColumnDefs(): TableColumnDef[] {
         // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
             {
@@ -149,7 +150,9 @@ class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
     }
 
     getTableActionsDef(): TableActionDef[] {
-        return [];
+        return [
+            new TableRefreshAction(this.translateService).getActionDef()
+        ];
     }
 
     getTableFiltersDef(): TableFilterDef[] {

@@ -7,13 +7,15 @@
   <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters()">
     <!-- Button Row -->
     <mat-toolbar-row *ngIf="dataSource.hasActions()">
-      <!-- Refresh Button -->
-      <button class="btn btn-info mat-raised-button"  *ngIf="dataSource.isRefreshEnabled()" (click)="refresh()">
-        <span class="mat-button-wrapper">
-          <i class="material-icons">refresh</i>
-          <span class="btn-label">&nbsp;&nbsp;&nbsp;Refresh</span>
-        </span>
-      </button>
+      <!-- Create Filters -->
+      <div [class]="(actionDef.class ? 'filter-row ' + actionDef.class : 'filter-row')" *ngFor="let actionDef of actionsDef; let i=index">
+        <button class="btn btn-info mat-raised-button"  *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
+          <span class="mat-button-wrapper">
+            <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
+            <span class="btn-label">{{actionDef.name}}</span>
+          </span>
+        </button>
+      </div>
       <span class="toolbar-spacer"></span>
       <!-- Auto Refresh -->
       <mat-slide-toggle *ngIf="dataSource.isAutoRefreshEnabled()" [checked]="dataSource.getAutoRefreshDefaultValue()" (change)="autoRefreshChanged($event)">
@@ -24,8 +26,8 @@
     <mat-toolbar-row *ngIf="dataSource.hasFilters()">
       <!-- Create Filters -->
       <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
-        <mat-form-field *ngIf="filterDef.type == 'dropdown'">
-          <mat-select [placeholder]="filterDef.name" [(value)]="filterDef.currentValue">
+        <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+          <mat-select [placeholder]="filterDef.name" [(value)]="filterDef.currentValue" (selectionChange)="filterChanged(filterDef)">
             <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value}}</mat-option>
           </mat-select>
         </mat-form-field>

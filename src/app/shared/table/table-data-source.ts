@@ -24,6 +24,9 @@ export abstract class TableDataSource<T> {
         if (!this.filtersDef) {
             this.filtersDef = this.getTableFiltersDef();
         }
+        if (!this.actionsDef) {
+            this.actionsDef = this.getTableActionsDef();
+        }
     }
 
     isAutoRefreshEnabled(): boolean {
@@ -197,6 +200,23 @@ export abstract class TableDataSource<T> {
         };
     }
 
+    filterChanged(filterDef: TableFilterDef) {
+        // Default: Reload data
+        this.loadData();
+    }
+
+    actionTriggered(actionDef: TableActionDef) {
+        // Check common actions
+        switch (actionDef.id) {
+            // Refresh
+            case 'refresh':
+                // Reload data
+                this.loadData();
+                break;
+        }
+    }
+
+    abstract getTableColumnDefs(): TableColumnDef[];
+
     abstract loadData();
-    abstract getColumnDefs(): TableColumnDef[];
 }

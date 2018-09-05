@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { ConfigService } from '../../service/config.service';
 import { TableDataSource } from './table-data-source';
-import { TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
+import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
 import { Utils } from '../../utils/Utils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CentralServerService } from '../../service/central-server.service';
@@ -29,6 +29,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private selection: SelectionModel<any>;
   private tableDef: TableDef;
   private filtersDef: TableFilterDef[] = [];
+  private actionsDef: TableActionDef[] = [];
   private footer = false;
   public autoRefeshChecked = true;
   private autoRefreshSubscription: Subscription;
@@ -50,16 +51,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tableDef = this.dataSource.getTableDef();
     // Get Filters def
     this.filtersDef = this.dataSource.getTableFiltersDef();
-    console.log('====================================');
-    console.log(this.filtersDef);
-    console.log(this.dataSource.hasFilters());
-    console.log('====================================');
     // Get Actions def
+    this.actionsDef = this.dataSource.getTableActionsDef();
     // Get Selection
     this.selection = this.dataSource.getSelectionModel();
     // Get column defs
-    this.columnDefs = this.dataSource.getColumnDefs();
-    this.columns = this.dataSource.getColumnDefs().map( (column) => column.id);
+    this.columnDefs = this.dataSource.getTableColumnDefs();
+    this.columns = this.columnDefs.map( (column) => column.id);
     // Selection enabled?
     if (this.dataSource.isLineSelectionEnabled()) {
       // Add column select
@@ -74,8 +72,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
-    // Sort
-    const columnDef = this.dataSource.getColumnDefs().find((column) => column.sorted === true);
+    // Find Sorted columns
+    const columnDef = this.columnDefs.find((column) => column.sorted === true);
     if (columnDef) {
       // Set Sorting
       this.sort.active = columnDef.id;
@@ -136,6 +134,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   refresh() {
     // Reload
     this.dataSource.loadData();
+  }
+
+  filterChanged(filterDef: TableFilterDef) {
+    // Get Actions def
+    this.dataSource.filterChanged(filterDef);
+  }
+
+  actionTriggered(actionDef: TableActionDef) {
+    // Get Actions def
+    this.dataSource.actionTriggered(actionDef);
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

@@ -10,7 +10,8 @@ export class LogLevelTableFilter implements TableFilter  {
     id: 'level',
     httpId: 'Level',
     type: Constants.FILTER_TYPE_DROPDOWN,
-    name: 'Level',
+    name: 'logs.level',
+    class: 'col-75',
     currentValue: Constants.FILTER_ALL_KEY,
     items: []
   }
@@ -19,7 +20,7 @@ export class LogLevelTableFilter implements TableFilter  {
       private translateService: TranslateService,
       private centralServerService: CentralServerService) {
     // translate the name
-    this.filter.name = this.translateService.instant('logs.level');
+    this.filter.name = this.translateService.instant(this.filter.name);
     // Add <All>
     this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
     // Get the Chargers

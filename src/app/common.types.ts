@@ -1,6 +1,6 @@
 import { SortDirection } from '@angular/material/typings';
 
-export declare type FilterType = 'dropdown' | '';
+export declare type FilterType = 'dropdown' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
 export interface KeyValue {

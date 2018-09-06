@@ -16,6 +16,7 @@ import { LogLevelTableFilter } from './filters/log-level-filter';
 import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
 import { LogActionTableFilter } from './filters/log-action-filter';
+import { LogDateTableFilter } from './filters/log-date-filter';
 
 export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
   constructor(
@@ -91,36 +92,36 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
         name: this.translateService.instant('logs.level'),
         formatter: Formatters.formatLogLevel,
         formatterOptions: { iconClass: 'pt-1' },
-        headerClass: 'logs-col-level',
-        class: 'logs-col-level'
+        headerClass: 'col-75',
+        class: 'col-75'
       },
       {
         id: 'timestamp',
         type: 'date',
         formatter: Formatters.createDateTimeFormatter(this.localeService).format,
         name: this.translateService.instant('logs.date'),
-        headerClass: 'col-date',
-        class: 'text-left col-date',
+        headerClass: 'col-175',
+        class: 'text-left col-175',
         sorted: true,
         direction: 'desc'
       },
       {
         id: 'source',
         name: this.translateService.instant('logs.source'),
-        headerClass: 'logs-col-source',
-        class: 'text-left logs-col-source'
+        headerClass: 'col-150',
+        class: 'text-left col-150'
       },
       {
         id: 'action',
         name: this.translateService.instant('logs.action'),
-        headerClass: 'col-action',
-        class: 'text-left col-action'
+        headerClass: 'col-200',
+        class: 'text-left col-200'
       },
       {
         id: 'message',
         name: this.translateService.instant('logs.message'),
-        headerClass: 'col-message',
-        class: 'text-left col-message'
+        headerClass: 'col-750',
+        class: 'text-left col-750'
       }
     ];
   }
@@ -143,6 +144,7 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
+      new LogDateTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()

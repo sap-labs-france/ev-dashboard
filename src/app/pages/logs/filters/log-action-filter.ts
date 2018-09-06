@@ -10,8 +10,8 @@ export class LogActionTableFilter implements TableFilter  {
     id: 'action',
     httpId: 'Action',
     type: Constants.FILTER_TYPE_DROPDOWN,
-    name: 'Action',
-    class: 'filter-action',
+    name: 'logs.action',
+    class: 'col-200',
     currentValue: Constants.FILTER_ALL_KEY,
     items: []
   }
@@ -20,7 +20,7 @@ export class LogActionTableFilter implements TableFilter  {
       private translateService: TranslateService,
       private centralServerService: CentralServerService) {
     // translate the name
-    this.filter.name = this.translateService.instant('logs.action');
+    this.filter.name = this.translateService.instant(this.filter.name);
     // Add <All>
     this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
     // Get the Chargers

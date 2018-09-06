@@ -269,7 +269,13 @@ export abstract class TableDataSource<T> {
         this.filtersDef.forEach((filterDef) => {
             // Check the 'All' value
             if (filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
-                filterJson[filterDef.httpId] = filterDef.currentValue;
+                if (filterDef.currentValue instanceof Date) {
+                    // Set it
+                    filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+                } else {
+                    // Set it
+                    filterJson[filterDef.httpId] = filterDef.currentValue;
+                }
             }
         });
         // With Search?

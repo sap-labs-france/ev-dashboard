@@ -63,19 +63,19 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
             {
                 id: 'name',
                 name: this.translateService.instant('sites.name'),
-                class: 'text-left site-col-name',
+                class: 'text-left col-300',
                 sorted: true,
                 direction: 'asc'
             },
             {
                 id: 'address.city',
                 name: this.translateService.instant('general.city'),
-                class: 'text-left col-city'
+                class: 'text-left col-200'
             },
             {
                 id: 'address.country',
                 name: this.translateService.instant('general.country'),
-                class: 'text-left col-country'
+                class: 'text-left col-150'
             }
         ];
     }

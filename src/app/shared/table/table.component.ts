@@ -111,15 +111,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return numSelected === numRows;
   }
 
-  filterChanged(filterDef: TableFilterDef) {
-    // Get Actions def
+  filterChanged(filterDef: TableFilterDef, event) {
+    // Date?
+    if (filterDef.type === 'date') {
+      // Date is one way binding: update the value manually
+      filterDef.currentValue = event.value;
+    }
+      // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
 
   actionTriggered(actionDef: TableActionDef, event) {
     // Slide?
     if (actionDef.type === 'slide') {
-      // Slide is one way bind and needs it value to be updated manually
+      // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
     }
     // Get Actions def

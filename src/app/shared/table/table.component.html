@@ -6,7 +6,7 @@
       <!-- Create Left Actions -->
       <div [class]="(actionDef.class ? 'filter-row ' + actionDef.class : 'filter-row')" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
-        <button *ngIf="actionDef.type === 'button'" class="btn btn-info mat-raised-button" (click)="actionTriggered(actionDef)">
+        <button *ngIf="actionDef.type === 'button'" class="btn btn-sm btn-info mat-raised-button" (click)="actionTriggered(actionDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
             <span class="btn-label">{{actionDef.name}}</span>
@@ -18,7 +18,7 @@
       <!-- Create Right Actions -->
       <div [class]="(actionRightDef.class ? 'filter-row ' + actionRightDef.class : 'filter-row')" *ngFor="let actionRightDef of actionsRightDef; let i=index">
         <!-- Action Button -->
-        <button *ngIf="actionRightDef.type === 'button'" class="btn btn-info mat-raised-button" (click)="actionTriggered(actionRightDef)">
+        <button *ngIf="actionRightDef.type === 'button'" class="btn btn-sm btn-info mat-raised-button" (click)="actionTriggered(actionRightDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
             <span class="btn-label">{{actionRightDef.name}}</span>

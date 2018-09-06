@@ -1,3 +1,5 @@
+@import "../../../assets/scss/core/variables";
+
 table {
   width: 100%;
 }
@@ -101,6 +103,11 @@ tr.mat-footer-row {
   border-bottom-width:0;
 }
 
-.toolbar-row {
-  overflow: auto;
+.mat-toolbar {
+  @media screen and (max-width: $res375) {
+    overflow: auto;
+  }
+}
+.mat-toolbar-row {
+  padding: 15px;
 }

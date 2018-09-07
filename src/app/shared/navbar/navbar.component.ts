@@ -195,25 +195,26 @@ export class NavbarComponent implements OnInit {
 
             body.classList.add('nav-open');
             this.mobile_menu_visible = 1;
-
         }
     }
 
     getTitle() {
-        const titlee: any = this.location.prepareExternalUrl(this.location.path());
-        for (let i = 0; i < this.listTitles.length; i++) {
-            if (this.listTitles[i].type === 'link' && this.listTitles[i].path === titlee) {
-                return this.listTitles[i].title;
-            } else if (this.listTitles[i].type === 'sub') {
-                for (let j = 0; j < this.listTitles[i].children.length; j++) {
-                    const subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
-                    if (subtitle === titlee) {
-                        return this.listTitles[i].children[j].title;
+        if (this.listTitles) {
+            const titlee: any = this.location.prepareExternalUrl(this.location.path());
+            for (let i = 0; i < this.listTitles.length; i++) {
+                if (this.listTitles[i].type === 'link' && this.listTitles[i].path === titlee) {
+                    return this.listTitles[i].title;
+                } else if (this.listTitles[i].type === 'sub') {
+                    for (let j = 0; j < this.listTitles[i].children.length; j++) {
+                        const subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
+                        if (subtitle === titlee) {
+                            return this.listTitles[i].children[j].title;
+                        }
                     }
                 }
             }
         }
-        return 'Dashboard';
+        return '';
     }
 
     getPath() {

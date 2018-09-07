@@ -6,7 +6,6 @@ import { ConfigService } from '../services/config.service';
 import { Router } from '@angular/router';
 import { Constants } from '../utils/Constants';
 import 'rxjs/add/operator/debounceTime';
-import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -25,21 +24,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
             private configService: ConfigService,
             private router: Router,
             private authorizationService: AuthorizationService,
-            private translateService: TranslateService,
             private centralServerService: CentralServerService,
             private centralServerNotificationService: CentralServerNotificationService) {
-        // Load the tranlated messages
-        this.translateService.get('general', {}).subscribe((messages) => {
-            // Get the routes
-            this.centralServerService.getRoutes().subscribe((routes) => {
-                // Translate menu items
-                routes.map((route) => {
-                    // Translate
-                    route.title = messages['menu'][route.id];
-                    return route;
-                });
-                this.menuItems = routes.filter(menuItem => menuItem);
-            });
+        // Get the routes
+        this.centralServerService.getRoutes().subscribe((routes) => {
+            // Set
+            this.menuItems = routes.filter(menuItem => menuItem);
         });
         // Set admin
         this.isAdmin = this.authorizationService.isAdmin();

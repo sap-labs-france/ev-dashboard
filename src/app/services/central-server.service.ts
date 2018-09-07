@@ -24,6 +24,23 @@ export class CentralServerService {
   private initialized = false;
   private currentUserToken;
   private currentUser;
+  private routesTranslated: RouteInfo[];
+  private routes: RouteInfo[] = [
+    {
+      id: 'dashboard',
+      path: '/dashboard',
+      title: 'Dashboard',
+      type: 'link',
+      icontype: 'dashboard'
+    },
+    {
+      id: 'logs',
+      path: '/logs',
+      title: 'Logs',
+      type: 'link',
+      icontype: 'list'
+    }
+  ];
 
   constructor(
     private httpClient: HttpClient,
@@ -56,23 +73,18 @@ export class CentralServerService {
   }
 
   public getRoutes(): Observable<RouteInfo[]> {
+    // Already translated
+    if (!this.routesTranslated) {
+      // No: translate
+      this.routesTranslated = this.routes.map((route) => {
+        // Translate
+        route.title = this.translateService.instant(`general.menu.${route.id}`);
+        // Return
+        return route;
+      });
+    }
     // Menu Items
-    return of([
-      {
-        id: 'dashboard',
-        path: '/dashboard',
-        title: 'Dashboard',
-        type: 'link',
-        icontype: 'dashboard'
-      },
-      {
-        id: 'logs',
-        path: '/logs',
-        title: 'Logs',
-        type: 'link',
-        icontype: 'list'
-      }
-    ]);
+    return of(this.routesTranslated);
   }
 
   private _buildHttpHeaders() {

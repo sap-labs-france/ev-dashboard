@@ -51,6 +51,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatStepperModule,
+  MAT_DATE_LOCALE,
 } from '@angular/material';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -110,6 +111,18 @@ export function configFactory(config: ConfigService) {
   return () => config.load();
 }
 
+export function localeFactory(
+    centralServerService: CentralServerService, translateService: TranslateService) {
+  // Default
+  let language = translateService.getBrowserLang();
+  // Get current user
+  const loggedUser = centralServerService.getLoggedUserFromToken()
+  if (loggedUser) {
+    language = loggedUser['language'];
+  }
+  return language;
+}
+
 @NgModule({
   imports: [
     CommonModule,
@@ -152,7 +165,9 @@ export function configFactory(config: ConfigService) {
     LocalStorageService,
     MessageService,
     ConfigService,
+    TranslateService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
+    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
   ],
   bootstrap: [AppComponent]
 })
@@ -162,15 +177,12 @@ export class AppModule {
       private translateService: TranslateService) {
 
     // Default
-    let language = translateService.getBrowserLang();
-    // let language = 'fr';
-
+    let language = this.translateService.getBrowserLang();
     // Get current user
     const loggedUser = this.centralServerService.getLoggedUserFromToken()
     if (loggedUser) {
       language = loggedUser['language'];
     }
-
     // Supported
     translateService.addLangs(['en', 'fr']);
     // Default EN

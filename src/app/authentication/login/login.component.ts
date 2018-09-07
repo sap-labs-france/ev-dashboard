@@ -116,24 +116,21 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
             // Check error code
             switch (error.status) {
-                // User Agreement not checked
-                case 520:
-                    // You must accept
-                    this.messageService.showErrorMessage(this.messages['must_accept_eula']);
+                // Wrong email or password
+                case 550:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
                     break;
-
                 // Account is locked
                 case 570:
                     // Report the error
                     this.messageService.showErrorMessage(this.messages['account_locked']);
                     break;
-
                 // Account not Active
                 case 580:
                     // Report the error
                     this.messageService.showErrorMessage(this.messages['account_not_active']);
                     break;
-
                 default:
                     // Unexpected error`
                     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

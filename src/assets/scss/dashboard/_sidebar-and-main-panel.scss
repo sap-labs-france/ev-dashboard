@@ -231,7 +231,7 @@
             margin-right: 15px;
         }
         a.logo-normal {
-            display: block;
+            display: inline-block;
             opacity: 1;
             padding-left: 15px;
             margin-top: -5px;
@@ -263,19 +263,6 @@
             font-weight: $font-weight-default;
             line-height: 30px;
             overflow: hidden;
-        }
-    }
-    .logo-tim {
-        border-radius: 50%;
-        border: 1px solid #333;
-        display: block;
-        height: 61px;
-        width: 61px;
-        float: left;
-        overflow: hidden;
-        img {
-            width: 60px;
-            height: 60px;
         }
     }
     .user {
@@ -406,7 +393,7 @@
     width: $sidebar-width;
     @include transition (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
     .main-content {
-        margin-top: 85px;
+        margin-top: 65px;
         padding: 0 15px;
         min-height: calc(100vh - 123px);
     }
@@ -474,6 +461,7 @@
             z-index: 9999;
             .logo {
                 a.logo-normal {
+                    display: block;
                     opacity: 0;
                     @include transform-translate-x(-25px);
                 }
@@ -492,6 +480,7 @@
             width: 260px;
             .logo {
                 a.logo-normal {
+                    display: inline-block;
                     opacity: 1;
                     @include transform-translate-x(0px);
                 }

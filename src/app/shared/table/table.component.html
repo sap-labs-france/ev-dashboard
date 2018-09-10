@@ -87,10 +87,9 @@
 
       <!-- Detailed Icon Column -->
       <ng-container matColumnDef="details">
-        <th mat-header-cell class="col-50" *matHeaderCellDef></th>
-        <td mat-cell class="col-50" *matCellDef="let row">
-          <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row[tableDef.rowDetails.hideShowField] : true" 
-            class="material-icons details-column"
+        <th mat-header-cell class="col-50 details-column-header" *matHeaderCellDef><i class="material-icons">keyboard_arrow_right</i></th>
+        <td mat-cell class="col-50 details-column-row" *matCellDef="let row">
+          <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row[tableDef.rowDetails.hideShowField] : true" class="material-icons"
             (click)="showHideDetailsClicked(row)">{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</i>
         </td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef></td>

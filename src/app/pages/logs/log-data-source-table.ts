@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
 import { LogActionTableFilter } from './filters/log-action-filter';
 import { LogDateTableFilter } from './filters/log-date-filter';
+import { map } from 'rxjs/operators';
 
 export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
   constructor(
@@ -76,10 +77,21 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
       });
   }
 
+  public getRowDetails(row: Log): Observable<String> {
+    // Read the log details
+    return this.centralServerService.getLog(row.id)
+      .map((log => Formatters.formatTextToHTML(log.detailedMessages)));
+  }
+
   public getTableDef(): TableDef {
     return {
       search: {
           enabled: true
+      },
+      rowDetails: {
+        enabled: true,
+        detailsField: 'detailedMessages',
+        hideShowField: 'hasDetailedMessages'
       }
     };
   }

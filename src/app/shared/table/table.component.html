@@ -58,11 +58,11 @@
 
   <!-- Table -->
   <div style="overflow: auto; height: 65vh">
-    <table mat-table [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
-      <!-- Checkbox Column -->
+    <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
+      <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="text-left col-75 pt-2">
-          <mat-checkbox [hidden]="!dataSource.isLineSelectionEnabled()" (change)="$event ? masterSelectToggle() : null"
+          <mat-checkbox [hidden]="!dataSource.isRowSelectionEnabled()" (change)="$event ? masterSelectToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
@@ -85,10 +85,31 @@
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
       </ng-container>
 
+      <!-- Detailed Icon Column -->
+      <ng-container matColumnDef="details">
+        <th mat-header-cell class="col-50" *matHeaderCellDef></th>
+        <td mat-cell class="col-50" *matCellDef="let row">
+          <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row[tableDef.rowDetails.hideShowField] : true" 
+            class="material-icons details-column"
+            (click)="showHideDetailsClicked(row)">{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</i>
+        </td>
+        <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <!-- Detailed Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="rowDetails">
+        <td mat-cell *matCellDef="let rowDetail" [attr.colspan]="columns.length">
+          <div class="element-details" [@detailExpand]="rowDetail.isExpanded ? 'expanded' : 'collapsed'">
+            <div [innerHtml]="rowDetail[tableDef.rowDetails.detailsField]">Details...</div>
+          </div>
+        </td>
+      </ng-container>
+
       <!-- Rows -->
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns;" (click)="rowClick(row)"></tr>
-      <tr [hidden]="!dataSource.isFooterEnabled()" mat-footer-row *matFooterRowDef="columns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;" [class.example-expanded-row]="true"></tr>
+      <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
+      <tr mat-footer-row [hidden]="!dataSource.isFooterEnabled()" *matFooterRowDef="columns; sticky: true"></tr>
     </table>
   </div>
 

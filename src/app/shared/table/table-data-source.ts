@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
@@ -74,18 +74,31 @@ export abstract class TableDataSource<T> {
         return this.filtersDef && this.filtersDef.length > 0;
     }
 
-    public isLineSelectionEnabled(): boolean {
+    public isRowSelectionEnabled(): boolean {
         // Check
         this._checkInitialized();
         // Return
-        return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.enabled;
+        return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
+    }
+    public isRowDetailsEnabled(): boolean {
+        // Check
+        this._checkInitialized();
+        // Return
+        return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
+    }
+
+    public hasRowDetailsHideShowField(): boolean {
+        // Check
+        this._checkInitialized();
+        // Return
+        return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('hideShowField');
     }
 
     public isMultiSelectionEnabled(): boolean {
         // Check
         this._checkInitialized();
         // Return
-        return this.tableDef && this.tableDef.lineSelection && this.tableDef.lineSelection.multiple;
+        return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
     }
 
     public isFooterEnabled(): boolean {
@@ -283,6 +296,10 @@ export abstract class TableDataSource<T> {
             filterJson['Search'] = this.getSearchValue();
         }
         return filterJson;
+    }
+
+    public getRowDetails(row: T): Observable<String> {
+        return of('getRowDetails() not implemented in your data source!');
     }
 
     abstract getTableColumnDefs(): TableColumnDef[];

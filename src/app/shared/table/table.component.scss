@@ -13,10 +13,6 @@ th {
   font-weight: bold;
 }
 
-tr {
-  height: 35px!important;
-}
-
 td, th {
   font-size: 1rem;
 }
@@ -27,6 +23,13 @@ th:first-child, td:first-child {
 
 th:nth-child(n+2), td:nth-child(n+2) {
   padding-right: 20px;
+}
+
+.col-50 {
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  word-wrap: break-word;
 }
 
 .col-75 {
@@ -110,4 +113,29 @@ tr.mat-footer-row {
 }
 .mat-toolbar-row {
   padding: 15px;
+}
+
+.details-row {
+  height: 0;
+}
+
+.details-column {
+  cursor: pointer;
+}
+
+.element-details {
+  overflow: hidden;
+  display: flex;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
 }

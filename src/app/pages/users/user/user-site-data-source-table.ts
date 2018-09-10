@@ -47,7 +47,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
 
     getTableDef(): TableDef {
         return {
-            lineSelection: {
+            rowSelection: {
                 enabled: true,
                 multiple: true
             },

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator, MatSort } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,6 +19,13 @@ import { Utils } from '../../utils/Utils';
   selector: 'app-table',
   styleUrls: ['table.component.scss'],
   templateUrl: 'table.component.html',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
@@ -61,10 +69,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.columnDefs = this.dataSource.getTableColumnDefs();
     // Get columns
     this.columns = this.columnDefs.map( (column) => column.id);
-    // Line Selection enabled?
-    if (this.dataSource.isLineSelectionEnabled()) {
-      // Yes: Add column select
+    // Row Selection enabled?
+    if (this.dataSource.isRowSelectionEnabled()) {
+      // Yes: Add Select column
       this.columns = ['select', ...this.columns];
+    }
+    // Row Detailed enabled?
+    if (this.dataSource.isRowDetailsEnabled()) {
+      // Yes: Add Details column
+      this.columns = ['details', ...this.columns];
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
@@ -197,6 +210,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.loadData();
   }
 
-  rowClick(row) {
+  showHideDetailsClicked(row) {
+    // Already Expanded
+    if (!row.isExpanded) {
+      // No: Expand it!
+      row.isExpanded = true;
+      // Already loaded?
+      if (!row[this.tableDef.rowDetails.detailsField]) {
+        // No: Load details from data source
+        this.dataSource.getRowDetails(row).subscribe((details) => {
+          // Set details
+          row[this.tableDef.rowDetails.detailsField] = details;
+        });
+      }
+    } else {
+      // Fold it
+      row.isExpanded = false;
+    }
   }
 }

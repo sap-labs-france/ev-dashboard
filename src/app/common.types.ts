@@ -170,6 +170,7 @@ export interface Images {
 }
 
 export interface Log {
+  id: string;
   level: string;
   source: string;
   module: string;
@@ -254,7 +255,7 @@ export interface SubjectInfo {
 }
 
 export interface TableDef {
-  lineSelection?: {
+  rowSelection?: {
     enabled: boolean;
     multiple?: boolean;
   },
@@ -263,6 +264,11 @@ export interface TableDef {
   },
   search?: {
     enabled: boolean;
+  },
+  rowDetails?: {
+    enabled: boolean;
+    detailsField: string;
+    hideShowField?: string;
   }
 }
 

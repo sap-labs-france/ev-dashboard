@@ -44,7 +44,7 @@
         <!-- Date Filter -->
         <mat-form-field *ngIf="filterDef.type === 'date'">
           <input matInput [matDatepicker]="picker" [placeholder]="filterDef.name" [value]="filterDef.currentValue"
-            autocomplete="off" (dateChange)="filterChanged(filterDef, $event)" disabled>
+            autocomplete="off" (dateChange)="filterChanged(filterDef, $event)">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker disabled="false"></mat-datepicker>
         </mat-form-field>

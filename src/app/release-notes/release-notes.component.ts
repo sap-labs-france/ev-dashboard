@@ -26,7 +26,7 @@ export class ReleaseNotesComponent {
         {
           name: 'Logs',
           changes: [
-            'Added Details in Logs'
+            `Added Details section`
           ]
         }
       ]
@@ -38,25 +38,22 @@ export class ReleaseNotesComponent {
         {
           name: 'Authentication',
           changes: [
-            'Implementation of Login/Register/Reset Password views'
+            `Implementation of Log in, Register and Reset Password views`
           ]
         },
         {
           name: 'Logs',
           changes: [
-            'Implementation of Log view with Filtering, Sorting and Pagination'
+            `Implementation of Logs view with Filtering, Sorting and Pagination`
           ]
         },
         {
           name: 'Users',
           changes: [
-            'Implementation of edit current logged user profile'
+            `Implementation of user's profile edition`
           ]
         }
       ]
     }
   ];
-
-  constructor() {
-  }
 }

@@ -17,6 +17,10 @@ td, th {
   font-size: 1rem;
 }
 
+tr.mat-row {
+  height: initial;
+}
+
 th:first-child, td:first-child {
   padding: 0 25px;
 }

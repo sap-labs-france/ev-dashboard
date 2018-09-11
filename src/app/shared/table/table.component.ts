@@ -213,15 +213,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   showHideDetailsClicked(row) {
     // Already Expanded
     if (!row.isExpanded) {
-      // No: Expand it!
-      row.isExpanded = true;
       // Already loaded?
       if (!row[this.tableDef.rowDetails.detailsField]) {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).subscribe((details) => {
           // Set details
           row[this.tableDef.rowDetails.detailsField] = details;
+          // No: Expand it!
+          row.isExpanded = true;
         });
+      } else {
+        // No: Expand it!
+        row.isExpanded = true;
       }
     } else {
       // Fold it

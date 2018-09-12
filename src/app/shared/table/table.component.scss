@@ -34,6 +34,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   min-width: $width;
   max-width: $width;
   word-wrap: break-word;
+  border: 0;
 }
 
 .col-50 {
@@ -68,12 +69,30 @@ th:nth-child(n+2), td:nth-child(n+2) {
   @include col-size(300px);
 }
 
-.col-750 {
-  @include col-size(750px);
+.col-600 {
+  @include col-size(600px);
 }
 
 .filter-row {
   margin-right: 10px;
+}
+
+.table-list {
+  overflow: auto; 
+  height: calc(100vh - 300px);
+  min-height: 250px;
+}
+
+.table-dialog-list {
+  overflow: auto; 
+  min-height: 250px;
+  min-width: 800px;
+}
+
+.table-list-under-tabs {
+  overflow: auto; 
+  height: calc(100vh - 550px);
+  min-height: 250px;
 }
 
 .mat-column-select {
@@ -85,7 +104,7 @@ tr.mat-footer-row {
 }
 
 .mat-toolbar-row {
-  padding-top: 15px;
+  margin-top: 5px;
 }
 
 .table-header {

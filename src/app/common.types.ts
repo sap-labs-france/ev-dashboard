@@ -255,6 +255,7 @@ export interface SubjectInfo {
 }
 
 export interface TableDef {
+  class?: string;
   rowSelection?: {
     enabled: boolean;
     multiple?: boolean;

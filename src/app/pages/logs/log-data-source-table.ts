@@ -132,8 +132,8 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
       {
         id: 'message',
         name: this.translateService.instant('logs.message'),
-        headerClass: 'col-750',
-        class: 'text-left col-750'
+        headerClass: 'col-600',
+        class: 'text-left col-600'
       }
     ];
   }

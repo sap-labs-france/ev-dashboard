@@ -63,7 +63,6 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
-import { SitesDialogComponent } from './shared/dialogs/sites-dialog-component';
 
 @NgModule({
   exports: [
@@ -149,11 +148,7 @@ export function localeFactory(
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ReleaseNotesComponent,
-    SitesDialogComponent
-  ],
-  entryComponents: [
-    SitesDialogComponent
+    ReleaseNotesComponent
   ],
   exports: [
     TranslateModule

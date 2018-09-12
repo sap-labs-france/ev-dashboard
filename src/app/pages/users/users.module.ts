@@ -10,6 +10,7 @@ import { UserRoutes } from './users.routing';
 import { AddressModule } from '../../shared/address/address.module';
 import { TableModule } from '../../shared/table/table.module';
 import { CommonDirectivesModule } from '../../directives/common-directives.module';
+import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { CommonDirectivesModule } from '../../directives/common-directives.modul
         MaterialModule,
         AddressModule,
         TableModule,
+        DialogsModule,
         CommonDirectivesModule
     ],
     declarations: [

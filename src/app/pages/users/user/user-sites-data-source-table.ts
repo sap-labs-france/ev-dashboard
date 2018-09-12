@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Site, User, TableDef, TableColumnDef, TableActionDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { SitesDialogComponent } from '../../../shared/dialogs/sites-dialog-component';
+import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog-component';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
@@ -51,6 +51,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
 
     getTableDef(): TableDef {
         return {
+            class: 'table-list-under-tabs',
             rowSelection: {
                 enabled: true,
                 multiple: true
@@ -62,7 +63,6 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
     }
 
     getTableColumnDefs(): TableColumnDef[] {
-        // As sort directive in table can only be unset in Angular 7, all columns will be sortable
         return [
             {
                 id: 'name',
@@ -107,10 +107,6 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
 
     showAddSitesDialog() {
         const dialogConfig = new MatDialogConfig();
-
-        // Set config
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
 
         // Set data
         dialogConfig.data = {

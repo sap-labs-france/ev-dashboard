@@ -173,6 +173,7 @@
 		"user_list_source_title": "Available",
 		"user_list_target_title": "Assigned",
 		"no_sites": "No sites found",
+		"select_sites": "Select Sites",
 		"site": "Site",
 		"no_connected_chargers": "You are not connected to a charging station",
 		"site_number": "Site(s)",

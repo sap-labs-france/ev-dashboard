@@ -57,7 +57,7 @@
   </mat-toolbar>
 
   <!-- Table -->
-  <div style="overflow: auto; height: 65vh">
+  <div [class]="(tableDef.class ? tableDef.class : 'table-list')">
     <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">

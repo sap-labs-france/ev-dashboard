@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/mergeMap';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -10,7 +11,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { MessageService } from '../../../services/message.service';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
-import { UserSitesDataSource } from './user-site-data-source-table';
+import { UserSitesDataSource } from './user-sites-data-source-table';
 import { Constants } from '../../../utils/Constants';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
@@ -68,6 +69,7 @@ export class UserComponent implements OnInit {
             private translateService: TranslateService,
             private localeService: LocaleService,
             private activatedRoute: ActivatedRoute,
+            private dialog: MatDialog,
             private router: Router) {
         // Check auth
         if (!this.activatedRoute.snapshot.params['id'] ||
@@ -96,6 +98,7 @@ export class UserComponent implements OnInit {
             this.messageService,
             this.translateService,
             this.router,
+            this.dialog,
             this.centralServerService);
     }
 

@@ -1,11 +1,14 @@
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Site, User, TableDef, TableColumnDef } from '../../../common.types';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
-import { MessageService } from '../../../services/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Site, User, TableDef, TableColumnDef, TableActionDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
+import { SitesDialogComponent } from '../../../shared/dialogs/sites-dialog-component';
+import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
+import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 
 export class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
@@ -14,6 +17,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
             private messageService: MessageService,
             private translateService: TranslateService,
             private router: Router,
+            private dialog: MatDialog,
             private centralServerService: CentralServerService) {
         super();
     }
@@ -83,5 +87,49 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
     setUser(user: User) {
         // Set user
         this.user = user;
+    }
+
+    public getTableActionsDef(): TableActionDef[] {
+        return [
+            new TableAddAction(this.translateService).getActionDef()
+        ];
+    }
+
+    public actionTriggered(actionDef: TableActionDef) {
+        // Action
+        switch (actionDef.id) {
+            // Add
+            case 'add':
+                this.showAddSitesDialog();
+                break;
+        }
+    }
+
+    showAddSitesDialog() {
+        const dialogConfig = new MatDialogConfig();
+
+        // Set config
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        // Set data
+        dialogConfig.data = {
+            userID: this.user.id
+        }
+
+        // Show
+        const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
+
+        // Add sites
+        dialogRef.afterClosed().subscribe(siteIDs => this.addSites(siteIDs) );
+    }
+
+    addSites(siteIDs) {
+        // Check
+        if (siteIDs) {
+            console.log('====================================');
+            console.log(siteIDs);
+            console.log('====================================');
+        }
     }
 }

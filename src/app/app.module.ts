@@ -59,11 +59,11 @@ import { AppComponent } from './app.component';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
-import { FixedpluginModule } from './shared/fixedplugin/fixedplugin.module';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
+import { SitesDialogComponent } from './shared/dialogs/sites-dialog-component';
 
 @NgModule({
   exports: [
@@ -143,14 +143,17 @@ export function localeFactory(
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    }),
-    FixedpluginModule
+    })
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
+    SitesDialogComponent
+  ],
+  entryComponents: [
+    SitesDialogComponent
   ],
   exports: [
     TranslateModule

@@ -11,14 +11,25 @@ interface ComponentChange {
   changes: String []
 }
 
-
 @Component({
-  templateUrl: './release-notes.html',
-  styleUrls: ['./release-notes.scss']
+  templateUrl: './release-notes.component.html',
+  styleUrls: ['./release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
+    {
+      version: '2.0.2',
+      date: new Date('2018-09-11'),
+      componentChanges: [
+        {
+          name: 'Logs',
+          changes: [
+            `Added User filter`
+          ]
+        }
+      ]
+    },
     {
       version: '2.0.1',
       date: new Date('2018-09-11'),

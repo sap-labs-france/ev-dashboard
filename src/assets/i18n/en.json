@@ -7,6 +7,7 @@
 		"unexpected_error_backend": "An unexpected error occurred",
 		"mandatory_field": "Required field",
 		"id": "ID",
+		"add": "Add",
 		"location": "Location",
 		"address": "Address",
 		"address1": "Address 1",

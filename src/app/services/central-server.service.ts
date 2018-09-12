@@ -12,7 +12,7 @@ import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import {
   ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue
+  User, RouteInfo, ChargerResult, KeyValue, UserResult
 } from '../common.types';
 
 @Injectable()
@@ -153,6 +153,24 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
+  public getUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Users`,
       {
         headers: this._buildHttpHeaders(),
         params

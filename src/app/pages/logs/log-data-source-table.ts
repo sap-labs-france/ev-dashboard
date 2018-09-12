@@ -1,4 +1,4 @@
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
 import { LogActionTableFilter } from './filters/log-action-filter';
 import { LogDateTableFilter } from './filters/log-date-filter';
-import { map } from 'rxjs/operators';
+import { UserTableFilter } from '../../shared/table/filters/user-filter';
 
 export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
   constructor(
@@ -126,7 +126,7 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
       {
         id: 'action',
         name: this.translateService.instant('logs.action'),
-        headerClass: 'col-200',
+        headerClass: 'col-225',
         class: 'text-left col-200'
       },
       {
@@ -159,6 +159,7 @@ export class LogDataSource extends TableDataSource<Log> implements DataSource<Lo
       new LogDateTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
+      new UserTableFilter(this.translateService, this.centralServerService).getFilterDef(),
       new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
     ];
   }

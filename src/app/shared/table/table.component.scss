@@ -29,60 +29,47 @@ th:nth-child(n+2), td:nth-child(n+2) {
   padding-right: 20px;
 }
 
-.col-50 {
-  width: 50px;
-  min-width: 50px;
-  max-width: 50px;
+@mixin col-size($width) {
+  width: $width;
+  min-width: $width;
+  max-width: $width;
   word-wrap: break-word;
+}
+
+.col-50 {
+  @include col-size(50px);
 }
 
 .col-75 {
-  width: 75px;
-  min-width: 75px;
-  max-width: 75px;
-  word-wrap: break-word;
+  @include col-size(75px);
 }
 
 .col-100 {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-  word-wrap: break-word;
+  @include col-size(100px);
 }
 
 .col-150 {
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  word-wrap: break-word;
+  @include col-size(150px);
 }
 
 .col-175 {
-  width: 175px;
-  min-width: 175px;
-  max-width: 175px;
-  word-wrap: break-word;
+  @include col-size(175px);
 }
 
 .col-200 {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
-  word-wrap: break-word;
+  @include col-size(200px);
+}
+
+.col-225 {
+  @include col-size(225px);
 }
 
 .col-300 {
-  width: 300px;
-  min-width: 300px;
-  max-width: 300px;
-  word-wrap: break-word;
+  @include col-size(300px);
 }
 
 .col-750 {
-  width: 750px;
-  min-width: 750px;
-  max-width: 750px;
-  word-wrap: break-word;
+  @include col-size(750px);
 }
 
 .filter-row {

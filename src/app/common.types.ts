@@ -345,6 +345,11 @@ export interface User {
   numberOfSites: number;
 }
 
+export interface UserResult {
+  count: number,
+  result: User[]
+}
+
 export interface VehicleManufacturer {
   id: string;
   logo: string;

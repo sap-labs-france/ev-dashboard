@@ -9,6 +9,7 @@ import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
+import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 
 export class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
     private user: User;
@@ -95,7 +96,8 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
 
     public getTableActionsDef(): TableActionDef[] {
         return [
-            new TableAddAction(this.translateService).getActionDef()
+            new TableAddAction(this.translateService).getActionDef(),
+            new TableRemoveAction(this.translateService).getActionDef()
         ];
     }
 

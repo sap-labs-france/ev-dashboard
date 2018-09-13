@@ -113,7 +113,7 @@
       <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
       <tr mat-footer-row [hidden]="!dataSource.isFooterEnabled()" *matFooterRowDef="columns; sticky: true"></tr>
     </table>
-    <div class="ml-3" *ngIf="dataSource && dataSource.isEmpty()">{{'general.no_record_found' | translate}}</div>
+    <div class="ml-3 text-left" *ngIf="dataSource && dataSource.isEmpty()">{{'general.no_record_found' | translate}}</div>
   </div>
 
   <!-- Paginator: can show showFirstLastButtons -->

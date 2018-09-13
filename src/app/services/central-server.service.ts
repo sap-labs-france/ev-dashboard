@@ -125,6 +125,20 @@ export class CentralServerService {
     }
   }
 
+  public removeSitesFromUser(userID, siteIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
+      { 'userID': userID, 'siteIDs': siteIDs },
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
   public addSitesToUser(userID, siteIDs) {
     // Verify init
     this._checkInit();

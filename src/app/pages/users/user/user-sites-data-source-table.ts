@@ -108,6 +108,10 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
             case 'add':
                 this._showAddSitesDialog();
                 break;
+            // Remove
+            case 'remove':
+                this._removeSites(this.getSelectedRows().map((row) => row.id));
+                break;
         }
     }
 
@@ -123,6 +127,35 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         dialogRef.afterClosed().subscribe(siteIDs => this._addSites(siteIDs));
     }
 
+    private _removeSites(siteIDs) {
+        // Check
+        if (siteIDs && siteIDs.length > 0) {
+            // Yes: Update
+            this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
+                // Ok?
+                if (response.status === 'Success') {
+                    // Ok
+                    this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
+                    // Refresh
+                    this.loadData();
+                    // Clear selection
+                    this.clearSelectedRows()
+                } else {
+                    Utils.handleError(JSON.stringify(response),
+                        this.messageService, this.translateService.instant('users.update_error'));
+                }
+            }, (error) => {
+                // No longer exists!
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                    this.translateService.instant('users.update_error'));
+            });
+        } else {
+            // Show Message
+            this.messageService.showInfoMessage(
+                this.translateService.instant('general.must_select_record'));
+        }
+    }
+
     private _addSites(siteIDs) {
         // Check
         if (siteIDs && siteIDs.length > 0) {
@@ -134,6 +167,8 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
                     this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
                     // Refresh
                     this.loadData();
+                    // Clear selection
+                    this.clearSelectedRows()
                 } else {
                     Utils.handleError(JSON.stringify(response),
                         this.messageService, this.translateService.instant('users.update_error'));

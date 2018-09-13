@@ -81,18 +81,21 @@ th:nth-child(n+2), td:nth-child(n+2) {
   overflow: auto; 
   height: calc(100vh - 300px);
   min-height: 250px;
+  background-color: white;
 }
 
 .table-dialog-list {
   overflow: auto; 
   min-height: 250px;
   min-width: 800px;
+  background-color: white;
 }
 
 .table-list-under-tabs {
   overflow: auto; 
   height: calc(100vh - 550px);
   min-height: 250px;
+  background-color: white;
 }
 
 .mat-column-select {

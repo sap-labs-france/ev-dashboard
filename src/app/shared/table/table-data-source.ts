@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
-import { TableColumnDef, TableSearch, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 
 export abstract class TableDataSource<T> {
@@ -135,6 +135,10 @@ export abstract class TableDataSource<T> {
 
     public hasSelectedRows(): boolean {
         return this.getSelectionModel().hasValue();
+    }
+
+    public clearSelectedRows() {
+        return this.getSelectionModel().clear();
     }
 
     public getDataSubjet(): BehaviorSubject<T[]> {

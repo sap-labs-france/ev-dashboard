@@ -27,6 +27,12 @@ export class ReleaseNotesComponent {
           changes: [
             `Added User filter`
           ]
+        },
+        {
+          name: 'User',
+          changes: [
+            `Implemented Add/Remove Sites in User's profile`
+          ]
         }
       ]
     },

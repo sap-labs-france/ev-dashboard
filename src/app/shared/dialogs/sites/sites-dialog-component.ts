@@ -27,10 +27,16 @@ export class SitesDialogComponent {
       this.translateService,
       this.router,
       this.centralServerService);
+    // Set static filter
+    this.sitesDataSource.setStaticFilters([
+      { 'ExcludeSitesOfUserID': data.userID }
+    ]);
   }
 
   add() {
-    this.dialogRef.close('Return Value');
+    // Close and return the Site IDs
+    this.dialogRef.close(
+      this.sitesDataSource.getSelectedRows().map((site) => site.id));
   }
 
   cancel() {

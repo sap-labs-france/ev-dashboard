@@ -561,6 +561,7 @@
 		"delete_success": "The user '{{userFullName}}' has been deleted successfully",
 		"delete_error": "Error occurred while deleting the user",
 		"update_success": "The user '{{userFullName}}' has been updated successfully",
+		"update_sites_success": "The sites has been added successfully",
 		"changed_by_other_user": "The user '{{userFullName}}' has been changed by another user and will be reloaded",
 		"update_error": "Error occurred while updating the user",
 		"user_do_not_exist": "User does not exist anymore",

@@ -8,7 +8,6 @@ import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 
 export class SitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
-
     constructor(
         private messageService: MessageService,
         private translateService: TranslateService,
@@ -73,8 +72,5 @@ export class SitesDataSource extends TableDataSource<Site> implements DataSource
 
     public getPaginatorPageSizes() {
         return [10, 25, 50];
-    }
-
-    setFilters(filter: any) {
     }
 }

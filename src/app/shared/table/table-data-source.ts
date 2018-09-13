@@ -18,6 +18,7 @@ export abstract class TableDataSource<T> {
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
     private dataChangeSubscription: Subscription;
+    private staticFilters = [];
 
     private _checkInitialized(): any {
         // Check
@@ -121,6 +122,14 @@ export abstract class TableDataSource<T> {
                 this.isMultiSelectionEnabled(), []);
         }
         return this.selectionModel;
+    }
+
+    public getSelectedRows(): T[] {
+        return this.getSelectionModel().selected;
+    }
+
+    public hasSelectedRows(): boolean {
+        return this.getSelectionModel().hasValue();
     }
 
     public getDataSubjet(): BehaviorSubject<T[]> {
@@ -277,7 +286,7 @@ export abstract class TableDataSource<T> {
     }
 
     public getFilterValues(withSearch: boolean = true) {
-        const filterJson = {};
+        let filterJson = {};
         // Parse filters
         this.filtersDef.forEach((filterDef) => {
             // Check the 'All' value
@@ -292,14 +301,30 @@ export abstract class TableDataSource<T> {
             }
         });
         // With Search?
-        if (withSearch) {
-            filterJson['Search'] = this.getSearchValue();
+        const searchValue = this.getSearchValue();
+        if (withSearch && searchValue) {
+            filterJson['Search'] = searchValue;
+        }
+        // Static filters
+        if (this.staticFilters && this.staticFilters.length > 0) {
+            // Update
+            filterJson = Object.assign(filterJson, ...this.staticFilters);
         }
         return filterJson;
     }
 
     public getRowDetails(row: T): Observable<String> {
         return of('getRowDetails() not implemented in your data source!');
+    }
+
+    public setStaticFilters(staticFilters) {
+        // Keep it
+        this.staticFilters = staticFilters;
+    }
+
+    public getStaticFilters() {
+        // Keep it
+        return this.staticFilters;
     }
 
     abstract getTableColumnDefs(): TableColumnDef[];

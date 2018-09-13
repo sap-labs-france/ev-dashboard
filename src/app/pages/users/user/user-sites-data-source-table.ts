@@ -14,11 +14,11 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
     private user: User;
 
     constructor(
-            private messageService: MessageService,
-            private translateService: TranslateService,
-            private router: Router,
-            private dialog: MatDialog,
-            private centralServerService: CentralServerService) {
+        private messageService: MessageService,
+        private translateService: TranslateService,
+        private router: Router,
+        private dialog: MatDialog,
+        private centralServerService: CentralServerService) {
         super();
     }
 
@@ -85,6 +85,10 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
     }
 
     setUser(user: User) {
+        // Set static filter
+        this.setStaticFilters([
+            { 'UserID': user.id }
+        ]);
         // Set user
         this.user = user;
     }
@@ -100,32 +104,43 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         switch (actionDef.id) {
             // Add
             case 'add':
-                this.showAddSitesDialog();
+                this._showAddSitesDialog();
                 break;
         }
     }
 
-    showAddSitesDialog() {
+    private _showAddSitesDialog() {
         const dialogConfig = new MatDialogConfig();
-
         // Set data
         dialogConfig.data = {
             userID: this.user.id
         }
-
         // Show
         const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
-
         // Add sites
-        dialogRef.afterClosed().subscribe(siteIDs => this.addSites(siteIDs) );
+        dialogRef.afterClosed().subscribe(siteIDs => this._addSites(siteIDs));
     }
 
-    addSites(siteIDs) {
+    private _addSites(siteIDs) {
         // Check
-        if (siteIDs) {
-            console.log('====================================');
-            console.log(siteIDs);
-            console.log('====================================');
+        if (siteIDs && siteIDs.length > 0) {
+            // Yes: Update
+            this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe(response => {
+                // Ok?
+                if (response.status === 'Success') {
+                    // Ok
+                    this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
+                    // Refresh
+                    this.loadData();
+                } else {
+                    Utils.handleError(JSON.stringify(response),
+                        this.messageService, this.translateService.instant('users.update_error'));
+                }
+            }, (error) => {
+                // No longer exists!
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                    this.translateService.instant('users.update_error'));
+            });
         }
     }
 }

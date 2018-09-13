@@ -125,6 +125,20 @@ export class CentralServerService {
     }
   }
 
+  public addSitesToUser(userID, siteIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
+      { 'userID': userID, 'siteIDs': siteIDs },
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this.handleHttpError)
+      );
+  }
+
   public getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
     // Verify init
     this._checkInit();

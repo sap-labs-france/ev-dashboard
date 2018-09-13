@@ -6,6 +6,7 @@
 		"about_us": "About Us",
 		"unexpected_error_backend": "An unexpected error occurred",
 		"mandatory_field": "Required field",
+		"no_record_found": "No records has been found",
 		"id": "ID",
 		"add": "Add",
 		"location": "Location",

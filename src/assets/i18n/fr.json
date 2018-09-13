@@ -6,6 +6,7 @@
 		"about_us": "A Propos",
 		"unexpected_error_backend": "Une erreur inattendue s'est produite",
 		"id": "ID",
+		"no_record_found": "Aucun enregistrement n'a été trouvé",
 		"mandatory_field": "Champs obligatoire",
 		"add": "Ajouter",
 		"location": "Location",

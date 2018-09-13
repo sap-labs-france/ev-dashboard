@@ -41,6 +41,11 @@ export abstract class TableDataSource<T> {
         }
     }
 
+    public isEmpty(): boolean {
+        // Empty?
+        return this.data.length === 0;
+    }
+
     private _checkKnownActions(actionsDef: TableActionDef[]): any {
         // Check
         if (actionsDef) {

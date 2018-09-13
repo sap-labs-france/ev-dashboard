@@ -111,7 +111,7 @@
                         </mat-form-field>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div *ngIf="isAdmin" class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
                           <input matInput placeholder="{{'users.tag_ids' | translate}}" type="text" [formControl]="tagIDs">

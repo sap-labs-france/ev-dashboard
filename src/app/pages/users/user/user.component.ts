@@ -221,7 +221,7 @@ export class UserComponent implements OnInit {
         jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
     }
 
-    setAddress(address: Address) {
+    public setAddress(address: Address) {
         // Set data
         address.address_components.forEach(((address_component) => {
             switch (address_component.types[0]) {
@@ -255,11 +255,11 @@ export class UserComponent implements OnInit {
         this.address.controls.longitude.setValue(address.geometry.location.lng());
     }
 
-    showPlace() {
+    public showPlace() {
         window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
     }
 
-    refresh() {
+    public refresh() {
         // Load User
         this.loadUser();
         // Reload Site?
@@ -268,12 +268,12 @@ export class UserComponent implements OnInit {
         }
     }
 
-    loadSites() {
+    public loadSites() {
         // Load
         this.userSitesDataSource.loadData();
     }
 
-    loadUser() {
+    public loadUser() {
         // Init
         this.formGroup.markAsUntouched();
         // Show spinner
@@ -377,7 +377,7 @@ export class UserComponent implements OnInit {
         });
     }
 
-    updateUserImage(user) {
+    public updateUserImage(user) {
         // Set the image
         this.image = jQuery('.fileinput-preview img')[0]['src'];
         // Check no user?
@@ -390,7 +390,7 @@ export class UserComponent implements OnInit {
         }
     }
 
-    saveUser(user) {
+    public saveUser(user) {
         // Show
         this.spinnerService.show();
         // Set the image
@@ -434,7 +434,7 @@ export class UserComponent implements OnInit {
         });
     }
 
-    clearImage() {
+    public clearImage() {
         jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
     }
 }

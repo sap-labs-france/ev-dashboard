@@ -23,7 +23,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         super();
     }
 
-    loadData() {
+    public loadData() {
         // User provided?
         if (this.user) {
             // Yes: Get data
@@ -50,7 +50,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         }
     }
 
-    getTableDef(): TableDef {
+    public getTableDef(): TableDef {
         return {
             class: 'table-list-under-tabs',
             rowSelection: {
@@ -63,7 +63,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         };
     }
 
-    getTableColumnDefs(): TableColumnDef[] {
+    public getTableColumnDefs(): TableColumnDef[] {
         return [
             {
                 id: 'name',
@@ -85,7 +85,7 @@ export class UserSitesDataSource extends TableDataSource<Site> implements DataSo
         ];
     }
 
-    setUser(user: User) {
+    public setUser(user: User) {
         // Set static filter
         this.setStaticFilters([
             { 'UserID': user.id }

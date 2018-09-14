@@ -18,7 +18,7 @@ export class TableAutoRefreshAction implements TableAction {
     }
 
     // Return an action
-    getActionDef(): TableActionDef {
+    public getActionDef(): TableActionDef {
         return this.action;
     }
 }

@@ -22,12 +22,12 @@ export class Utils {
     return { notEqual: true };
   }
 
-  static handleError(error, messageService, errorMessage?): Observable<any> {
+  public static handleError(error, messageService, errorMessage?): Observable<any> {
     console.log(`Error: ${errorMessage}: ${error}`);
     return messageService.showErrorMessage(errorMessage);
   }
 
-  static handleHttpError(error, router: Router,
+  public static handleHttpError(error, router: Router,
       messageService: MessageService,
       centralServerService: CentralServerService,
       errorMessage) {
@@ -58,7 +58,7 @@ export class Utils {
     }
   }
 
-  static convertToDate(date) {
+  public static convertToDate(date) {
     // Check
     if (!date) {
       return date;
@@ -70,7 +70,7 @@ export class Utils {
     return date;
   }
 
-  static convertToInteger(id) {
+  public static convertToInteger(id) {
     let changedID = id;
     if (!id) {
       return 0;
@@ -83,7 +83,7 @@ export class Utils {
     return changedID;
   }
 
-  static convertToFloat(id) {
+  public static convertToFloat(id) {
     let changedID = id;
     if (!id) {
       return 0;

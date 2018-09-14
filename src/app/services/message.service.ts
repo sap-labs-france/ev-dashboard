@@ -27,27 +27,27 @@ export class MessageService {
     private translateService: TranslateService) {
   }
 
-  showErrorMessageConnectionLost() {
+  public showErrorMessageConnectionLost() {
     this.showErrorMessage(this.translateService.instant('general.backend_not_running'));
   }
 
-  showMessage(message: string, title?: string) {
+  public showMessage(message: string, title?: string) {
     this._showMessage('primary', message, title);
   }
 
-  showInfoMessage(message: string, title?: string) {
+  public showInfoMessage(message: string, title?: string) {
     this._showMessage('info', message, title);
   }
 
-  showWarningMessage(message: string, title?: string) {
+  public showWarningMessage(message: string, title?: string) {
     this._showMessage('warning', message, title);
   }
 
-  showSuccessMessage(message: string, title?: string) {
+  public showSuccessMessage(message: string, title?: string) {
     this._showMessage('success', message, title);
   }
 
-  showErrorMessage(message: string, title?: string) {
+  public showErrorMessage(message: string, title?: string) {
     this._showMessage('danger', message, title);
   }
 

@@ -34,7 +34,7 @@ export class LogActionTableFilter implements TableFilter  {
   }
 
   // Return filter
-  getFilterDef(): TableFilterDef {
+  public getFilterDef(): TableFilterDef {
     return this.filter;
   }
 }

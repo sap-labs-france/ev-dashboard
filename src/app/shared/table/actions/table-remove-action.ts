@@ -16,7 +16,7 @@ export class TableRemoveAction implements TableAction {
     }
 
     // Return an action
-    getActionDef(): TableActionDef {
+    public getActionDef(): TableActionDef {
         return this.action;
     }
 }

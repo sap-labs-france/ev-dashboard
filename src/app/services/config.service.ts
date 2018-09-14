@@ -10,7 +10,7 @@ export class ConfigService {
     private http: Http) {
   }
 
-  load() {
+  public load() {
     // Get the Config
     return new Promise((resolve, reject) => {
       // Get the conf
@@ -25,43 +25,43 @@ export class ConfigService {
     });
   }
 
-  getCentralSystemServer() {
+  public getCentralSystemServer() {
     return this._config['CentralSystemServer'];
   }
 
-  getLocales() {
+  public getLocales() {
     return this._config['Locales'];
   }
 
-  getAuthorization() {
+  public getAuthorization() {
     return this._config['Authorization'];
   }
 
-  getAdvanced() {
+  public getAdvanced() {
     return this._config['Advanced'];
   }
 
-  getUser() {
+  public getUser() {
     return this._config['User'];
   }
 
-  getCompany() {
+  public getCompany() {
     return this._config['Company'];
   }
 
-  getVehicleManufacturer() {
+  public getVehicleManufacturer() {
     return this._config['VehicleManufacturer'];
   }
 
-  getVehicle() {
+  public getVehicle() {
     return this._config['Vehicle'];
   }
 
-  getSite() {
+  public getSite() {
     return this._config['Site'];
   }
 
-  getSiteArea() {
+  public getSiteArea() {
     return this._config['SiteArea'];
   }
 }

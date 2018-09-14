@@ -30,79 +30,79 @@ export class CentralServerNotificationService {
   constructor() {
   }
 
-  setcentralRestServerServiceURL(url) {
+  public setcentralRestServerServiceURL(url) {
     this.centralRestServerServiceURL = url;
   }
 
-  getSubjectCompanies(): Observable<SubjectInfo> {
+  public getSubjectCompanies(): Observable<SubjectInfo> {
     return this.subjectCompanies.asObservable();
   }
 
-  getSubjectCompany(): Observable<SubjectInfo> {
+  public getSubjectCompany(): Observable<SubjectInfo> {
     return this.subjectCompany.asObservable();
   }
 
-  getSubjectSites(): Observable<SubjectInfo> {
+  public getSubjectSites(): Observable<SubjectInfo> {
     return this.subjectSites.asObservable();
   }
 
-  getSubjectSite(): Observable<SubjectInfo> {
+  public getSubjectSite(): Observable<SubjectInfo> {
     return this.subjectSite.asObservable();
   }
 
-  getSubjectSiteAreas(): Observable<SubjectInfo> {
+  public getSubjectSiteAreas(): Observable<SubjectInfo> {
     return this.subjectSiteAreas.asObservable();
   }
 
-  getSubjectSiteArea(): Observable<SubjectInfo> {
+  public getSubjectSiteArea(): Observable<SubjectInfo> {
     return this.subjectSiteArea.asObservable();
   }
 
-  getSubjectUsers(): Observable<SubjectInfo> {
+  public getSubjectUsers(): Observable<SubjectInfo> {
     return this.subjectUsers.asObservable();
   }
 
-  getSubjectUser(): Observable<SubjectInfo> {
+  public getSubjectUser(): Observable<SubjectInfo> {
     return this.subjectUser.asObservable();
   }
 
-  getSubjectVehicles(): Observable<SubjectInfo> {
+  public getSubjectVehicles(): Observable<SubjectInfo> {
     return this.subjectVehicles.asObservable();
   }
 
-  getSubjectVehicle(): Observable<SubjectInfo> {
+  public getSubjectVehicle(): Observable<SubjectInfo> {
     return this.subjectVehicle.asObservable();
   }
 
-  getSubjectVehicleManufacturers(): Observable<SubjectInfo> {
+  public getSubjectVehicleManufacturers(): Observable<SubjectInfo> {
     return this.subjectVehicleManufacturers.asObservable();
   }
 
-  getSubjectVehicleManufacturer(): Observable<SubjectInfo> {
+  public getSubjectVehicleManufacturer(): Observable<SubjectInfo> {
     return this.subjectVehicleManufacturer.asObservable();
   }
 
-  getSubjectTransactions(): Observable<SubjectInfo> {
+  public getSubjectTransactions(): Observable<SubjectInfo> {
     return this.subjectTransactions.asObservable();
   }
 
-  getSubjectTransaction(): Observable<SubjectInfo> {
+  public getSubjectTransaction(): Observable<SubjectInfo> {
     return this.subjectTransaction.asObservable();
   }
 
-  getSubjectChargingStations(): Observable<SubjectInfo> {
+  public getSubjectChargingStations(): Observable<SubjectInfo> {
     return this.subjectChargingStations.asObservable();
   }
 
-  getSubjectChargingStation(): Observable<SubjectInfo> {
+  public getSubjectChargingStation(): Observable<SubjectInfo> {
     return this.subjectChargingStation.asObservable();
   }
 
-  getSubjectLoggings(): Observable<SubjectInfo> {
+  public getSubjectLoggings(): Observable<SubjectInfo> {
     return this.subjectLoggings.asObservable();
   }
 
-  initSocketIO() {
+  public initSocketIO() {
     // Check
     if (!this.socket) {
       // Connect to Socket IO
@@ -212,7 +212,7 @@ export class CentralServerNotificationService {
     }
   }
 
-  resetSocketIO() {
+  public resetSocketIO() {
     // Check: socket not initialised and user logged
     if (this.socket) {
       // Close

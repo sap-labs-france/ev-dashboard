@@ -118,13 +118,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  public isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.getData().length;
     return numSelected === numRows;
   }
 
-  filterChanged(filterDef: TableFilterDef, event) {
+  public filterChanged(filterDef: TableFilterDef, event) {
     // Date?
     if (filterDef.type === 'date') {
       // Date is one way binding: update the value manually
@@ -134,7 +134,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filterChanged(filterDef);
   }
 
-  actionTriggered(actionDef: TableActionDef, event) {
+  public actionTriggered(actionDef: TableActionDef, event) {
     // Slide?
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
@@ -145,13 +145,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Selects all rows if they are not all selected; otherwise clear selection.
-  masterSelectToggle() {
+  public masterSelectToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
-  buildRowValue(row: any, columnDef: TableColumnDef) {
+  public buildRowValue(row: any, columnDef: TableColumnDef) {
     let propertyValue = row[columnDef.id];
 
     // Check if ID contains multiple IDs
@@ -189,7 +189,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return propertyValue;
   }
 
-  handleSortChanged() {
+  public handleSortChanged() {
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Clear Selection
@@ -198,19 +198,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadData();
   }
 
-  handlePageChanged() {
+  public handlePageChanged() {
     // Clear Selection
     this.selection.clear();
     // Load data
     this.loadData();
   }
 
-  loadData() {
+  public loadData() {
     // Load data source
     this.dataSource.loadData();
   }
 
-  showHideDetailsClicked(row) {
+  public showHideDetailsClicked(row) {
     // Already Expanded
     if (!row.isExpanded) {
       // Already loaded?

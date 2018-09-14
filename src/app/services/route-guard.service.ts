@@ -15,7 +15,7 @@ export class RouteGuardService implements CanActivate {
     private centralServerService: CentralServerService) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const queryParams = {};
     const forAdminOnly = route.data['forAdminOnly'];
 

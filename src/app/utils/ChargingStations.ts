@@ -2,7 +2,7 @@ import * as moment from 'moment';
 
 export class ChargingStations {
   // Compute
-  static computeSiteConsumption(chargingStations) {
+  public static computeSiteConsumption(chargingStations) {
     // Init
     const siteConsumption = {
       siteCurrentConsumptionKW: 0,
@@ -32,7 +32,7 @@ export class ChargingStations {
     return siteConsumption;
   }
 
-  static computeSiteConsumptionFromTransactions(transactions) {
+  public static computeSiteConsumptionFromTransactions(transactions) {
     // Build chargers from transactions
     const chargers = [];
     // Check
@@ -62,7 +62,7 @@ export class ChargingStations {
   }
 
   // Format
-  static formatDateTimeDurationString(transaction, i18nHourShort) {
+  public static formatDateTimeDurationString(transaction, i18nHourShort) {
     // Build date
     let dateTimeString = moment(transaction.timestamp).format('MMM, D - H:mm:ss') + ' > ';
     let timeDiffDuration;
@@ -108,7 +108,7 @@ export class ChargingStations {
   }
 
   // Format
-  static formatCurrentTotalConsumptionString(transaction, i18nKW, i18nKWH) {
+  public static formatCurrentTotalConsumptionString(transaction, i18nKW, i18nKWH) {
     const connector = transaction.chargeBox.connectors[transaction.connectorId - 1];
     // Current Consumption
     let consumptionString = '';

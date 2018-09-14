@@ -42,7 +42,7 @@ export class LocalStorageService {
     }
   }
 
-  setItem(key, value) {
+  public setItem(key, value) {
     // iFrame?
     if (this._isInIFrame) {
       // Build request
@@ -62,7 +62,7 @@ export class LocalStorageService {
     }
   }
 
-  getItem(key): Observable<any> {
+  public getItem(key): Observable<any> {
     // Exec
     return new Observable(observer => {
       // iFrame?
@@ -85,7 +85,7 @@ export class LocalStorageService {
     });
   }
 
-  removeItem(key) {
+  public removeItem(key) {
     // iFrame?
     if (this._isInIFrame) {
       const data = {
@@ -103,7 +103,7 @@ export class LocalStorageService {
     }
   }
 
-  clear() {
+  public clear() {
     // iFrame?
     if (this._isInIFrame) {
       const data = {

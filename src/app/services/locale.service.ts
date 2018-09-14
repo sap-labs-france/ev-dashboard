@@ -16,7 +16,7 @@ export class LocaleService {
     this.updateLanguage();
   }
 
-  updateLanguage() {
+  public updateLanguage() {
     const loggedUser = this.centralServerService.getLoggedUserFromToken();
     if (loggedUser) {
       this.language = loggedUser.language;
@@ -25,7 +25,7 @@ export class LocaleService {
     }
   }
 
-  getCurrentFullLocale() {
+  public getCurrentFullLocale() {
     switch (this.language) {
       case 'en':
         return 'en_US';
@@ -34,7 +34,7 @@ export class LocaleService {
     }
   }
 
-  getCurrentFullLocaleForJS() {
+  public getCurrentFullLocaleForJS() {
     switch (this.language) {
       case 'en':
         return 'en-US';
@@ -43,7 +43,7 @@ export class LocaleService {
     }
   }
 
-  getLocales(): KeyValue[] {
+  public getLocales(): KeyValue[] {
     const locales = [];
     // en, fr...
     const configLocales = this.configService.getLocales();
@@ -57,7 +57,7 @@ export class LocaleService {
     return locales;
   }
 
-  getFullLocaleDescription(localeFull) {
+  public getFullLocaleDescription(localeFull) {
     switch (localeFull) {
       case 'en_US':
         return this.translateService.instant('users.locale_desc_english');
@@ -66,7 +66,7 @@ export class LocaleService {
     }
   }
 
-  getLocaleByKey(localeKey) {
+  public getLocaleByKey(localeKey) {
     // Return the found key
     const locales = this.getLocales().filter(locale => {
       return locale.key === localeKey;
@@ -75,7 +75,7 @@ export class LocaleService {
       { key: 'U', description: this.translateService.instant('users.locale_unknown', {}) });
   }
 
-  getDateFormat(): string {
+  public getDateFormat(): string {
     switch (this.language) {
       case 'fr':
         return 'DD/MM/YYYY';
@@ -85,7 +85,7 @@ export class LocaleService {
     }
   }
 
-  getHourFormat(): string {
+  public getHourFormat(): string {
     switch (this.language) {
       case 'fr':
         return '24';
@@ -95,7 +95,7 @@ export class LocaleService {
     }
   }
 
-  getTimeFormat(): string {
+  public getTimeFormat(): string {
     switch (this.language) {
       case 'fr':
         return 'H:mm';
@@ -105,7 +105,7 @@ export class LocaleService {
     }
   }
 
-  getFirstDayOfWeek() {
+  public getFirstDayOfWeek() {
     switch (this.language) {
       case 'fr':
         return 1;
@@ -115,11 +115,11 @@ export class LocaleService {
     }
   }
 
-  getDateTimeFormat(): string {
+  public getDateTimeFormat(): string {
     return this.getDateFormat() + ' ' + this.getTimeFormat();
   }
 
-  getAllDateTimeProps(): Object {
+  public getAllDateTimeProps(): Object {
     return {
       'dateTimeFormat': this.getDateTimeFormat(),
       'hourFormat': this.getHourFormat(),

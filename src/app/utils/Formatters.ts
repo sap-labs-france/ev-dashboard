@@ -1,7 +1,7 @@
 import { LocaleService } from '../services/locale.service';
 
 export class Formatters {
-  static createDateTimeFormatter(localeService: LocaleService,
+  public static createDateTimeFormatter(localeService: LocaleService,
     options = {
       hour12: false,
       year: 'numeric', month: 'numeric', day: 'numeric',
@@ -12,7 +12,7 @@ export class Formatters {
       localeService.getCurrentFullLocaleForJS(), options);
   }
 
-  static formatLogLevel(status, options = { iconClass: '' }): any {
+  public static formatLogLevel(status, options = { iconClass: '' }): any {
     let clasNames = (options.iconClass ? options.iconClass : '');
     switch (status) {
       // Info
@@ -31,7 +31,7 @@ export class Formatters {
     return `<i class="material-icons card-icon ${clasNames}">fiber_manual_record</i>`;
   }
 
-  static formatTextToHTML(value): String {
+  public static formatTextToHTML(value): String {
     // Check
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {

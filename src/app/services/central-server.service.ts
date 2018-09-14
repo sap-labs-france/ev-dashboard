@@ -38,7 +38,8 @@ export class CentralServerService {
       path: '/logs',
       title: 'Logs',
       type: 'link',
-      icontype: 'list'
+      icontype: 'list',
+      admin: true
     }
   ];
 
@@ -75,8 +76,18 @@ export class CentralServerService {
   public getRoutes(): Observable<RouteInfo[]> {
     // Already translated
     if (!this.routesTranslated) {
+      // Filter
+      const filteredRoutes = this.routes.filter((route: RouteInfo) => {
+        // Route for admin only?
+        if (route.admin && !this.isAdmin()) {
+          // Remove route
+          return null;
+        }
+        // Ok
+        return route;
+      });
       // No: translate
-      this.routesTranslated = this.routes.map((route) => {
+      this.routesTranslated = filteredRoutes.map((route) => {
         // Translate
         route.title = this.translateService.instant(`general.menu.${route.id}`);
         // Return
@@ -135,7 +146,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -149,7 +160,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -168,7 +179,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -186,7 +197,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -204,7 +215,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -223,7 +234,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -236,7 +247,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -249,7 +260,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -262,7 +273,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -272,7 +283,7 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`)
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -370,7 +381,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -446,7 +457,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -477,7 +488,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -490,7 +501,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -503,7 +514,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -516,7 +527,7 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
@@ -530,11 +541,11 @@ export class CentralServerService {
         headers: this._buildHttpHeaders()
       })
       .pipe(
-        catchError(this.handleHttpError)
+        catchError(this._handleHttpError)
       );
   }
 
-  private handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
+  private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = { status: 0, message: '' };
     if (error instanceof Response) {
@@ -545,5 +556,9 @@ export class CentralServerService {
       errMsg.message = error.message ? error.message : error.toString();
     }
     return throwError(errMsg);
+  }
+
+  private isAdmin() {
+    return this.getLoggedUser().role === Constants.ROLE_ADMIN;
   }
 }

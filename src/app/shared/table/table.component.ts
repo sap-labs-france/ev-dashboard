@@ -34,13 +34,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public pageSizes = [];
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
+  public tableDef: TableDef;
+  public autoRefeshChecked = true;
   private selection: SelectionModel<any>;
-  private tableDef: TableDef;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
-  public autoRefeshChecked = true;
   private filters: TableFilter[] = [];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

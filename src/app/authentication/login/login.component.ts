@@ -126,10 +126,15 @@ export class LoginComponent implements OnInit, OnDestroy {
                     // Report the error
                     this.messageService.showErrorMessage(this.messages['account_locked']);
                     break;
-                // Account not Active
+                // Account Suspended
                 case 580:
                     // Report the error
-                    this.messageService.showErrorMessage(this.messages['account_not_active']);
+                    this.messageService.showErrorMessage(this.messages['account_suspended']);
+                    break;
+                // Account Pending
+                case 590:
+                    // Report the error
+                    this.messageService.showErrorMessage(this.messages['account_pending']);
                     break;
                 default:
                     // Unexpected error`

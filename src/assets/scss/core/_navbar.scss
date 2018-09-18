@@ -103,6 +103,10 @@
         padding-top: 10px;
     }
 
+    &.navbar-auth{
+        z-index: 5;
+    }
+
     .navbar-wrapper{
         display: inline-flex;
         align-items: center;

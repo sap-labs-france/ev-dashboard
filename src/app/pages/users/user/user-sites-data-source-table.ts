@@ -123,7 +123,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Show
         const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
         // Add sites
-        dialogRef.afterClosed().subscribe(siteIDs => this._addSites(siteIDs));
+        dialogRef.afterClosed().subscribe(sites => this._addSites(sites));
     }
 
     private _removeSites(siteIDs) {
@@ -155,9 +155,11 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         }
     }
 
-    private _addSites(siteIDs) {
+    private _addSites(sites) {
         // Check
-        if (siteIDs && siteIDs.length > 0) {
+        if (sites && sites.length > 0) {
+            // Get the IDs
+            const siteIDs = sites.map((site) => site.id);
             // Yes: Update
             this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe(response => {
                 // Ok?

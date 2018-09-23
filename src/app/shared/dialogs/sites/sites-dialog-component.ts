@@ -35,8 +35,7 @@ export class SitesDialogComponent {
 
   add() {
     // Close and return the Site IDs
-    this.dialogRef.close(
-      this.sitesDataSource.getSelectedRows().map((site) => site.id));
+    this.dialogRef.close(this.sitesDataSource.getSelectedRows());
   }
 
   cancel() {

@@ -1,4 +1,3 @@
-import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../table/table-data-source';
@@ -7,7 +6,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 
-export class SitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
+export class SitesDataSource extends TableDataSource<Site> {
     constructor(
         private messageService: MessageService,
         private translateService: TranslateService,

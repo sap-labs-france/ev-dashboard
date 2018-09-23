@@ -1,5 +1,4 @@
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -11,7 +10,7 @@ import { Utils } from '../../../utils/Utils';
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 
-export class UserSitesDataSource extends TableDataSource<Site> implements DataSource<Site> {
+export class UserSitesDataSource extends TableDataSource<Site> {
     private user: User;
 
     constructor(

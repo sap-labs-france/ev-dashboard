@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { DataSource } from '@angular/cdk/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../shared/table/table-data-source';
@@ -19,7 +18,7 @@ import { LogActionTableFilter } from './filters/log-action-filter';
 import { LogDateTableFilter } from './filters/log-date-filter';
 import { UserTableFilter } from '../../shared/table/filters/user-filter';
 
-export class LogDataSource extends TableDataSource<Log> implements DataSource<Log> {
+export class LogDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,

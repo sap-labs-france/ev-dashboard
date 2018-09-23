@@ -1,11 +1,11 @@
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
-import { CollectionViewer, SelectionModel } from '@angular/cdk/collections';
+import { CollectionViewer, SelectionModel, DataSource } from '@angular/cdk/collections';
 import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 
-export abstract class TableDataSource<T> {
+export abstract class TableDataSource<T> implements DataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
     private searchInput: ElementRef;
     private paginator: MatPaginator;

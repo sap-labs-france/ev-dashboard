@@ -18,7 +18,7 @@ The application:
 * Install Python version 2.7 (not the version 3.7!)
 * Clone this GitHub project
 * Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
-* Follow the setup below
+* Follow the rest of the setup below
 
 ## The Dashboard
 
@@ -28,9 +28,7 @@ There are two templates provided: **config-template-http.json** for HTTP and **c
 
 Choose one and rename it to **config.json**.
 
-Copy the configuration file in the **src/assets** directory.
-
-Edit this file, you will set relevant config data in it.
+Move this configuration file into the **src/assets** directory.
 
 #### Connect to the Central Service REST Server (CSRS)
 

@@ -15,68 +15,60 @@ The application:
 
 ## Installation
 * Install NodeJS: https://nodejs.org/ (install the LTS version)
+* Install Python version 2.7 (not the version 3.7!)
 * Clone this GitHub project
-* Run **npm install** in the **ev-dashboard** directory (use sudo in Linux)
+* Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
 * Follow the setup below
 
 ## The Dashboard
 
 #### Configuration
 
-The server configuration is stored in the **config.json** file in the **src/assets** directory.
+There are two templates provided: **config-template-http.json** for HTTP and **config-template-https.json** for HTTPS.
 
-There are two templates already provided named **config-template-http.json** for HTTP and **config-template-https.json** for HTTPS.
+Choose one and rename it to **config.json**.
 
-Choose one according the protocol and rename it to **config.json**.
+Copy the configuration file in the **src/assets** directory.
 
-In the next chapters, you will set relevant config data.
+Edit this file, you will set relevant config data in it.
 
 #### Connect to the Central Service REST Server (CSRS)
 
-The dashboard runs in the browser and will call the CSRS to retrieve and display the data.
+The dashboard is served by a web server, downloaded into the browser and will call the REST Server to retrieve and display the data.
 
-Set the CSRS URL:
+Set the REST Server URL:
 
 ```
   "CentralSystemServer": {
-    "protocol": "https",
+    "protocol": "http",
     "host": "localhost",
-    "port": 8888
+    "port": 80
   },
 ```
 
-The protocol of the dashboard server (below) should be the same that the one to access the CSRS server (HTTP or HTTPS.)
+## Start the Dashboard Server
 
+### Development Mode
 
-## Start the EVSE Dashboard Server
-
+```
+npm start
+```
 
 ### Production Mode
-
-
 First build the sources with:
-
 ```
 npm run build:prod
 ```
 
 Next, start the server with:
-
 ```
 npm run start:prod:dist
 ```
 
 ### Secured Production Mode (SSL)
-
 Build the sources as above and run it with:
-
 ```
 npm run start:prod:dist:ssl
 ```
 
-### Development Mode
-
-
-```
-npm start
-```
+That's it!

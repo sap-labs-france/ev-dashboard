@@ -134,7 +134,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 // Account Pending
                 case 590:
                     // Report the error
-                    this.messageService.showErrorMessage(this.messages['account_pending']);
+                    this.messageService.showWarningMessage(this.messages['account_pending']);
+                    this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
                     break;
                 default:
                     // Unexpected error`

@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
 import { LoginComponent } from './login/login.component';
 import { EulaComponent } from './eula/eula.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { EulaComponent } from './eula/eula.component';
     LoginComponent,
     EulaComponent,
     RegisterComponent,
-    RetrievePasswordComponent
+    RetrievePasswordComponent,
+    VerifyEmailComponent
   ]
 })
 

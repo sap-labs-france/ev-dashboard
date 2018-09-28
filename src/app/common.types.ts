@@ -7,7 +7,7 @@ export declare type ActionType = 'button' | 'slide' | '';
 
 export interface KeyValue {
   key: string;
-  value: any;
+  value: string;
 }
 
 export interface TableFilterDef {
@@ -16,7 +16,7 @@ export interface TableFilterDef {
   type: FilterType;
   name: string;
   currentValue?: any;
-  defaultValue?: any;
+  defaultValue?: string;
   class?: string;
   items?: KeyValue[];
   dialogComponent?: any;

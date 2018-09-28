@@ -86,9 +86,10 @@ th:nth-child(n+2), td:nth-child(n+2) {
 
 .table-dialog-list {
   overflow: auto; 
-  min-height: 250px;
+  min-height: 200px;
   min-width: 800px;
-  background-color: white;
+  height: calc(100vh - (0.7 * 100vh));
+   background-color: white;
 }
 
 .table-list-under-tabs {
@@ -96,6 +97,10 @@ th:nth-child(n+2), td:nth-child(n+2) {
   height: calc(100vh - 550px);
   min-height: 250px;
   background-color: white;
+}
+
+.form-field-popup {
+  cursor: pointer;
 }
 
 .mat-column-select {

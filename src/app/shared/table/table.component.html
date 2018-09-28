@@ -46,7 +46,8 @@
 
         <!-- Dialog Table Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-          <input matInput type="text" readonly=true [placeholder]="filterDef.name" [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
+          <input matInput type="text" readonly=true [placeholder]="filterDef.name" class="form-field-popup" 
+            [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
             (click)="showDialogTableFilter(filterDef)" />
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="resetDialogTableFilter(filterDef)">
             <mat-icon>clear</mat-icon>

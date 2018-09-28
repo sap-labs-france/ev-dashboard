@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Site, TableDef, TableColumnDef } from '../../../common.types';
+import { Site, TableColumnDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';

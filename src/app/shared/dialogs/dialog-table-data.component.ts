@@ -11,7 +11,7 @@ export abstract class DialogTableDataComponent<T> {
     constructor(@Inject(MAT_DIALOG_DATA) data) {
     }
 
-    add() {
+    validate() {
         this.dialogRef.close(this.getSelectedItems(this.dialogDataSource.getSelectedRows()));
     }
 

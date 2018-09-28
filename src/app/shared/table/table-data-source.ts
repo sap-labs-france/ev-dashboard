@@ -277,12 +277,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
 
     public registerToDataChange() {
-      // Listen for changes
-      if (!this.dataChangeSubscription) {
-        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
-            this.loadData();
-        });
-      }
+        // Listen for changes
+        if (!this.dataChangeSubscription) {
+            this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
+                this.loadData();
+            });
+        }
     }
 
     public unregisterToDataChange() {
@@ -299,10 +299,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         // Parse filters
         this.filtersDef.forEach((filterDef) => {
             // Check the 'All' value
-            if (filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+            if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
                 if (filterDef.currentValue instanceof Date) {
                     // Set it
                     filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+                } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+                    if (filterDef.currentValue.length > 0) {
+                        // TODO: must be updated when the multi selection is supported
+                        if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
+                            filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                        }
+                    }
                 } else {
                     // Set it
                     filterJson[filterDef.httpId] = filterDef.currentValue;

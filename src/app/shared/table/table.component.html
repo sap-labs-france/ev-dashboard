@@ -6,8 +6,8 @@
       <!-- Create Left Actions -->
       <div class="filter-row" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
-        <button [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')" 
-            *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
+        <button [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+          *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
             <span class="btn-label">{{actionDef.name}}</span>
@@ -19,16 +19,15 @@
       <!-- Create Right Actions -->
       <div class="filter-row" *ngFor="let actionRightDef of actionsRightDef; let i=index">
         <!-- Action Button -->
-        <button [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')" 
-            *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
+        <button [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+          *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
             <span class="btn-label">{{actionRightDef.name}}</span>
           </span>
         </button>
         <!-- Action Slide -->
-        <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" 
-            [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
+        <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
           {{actionRightDef.name}}
         </mat-slide-toggle>
       </div>
@@ -44,6 +43,16 @@
             <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value}}</mat-option>
           </mat-select>
         </mat-form-field>
+
+        <!-- Dialog Table Filter -->
+        <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+          <input matInput type="text" readonly=true [placeholder]="filterDef.name" [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
+            (click)="showDialogTableFilter(filterDef)" />
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="resetDialogTableFilter(filterDef)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+
         <!-- Date Filter -->
         <mat-form-field *ngIf="filterDef.type === 'date'">
           <input matInput [matDatepicker]="picker" [placeholder]="filterDef.name" [value]="filterDef.currentValue"
@@ -66,14 +75,11 @@
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="text-left col-75 pt-2">
           <mat-checkbox [hidden]="!dataSource.isRowSelectionEnabled()" (change)="$event ? masterSelectToggle() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()">
+            [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row" class="text-left col-75 col-select pt-2">
-          <mat-checkbox (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef></td>
@@ -83,8 +89,7 @@
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
         <th mat-header-cell [class]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
           *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
-        <td mat-cell [class]="(columnDef.class?columnDef.class:'')" 
-          *matCellDef="let row" [innerHtml]="buildRowValue(row, columnDef)"></td>
+        <td mat-cell [class]="(columnDef.class?columnDef.class:'')" *matCellDef="let row" [innerHtml]="buildRowValue(row, columnDef)"></td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
       </ng-container>
 
@@ -117,5 +122,5 @@
   </div>
 
   <!-- Paginator: can show showFirstLastButtons -->
-  <mat-paginator #paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()" ></mat-paginator>
+  <mat-paginator #paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()"></mat-paginator>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -11,6 +11,8 @@ import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
+import { SitesDialogComponent } from '../dialogs/sites/sites-dialog-component';
+import { UsersDialogComponent } from '../dialogs/users/users-dialog-component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -49,7 +51,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
       private configService: ConfigService,
       private centralServerService: CentralServerService,
-      private translateService: TranslateService) {
+      private translateService: TranslateService,
+      private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
@@ -132,6 +135,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
       // Get Actions def
     this.dataSource.filterChanged(filterDef);
+  }
+
+  public resetDialogTableFilter(filterDef: TableFilterDef) {
+    filterDef.currentValue = null;
+    this.dataSource.filterChanged(filterDef)
+  }
+
+  public showDialogTableFilter(filterDef: TableFilterDef) {
+    // Show
+    const dialogRef = this.dialog.open(filterDef.dialogComponent);
+    // Add sites
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        filterDef.currentValue = data;
+        this.dataSource.filterChanged(filterDef)
+      }
+    });
   }
 
   public actionTriggered(actionDef: TableActionDef, event) {

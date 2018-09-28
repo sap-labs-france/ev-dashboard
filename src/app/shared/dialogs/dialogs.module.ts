@@ -1,4 +1,4 @@
-export class FooterModule {}
+export class FooterModule { }
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -6,6 +6,8 @@ import { MaterialModule } from '../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SitesDialogComponent } from './sites/sites-dialog-component';
 import { TableModule } from '../table/table.module';
+import { UsersDialogComponent } from './users/users-dialog-component';
+import { DialogTableDataComponent } from './dialog-table-data.component';
 
 @NgModule({
   imports: [
@@ -16,13 +18,16 @@ import { TableModule } from '../table/table.module';
     TranslateModule
   ],
   declarations: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    UsersDialogComponent
   ],
   entryComponents: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    UsersDialogComponent
   ],
   exports: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    UsersDialogComponent
   ]
 })
 export class DialogsModule {

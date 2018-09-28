@@ -574,6 +574,7 @@
 		"picture_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
 		"create_success": "L'utilisateur {{userFullName}} a été créé avec succès",
 		"create_error": "Une erreur est survenue pendant la création de l'utilisateur",
-		"no_users": "Aucun utilisateur n'a été trouvé"
+		"no_users": "Aucun utilisateur n'a été trouvé",
+		"select_users": "Selection Utilisateurs"
 	}
 }

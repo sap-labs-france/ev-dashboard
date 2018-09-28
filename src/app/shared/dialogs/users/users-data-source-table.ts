@@ -43,7 +43,7 @@ export class UsersDataSource extends DialogTableDataSource<User> {
                 multiple: false
             },
             search: {
-                enabled: false
+                enabled: true
             }
         };
     }

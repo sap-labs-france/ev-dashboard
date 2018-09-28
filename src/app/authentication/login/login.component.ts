@@ -3,9 +3,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CentralServerService } from '../../services/central-server.service';
+import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation/confirmation-dialog-component';
+import { Constants } from '../../utils/Constants';
+import { MatDialog } from '@angular/material';
 
 declare var $: any;
 
@@ -30,6 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             private centralServerService: CentralServerService,
             private route: ActivatedRoute,
             private router: Router,
+            private dialogService: DialogService,
+            private dialog: MatDialog,
             private messageService: MessageService,
             private translateService: TranslateService) {
 
@@ -135,7 +141,18 @@ export class LoginComponent implements OnInit, OnDestroy {
                 case 590:
                     // Report the error
                     this.messageService.showWarningMessage(this.messages['account_pending']);
-                    this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
+                    // Create and show dialog data
+                    this.dialogService.createAndShowYesNoDialog(
+                        this.dialog, ConfirmationDialogComponent,
+                        this.translateService.instant('authentication.verify_email_title'),
+                        this.translateService.instant('authentication.verify_email_resend_confirm')
+                    ).subscribe((response) => {
+                        // Check
+                        if (response === Constants.BUTTON_TYPE_YES) {
+                            // Navigate
+                            this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
+                        }
+                    });
                     break;
                 default:
                     // Unexpected error`

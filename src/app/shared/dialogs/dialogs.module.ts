@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SitesDialogComponent } from './sites/sites-dialog-component';
+import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog-component';
 import { TableModule } from '../table/table.module';
 
 @NgModule({
@@ -16,13 +17,16 @@ import { TableModule } from '../table/table.module';
     TranslateModule
   ],
   declarations: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    ConfirmationDialogComponent
   ],
   entryComponents: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
-    SitesDialogComponent
+    SitesDialogComponent,
+    ConfirmationDialogComponent
   ]
 })
 export class DialogsModule {

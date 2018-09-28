@@ -13,6 +13,7 @@ import { RetrievePasswordComponent } from './retrieve-password/retrieve-password
 import { LoginComponent } from './login/login.component';
 import { EulaComponent } from './eula/eula.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { DialogsModule } from '../shared/dialogs/dialogs.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     MaterialModule,
     TranslateModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    DialogsModule
   ],
   declarations: [
     LoginComponent,

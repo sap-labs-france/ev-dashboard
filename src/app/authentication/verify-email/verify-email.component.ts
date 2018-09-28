@@ -102,7 +102,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         // Show message
         this.messageService.showSuccessMessage(this.messages['verify_email_success']);
         // Go to login
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value });
       // Unexpected Error
       } else {
         // Unexpected error
@@ -134,7 +134,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           break;
       }
       // Go to login
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value });
     });
   }
 
@@ -159,7 +159,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           // Report the error
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           // Go to login
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value });
           break;
         // Email does not exist
         case 550:

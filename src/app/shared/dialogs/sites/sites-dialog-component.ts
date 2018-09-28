@@ -14,11 +14,11 @@ export class SitesDialogComponent {
   public sitesDataSource: SitesDataSource;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogRef: MatDialogRef<SitesDialogComponent>,
-      private router: Router,
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogRef: MatDialogRef<SitesDialogComponent>,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
 
     // Create table data source
@@ -33,7 +33,7 @@ export class SitesDialogComponent {
     ]);
   }
 
-  add() {
+  valdate() {
     // Close and return the Site IDs
     this.dialogRef.close(this.sitesDataSource.getSelectedRows());
   }

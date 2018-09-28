@@ -11,7 +11,6 @@ import { Utils } from '../../utils/Utils';
   selector: 'app-verify-email-cmp',
   templateUrl: './verify-email.component.html'
 })
-
 export class VerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;

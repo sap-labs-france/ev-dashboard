@@ -66,7 +66,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // Get the user's image
         this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
             // Keep
-            this.loggedUserImage = (image.image ? image.image : Constants.USER_NO_PICTURE).toString();
+            this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
         });
     }
 

@@ -350,6 +350,8 @@ export class CentralServerService {
       { key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged' },
       { key: 'PricingUpdate', value: 'PricingUpdate' },
       { key: 'RegisterUser', value: 'RegisterUser' },
+      { key: 'VerifyEmail', value: 'VerifyEmail' },
+      { key: 'ResendVerificationEmail', value: 'ResendVerificationEmail' },
       { key: 'RemoteStartTransaction', value: 'RemoteStartTransaction' },
       { key: 'RemoteStopTransaction', value: 'RemoteStopTransaction' },
       { key: 'RequestConfiguration', value: 'RequestConfiguration' },
@@ -537,6 +539,34 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public verifyEmail(params: any) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(
+      `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public resendVerificationEmail(user) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {
         headers: this._buildHttpHeaders()
       })

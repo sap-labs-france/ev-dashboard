@@ -1,0 +1,44 @@
+
+<div class="wrapper wrapper-full-page">
+    <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('./assets/img/login.jpg'); background-size: cover; background-position: top center;">
+      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+      <div class="container">
+        <div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
+          <form class="form" [formGroup]="formGroup" (ngSubmit)="resendVerificationEmail(formGroup.value)">
+            <div class="card card-login card-hidden">
+              <div class="card-header card-header-info text-center h-25">
+                <div class="social-line">
+                  <img class="w-50 mb-2" src="/assets/img/logo-low.gif"/>
+                </div>
+                <h4 class="card-title">{{"authentication.verify_email_title" | translate}}</h4>
+              </div>
+              <div class="card-body">
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                      <mat-form-field>
+                        <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email" required [readonly]="true">
+                        <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
+                        <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="input-group-prepend mt-2 captcha-container" [hidden]="verifyEmailAction">
+                      <re-captcha #recaptcha formControlName="captcha" [siteKey]="captchaSiteKey" class="captcha">
+                      </re-captcha>
+                    </div>
+                  </div>
+                </span>
+              </div>
+              <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">
+                <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" | translate}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

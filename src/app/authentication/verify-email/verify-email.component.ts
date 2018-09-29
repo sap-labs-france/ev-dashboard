@@ -144,7 +144,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           // Show message
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
         // Unexpected Error
       } else {
         Utils.handleError(JSON.stringify(response),

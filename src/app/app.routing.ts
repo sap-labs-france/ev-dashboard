@@ -1,9 +1,10 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { RouteGuardService } from './services/route-guard.service';
+import { ModuleWithProviders } from '@angular/core';
 
 export const AppRoutes: Routes = [
     {
@@ -30,3 +31,5 @@ export const AppRoutes: Routes = [
         }]
     }
 ];
+
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {useHash: true});

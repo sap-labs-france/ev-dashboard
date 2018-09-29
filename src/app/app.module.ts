@@ -63,7 +63,7 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
-import { AppRoutes } from './app.routing';
+import { AppRouting } from './app.routing';
 
 @NgModule({
   exports: [
@@ -128,7 +128,7 @@ export function localeFactory(
     CommonModule,
     BrowserAnimationsModule,
     FormsModule,
-    RouterModule.forRoot(AppRoutes),
+    AppRouting,
     HttpModule,
     MaterialModule,
     MatNativeDateModule,

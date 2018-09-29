@@ -8,7 +8,11 @@ import { RouteGuardService } from './services/route-guard.service';
 export const AppRoutes: Routes = [
     {
         path: '', redirectTo: 'dashboard', pathMatch: 'full',
-    }, {
+    },
+    {
+        path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
+    },
+    {
         path: '', component: AdminLayoutComponent,
         children: [
             { path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule' },
@@ -17,7 +21,8 @@ export const AppRoutes: Routes = [
             { path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule' },
             { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true } },
         ]
-    }, {
+    },
+    {
         path: '', component: AuthLayoutComponent,
         children: [{
             path: 'auth',

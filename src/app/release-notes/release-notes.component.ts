@@ -28,6 +28,12 @@ export class ReleaseNotesComponent {
             `Account activation`,
             `Resend account activation via email`
           ]
+        },
+        {
+          name: 'Logs',
+          changes: [
+            `Added User's filter in pop-up`
+          ]
         }
       ]
     },

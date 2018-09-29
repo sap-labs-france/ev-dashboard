@@ -5,7 +5,7 @@ import { KeyValue, TableDef } from '../../common.types';
 
 export abstract class DialogTableDataComponent<T> {
     public dialogDataSource: DialogTableDataSource<T>;
-    protected abstract title: string;
+    public abstract title: string;
     protected abstract dialogRef: MatDialogRef<DialogTableDataComponent<T>>
 
     constructor(@Inject(MAT_DIALOG_DATA) data) {

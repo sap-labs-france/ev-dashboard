@@ -13,17 +13,15 @@ import { KeyValue, Charger } from '../../../common.types';
   styleUrls: ['../dialogs.component.scss'],
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
-  protected title = 'chargers.select_chargers';
-
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<ChargersDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    super(data);
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      protected dialogRef: MatDialogRef<ChargersDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Super class
+    super(data, 'chargers.select_chargers');
 
     // Create table data source
     this.dialogDataSource = new ChargersDataSource(

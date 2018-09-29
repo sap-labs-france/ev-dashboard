@@ -14,16 +14,15 @@ import { Constants } from '../../../utils/Constants';
   styleUrls: ['../dialogs.component.scss'],
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
-  protected title = 'users.select_users';
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<UsersDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    super(data);
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      protected dialogRef: MatDialogRef<UsersDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Super class
+    super(data, 'users.select_users');
 
     // Create table data source
     this.dialogDataSource = new UsersDataSource(

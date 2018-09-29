@@ -13,16 +13,15 @@ import { Site, KeyValue } from '../../../common.types';
   styleUrls: ['../dialogs.component.scss'],
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
-  protected title = 'sites.select_sites';
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    protected dialogRef: MatDialogRef<SitesDialogComponent>,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    super(data);
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      protected dialogRef: MatDialogRef<SitesDialogComponent>,
+      private router: Router,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Super class
+    super(data, 'sites.select_sites');
     // Create table data source
     this.dialogDataSource = new SitesDataSource(
       this.messageService,

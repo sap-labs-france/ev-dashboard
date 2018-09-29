@@ -20,7 +20,7 @@ export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [
     {
       version: '2.0.3',
-      date: new Date('2018-09-28'),
+      date: new Date('2018-09-29'),
       componentChanges: [
         {
           name: 'Account Activation',
@@ -32,7 +32,9 @@ export class ReleaseNotesComponent {
         {
           name: 'Logs',
           changes: [
-            `Added User's filter in pop-up`
+            `Added hi-avail pop-up filter`,
+            `Added User's pop-up filter`,
+            `Added Charger's pop-up filter`
           ]
         }
       ]

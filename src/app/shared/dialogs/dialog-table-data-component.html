@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{title | translate}}</h2>
+
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      <app-table [dataSource]="dialogDataSource"></app-table>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">{{"general.add"
+    | translate}}</button>
+  <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
+</mat-dialog-actions>

@@ -1,12 +1,13 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Site, TableColumnDef } from '../../../common.types';
+import { TableDataSource } from '../../table/table-data-source';
+import { User, TableDef, TableColumnDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
-export class SitesDataSource extends DialogTableDataSource<Site> {
+export class UsersDataSource extends DialogTableDataSource<User> {
     constructor(
         private messageService: MessageService,
         private translateService: TranslateService,
@@ -17,16 +18,16 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
 
     loadData() {
         // Get data
-        this.centralServerService.getSites(this.getFilterValues(),
-            this.getPaging(), this.getOrdering()).subscribe((sites) => {
+        this.centralServerService.getUsers(this.getFilterValues(),
+            this.getPaging(), this.getOrdering()).subscribe((users) => {
                 // Set number of records
-                this.setNumberOfRecords(sites.count);
+                this.setNumberOfRecords(users.count);
                 // Update page length (number of sites is in User)
                 this.updatePaginator();
                 // Return sites
-                this.getDataSubjet().next(sites.result);
+                this.getDataSubjet().next(users.result);
                 // Keep it
-                this.setData(sites.result);
+                this.setData(users.result);
             }, (error) => {
                 // No longer exists!
                 Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -34,24 +35,37 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
             });
     }
 
+    getTableDef(): TableDef {
+        return {
+            class: 'table-dialog-list',
+            rowSelection: {
+                enabled: true,
+                multiple: false
+            },
+            search: {
+                enabled: true
+            }
+        };
+    }
+
     getTableColumnDefs(): TableColumnDef[] {
         return [
             {
                 id: 'name',
-                name: this.translateService.instant('sites.name'),
-                class: 'text-left col-300',
+                name: this.translateService.instant('users.name'),
+                class: 'text-left',
                 sorted: true,
                 direction: 'asc'
             },
             {
-                id: 'address.city',
-                name: this.translateService.instant('general.city'),
-                class: 'text-left col-200'
+                id: 'firstName',
+                name: this.translateService.instant('users.first_name'),
+                class: 'text-left'
             },
             {
-                id: 'address.country',
-                name: this.translateService.instant('general.country'),
-                class: 'text-left col-150'
+                id: 'email',
+                name: this.translateService.instant('users.email'),
+                class: 'text-left'
             }
         ];
     }

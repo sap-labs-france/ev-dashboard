@@ -588,6 +588,7 @@
 		"picture_size_error": "The picture size limit exceeded, limit is below {{maxPictureKb}} Kb",
 		"create_success": "The user {{userFullName}} has been created successfully",
 		"create_error": "Error occurred while creating the user",
-		"no_users": "No users found"
+		"no_users": "No users found",
+		"select_users": "Select Users"
 	}
 }

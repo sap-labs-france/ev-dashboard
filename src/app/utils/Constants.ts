@@ -110,6 +110,7 @@ export class Constants {
   /* Filter */
   public static FILTER_ALL_KEY = 'all';
   public static FILTER_TYPE_DROPDOWN: FilterType = 'dropdown';
+  public static FILTER_TYPE_DIALOG_TABLE: FilterType = 'dialog-table';
   public static FILTER_TYPE_DATE: FilterType = 'date';
 
   /* Dialog buttons */

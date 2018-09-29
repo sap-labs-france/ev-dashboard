@@ -1,6 +1,8 @@
 import { SortDirection } from '@angular/material/typings';
+import { TableDataSource } from './shared/table/table-data-source';
+import { DialogTableDataComponent } from './shared/dialogs/dialog-table-data.component';
 
-export declare type FilterType = 'dropdown' | 'date' | '';
+export declare type FilterType = 'dropdown' | 'dialog-table' |'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
 export declare type DialogType = 'YES_NO' | 'OK_CANCEL';
@@ -17,8 +19,10 @@ export interface TableFilterDef {
   type: FilterType;
   name: string;
   currentValue?: any;
+  defaultValue?: string;
   class?: string;
-  items?: KeyValue[]
+  items?: KeyValue[];
+  dialogComponent?: any;
 }
 
 export interface TableActionDef {

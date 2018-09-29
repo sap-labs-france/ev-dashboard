@@ -11,8 +11,6 @@ import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
-import { SitesDialogComponent } from '../dialogs/sites/sites-dialog-component';
-import { UsersDialogComponent } from '../dialogs/users/users-dialog-component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.

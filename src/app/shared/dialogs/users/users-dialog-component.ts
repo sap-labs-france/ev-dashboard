@@ -36,8 +36,8 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
   getSelectedItems(selectedRows: User[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
-      selectedRows.forEach(user => {
-        items.push({ key: user.id, value: `${user.name} ${user.firstName ? user.firstName : ''}` });
+      selectedRows.forEach(row => {
+        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}` });
       });
     }
     return items;

@@ -2,21 +2,21 @@ import { TableFilter } from './table-filter';
 import { Constants } from '../../../utils/Constants';
 import { TranslateService } from '@ngx-translate/core';
 import { TableFilterDef } from '../../../common.types';
-import { UsersDialogComponent } from '../../dialogs/users/users-dialog-component';
+import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog-component';
 
-export class UserTableFilter extends TableFilter  {
+export class ChargerTableFilter extends TableFilter  {
   constructor(
-      private translateService: TranslateService) {
+      protected translateService: TranslateService) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
-      id: 'user',
-      httpId: 'UserID',
+      id: 'charger',
+      httpId: 'ChargeBoxID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
       defaultValue: 'general.all',
-      name: 'logs.user',
-      class: 'col-200',
-      dialogComponent: UsersDialogComponent
+      name: 'chargers.title',
+      class: 'col-150',
+      dialogComponent: ChargersDialogComponent
     };
     // Translate
     filterDef.defaultValue = translateService.instant(filterDef.defaultValue);

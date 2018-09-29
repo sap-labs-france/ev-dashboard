@@ -5,6 +5,9 @@ import { DialogTableDataComponent } from './shared/dialogs/dialog-table-data.com
 export declare type FilterType = 'dropdown' | 'dialog-table' |'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
+export declare type DialogType = 'YES_NO' | 'OK_CANCEL';
+export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO';
+
 export interface KeyValue {
   key: string;
   value: string;

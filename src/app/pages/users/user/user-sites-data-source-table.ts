@@ -122,7 +122,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         }
         // Show
         const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
-        // Add sites
+        // Register to the answer
         dialogRef.afterClosed().subscribe(sites => this._addSites(sites));
     }
 

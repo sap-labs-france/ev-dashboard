@@ -19,19 +19,14 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
-      version: '2.0.2',
-      date: new Date('2018-09-11'),
+      version: '2.0.3',
+      date: new Date('2018-09-28'),
       componentChanges: [
         {
-          name: 'Logs',
+          name: 'Account Activation',
           changes: [
-            `Added User filter`
-          ]
-        },
-        {
-          name: 'User',
-          changes: [
-            `Implemented Add/Remove Sites in User's profile`
+            `Account activation`,
+            `Resend account activation via email`
           ]
         }
       ]

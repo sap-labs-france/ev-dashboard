@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SitesDialogComponent } from './sites/sites-dialog-component';
+import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog-component';
 import { TableModule } from '../table/table.module';
 import { UsersDialogComponent } from './users/users-dialog-component';
 import { DialogTableDataComponent } from './dialog-table-data.component';
@@ -19,15 +20,18 @@ import { DialogTableDataComponent } from './dialog-table-data.component';
   ],
   declarations: [
     SitesDialogComponent,
-    UsersDialogComponent
+    UsersDialogComponent,
+    ConfirmationDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
-    UsersDialogComponent
+    UsersDialogComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
     SitesDialogComponent,
-    UsersDialogComponent
+    UsersDialogComponent,
+    ConfirmationDialogComponent
   ]
 })
 export class DialogsModule {

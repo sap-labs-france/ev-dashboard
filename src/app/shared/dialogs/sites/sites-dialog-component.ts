@@ -18,8 +18,8 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private router: Router,
     protected dialogRef: MatDialogRef<SitesDialogComponent>,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
 
     super(data);

@@ -4,8 +4,8 @@ table {
   width: 100%;
 }
 
-.mat-form-field {
-  font-size: 14px;
+.mat-form-field, .mat-select-content, .mat-select, .mat-option {
+  font-size: 0.8rem !important;
   width: 100%;
 }
 
@@ -14,7 +14,7 @@ th {
 }
 
 td, th {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 tr.mat-row {

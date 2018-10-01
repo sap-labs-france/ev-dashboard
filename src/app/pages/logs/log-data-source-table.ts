@@ -120,7 +120,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'source',
         name: this.translateService.instant('logs.source'),
-        headerClass: 'col-10p',
+        headerClass: 'col-15p',
         class: 'text-left col-10p'
       },
       {
@@ -132,7 +132,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'message',
         name: this.translateService.instant('logs.message'),
-        headerClass: 'col-50p',
+        headerClass: 'col-40p',
         class: 'text-left col-50p'
       }
     ];

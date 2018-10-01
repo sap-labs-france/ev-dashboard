@@ -104,36 +104,36 @@ export class LogDataSource extends TableDataSource<Log> {
         name: this.translateService.instant('logs.level'),
         formatter: Formatters.formatLogLevel,
         formatterOptions: { iconClass: 'pt-1' },
-        headerClass: 'col-75',
-        class: 'col-75'
+        headerClass: 'col-5p',
+        class: 'col-5p'
       },
       {
         id: 'timestamp',
         type: 'date',
         formatter: Formatters.createDateTimeFormatter(this.localeService).format,
         name: this.translateService.instant('logs.date'),
-        headerClass: 'col-175',
-        class: 'text-left col-175',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         direction: 'desc'
       },
       {
         id: 'source',
         name: this.translateService.instant('logs.source'),
-        headerClass: 'col-150',
-        class: 'text-left col-150'
+        headerClass: 'col-10p',
+        class: 'text-left col-10p'
       },
       {
         id: 'action',
         name: this.translateService.instant('logs.action'),
-        headerClass: 'col-225',
-        class: 'text-left col-200'
+        headerClass: 'col-15p',
+        class: 'text-left col-15p'
       },
       {
         id: 'message',
         name: this.translateService.instant('logs.message'),
-        headerClass: 'col-600',
-        class: 'text-left col-600'
+        headerClass: 'col-50p',
+        class: 'text-left col-50p'
       }
     ];
   }

@@ -57,7 +57,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
                 multiple: true
             },
             search: {
-                enabled: true
+                enabled: false
             }
         };
     }
@@ -67,19 +67,19 @@ export class UserSitesDataSource extends TableDataSource<Site> {
             {
                 id: 'name',
                 name: this.translateService.instant('sites.name'),
-                class: 'text-left col-300',
+                class: 'text-left col-50p',
                 sorted: true,
                 direction: 'asc'
             },
             {
                 id: 'address.city',
                 name: this.translateService.instant('general.city'),
-                class: 'text-left col-200'
+                class: 'text-left col-25p'
             },
             {
                 id: 'address.country',
                 name: this.translateService.instant('general.country'),
-                class: 'text-left col-150'
+                class: 'text-left col-20p'
             }
         ];
     }

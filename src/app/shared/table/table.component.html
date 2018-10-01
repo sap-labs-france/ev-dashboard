@@ -1,8 +1,8 @@
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
-  <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()">
+  <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
     <!-- Actions Row -->
-    <mat-toolbar-row *ngIf="dataSource.hasActions()" class="toolbar-row">
+    <div *ngIf="dataSource.hasActions()" class="row mat-toolbar-row">
       <!-- Create Left Actions -->
       <div class="filter-row" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
@@ -31,12 +31,12 @@
           {{actionRightDef.name}}
         </mat-slide-toggle>
       </div>
-    </mat-toolbar-row>
+    </div>
 
     <!-- Filters Row -->
-    <mat-toolbar-row *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="toolbar-row">
+    <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="row">
       <!-- Create Filters -->
-      <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
+      <div [class]="(filterDef.class ? filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
         <!-- Dropdown Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dropdown'">
           <mat-select [placeholder]="filterDef.name" [(value)]="filterDef.currentValue" (selectionChange)="filterChanged(filterDef)">
@@ -46,8 +46,7 @@
 
         <!-- Dialog Table Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-          <input matInput type="text" readonly=true [placeholder]="filterDef.name" class="form-field-popup" 
-            [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
+          <input matInput type="text" readonly=true [placeholder]="filterDef.name" class="form-field-popup" [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
             (click)="showDialogTableFilter(filterDef)" />
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="resetDialogTableFilter(filterDef)">
             <mat-icon>clear</mat-icon>
@@ -63,11 +62,11 @@
         </mat-form-field>
       </div>
       <!-- Search -->
-      <mat-form-field *ngIf="dataSource.isSearchEnabled()">
+      <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col-md-6 col-xl-4">
         <input #searchInput matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)">
       </mat-form-field>
-    </mat-toolbar-row>
-  </mat-toolbar>
+    </div>
+  </div>
 
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">

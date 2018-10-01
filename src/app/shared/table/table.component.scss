@@ -111,10 +111,6 @@ tr.mat-footer-row {
   font-weight: bold;
 }
 
-.mat-toolbar-row {
-  margin-top: 5px;
-}
-
 .table-header {
   background-color: white;
 }
@@ -127,6 +123,8 @@ tr.mat-footer-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 .mat-toolbar-row {

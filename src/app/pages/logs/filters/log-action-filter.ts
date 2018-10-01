@@ -15,7 +15,7 @@ export class LogActionTableFilter extends TableFilter  {
       httpId: 'Action',
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'logs.action',
-      class: 'col-200',
+      class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: Constants.FILTER_ALL_KEY,
       items: []
     };

@@ -15,7 +15,7 @@ export class LogLevelTableFilter extends TableFilter  {
       httpId: 'Level',
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'logs.level',
-      class: 'col-75',
+      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       currentValue: Constants.FILTER_ALL_KEY,
       items: []
     };

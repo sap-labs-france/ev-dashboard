@@ -1,12 +1,12 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Site, TableColumnDef } from '../../../common.types';
+import { TableDef, TableColumnDef, Charger } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
-export class SitesDataSource extends DialogTableDataSource<Site> {
+export class ChargersDataSource extends DialogTableDataSource<Charger> {
     constructor(
         private messageService: MessageService,
         private translateService: TranslateService,
@@ -17,16 +17,16 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
 
     loadData() {
         // Get data
-        this.centralServerService.getSites(this.getFilterValues(),
-            this.getPaging(), this.getOrdering()).subscribe((sites) => {
+        this.centralServerService.getChargers(this.getFilterValues(),
+            this.getPaging(), this.getOrdering()).subscribe((chargers) => {
                 // Set number of records
-                this.setNumberOfRecords(sites.count);
+                this.setNumberOfRecords(chargers.count);
                 // Update page length (number of sites is in User)
                 this.updatePaginator();
-                // Return sites
-                this.getDataSubjet().next(sites.result);
+                // Return chargers
+                this.getDataSubjet().next(chargers.result);
                 // Keep it
-                this.setData(sites.result);
+                this.setData(chargers.result);
             }, (error) => {
                 // No longer exists!
                 Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -34,24 +34,32 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
             });
     }
 
+    getTableDef(): TableDef {
+        return {
+            class: 'table-dialog-list',
+            rowSelection: {
+                enabled: true,
+                multiple: false
+            },
+            search: {
+                enabled: true
+            }
+        };
+    }
+
     getTableColumnDefs(): TableColumnDef[] {
         return [
             {
-                id: 'name',
-                name: this.translateService.instant('sites.name'),
-                class: 'text-left col-300',
+                id: 'id',
+                name: this.translateService.instant('chargers.chargers'),
+                class: 'text-left',
                 sorted: true,
                 direction: 'asc'
             },
             {
-                id: 'address.city',
-                name: this.translateService.instant('general.city'),
-                class: 'text-left col-200'
-            },
-            {
-                id: 'address.country',
-                name: this.translateService.instant('general.country'),
-                class: 'text-left col-150'
+                id: 'chargePointVendor',
+                name: this.translateService.instant('chargers.name'),
+                class: 'text-left'
             }
         ];
     }

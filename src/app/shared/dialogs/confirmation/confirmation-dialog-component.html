@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{title}}</h2>
+
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12">
+      {{message}}
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-primary" (click)="valdate()">{{buttonValidateName}}</button>
+  <button class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>
+</mat-dialog-actions>

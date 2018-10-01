@@ -17,6 +17,7 @@ import { Utils } from '../../utils/Utils';
 import { LogActionTableFilter } from './filters/log-action-filter';
 import { LogDateTableFilter } from './filters/log-date-filter';
 import { UserTableFilter } from '../../shared/table/filters/user-filter';
+import { ChargerTableFilter } from '../../shared/table/filters/charger-filter';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
@@ -155,10 +156,10 @@ export class LogDataSource extends TableDataSource<Log> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new LogDateTableFilter(this.translateService, this.centralServerService).getFilterDef(),
+      new LogDateTableFilter(this.translateService).getFilterDef(),
       new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
-      new LogSourceTableFilter(this.translateService, this.centralServerService).getFilterDef(),
-      new UserTableFilter(this.translateService, this.centralServerService).getFilterDef(),
+      new LogSourceTableFilter(this.translateService).getFilterDef(),
+      new UserTableFilter(this.translateService).getFilterDef(),
       new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
     ];
   }

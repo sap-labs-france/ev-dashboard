@@ -1,4 +1,4 @@
-import { FilterType } from '../common.types';
+import { FilterType, DialogType, ButtonType } from '../common.types';
 
 export class Constants {
   /* Authorization */
@@ -110,5 +110,14 @@ export class Constants {
   /* Filter */
   public static FILTER_ALL_KEY = 'all';
   public static FILTER_TYPE_DROPDOWN: FilterType = 'dropdown';
+  public static FILTER_TYPE_DIALOG_TABLE: FilterType = 'dialog-table';
   public static FILTER_TYPE_DATE: FilterType = 'date';
+
+  /* Dialog buttons */
+  public static BUTTON_TYPE_OK: ButtonType = 'OK';
+  public static BUTTON_TYPE_CANCEL: ButtonType = 'CANCEL';
+  public static BUTTON_TYPE_YES: ButtonType = 'YES';
+  public static BUTTON_TYPE_NO: ButtonType = 'NO';
+  public static DIALOG_TYPE_YES_NO: DialogType = 'YES_NO';
+  public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
 }

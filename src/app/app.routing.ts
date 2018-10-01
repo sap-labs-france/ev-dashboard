@@ -1,14 +1,19 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { RouteGuardService } from './services/route-guard.service';
+import { ModuleWithProviders } from '@angular/core';
 
 export const AppRoutes: Routes = [
     {
         path: '', redirectTo: 'dashboard', pathMatch: 'full',
-    }, {
+    },
+    {
+        path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
+    },
+    {
         path: '', component: AdminLayoutComponent,
         children: [
             { path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule' },
@@ -17,7 +22,8 @@ export const AppRoutes: Routes = [
             { path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule' },
             { path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true } },
         ]
-    }, {
+    },
+    {
         path: '', component: AuthLayoutComponent,
         children: [{
             path: 'auth',
@@ -25,3 +31,5 @@ export const AppRoutes: Routes = [
         }]
     }
 ];
+
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {useHash: true});

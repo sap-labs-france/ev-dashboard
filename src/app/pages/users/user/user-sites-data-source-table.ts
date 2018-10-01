@@ -122,7 +122,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         }
         // Show
         const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
-        // Add sites
+        // Register to the answer
         dialogRef.afterClosed().subscribe(sites => this._addSites(sites));
     }
 
@@ -159,7 +159,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Check
         if (sites && sites.length > 0) {
             // Get the IDs
-            const siteIDs = sites.map((site) => site.id);
+            const siteIDs = sites.map((site) => site.key);
             // Yes: Update
             this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe(response => {
                 // Ok?

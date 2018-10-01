@@ -88,7 +88,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
         this.messageService.showSuccessMessage(
           this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
         // Go back to login
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
         // Unexpected Error
       } else {
         Utils.handleError(JSON.stringify(response),

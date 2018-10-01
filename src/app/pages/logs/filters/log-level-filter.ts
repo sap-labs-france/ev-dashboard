@@ -4,37 +4,34 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { TableFilterDef } from '../../../common.types';
 
-export class LogLevelTableFilter implements TableFilter  {
-  // Default filter
-  private filter: TableFilterDef = {
-    id: 'level',
-    httpId: 'Level',
-    type: Constants.FILTER_TYPE_DROPDOWN,
-    name: 'logs.level',
-    class: 'col-75',
-    currentValue: Constants.FILTER_ALL_KEY,
-    items: []
-  }
-
+export class LogLevelTableFilter extends TableFilter  {
   constructor(
       private translateService: TranslateService,
       private centralServerService: CentralServerService) {
+    super();
+    // Define filter
+    const filterDef: TableFilterDef = {
+      id: 'level',
+      httpId: 'Level',
+      type: Constants.FILTER_TYPE_DROPDOWN,
+      name: 'logs.level',
+      class: 'col-75',
+      currentValue: Constants.FILTER_ALL_KEY,
+      items: []
+    };
     // translate the name
-    this.filter.name = this.translateService.instant(this.filter.name);
+    filterDef.name = this.translateService.instant(filterDef.name);
     // Add <All>
-    this.filter.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
+    filterDef.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
     // Get the Chargers
-    centralServerService.getLogStatus().subscribe((statuses) => {
+    this.centralServerService.getLogStatus().subscribe((statuses) => {
       // Create
       statuses.forEach((status) => {
         // Add
-        this.filter.items.push({ key: status.key, value: status.value });
+        filterDef.items.push({ key: status.key, value: status.value });
       });
     });
-  }
-
-  // Return filter
-  public getFilterDef(): TableFilterDef {
-    return this.filter;
+    // Set
+    this.setFilterDef(filterDef);
   }
 }

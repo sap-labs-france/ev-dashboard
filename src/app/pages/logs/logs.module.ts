@@ -9,6 +9,7 @@ import { LogsComponent } from './logs.component';
 import { LogsRoutes } from './logs.routing';
 import { TableModule } from '../../shared/table/table.module';
 import { CommonDirectivesModule } from '../../directives/common-directives.module';
+import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { CommonDirectivesModule } from '../../directives/common-directives.modul
         TranslateModule,
         MaterialModule,
         TableModule,
-        CommonDirectivesModule
+        CommonDirectivesModule,
+        DialogsModule
     ],
     declarations: [
         LogsComponent

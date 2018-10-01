@@ -1,4 +1,4 @@
-Feature('As unkown user, I should not be able to login @login');
+Feature('As an unkown user, I should not be able to login @login');
 
 Scenario('If I try to login, I am notified that my credential is rejected', (I, loginPage) => {
     let user = I.amANewUser();

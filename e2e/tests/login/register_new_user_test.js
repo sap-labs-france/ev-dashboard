@@ -19,11 +19,18 @@ Scenario('I create my account', async (I, authLayout, registrationPage) => {
 Scenario('I validate my mail address', async (I, mailboxPage) => {
     I.amOnPage(mailboxPage.url);
     mailboxPage.validateRegistrationMail(user);
-    //TODO add a check to ensure that user has been validated by server
+    I.switchToNextTab(1);
+    I.waitInUrl('/verify-email', 5);
+    I.waitInUrl('/auth/login', 5);
+
+    I.waitForElement(`//span[@data-notify='message']`);
+    I.waitForElement(`//div[@class='alert alert-success']`);
+    I.see('Your account has been activated with success!');
 });
 
 Scenario('I login', (I, loginPage) => {
     I.amOnPage(loginPage.url);
     loginPage.login(user);
-    //TODO add a check to ensure that the user is logged
+    I.waitInUrl('/dashboard', 5);
 });
+

@@ -17,6 +17,6 @@ Scenario('If I try to login, I am notified that my account is not verified', (I,
     I.amOnPage(loginPage.url);
     loginPage.login(user);
     I.waitForElement(`//span[@data-notify='message']`);
-    I.waitForElement(`//div[@class='alert alert-danger alert-with-icon']`);
+    I.waitForElement(`//div[@class='alert alert-warning']`);
     I.see('Your account is not active! Check your email');
 });

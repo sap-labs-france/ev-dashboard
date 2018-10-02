@@ -3,6 +3,7 @@ import { FilterType, DialogType, ButtonType } from '../common.types';
 export class Constants {
   /* Authorization */
   public static ROLE_ADMIN = 'A';
+  public static ROLE_SUPER_ADMIN = 'S';
   public static ROLE_BASIC = 'B';
   public static ROLE_DEMO = 'D';
   public static ENTITY_VEHICLE_MANUFACTURER = 'VehicleManufacturer';

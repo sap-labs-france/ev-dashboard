@@ -69,4 +69,10 @@ Build the sources as above and run it with:
 npm run start:prod:dist:ssl
 ```
 
+## Tests End To End
+To run e2e tests, you first need to have a server and UI up and running. Then start the e2e suite with:
+``` 
+npm run e2e
+```
+
 That's it!

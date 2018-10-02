@@ -1,0 +1,38 @@
+{
+   "output": "./output",
+   "helpers": {
+      "Puppeteer": {
+         "url": "http://localhost:45000",
+         "show": false,
+         "windowSize": "1280x1024"
+      },
+      "Mochawesome": {
+         "uniqueScreenshotNames": "true"
+      }
+   },
+   "include": {
+      "I": "./e2e/utils/steps_file.js",
+      "mailServer": "./e2e/utils/mailServer.js",
+      "loginPage": "./e2e/pages/login.js",
+      "authLayout": "./e2e/pages/auth_layout.js",
+      "registrationPage": "./e2e/pages/register.js",
+      "mailboxPage": "./e2e/pages/mailbox.js"
+   },
+   "mocha": {
+      "reporterOptions": {
+         "reportDir": "output"
+      }
+   },
+   "bootstrap": false,
+   "teardown": null,
+   "hooks": [],
+   "gherkin": {},
+   "tests": "./e2e/tests/**/*_test.js",
+   "timeout": 10000,
+   "name": "ev-dashboard-new",
+   "multiple": {
+      "parallel": {
+         "chunks": 2
+      }
+   }
+}

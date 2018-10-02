@@ -299,11 +299,17 @@ export class CentralServerService {
   }
 
   public getUserRoles(): Observable<KeyValue[]> {
-    // Return
+    if (this.isUserAdmin()) {
+      return of([
+        { key: 'A', value: this.translateService.instant('users.role_admin') },
+        { key: 'S', value: this.translateService.instant('users.role_super_admin') },
+        { key: 'B', value: this.translateService.instant('users.role_basic') },
+        { key: 'D', value: this.translateService.instant('users.role_demo') }
+      ]);
+    }
     return of([
       { key: 'A', value: this.translateService.instant('users.role_admin') },
       { key: 'B', value: this.translateService.instant('users.role_basic') },
-      { key: 'C', value: this.translateService.instant('users.role_corporate') },
       { key: 'D', value: this.translateService.instant('users.role_demo') }
     ]);
   }
@@ -590,5 +596,9 @@ export class CentralServerService {
 
   private isAdmin() {
     return this.getLoggedUser().role === Constants.ROLE_ADMIN;
+  }
+
+  private isUserAdmin() {
+    return this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
   }
 }

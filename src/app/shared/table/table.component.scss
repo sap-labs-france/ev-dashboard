@@ -78,7 +78,8 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 .table-list {
-  overflow: auto; 
+  overflow: auto;
+  white-space: nowrap;
   height: 60vh;
   min-height: 250px;
   background-color: white;

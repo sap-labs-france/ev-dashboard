@@ -15,7 +15,7 @@ export class ChargerTableFilter extends TableFilter  {
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
       defaultValue: 'general.all',
       name: 'chargers.title',
-      class: 'col-150',
+      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ChargersDialogComponent
     };
     // Translate

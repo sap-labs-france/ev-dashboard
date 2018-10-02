@@ -1,8 +1,8 @@
 <div class="mat-elevation-z8">
   <!-- Toolbar -->
-  <mat-toolbar *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()">
+  <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
     <!-- Actions Row -->
-    <mat-toolbar-row *ngIf="dataSource.hasActions()" class="toolbar-row">
+    <div *ngIf="dataSource.hasActions()" class="row mat-toolbar-row">
       <!-- Create Left Actions -->
       <div class="filter-row" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
@@ -31,12 +31,12 @@
           {{actionRightDef.name}}
         </mat-slide-toggle>
       </div>
-    </mat-toolbar-row>
+    </div>
 
     <!-- Filters Row -->
-    <mat-toolbar-row *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="toolbar-row">
+    <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="row">
       <!-- Create Filters -->
-      <div [class]="(filterDef.class ? 'filter-row ' + filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
+      <div [class]="(filterDef.class ? filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
         <!-- Dropdown Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dropdown'">
           <mat-select [placeholder]="filterDef.name" [(value)]="filterDef.currentValue" (selectionChange)="filterChanged(filterDef)">
@@ -46,8 +46,7 @@
 
         <!-- Dialog Table Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-          <input matInput type="text" readonly=true [placeholder]="filterDef.name" class="form-field-popup" 
-            [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
+          <input matInput type="text" readonly=true [placeholder]="filterDef.name" class="form-field-popup" [value]="filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue"
             (click)="showDialogTableFilter(filterDef)" />
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="resetDialogTableFilter(filterDef)">
             <mat-icon>clear</mat-icon>
@@ -63,23 +62,23 @@
         </mat-form-field>
       </div>
       <!-- Search -->
-      <mat-form-field *ngIf="dataSource.isSearchEnabled()">
+      <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
         <input #searchInput matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)">
       </mat-form-field>
-    </mat-toolbar-row>
-  </mat-toolbar>
+    </div>
+  </div>
 
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">
     <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef class="text-left col-75 pt-2">
+        <th mat-header-cell *matHeaderCellDef class="text-left col-5p pt-2">
           <mat-checkbox [hidden]="!dataSource.isRowSelectionEnabled()" (change)="$event ? masterSelectToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
-        <td mat-cell *matCellDef="let row" class="text-left col-75 col-select pt-2">
+        <td mat-cell *matCellDef="let row" class="text-left col-5p col-select pt-2">
           <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
@@ -96,8 +95,8 @@
 
       <!-- Detailed Icon Column -->
       <ng-container matColumnDef="details">
-        <th mat-header-cell class="col-50 details-column-header" *matHeaderCellDef><i class="material-icons">keyboard_arrow_right</i></th>
-        <td mat-cell class="col-50 details-column-row" *matCellDef="let row">
+        <th mat-header-cell class="col-2p details-column-header" *matHeaderCellDef><i class="material-icons">keyboard_arrow_right</i></th>
+        <td mat-cell class="col-2p details-column-row" *matCellDef="let row">
           <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row[tableDef.rowDetails.hideShowField] : true" class="material-icons"
             (click)="showHideDetailsClicked(row)">{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</i>
         </td>

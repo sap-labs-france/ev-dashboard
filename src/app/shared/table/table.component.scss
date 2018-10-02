@@ -4,8 +4,8 @@ table {
   width: 100%;
 }
 
-.mat-form-field {
-  font-size: 14px;
+.mat-form-field, .mat-select-content, .mat-select, .mat-option {
+  font-size: 0.8rem !important;
   width: 100%;
 }
 
@@ -14,7 +14,7 @@ th {
 }
 
 td, th {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 tr.mat-row {
@@ -37,40 +37,40 @@ th:nth-child(n+2), td:nth-child(n+2) {
   border: 0;
 }
 
-.col-50 {
-  @include col-size(50px);
+.col-2p {
+  @include col-size(2%);
 }
 
-.col-75 {
-  @include col-size(75px);
+.col-5p {
+  @include col-size(5%);
 }
 
-.col-100 {
-  @include col-size(100px);
+.col-10p {
+  @include col-size(10%);
 }
 
-.col-150 {
-  @include col-size(150px);
+.col-15p {
+  @include col-size(15%);
 }
 
-.col-175 {
-  @include col-size(175px);
+.col-20p {
+  @include col-size(20%);
 }
 
-.col-200 {
-  @include col-size(200px);
+.col-25p {
+  @include col-size(25%);
 }
 
-.col-225 {
-  @include col-size(225px);
+.col-30p {
+  @include col-size(30%);
 }
 
-.col-300 {
-  @include col-size(300px);
+.col-40p {
+  @include col-size(40%);
 }
 
-.col-600 {
-  @include col-size(600px);
+.col-50p {
+  @include col-size(50%);
 }
 
 .filter-row {
@@ -78,18 +78,20 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 .table-list {
-  overflow: auto; 
-  height: calc(100vh - 300px);
+  overflow: auto;
+  white-space: nowrap;
+  height: 60vh;
   min-height: 250px;
   background-color: white;
 }
 
 .table-dialog-list {
   overflow: auto; 
-  min-height: 200px;
-  min-width: 800px;
+  min-height: 50vh;
+  min-width: 50vw;
+  width: 50vh;
   height: calc(100vh - (0.7 * 100vh));
-   background-color: white;
+  background-color: white;
 }
 
 .table-list-under-tabs {
@@ -111,10 +113,6 @@ tr.mat-footer-row {
   font-weight: bold;
 }
 
-.mat-toolbar-row {
-  margin-top: 5px;
-}
-
 .table-header {
   background-color: white;
 }
@@ -127,6 +125,8 @@ tr.mat-footer-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 .mat-toolbar-row {

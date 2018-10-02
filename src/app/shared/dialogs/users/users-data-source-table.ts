@@ -53,19 +53,19 @@ export class UsersDataSource extends DialogTableDataSource<User> {
             {
                 id: 'name',
                 name: this.translateService.instant('users.name'),
-                class: 'text-left',
+                class: 'text-left col-30p',
                 sorted: true,
                 direction: 'asc'
             },
             {
                 id: 'firstName',
                 name: this.translateService.instant('users.first_name'),
-                class: 'text-left'
+                class: 'text-left col-25p'
             },
             {
                 id: 'email',
                 name: this.translateService.instant('users.email'),
-                class: 'text-left'
+                class: 'text-left col-40p'
             }
         ];
     }

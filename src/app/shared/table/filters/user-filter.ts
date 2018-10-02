@@ -15,7 +15,7 @@ export class UserTableFilter extends TableFilter  {
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
       defaultValue: 'general.all',
       name: 'logs.user',
-      class: 'col-200',
+      class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: UsersDialogComponent
     };
     // Translate

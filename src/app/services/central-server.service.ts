@@ -79,7 +79,13 @@ export class CentralServerService {
       // Filter
       const filteredRoutes = this.routes.filter((route: RouteInfo) => {
         // Route for admin only?
-        if (route.admin && !this.isAdmin()) {
+        if (route.admin && !(this.isAdmin() || this.isUserSuperAdmin())) {
+          // Remove route
+          return null;
+        }
+
+        // Route for admin only?
+        if (route.superAdmin && !this.isUserSuperAdmin()) {
           // Remove route
           return null;
         }

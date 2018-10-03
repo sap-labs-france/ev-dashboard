@@ -43,6 +43,7 @@ export interface RouteInfo {
   collapse?: string;
   children?: ChildrenItems[];
   admin?: boolean;
+  superAdmin?: boolean;
 }
 
 export interface ChildrenItems {

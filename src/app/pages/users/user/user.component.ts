@@ -12,6 +12,7 @@ import { AuthorizationService } from '../../../services/authorization-service';
 import { MessageService } from '../../../services/message.service';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { UserSitesDataSource } from './user-sites-data-source-table';
+import { DialogService } from '../../../services/dialog.service';
 import { Constants } from '../../../utils/Constants';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
@@ -70,6 +71,7 @@ export class UserComponent implements OnInit {
             private localeService: LocaleService,
             private activatedRoute: ActivatedRoute,
             private dialog: MatDialog,
+            private dialogService: DialogService,
             private router: Router) {
         // Check auth
         if (!this.activatedRoute.snapshot.params['id'] ||
@@ -99,6 +101,7 @@ export class UserComponent implements OnInit {
             this.translateService,
             this.router,
             this.dialog,
+            this.dialogService,
             this.centralServerService);
     }
 

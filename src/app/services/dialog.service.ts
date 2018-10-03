@@ -3,22 +3,21 @@ import { DialogType, ButtonType } from '../common.types';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Constants } from '../utils/Constants';
+import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog-component';
 
 @Injectable()
 export class DialogService {
   constructor() {
   }
 
-  public createAndShowOkCancelDialog(dialog: MatDialog, component: any,
-      title: string, message: string): Observable<ButtonType> {
+  public createAndShowOkCancelDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, component, Constants.DIALOG_TYPE_OK_CANCEL, title, message);
+    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK_CANCEL, title, message);
   }
 
-  public createAndShowYesNoDialog(dialog: MatDialog, component: any,
-      title: string, message: string): Observable<ButtonType> {
+  public createAndShowYesNoDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, component, Constants.DIALOG_TYPE_YES_NO, title, message);
+    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO, title, message);
   }
 
   private _createAndShowDialog(dialog: MatDialog, component: any,

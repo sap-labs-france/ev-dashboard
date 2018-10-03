@@ -9,6 +9,8 @@ import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
+import { DialogService } from '../../../services/dialog.service';
+import { Constants } from '../../../utils/Constants';
 
 export class UserSitesDataSource extends TableDataSource<Site> {
     private user: User;
@@ -18,6 +20,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         private translateService: TranslateService,
         private router: Router,
         private dialog: MatDialog,
+        private dialogService: DialogService,
         private centralServerService: CentralServerService) {
         super();
     }
@@ -109,7 +112,23 @@ export class UserSitesDataSource extends TableDataSource<Site> {
                 break;
             // Remove
             case 'remove':
-                this._removeSites(this.getSelectedRows().map((row) => row.id));
+                // Empty?
+                if (this.getSelectedRows().length === 0) {
+                    this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+                } else {
+                    // Confirm
+                    this.dialogService.createAndShowYesNoDialog(
+                        this.dialog,
+                        this.translateService.instant('users.remove_sites_title'),
+                        this.translateService.instant('users.remove_sites_confirm')
+                    ).subscribe((response) => {
+                        // Check
+                        if (response === Constants.BUTTON_TYPE_YES) {
+                            // Remove
+                            this._removeSites(this.getSelectedRows().map((row) => row.id));
+                        }
+                    });
+                }
                 break;
         }
     }
@@ -127,32 +146,25 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     }
 
     private _removeSites(siteIDs) {
-        // Check
-        if (siteIDs && siteIDs.length > 0) {
-            // Yes: Update
-            this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
-                // Ok?
-                if (response.status === 'Success') {
-                    // Ok
-                    this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
-                    // Refresh
-                    this.loadData();
-                    // Clear selection
-                    this.clearSelectedRows()
-                } else {
-                    Utils.handleError(JSON.stringify(response),
-                        this.messageService, this.translateService.instant('users.update_error'));
-                }
-            }, (error) => {
-                // No longer exists!
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                    this.translateService.instant('users.update_error'));
-            });
-        } else {
-            // Show Message
-            this.messageService.showInfoMessage(
-                this.translateService.instant('general.must_select_record'));
-        }
+        // Yes: Update
+        this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
+            // Ok?
+            if (response.status === 'Success') {
+                // Ok
+                this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
+                // Refresh
+                this.loadData();
+                // Clear selection
+                this.clearSelectedRows()
+            } else {
+                Utils.handleError(JSON.stringify(response),
+                    this.messageService, this.translateService.instant('users.remove_sites_error'));
+            }
+        }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                this.translateService.instant('users.remove_sites_error'));
+        });
     }
 
     private _addSites(sites) {

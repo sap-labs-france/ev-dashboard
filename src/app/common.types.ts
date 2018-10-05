@@ -198,6 +198,17 @@ export interface LogResult {
   result: Log[]
 }
 
+export interface Tenant {
+  id: string;
+  name: string;
+  subdomain: string;
+}
+
+export interface TenantResult {
+  count: number,
+  result: Tenant[]
+}
+
 export interface Logo {
   id: string;
   logo: string;

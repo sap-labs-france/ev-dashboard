@@ -106,11 +106,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     public actionTriggered(actionDef: TableActionDef) {
         // Action
         switch (actionDef.id) {
-            // Add
-            case 'add':
-                this._showAddSitesDialog();
-                break;
-            // Remove
             case 'remove':
                 // Empty?
                 if (this.getSelectedRows().length === 0) {
@@ -130,10 +125,12 @@ export class UserSitesDataSource extends TableDataSource<Site> {
                     });
                 }
                 break;
+            default:
+                super.actionTriggered(actionDef);
         }
     }
 
-    private _showAddSitesDialog() {
+    public showAddComponent() {
         const dialogConfig = new MatDialogConfig();
         // Set data
         dialogConfig.data = {

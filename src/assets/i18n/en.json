@@ -83,6 +83,7 @@
 			"manufacturers": "Manufacturers",
 			"vehicles": "Vehicles",
 			"logs": "Logs",
+			"tenants": "Tenants",
 			"pricing": "Pricing"
 		}
 	},
@@ -595,5 +596,15 @@
 		"create_error": "Error occurred while creating the user",
 		"no_users": "No users found",
 		"select_users": "Select Users"
+	},
+	"tenants": {
+		"title": "Tenant",
+		"name": "Name",
+		"subdomain": "Subdomain",
+		"create_success": "The tenant {{name}} has been created successfully",
+		"create_error": "Error occurred while creating the tenant",
+		"already_used": "The tenant name is already used",
+		"subdomain_already_used": "The subdomain name is already used",
+		"update_error": "Error occurred while updating the tenant"
 	}
 }

@@ -12,7 +12,7 @@ import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import {
   ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue, UserResult
+  User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant
 } from '../common.types';
 
 @Injectable()
@@ -40,6 +40,14 @@ export class CentralServerService {
       type: 'link',
       icontype: 'list',
       admin: true
+    },
+    {
+      id: 'tenants',
+      path: '/tenants',
+      title: 'Tenants',
+      type: 'link',
+      icontype: 'account_balance',
+      superAdmin: true
     }
   ];
 
@@ -219,6 +227,33 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createTenant(tenant: Tenant) {
+    this._checkInit();
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this._handleHttpError)

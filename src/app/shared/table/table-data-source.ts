@@ -31,7 +31,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         if (!this.actionsDef) {
             this.actionsDef = this.getTableActionsDef();
             // Check known actions
-            this._checkKnownActions(this.actionsRightDef);
+            this._checkKnownActions(this.actionsDef);
         }
         if (!this.actionsRightDef) {
             // Get
@@ -238,6 +238,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return {};
     }
 
+    public showAddComponent() {
+    }
+
     public filterChanged(filter: TableFilterDef) {
         // Update Filter
         const foundFilter = this.filtersDef.find((filterDef) => {
@@ -252,9 +255,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public actionTriggered(actionDef: TableActionDef) {
         // Check common actions
         switch (actionDef.id) {
-            // Refresh
             case 'refresh':
-                // Reload data
                 this.loadData();
                 break;
             // Auto Refresh
@@ -267,6 +268,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
                     // Disable
                     this.unregisterToDataChange();
                 }
+                break;
+            case 'add':
+                this.showAddComponent();
                 break;
         }
     }

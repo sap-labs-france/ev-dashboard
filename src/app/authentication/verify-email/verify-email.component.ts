@@ -6,6 +6,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { Utils } from '../../utils/Utils';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -27,6 +28,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       private centralServerService: CentralServerService,
       private router: Router,
       private route: ActivatedRoute,
+      private spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private configService: ConfigService) {
@@ -93,9 +95,12 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   verifyEmail(data) {
-    const queryString = {'Email': data.email, 'VerificationToken': data.verificationToken};
+    // Show
+    this.spinnerService.show();
     // Verify Email
-    this.centralServerService.verifyEmail(queryString).subscribe((response) => {
+    this.centralServerService.verifyEmail({'Email': data.email, 'VerificationToken': data.verificationToken}).subscribe((response) => {
+      // Hide
+      this.spinnerService.hide();
       // Success
       if (response.status && response.status === 'Success') {
         // Show message
@@ -109,6 +114,8 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         this.messageService, this.messages['verify_email_error']);
       }
     }, (error) => {
+      // Hide
+      this.spinnerService.hide();
       // Check status error code
       switch (error.status) {
         // Account already active
@@ -138,7 +145,12 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   resendVerificationEmail(data) {
+    // Show
+    this.spinnerService.show();
+    // Resend
     this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
+      // Hide
+      this.spinnerService.hide();
       // Success
       if (response.status && response.status === 'Success') {
           // Show message
@@ -151,6 +163,8 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         this.messageService, this.messages['verify_email_resend_error']);
       }
     }, (error) => {
+      // Hide
+      this.spinnerService.hide();
       // Check status error code
       switch (error.status) {
         // Account already active
@@ -173,5 +187,4 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 }

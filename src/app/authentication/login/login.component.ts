@@ -9,6 +9,7 @@ import { Utils } from '../../utils/Utils';
 import { Constants } from '../../utils/Constants';
 import { DialogService } from '../../services/dialog.service';
 import { MatDialog } from '@angular/material';
+import { SpinnerService } from '../../services/spinner.service';
 
 declare var $: any;
 
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             private route: ActivatedRoute,
             private router: Router,
             private dialog: MatDialog,
+            private spinnerService: SpinnerService,
             private dialogService: DialogService,
             private messageService: MessageService,
             private translateService: TranslateService) {
@@ -112,13 +114,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     login(user: Object): void {
+        // Show
+        this.spinnerService.show();
         // Login
         this.centralServerService.login(user).subscribe((result) => {
+            // Hide
+            this.spinnerService.hide();
             // Success
             this.centralServerService.loggingSucceeded(result.token);
             // login successful so redirect to return url
             this.router.navigate([this.returnUrl]);
         }, (error) => {
+            // Hide
+            this.spinnerService.hide();
             // Check error code
             switch (error.status) {
                 // Wrong email or password

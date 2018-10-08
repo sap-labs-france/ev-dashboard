@@ -8,6 +8,7 @@ import { MessageService } from '../../services/message.service';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
     selector: 'app-register-cmp',
@@ -34,6 +35,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             private centralServerService: CentralServerService,
             private router: Router,
             private messageService: MessageService,
+            private spinnerService: SpinnerService,
             private translateService: TranslateService,
             private configService: ConfigService) {
         // Load the tranlated messages
@@ -109,8 +111,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     register(user) {
         if (this.formGroup.valid) {
+            // Show
+            this.spinnerService.show();
             // Create
             this.centralServerService.registerUser(user).subscribe((response) => {
+                // Hide
+                this.spinnerService.hide();
                 // Ok?
                 if (response.status && response.status === 'Success') {
                     // Show success
@@ -123,6 +129,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
                         this.messageService, this.messages['register_user_error']);
                 }
             }, (error) => {
+                // Hide
+                this.spinnerService.hide();
                 // Enabled again
                 this.recaptcha.reset();
                 // Check status

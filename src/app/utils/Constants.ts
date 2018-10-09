@@ -1,6 +1,8 @@
 import { FilterType, DialogType, ButtonType } from '../common.types';
 
 export class Constants {
+  public static REST_RESPONSE_SUCCESS = 'Success';
+
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';

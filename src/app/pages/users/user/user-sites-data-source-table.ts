@@ -146,7 +146,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Yes: Update
         this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
             // Ok?
-            if (response.status === 'Success') {
+            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
                 // Ok
                 this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
                 // Refresh
@@ -172,7 +172,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
             // Yes: Update
             this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe(response => {
                 // Ok?
-                if (response.status === 'Success') {
+                if (response.status === Constants.REST_RESPONSE_SUCCESS) {
                     // Ok
                     this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
                     // Refresh

@@ -6,6 +6,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { Utils } from '../../utils/Utils';
+import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -97,7 +98,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     // Verify Email
     this.centralServerService.verifyEmail(queryString).subscribe((response) => {
       // Success
-      if (response.status && response.status === 'Success') {
+      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Show message
         this.messageService.showSuccessMessage(this.messages['verify_email_success']);
         // Go to login
@@ -140,7 +141,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   resendVerificationEmail(data) {
     this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
       // Success
-      if (response.status && response.status === 'Success') {
+      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Show message
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login

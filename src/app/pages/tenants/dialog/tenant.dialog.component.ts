@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
+import { Constants } from '../../../utils/Constants';
 
 @Component({
     templateUrl: './tenant.dialog.component.html',
@@ -66,7 +67,7 @@ export class TenantDialogComponent implements OnInit {
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === 'Success') {
+            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
                 // Ok
                 this.messageService.showSuccessMessage(this.translateService.instant('tenants.create_success',
                     { 'name': tenant.name }));

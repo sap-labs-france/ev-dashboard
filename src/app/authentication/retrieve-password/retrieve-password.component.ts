@@ -6,6 +6,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { Utils } from '../../utils/Utils';
+import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-retrieve-password-cmp',
@@ -83,7 +84,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
     // Yes: Update
     this.centralServerService.resetUserPassword(data).subscribe((response) => {
       // Success
-      if (response.status && response.status === 'Success') {
+      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Show message`
         this.messageService.showSuccessMessage(
           this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);

@@ -10,7 +10,6 @@ import { CentralServerService } from '../../services/central-server.service';
 import { LocaleService } from '../../services/locale.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
 import { TableAddAction } from '../../shared/table/actions/table-add-action';
 import { MatDialogConfig, MatDialog } from '@angular/material';
@@ -30,20 +29,29 @@ export class TenantsDataSource extends TableDataSource<Log> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectLoggings();
+    return this.centralServerNotificationService.getSubjectTenants();
   }
 
   public loadData() {
+    // Show
     this.spinnerService.show();
+    // Get the Tenants
     this.centralServerService.getTenants(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((tenants) => {
+        // Hide
         this.spinnerService.hide();
+        // Update nbr records
         this.setNumberOfRecords(tenants.count);
+        // Update Paginator
         this.updatePaginator();
+        // Notify
         this.getDataSubjet().next(tenants.result);
+        // Set the data
         this.setData(tenants.result);
       }, (error) => {
+        // Hide
         this.spinnerService.hide();
+        // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
@@ -76,10 +84,6 @@ export class TenantsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public getPaginatorPageSizes() {
-    return [50, 100, 250, 500, 1000, 2000];
-  }
-
   public getTableActionsDef(): TableActionDef[] {
     return [
       new TableAddAction(this.translateService).getActionDef(),
@@ -87,10 +91,21 @@ export class TenantsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public showAddComponent() {
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+        // Add
+        case 'add':
+            this._showAddTenant();
+            break;
+    }
+  }
+
+  public _showAddTenant() {
+    // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    // Open
+    this.dialog.open(TenantDialogComponent, dialogConfig);
   }
 
   public getTableActionsRightDef(): TableActionDef[] {

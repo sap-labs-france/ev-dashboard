@@ -238,9 +238,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return {};
     }
 
-    public showAddComponent() {
-    }
-
     public filterChanged(filter: TableFilterDef) {
         // Update Filter
         const foundFilter = this.filtersDef.find((filterDef) => {
@@ -268,9 +265,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
                     // Disable
                     this.unregisterToDataChange();
                 }
-                break;
-            case 'add':
-                this.showAddComponent();
                 break;
         }
     }

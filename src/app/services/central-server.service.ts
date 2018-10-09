@@ -86,15 +86,15 @@ export class CentralServerService {
     if (!this.routesTranslated) {
       // Filter
       const filteredRoutes = this.routes.filter((route: RouteInfo) => {
-        // Route for admin only?
+        // Route for Admins?
         if (route.admin && !(this.isAdmin() || this.isUserSuperAdmin())) {
-          // Remove route
+          // Not Admins: Remove route
           return null;
         }
 
-        // Route for admin only?
+        // Only for Super Admin only?
         if (route.superAdmin && !this.isUserSuperAdmin()) {
-          // Remove route
+          // Not Super Admin: Remove route
           return null;
         }
         // Ok
@@ -234,11 +234,13 @@ export class CentralServerService {
   }
 
   public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+    // Verify init
     this._checkInit();
+    // Build Paging
     this._buildPaging(paging, params);
+    // Build Ordering
     this._buildOrdering(ordering, params);
     // Execute the REST service
-    // Execute
     return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
       {
         headers: this._buildHttpHeaders(),
@@ -250,7 +252,9 @@ export class CentralServerService {
   }
 
   public createTenant(tenant: Tenant) {
+    // Verify init
     this._checkInit();
+    // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
       {
         headers: this._buildHttpHeaders()

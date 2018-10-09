@@ -8,6 +8,8 @@ import { Constants } from '../utils/Constants';
 @Injectable()
 export class CentralServerNotificationService {
   private centralRestServerServiceURL: String;
+  private subjectTenants = new Subject<SubjectInfo>();
+  private subjectTenant = new Subject<SubjectInfo>();
   private subjectChargingStations = new Subject<SubjectInfo>();
   private subjectChargingStation = new Subject<SubjectInfo>();
   private subjectCompanies = new Subject<SubjectInfo>();
@@ -102,6 +104,14 @@ export class CentralServerNotificationService {
     return this.subjectLoggings.asObservable();
   }
 
+  public getSubjectTenants(): Observable<SubjectInfo> {
+    return this.subjectTenants.asObservable();
+  }
+
+  public getSubjectTenant(): Observable<SubjectInfo> {
+    return this.subjectTenant.asObservable();
+  }
+
   public initSocketIO() {
     // Check
     if (!this.socket) {
@@ -118,6 +128,18 @@ export class CentralServerNotificationService {
       this.socket.on(Constants.ENTITY_COMPANY, (notifInfo) => {
         // Notify
         this.subjectCompany.next(notifInfo);
+      });
+
+      // Monitor Tenants
+      this.socket.on(Constants.ENTITY_TENANTS, () => {
+        // Notify
+        this.subjectTenants.next();
+      });
+
+      // Monitor Tenant
+      this.socket.on(Constants.ENTITY_TENANT, (notifInfo) => {
+        // Notify
+        this.subjectTenant.next(notifInfo);
       });
 
       // Monitor Sites

@@ -1,6 +1,8 @@
 import { FilterType, DialogType, ButtonType } from '../common.types';
 
 export class Constants {
+  public static REST_RESPONSE_SUCCESS = 'Success';
+
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';
@@ -12,6 +14,8 @@ export class Constants {
   public static ENTITY_VEHICLES = 'Vehicles';
   public static ENTITY_USER = 'User';
   public static ENTITY_USERS = 'Users';
+  public static ENTITY_TENANT = 'Tenant';
+  public static ENTITY_TENANTS = 'Tenants';
   public static ENTITY_COMPANY = 'Company';
   public static ENTITY_COMPANIES = 'Companies';
   public static ENTITY_SITE = 'Site';

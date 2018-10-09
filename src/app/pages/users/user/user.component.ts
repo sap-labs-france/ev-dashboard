@@ -403,7 +403,7 @@ export class UserComponent implements OnInit {
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === 'Success') {
+            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
                 // Ok
                 this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
                     { 'userFullName': user.firstName + ' ' + user.name }));

@@ -9,6 +9,7 @@ import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { SpinnerService } from '../../services/spinner.service';
+import { Constants } from '../../utils/Constants';
 
 @Component({
     selector: 'app-register-cmp',
@@ -118,7 +119,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 // Hide
                 this.spinnerService.hide();
                 // Ok?
-                if (response.status && response.status === 'Success') {
+                if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
                     // Show success
                     this.messageService.showSuccessMessage(this.messages['register_user_success']);
                     // login successful so redirect to return url

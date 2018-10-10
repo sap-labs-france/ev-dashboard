@@ -107,6 +107,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
+export function getLocalStorage() {
+  return (typeof window !== "undefined") ? window.localStorage : null;
+}
+
 export function configFactory(config: ConfigService) {
   return () => config.load();
 }

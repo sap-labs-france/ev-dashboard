@@ -66,6 +66,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AppRouting } from './app.routing';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { WindowService } from './services/window.service';
+import { NotFoundComponent } from './pages/notfound/not-found.component';
 
 @NgModule({
   exports: [
@@ -155,6 +156,7 @@ export function localeFactory(
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    NotFoundComponent,
     ReleaseNotesComponent
   ],
   exports: [

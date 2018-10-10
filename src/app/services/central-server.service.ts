@@ -14,6 +14,7 @@ import {
   ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
   User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant
 } from '../common.types';
+import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
@@ -56,7 +57,8 @@ export class CentralServerService {
     private translateService: TranslateService,
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private windowService: WindowService) {
     // Default
     this.initialized = false;
   }
@@ -115,7 +117,9 @@ export class CentralServerService {
   private _buildHttpHeaders() {
     const header = {
       'Content-Type': 'application/json',
+      'Tenant': this.windowService.getSubdomain()
     };
+
     // Check token
     if (this.getLoggedUserToken()) {
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
@@ -256,6 +260,19 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public verifyTenant(): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/VerifyTenant`,
       {
         headers: this._buildHttpHeaders()
       })

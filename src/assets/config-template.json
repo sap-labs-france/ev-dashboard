@@ -6,6 +6,9 @@
 		"pollEnabled": false,
 		"pollIntervalSecs": 5
 	},
+	"FrontEnd": {
+		"host": "localhost"
+	},
 	"Authorization": {
 		"debug": false
 	},

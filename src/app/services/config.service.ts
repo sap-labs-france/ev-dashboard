@@ -29,6 +29,10 @@ export class ConfigService {
     return this._config['CentralSystemServer'];
   }
 
+  public getFrontEnd() {
+    return this._config['FrontEnd'];
+  }
+
   public getLocales() {
     return this._config['Locales'];
   }

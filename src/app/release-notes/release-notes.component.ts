@@ -45,8 +45,8 @@ export class ReleaseNotesComponent {
         {
           name: 'Account Activation',
           changes: [
-            `Account activation`,
-            `Resend account activation via email`
+            `Implemented automatic Account activation (via email)`,
+            `Resend Account activation link via email (in case of the first email is lost)`
           ]
         },
         {

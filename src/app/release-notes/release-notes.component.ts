@@ -19,6 +19,26 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.4',
+      date: new Date('2018-10-10'),
+      componentChanges: [
+        {
+          name: 'Tenant Management',
+          changes: [
+            `Implemented Super Admin role`,
+            `Implemented Tenant Management (only visible to users with Super Admin role)`
+          ]
+        },
+        {
+          name: 'Unit Test',
+          changes: [
+            `Implemented Unit Tests framework`,
+            `Delivered Unit Test: User Registration`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.3',
       date: new Date('2018-09-29'),
       componentChanges: [

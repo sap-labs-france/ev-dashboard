@@ -31,7 +31,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         if (!this.actionsDef) {
             this.actionsDef = this.getTableActionsDef();
             // Check known actions
-            this._checkKnownActions(this.actionsRightDef);
+            this._checkKnownActions(this.actionsDef);
         }
         if (!this.actionsRightDef) {
             // Get
@@ -252,9 +252,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public actionTriggered(actionDef: TableActionDef) {
         // Check common actions
         switch (actionDef.id) {
-            // Refresh
             case 'refresh':
-                // Reload data
                 this.loadData();
                 break;
             // Auto Refresh

@@ -6,6 +6,8 @@ import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { Utils } from '../../utils/Utils';
+import { Constants } from '../../utils/Constants';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-retrieve-password-cmp',
@@ -25,6 +27,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
       private centralServerService: CentralServerService,
       private router: Router,
       private route: ActivatedRoute,
+      private spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private configService: ConfigService) {
@@ -58,7 +61,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
     setTimeout(function () {
-      // after 1000 ms we add the class animated to the login/register card
+      // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
     // Check the hash
@@ -80,10 +83,14 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   }
 
   resetPassword(data) {
+    // Show
+    this.spinnerService.show();
     // Yes: Update
     this.centralServerService.resetUserPassword(data).subscribe((response) => {
+      // Hide
+      this.spinnerService.hide();
       // Success
-      if (response.status && response.status === 'Success') {
+      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Show message`
         this.messageService.showSuccessMessage(
           this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
@@ -98,6 +105,8 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
           });
       }
     }, (error) => {
+      // Hide
+      this.spinnerService.hide();
       // Reset
       this.recaptcha.reset();
       // Check status error code
@@ -116,7 +125,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
           // Unexpected error`
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('general.unexpected_error_backend'));
-}
+      }
     });
   }
 }

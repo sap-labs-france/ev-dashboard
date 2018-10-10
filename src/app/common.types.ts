@@ -43,6 +43,7 @@ export interface RouteInfo {
   collapse?: string;
   children?: ChildrenItems[];
   admin?: boolean;
+  superAdmin?: boolean;
 }
 
 export interface ChildrenItems {
@@ -195,6 +196,17 @@ export interface Log {
 export interface LogResult {
   count: number,
   result: Log[]
+}
+
+export interface Tenant {
+  id: string;
+  name: string;
+  subdomain: string;
+}
+
+export interface TenantResult {
+  count: number,
+  result: Tenant[]
 }
 
 export interface Logo {

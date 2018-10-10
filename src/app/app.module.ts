@@ -64,6 +64,8 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRouting } from './app.routing';
+import { WINDOW_PROVIDERS } from './providers/window.provider';
+import { WindowService } from './services/window.service';
 
 @NgModule({
   exports: [
@@ -108,7 +110,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function getLocalStorage() {
-  return (typeof window !== "undefined") ? window.localStorage : null;
+  return (typeof window !== 'undefined') ? window.localStorage : null;
 }
 
 export function configFactory(config: ConfigService) {
@@ -159,6 +161,7 @@ export function localeFactory(
     TranslateModule
   ],
   providers: [
+    WINDOW_PROVIDERS,
     CentralServerService,
     CentralServerNotificationService,
     AuthorizationService,
@@ -170,6 +173,7 @@ export function localeFactory(
     MessageService,
     ConfigService,
     TranslateService,
+    WindowService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
   ],

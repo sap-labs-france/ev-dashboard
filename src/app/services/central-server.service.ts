@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { throwError, of } from 'rxjs';
@@ -114,11 +114,14 @@ export class CentralServerService {
     return of(this.routesTranslated);
   }
 
-  private _buildHttpHeaders() {
+  private _buildHttpHeaders(tenant?: String) {
     const header = {
-      'Content-Type': 'application/json',
-      'Tenant': this.windowService.getSubdomain()
+      'Content-Type': 'application/json'
     };
+
+    if (tenant !== undefined) {
+      header['Tenant'] = tenant;
+    }
 
     // Check token
     if (this.getLoggedUserToken()) {
@@ -274,7 +277,7 @@ export class CentralServerService {
     // Execute
     return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/VerifyTenant`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
       })
       .pipe(
         catchError(this._handleHttpError)
@@ -446,6 +449,8 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
+
+    user['tenant'] = this.windowService.getSubdomain();
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {
         headers: this._buildHttpHeaders()

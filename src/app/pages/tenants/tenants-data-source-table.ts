@@ -94,10 +94,12 @@ export class TenantsDataSource extends TableDataSource<Log> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-        // Add
-        case 'add':
-            this._showAddTenant();
-            break;
+      // Add
+      case 'add':
+        this._showAddTenant();
+        break;
+      default:
+        super.actionTriggered(actionDef);
     }
   }
 

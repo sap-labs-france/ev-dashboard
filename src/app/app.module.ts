@@ -64,6 +64,9 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRouting } from './app.routing';
+import { WINDOW_PROVIDERS } from './providers/window.provider';
+import { WindowService } from './services/window.service';
+import { NotFoundComponent } from './pages/notfound/not-found.component';
 
 @NgModule({
   exports: [
@@ -105,6 +108,10 @@ export class MaterialModule { }
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
+}
+
+export function getLocalStorage() {
+  return (typeof window !== 'undefined') ? window.localStorage : null;
 }
 
 export function configFactory(config: ConfigService) {
@@ -149,12 +156,14 @@ export function localeFactory(
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    NotFoundComponent,
     ReleaseNotesComponent
   ],
   exports: [
     TranslateModule
   ],
   providers: [
+    WINDOW_PROVIDERS,
     CentralServerService,
     CentralServerNotificationService,
     AuthorizationService,
@@ -166,6 +175,7 @@ export function localeFactory(
     MessageService,
     ConfigService,
     TranslateService,
+    WindowService,
     { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
   ],

@@ -5,10 +5,14 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { RouteGuardService } from './services/route-guard.service';
 import { ModuleWithProviders } from '@angular/core';
+import { NotFoundComponent } from './pages/notfound/not-found.component';
 
 export const AppRoutes: Routes = [
     {
         path: '', redirectTo: 'dashboard', pathMatch: 'full',
+    },
+    {
+        path: 'not-found', component: NotFoundComponent,
     },
     {
         path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',

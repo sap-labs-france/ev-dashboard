@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { throwError, of } from 'rxjs';
@@ -14,6 +14,7 @@ import {
   ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
   User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant
 } from '../common.types';
+import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
@@ -56,7 +57,8 @@ export class CentralServerService {
     private translateService: TranslateService,
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private windowService: WindowService) {
     // Default
     this.initialized = false;
   }
@@ -112,10 +114,15 @@ export class CentralServerService {
     return of(this.routesTranslated);
   }
 
-  private _buildHttpHeaders() {
+  private _buildHttpHeaders(tenant?: String) {
     const header = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
+
+    if (tenant !== undefined) {
+      header['Tenant'] = tenant;
+    }
+
     // Check token
     if (this.getLoggedUserToken()) {
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
@@ -258,6 +265,19 @@ export class CentralServerService {
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
       {
         headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public verifyTenant(): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/VerifyTenant`,
+      {
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
       })
       .pipe(
         catchError(this._handleHttpError)
@@ -428,6 +448,8 @@ export class CentralServerService {
   public login(user): Observable<any> {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {

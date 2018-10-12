@@ -448,9 +448,9 @@ export class CentralServerService {
   public login(user): Observable<any> {
     // Verify init
     this._checkInit();
-    // Execute
-
+    // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
+    // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {
         headers: this._buildHttpHeaders()

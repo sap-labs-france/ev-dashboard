@@ -600,6 +600,8 @@
 	"tenants": {
 		"title": "Tenant",
 		"name":"Nom",
+		"tenant_management": "Gestion des Tenants",
+		"tenant_not_found": "Ce tenant n'existe pas ! Vous ne pouvez pas vous connecter !",
 		"subdomain": "Sous Domaine",
 		"create_success": "Le tenant {{name}} a été créé avec succès",
 		"create_error": "Une erreur est survenue pendant la création du tenant",

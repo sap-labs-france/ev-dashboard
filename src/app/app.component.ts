@@ -19,7 +19,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // Check the Tenant
     this.centralServerService.verifyTenant().subscribe(() => {
+      // Tenant Ok
       this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
         const body = document.getElementsByTagName('body')[0];
         const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];

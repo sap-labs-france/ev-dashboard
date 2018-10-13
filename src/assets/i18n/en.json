@@ -600,6 +600,8 @@
 	"tenants": {
 		"title": "Tenant",
 		"name": "Name",
+		"tenant_management": "Tenant Management",
+		"tenant_not_found": "This tenant does not exist! You cannot login!",
 		"subdomain": "Subdomain",
 		"create_success": "The tenant {{name}} has been created successfully",
 		"create_error": "Error occurred while creating the tenant",

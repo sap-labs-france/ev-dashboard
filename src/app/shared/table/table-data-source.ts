@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel, DataSource } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef, Variant } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
@@ -19,6 +19,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     private data: T[] = [];
     private dataChangeSubscription: Subscription;
     private staticFilters = [];
+    private viewID: string;
+    private variants: Variant[];
 
     private _checkInitialized(): any {
         // Check
@@ -39,6 +41,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             // Check known actions
             this._checkKnownActions(this.actionsRightDef);
         }
+        if (!this.viewID) {
+            this.viewID = this.getViewID();
+          }
+          if (!this.variants) {
+            this.variants = this.getVariants();
+          }
     }
 
     public isEmpty(): boolean {
@@ -341,6 +349,63 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public getStaticFilters() {
         // Keep it
         return this.staticFilters;
+    }
+
+    public variantChanged(variant: Variant) {
+        // Get variant
+        const foundVariant = this.variants.find(variantDef => {
+            return variantDef.name === variant.name;
+        });
+        // Set filter values
+        foundVariant.filters.forEach(filter => {
+            const foundFilter = this.filtersDef.find(filterDef => {
+                return filterDef.id === filter.filterID;
+            });
+            // Update value
+            foundFilter.currentValue = filter.filterContent;
+        });
+        // Reload data
+        this.loadData();
+    }
+
+    public variantDeleted(variant: Variant) {
+        const foundVariant = this.variants.find(variantDef => {
+            return variantDef.name === variant.name;
+        });
+        // Set filter values
+        foundVariant.filters.forEach(filter => {
+            const foundFilter = this.filtersDef.find(filterDef => {
+                return filterDef.id === filter.filterID;
+            });
+            // Clear value
+            foundFilter.currentValue = null;
+        });
+        const index = this.variants.indexOf(foundVariant, 0);
+        this.variants.splice(index, 1);
+        // Reload data
+        this.loadData();
+    }
+
+    public variantCreated(variant) {
+        this.variants.push(variant);
+    }
+
+    public variantUpdated(variant) {
+        // Get variant
+        const foundVariant = this.variants.find(variantDef => {
+            return variantDef.name === variant.name;
+        });
+        // Update filter
+        foundVariant.filters = JSON.parse(JSON.stringify(variant));
+    }
+
+
+    public getVariants() {
+        return [];
+    }
+
+    public getViewID() {
+        return '';
     }
 
     abstract getTableColumnDefs(): TableColumnDef[];

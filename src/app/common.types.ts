@@ -274,6 +274,9 @@ export interface TableDef {
   search?: {
     enabled: boolean;
   },
+  variant?: {
+    enabled: boolean;
+  },
   rowDetails?: {
     enabled: boolean;
     detailsField: string;
@@ -390,4 +393,22 @@ export interface Vehicle {
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
+}
+
+export interface Filter {
+  filterID: string;
+  filterContent: string;
+}
+
+export interface Variant {
+  id: string;
+  name: string;
+  viewID: string;
+  userID: string;
+  filters: Filter[]
+}
+
+export interface VariantResult {
+  count: number,
+  result: Variant[]
 }

@@ -12,7 +12,7 @@ import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import {
   ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue, UserResult
+  User, RouteInfo, ChargerResult, KeyValue, UserResult, VariantResult, Variant
 } from '../common.types';
 
 @Injectable()
@@ -376,7 +376,10 @@ export class CentralServerService {
       { key: 'TransactionSoftStop', value: 'TransactionSoftStop' },
       { key: 'UserCreate', value: 'UserCreate' },
       { key: 'UserDelete', value: 'UserDelete' },
-      { key: 'UserUpdate', value: 'UserUpdate' }
+      { key: 'UserUpdate', value: 'UserUpdate' },
+      { key: 'VariantCreate', value: 'VariantCreate' },
+      { key: 'VariantUpdate', value: 'VariantUpdate' },
+      { key: 'VariantDelete', value: 'VariantDelete' }
     ]);
   }
 
@@ -575,6 +578,78 @@ export class CentralServerService {
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {
         headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createVariant(variant): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/VariantCreate`, variant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateVariant(variant): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/VariantUpdate`, variant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteVariant(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/VariantDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getVariant(id): Observable<Variant> {
+    // Verify init
+    this._checkInit();
+    // Call
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Variant?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getVariants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<VariantResult>(`${this.centralRestServerServiceSecuredURL}/Variants`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this._handleHttpError)

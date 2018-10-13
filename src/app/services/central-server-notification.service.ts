@@ -209,6 +209,18 @@ export class CentralServerNotificationService {
         // Notify
         this.subjectLoggings.next();
       });
+
+      // Monitor Variants
+      this.socket.on(Constants.ENTITY_VARIANTS, () => {
+        // Notify
+        this.subjectTransactions.next();
+      });
+
+      // Monitor Variant
+      this.socket.on(Constants.ENTITY_VARIANT, (notifInfo) => {
+        // Notify
+        this.subjectTransaction.next(notifInfo);
+      });
     }
   }
 

@@ -11,6 +11,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
+import { Filter, Variant } from '../../common.types';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -42,6 +43,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
+  private variants: Variant[];
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
@@ -100,6 +102,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadData();
       }
     );
+    // Variants
+    this.variants = this.dataSource.getVariants();
   }
 
   ngAfterViewInit() {
@@ -249,4 +253,66 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       row.isExpanded = false;
     }
   }
+
+  public handleVariantChanged(variant) {
+    this.dataSource.variantChanged(variant);
+  }
+
+  public handleDeleteVariant(variant) {
+    // Delete
+    this.centralServerService.deleteVariant(variant).subscribe(
+      (result) => {
+        if (result) {
+          this.dataSource.variantDeleted(variant);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public handleSaveVariant(variant) {
+    let createdVariant: Variant;
+    // Filters
+    createdVariant.filters = [];
+    const filters = this.dataSource.getFilterValues();
+    for (const key in filters) {
+      if (filters.hasOwnProperty(key)) {
+        const filter: Filter = { filterID: key, filterContent: filters[key] };
+        createdVariant.filters.push(filter);
+      }
+    };
+    // Create or Update?
+    const foundVariant = this.dataSource.getVariants().find(variantDef => {
+      return variantDef.name === variant.name;
+    });
+    if (!foundVariant) {
+      // Create
+      createdVariant.viewID = this.dataSource.getViewID();
+      createdVariant.userID = variant.userID;
+      this.centralServerService.createVariant(variant).subscribe(
+        (result) => {
+          if (result) {
+            this.dataSource.variantCreated(result);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      // Update
+      this.centralServerService.updateVariant(variant).subscribe(
+        (result) => {
+          if (result) {
+            this.dataSource.variantUpdated(result);
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+    }
+  }
+
 }

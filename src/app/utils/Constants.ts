@@ -24,6 +24,8 @@ export class Constants {
   public static ENTITY_CHARGING_STATIONS = 'ChargingStations';
   public static ENTITY_LOGGING = 'Logging';
   public static ENTITY_LOGGINGS = 'Loggings';
+  public static ENTITY_VARIANT = 'Variant';
+  public static ENTITY_VARIANTS = 'Variants';
   public static ACTION_CREATE = 'Create';
   public static ACTION_READ = 'Read';
   public static ACTION_UPDATE = 'Update';

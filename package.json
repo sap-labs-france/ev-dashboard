@@ -1,10 +1,9 @@
 {
-  "name": "md-angular-cli-pro",
-  "version": "2.1.0",
-  "license": "https://demos.creative-tim.com/material-dashboard-pro-angular2/documentation/tutorial",
+  "name": "ev-dashboard",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/creativetimofficial/ct-material-dashboard-pro-angular.git"
+    "url": "https://github.com/LucasBrazi06/ev-dashboard-new"
   },
   "scripts": {
     "ng": "ng",

@@ -30,6 +30,8 @@ export class AppComponent implements OnInit, AfterViewInit {
           modalBackdrop.remove();
         }
       });
+      // Redirect to the Dashboard
+      this.router.navigate(['/']);
     }, (error) => {
       // Redirect to the not found page
       this.router.navigate(['not-found']);

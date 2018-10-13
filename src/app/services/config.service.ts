@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { log } from 'util';
 
 @Injectable()
 export class ConfigService {
@@ -30,7 +31,7 @@ export class ConfigService {
   }
 
   public getFrontEnd() {
-    return this._config['FrontEnd'];
+    return (this._config['FrontEnd'] ? this._config['FrontEnd'] : { host: 'localhost' });
   }
 
   public getLocales() {

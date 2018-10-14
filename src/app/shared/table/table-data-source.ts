@@ -2,8 +2,9 @@ import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel, DataSource } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef, Variant } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef, Variant, FilterType } from '../../common.types';
 import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
@@ -20,7 +21,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     private dataChangeSubscription: Subscription;
     private staticFilters = [];
     private viewID: string;
-    protected variants: Variant[];
+    private variants: Variant[];
     private selectedVariant: Variant;
 
     private _checkInitialized(): any {
@@ -44,9 +45,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
         if (!this.viewID) {
             this.viewID = this.getViewID();
-        }
-        if (!this.variants) {
-            this.variants = this.getVariants();
         }
     }
 
@@ -358,8 +356,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
 
     public variantChanged(variant: Variant) {
-        console.log(this.variants);
-        console.log(variant);
         // Get variant
         const foundVariant = this.variants.find(variantDef => {
             return variantDef.name === variant.name && variantDef.userID === variant.userID;
@@ -370,10 +366,29 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             const foundFilter = this.filtersDef.find(filterDef => {
                 return filterDef.httpId === filter.filterID;
             });
+            console.log(foundFilter);
             // Update value
             if (foundFilter) {
-                foundFilter.currentValue = filter.filterContent;
+                switch (foundFilter.type) {
+                    case Constants.FILTER_TYPE_DIALOG_TABLE:
+                        foundFilter.currentValue = [{ key: filter.filterContent }];
+                        break;
+                    case Constants.FILTER_TYPE_DATE:
+                        foundFilter.currentValue = Utils.convertToDate(filter.filterContent);
+                        break;
+                    case Constants.FILTER_TYPE_DROPDOWN:
+                        foundFilter.currentValue = filter.filterContent;
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                // Search?
+                if (this.isSearchEnabled() && filter.filterID === 'Search' && this.searchInput) {
+                    this.searchInput.nativeElement.value = filter.filterContent;
+                }
             }
+            console.log(foundFilter);
         });
         // Keep selected variant
         this.selectedVariant = foundVariant;
@@ -386,18 +401,26 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             return (variantDef.name === variant.name && variantDef.userID === variant.userID);
         });
         // Clear filter values
-        // foundVariant.filters.forEach(filter => {
-        //     const foundFilter = this.filtersDef.find(filterDef => {
-        //         return filterDef.httpId === filter.filterID;
-        //     });
-        //     // Clear value
-         // if (foundFilter) {
-        //     foundFilter.currentValue = Constants.FILTER_ALL_KEY;
-        // }
-        // });
+        foundVariant.filters.forEach(filter => {
+            const foundFilter = this.filtersDef.find(filterDef => {
+                return filterDef.httpId === filter.filterID;
+            });
+            // Reset
+            if (foundFilter) {
+                if (foundFilter.type === 'date') {
+                    foundFilter.currentValue = new Date();
+                } else {
+                    if (foundFilter.defaultValue) {
+                        foundFilter.currentValue = foundFilter.defaultValue;
+                    }
+                }
+            }
+        });
         // Delete variant
         const index = this.variants.indexOf(foundVariant, 0);
         this.variants.splice(index, 1);
+        // Clear selected variant
+        this.clearSelectedVariant();
         // Reload data
         this.loadData();
     }
@@ -419,9 +442,32 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return this.selectedVariant;
     }
 
+    variantExist(variantName): boolean {
+        // Get variant
+        if (this.variants) {
+            const foundVariant = this.variants.find(variantDef => {
+                return variantDef.name === variantName;
+            });
+            return foundVariant ? true : false;
+        }
+       return false;
+    }
+
+    public clearSelectedVariant() {
+        this.selectedVariant = null;
+    }
+
     public getVariants() {
         const variants: Variant[] = [];
-        return variants;
+        return this.variants ? this.variants : variants;
+    }
+
+    public setVariants(variants: Variant[]) {
+        this.variants = variants;
+    }
+
+    public getFiltredVariants(variantName: string) {
+        return this.getVariants().filter(variant => variant.name.toLowerCase().startsWith(variantName.toLowerCase()));
     }
 
     public getViewID() {

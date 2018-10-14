@@ -11,7 +11,7 @@ import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -37,7 +37,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
-  public variantInputFieldValue: string;
   public variantPlaceholder = '';
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
@@ -45,11 +44,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
-  private variants: Variant[];
+  public filteredVariants: Variant[];
 
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
+  public variantInputField: FormControl = new FormControl();
 
   constructor(
       private configService: ConfigService,
@@ -115,12 +115,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
      })
      .subscribe(
        (variantResult: VariantResult) => {
-         this.variants = variantResult.result;
+         this.dataSource.setVariants(variantResult.result);
+         this.filteredVariants = this.dataSource.getVariants();
        },
        error => {
          console.log(error);
        }
      );
+     this.handleChangeVariantInput();
   }
 
   ngAfterViewInit() {
@@ -271,6 +273,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  displayFnVariant(variant?: Variant): string | undefined {
+    return variant ? variant.name : undefined;
+  }
+
+  public handleChangeVariantInput() {
+    this.variantInputField.valueChanges.subscribe(val => {
+      if (!this.dataSource.variantExist(val)) {
+        // Clear current variant selection
+        this.dataSource.clearSelectedVariant();
+      }
+
+      if (val === '') {
+        this.filteredVariants =  this.dataSource.getVariants();
+      } else {
+        this.filteredVariants = this.dataSource.getFiltredVariants(val.toString());
+      }
+    });
+  }
+
   public handleVariantChanged(variant) {
     this.dataSource.variantChanged(variant);
   }
@@ -278,10 +299,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public handleDeleteVariant() {
     const variant = this.dataSource.getSelectedVariant();
     // Delete
-    this.centralServerService.deleteVariant(variant).subscribe(
+    this.centralServerService.deleteVariant(variant.id).subscribe(
       (result) => {
         if (result) {
+          // Clear variant input field
+          this.variantInputField.setValue('');
+          // Variant deleted
           this.dataSource.variantDeleted(variant);
+          // Clear selection
+          this.variantInputField.reset();
         }
       },
       (error) => {
@@ -304,7 +330,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       const foundVariant = this.dataSource.getSelectedVariant();
       if (!foundVariant) {
         // Create
-        createdVariant.name = this.variantInputFieldValue;
+        createdVariant.name = this.variantInputField.value;
         createdVariant.viewID = this.dataSource.getViewID();
         createdVariant.userID = this.centralServerService.getLoggedUser().id;
         this.centralServerService.createVariant(createdVariant).subscribe(

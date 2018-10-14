@@ -20,8 +20,6 @@ import { UserTableFilter } from '../../shared/table/filters/user-filter';
 import { ChargerTableFilter } from '../../shared/table/filters/charger-filter';
 
 export class LogDataSource extends TableDataSource<Log> {
-  private loggedUser: User;
-  private variantResult: VariantResult;
 
   constructor(
     private localeService: LocaleService,
@@ -32,24 +30,6 @@ export class LogDataSource extends TableDataSource<Log> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
-    // Get logged user
-    this.loggedUser = this.centralServerService.getLoggedUser();
-    // Get Variants
-    this.centralServerService
-      .getVariants({
-        ViewID: this.getViewID(),
-        UserID: this.loggedUser.id,
-        WithGlobal: true
-      })
-      .subscribe(
-        (variantResult: VariantResult) => {
-          this.variantResult = variantResult;
-          this.variants = variantResult.result;
-        },
-        error => {
-          console.log(error);
-        }
-      );
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -192,25 +172,4 @@ export class LogDataSource extends TableDataSource<Log> {
     return 'app-logs-cmp';
   }
 
-  public getVariants() {
-    if (!this.variantResult) {
-      this.centralServerService
-      .getVariants({
-        ViewID: this.getViewID(),
-        UserID: this.loggedUser.id,
-        WithGlobal: true
-      })
-      .subscribe(
-        (variantResult: VariantResult) => {
-          this.variantResult = variantResult;
-          this.variants = variantResult.result;
-          return  this.variants;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
-   return this.variants;
-  }
 }

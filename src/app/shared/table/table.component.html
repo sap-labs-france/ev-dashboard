@@ -69,9 +69,9 @@
        <!-- Variant -->
        <div *ngIf="dataSource.isVariantEnabled()" class="col">
           <mat-form-field>
-            <input matInput [placeholder]="variantPlaceholder" [matAutocomplete]="auto" [(ngModel)]="variantInputFieldValue">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleVariantChanged($event.option.value)">
-              <mat-option *ngFor="let variant of dataSource.getVariants()" [value]="variant">
+            <input matInput [formControl]="variantInputField" [placeholder]="variantPlaceholder" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleVariantChanged($event.option.value)" [displayWith]="displayFnVariant">
+              <mat-option *ngFor="let variant of filteredVariants" [value]="variant">
                 <span>{{variant.name}}</span>
               </mat-option>
             </mat-autocomplete>

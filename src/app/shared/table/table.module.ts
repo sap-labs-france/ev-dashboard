@@ -5,12 +5,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     RouterModule,
     CommonModule,
     MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule
   ],
   declarations: [

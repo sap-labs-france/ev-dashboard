@@ -65,8 +65,28 @@
       <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
         <input #searchInput matInput [placeholder]="searchPlaceholder" (keyup)="searchSourceSubject.next(searchInput.value)">
       </mat-form-field>
-    </div>
-  </div>
+
+       <!-- Variant -->
+       <div *ngIf="dataSource.isVariantEnabled()" class="col">
+          <mat-form-field>
+            <input matInput [placeholder]="variantPlaceholder" [matAutocomplete]="auto" [(ngModel)]="variantInputFieldValue">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleVariantChanged($event.option.value)">
+              <mat-option *ngFor="let variant of dataSource.getVariants()" [value]="variant">
+                <span>{{variant.name}}</span>
+              </mat-option>
+            </mat-autocomplete>
+            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="handleSaveVariant()">
+              <mat-icon>save</mat-icon>
+            </button>
+            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="handleDeleteVariant()" [disabled]="!this.dataSource.getSelectedVariant()">
+              <mat-icon>delete</mat-icon>
+            </button>
+            </mat-form-field>
+        </div>
+
+        </div>
+        
+      </div>
 
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">

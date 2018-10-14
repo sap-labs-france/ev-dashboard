@@ -84,7 +84,8 @@
 			"vehicles": "Véhicules",
 			"logs": "Logs",
 			"pricing": "Prix"
-		}
+		},
+		"variant_placeholder": "Variante"
 	},
 	"vehicles": {
 		"vehicle_number": "Véhicule(s)",

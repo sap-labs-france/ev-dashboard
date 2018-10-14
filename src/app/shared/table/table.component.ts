@@ -5,13 +5,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
+import { TableColumnDef, TableDef, TableFilterDef, TableActionDef, Filter, Variant, VariantResult } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
-import { Filter, Variant } from '../../common.types';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -37,6 +37,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
+  public variantInputFieldValue: string;
+  public variantPlaceholder = '';
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
@@ -44,6 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private footer = false;
   private filters: TableFilter[] = [];
   private variants: Variant[];
+
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
@@ -55,6 +58,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+    this.variantPlaceholder = this.translateService.instant('general.variant_placeholder');
   }
 
   ngOnInit() {
@@ -103,7 +107,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
     // Variants
-    this.variants = this.dataSource.getVariants();
+     this.centralServerService
+     .getVariants({
+       ViewID: this.dataSource.getViewID(),
+       UserID: this.centralServerService.getLoggedUser().id,
+       WithGlobal: true
+     })
+     .subscribe(
+       (variantResult: VariantResult) => {
+         this.variants = variantResult.result;
+       },
+       error => {
+         console.log(error);
+       }
+     );
   }
 
   ngAfterViewInit() {
@@ -258,7 +275,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.variantChanged(variant);
   }
 
-  public handleDeleteVariant(variant) {
+  public handleDeleteVariant() {
+    const variant = this.dataSource.getSelectedVariant();
     // Delete
     this.centralServerService.deleteVariant(variant).subscribe(
       (result) => {
@@ -272,47 +290,47 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  public handleSaveVariant(variant) {
-    let createdVariant: Variant;
+  public handleSaveVariant() {
+    const createdVariant: Variant = {id: '', name: '', viewID: '', userID: '', filters: []};
     // Filters
-    createdVariant.filters = [];
     const filters = this.dataSource.getFilterValues();
     for (const key in filters) {
       if (filters.hasOwnProperty(key)) {
         const filter: Filter = { filterID: key, filterContent: filters[key] };
         createdVariant.filters.push(filter);
       }
-    };
-    // Create or Update?
-    const foundVariant = this.dataSource.getVariants().find(variantDef => {
-      return variantDef.name === variant.name;
-    });
-    if (!foundVariant) {
-      // Create
-      createdVariant.viewID = this.dataSource.getViewID();
-      createdVariant.userID = variant.userID;
-      this.centralServerService.createVariant(variant).subscribe(
-        (result) => {
-          if (result) {
-            this.dataSource.variantCreated(result);
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } else {
-      // Update
-      this.centralServerService.updateVariant(variant).subscribe(
-        (result) => {
-          if (result) {
-            this.dataSource.variantUpdated(result);
-          }
-        },
-        (error) => {
-          console.log(error);
-        });
     }
+    // Create or Update?
+      const foundVariant = this.dataSource.getSelectedVariant();
+      if (!foundVariant) {
+        // Create
+        createdVariant.name = this.variantInputFieldValue;
+        createdVariant.viewID = this.dataSource.getViewID();
+        createdVariant.userID = this.centralServerService.getLoggedUser().id;
+        this.centralServerService.createVariant(createdVariant).subscribe(
+          result => {
+            if (result) {
+              this.dataSource.variantCreated(result);
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        // Update
+        foundVariant.filters = JSON.parse(JSON.stringify(createdVariant.filters));
+        this.centralServerService.updateVariant(foundVariant).subscribe(
+          result => {
+            if (result) {
+              this.dataSource.variantUpdated(foundVariant);
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
   }
 
 }

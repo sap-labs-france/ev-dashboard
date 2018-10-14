@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../common.types';
+import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef, User, Variant, VariantResult } from '../../common.types';
 import { CentralServerNotificationService } from '../../services/central-server-notification.service';
 import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
@@ -20,6 +20,9 @@ import { UserTableFilter } from '../../shared/table/filters/user-filter';
 import { ChargerTableFilter } from '../../shared/table/filters/charger-filter';
 
 export class LogDataSource extends TableDataSource<Log> {
+  private loggedUser: User;
+  private variantResult: VariantResult;
+
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -29,6 +32,24 @@ export class LogDataSource extends TableDataSource<Log> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
+    // Get logged user
+    this.loggedUser = this.centralServerService.getLoggedUser();
+    // Get Variants
+    this.centralServerService
+      .getVariants({
+        ViewID: this.getViewID(),
+        UserID: this.loggedUser.id,
+        WithGlobal: true
+      })
+      .subscribe(
+        (variantResult: VariantResult) => {
+          this.variantResult = variantResult;
+          this.variants = variantResult.result;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -87,6 +108,9 @@ export class LogDataSource extends TableDataSource<Log> {
     return {
       search: {
           enabled: true
+      },
+      variant: {
+        enabled: true
       },
       rowDetails: {
         enabled: true,
@@ -162,5 +186,31 @@ export class LogDataSource extends TableDataSource<Log> {
       new UserTableFilter(this.translateService).getFilterDef(),
       new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
     ];
+  }
+
+  public getViewID() {
+    return 'app-logs-cmp';
+  }
+
+  public getVariants() {
+    if (!this.variantResult) {
+      this.centralServerService
+      .getVariants({
+        ViewID: this.getViewID(),
+        UserID: this.loggedUser.id,
+        WithGlobal: true
+      })
+      .subscribe(
+        (variantResult: VariantResult) => {
+          this.variantResult = variantResult;
+          this.variants = variantResult.result;
+          return  this.variants;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
+   return this.variants;
   }
 }

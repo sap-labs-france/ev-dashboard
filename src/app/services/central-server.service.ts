@@ -637,7 +637,7 @@ export class CentralServerService {
       );
   }
 
-  public getVariants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+  public getVariants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<VariantResult> {
     // Verify init
     this._checkInit();
     // Build Paging

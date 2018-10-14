@@ -20,7 +20,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     private dataChangeSubscription: Subscription;
     private staticFilters = [];
     private viewID: string;
-    private variants: Variant[];
+    protected variants: Variant[];
+    private selectedVariant: Variant;
 
     private _checkInitialized(): any {
         // Check
@@ -43,10 +44,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
         if (!this.viewID) {
             this.viewID = this.getViewID();
-          }
-          if (!this.variants) {
+        }
+        if (!this.variants) {
             this.variants = this.getVariants();
-          }
+        }
     }
 
     public isEmpty(): boolean {
@@ -351,35 +352,50 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return this.staticFilters;
     }
 
+    public isVariantEnabled(): boolean {
+        // Return
+        return this.hasFilters() && this.tableDef.variant.enabled;
+    }
+
     public variantChanged(variant: Variant) {
+        console.log(this.variants);
+        console.log(variant);
         // Get variant
         const foundVariant = this.variants.find(variantDef => {
-            return variantDef.name === variant.name;
+            return variantDef.name === variant.name && variantDef.userID === variant.userID;
         });
+        console.log(foundVariant);
         // Set filter values
         foundVariant.filters.forEach(filter => {
             const foundFilter = this.filtersDef.find(filterDef => {
-                return filterDef.id === filter.filterID;
+                return filterDef.httpId === filter.filterID;
             });
             // Update value
-            foundFilter.currentValue = filter.filterContent;
+            if (foundFilter) {
+                foundFilter.currentValue = filter.filterContent;
+            }
         });
+        // Keep selected variant
+        this.selectedVariant = foundVariant;
         // Reload data
         this.loadData();
     }
 
     public variantDeleted(variant: Variant) {
         const foundVariant = this.variants.find(variantDef => {
-            return variantDef.name === variant.name;
+            return (variantDef.name === variant.name && variantDef.userID === variant.userID);
         });
-        // Set filter values
-        foundVariant.filters.forEach(filter => {
-            const foundFilter = this.filtersDef.find(filterDef => {
-                return filterDef.id === filter.filterID;
-            });
-            // Clear value
-            foundFilter.currentValue = null;
-        });
+        // Clear filter values
+        // foundVariant.filters.forEach(filter => {
+        //     const foundFilter = this.filtersDef.find(filterDef => {
+        //         return filterDef.httpId === filter.filterID;
+        //     });
+        //     // Clear value
+         // if (foundFilter) {
+        //     foundFilter.currentValue = Constants.FILTER_ALL_KEY;
+        // }
+        // });
+        // Delete variant
         const index = this.variants.indexOf(foundVariant, 0);
         this.variants.splice(index, 1);
         // Reload data
@@ -393,15 +409,19 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public variantUpdated(variant) {
         // Get variant
         const foundVariant = this.variants.find(variantDef => {
-            return variantDef.name === variant.name;
+            return variantDef.name === variant.name && variantDef.userID === variant.userID;
         });
         // Update filter
-        foundVariant.filters = JSON.parse(JSON.stringify(variant));
+        foundVariant.filters = JSON.parse(JSON.stringify(variant.filters));
     }
 
+    public getSelectedVariant(): Variant {
+        return this.selectedVariant;
+    }
 
     public getVariants() {
-        return [];
+        const variants: Variant[] = [];
+        return variants;
     }
 
     public getViewID() {

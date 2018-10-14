@@ -360,13 +360,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         const foundVariant = this.variants.find(variantDef => {
             return variantDef.name === variant.name && variantDef.userID === variant.userID;
         });
-        console.log(foundVariant);
         // Set filter values
         foundVariant.filters.forEach(filter => {
             const foundFilter = this.filtersDef.find(filterDef => {
                 return filterDef.httpId === filter.filterID;
             });
-            console.log(foundFilter);
             // Update value
             if (foundFilter) {
                 switch (foundFilter.type) {
@@ -388,7 +386,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
                     this.searchInput.nativeElement.value = filter.filterContent;
                 }
             }
-            console.log(foundFilter);
         });
         // Keep selected variant
         this.selectedVariant = foundVariant;

@@ -33,7 +33,6 @@
 		"save": "Sauvegarder",
 		"change": "Changer",
 		"reload": "Recharger",
-		"cancel": "Abandonner",
 		"close": "Fermer",
 		"back": "Retour",
 		"next": "Suivant",
@@ -65,6 +64,7 @@
 		"backend_not_running": "Impossible de se conncter au serveur central",
 		"error_backend": "Une erreur est survenue pendant la connexion au serveur central",
 		"success_backend": "La connexion avec le serveur central a été restaurée",
+		"invalid_content": "Contenu invalide",
 		"menu": {
 			"dashboard": "Tableau de bord",
 			"charging_stations": "Paysage",
@@ -186,7 +186,6 @@
 		"number_of_site_areas": "Nb Zones",
 		"number_of_users": "Nb Utilisateurs",
 		"users": "Utilisateurs",
-		"site": "Site",
 		"image": "Image",
 		"name": "Nom",
 		"title": "Site",
@@ -603,10 +602,11 @@
 		"tenant_management": "Gestion des Tenants",
 		"tenant_not_found": "Ce tenant n'existe pas ! Vous ne pouvez pas vous connecter !",
 		"subdomain": "Sous Domaine",
+		"email": "Email",
 		"create_success": "Le tenant {{name}} a été créé avec succès",
 		"create_error": "Une erreur est survenue pendant la création du tenant",
-		"already_used": "Le tenant est déjà utilisé",
-		"subdomain_already_used": "Le sous domaine du tenant est déjà utilisé",
+		"name_already_used": "Le tenant {{name}} est déjà utilisé",
+		"subdomain_already_used": "Le sous domaine {{subdomain}} est déjà utilisé",
 		"update_error": "Une erreur est survenue pendant la mise à jour du tenant"
 	}
 }

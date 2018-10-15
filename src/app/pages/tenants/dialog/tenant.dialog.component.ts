@@ -2,12 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
 import { Constants } from '../../../utils/Constants';
+import { CONFLICT } from 'http-status-codes';
 
 @Component({
     templateUrl: './tenant.dialog.component.html',
@@ -19,19 +19,15 @@ export class TenantDialogComponent implements OnInit {
     public id: AbstractControl;
     public name: AbstractControl;
     public subdomain: AbstractControl;
+    public email: AbstractControl;
 
     constructor(
         private centralServerService: CentralServerService,
         private messageService: MessageService,
-        private translateService: TranslateService,
         private spinnerService: SpinnerService,
         private router: Router,
         protected dialogRef: MatDialogRef<TenantDialogComponent>,
         @Inject(MAT_DIALOG_DATA) data) {
-
-        this.translateService.get('tenants', {}).subscribe((messages) => {
-            this.messages = messages;
-        });
     }
 
     ngOnInit(): void {
@@ -41,17 +37,23 @@ export class TenantDialogComponent implements OnInit {
                 Validators.compose([
                     Validators.required
                 ])),
+            'email': new FormControl('',
+                Validators.compose([
+                    Validators.required,
+                    Validators.email
+                ])),
             'subdomain': new FormControl('',
                 Validators.compose([
                     Validators.required,
-                    Validators.minLength(2),
-                    Validators.maxLength(10),
+                    Validators.minLength(1),
+                    Validators.maxLength(20),
                     Validators.pattern('^[a-z0-9]*$')
                 ]))
         });
 
         this.id = this.formGroup.controls['id'];
         this.name = this.formGroup.controls['name'];
+        this.email = this.formGroup.controls['email'];
         this.subdomain = this.formGroup.controls['subdomain'];
     }
 
@@ -69,26 +71,17 @@ export class TenantDialogComponent implements OnInit {
             // Ok?
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
                 // Ok
-                this.messageService.showSuccessMessage(this.translateService.instant('tenants.create_success',
-                    { 'name': tenant.name }));
+                this.messageService.showSuccessMessage('tenants.create_success', { 'name': tenant.name });
                 this.dialogRef.close();
             } else {
                 Utils.handleError(JSON.stringify(response),
-                    this.messageService, this.messages['update_error']);
+                    this.messageService, 'tenants.create_error');
             }
         }, (error) => {
             // Hide
             this.spinnerService.hide();
-            // Check status
-            switch (error.status) {
-                case 510:
-                    this.messageService.showErrorMessage(
-                        this.translateService.instant('tenants.already_used'));
-                    break;
-                default:
-                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                        this.messages['update_error']);
-            }
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'tenants.create_error');
         });
     }
 }

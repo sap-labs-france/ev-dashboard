@@ -65,6 +65,7 @@
 		"backend_not_running": "Cannot reach to the central server",
 		"error_backend": "Error occurred while contacting the central server",
 		"success_backend": "Connection to the central server has been restored",
+		"invalid_content": "Invalid Content",
 		"menu": {
 			"dashboard": "Dashboard",
 			"charging_stations": "Landscape",
@@ -602,11 +603,12 @@
 		"name": "Name",
 		"tenant_management": "Tenant Management",
 		"tenant_not_found": "This tenant does not exist! You cannot login!",
+		"email": "Email",
 		"subdomain": "Subdomain",
 		"create_success": "The tenant {{name}} has been created successfully",
 		"create_error": "Error occurred while creating the tenant",
-		"already_used": "The tenant name is already used",
-		"subdomain_already_used": "The subdomain name is already used",
+		"name_already_used": "The tenant {{name}} is already used",
+		"subdomain_already_used": "The subdomain {{subdomain}} is already used",
 		"update_error": "Error occurred while updating the tenant"
 	}
 }

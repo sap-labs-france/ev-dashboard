@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { Router } from '@angular/router';
+import { UNAUTHORIZED, BAD_REQUEST, CONFLICT } from 'http-status-codes';
 
 export class Utils {
 
@@ -28,9 +29,9 @@ export class Utils {
   }
 
   public static handleHttpError(error, router: Router,
-      messageService: MessageService,
-      centralServerService: CentralServerService,
-      errorMessage) {
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    errorMessage) {
     // Check error
     switch (error.status) {
       // Server connection error`
@@ -45,9 +46,21 @@ export class Utils {
         break;
 
       // Unauthorized!
-      case 401:
+      case UNAUTHORIZED:
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
+        break;
+
+      case BAD_REQUEST:
+        messageService.showErrorMessage('general.invalid_content');
+        break;
+
+      case CONFLICT:
+        if (error.details) {
+          messageService.showErrorMessage(error.details.message, error.details.params);
+        } else {
+          messageService.showErrorMessage(error.message);
+        }
         break;
 
       // Backend issue

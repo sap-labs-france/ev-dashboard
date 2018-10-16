@@ -650,13 +650,14 @@ export class CentralServerService {
 
   private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '' };
+    const errMsg = { status: 0, message: '', details: undefined };
     if (error instanceof Response) {
       errMsg.status = error.status;
       errMsg.message = error.text();
     } else {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();
+      errMsg.details = error.error;
     }
     return throwError(errMsg);
   }

@@ -28,34 +28,34 @@ export class MessageService {
   }
 
   public showErrorMessageConnectionLost() {
-    this.showErrorMessage(this.translateService.instant('general.backend_not_running'));
+    this.showErrorMessage('general.backend_not_running');
   }
 
-  public showMessage(message: string, title?: string) {
-    this._showMessage('primary', message, title);
+  public showMessage(message: string, params?: Object, title?: string) {
+    this._showMessage('primary', message, title, params);
   }
 
-  public showInfoMessage(message: string, title?: string) {
-    this._showMessage('info', message, title);
+  public showInfoMessage(message: string, params?: Object, title?: string) {
+    this._showMessage('info', message, title, params);
   }
 
-  public showWarningMessage(message: string, title?: string) {
-    this._showMessage('warning', message, title);
+  public showWarningMessage(message: string, params?: Object, title?: string) {
+    this._showMessage('warning', message, title, params);
   }
 
-  public showSuccessMessage(message: string, title?: string) {
-    this._showMessage('success', message, title);
+  public showSuccessMessage(message: string, params?: Object, title?: string) {
+    this._showMessage('success', message, title, params);
   }
 
-  public showErrorMessage(message: string, title?: string) {
-    this._showMessage('danger', message, title);
+  public showErrorMessage(message: string, params?: Object, title?: string) {
+    this._showMessage('danger', message, title, params);
   }
 
-  private _showMessage(type, message, title = '', from = 'top', align = 'right', icon = 'notifications') {
+  private _showMessage(type, message, title = '', params?: Object, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
       icon: icon,
       title: title,
-      message: message
+      message: this.translateService.instant(message, params)
     }, {
         type: type,
         timer: 3000,

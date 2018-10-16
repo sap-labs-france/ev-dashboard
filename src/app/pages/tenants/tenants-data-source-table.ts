@@ -11,9 +11,9 @@ import { LocaleService } from '../../services/locale.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { Utils } from '../../utils/Utils';
-import { TableAddAction } from '../../shared/table/actions/table-add-action';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { TenantDialogComponent } from './dialog/tenant.dialog.component';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 
 export class TenantsDataSource extends TableDataSource<Log> {
   constructor(
@@ -70,23 +70,31 @@ export class TenantsDataSource extends TableDataSource<Log> {
       {
         id: 'name',
         name: this.translateService.instant('tenants.name'),
-        headerClass: 'col-50p',
-        class: 'col-50p',
+        headerClass: 'col-25p',
+        class: 'text-left col-25p',
+        sorted: true,
+        direction: 'asc'
+      },
+      {
+        id: 'email',
+        name: this.translateService.instant('tenants.email'),
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sorted: true,
         direction: 'asc'
       },
       {
         id: 'subdomain',
         name: this.translateService.instant('tenants.subdomain'),
-        headerClass: 'col-50p',
-        class: 'text-left col-50p'
+        headerClass: 'col-25p',
+        class: 'col-25p'
       }
     ];
   }
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableAddAction(this.translateService).getActionDef(),
+      new TableCreateAction(this.translateService).getActionDef(),
       new TableRefreshAction(this.translateService).getActionDef()
     ];
   }
@@ -95,7 +103,7 @@ export class TenantsDataSource extends TableDataSource<Log> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'add':
+      case 'create':
         this._showAddTenant();
         break;
       default:

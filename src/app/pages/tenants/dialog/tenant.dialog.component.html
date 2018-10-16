@@ -20,6 +20,18 @@
                     <div class="col">
                         <div class="form-group">
                             <mat-form-field>
+                                <input appSetAutoFocus matInput placeholder="{{'tenants.email' | translate}}" type="text"
+                                    [formControl]="email" required>
+                                <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" |
+                                    translate}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
                                 <input matInput placeholder="{{'tenants.subdomain' | translate}}" type="text"
                                     [formControl]="subdomain" required>
                                 <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
@@ -36,7 +48,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-<button class="mat-raised-button mat-primary" (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">{{"general.save"
+    <button class="mat-raised-button mat-primary" (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">{{"general.save"
         | translate}}</button>
     <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
 </mat-dialog-actions>

@@ -11,7 +11,7 @@
     "start:ssl": "ng serve --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "test": "ng test",
+    "test": "npm run e2e",
     "lint": "ng lint",
     "e2e": "codeceptjs run --steps --reporter mochawesome "
   },

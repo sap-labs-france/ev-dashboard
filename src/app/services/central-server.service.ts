@@ -584,11 +584,11 @@ export class CentralServerService {
       );
   }
 
-  public createVariant(variant): Observable<ActionResponse> {
+  public createVariant(variant): Observable<Variant> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/VariantCreate`, variant,
+    return this.httpClient.post<Variant>(`${this.centralRestServerServiceSecuredURL}/VariantCreate`, variant,
       {
         headers: this._buildHttpHeaders()
       })

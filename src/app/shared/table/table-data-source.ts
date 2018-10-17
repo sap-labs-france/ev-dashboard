@@ -245,15 +245,18 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return {};
     }
 
-    public filterChanged(filter: TableFilterDef) {
+    public filterChanged(filter: TableFilterDef, reload: boolean = true) {
         // Update Filter
         const foundFilter = this.filtersDef.find((filterDef) => {
             return filterDef.id === filter.id;
         });
         // Update value
         foundFilter.currentValue = filter.currentValue;
-        // Reload data
-        this.loadData();
+        // Reload? (Prevent reload in case of variant)
+        if (reload) {
+            // Reload data
+            this.loadData();
+        }
     }
 
     public actionTriggered(actionDef: TableActionDef) {
@@ -356,11 +359,15 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
 
     public variantDeleted(variant: Variant) {
+        // Find variant
+        const foundVariant = this.variants.find(variantDef => {
+            return (variantDef.id === variant.id);
+        });
         // Delete variant
-        const index = this.variants.indexOf(variant, 0);
-        this.variants.splice(index, 1);
-        // Reload data
-        //this.loadData();
+        if(foundVariant) {
+            const index = this.variants.indexOf(foundVariant, 0);
+            this.variants.splice(index, 1);
+        }
     }
 
     public variantCreated(variant) {
@@ -374,17 +381,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         });
         // Update filter
         foundVariant.filters = JSON.parse(JSON.stringify(variant.filters));
-    }
-
-    variantExist(variantName): boolean {
-        // Get variant
-        if (this.variants) {
-            const foundVariant = this.variants.find(variantDef => {
-                return variantDef.name === variantName;
-            });
-            return foundVariant ? true : false;
-        }
-       return false;
     }
 
     public getVariants() {

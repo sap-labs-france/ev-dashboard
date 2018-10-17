@@ -5,14 +5,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { TableColumnDef, TableDef, TableFilterDef, TableActionDef, Filter, Variant, VariantResult } from '../../common.types';
+import { Router } from '@angular/router';
+import { TableColumnDef, TableDef, TableFilterDef, TableActionDef, Filter, User, Variant, VariantResult } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { CentralServerService } from '../../services/central-server.service';
+import { MessageService } from '../../services/message.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
 import { FormControl } from '@angular/forms';
 import { Constants } from '../../utils/Constants';
+import * as moment from 'moment';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -47,6 +50,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private filters: TableFilter[] = [];
   public filteredVariants: Variant[];
   public selectedVariant: Variant;
+  public loggedUser: User;
 
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,12 +59,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
       private configService: ConfigService,
-      public centralServerService: CentralServerService,
+      private centralServerService: CentralServerService,
       private translateService: TranslateService,
-      private dialog: MatDialog) {
+      private dialog: MatDialog,
+      private router: Router,
+      private messageService: MessageService,) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.variantPlaceholder = this.translateService.instant('general.variant_placeholder');
+    // Logged user
+    this.loggedUser = this.centralServerService.getLoggedUser();
   }
 
   ngOnInit() {
@@ -275,17 +283,33 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  displayFnVariant(variant?: Variant): string | undefined {
+  public isSaveVariantEnabled(value): boolean {
+    // Not defined
+    if(!value || value === '' || !/^[a-zA-Z]+((['_-][a-zA-Z])?[a-zA-Z]*)*$/.test(value)) {
+      return false;
+    }
+    // Current variant?
+    if(!this.selectedVariant) {
+      // Variant with the same name and same user exists?
+      const foundVariant = this.dataSource.getVariants().find(variant => {
+        return variant.name === value && variant.userID === this.loggedUser.id;
+      });
+      // Disable if exists
+      return foundVariant ? false : true;
+    }
+    // Enable
+    return true;
+  }
+
+  public displayFnVariant(variant?: Variant): string | undefined {
     return variant ? variant.name : undefined;
   }
 
   public handleChangeVariantInput() {
     this.variantInputField.valueChanges.subscribe(val => {
-      if (!this.dataSource.variantExist(val)) {
-        // Clear current variant selection
-        this.selectedVariant = null;
-      }
-
+      // Clear current selection
+      this.selectedVariant = null;
+      // Get filtred variants
       if (val === '') {
         this.filteredVariants =  this.dataSource.getVariants();
       } else {
@@ -299,70 +323,98 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     const foundVariant = this.dataSource.getVariants().find(variantDef => {
       return variantDef.id === variant.id;
     });
-    // Set filter values
-    foundVariant.filters.forEach(filter => {
-      const foundFilter = this.filtersDef.find(filterDef => {
-        return filterDef.httpId === filter.filterID;
+
+    // Update filters & clear the remaining 
+    this.filtersDef.forEach(filter => {
+      const foundFilter = foundVariant.filters.find(filterDef => {
+        return filterDef.filterID === filter.httpId;
       });
-      // Update value
+
       if (foundFilter) {
-        switch (foundFilter.type) {
+        // Update filter
+        switch (filter.type) {
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            foundFilter.currentValue = [{ key: filter.filterContent }];
+            filter.currentValue = [{ key: foundFilter.filterContent }];
             break;
           case Constants.FILTER_TYPE_DATE:
-            foundFilter.currentValue = Utils.convertToDate(filter.filterContent);
+            filter.currentValue = Utils.convertToDate(foundFilter.filterContent);
             break;
           case Constants.FILTER_TYPE_DROPDOWN:
-            foundFilter.currentValue = filter.filterContent;
+            filter.currentValue = foundFilter.filterContent;
             break;
           default:
             break;
         }
-      // Filter changed
-      this.dataSource.filterChanged(foundFilter);
       } else {
-        // Search?
-        if (this.dataSource.isSearchEnabled() && filter.filterID === 'Search' && this.searchInput) {
-          this.searchInput.nativeElement.value = filter.filterContent;
-          this.searchSourceSubject.next(this.searchInput.nativeElement.value);
+        // Clear filter
+        switch (filter.type) {
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
+            filter.currentValue = null;
+            break;
+          case Constants.FILTER_TYPE_DATE:
+            filter.currentValue = Utils.convertToDate(moment().startOf('day'));
+            break;
+          case Constants.FILTER_TYPE_DROPDOWN:
+            filter.currentValue = filter.items[0].key;
+            break;
+          default:
+            break;
         }
       }
+      // Filter changed (prevent reload)
+      // Reload of data should be done once after updating all the filters
+      this.dataSource.filterChanged(filter, false);
     });
+    // Search?
+    if (this.dataSource.isSearchEnabled() && this.searchInput) {
+      const searchFilter = foundVariant.filters.find(filterDef => {
+        return filterDef.filterID === 'Search'
+      });
+      // Update/Clear
+      this.searchInput.nativeElement.value = searchFilter ? searchFilter.filterContent: '';
+    }
     // Keep selected variant
     this.selectedVariant = foundVariant;
+    // Reload data
+    this.loadData();
   }
 
   public handleDeleteVariant() {
-    const variant = this.selectedVariant;
     // Delete
-    this.centralServerService.deleteVariant(variant.id).subscribe(
+    this.centralServerService.deleteVariant(this.selectedVariant.id).subscribe(
       (result) => {
         if (result) {
           // Clear variant input field
           this.variantInputField.setValue('');
-          // Find variant
-          const foundVariant = this.dataSource.getVariants().find(variantDef => {
-            return (variantDef.id === variant.id);
-          });
-          // Clear filter values
-          foundVariant.filters.forEach(filter => {
-            const foundFilter = this.filtersDef.find(filterDef => {
-              return filterDef.httpId === filter.filterID;
-            });
-            // Reset
-            if (foundFilter) {
-              if (foundFilter.type === 'date') {
-                foundFilter.currentValue = new Date();
-              } else {
-                if (foundFilter.defaultValue) {
-                  foundFilter.currentValue = foundFilter.defaultValue;
-                }
-              }
-            }
-          });
           // Variant deleted
-          this.dataSource.variantDeleted(foundVariant);
+          this.dataSource.variantDeleted(this.selectedVariant);
+          // Clear all filters
+          this.filtersDef.forEach(filter => {
+            switch(filter.type) {
+              case Constants.FILTER_TYPE_DIALOG_TABLE:
+              filter.currentValue = null;
+                break;
+              case Constants.FILTER_TYPE_DATE:
+              filter.currentValue = Utils.convertToDate(moment().startOf('day'));
+                break;
+              case Constants.FILTER_TYPE_DROPDOWN:
+              filter.currentValue = filter.items[0].key;
+                break;
+              default:
+                break;
+            }
+            // Filter changed (prevent reload)
+            // Reload of data should be done once after updating all filters
+            this.dataSource.filterChanged(filter, false);
+          });
+          // Search
+          if (this.dataSource.isSearchEnabled() && this.searchInput) {
+            this.searchInput.nativeElement.value = '';
+          }
+          // Clear selection
+          this.selectedVariant = null;
+          // Reload data
+          this.loadData();
         }
       },
       (error) => {
@@ -373,7 +425,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public handleSaveVariant() {
     const createdVariant: Variant = { id: '', name: '', viewID: '', userID: '', filters: [] };
-    // Filters
+    // Build filters
     const filters = this.dataSource.getFilterValues();
     for (const key in filters) {
       if (filters.hasOwnProperty(key)) {
@@ -382,16 +434,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     // Create or Update?
-    const foundVariant = this.selectedVariant;
-    if (!foundVariant) {
+    if (!this.selectedVariant) {
       // Create
       createdVariant.name = this.variantInputField.value;
       createdVariant.viewID = this.dataSource.getViewID();
       createdVariant.userID = this.centralServerService.getLoggedUser().id;
       this.centralServerService.createVariant(createdVariant).subscribe(
-        result => {
-          if (result) {
-            this.dataSource.variantCreated(result);
+        variant => {
+          if (variant) {
+            // Add
+            this.dataSource.variantCreated(variant);
+            // Keep selection
+            this.selectedVariant = variant;
           }
         },
         error => {
@@ -400,15 +454,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     } else {
       // Update
-      foundVariant.filters = JSON.parse(JSON.stringify(createdVariant.filters));
-      this.centralServerService.updateVariant(foundVariant).subscribe(
+      this.selectedVariant.filters = JSON.parse(JSON.stringify(createdVariant.filters));
+      this.centralServerService.updateVariant(this.selectedVariant).subscribe(
         result => {
           if (result) {
-            this.dataSource.variantUpdated(foundVariant);
+            // Update
+            this.dataSource.variantUpdated(this.selectedVariant);
           }
         },
         error => {
-          console.log(error);
+          // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('general.error_backend'));
         }
       );
     }

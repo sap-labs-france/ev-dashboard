@@ -75,10 +75,10 @@
                 <span>{{variant.name}}</span>
               </mat-option>
             </mat-autocomplete>
-            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="handleSaveVariant()" [disabled]="variantInputField.value === ''">
+            <button mat-button matSuffix mat-icon-button aria-label="Save" (click)="handleSaveVariant()" [disabled]="!isSaveVariantEnabled(variantInputField.value)">
               <mat-icon>save</mat-icon>
             </button>
-            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="handleDeleteVariant()" [disabled]="!this.selectedVariant || this.selectedVariant.userID !== this.centralServerService.getLoggedUser().id">
+            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="handleDeleteVariant()" [disabled]="!this.selectedVariant || this.selectedVariant.userID !== this.loggedUser.id">
               <mat-icon>delete</mat-icon>
             </button>
             </mat-form-field>

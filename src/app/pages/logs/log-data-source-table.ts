@@ -172,4 +172,16 @@ export class LogDataSource extends TableDataSource<Log> {
     return 'app-logs-cmp';
   }
 
+  public async buildFilterValue(filter: TableFilterDef, key) {
+    switch (filter.id) {
+      case 'user':
+        await this.centralServerService.getUser(key).subscribe(user => {
+          return `${user.name} ${user.firstName ? user.firstName : ''}`;
+        });
+        break;
+      case 'charger':
+        return key;
+    }
+  }
+
 }

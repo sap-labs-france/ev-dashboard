@@ -22,7 +22,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     private staticFilters = [];
     private viewID: string;
     private variants: Variant[];
-    private selectedVariant: Variant;
 
     private _checkInitialized(): any {
         // Check
@@ -397,6 +396,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
 
     public getViewID() {
+        return '';
+    }
+
+    public async buildFilterValue(filter: TableFilterDef, key) {
         return '';
     }
 

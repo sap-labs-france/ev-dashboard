@@ -318,14 +318,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public handleVariantChanged(variant) {
+  public  handleVariantChanged(variant) {
     // Get variant
     const foundVariant = this.dataSource.getVariants().find(variantDef => {
       return variantDef.id === variant.id;
     });
 
-    // Update filters & clear the remaining 
-    this.filtersDef.forEach(filter => {
+    // Update filters & clear the remaining
+    this.filtersDef.forEach(async filter => {
       const foundFilter = foundVariant.filters.find(filterDef => {
         return filterDef.filterID === filter.httpId;
       });
@@ -334,7 +334,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // Update filter
         switch (filter.type) {
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            filter.currentValue = [{ key: foundFilter.filterContent }];
+          const value = await this.dataSource.buildFilterValue(filter, foundFilter.filterContent);
+            filter.currentValue = [{ key: foundFilter.filterContent, value: value }];
             break;
           case Constants.FILTER_TYPE_DATE:
             filter.currentValue = Utils.convertToDate(foundFilter.filterContent);
@@ -371,7 +372,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         return filterDef.filterID === 'Search'
       });
       // Update/Clear
-      this.searchInput.nativeElement.value = searchFilter ? searchFilter.filterContent: '';
+      this.searchInput.nativeElement.value = searchFilter ? searchFilter.filterContent : '';
     }
     // Keep selected variant
     this.selectedVariant = foundVariant;

@@ -11,7 +11,8 @@ import { CentralServerService } from '../../services/central-server.service';
 import { TableDataSource } from './table-data-source';
 import { TableFilter } from './filters/table-filter';
 import { Utils } from '../../utils/Utils';
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { Constants } from '../../utils/Constants';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -45,6 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private footer = false;
   private filters: TableFilter[] = [];
   public filteredVariants: Variant[];
+  public selectedVariant: Variant;
 
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -53,7 +55,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
       private configService: ConfigService,
-      private centralServerService: CentralServerService,
+      public centralServerService: CentralServerService,
       private translateService: TranslateService,
       private dialog: MatDialog) {
     // Set placeholder
@@ -281,7 +283,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.variantInputField.valueChanges.subscribe(val => {
       if (!this.dataSource.variantExist(val)) {
         // Clear current variant selection
-        this.dataSource.clearSelectedVariant();
+        this.selectedVariant = null;
       }
 
       if (val === '') {
@@ -293,21 +295,74 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public handleVariantChanged(variant) {
-    this.dataSource.variantChanged(variant);
+    // Get variant
+    const foundVariant = this.dataSource.getVariants().find(variantDef => {
+      return variantDef.id === variant.id;
+    });
+    // Set filter values
+    foundVariant.filters.forEach(filter => {
+      const foundFilter = this.filtersDef.find(filterDef => {
+        return filterDef.httpId === filter.filterID;
+      });
+      // Update value
+      if (foundFilter) {
+        switch (foundFilter.type) {
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
+            foundFilter.currentValue = [{ key: filter.filterContent }];
+            break;
+          case Constants.FILTER_TYPE_DATE:
+            foundFilter.currentValue = Utils.convertToDate(filter.filterContent);
+            break;
+          case Constants.FILTER_TYPE_DROPDOWN:
+            foundFilter.currentValue = filter.filterContent;
+            break;
+          default:
+            break;
+        }
+      // Filter changed
+      this.dataSource.filterChanged(foundFilter);
+      } else {
+        // Search?
+        if (this.dataSource.isSearchEnabled() && filter.filterID === 'Search' && this.searchInput) {
+          this.searchInput.nativeElement.value = filter.filterContent;
+          this.searchSourceSubject.next(this.searchInput.nativeElement.value);
+        }
+      }
+    });
+    // Keep selected variant
+    this.selectedVariant = foundVariant;
   }
 
   public handleDeleteVariant() {
-    const variant = this.dataSource.getSelectedVariant();
+    const variant = this.selectedVariant;
     // Delete
     this.centralServerService.deleteVariant(variant.id).subscribe(
       (result) => {
         if (result) {
           // Clear variant input field
           this.variantInputField.setValue('');
+          // Find variant
+          const foundVariant = this.dataSource.getVariants().find(variantDef => {
+            return (variantDef.id === variant.id);
+          });
+          // Clear filter values
+          foundVariant.filters.forEach(filter => {
+            const foundFilter = this.filtersDef.find(filterDef => {
+              return filterDef.httpId === filter.filterID;
+            });
+            // Reset
+            if (foundFilter) {
+              if (foundFilter.type === 'date') {
+                foundFilter.currentValue = new Date();
+              } else {
+                if (foundFilter.defaultValue) {
+                  foundFilter.currentValue = foundFilter.defaultValue;
+                }
+              }
+            }
+          });
           // Variant deleted
-          this.dataSource.variantDeleted(variant);
-          // Clear selection
-          this.variantInputField.reset();
+          this.dataSource.variantDeleted(foundVariant);
         }
       },
       (error) => {
@@ -317,7 +372,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public handleSaveVariant() {
-    const createdVariant: Variant = {id: '', name: '', viewID: '', userID: '', filters: []};
+    const createdVariant: Variant = { id: '', name: '', viewID: '', userID: '', filters: [] };
     // Filters
     const filters = this.dataSource.getFilterValues();
     for (const key in filters) {
@@ -327,36 +382,36 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     // Create or Update?
-      const foundVariant = this.dataSource.getSelectedVariant();
-      if (!foundVariant) {
-        // Create
-        createdVariant.name = this.variantInputField.value;
-        createdVariant.viewID = this.dataSource.getViewID();
-        createdVariant.userID = this.centralServerService.getLoggedUser().id;
-        this.centralServerService.createVariant(createdVariant).subscribe(
-          result => {
-            if (result) {
-              this.dataSource.variantCreated(result);
-            }
-          },
-          error => {
-            console.log(error);
+    const foundVariant = this.selectedVariant;
+    if (!foundVariant) {
+      // Create
+      createdVariant.name = this.variantInputField.value;
+      createdVariant.viewID = this.dataSource.getViewID();
+      createdVariant.userID = this.centralServerService.getLoggedUser().id;
+      this.centralServerService.createVariant(createdVariant).subscribe(
+        result => {
+          if (result) {
+            this.dataSource.variantCreated(result);
           }
-        );
-      } else {
-        // Update
-        foundVariant.filters = JSON.parse(JSON.stringify(createdVariant.filters));
-        this.centralServerService.updateVariant(foundVariant).subscribe(
-          result => {
-            if (result) {
-              this.dataSource.variantUpdated(foundVariant);
-            }
-          },
-          error => {
-            console.log(error);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      // Update
+      foundVariant.filters = JSON.parse(JSON.stringify(createdVariant.filters));
+      this.centralServerService.updateVariant(foundVariant).subscribe(
+        result => {
+          if (result) {
+            this.dataSource.variantUpdated(foundVariant);
           }
-        );
-      }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
 
 }

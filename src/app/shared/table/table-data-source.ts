@@ -355,71 +355,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return this.hasFilters() && this.tableDef.variant.enabled;
     }
 
-    public variantChanged(variant: Variant) {
-        // Get variant
-        const foundVariant = this.variants.find(variantDef => {
-            return variantDef.name === variant.name && variantDef.userID === variant.userID;
-        });
-        // Set filter values
-        foundVariant.filters.forEach(filter => {
-            const foundFilter = this.filtersDef.find(filterDef => {
-                return filterDef.httpId === filter.filterID;
-            });
-            // Update value
-            if (foundFilter) {
-                switch (foundFilter.type) {
-                    case Constants.FILTER_TYPE_DIALOG_TABLE:
-                        foundFilter.currentValue = [{ key: filter.filterContent }];
-                        break;
-                    case Constants.FILTER_TYPE_DATE:
-                        foundFilter.currentValue = Utils.convertToDate(filter.filterContent);
-                        break;
-                    case Constants.FILTER_TYPE_DROPDOWN:
-                        foundFilter.currentValue = filter.filterContent;
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                // Search?
-                if (this.isSearchEnabled() && filter.filterID === 'Search' && this.searchInput) {
-                    this.searchInput.nativeElement.value = filter.filterContent;
-                }
-            }
-        });
-        // Keep selected variant
-        this.selectedVariant = foundVariant;
-        // Reload data
-        this.loadData();
-    }
-
     public variantDeleted(variant: Variant) {
-        const foundVariant = this.variants.find(variantDef => {
-            return (variantDef.name === variant.name && variantDef.userID === variant.userID);
-        });
-        // Clear filter values
-        foundVariant.filters.forEach(filter => {
-            const foundFilter = this.filtersDef.find(filterDef => {
-                return filterDef.httpId === filter.filterID;
-            });
-            // Reset
-            if (foundFilter) {
-                if (foundFilter.type === 'date') {
-                    foundFilter.currentValue = new Date();
-                } else {
-                    if (foundFilter.defaultValue) {
-                        foundFilter.currentValue = foundFilter.defaultValue;
-                    }
-                }
-            }
-        });
         // Delete variant
-        const index = this.variants.indexOf(foundVariant, 0);
+        const index = this.variants.indexOf(variant, 0);
         this.variants.splice(index, 1);
-        // Clear selected variant
-        this.clearSelectedVariant();
         // Reload data
-        this.loadData();
+        //this.loadData();
     }
 
     public variantCreated(variant) {
@@ -429,14 +370,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public variantUpdated(variant) {
         // Get variant
         const foundVariant = this.variants.find(variantDef => {
-            return variantDef.name === variant.name && variantDef.userID === variant.userID;
+            return variantDef.id === variant.id;
         });
         // Update filter
         foundVariant.filters = JSON.parse(JSON.stringify(variant.filters));
-    }
-
-    public getSelectedVariant(): Variant {
-        return this.selectedVariant;
     }
 
     variantExist(variantName): boolean {
@@ -448,10 +385,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             return foundVariant ? true : false;
         }
        return false;
-    }
-
-    public clearSelectedVariant() {
-        this.selectedVariant = null;
     }
 
     public getVariants() {

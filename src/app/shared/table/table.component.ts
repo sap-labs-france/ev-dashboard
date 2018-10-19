@@ -284,15 +284,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public isSaveVariantEnabled(value): boolean {
+    const validName = /^[a-zA-Z]+[a-zA-Z_0-9]+$/;
     // Not defined
-    if(!value || value === '' || !/^[a-zA-Z]+((['_-][a-zA-Z])?[a-zA-Z]*)*$/.test(value)) {
+    if (!value || value.name === '' || !validName.test(value.name)) {
       return false;
     }
     // Current variant?
-    if(!this.selectedVariant) {
+    if (!this.selectedVariant) {
       // Variant with the same name and same user exists?
       const foundVariant = this.dataSource.getVariants().find(variant => {
-        return variant.name === value && variant.userID === this.loggedUser.id;
+        return variant.name === value.name && variant.userID === this.loggedUser.id;
       });
       // Disable if exists
       return foundVariant ? false : true;

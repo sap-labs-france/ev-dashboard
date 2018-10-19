@@ -61,7 +61,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 45000,
-            "host": "192.168.206.138",
+            "host": "172.16.13.128",
             "browserTarget": "md-pro-angular-cli:build"
           },
           "configurations": {

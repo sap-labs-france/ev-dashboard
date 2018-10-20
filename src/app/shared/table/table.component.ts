@@ -287,21 +287,26 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isSaveVariantEnabled(value): boolean {
     const validName = /^[a-zA-Z]+[a-zA-Z_0-9]+$/;
-    // Not defined
-    if (!value || value.name === '' || !validName.test(value.name)) {
-      return false;
-    }
-    // Current variant?
-    if (!this.selectedVariant) {
+    // Selected variant?
+    if (this.selectedVariant) {
+      // value is type of Variant
+      if (!value || value.name === '' || !validName.test(value.name)) {
+        return false
+      }
+      // Enable if variant belongs to current user
+      return this.selectedVariant.userID === this.loggedUser.id;
+    } else {
+      // value is string
+      if (!value || !validName.test(value)) {
+        return false;
+      }
       // Variant with the same name and same user exists?
       const foundVariant = this.dataSource.getVariants().find(variant => {
-        return variant.name === value.name && variant.userID === this.loggedUser.id;
+        return variant.name === value && variant.userID === this.loggedUser.id;
       });
-      // Disable if exists
+      // Disable if exists unless user selects the variant
       return foundVariant ? false : true;
     }
-    // Enable
-    return true;
   }
 
   public displayFnVariant(variant?: Variant): string | undefined {

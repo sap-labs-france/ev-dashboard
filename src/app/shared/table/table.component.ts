@@ -63,7 +63,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       private translateService: TranslateService,
       private dialog: MatDialog,
       private router: Router,
-      private messageService: MessageService,) {
+      private messageService: MessageService) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.variantPlaceholder = this.translateService.instant('general.variant_placeholder');
@@ -129,7 +129,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
          this.filteredVariants = this.dataSource.getVariants();
        },
        error => {
-         console.log(error);
+         // No longer exists!
+         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+           this.translateService.instant('general.error_backend'));
        }
      );
      this.handleChangeVariantInput();
@@ -319,14 +321,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public  handleVariantChanged(variant) {
+  public handleVariantChanged(variant) {
     // Get variant
     const foundVariant = this.dataSource.getVariants().find(variantDef => {
       return variantDef.id === variant.id;
     });
 
     // Update filters & clear the remaining
-    this.filtersDef.forEach(async filter => {
+    this.filtersDef.forEach(filter => {
       const foundFilter = foundVariant.filters.find(filterDef => {
         return filterDef.filterID === filter.httpId;
       });
@@ -335,8 +337,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // Update filter
         switch (filter.type) {
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-          const value = await this.dataSource.buildFilterValue(filter, foundFilter.filterContent);
-            filter.currentValue = [{ key: foundFilter.filterContent, value: value }];
+            filter.currentValue = [this.dataSource.getFilterValueByKey(filter, foundFilter.filterContent)];
             break;
           case Constants.FILTER_TYPE_DATE:
             filter.currentValue = Utils.convertToDate(foundFilter.filterContent);
@@ -392,15 +393,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           this.dataSource.variantDeleted(this.selectedVariant);
           // Clear all filters
           this.filtersDef.forEach(filter => {
-            switch(filter.type) {
+            switch (filter.type) {
               case Constants.FILTER_TYPE_DIALOG_TABLE:
-              filter.currentValue = null;
+                filter.currentValue = null;
                 break;
               case Constants.FILTER_TYPE_DATE:
-              filter.currentValue = Utils.convertToDate(moment().startOf('day'));
+                filter.currentValue = Utils.convertToDate(moment().startOf('day'));
                 break;
               case Constants.FILTER_TYPE_DROPDOWN:
-              filter.currentValue = filter.items[0].key;
+                filter.currentValue = filter.items[0].key;
                 break;
               default:
                 break;
@@ -420,7 +421,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       (error) => {
-        console.log(error);
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('general.error_backend'));
       }
     );
   }
@@ -451,7 +454,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error => {
-          console.log(error);
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('general.error_backend'));
         }
       );
     } else {
@@ -466,8 +471,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         error => {
           // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('general.error_backend'));
         }
       );
     }

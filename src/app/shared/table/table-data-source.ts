@@ -2,9 +2,9 @@ import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, SelectionModel, DataSource } from '@angular/cdk/collections';
-import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef, TableFilterDef, Variant, FilterType } from '../../common.types';
+import { TableColumnDef, Paging, Ordering, TableDef, SubjectInfo, TableActionDef,
+                TableFilterDef, Variant, KeyValue } from '../../common.types';
 import { Constants } from '../../utils/Constants';
-import { Utils } from '../../utils/Utils';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
     private dataSubject = new BehaviorSubject<T[]>([]);
@@ -398,9 +398,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     public getViewID() {
         return '';
     }
-
-    public async buildFilterValue(filter: TableFilterDef, key) {
-        return '';
+    // Return key/value filter constent of dialog filter
+    public getFilterValueByKey(filter: TableFilterDef, key): KeyValue {
+        return { key: '', value: '' };
     }
 
     abstract getTableColumnDefs(): TableColumnDef[];

@@ -2,7 +2,8 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef, User, Variant, VariantResult } from '../../common.types';
+import { Charger, KeyValue, Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef,
+              TableDef, User,  } from '../../common.types';
 import { CentralServerNotificationService } from '../../services/central-server-notification.service';
 import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
@@ -20,7 +21,8 @@ import { UserTableFilter } from '../../shared/table/filters/user-filter';
 import { ChargerTableFilter } from '../../shared/table/filters/charger-filter';
 
 export class LogDataSource extends TableDataSource<Log> {
-
+  private users: User[];
+  private chargers: Charger[];
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -30,6 +32,22 @@ export class LogDataSource extends TableDataSource<Log> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
+    // Fill users
+    this.centralServerService.getUsers({}).subscribe((users) => {
+      this.users = users.result;
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('general.error_backend'));
+    });
+    // Fill chargers
+    this.centralServerService.getChargers({}).subscribe((chargers) => {
+      this.chargers = chargers.result;
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('general.error_backend'));
+    });
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -172,16 +190,26 @@ export class LogDataSource extends TableDataSource<Log> {
     return 'app-logs-cmp';
   }
 
-  public async buildFilterValue(filter: TableFilterDef, key) {
+  public getFilterValueByKey(filter: TableFilterDef, key): KeyValue {
+    let value = '';
     switch (filter.id) {
       case 'user':
-        await this.centralServerService.getUser(key).subscribe(user => {
-          return `${user.name} ${user.firstName ? user.firstName : ''}`;
+        const foundUser = this.users.find(user => {
+          return user.id === key;
         });
+        if (foundUser) {
+          value = `${foundUser.name} ${foundUser.firstName ? foundUser.firstName : ''}`;
+        }
         break;
       case 'charger':
-        return key;
+        const foundCharger = this.chargers.find(charger => {
+          return charger.id === key;
+        });
+        if (foundCharger) {
+          value = foundCharger.id;
+        }
+        break;
     }
+    return { key: key, value: value };
   }
-
 }

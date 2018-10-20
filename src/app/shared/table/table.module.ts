@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GroupByPipe } from './pipes/variant-pipe';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TranslateModule
   ],
   declarations: [
-    TableComponent
+    TableComponent,
+    GroupByPipe
   ],
   exports: [
     TableComponent

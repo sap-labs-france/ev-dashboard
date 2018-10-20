@@ -412,3 +412,8 @@ export interface VariantResult {
   count: number,
   result: Variant[]
 }
+
+export interface VariantGroup {
+  name: string,
+  variants: Variant[]
+}

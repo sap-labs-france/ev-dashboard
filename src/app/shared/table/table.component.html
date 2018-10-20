@@ -71,9 +71,11 @@
           <mat-form-field>
             <input matInput [formControl]="variantInputField" [placeholder]="variantPlaceholder" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleVariantChanged($event.option.value)" [displayWith]="displayFnVariant">
-              <mat-option *ngFor="let variant of filteredVariants" [value]="variant">
+                <mat-optgroup *ngFor="let group of let filteredVariant of filteredVariants | groupBy:'userID'" [label]="group.name">
+              <mat-option *ngFor="let variant of group.variants" [value]="variant">
                 <span>{{variant.name}}</span>
               </mat-option>
+            </mat-optgroup>
             </mat-autocomplete>
             <button mat-button matSuffix mat-icon-button aria-label="Save" (click)="handleSaveVariant()" [disabled]="!isSaveVariantEnabled(variantInputField.value)">
               <mat-icon>save</mat-icon>

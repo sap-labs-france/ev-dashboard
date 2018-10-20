@@ -6,7 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { TableColumnDef, TableDef, TableFilterDef, TableActionDef, Filter, User, Variant, VariantResult } from '../../common.types';
+import { TableColumnDef, TableDef, TableFilterDef, TableActionDef, Filter, User, Variant, VariantResult, VariantGroup } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { MessageService } from '../../services/message.service';

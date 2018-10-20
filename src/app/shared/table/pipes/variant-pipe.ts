@@ -9,8 +9,8 @@ export class GroupByPipe implements PipeTransform {
 
     constructor(private translateService: TranslateService) {
         // Translate
-        this.global = translateService.instant('general.global_variant');
-        this.local = this.translateService.instant('general.local_variant');
+        this.global = translateService.instant('general.variant.global_variant');
+        this.local = this.translateService.instant('general.variant.local_variant');
     }
 
     transform(collection: Array<Variant>, property: string): Array<VariantGroup> {

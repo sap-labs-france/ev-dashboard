@@ -66,7 +66,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       private messageService: MessageService) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-    this.variantPlaceholder = this.translateService.instant('general.variant_placeholder');
+    this.variantPlaceholder = this.translateService.instant('general.variant.variant_placeholder');
     // Logged user
     this.loggedUser = this.centralServerService.getLoggedUser();
   }

@@ -388,14 +388,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public handleDeleteVariant() {
+    const variant = this.selectedVariant;
     // Delete
-    this.centralServerService.deleteVariant(this.selectedVariant.id).subscribe(
+    this.centralServerService.deleteVariant(variant.id).subscribe(
       (result) => {
         if (result) {
           // Clear variant input field
           this.variantInputField.setValue('');
           // Variant deleted
-          this.dataSource.variantDeleted(this.selectedVariant);
+          this.dataSource.variantDeleted(variant);
           // Clear all filters
           this.filtersDef.forEach(filter => {
             switch (filter.type) {

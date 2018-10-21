@@ -48,7 +48,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 // Deleted?
                 if (notifInfo.action === Constants.NOTIF_ACTION_DELETE) {
                     // Log off user
-                    this.signout();
+                    this.logout();
                 } else {
                     // Same user: Update it
                     this.updateUserImage();
@@ -67,21 +67,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
             // Keep
             this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
-        });
-    }
-
-    public signout() {
-        // Logoff
-        this.centralServerService.logout().subscribe((result) => {
-            // Clear
-            this.centralServerService.logoutSucceeded();
-            // Redirect to login page with the return url
-            this.router.navigate(['/auth/login']);
-        }, (error) => {
-            // Clear
-            this.centralServerService.logoutSucceeded();
-            // Redirect to login page with the return url
-            this.router.navigate(['/auth/login']);
         });
     }
 

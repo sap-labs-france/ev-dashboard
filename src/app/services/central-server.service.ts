@@ -541,6 +541,7 @@ export class CentralServerService {
     this._checkInit();
     // Keep it local (iFrame use case)
     this.clearLoggedUserToken();
+    this.routesTranslated = null;
     // Disconnect
     this.centralServerNotificationService.resetSocketIO();
   }

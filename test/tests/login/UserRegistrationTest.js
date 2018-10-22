@@ -1,4 +1,4 @@
-Feature('As a new registered user, I cannot login without activating my account @login');
+Feature('As a new registered user, I should validate my account before login @login');
 
 let user;
 

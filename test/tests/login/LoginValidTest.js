@@ -1,4 +1,4 @@
-Feature('I should be able to login with Super Admin, Admin, Basic Demo users');
+Feature('I should be able to login with Super Admin, Admin, Basic Demo users @login');
 
 Scenario('Super Admin user login', (I, loginPage) => {
   I.amOnPage(loginPage.url);

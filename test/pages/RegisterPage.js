@@ -23,7 +23,6 @@ module.exports = {
     I.click(this.fields.acceptEula);
     I.click(this.fields.captcha);
     I.wait(2);
-
     I.click(this.submitButton);
   }
 };

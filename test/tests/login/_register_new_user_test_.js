@@ -2,18 +2,18 @@ Feature('As a new registered user, I can login @login');
 
 let user;
 
-BeforeSuite((I, mailServer) => {
+BeforeSuite((I, emailServer) => {
     user = I.amANewUser();
-    mailServer.start();
+    emailServer.start();
 });
 
-AfterSuite((I, mailServer) => mailServer.stop());
+AfterSuite((I, emailServer) => emailServer.stop());
 
-Scenario('I create my account', async (I, authLayout, registrationPage) => {
+Scenario('I create my account', async (I, authLayoutPage, registerPage) => {
     I.amOnPage('/auth/login');
     I.wait(1);
-    authLayout.goToRegistrationPage();
-    registrationPage.register(user);
+    authLayoutPage.goToRegisterPage();
+    registerPage.register(user);
 });
 
 Scenario('I validate my mail address', async (I, mailboxPage) => {

@@ -289,23 +289,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
-    // Check common actions
-    switch (actionDef.id) {
-      case 'refresh':
-        this.loadData();
-        break;
-      // Auto Refresh
-      case 'auto-refresh':
-        // Check Change Listener
-        if (actionDef.currentValue) {
-          // Activate
-          this.registerToDataChange();
-        } else {
-          // Disable
-          this.unregisterToDataChange();
-        }
-        break;
-    }
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

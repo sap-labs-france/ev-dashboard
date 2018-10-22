@@ -9,9 +9,10 @@ import { CentralServerNotificationService } from '../../services/central-server-
 import { MessageService } from '../../services/message.service';
 import { TenantsDataSource } from './tenants-data-source-table';
 import { MatDialog } from '@angular/material';
+import {DialogService} from '../../services/dialog.service';
 
 @Component({
-    selector: 'app-logs-cmp',
+    selector: 'app-tenants-cmp',
     templateUrl: 'tenants.component.html'
 })
 export class TenantsComponent implements OnInit {
@@ -24,6 +25,7 @@ export class TenantsComponent implements OnInit {
         private centralServerService: CentralServerService,
         private messageService: MessageService,
         private spinnerService: SpinnerService,
+        private dialogService: DialogService,
         private dialog: MatDialog,
         private centralServerNotificationService: CentralServerNotificationService,
         private translateService: TranslateService,
@@ -40,6 +42,7 @@ export class TenantsComponent implements OnInit {
             this.messageService,
             this.translateService,
             this.spinnerService,
+            this.dialogService,
             this.router,
             this.dialog,
             this.centralServerNotificationService,

@@ -271,6 +271,31 @@ export class CentralServerService {
       );
   }
 
+  public updateTenant(tenant: Tenant) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantUpdate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteTenant(id): Observable<ActionResponse> {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public verifyTenant(): Observable<any> {
     // Verify init
     this._checkInit();

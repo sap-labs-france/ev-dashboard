@@ -605,10 +605,15 @@
 		"tenant_not_found": "This tenant does not exist! You cannot login!",
 		"email": "Email",
 		"subdomain": "Subdomain",
-		"create_success": "The tenant {{name}} has been created successfully",
+		"create_success": "The tenant '{{name}}' has been created successfully",
 		"create_error": "Error occurred while creating the tenant",
-		"name_already_used": "The tenant {{name}} is already used",
+		"name_already_used": "The tenant '{{name}}' is already used",
 		"subdomain_already_used": "The subdomain {{subdomain}} is already used",
-		"update_error": "Error occurred while updating the tenant"
+		"update_success": "The tenant '{{name}}' has been updated successfully",
+		"update_error": "Error occurred while updating the tenant",
+		"delete_confirm": "Do you really want to delete the tenant '{{name}}'?",
+		"delete_title": "Delete Tenant",
+		"delete_success": "The tenant '{{name}}' has been deleted successfully",
+		"delete_error": "Error occurred while deleting the tenant"
 	}
 }

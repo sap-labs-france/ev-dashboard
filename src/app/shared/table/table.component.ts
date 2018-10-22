@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { SelectionModel } from '@angular/cdk/collections';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
-import { ConfigService } from '../../services/config.service';
-import { CentralServerService } from '../../services/central-server.service';
-import { TableDataSource } from './table-data-source';
-import { TableFilter } from './filters/table-filter';
-import { Utils } from '../../utils/Utils';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {SelectionModel} from '@angular/cdk/collections';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {ConfigService} from '../../services/config.service';
+import {CentralServerService} from '../../services/central-server.service';
+import {TableDataSource} from './table-data-source';
+import {TableFilter} from './filters/table-filter';
+import {Utils} from '../../utils/Utils';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -47,10 +47,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(
-      private configService: ConfigService,
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService,
-      private dialog: MatDialog) {
+    private configService: ConfigService,
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
@@ -69,7 +69,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get column defs
     this.columnDefs = this.dataSource.getTableColumnDefs();
     // Get columns
-    this.columns = this.columnDefs.map( (column) => column.id);
+    this.columns = this.columnDefs.map((column) => column.id);
     // Row Selection enabled?
     if (this.dataSource.isRowSelectionEnabled()) {
       // Yes: Add Select column
@@ -79,6 +79,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.isRowDetailsEnabled()) {
       // Yes: Add Details column
       this.columns = ['details', ...this.columns];
+    }
+    // Is there specific row actions ?
+    if (this.dataSource.hasRowActions()) {
+      this.columns = [...this.columns, 'actions'];
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
@@ -131,7 +135,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Date is one way binding: update the value manually
       filterDef.currentValue = event.value;
     }
-      // Get Actions def
+    // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
 
@@ -152,7 +156,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public actionTriggered(actionDef: TableActionDef, event) {
+  public actionTriggered(actionDef: TableActionDef, event?) {
     // Slide?
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
@@ -162,11 +166,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.actionTriggered(actionDef);
   }
 
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    // Get Actions def
+    this.dataSource.rowActionTriggered(actionDef, rowItem);
+  }
+
   // Selects all rows if they are not all selected; otherwise clear selection.
   public masterSelectToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.getData().forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
   public buildRowValue(row: any, columnDef: TableColumnDef) {
@@ -192,7 +201,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'integer':
         propertyValue = Utils.convertToInteger(propertyValue);
         break;
-        // Float
+      // Float
       case 'float':
         propertyValue = Utils.convertToFloat(propertyValue);
         break;

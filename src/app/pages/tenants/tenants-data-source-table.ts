@@ -14,8 +14,12 @@ import { Utils } from '../../utils/Utils';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { TenantDialogComponent } from './dialog/tenant.dialog.component';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import {TableUpdateAction} from '../../shared/table/actions/table-update-action';
+import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 
 export class TenantsDataSource extends TableDataSource<Log> {
+  private readonly tableActionsRow: TableActionDef[];
+
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -26,6 +30,11 @@ export class TenantsDataSource extends TableDataSource<Log> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
+
+    this.tableActionsRow = [
+      new TableUpdateAction(this.translateService).getActionDef(),
+      new TableDeleteAction(this.translateService).getActionDef()
+    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -97,6 +106,10 @@ export class TenantsDataSource extends TableDataSource<Log> {
       new TableCreateAction(this.translateService).getActionDef(),
       new TableRefreshAction(this.translateService).getActionDef()
     ];
+  }
+
+  public getTableRowActions(): TableActionDef[] {
+    return this.tableActionsRow;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

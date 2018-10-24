@@ -68,7 +68,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.9.4",
     "arrive": "^2.4.1",
-    "codeceptjs": "^1.4.2",
+    "codeceptjs": "^1.4.4",
     "codelyzer": "^4.4.4",
     "faker": "^4.1.0",
     "jasmine": "^3.2.0",

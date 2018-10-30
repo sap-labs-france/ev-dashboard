@@ -583,6 +583,8 @@ export class CentralServerService {
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    data['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
@@ -596,6 +598,8 @@ export class CentralServerService {
   public registerUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
@@ -649,6 +653,8 @@ export class CentralServerService {
   public verifyEmail(params: any) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    params['tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
@@ -664,6 +670,8 @@ export class CentralServerService {
   public resendVerificationEmail(user) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {

@@ -6,13 +6,14 @@ import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import {ModuleWithProviders} from '@angular/core';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
+import {TenantGuard} from './guard/tenant.guard';
 
 export const AppRoutes: Routes = [
   {
     path: '', redirectTo: 'dashboard', pathMatch: 'full',
   },
   {
-    path: 'not-found', component: NotFoundComponent,
+    path: 'not-found', component: NotFoundComponent, canActivate: [TenantGuard]
   },
   {
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
@@ -21,7 +22,7 @@ export const AppRoutes: Routes = [
     path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent,
+    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
       {path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
       {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
@@ -32,7 +33,7 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: '', component: AuthLayoutComponent,
+    path: '', component: AuthLayoutComponent, canActivateChild: [TenantGuard],
     children: [{
       path: 'auth',
       loadChildren: './authentication/authentication.module#AuthenticationModule'

@@ -5,7 +5,6 @@ const maildev = new MailDev({
     incomingUser: "e2e",
     incomingPass: "e2e",
     silent: true,
-
 });
 
 module.exports = {

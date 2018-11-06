@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { SubjectInfo } from '../common.types';
+import {SubjectInfo, User} from '../common.types';
 import * as io from 'socket.io-client';
 import { Constants } from '../utils/Constants';
 
@@ -112,11 +112,12 @@ export class CentralServerNotificationService {
     return this.subjectTenant.asObservable();
   }
 
-  public initSocketIO() {
+  public initSocketIO(tenantID: String) {
+    this.resetSocketIO();
     // Check
-    if (!this.socket) {
+    if (tenantID) {
       // Connect to Socket IO
-      this.socket = io(this.centralRestServerServiceURL);
+      this.socket = io(`${this.centralRestServerServiceURL}?tenantID=${tenantID}`);
 
       // Monitor Companies`
       this.socket.on(Constants.ENTITY_COMPANIES, () => {

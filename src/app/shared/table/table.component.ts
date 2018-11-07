@@ -80,6 +80,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Yes: Add Details column
       this.columns = ['details', ...this.columns];
     }
+    // Is there specific row actions ?
+    if (this.dataSource.hasRowActions()) {
+      this.columns = [...this.columns, 'actions'];
+    }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Find Sorted columns
@@ -152,7 +156,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public actionTriggered(actionDef: TableActionDef, event) {
+  public actionTriggered(actionDef: TableActionDef, event?) {
     // Slide?
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
@@ -160,6 +164,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Get Actions def
     this.dataSource.actionTriggered(actionDef);
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    // Get Actions def
+    this.dataSource.rowActionTriggered(actionDef, rowItem);
   }
 
   // Selects all rows if they are not all selected; otherwise clear selection.

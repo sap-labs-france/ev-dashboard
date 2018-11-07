@@ -18,8 +18,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
   public verifyEmailAction: boolean;
   private messages: Object;
-  public resetPasswordHash: string;
-  public resetPasswordEmail: string;
   public captchaSiteKey: string;
   public verificationToken: string;
   public verificationEmail: string;

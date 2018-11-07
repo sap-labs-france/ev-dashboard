@@ -297,6 +297,31 @@ export class CentralServerService {
       );
   }
 
+  public updateTenant(tenant: Tenant) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantUpdate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteTenant(id): Observable<ActionResponse> {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public verifyTenant(): Observable<any> {
     // Verify init
     this._checkInit();
@@ -584,6 +609,8 @@ export class CentralServerService {
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    data['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
@@ -597,6 +624,8 @@ export class CentralServerService {
   public registerUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
@@ -650,6 +679,8 @@ export class CentralServerService {
   public verifyEmail(params: any) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    params['tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
@@ -665,6 +696,8 @@ export class CentralServerService {
   public resendVerificationEmail(user) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {

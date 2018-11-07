@@ -113,9 +113,8 @@ export class CentralServerNotificationService {
   }
 
   public initSocketIO(tenantID: String) {
-    this.resetSocketIO();
     // Check
-    if (tenantID) {
+    if (!this.socket && tenantID) {
       // Connect to Socket IO
       this.socket = io(`${this.centralRestServerServiceURL}?tenantID=${tenantID}`);
 

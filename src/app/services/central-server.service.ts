@@ -11,8 +11,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import {
-  ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant
+    ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
+    User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant, TransactionResult
 } from '../common.types';
 import { WindowService } from './window.service';
 
@@ -49,7 +49,15 @@ export class CentralServerService {
       type: 'link',
       icontype: 'account_balance',
       superAdmin: true
-    }
+    },
+      {
+          id: 'transactions',
+          path: '/transactions',
+          title: 'Transactions',
+          type: 'link',
+          icontype: 'account_balance',
+          admin: true
+      }
   ];
 
   constructor(
@@ -257,6 +265,24 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
+
+    public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+        // Verify init
+        this._checkInit();
+        // Build Paging
+        this._buildPaging(paging, params);
+        // Build Ordering
+        this._buildOrdering(ordering, params);
+        // Execute the REST service
+        return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
+            {
+                headers: this._buildHttpHeaders(),
+                params
+            })
+            .pipe(
+                catchError(this._handleHttpError)
+            );
+    }
 
   public createTenant(tenant: Tenant) {
     // Verify init

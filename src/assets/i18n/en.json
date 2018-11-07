@@ -610,5 +610,16 @@
 		"name_already_used": "The tenant {{name}} is already used",
 		"subdomain_already_used": "The subdomain {{subdomain}} is already used",
 		"update_error": "Error occurred while updating the tenant"
+	},
+	"transactions":{
+		"date_from":"Date",
+		"duration":"Duration",
+		"inactivity":"Inactivity",
+		"user":"User",
+		"badge_id":"Badge ID",
+		"charging_station":"Charging Station",
+		"connector":"Connector",
+		"total_consumption":"Consumed",
+		"price":"Price"
 	}
 }

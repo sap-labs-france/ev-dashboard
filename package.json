@@ -13,7 +13,9 @@
     "build:prod": "ng build --prod",
     "test": "npm run e2e",
     "lint": "ng lint",
-    "e2e": "codeceptjs run --steps --reporter mochawesome "
+    "e2e": "codeceptjs run --steps --reporter mochawesome ",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "private": true,
   "dependencies": {
@@ -85,10 +87,17 @@
     "mocha-junit-reporter": "^1.18.0",
     "mochawesome": "^3.0.3",
     "protractor": "^5.3.2",
-    "puppeteer": "^1.9.0",
+    "puppeteer": "^1.10.0",
     "rosie": "^2.0.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "@babel/core": "^7.1.2",
+    "babel-loader": "^8.0.4",
+    "@storybook/angular": "^4.0.4",
+    "@storybook/addon-notes": "^4.0.4",
+    "@storybook/addon-actions": "^4.0.4",
+    "@storybook/addon-links": "^4.0.4",
+    "@storybook/addons": "^4.0.4"
   }
 }

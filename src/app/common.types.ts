@@ -209,6 +209,11 @@ export interface TenantResult {
   result: Tenant[]
 }
 
+export interface TransactionResult {
+  count: number,
+  result: Transaction[]
+}
+
 export interface Logo {
   id: string;
   logo: string;
@@ -295,6 +300,7 @@ export interface TableDef {
 
 export interface TableColumnDef {
   id: string;
+  additionalIds?: string[];
   name: string;
   footerName?: string;
   type?: string;
@@ -302,6 +308,7 @@ export interface TableColumnDef {
   class?: string;
   formatter?: Function,
   formatterOptions?: any,
+  sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
 }

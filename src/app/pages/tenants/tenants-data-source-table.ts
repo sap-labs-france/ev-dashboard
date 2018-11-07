@@ -73,7 +73,8 @@ export class TenantsDataSource extends TableDataSource<Log> {
         headerClass: 'col-25p',
         class: 'text-left col-25p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'email',
@@ -81,13 +82,15 @@ export class TenantsDataSource extends TableDataSource<Log> {
         headerClass: 'col-30p',
         class: 'col-30p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'subdomain',
         name: this.translateService.instant('tenants.subdomain'),
         headerClass: 'col-25p',
-        class: 'col-25p'
+        class: 'col-25p',
+        sortable: true
       }
     ];
   }

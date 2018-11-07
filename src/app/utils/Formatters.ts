@@ -1,18 +1,37 @@
-import { LocaleService } from '../services/locale.service';
+import {LocaleService} from '../services/locale.service';
 
 export class Formatters {
   public static createDateTimeFormatter(localeService: LocaleService,
-    options = {
-      hour12: false,
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric', second: 'numeric'
-    }): any {
+                                        options = {
+                                          hour12: false,
+                                          year: 'numeric', month: 'numeric', day: 'numeric',
+                                          hour: 'numeric', minute: 'numeric', second: 'numeric'
+                                        }): any {
     // Create
     return new Intl.DateTimeFormat(
       localeService.getCurrentFullLocaleForJS(), options);
   }
 
-  public static formatLogLevel(status, options = { iconClass: '' }): any {
+  public static formatDurationInSecs(durationInSecs) {
+    return new Date(durationInSecs * 1000).toUTCString().replace(/.*(\d{2}):(\d{2}):(\d{2}).*/, '$1h $2m');
+  }
+
+  public static formatInactivityInSecs(inactivityInSecs, totalDurationInSecs) {
+    if (totalDurationInSecs > 0) {
+      return `${Formatters.formatDurationInSecs(inactivityInSecs)} (${Math.floor(inactivityInSecs / totalDurationInSecs * 100)}%)`;
+    }
+    return '00h00m (0%)'
+  }
+
+  public static formatToKiloWatt(value) {
+    return Number.parseFloat(`${value / 1000}`).toFixed(2) + ' kW'
+  }
+
+  public static formatUser(user): any {
+    return `${user.name.toUpperCase()} ${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}`;
+  }
+
+  public static formatLogLevel(status, options = {iconClass: ''}): any {
     let clasNames = (options.iconClass ? options.iconClass : '');
     switch (status) {
       // Info

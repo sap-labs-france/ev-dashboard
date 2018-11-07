@@ -88,7 +88,7 @@
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
         <th mat-header-cell [class]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
-          *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
+          *matHeaderCellDef mat-sort-header [disabled]="!columnDef.sortable">{{columnDef.name}}</th>
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" *matCellDef="let row" [innerHtml]="buildRowValue(row, columnDef)"></td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
       </ng-container>

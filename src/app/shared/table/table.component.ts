@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { SelectionModel } from '@angular/cdk/collections';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { TableColumnDef, TableDef, TableFilterDef, TableActionDef } from '../../common.types';
-import { ConfigService } from '../../services/config.service';
-import { CentralServerService } from '../../services/central-server.service';
-import { TableDataSource } from './table-data-source';
-import { TableFilter } from './filters/table-filter';
-import { Utils } from '../../utils/Utils';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {SelectionModel} from '@angular/cdk/collections';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {ConfigService} from '../../services/config.service';
+import {CentralServerService} from '../../services/central-server.service';
+import {TableDataSource} from './table-data-source';
+import {TableFilter} from './filters/table-filter';
+import {Utils} from '../../utils/Utils';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -36,21 +36,21 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('searchInput') searchInput: ElementRef;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(
-      private configService: ConfigService,
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService,
-      private dialog: MatDialog) {
+    private configService: ConfigService,
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
@@ -69,7 +69,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get column defs
     this.columnDefs = this.dataSource.getTableColumnDefs();
     // Get columns
-    this.columns = this.columnDefs.map( (column) => column.id);
+    this.columns = this.columnDefs.map((column) => column.id);
     // Row Selection enabled?
     if (this.dataSource.isRowSelectionEnabled()) {
       // Yes: Add Select column
@@ -131,7 +131,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Date is one way binding: update the value manually
       filterDef.currentValue = event.value;
     }
-      // Get Actions def
+    // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
 
@@ -165,23 +165,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   // Selects all rows if they are not all selected; otherwise clear selection.
   public masterSelectToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.getData().forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
   public buildRowValue(row: any, columnDef: TableColumnDef) {
-    let propertyValue = row[columnDef.id];
-
-    // Check if ID contains multiple IDs
-    if (columnDef.id.indexOf('.') > 0) {
-      // Yes: get the sub-property
-      propertyValue = row;
-      // Get the Json value
-      columnDef.id.split('.').forEach((id) => {
-        propertyValue = propertyValue[id];
-      });
+    let propertyValue = this.findPropertyValue(columnDef.id, row);
+    const additionalProperties = [];
+    if (columnDef.additionalIds) {
+      columnDef.additionalIds.forEach(propertyName => additionalProperties.push(this.findPropertyValue(propertyName, row)));
     }
-
     // Type?
     switch (columnDef.type) {
       // Date
@@ -192,16 +185,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       case 'integer':
         propertyValue = Utils.convertToInteger(propertyValue);
         break;
-        // Float
+      // Float
       case 'float':
         propertyValue = Utils.convertToFloat(propertyValue);
         break;
     }
 
-    // Format?
     if (columnDef.formatter) {
-      // Yes
-      propertyValue = columnDef.formatter(propertyValue, columnDef.formatterOptions);
+      if (additionalProperties.length > 0) {
+        propertyValue = columnDef.formatter(propertyValue, ...additionalProperties, columnDef.formatterOptions);
+      } else {
+        propertyValue = columnDef.formatter(propertyValue, columnDef.formatterOptions);
+      }
     }
     // Return the property
     return propertyValue;
@@ -248,5 +243,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Fold it
       row.isExpanded = false;
     }
+  }
+
+  private findPropertyValue(propertyName, source) {
+    let propertyValue = source[propertyName];
+
+    if (propertyName.indexOf('.') > 0) {
+      propertyValue = source;
+      propertyName.split('.').forEach((key) => {
+        propertyValue = propertyValue[key];
+      });
+    }
+    return propertyValue;
   }
 }

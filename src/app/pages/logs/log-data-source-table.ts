@@ -105,7 +105,8 @@ export class LogDataSource extends TableDataSource<Log> {
         formatter: Formatters.formatLogLevel,
         formatterOptions: { iconClass: 'pt-1' },
         headerClass: 'col-5p',
-        class: 'col-5p'
+        class: 'col-5p',
+        sortable: true
       },
       {
         id: 'timestamp',
@@ -115,25 +116,29 @@ export class LogDataSource extends TableDataSource<Log> {
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
-        direction: 'desc'
+        direction: 'desc',
+        sortable: true
       },
       {
         id: 'source',
         name: this.translateService.instant('logs.source'),
         headerClass: 'col-15p',
-        class: 'text-left col-10p'
+        class: 'text-left col-10p',
+        sortable: true
       },
       {
         id: 'action',
         name: this.translateService.instant('logs.action'),
         headerClass: 'col-15p',
-        class: 'text-left col-15p'
+        class: 'text-left col-15p',
+        sortable: true
       },
       {
         id: 'message',
         name: this.translateService.instant('logs.message'),
         headerClass: 'col-40p',
-        class: 'text-left col-50p'
+        class: 'text-left col-50p',
+        sortable: true
       }
     ];
   }

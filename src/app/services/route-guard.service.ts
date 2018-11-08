@@ -1,4 +1,3 @@
-﻿﻿
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {CentralServerService} from './central-server.service';

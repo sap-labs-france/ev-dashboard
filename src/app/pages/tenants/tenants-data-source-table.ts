@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
-import {Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef} from '../../common.types';
+import {Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';

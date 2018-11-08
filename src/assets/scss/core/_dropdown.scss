@@ -10,7 +10,7 @@
   transform-origin: 0 0;
   will-change: transform, opacity;
   transition: transform $bmd-menu-expand-duration $bmd-animation-curve-default,
-              opacity $bmd-menu-fade-duration $bmd-animation-curve-default;
+  opacity $bmd-menu-fade-duration $bmd-animation-curve-default;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 
   &.showing {
@@ -49,36 +49,35 @@
     transform-origin: 100% 100%;
   }
 
-  .disabled > a{
-        color: $bmd-dropdown-header-color;
+  .disabled > a {
+    color: $bmd-dropdown-header-color;
 
-        &:focus,
-        &:hover{
-            text-decoration: none;
-            background-color: transparent;
-            background-image: none;
-            color: $bmd-dropdown-header-color;
-        }
+    &:focus,
+    &:hover {
+      text-decoration: none;
+      background-color: transparent;
+      background-image: none;
+      color: $bmd-dropdown-header-color;
     }
+  }
 
-    &.dropdown-with-icons .dropdown-item{
-        padding: $dropdown-item-padding-y + 0.125 $dropdown-item-padding-x $dropdown-item-padding-y + 0.125 $dropdown-item-padding-y + 0.125;
+  &.dropdown-with-icons .dropdown-item {
+    padding: $dropdown-item-padding-y + 0.125 $dropdown-item-padding-x $dropdown-item-padding-y + 0.125 $dropdown-item-padding-y + 0.125;
 
-        & .material-icons{
-            vertical-align: middle;
-            font-size: 24px;
-            position: relative;
-            margin-top: -4px;
-            top: 1px;
-            margin-right: 12px;
-            opacity: .5;
-        }
+    & .material-icons {
+      vertical-align: middle;
+      font-size: 24px;
+      position: relative;
+      margin-top: -4px;
+      top: 1px;
+      margin-right: 12px;
+      opacity: .5;
     }
-
+  }
 
   // https://www.google.com/design/spec/components/menus.html#menus-specs
   .dropdown-item,
-  li > a{    // used to properly size the ripple container
+  li > a { // used to properly size the ripple container
     position: relative;
     width: auto;
 
@@ -96,7 +95,7 @@
 
     min-width: $bmd-menu-item-min-width;
 
-    padding: $dropdown-item-padding-y  $dropdown-item-padding-x;
+    padding: $dropdown-item-padding-y $dropdown-item-padding-x;
 
     overflow: hidden;
     line-height: $bmd-line-height;
@@ -137,12 +136,12 @@
     }
   }
 
-  &:after{
-      will-change: transform;
-      transition: transform $bmd-animation-dropdown-caret linear;
+  &:after {
+    will-change: transform;
+    transition: transform $bmd-animation-dropdown-caret linear;
   }
 
-  .show &:after{
+  .show &:after {
     @include rotate-180();
   }
 
@@ -163,14 +162,14 @@
   }
 }
 
-.dropdown-header{
-    font-size: 0.75rem;
-    padding-top: $dropdown-header-padding-y;
-    padding-bottom: $dropdown-header-padding-y;
-    text-transform: none;
-    color: $bmd-dropdown-header-color;
-    line-height: $bmd-line-height;
-    font-weight: inherit;
+.dropdown-header {
+  font-size: 0.75rem;
+  padding-top: $dropdown-header-padding-y;
+  padding-bottom: $dropdown-header-padding-y;
+  text-transform: none;
+  color: $bmd-dropdown-header-color;
+  line-height: $bmd-line-height;
+  font-weight: inherit;
 }
 
 @keyframes bmd-dropdown-animation {
@@ -184,22 +183,22 @@
   }
 }
 
-.dropdown-menu.bootstrap-datetimepicker-widget{
-    opacity: 0;
-    transform: scale(0);
-    transition-duration: $bmd-menu-expand-duration;
-    transition-timing-function: $bmd-animation-curve-default;
-    transform-origin: 0 0;
-    will-change: transform, opacity;
-    top: 0;
+.dropdown-menu.bootstrap-datetimepicker-widget {
+  opacity: 0;
+  transform: scale(0);
+  transition-duration: $bmd-menu-expand-duration;
+  transition-timing-function: $bmd-animation-curve-default;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+  top: 0;
 }
 
-.dropdown-menu.bootstrap-datetimepicker-widget.top{
-    transform-origin: 0 100%;
+.dropdown-menu.bootstrap-datetimepicker-widget.top {
+  transform-origin: 0 100%;
 }
 
-.dropdown-menu.bootstrap-datetimepicker-widget.open{
-    opacity: 1;
-    transform: scale(1);
-    top: 0;
+.dropdown-menu.bootstrap-datetimepicker-widget.open {
+  opacity: 1;
+  transform: scale(1);
+  top: 0;
 }

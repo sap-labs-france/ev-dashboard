@@ -21,7 +21,8 @@
                       </span>
                       <mat-form-field>
                         <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
-                               [formControl]="name" required>
+                               [formControl]="name"
+                               required>
                         <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
@@ -49,7 +50,8 @@
                       </span>
                       <mat-form-field>
                         <input id="password-field" matInput type="password"
-                               placeholder="{{'authentication.password' | translate}}" [type]="hidePassword ? 'password' : 'text'"
+                               placeholder="{{'authentication.password' | translate}}"
+                               [type]="hidePassword ? 'password' : 'text'"
                                [formControl]="password" required>
                         <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
                         <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>

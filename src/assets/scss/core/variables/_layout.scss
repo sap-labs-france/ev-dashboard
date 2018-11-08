@@ -16,12 +16,12 @@ $res320: 320px; // IPhone 5
 
 .lighter-link-color {
   a {
-    color: lighten( $brand-primary, 40% );    
+    color: lighten($brand-primary, 40%);
     &:hover {
-      color: lighten( $brand-primary, 60% );
+      color: lighten($brand-primary, 60%);
     }
     &:visited {
-      color: lighten( $brand-primary, 50% );
+      color: lighten($brand-primary, 50%);
     }
   }
 }

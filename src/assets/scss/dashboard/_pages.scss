@@ -1,144 +1,143 @@
-.wrapper{
-    &:after{
-        display: table;
-        clear: both;
-        content: " ";
-    }
+.wrapper {
+  &:after {
+    display: table;
+    clear: both;
+    content: " ";
+  }
 
-    &.wrapper-full-page{
-        height: auto;
-        min-height: 100vh;
-    }
+  &.wrapper-full-page {
+    height: auto;
+    min-height: 100vh;
+  }
 }
 
+.full-page {
 
-.full-page{
+  &:after,
+  &:before {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
 
-    &:after,
-    &:before{
-        display: block;
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 2;
-    }
+  &:before {
+    background-color: rgba(0, 0, 0, .5);
+  }
 
-    &:before{
-        background-color: rgba(0,0,0,.5);
-    }
-
-    &[filter-color="purple"],
-    &[filter-color="primary"]{
-        &:after{
-            @include linear-gradient(rgba($purple-100,.56), rgba($purple-300,.95));
-
-        }
-        @include lock-page-input-color($brand-primary);
+  &[filter-color="purple"],
+  &[filter-color="primary"] {
+    &:after {
+      @include linear-gradient(rgba($purple-100, .56), rgba($purple-300, .95));
 
     }
-    &[filter-color="blue"],
-    &[filter-color="info"]{
-        &:after{
-            @include linear-gradient(rgba($cyan-100,.56), rgba($cyan-300,.95));
-        }
-        @include lock-page-input-color($brand-info);
-    }
-    &[filter-color="green"],
-    &[filter-color="success"]{
-        &:after{
-            @include linear-gradient(rgba($green-200,.56), rgba($green-400,.95));
-        }
-        @include lock-page-input-color($brand-success);
-    }
-    &[filter-color="orange"],
-    &[filter-color="warning"]{
-        &:after{
-            @include linear-gradient(rgba($orange-100,.56), rgba($orange-300,.95));
-        }
-        @include lock-page-input-color($brand-warning);
-    }
+    @include lock-page-input-color($brand-primary);
 
-    &[filter-color="red"],
-    &[filter-color="danger"]{
-        &:after{
-            @include linear-gradient(rgba($red-200,.56), rgba($red-400,.95));
-        }
-        @include lock-page-input-color($brand-danger);
+  }
+  &[filter-color="blue"],
+  &[filter-color="info"] {
+    &:after {
+      @include linear-gradient(rgba($cyan-100, .56), rgba($cyan-300, .95));
     }
-    &[filter-color="rose"]{
-        &:after{
-            @include linear-gradient(rgba($pink-100,.56), rgba($pink-300,.95));
-        }
-        @include lock-page-input-color($brand-rose);
+    @include lock-page-input-color($brand-info);
+  }
+  &[filter-color="green"],
+  &[filter-color="success"] {
+    &:after {
+      @include linear-gradient(rgba($green-200, .56), rgba($green-400, .95));
     }
+    @include lock-page-input-color($brand-success);
+  }
+  &[filter-color="orange"],
+  &[filter-color="warning"] {
+    &:after {
+      @include linear-gradient(rgba($orange-100, .56), rgba($orange-300, .95));
+    }
+    @include lock-page-input-color($brand-warning);
+  }
 
-    &[data-image]:after{
-        opacity: .8;
+  &[filter-color="red"],
+  &[filter-color="danger"] {
+    &:after {
+      @include linear-gradient(rgba($red-200, .56), rgba($red-400, .95));
     }
-
-    > .content,
-    > .footer{
-        position: relative;
-        z-index: 4;
+    @include lock-page-input-color($brand-danger);
+  }
+  &[filter-color="rose"] {
+    &:after {
+      @include linear-gradient(rgba($pink-100, .56), rgba($pink-300, .95));
     }
+    @include lock-page-input-color($brand-rose);
+  }
 
-    > .content{
-        min-height: calc(100vh - 80px);
-    }
+  &[data-image]:after {
+    opacity: .8;
+  }
 
-    .full-page-background{
-        position: absolute;
-        z-index: 1;
-        height: 100%;
-        width: 100%;
-        display: block;
-        top: 0;
-        left: 0;
-        background-size: cover;
-        background-position: center center;
+  > .content,
+  > .footer {
+    position: relative;
+    z-index: 4;
+  }
 
-    }
+  > .content {
+    min-height: calc(100vh - 80px);
+  }
 
-    .footer nav > ul a:not(.btn),
-    .footer,
-    .footer .copyright a{
-        color: $white-color;
-    }
+  .full-page-background {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center center;
+
+  }
+
+  .footer nav > ul a:not(.btn),
+  .footer,
+  .footer .copyright a {
+    color: $white-color;
+  }
 
 }
 
-.clear-filter{
-    &:before{
-        display: none;
-    }
+.clear-filter {
+  &:before {
+    display: none;
+  }
 }
 
 .login-page,
-.lock-page{
-    > .content{
-        padding-top: 18vh;
-    }
-    .page-header{
-      min-height: 100vh;
-      height: auto;
-      display: inherit;
+.lock-page {
+  > .content {
+    padding-top: 18vh;
+  }
+  .page-header {
+    min-height: 100vh;
+    height: auto;
+    display: inherit;
 
-      .container{
-          padding-top: 18vh !important;
-      }
+    .container {
+      padding-top: 18vh !important;
     }
+  }
 }
 
-.login-page{
+.login-page {
 
   .card-login {
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    &.card-hidden{
+    &.card-hidden {
       opacity: 0;
       @include transform-translate-y(-60px);
     }
@@ -151,13 +150,13 @@
       padding: 0px 30px 0px 10px;
 
       .input-group {
-        .input-group-prepend{
-            width: 100%;
+        .input-group-prepend {
+          width: 100%;
         }
         .input-group-text {
           padding: 0px 15px 0 15px;
         }
-        .form-control{
+        .form-control {
           padding-bottom: 10px;
           margin: 17px 0 0 0;
         }
@@ -169,252 +168,248 @@
       margin-right: 5px;
     }
 
-    &.card-hidden{
-        opacity: 0;
-        @include transform-translate-y(-60px);
+    &.card-hidden {
+      opacity: 0;
+      @include transform-translate-y(-60px);
     }
   }
 }
 
 .lock-page {
 
-    .card-profile {
-        width: 240px;
-        margin: 60px auto 0;
-        color: #FFFFFF;
-        left: 0;
-        right: 0;
-        display: block;
+  .card-profile {
+    width: 240px;
+    margin: 60px auto 0;
+    color: #FFFFFF;
+    left: 0;
+    right: 0;
+    display: block;
 
-        @include transform-translate-y(0);
-        @extend .animation-transition-general;
+    @include transform-translate-y(0);
+    @extend .animation-transition-general;
 
-        &.card-hidden {
-            opacity: 0;
-            @include transform-translate-y(-60px);
-        }
-
-        .card-avatar {
-            max-width: 90px;
-            max-height: 90px;
-            margin-top: -45px;
-        }
-
-        .card-footer {
-            border:none;
-        }
-
-
-        .form-group {
-          text-align: left;
-          margin-top: 15px;
-        }
-
-        &.with-animation {
-            @include transition(300ms, $transition-ease-in);
-        }
-
-        .card-body + .card-footer{
-          padding: 0.9375rem 1.875rem;
-          margin: 0;
-        }
+    &.card-hidden {
+      opacity: 0;
+      @include transform-translate-y(-60px);
     }
 
-    .footer {
-      z-index: 1;
-      color: #fff;
+    .card-avatar {
+      max-width: 90px;
+      max-height: 90px;
+      margin-top: -45px;
+    }
 
-      .copyright {
-        a {
-          color: $white;
+    .card-footer {
+      border: none;
+    }
 
-          &:hover {
-            color: $brand-primary;
-          }
+    .form-group {
+      text-align: left;
+      margin-top: 15px;
+    }
+
+    &.with-animation {
+      @include transition(300ms, $transition-ease-in);
+    }
+
+    .card-body + .card-footer {
+      padding: 0.9375rem 1.875rem;
+      margin: 0;
+    }
+  }
+
+  .footer {
+    z-index: 1;
+    color: #fff;
+
+    .copyright {
+      a {
+        color: $white;
+
+        &:hover {
+          color: $brand-primary;
         }
       }
     }
+  }
 
 }
 
+.register-page {
 
-.register-page{
+  .card-signup {
+    border-radius: $border-radius-base * 2;
+    @include shadow-16dp();
+    margin-bottom: 100px;
+    padding: 40px 0px;
+    margin-top: 15vh;
 
-    .card-signup{
-        border-radius: $border-radius-base * 2;
-        @include shadow-16dp();
-        margin-bottom: 100px;
-        padding: 40px 0px;
-        margin-top: 15vh;
+    .info {
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 0px;
 
-
-        .info{
-            max-width: 360px;
-            margin: 0 auto;
-            padding: 0px;
-
-            .info-title{
-                color: #3C4858;
-                margin: 30px 0 15px;
-            }
-        }
-
-        .form-check{
-          margin-top: 20px;
-          margin-bottom: 0;
-
-          label{
-              margin-left: 27px;
-          }
-
-          .checkbox-material{
-              padding-right: 20px;
-          }
-          a {
-            color: $brand-primary;
-            }
-        }
-
-
-        .info-horizontal{
-
-            .icon{
-                float: left;
-                margin-top: 24px;
-                margin-right: 10px;
-
-                i{
-                    font-size: 2.6em;
-                }
-
-                &.icon-primary{
-                    color: $brand-primary;
-                }
-                &.icon-info{
-                    color: $brand-info;
-                }
-                &.icon-success{
-                    color: $brand-success;
-                }
-                &.icon-warning{
-                    color: $brand-warning;
-                }
-                &.icon-danger{
-                    color: $brand-danger;
-                }
-                &.icon-rose{
-                    color: $brand-rose;
-                }
-            }
-
-            .description{
-                overflow: hidden;
-            }
-        }
-
-        .form-group{
-            margin: 27px 0 0 7px;
-            padding-bottom: 0;
-        }
-    }
-
-    .container{
-        position: relative;
-        z-index: 3;
-    }
-
-    .footer{
-      color: $white-color;
-
-      .container{
-          padding: 0;
-      }
-      .copyright {
-        a {
-          color: $white;
-
-          &:hover {
-            color: $brand-primary;
-          }
-        }
+      .info-title {
+        color: #3C4858;
+        margin: 30px 0 15px;
       }
     }
 
     .form-check {
-        label {
-            margin-left: 27px;
-        }
-        .form-check-label{
-            padding-left: 34px;
+      margin-top: 20px;
+      margin-bottom: 0;
+
+      label {
+        margin-left: 27px;
+      }
+
+      .checkbox-material {
+        padding-right: 20px;
+      }
+      a {
+        color: $brand-primary;
+      }
+    }
+
+    .info-horizontal {
+
+      .icon {
+        float: left;
+        margin-top: 24px;
+        margin-right: 10px;
+
+        i {
+          font-size: 2.6em;
         }
 
+        &.icon-primary {
+          color: $brand-primary;
+        }
+        &.icon-info {
+          color: $brand-info;
+        }
+        &.icon-success {
+          color: $brand-success;
+        }
+        &.icon-warning {
+          color: $brand-warning;
+        }
+        &.icon-danger {
+          color: $brand-danger;
+        }
+        &.icon-rose {
+          color: $brand-rose;
+        }
+      }
+
+      .description {
+        overflow: hidden;
+      }
     }
+
+    .form-group {
+      margin: 27px 0 0 7px;
+      padding-bottom: 0;
+    }
+  }
+
+  .container {
+    position: relative;
+    z-index: 3;
+  }
+
+  .footer {
+    color: $white-color;
+
+    .container {
+      padding: 0;
+    }
+    .copyright {
+      a {
+        color: $white;
+
+        &:hover {
+          color: $brand-primary;
+        }
+      }
+    }
+  }
+
+  .form-check {
+    label {
+      margin-left: 27px;
+    }
+    .form-check-label {
+      padding-left: 34px;
+    }
+
+  }
 
 }
 
-.pricing-page{
+.pricing-page {
   padding: 0 !important;
 
-    .title{
-        color: $white-color;
-        margin-top: 5vh;
-    }
+  .title {
+    color: $white-color;
+    margin-top: 5vh;
+  }
 
-    .section-space{
-        display: block;
-        height: 70px;
-    }
+  .section-space {
+    display: block;
+    height: 70px;
+  }
 
-    .card-plain{
-        .icon i,
-        .card-title{
-            color: $white-color;
-        }
-    }
-
-    .description{
-        color: $white-color;
-    }
-    &.full-page:before {
-        background-color: rgba(0, 0, 0, 0.65);
-    }
-
-    .footer{
-      z-index: 2;
+  .card-plain {
+    .icon i,
+    .card-title {
       color: $white-color;
+    }
+  }
 
-      .container{
-          padding: 0;
-      }
-      .copyright {
-        a {
-          color: $white;
+  .description {
+    color: $white-color;
+  }
+  &.full-page:before {
+    background-color: rgba(0, 0, 0, 0.65);
+  }
 
-          &:hover {
-            color: $brand-primary;
-          }
+  .footer {
+    z-index: 2;
+    color: $white-color;
+
+    .container {
+      padding: 0;
+    }
+    .copyright {
+      a {
+        color: $white;
+
+        &:hover {
+          color: $brand-primary;
         }
       }
     }
+  }
 }
 
 .off-canvas-sidebar {
-  .navbar-toggler .navbar-toggler-icon{
+  .navbar-toggler .navbar-toggler-icon {
     background-color: $white-color !important;
   }
 
   .navbar-collapse {
     .nav {
-        > li > a,
-        > li > a:hover{
-            color: $white-color;
-            margin: 0 15px;
-        }
+      > li > a,
+      > li > a:hover {
+        color: $white-color;
+        margin: 0 15px;
+      }
 
-        > li > a:focus,
-        > li > a:hover{
-            background: rgba(200, 200, 200, 0.2);
-        }
+      > li > a:focus,
+      > li > a:hover {
+        background: rgba(200, 200, 200, 0.2);
+      }
     }
     &:after {
       background-color: #282828;
@@ -430,7 +425,7 @@
   }
 }
 
-@media screen and (max-width: 991px){
+@media screen and (max-width: 991px) {
   .off-canvas-sidebar {
     .page-header {
       > .container {
@@ -441,14 +436,14 @@
   }
 }
 
-.login-page{
-    .footer{
-        .container{
-            padding: 0;
-        }
-        .copyright,
-        a{
-            color: #FFFFFF;
-        }
+.login-page {
+  .footer {
+    .container {
+      padding: 0;
     }
+    .copyright,
+    a {
+      color: #FFFFFF;
+    }
+  }
 }

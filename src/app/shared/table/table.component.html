@@ -8,7 +8,7 @@
         <!-- Action Button -->
         <button
           [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-          *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
+                *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
           <span class="mat-button-wrapper">
             <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
             <span class="btn-label">{{actionDef.name | translate}}</span>

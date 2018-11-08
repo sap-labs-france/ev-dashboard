@@ -21,7 +21,8 @@
                       </span>
                       <mat-form-field>
                         <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email"
-                               required [readonly]="true">
+                               required
+                               [readonly]="true">
                         <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                         <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>

@@ -23,11 +23,11 @@ $border-radius-extreme: 30px !default;
 
 // Typography elements
 $mdb-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
-$mdb-text-color-light:  $white !default;
+$mdb-text-color-light: $white !default;
 $mdb-text-color-light-hex: $white !default; // for contrast function in inverse
 $mdb-text-color-primary: unquote("rgba(#{$rgb-black}, 0.87)") !default;
 $mdb-text-color-primary-hex: $black !default; // for contrast function in inverse
-$icon-color: rgba(0,0,0,0.5) !default;
+$icon-color: rgba(0, 0, 0, 0.5) !default;
 
 $mdb-label-color: unquote("rgba(#{$rgb-black}, 0.26)") !default;
 $mdb-label-color-toggle-focus: unquote("rgba(#{$rgb-black}, .54)") !default;

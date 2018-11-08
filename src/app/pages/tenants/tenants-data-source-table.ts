@@ -14,7 +14,7 @@ import { Utils } from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import { TenantDialogComponent } from './dialog/tenant.dialog.component';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import {TableUpdateAction} from '../../shared/table/actions/table-update-action';
+import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
@@ -35,7 +35,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     super();
 
     this.tableActionsRow = [
-      new TableUpdateAction(this.translateService).getActionDef(),
+      new TableEditAction(this.translateService).getActionDef(),
       new TableDeleteAction(this.translateService).getActionDef()
     ];
   }
@@ -129,7 +129,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
-      case 'update':
+      case 'edit':
         this._showTenantDialog(rowItem);
         break;
       case 'delete':

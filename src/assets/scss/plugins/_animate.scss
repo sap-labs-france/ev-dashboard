@@ -1,37 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // This file was modified by Creative Tim to keep only the animation that we need for Bootstrap Notify
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @charset "UTF-8";
 
@@ -110,8 +77,6 @@ Copyright (c) 2015 Daniel Eden
   animation-name: shake;
 }
 
-
-
 @-webkit-keyframes fadeInDown {
   from {
     opacity: 0;
@@ -144,7 +109,6 @@ Copyright (c) 2015 Daniel Eden
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
 }
-
 
 @-webkit-keyframes fadeOut {
   from {

@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Observable';
-import { FormGroup, FormControl } from '@angular/forms';
-import { CentralServerService } from '../services/central-server.service';
-import { MessageService } from '../services/message.service';
-import { Router } from '@angular/router';
-import { UNAUTHORIZED, BAD_REQUEST, CONFLICT } from 'http-status-codes';
+import {Observable} from 'rxjs/Observable';
+import {FormControl, FormGroup} from '@angular/forms';
+import {CentralServerService} from '../services/central-server.service';
+import {MessageService} from '../services/message.service';
+import {Router} from '@angular/router';
+import {BAD_REQUEST, CONFLICT, UNAUTHORIZED} from 'http-status-codes';
 
 export class Utils {
 
@@ -20,7 +20,7 @@ export class Utils {
       return null;
     }
     // Not Equal
-    return { notEqual: true };
+    return {notEqual: true};
   }
 
   public static handleError(error, messageService, errorMessage?): Observable<any> {
@@ -29,9 +29,9 @@ export class Utils {
   }
 
   public static handleHttpError(error, router: Router,
-    messageService: MessageService,
-    centralServerService: CentralServerService,
-    errorMessage) {
+                                messageService: MessageService,
+                                centralServerService: CentralServerService,
+                                errorMessage) {
     // Check error
     switch (error.status) {
       // Server connection error`

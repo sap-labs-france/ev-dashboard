@@ -3,6 +3,7 @@
   overflow: hidden;
   vertical-align: middle;
 }
+
 .btn-file > input {
   position: absolute;
   top: 0;
@@ -17,11 +18,13 @@
 
   direction: ltr;
 }
+
 .fileinput {
   display: inline-block;
   margin-bottom: 9px;
 }
-.fileinput .form-control{
+
+.fileinput .form-control {
   display: inline-block;
   padding-top: 7px;
   padding-bottom: 5px;
@@ -29,6 +32,7 @@
   vertical-align: middle;
   cursor: text;
 }
+
 .fileinput .thumbnail {
   display: inline-block;
   margin-bottom: 10px;
@@ -38,81 +42,100 @@
   max-width: 250px;
   @include shadow-big-dash();
 
-
-  &.img-circle{
-      border-radius: 50%;
-      max-width: 100px;
+  &.img-circle {
+    border-radius: 50%;
+    max-width: 100px;
   }
 }
+
 .fileinput .thumbnail > img {
   max-height: 100%;
   width: 100%;
 }
+
 .fileinput .btn {
   vertical-align: middle;
 }
+
 .fileinput-exists .fileinput-new,
 .fileinput-new .fileinput-exists {
   display: none;
 }
+
 .fileinput-inline .fileinput-controls {
   display: inline;
 }
+
 .fileinput-filename {
   display: inline-block;
   overflow: hidden;
   vertical-align: middle;
 }
+
 .form-control.fileinput-filename {
   vertical-align: bottom;
 }
+
 .fileinput.input-group {
   display: table;
 }
+
 .fileinput.input-group > * {
   position: relative;
   z-index: 2;
 }
+
 .fileinput.input-group > .btn-file {
   z-index: 1;
 }
+
 .fileinput-new.input-group .btn-file,
 .fileinput-new .input-group .btn-file {
   border-radius: 0 4px 4px 0;
 }
+
 .fileinput-new.input-group .btn-file.btn-xs,
 .fileinput-new .input-group .btn-file.btn-xs,
 .fileinput-new.input-group .btn-file.btn-sm,
 .fileinput-new .input-group .btn-file.btn-sm {
   border-radius: 0 3px 3px 0;
 }
+
 .fileinput-new.input-group .btn-file.btn-lg,
 .fileinput-new .input-group .btn-file.btn-lg {
   border-radius: 0 6px 6px 0;
 }
+
 .form-group.has-warning .fileinput .fileinput-preview {
   color: $brand-warning;
 }
+
 .form-group.has-warning .fileinput .thumbnail {
   border-color: $brand-warning;
 }
+
 .form-group.has-error .fileinput .fileinput-preview {
   color: $brand-danger;
 }
+
 .form-group.has-error .fileinput .thumbnail {
   border-color: $brand-danger;
 }
+
 .form-group.has-success .fileinput .fileinput-preview {
   color: $brand-success;
 }
+
 .form-group.has-success .fileinput .thumbnail {
   border-color: $brand-success;
 }
+
 .input-group-addon:not(:first-child) {
   border-left: 0;
 }
-.thumbnail{
-    border: 0 none;
-    border-radius: 4px;
-    padding: 0;
+
+.thumbnail {
+  border: 0 none;
+  border-radius: 4px;
+  padding: 0;
 }

@@ -1,49 +1,48 @@
 
 .nav-tabs {
-    border: 0;
-    border-radius: $border-radius-base;
-    padding: 0 15px;
+  border: 0;
+  border-radius: $border-radius-base;
+  padding: 0 15px;
 
-    .nav-item {
-        .nav-link {
-            color: $white-color;
-            border: 0;
-            margin: 0;
-            border-radius: $border-radius-base;
-            line-height: $mdb-btn-font-size-base * 2;
-            text-transform: uppercase;
-            font-size: $mdb-btn-font-size-base;
-            padding: 10px 15px;
-            background-color: transparent;
-            transition: 0.3s background-color 0s;
+  .nav-item {
+    .nav-link {
+      color: $white-color;
+      border: 0;
+      margin: 0;
+      border-radius: $border-radius-base;
+      line-height: $mdb-btn-font-size-base * 2;
+      text-transform: uppercase;
+      font-size: $mdb-btn-font-size-base;
+      padding: 10px 15px;
+      background-color: transparent;
+      transition: 0.3s background-color 0s;
 
-            &:hover {
-                border: 0;
-            }
-        }
-        .nav-link,
-        .nav-link:hover,
-        .nav-link:focus {
-            border: 0 !important;
-            color: $white-color !important;
-            font-weight: $font-weight-bold;
-        }
-        &.disabled .nav-link,
-        &.disabled .nav-link:hover {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .material-icons{
-            margin: -1px 5px 0 0;
-        }
-
-        .nav-link.active{
-            background-color: rgba(255,255,255, .2);
-            transition: 0.3s background-color 0.2s;
-        }
+      &:hover {
+        border: 0;
+      }
     }
-}
+    .nav-link,
+    .nav-link:hover,
+    .nav-link:focus {
+      border: 0 !important;
+      color: $white-color !important;
+      font-weight: $font-weight-bold;
+    }
+    &.disabled .nav-link,
+    &.disabled .nav-link:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
 
+    .material-icons {
+      margin: -1px 5px 0 0;
+    }
+
+    .nav-link.active {
+      background-color: rgba(255, 255, 255, .2);
+      transition: 0.3s background-color 0.2s;
+    }
+  }
+}
 
 .nav-tabs {
   .nav-link {
@@ -62,12 +61,10 @@
   }
 }
 
+.card-nav-tabs {
+  margin-top: 45px;
 
-
-.card-nav-tabs{
-    margin-top: 45px;
-
-    .card-header{
-        margin-top: -30px !important;
-    }
+  .card-header {
+    margin-top: -30px !important;
+  }
 }

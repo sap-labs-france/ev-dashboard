@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import {Injectable} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -53,10 +53,10 @@ export class MessageService {
 
   private _showMessage(type, message, title = '', params?: Object, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
-      icon: icon,
-      title: title,
-      message: this.translateService.instant(message, params)
-    }, {
+        icon: icon,
+        title: title,
+        message: this.translateService.instant(message, params)
+      }, {
         type: type,
         timer: 3000,
         placement: {

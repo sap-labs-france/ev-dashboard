@@ -1,20 +1,19 @@
 @import "../core/forms";
 
-.card{
-  .card-body{
+.card {
+  .card-body {
     .col-form-label,
-    .label-on-right{
+    .label-on-right {
       padding: 16px 5px 0 0;
       text-align: right;
     }
-    .label-on-right{
+    .label-on-right {
       text-align: left;
     }
   }
-  .label-on-right{
+  .label-on-right {
 
-
-    code{
+    code {
       padding: 2px 4px;
       font-size: 90%;
       color: #c7254e;

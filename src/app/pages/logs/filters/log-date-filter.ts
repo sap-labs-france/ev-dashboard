@@ -1,12 +1,12 @@
 import * as moment from 'moment';
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
-import { TranslateService } from '@ngx-translate/core';
-import { TableFilterDef } from '../../../common.types';
+import {TableFilter} from '../../../shared/table/filters/table-filter';
+import {Constants} from '../../../utils/Constants';
+import {TranslateService} from '@ngx-translate/core';
+import {TableFilterDef} from '../../../common.types';
 
-export class LogDateTableFilter extends TableFilter  {
+export class LogDateTableFilter extends TableFilter {
   constructor(
-      private translateService: TranslateService) {
+    private translateService: TranslateService) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

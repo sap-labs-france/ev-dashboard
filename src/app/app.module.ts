@@ -1,27 +1,26 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { CentralServerService } from './services/central-server.service';
-import { CentralServerNotificationService } from './services/central-server-notification.service';
-import { SpinnerService } from './services/spinner.service';
-import { LocaleService } from './services/locale.service';
-import { AuthorizationService } from './services/authorization-service';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { LocalStorageService } from './services/local-storage.service';
-import { ConfigService } from './services/config.service';
-import { DialogService } from './services/dialog.service';
-import { MessageService } from './services/message.service';
-import { RecaptchaModule } from 'ng-recaptcha';
-import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { RouteGuardService } from './services/route-guard.service';
-import * as $ from 'jquery';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {CentralServerService} from './services/central-server.service';
+import {CentralServerNotificationService} from './services/central-server-notification.service';
+import {SpinnerService} from './services/spinner.service';
+import {LocaleService} from './services/locale.service';
+import {AuthorizationService} from './services/authorization-service';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {LocalStorageService} from './services/local-storage.service';
+import {ConfigService} from './services/config.service';
+import {DialogService} from './services/dialog.service';
+import {MessageService} from './services/message.service';
+import {RecaptchaModule} from 'ng-recaptcha';
+import {ReleaseNotesComponent} from './release-notes/release-notes.component';
+import {RouteGuardService} from './services/route-guard.service';
 
 import {
+  MAT_DATE_LOCALE,
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -47,26 +46,25 @@ import {
   MatSlideToggleModule,
   MatSnackBarModule,
   MatSortModule,
+  MatStepperModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatStepperModule,
-  MAT_DATE_LOCALE,
 } from '@angular/material';
 
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { AppComponent } from './app.component';
-import { SidebarModule } from './sidebar/sidebar.module';
-import { FooterModule } from './shared/footer/footer.module';
-import { NavbarModule } from './shared/navbar/navbar.module';
-import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
-import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {AppComponent} from './app.component';
+import {SidebarModule} from './sidebar/sidebar.module';
+import {FooterModule} from './shared/footer/footer.module';
+import {NavbarModule} from './shared/navbar/navbar.module';
+import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
+import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
 
-import { AppRouting } from './app.routing';
-import { WINDOW_PROVIDERS } from './providers/window.provider';
-import { WindowService } from './services/window.service';
-import { NotFoundComponent } from './pages/notfound/not-found.component';
+import {AppRouting} from './app.routing';
+import {WINDOW_PROVIDERS} from './providers/window.provider';
+import {WindowService} from './services/window.service';
+import {NotFoundComponent} from './pages/notfound/not-found.component';
 
 @NgModule({
   exports: [
@@ -103,7 +101,8 @@ import { NotFoundComponent } from './pages/notfound/not-found.component';
     MatTooltipModule
   ]
 })
-export class MaterialModule { }
+export class MaterialModule {
+}
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
 export function HttpLoaderFactory(http: HttpClient) {
@@ -119,7 +118,7 @@ export function configFactory(config: ConfigService) {
 }
 
 export function localeFactory(
-    centralServerService: CentralServerService, translateService: TranslateService) {
+  centralServerService: CentralServerService, translateService: TranslateService) {
   // Default
   let language = translateService.getBrowserLang();
   // Get current user
@@ -176,15 +175,15 @@ export function localeFactory(
     ConfigService,
     TranslateService,
     WindowService,
-    { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
-    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
+    {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService) {
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService) {
 
     // Default
     let language = this.translateService.getBrowserLang();

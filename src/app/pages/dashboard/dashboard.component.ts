@@ -1,12 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-
-import * as Chartist from 'chartist';
+import {Component} from '@angular/core';
 
 declare const $: any;
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html'
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
 }

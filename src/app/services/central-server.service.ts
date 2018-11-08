@@ -1,20 +1,32 @@
-import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, ObservableInput } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
-import { throwError, of } from 'rxjs';
-import { ConfigService } from './config.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Constants } from '../utils/Constants';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { LocalStorageService } from './local-storage.service';
-import { CentralServerNotificationService } from './central-server-notification.service';
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, ObservableInput} from 'rxjs/Observable';
+import {catchError} from 'rxjs/operators';
+import {of, throwError} from 'rxjs';
+import {ConfigService} from './config.service';
+import {TranslateService} from '@ngx-translate/core';
+import {Constants} from '../utils/Constants';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {LocalStorageService} from './local-storage.service';
+import {CentralServerNotificationService} from './central-server-notification.service';
 import {
-  ActionResponse, Ordering, Paging, SiteResult, Log, LogResult, Image,
-  User, RouteInfo, ChargerResult, KeyValue, UserResult, TenantResult, Tenant
+  ActionResponse,
+  ChargerResult,
+  Image,
+  KeyValue,
+  Log,
+  LogResult,
+  Ordering,
+  Paging,
+  RouteInfo,
+  SiteResult,
+  Tenant,
+  TenantResult,
+  User,
+  UserResult
 } from '../common.types';
-import { WindowService } from './window.service';
+import {WindowService} from './window.service';
 
 @Injectable()
 export class CentralServerService {
@@ -162,7 +174,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
-      { 'userID': userID, 'siteIDs': siteIDs },
+      {'userID': userID, 'siteIDs': siteIDs},
       {
         headers: this._buildHttpHeaders()
       })
@@ -176,7 +188,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
-      { 'userID': userID, 'siteIDs': siteIDs },
+      {'userID': userID, 'siteIDs': siteIDs},
       {
         headers: this._buildHttpHeaders()
       })
@@ -355,93 +367,93 @@ export class CentralServerService {
   public getUserStatuses(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'A', value: this.translateService.instant('users.status_active', {}) },
-      { key: 'B', value: this.translateService.instant('users.status_blocked', {}) },
-      { key: 'I', value: this.translateService.instant('users.status_inactive', {}) },
-      { key: 'L', value: this.translateService.instant('users.status_locked', {}) },
-      { key: 'P', value: this.translateService.instant('users.status_pending', {}) }
+      {key: 'A', value: this.translateService.instant('users.status_active', {})},
+      {key: 'B', value: this.translateService.instant('users.status_blocked', {})},
+      {key: 'I', value: this.translateService.instant('users.status_inactive', {})},
+      {key: 'L', value: this.translateService.instant('users.status_locked', {})},
+      {key: 'P', value: this.translateService.instant('users.status_pending', {})}
     ]);
   }
 
   public getUserRoles(): Observable<KeyValue[]> {
     if (this.isUserSuperAdmin()) {
       return of([
-        { key: 'A', value: this.translateService.instant('users.role_admin') },
-        { key: 'S', value: this.translateService.instant('users.role_super_admin') },
-        { key: 'B', value: this.translateService.instant('users.role_basic') },
-        { key: 'D', value: this.translateService.instant('users.role_demo') }
+        {key: 'A', value: this.translateService.instant('users.role_admin')},
+        {key: 'S', value: this.translateService.instant('users.role_super_admin')},
+        {key: 'B', value: this.translateService.instant('users.role_basic')},
+        {key: 'D', value: this.translateService.instant('users.role_demo')}
       ]);
     }
     return of([
-      { key: 'A', value: this.translateService.instant('users.role_admin') },
-      { key: 'B', value: this.translateService.instant('users.role_basic') },
-      { key: 'D', value: this.translateService.instant('users.role_demo') }
+      {key: 'A', value: this.translateService.instant('users.role_admin')},
+      {key: 'B', value: this.translateService.instant('users.role_basic')},
+      {key: 'D', value: this.translateService.instant('users.role_demo')}
     ]);
   }
 
   public getLogStatus(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'E', value: this.translateService.instant('logs.error') },
-      { key: 'W', value: this.translateService.instant('logs.warning') },
-      { key: 'I', value: this.translateService.instant('logs.info') },
-      { key: 'D', value: this.translateService.instant('logs.debug') }
+      {key: 'E', value: this.translateService.instant('logs.error')},
+      {key: 'W', value: this.translateService.instant('logs.warning')},
+      {key: 'I', value: this.translateService.instant('logs.info')},
+      {key: 'D', value: this.translateService.instant('logs.debug')}
     ]);
   }
 
   public getLogActions(): Observable<KeyValue[]> {
     // Return
     return of([
-      { key: 'Authorize', value: 'Authorize' },
-      { key: 'BuildConsumption', value: 'BuildConsumption' },
-      { key: 'BootNotification', value: 'BootNotification' },
-      { key: 'ChargingStationConfiguration', value: 'ChargingStationConfiguration' },
-      { key: 'ChargingStationConsumption', value: 'ChargingStationConsumption' },
-      { key: 'ChargingStationDelete', value: 'ChargingStationDelete' },
-      { key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration' },
-      { key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams' },
-      { key: 'ClearCache', value: 'ClearCache' },
-      { key: 'DataTransfer', value: 'DataTransfer' },
-      { key: 'Heartbeat', value: 'Heartbeat' },
-      { key: 'GetConfiguration', value: 'GetConfiguration' },
-      { key: 'Initialization', value: 'Initialization' },
-      { key: 'Login', value: 'Login' },
-      { key: 'LogsCleanup', value: 'LogsCleanup' },
-      { key: 'MeterValues', value: 'MeterValues' },
-      { key: 'Migration', value: 'Migration' },
-      { key: 'NotifyChargingStationStatusError', value: 'NotifyChargingStationStatusError' },
-      { key: 'NotifyChargingStationRegistered', value: 'NotifyChargingStationRegistered' },
-      { key: 'NotifyEndOfCharge', value: 'NotifyEndOfCharge' },
-      { key: 'NotifyEndOfSession', value: 'NotifyEndOfSession' },
-      { key: 'NotifyNewPassword', value: 'NotifyNewPassword' },
-      { key: 'NotifyNewRegisteredUser', value: 'NotifyNewRegisteredUser' },
-      { key: 'NotifyRequestPassword', value: 'NotifyRequestPassword' },
-      { key: 'NotifyTransactionStarted', value: 'NotifyTransactionStarted' },
-      { key: 'NotifyUnknownUserBadged', value: 'NotifyUnknownUserBadged' },
-      { key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged' },
-      { key: 'PricingUpdate', value: 'PricingUpdate' },
-      { key: 'RegisterUser', value: 'RegisterUser' },
-      { key: 'VerifyEmail', value: 'VerifyEmail' },
-      { key: 'ResendVerificationEmail', value: 'ResendVerificationEmail' },
-      { key: 'RemoteStartTransaction', value: 'RemoteStartTransaction' },
-      { key: 'RemoteStopTransaction', value: 'RemoteStopTransaction' },
-      { key: 'RequestConfiguration', value: 'RequestConfiguration' },
-      { key: 'Reset', value: 'Reset' },
-      { key: 'SendEmail', value: 'SendEmail' },
-      { key: 'SiteAreaCreate', value: 'SiteAreaCreate' },
-      { key: 'SiteAreaDelete', value: 'SiteAreaDelete' },
-      { key: 'SiteAreaUpdate', value: 'SiteAreaUpdate' },
-      { key: 'SiteDelete', value: 'SiteDelete' },
-      { key: 'SiteUpdate', value: 'SiteUpdate' },
-      { key: 'StartTransaction', value: 'StartTransaction' },
-      { key: 'Startup', value: 'Startup' },
-      { key: 'StatusNotification', value: 'StatusNotification' },
-      { key: 'StopTransaction', value: 'StopTransaction' },
-      { key: 'TransactionDelete', value: 'TransactionDelete' },
-      { key: 'TransactionSoftStop', value: 'TransactionSoftStop' },
-      { key: 'UserCreate', value: 'UserCreate' },
-      { key: 'UserDelete', value: 'UserDelete' },
-      { key: 'UserUpdate', value: 'UserUpdate' }
+      {key: 'Authorize', value: 'Authorize'},
+      {key: 'BuildConsumption', value: 'BuildConsumption'},
+      {key: 'BootNotification', value: 'BootNotification'},
+      {key: 'ChargingStationConfiguration', value: 'ChargingStationConfiguration'},
+      {key: 'ChargingStationConsumption', value: 'ChargingStationConsumption'},
+      {key: 'ChargingStationDelete', value: 'ChargingStationDelete'},
+      {key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration'},
+      {key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams'},
+      {key: 'ClearCache', value: 'ClearCache'},
+      {key: 'DataTransfer', value: 'DataTransfer'},
+      {key: 'Heartbeat', value: 'Heartbeat'},
+      {key: 'GetConfiguration', value: 'GetConfiguration'},
+      {key: 'Initialization', value: 'Initialization'},
+      {key: 'Login', value: 'Login'},
+      {key: 'LogsCleanup', value: 'LogsCleanup'},
+      {key: 'MeterValues', value: 'MeterValues'},
+      {key: 'Migration', value: 'Migration'},
+      {key: 'NotifyChargingStationStatusError', value: 'NotifyChargingStationStatusError'},
+      {key: 'NotifyChargingStationRegistered', value: 'NotifyChargingStationRegistered'},
+      {key: 'NotifyEndOfCharge', value: 'NotifyEndOfCharge'},
+      {key: 'NotifyEndOfSession', value: 'NotifyEndOfSession'},
+      {key: 'NotifyNewPassword', value: 'NotifyNewPassword'},
+      {key: 'NotifyNewRegisteredUser', value: 'NotifyNewRegisteredUser'},
+      {key: 'NotifyRequestPassword', value: 'NotifyRequestPassword'},
+      {key: 'NotifyTransactionStarted', value: 'NotifyTransactionStarted'},
+      {key: 'NotifyUnknownUserBadged', value: 'NotifyUnknownUserBadged'},
+      {key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged'},
+      {key: 'PricingUpdate', value: 'PricingUpdate'},
+      {key: 'RegisterUser', value: 'RegisterUser'},
+      {key: 'VerifyEmail', value: 'VerifyEmail'},
+      {key: 'ResendVerificationEmail', value: 'ResendVerificationEmail'},
+      {key: 'RemoteStartTransaction', value: 'RemoteStartTransaction'},
+      {key: 'RemoteStopTransaction', value: 'RemoteStopTransaction'},
+      {key: 'RequestConfiguration', value: 'RequestConfiguration'},
+      {key: 'Reset', value: 'Reset'},
+      {key: 'SendEmail', value: 'SendEmail'},
+      {key: 'SiteAreaCreate', value: 'SiteAreaCreate'},
+      {key: 'SiteAreaDelete', value: 'SiteAreaDelete'},
+      {key: 'SiteAreaUpdate', value: 'SiteAreaUpdate'},
+      {key: 'SiteDelete', value: 'SiteDelete'},
+      {key: 'SiteUpdate', value: 'SiteUpdate'},
+      {key: 'StartTransaction', value: 'StartTransaction'},
+      {key: 'Startup', value: 'Startup'},
+      {key: 'StatusNotification', value: 'StatusNotification'},
+      {key: 'StopTransaction', value: 'StopTransaction'},
+      {key: 'TransactionDelete', value: 'TransactionDelete'},
+      {key: 'TransactionSoftStop', value: 'TransactionSoftStop'},
+      {key: 'UserCreate', value: 'UserCreate'},
+      {key: 'UserDelete', value: 'UserDelete'},
+      {key: 'UserUpdate', value: 'UserUpdate'}
     ]);
   }
 
@@ -651,7 +663,7 @@ export class CentralServerService {
 
   private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
+    const errMsg = {status: 0, message: '', details: undefined};
     if (error instanceof Response) {
       errMsg.status = error.status;
       errMsg.message = error.text();

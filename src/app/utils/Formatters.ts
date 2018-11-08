@@ -1,18 +1,18 @@
-import { LocaleService } from '../services/locale.service';
+import {LocaleService} from '../services/locale.service';
 
 export class Formatters {
   public static createDateTimeFormatter(localeService: LocaleService,
-    options = {
-      hour12: false,
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric', second: 'numeric'
-    }): any {
+                                        options = {
+                                          hour12: false,
+                                          year: 'numeric', month: 'numeric', day: 'numeric',
+                                          hour: 'numeric', minute: 'numeric', second: 'numeric'
+                                        }): any {
     // Create
     return new Intl.DateTimeFormat(
       localeService.getCurrentFullLocaleForJS(), options);
   }
 
-  public static formatLogLevel(status, options = { iconClass: '' }): any {
+  public static formatLogLevel(status, options = {iconClass: ''}): any {
     let clasNames = (options.iconClass ? options.iconClass : '');
     switch (status) {
       // Info

@@ -1,13 +1,13 @@
-import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from '../../../services/central-server.service';
-import { TableFilterDef } from '../../../common.types';
+import {TableFilter} from '../../../shared/table/filters/table-filter';
+import {Constants} from '../../../utils/Constants';
+import {TranslateService} from '@ngx-translate/core';
+import {CentralServerService} from '../../../services/central-server.service';
+import {TableFilterDef} from '../../../common.types';
 
-export class LogActionTableFilter extends TableFilter  {
+export class LogActionTableFilter extends TableFilter {
   constructor(
-      private translateService: TranslateService,
-      private centralServerService: CentralServerService) {
+    private translateService: TranslateService,
+    private centralServerService: CentralServerService) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -22,13 +22,13 @@ export class LogActionTableFilter extends TableFilter  {
     // translate the name
     filterDef.name = this.translateService.instant(filterDef.name);
     // Add <All>
-    filterDef.items.push({ key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all') });
+    filterDef.items.push({key: Constants.FILTER_ALL_KEY, value: translateService.instant('general.all')});
     // Get the Chargers
     this.centralServerService.getLogActions().subscribe((actions) => {
       // Create
       actions.forEach((action) => {
         // Add
-        filterDef.items.push({ key: action.key, value: action.value });
+        filterDef.items.push({key: action.key, value: action.value});
       });
     });
     // Set

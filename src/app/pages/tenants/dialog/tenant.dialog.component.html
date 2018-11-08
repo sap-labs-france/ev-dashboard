@@ -1,54 +1,59 @@
 <h2 mat-dialog-title>{{'tenants.title' | translate}}</h2>
 
 <mat-dialog-content>
-    <div class="row">
-        <div class="col-md-12">
-            <form class="form" [formGroup]="formGroup">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}" type="text"
-                                    [formControl]="name" required>
-                                <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" |
-                                    translate}}</mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <input appSetAutoFocus matInput placeholder="{{'tenants.email' | translate}}" type="text"
-                                    [formControl]="email" required>
-                                <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" |
-                                    translate}}</mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <input matInput placeholder="{{'tenants.subdomain' | translate}}" type="text"
-                                    [formControl]="subdomain" required>
-                                <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
-                                    |
-                                    translate}}</mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </form>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form" [formGroup]="formGroup">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field>
+                <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}" type="text"
+                       [formControl]="name" required>
+                <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" |
+                  translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field>
+                <input appSetAutoFocus matInput placeholder="{{'tenants.email' | translate}}" type="text"
+                       [formControl]="email" required>
+                <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" |
+                  translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field>
+                <input matInput placeholder="{{'tenants.subdomain' | translate}}" type="text"
+                       [formControl]="subdomain" required>
+                <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
+                  |
+                  translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </form>
     </div>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button class="mat-raised-button mat-primary" (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">{{"general.save"
-        | translate}}</button>
-    <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
+  <button class="mat-raised-button mat-primary" (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+    {{"general.save"
+    | translate}}
+  </button>
+  <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
 </mat-dialog-actions>

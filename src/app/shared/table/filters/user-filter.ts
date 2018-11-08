@@ -1,12 +1,12 @@
-import { TableFilter } from './table-filter';
-import { Constants } from '../../../utils/Constants';
-import { TranslateService } from '@ngx-translate/core';
-import { TableFilterDef } from '../../../common.types';
-import { UsersDialogComponent } from '../../dialogs/users/users-dialog-component';
+import {TableFilter} from './table-filter';
+import {Constants} from '../../../utils/Constants';
+import {TranslateService} from '@ngx-translate/core';
+import {TableFilterDef} from '../../../common.types';
+import {UsersDialogComponent} from '../../dialogs/users/users-dialog-component';
 
-export class UserTableFilter extends TableFilter  {
+export class UserTableFilter extends TableFilter {
   constructor(
-      private translateService: TranslateService) {
+    private translateService: TranslateService) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

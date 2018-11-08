@@ -36,7 +36,7 @@
   -ms-flex-pack: $ct-text-justify;
   justify-content: $ct-text-justify;
   // Fallback to text-align for non-flex browsers
-  @if($ct-text-justify == 'flex-start') {
+  @if ($ct-text-justify == 'flex-start') {
     text-align: left;
   } @else if ($ct-text-justify == 'flex-end') {
     text-align: right;
@@ -225,6 +225,7 @@
     }
   }
 }
+
 //
 // @if $ct-include-classes {
 //   @include ct-chart();
@@ -238,8 +239,7 @@
 //   }
 // }
 
-
-.ct-chart{
+.ct-chart {
   .ct-series-a .ct-point,
   .ct-series-a .ct-line,
   .ct-series-a .ct-bar,
@@ -311,18 +311,18 @@
 
   .ct-series-a .ct-slice-pie,
   .ct-series-a .ct-slice-donut-solid,
-  .ct-series-a .ct-area{
+  .ct-series-a .ct-area {
     fill: #00bcd4;
   }
   .ct-series-b .ct-slice-pie,
   .ct-series-b .ct-slice-donut-solid,
-  .ct-series-b .ct-area{
+  .ct-series-b .ct-area {
     fill: #f44336;
   }
 
   .ct-series-c .ct-slice-pie,
   .ct-series-c .ct-slice-donut-solid,
-  .ct-series-c .ct-area{
+  .ct-series-c .ct-area {
     fill: #ff9800;
   }
 }

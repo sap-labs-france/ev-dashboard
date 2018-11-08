@@ -1,23 +1,22 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../common.types';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../services/central-server.service';
-import { LocaleService } from '../../services/locale.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { LogSourceTableFilter } from './filters/log-source-filter';
-import { LogLevelTableFilter } from './filters/log-level-filter';
-import { Formatters } from '../../utils/Formatters';
-import { Utils } from '../../utils/Utils';
-import { LogActionTableFilter } from './filters/log-action-filter';
-import { LogDateTableFilter } from './filters/log-date-filter';
-import { UserTableFilter } from '../../shared/table/filters/user-filter';
-import { ChargerTableFilter } from '../../shared/table/filters/charger-filter';
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {TableDataSource} from '../../shared/table/table-data-source';
+import {Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {CentralServerNotificationService} from '../../services/central-server-notification.service';
+import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
+import {CentralServerService} from '../../services/central-server.service';
+import {LocaleService} from '../../services/locale.service';
+import {MessageService} from '../../services/message.service';
+import {SpinnerService} from '../../services/spinner.service';
+import {LogSourceTableFilter} from './filters/log-source-filter';
+import {LogLevelTableFilter} from './filters/log-level-filter';
+import {Formatters} from '../../utils/Formatters';
+import {Utils} from '../../utils/Utils';
+import {LogActionTableFilter} from './filters/log-action-filter';
+import {LogDateTableFilter} from './filters/log-date-filter';
+import {UserTableFilter} from '../../shared/table/filters/user-filter';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
@@ -41,40 +40,40 @@ export class LogDataSource extends TableDataSource<Log> {
     // Get data
     this.centralServerService.getLogs(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((logs) => {
-        // Show
-        this.spinnerService.hide();
-        // Set number of records
-        this.setNumberOfRecords(logs.count);
-        // Update page length
-        this.updatePaginator();
-        // Add the users in the message
-        logs.result.map((log) => {
-          let user;
-          // Set User
-          if (log.user) {
-            user = log.user;
-          }
-          // Set Action On User
-          if (log.actionOnUser) {
-            user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
-          }
-          // Set
-          if (user) {
-            log.message = `${user} > ${log.message}`;
-          }
-          return log;
-        });
-        // Return logs
-        this.getDataSubjet().next(logs.result);
-        // Keep the result
-        this.setData(logs.result);
-      }, (error) => {
-        // Show
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+      // Show
+      this.spinnerService.hide();
+      // Set number of records
+      this.setNumberOfRecords(logs.count);
+      // Update page length
+      this.updatePaginator();
+      // Add the users in the message
+      logs.result.map((log) => {
+        let user;
+        // Set User
+        if (log.user) {
+          user = log.user;
+        }
+        // Set Action On User
+        if (log.actionOnUser) {
+          user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
+        }
+        // Set
+        if (user) {
+          log.message = `${user} > ${log.message}`;
+        }
+        return log;
       });
+      // Return logs
+      this.getDataSubjet().next(logs.result);
+      // Keep the result
+      this.setData(logs.result);
+    }, (error) => {
+      // Show
+      this.spinnerService.hide();
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('general.error_backend'));
+    });
   }
 
   public getRowDetails(row: Log): Observable<String> {
@@ -86,7 +85,7 @@ export class LogDataSource extends TableDataSource<Log> {
   public getTableDef(): TableDef {
     return {
       search: {
-          enabled: true
+        enabled: true
       },
       rowDetails: {
         enabled: true,
@@ -103,7 +102,7 @@ export class LogDataSource extends TableDataSource<Log> {
         id: 'level',
         name: this.translateService.instant('logs.level'),
         formatter: Formatters.formatLogLevel,
-        formatterOptions: { iconClass: 'pt-1' },
+        formatterOptions: {iconClass: 'pt-1'},
         headerClass: 'col-5p',
         class: 'col-5p'
       },

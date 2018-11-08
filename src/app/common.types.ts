@@ -1,8 +1,6 @@
-import { SortDirection } from '@angular/material/typings';
-import { TableDataSource } from './shared/table/table-data-source';
-import { DialogTableDataComponent } from './shared/dialogs/dialog-table-data.component';
+import {SortDirection} from '@angular/material/typings';
 
-export declare type FilterType = 'dropdown' | 'dialog-table' |'date' | '';
+export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
 export declare type DialogType = 'YES_NO' | 'OK_CANCEL';
@@ -88,7 +86,7 @@ export interface ChargerConfiguration {
       readonly: boolean;
       key: string;
     }
-  ];
+    ];
 }
 
 export interface ConsumptionValue {

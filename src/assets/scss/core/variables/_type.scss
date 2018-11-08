@@ -6,29 +6,28 @@
 // http://www.getmdl.io/styles/index.html
 
 $font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
-$font-family-serif:      'Roboto Slab', 'Times New Roman', serif !default;
+$font-family-serif: 'Roboto Slab', 'Times New Roman', serif !default;
 //$font-family-monospace:      Menlo, Monaco, Consolas, "Courier New", monospace !default;
 //$font-family-base:           $font-family-sans-serif !default;
 
 // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
 //$font-size-root:             16px !default;
 //
-$font-size-base:             1rem !default;
+$font-size-base: 1rem !default;
 //$font-size-lg:               1.25rem !default;
 //$font-size-sm:               .875rem !default;
 //$font-size-xs:               .75rem !default;
 //
 
-$font-size-h1:                 3.3125rem;
-$font-size-h2:                 2.25rem !default;
-$font-size-h3:                 1.5625rem;
-$font-size-h4:                 1.125rem !default;
-$font-size-h5:                 1.0625rem !default;
-$font-size-h6:                 0.75rem !default;
-$font-paragraph:               14px !default;
-$font-size-navbar:             16px !default;
-$font-size-small:              12px !default;
-
+$font-size-h1: 3.3125rem;
+$font-size-h2: 2.25rem !default;
+$font-size-h3: 1.5625rem;
+$font-size-h4: 1.125rem !default;
+$font-size-h5: 1.0625rem !default;
+$font-size-h6: 0.75rem !default;
+$font-paragraph: 14px !default;
+$font-size-navbar: 16px !default;
+$font-size-small: 12px !default;
 
 //
 $display1-size: 7rem !default; // md display-4 112px was 6rem;
@@ -43,17 +42,17 @@ $display4-size: 2.125rem !default; // md display-1 34px was 3.5rem
 //
 //$line-height-base:                1.5 !default;
 //
-$headings-margin-bottom:     ($spacer / 2) !default;
+$headings-margin-bottom: ($spacer / 2) !default;
 //$headings-font-family:       inherit !default;
-$headings-font-weight:         400 !default; // was 500
+$headings-font-weight: 400 !default; // was 500
 
 $font-weight-light: 300 !default;
 $font-weight-default: 400 !default;
-$font-weight-bold:    500 !default;
+$font-weight-bold: 500 !default;
 $font-weight-extra-bold: 700 !default;
 
-$font-size-large:              1em          !default;
-$font-size-large-navbar:       20px         !default;
+$font-size-large: 1em !default;
+$font-size-large-navbar: 20px !default;
 
 //$headings-line-height:       1.1 !default;
 //$headings-color:             inherit !default;
@@ -78,30 +77,30 @@ $font-size-large-navbar:       20px         !default;
 //
 //$nested-kbd-font-weight:      bold !default;
 
-$padding-input-vertical:        11px !default;
-$padding-input-horizontal:      19px !default;
+$padding-input-vertical: 11px !default;
+$padding-input-horizontal: 19px !default;
 
-$padding-btn-vertical:         11px !default;
-$padding-btn-horizontal:       22px !default;
+$padding-btn-vertical: 11px !default;
+$padding-btn-horizontal: 22px !default;
 
-$padding-base-vertical:        .5rem !default;
-$padding-base-horizontal:      .7rem !default;
+$padding-base-vertical: .5rem !default;
+$padding-base-horizontal: .7rem !default;
 
-$padding-round-horizontal:     23px !default;
+$padding-round-horizontal: 23px !default;
 
-$padding-simple-vertical:      10px !default;
-$padding-simple-horizontal:    17px !default;
+$padding-simple-vertical: 10px !default;
+$padding-simple-horizontal: 17px !default;
 
-$padding-large-vertical:       15px !default;
-$padding-large-horizontal:     48px !default;
+$padding-large-vertical: 15px !default;
+$padding-large-horizontal: 48px !default;
 
-$padding-small-vertical:        5px !default;
-$padding-small-horizontal:     15px !default;
+$padding-small-vertical: 5px !default;
+$padding-small-horizontal: 15px !default;
 
-$padding-label-vertical:        2px !default;
-$padding-label-horizontal:     12px !default;
+$padding-label-vertical: 2px !default;
+$padding-label-horizontal: 12px !default;
 
-$margin-large-vertical:        30px !default;
-$margin-base-vertical:         15px !default;
+$margin-large-vertical: 30px !default;
+$margin-base-vertical: 15px !default;
 
-$margin-base-horizontal:       15px !default;
+$margin-base-horizontal: 15px !default;

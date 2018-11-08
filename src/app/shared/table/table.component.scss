@@ -86,7 +86,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 .table-dialog-list {
-  overflow: auto; 
+  overflow: auto;
   min-height: 50vh;
   min-width: 50vw;
   width: 50vh;
@@ -95,7 +95,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 .table-list-under-tabs {
-  overflow: auto; 
+  overflow: auto;
   height: calc(100vh - 550px);
   min-height: 250px;
   background-color: white;
@@ -118,7 +118,7 @@ tr.mat-footer-row {
 }
 
 .col-select {
-  border-bottom-width:0;
+  border-bottom-width: 0;
 }
 
 .mat-toolbar {

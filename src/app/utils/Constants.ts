@@ -1,4 +1,4 @@
-import { FilterType, DialogType, ButtonType } from '../common.types';
+import {ButtonType, DialogType, FilterType} from '../common.types';
 
 export class Constants {
   public static REST_RESPONSE_SUCCESS = 'Success';
@@ -67,7 +67,7 @@ export class Constants {
   /* Data Service */
   public static DEFAULT_LIMIT = 100;
   public static DEFAULT_SKIP = 0;
-  public static DEFAULT_PAGING = { limit: Constants.DEFAULT_LIMIT, skip: Constants.DEFAULT_SKIP };
+  public static DEFAULT_PAGING = {limit: Constants.DEFAULT_LIMIT, skip: Constants.DEFAULT_SKIP};
 
   /* Notification */
   public static NOTIF_ACTION_CREATE = 'Create';

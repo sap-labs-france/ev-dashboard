@@ -26,8 +26,6 @@ $ct-class-end: ct-end !default;
 
 // Class names to be used when generating CSS
 
-
-
 // Container ratio
 $ct-container-ratio: (1/1.618) !default;
 
@@ -74,19 +72,19 @@ $ct-include-alternative-responsive-containers: $ct-include-classes !default;
 // Series names and colors. This can be extended or customized as desired. Just add more series and colors.
 $ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
 $ct-series-colors: (
-    $brand-info,
-    $brand-danger,
-    $brand-warning,
-    $brand-primary,
-    $brand-success,
-    $font-background-light-grey,
-    $gray-color,
-    $social-google,
-    $social-tumblr,
-    $social-youtube,
-    $social-twitter,
-    $social-pinterest,
-    $social-behance,
-    #6188e2,
-    #a748ca
+  $brand-info,
+  $brand-danger,
+  $brand-warning,
+  $brand-primary,
+  $brand-success,
+  $font-background-light-grey,
+  $gray-color,
+  $social-google,
+  $social-tumblr,
+  $social-youtube,
+  $social-twitter,
+  $social-pinterest,
+  $social-behance,
+  #6188e2,
+  #a748ca
 ) !default;

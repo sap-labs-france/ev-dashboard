@@ -1,10 +1,10 @@
 // var Authorization = require('node-authorization').Authorization;
-import { Injectable } from '@angular/core';
-import { Authorization } from 'node-authorization';
-import { CentralServerService } from './central-server.service';
-import { ConfigService } from './config.service';
-import { Constants } from '../utils/Constants';
-import { User } from '../common.types';
+import {Injectable} from '@angular/core';
+import {Authorization} from 'node-authorization';
+import {CentralServerService} from './central-server.service';
+import {ConfigService} from './config.service';
+import {Constants} from '../utils/Constants';
+import {User} from '../common.types';
 
 @Injectable()
 export class AuthorizationService {
@@ -13,8 +13,8 @@ export class AuthorizationService {
   private authorizationConfig;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private config: ConfigService) {
+    private centralServerService: CentralServerService,
+    private config: ConfigService) {
     // Get config
     this.authorizationConfig = config.getAuthorization();
     // Check
@@ -41,13 +41,13 @@ export class AuthorizationService {
   public canListLogging(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_LOGGINGS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canListChargingStations(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_CHARGING_STATIONS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canGetConfigurationChargingStation(chargingStation): boolean {
@@ -134,7 +134,7 @@ export class AuthorizationService {
   public canListCompanies(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_COMPANIES,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadCompany(company): boolean {
@@ -149,7 +149,7 @@ export class AuthorizationService {
   public canCreateCompany(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_COMPANY,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateCompany(company): boolean {
@@ -173,7 +173,7 @@ export class AuthorizationService {
   public canListSites(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_SITES,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadSite(site): boolean {
@@ -188,7 +188,7 @@ export class AuthorizationService {
   public canCreateSite(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_SITE,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateSite(site): boolean {
@@ -212,7 +212,7 @@ export class AuthorizationService {
   public canListSiteAreas(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_SITE_AREAS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadSiteArea(siteArea): boolean {
@@ -227,7 +227,7 @@ export class AuthorizationService {
   public canCreateSiteArea(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_SITE_AREA,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateSiteArea(siteArea): boolean {
@@ -251,13 +251,13 @@ export class AuthorizationService {
   public canListUsers(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_USERS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canListTransactions(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_TRANSACTIONS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadTransaction(transaction): boolean {
@@ -329,7 +329,7 @@ export class AuthorizationService {
   public canCreateUser(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_USER,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateUser(user): boolean {
@@ -353,7 +353,7 @@ export class AuthorizationService {
   public canListVehicles(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_VEHICLES,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadVehicle(vehicle): boolean {
@@ -368,7 +368,7 @@ export class AuthorizationService {
   public canCreateVehicle(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_VEHICLE,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateVehicle(vehicle): boolean {
@@ -392,7 +392,7 @@ export class AuthorizationService {
   public canListVehicleManufacturers(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURERS,
-      { 'Action': Constants.ACTION_LIST });
+      {'Action': Constants.ACTION_LIST});
   }
 
   public canReadVehicleManufacturer(vehicleManufacturer): boolean {
@@ -407,7 +407,7 @@ export class AuthorizationService {
   public canCreateVehicleManufacturer(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_VEHICLE_MANUFACTURER,
-      { 'Action': Constants.ACTION_CREATE });
+      {'Action': Constants.ACTION_CREATE});
   }
 
   public canUpdateVehicleManufacturer(vehicleManufacturer): boolean {

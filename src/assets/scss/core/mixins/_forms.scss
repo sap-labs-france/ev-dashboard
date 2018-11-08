@@ -9,9 +9,18 @@
 
 // Placeholder text
 @mixin material-placeholder() {
-  &::-moz-placeholder {@content; } // Firefox
-  &:-ms-input-placeholder {@content; } // Internet Explorer 10+
-  &::-webkit-input-placeholder  {@content; } // Safari and Chrome
+  &::-moz-placeholder {
+    @content;
+  }
+  // Firefox
+  &:-ms-input-placeholder {
+    @content;
+  }
+  // Internet Explorer 10+
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  // Safari and Chrome
 }
 
 @mixin bmd-selection-color() {
@@ -30,9 +39,9 @@
 
       // correct the above focus color for disabled items
       label:has(input[type=radio][disabled]),
-      // css 4 which is unlikely to work for a while, but no other pure css way.
+        // css 4 which is unlikely to work for a while, but no other pure css way.
       label:has(input[type=checkbox][disabled]),
-      // css 4
+        // css 4
       fieldset[disabled] & {
         &,
         &:hover,
@@ -62,7 +71,6 @@
   }
 }
 
-
 @mixin bmd-form-color($label-color, $label-color-focus, $border-color, $line-color) {
   [class^='bmd-label'],
   [class*=' bmd-label'] {
@@ -70,44 +78,44 @@
   }
 
   // override BS and keep the border-color normal/grey so that overlaid focus animation draws attention
-  .form-control{
+  .form-control {
     // underline animation color on focus
     $underline-background-image: linear-gradient(
         to top,
         $label-color-focus 2px,
         fade-out($label-color-focus, 1) 2px
-      ),
-      linear-gradient(
+    ),
+    linear-gradient(
         to top,
         $line-color 1px,
         fade-out($line-color, 1) 1px
-      );
+    );
     $underline-background-image-invalid: linear-gradient(
         to top,
         $bmd-invalid-underline 2px,
         fade-out($bmd-invalid-underline, 1) 2px
-      ),
-      linear-gradient(
+    ),
+    linear-gradient(
         to top,
         $line-color 1px,
         fade-out($line-color, 1) 1px
-      );
+    );
     $underline-background-image-readonly: linear-gradient(
         to top,
         $bmd-readonly-underline 1px,
         fade-out($bmd-readonly-underline, 1) 1px
-      ),
-      linear-gradient(
+    ),
+    linear-gradient(
         to top,
         $line-color 1px,
         fade-out($line-color, 1) 1px
-      );
+    );
     $underline-background-image-disabled: linear-gradient(
-      to right,
-      $line-color 0%,
-      $line-color 30%,
-      transparent 30%,
-      transparent 100%
+        to right,
+        $line-color 0%,
+        $line-color 30%,
+        transparent 30%,
+        transparent 100%
     );
 
     // bg image is always there, we just need to reveal it
@@ -168,7 +176,7 @@
     }
 
     // Set the border and box shadow on specific inputs to match
-    .form-control{
+    .form-control {
       border-color: $border-color;
     }
 
@@ -242,8 +250,8 @@
     line-height: $variant-line-height + 0.1;
   }
 
-  label{
-      color: $mdb-input-placeholder-color;
+  label {
+    color: $mdb-input-placeholder-color;
   }
 
   .radio label,
@@ -296,7 +304,7 @@
   }
 
   // validation icon placement
-  .form-control{
+  .form-control {
     &.form-control-success,
     &.form-control-warning,
     &.form-control-danger {
@@ -309,7 +317,7 @@
         padding-right: ($input-padding-x * 3);
         background-repeat: $bmd-form-control-bg-repeat-y, no-repeat;
         background-position: $bmd-form-control-bg-position,
-          center right ($variant-input-height * .25);
+        center right ($variant-input-height * .25);
       }
 
       &:focus,
@@ -320,7 +328,7 @@
   }
 }
 
-@mixin mdb-label-color-toggle-focus(){
+@mixin mdb-label-color-toggle-focus() {
   // override bootstrap focus and keep all the standard color (could be multiple radios in the form group)
   .form-group.is-focused & {
     color: $mdb-label-color;
@@ -338,57 +346,57 @@
   }
 }
 
-@mixin animation($value){
-      -webkit-animation: $value;
-        -moz-animation: $value;
-        -o-animation: $value;
-        -ms-animation: $value;
-        animation: $value;
+@mixin animation($value) {
+  -webkit-animation: $value;
+  -moz-animation: $value;
+  -o-animation: $value;
+  -ms-animation: $value;
+  animation: $value;
 }
 
-@mixin transform-scale3d($value){
-     -webkit-transform: scale3d($value);
-        -moz-transform: scale3d($value);
-        -o-transform: scale3d($value);
-        -ms-transform: scale3d($value);
-        transform: scale3d($value);
+@mixin transform-scale3d($value) {
+  -webkit-transform: scale3d($value);
+  -moz-transform: scale3d($value);
+  -o-transform: scale3d($value);
+  -ms-transform: scale3d($value);
+  transform: scale3d($value);
 }
 
-@mixin create-colored-tags(){
-    &.tag-primary{
-        @include tag-color($brand-primary);
-    }
-    &.tag-info {
-        @include tag-color($brand-info);
-    }
-    &.tag-success{
-        @include tag-color($brand-success);
-    }
-    &.tag-warning{
-        @include tag-color($brand-warning);
-    }
-    &.tag-danger{
-        @include tag-color($brand-danger);
-    }
-    &.tag-rose{
-      @include tag-color($brand-rose);
-    }
-}
-@mixin tag-color ($color){
-    .tag{
-         background-color: $color;
-         color: $white-color;
-         .tagsinput-remove-link{
-             color: $white-color;
-         }
-     }
-     .tagsinput-add{
-         color: $color;
-     }
+@mixin create-colored-tags() {
+  &.tag-primary {
+    @include tag-color($brand-primary);
+  }
+  &.tag-info {
+    @include tag-color($brand-info);
+  }
+  &.tag-success {
+    @include tag-color($brand-success);
+  }
+  &.tag-warning {
+    @include tag-color($brand-warning);
+  }
+  &.tag-danger {
+    @include tag-color($brand-danger);
+  }
+  &.tag-rose {
+    @include tag-color($brand-rose);
+  }
 }
 
+@mixin tag-color($color) {
+  .tag {
+    background-color: $color;
+    color: $white-color;
+    .tagsinput-remove-link {
+      color: $white-color;
+    }
+  }
+  .tagsinput-add {
+    color: $color;
+  }
+}
 
 // variations(unquote(""), background-color, #FFF);
 @mixin variations($component, $selector-suffix, $mdb-param-1, $color-default) {
- // @include generic-variations($component, $selector-suffix, $color-default, "variations-content", $mdb-param-1);
+  // @include generic-variations($component, $selector-suffix, $color-default, "variations-content", $mdb-param-1);
 }

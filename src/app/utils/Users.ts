@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 
 export class Users {
   public static buildUserFullName(user) {
@@ -18,7 +18,7 @@ export class Users {
       // Ok
       return null;
     }
-    return { invalidPassword: true };
+    return {invalidPassword: true};
   }
 
   public static passwordWithNoSpace(control: AbstractControl) {
@@ -27,6 +27,6 @@ export class Users {
       // Ok
       return null;
     }
-    return { noSpace: true };
+    return {noSpace: true};
   }
 }

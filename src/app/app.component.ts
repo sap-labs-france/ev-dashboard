@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { SpinnerService } from './services/spinner.service';
-import { CentralServerService } from './services/central-server.service';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {SpinnerService} from './services/spinner.service';
+import {CentralServerService} from './services/central-server.service';
 
 @Component({
   selector: 'app-my-app',

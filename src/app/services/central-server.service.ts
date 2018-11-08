@@ -47,20 +47,20 @@ export class CentralServerService {
       icontype: 'dashboard'
     },
     {
-      id: 'logs',
-      path: '/logs',
-      title: 'Logs',
-      type: 'link',
-      icontype: 'list',
-      admin: true
-    },
-    {
       id: 'tenants',
       path: '/tenants',
       title: 'Tenants',
       type: 'link',
       icontype: 'account_balance',
       superAdmin: true
+    },
+    {
+      id: 'logs',
+      path: '/logs',
+      title: 'Logs',
+      type: 'link',
+      icontype: 'list',
+      admin: true
     }
   ];
 

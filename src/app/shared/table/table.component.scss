@@ -5,7 +5,7 @@ table {
 }
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
-  font-size: 0.8rem !important;
+  font-size: 0.9rem !important;
   width: 100%;
 }
 
@@ -14,7 +14,7 @@ th {
 }
 
 td {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 td a {
@@ -83,12 +83,16 @@ th:nth-child(n+2), td:nth-child(n+2) {
 
 .filter-row {
   margin-right: 10px;
+  @media screen and (max-width: $res435) {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 .table-list {
   overflow: auto;
   white-space: nowrap;
-  height: 60vh;
+  height: calc(100vh - 300px);
   min-height: 250px;
   background-color: white;
 }
@@ -138,7 +142,8 @@ tr.mat-footer-row {
 }
 
 .mat-toolbar-row {
-  padding: 15px;
+  padding: 10px;
+  align-items: center;
 }
 
 .details-row {

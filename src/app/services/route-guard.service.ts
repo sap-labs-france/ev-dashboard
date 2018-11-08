@@ -1,9 +1,10 @@
-﻿import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { CentralServerService } from './central-server.service';
-import { AuthorizationService } from './authorization-service';
-import { MessageService } from './message.service';
-import { TranslateService } from '@ngx-translate/core';
+﻿﻿
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {CentralServerService} from './central-server.service';
+import {AuthorizationService} from './authorization-service';
+import {MessageService} from './message.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class RouteGuardService implements CanActivate {
@@ -51,11 +52,11 @@ export class RouteGuardService implements CanActivate {
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
         // Naigate to login
-        this.router.navigate(['/auth/login'], { queryParams: {'email': email} });
+        this.router.navigate(['/auth/login'], {queryParams: {'email': email}});
       });
     } else {
       // Not logged in so redirect to login page with the return url
-      this.router.navigate(['/auth/login'], { queryParams });
+      this.router.navigate(['/auth/login'], {queryParams});
     }
     return false;
   }

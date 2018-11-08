@@ -5,20 +5,21 @@
         <div class="card" *ngFor="let releaseNote of releaseNotes">
           <div class="card-header card-header-text card-header-danger">
             <div class="card-text">
-              <h4 class="card-title">{{'general.version' | translate}} {{releaseNote.version}} ({{releaseNote.date | date}})</h4>
+              <h4 class="card-title">{{'general.version' | translate}} {{releaseNote.version}} ({{releaseNote.date |
+                date}})</h4>
             </div>
           </div>
           <div class="card-body table-responsive">
             <table class="table table-hover" *ngFor="let componentChange of releaseNote.componentChanges">
               <thead class="text-danger">
-                <tr class="release-notes-header">
-                  <th>{{componentChange.name}}</th>
-                </tr>
+              <tr class="release-notes-header">
+                <th>{{componentChange.name}}</th>
+              </tr>
               </thead>
               <tbody>
-                <tr class="release-notes-row" *ngFor="let change of componentChange.changes">
-                  <td>{{change}}</td>
-                </tr>
+              <tr class="release-notes-row" *ngFor="let change of componentChange.changes">
+                <td>{{change}}</td>
+              </tr>
               </tbody>
             </table>
           </div>

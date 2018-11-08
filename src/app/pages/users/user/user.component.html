@@ -41,7 +41,7 @@
                   <button class="btn btn-info mat-raised-button" (click)="refresh()">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">refresh</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.refresh' | translate}}</span> 
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.refresh' | translate}}</span>
                     </span>
                   </button>
                 </ul>
@@ -52,17 +52,19 @@
             <form class="form" [formGroup]="formGroup">
               <div class="tab-content">
                 <div class="tab-pane active" id="profile">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)"
+                          [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span>
                     </span>
                   </button>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name" required>
+                          <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text"
+                                 [formControl]="name" required>
                           <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -70,7 +72,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
+                          <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName"
+                                 required>
                           <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -146,48 +149,61 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="tab-pane" id="address">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)"
+                          [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span>
                     </span>
                   </button>
                   <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
                 </div>
                 <div class="tab-pane" id="password">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)"
+                          [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span>
                     </span>
                   </button>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput type="password" placeholder="{{'authentication.password' | translate}}" [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
-                          <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                          <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
-                          <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
+                          <input matInput type="password" placeholder="{{'authentication.password' | translate}}"
+                                 [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
+                          <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ?
+                            'visibility' : 'visibility_off'}}
+                          </mat-icon>
+                          <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}
+                          </mat-error>
+                          <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}" [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword" [errorStateMatcher]="parentErrorStateMatcher">
-                          <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                          <mat-error *ngIf="passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>
+                          <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}"
+                                 [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
+                                 [errorStateMatcher]="parentErrorStateMatcher">
+                          <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">
+                            {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
+                          </mat-icon>
+                          <mat-error *ngIf="passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="tab-pane" id="miscs">
-                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+                  <button class="btn btn-info mat-raised-button d-flex align-items-start" (click)="saveUser(formGroup.value)"
+                          [disabled]="!formGroup.valid || !formGroup.dirty">
                     <span class="mat-button-wrapper">
                       <i class="material-icons">save</i>
-                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span> 
+                      <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'users.save_profile' | translate}}</span>
                     </span>
                   </button>
                   <div class="row">
@@ -202,7 +218,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.cost_center' | translate}}" type="text" [formControl]="costCenter">
+                          <input matInput placeholder="{{'users.cost_center' | translate}}" type="text"
+                                 [formControl]="costCenter">
                           <mat-error *ngIf="costCenter.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -229,7 +246,8 @@
                   <input type="file" name="...">
                 </div>
               </div>
-              <button href="javascript:void(0)" (click)="clearImage()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
+              <button href="javascript:void(0)" (click)="clearImage()"
+                      class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
             </div>
           </div>
         </div>

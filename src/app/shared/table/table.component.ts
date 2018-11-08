@@ -11,6 +11,7 @@ import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {Utils} from '../../utils/Utils';
+import {KiloWattPipe} from '../formatters/kilo-watt.pipe';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -50,6 +51,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
+    private kiloWattPipe: KiloWattPipe,
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
@@ -202,9 +204,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (columnDef.formatter) {
       if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, ...additionalProperties, columnDef.formatterOptions);
+        propertyValue = columnDef.formatter(propertyValue, ...additionalProperties);
       } else {
-        propertyValue = columnDef.formatter(propertyValue, columnDef.formatterOptions);
+        propertyValue = columnDef.formatter(propertyValue);
       }
     }
     // Return the property

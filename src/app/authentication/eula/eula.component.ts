@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CentralServerService } from '../../services/central-server.service';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, OnInit} from '@angular/core';
+import {CentralServerService} from '../../services/central-server.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   templateUrl: './eula.html'

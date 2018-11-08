@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
-import {Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../common.types';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
@@ -12,14 +12,17 @@ import {MessageService} from '../../services/message.service';
 import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog} from '@angular/material';
-import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from './filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from './filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from './filters/transactions-date-until-filter';
-import {Formatters} from '../../utils/Formatters';
+import {KiloWattPipe} from '../../shared/formatters/kilo-watt.pipe';
+import {UserNamePipe} from '../../shared/formatters/user-name.pipe';
+import {DurationPipe} from '../../shared/formatters/duration.pipe';
+import {PercentPipe} from '@angular/common';
+import {DateTimePipe} from '../../shared/formatters/date-time.pipe';
 
-export class TransactionsDataSource extends TableDataSource<Log> {
+export class TransactionsDataSource extends TableDataSource<Transaction> {
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -61,12 +64,12 @@ export class TransactionsDataSource extends TableDataSource<Log> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'timestamp',
-        name: this.translateService.instant('transactions.date_from'),
-        type: 'date',
-        formatter: Formatters.createDateTimeFormatter(this.localeService).format,
+        name: 'transactions.date_from',
+        formatter: new DateTimePipe(locale).transform,
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
@@ -75,55 +78,54 @@ export class TransactionsDataSource extends TableDataSource<Log> {
       },
       {
         id: 'totalDurationInSecs',
-        name: this.translateService.instant('transactions.duration'),
-        formatter: Formatters.formatDurationInSecs,
+        name: 'transactions.duration',
+        formatter: new DurationPipe().transform,
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
         id: 'totalInactivitySecs',
         additionalIds: ['totalDurationInSecs'],
-        name: this.translateService.instant('transactions.inactivity'),
-        formatter: Formatters.formatInactivityInSecs,
+        name: 'transactions.inactivity',
+        formatter: (totalInactivitySecs, totalDurationInSecs) => {
+          const percentage = totalDurationInSecs > 0 ? totalInactivitySecs / totalDurationInSecs : 0;
+          return new DurationPipe().transform(totalInactivitySecs) +
+            ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
+        },
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
         id: 'user',
-        name: this.translateService.instant('transactions.user'),
-        formatter: Formatters.formatUser,
+        name: 'transactions.user',
+        formatter: new UserNamePipe().transform,
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
         id: 'tagID',
-        name: this.translateService.instant('transactions.badge_id'),
+        name: 'transactions.badge_id',
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
         id: 'chargeBoxID',
-        name: this.translateService.instant('transactions.charging_station'),
+        additionalIds: ['connectorId'],
+        name: 'transactions.charging_station',
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
-        id: 'connectorId',
-        name: this.translateService.instant('transactions.connector'),
-        headerClass: 'col-5p',
-        class: 'text-center col-5p'
-      },
-      {
         id: 'totalConsumption',
-        name: this.translateService.instant('transactions.total_consumption'),
-        headerClass: 'col-5p',
+        name: 'transactions.total_consumption',
+        headerClass: 'text-right col-5p',
         class: 'text-right col-5p',
-        formatter: Formatters.formatToKiloWatt
+        formatter: new KiloWattPipe().transform
       },
       {
         id: 'totalPrice',
-        name: this.translateService.instant('transactions.price'),
-        headerClass: 'col-5p',
+        name: 'transactions.price',
+        headerClass: 'text-right col-5p',
         class: 'text-right col-5p'
       }
     ];
@@ -131,7 +133,7 @@ export class TransactionsDataSource extends TableDataSource<Log> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction(this.translateService).getActionDef()
+      new TableRefreshAction().getActionDef()
     ];
   }
 
@@ -144,16 +146,16 @@ export class TransactionsDataSource extends TableDataSource<Log> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(this.translateService, false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new TransactionsDateFromFilter(this.translateService).getFilterDef(),
-      new TransactionsDateUntilFilter(this.translateService).getFilterDef(),
-      new TransactionsChargerFilter(this.translateService).getFilterDef(),
-      new UserTableFilter(this.translateService).getFilterDef(),
+      new TransactionsDateFromFilter().getFilterDef(),
+      new TransactionsDateUntilFilter().getFilterDef(),
+      new TransactionsChargerFilter().getFilterDef(),
+      new UserTableFilter().getFilterDef(),
     ];
   }
 }

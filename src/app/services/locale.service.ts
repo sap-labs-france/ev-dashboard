@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { ConfigService } from './config.service';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from './central-server.service';
-import { KeyValue } from '../common.types';
+import {Injectable} from '@angular/core';
+import {ConfigService} from './config.service';
+import {TranslateService} from '@ngx-translate/core';
+import {CentralServerService} from './central-server.service';
+import {KeyValue} from '../common.types';
 
 @Injectable()
 export class LocaleService {
@@ -72,7 +72,7 @@ export class LocaleService {
       return locale.key === localeKey;
     });
     return (locales && locales.length > 0 ? locales[0] :
-      { key: 'U', description: this.translateService.instant('users.locale_unknown', {}) });
+      {key: 'U', description: this.translateService.instant('users.locale_unknown', {})});
   }
 
   public getDateFormat(): string {

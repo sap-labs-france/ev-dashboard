@@ -1,4 +1,4 @@
-import { Directive, OnInit, ElementRef } from '@angular/core';
+import {Directive, ElementRef, OnInit} from '@angular/core';
 
 @Directive({
   selector: '[appSetAutoFocus]'

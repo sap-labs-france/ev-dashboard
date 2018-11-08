@@ -14,14 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "core/variables";
 @import "core/mixins";
 @import "~bootstrap/scss/bootstrap";
 @import "core/reboot";
 @import "core/recaptcha";
-
 // Core Components
 @import "core/layout";
 @import "core/buttons";
@@ -61,9 +59,11 @@
 @import "dashboard/fixed-plugin";
 @import "dashboard/tables";
 @import "dashboard/misc";
-@import "dashboard/pages"; // Components for PRO
+@import "dashboard/pages";
+// Components for PRO
 @import "dashboard/social-buttons";
-@import "dashboard/fileupload"; //plugin css
+@import "dashboard/fileupload";
+//plugin css
 @import "plugins/animate";
 @import "plugins/sweetalert2";
 @import "plugins/select-bootstrap";

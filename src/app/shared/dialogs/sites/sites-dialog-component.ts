@@ -1,12 +1,12 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { SitesDataSource } from './sites-data-source-table';
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { Site, KeyValue } from '../../../common.types';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {SitesDataSource} from './sites-data-source-table';
+import {CentralServerService} from '../../../services/central-server.service';
+import {MessageService} from '../../../services/message.service';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {DialogTableDataComponent} from '../dialog-table-data.component';
+import {KeyValue, Site} from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
@@ -14,12 +14,12 @@ import { Site, KeyValue } from '../../../common.types';
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   constructor(
-      private centralServerService: CentralServerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      protected dialogRef: MatDialogRef<SitesDialogComponent>,
-      private router: Router,
-      @Inject(MAT_DIALOG_DATA) data) {
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    protected dialogRef: MatDialogRef<SitesDialogComponent>,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) data) {
     // Super class
     super(data, 'sites.select_sites');
     // Create table data source
@@ -30,7 +30,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
       this.centralServerService);
     // Set static filter
     this.dialogDataSource.setStaticFilters([
-      { 'ExcludeSitesOfUserID': data.userID }
+      {'ExcludeSitesOfUserID': data.userID}
     ]);
   }
 
@@ -38,7 +38,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach(row => {
-        items.push({ key: row.id, value: row.name });
+        items.push({key: row.id, value: row.name});
       });
     }
     return items;

@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
-import { CentralServerService } from '../../services/central-server.service';
-import { ConfigService } from '../../services/config.service';
-import { MessageService } from '../../services/message.service';
-import { Utils } from '../../utils/Utils';
-import { Constants } from '../../utils/Constants';
-import { SpinnerService } from '../../services/spinner.service';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {CentralServerService} from '../../services/central-server.service';
+import {ConfigService} from '../../services/config.service';
+import {MessageService} from '../../services/message.service';
+import {Utils} from '../../utils/Utils';
+import {Constants} from '../../utils/Constants';
+import {SpinnerService} from '../../services/spinner.service';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -24,13 +24,13 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   @ViewChild('recaptcha') public recaptcha;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private router: Router,
-      private route: ActivatedRoute,
-      private spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private configService: ConfigService) {
+    private centralServerService: CentralServerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
@@ -105,12 +105,12 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         // Show message
         this.messageService.showSuccessMessage(this.messages['verify_email_success']);
         // Go to login
-        this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
-      // Unexpected Error
+        this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+        // Unexpected Error
       } else {
         // Unexpected error
         Utils.handleError(JSON.stringify(response),
-        this.messageService, this.messages['verify_email_error']);
+          this.messageService, this.messages['verify_email_error']);
       }
     }, (error) => {
       // Hide
@@ -139,7 +139,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           break;
       }
       // Go to login
-      this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
+      this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
     });
   }
 
@@ -152,14 +152,14 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       // Success
       if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-          // Show message
-          this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
-          // Go back to login
-          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
+        // Show message
+        this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
+        // Go back to login
+        this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
         // Unexpected Error
       } else {
         Utils.handleError(JSON.stringify(response),
-        this.messageService, this.messages['verify_email_resend_error']);
+          this.messageService, this.messages['verify_email_resend_error']);
       }
     }, (error) => {
       // Hide
@@ -171,7 +171,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           // Report the error
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           // Go to login
-          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value }});
+          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
           break;
         // Email does not exist
         case 550:

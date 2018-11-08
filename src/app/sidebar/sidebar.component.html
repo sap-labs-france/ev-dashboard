@@ -1,81 +1,81 @@
 <div class="logo">
-    <a class="simple-text logo-mini">
-        <div class="logo-img">
-            <img src="/assets/img/logo-low.gif" />
-        </div>
-    </a>
-    <a class="simple-text logo-normal" href="javascript:void(0)">
-        {{'general.app_name' | translate}}
-        <div>
-            <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
-                {{'general.last_update' | translate}}
-            </a>
-            <span *ngIf="!isAdmin" class="app-version">
+  <a class="simple-text logo-mini">
+    <div class="logo-img">
+      <img src="/assets/img/logo-low.gif"/>
+    </div>
+  </a>
+  <a class="simple-text logo-normal" href="javascript:void(0)">
+    {{'general.app_name' | translate}}
+    <div>
+      <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
+        {{'general.last_update' | translate}}
+      </a>
+      <span *ngIf="!isAdmin" class="app-version">
                 {{'general.last_update' | translate}}
             </span>
-        </div>
-    </a>
+    </div>
+  </a>
 </div>
 
 <div class="sidebar-wrapper">
-    <div class="user">
-        <div class="photo">
-            <img [src]="loggedUserImage" />
-        </div>
-        <div class="user-info">
-            <a data-toggle="collapse" href="#collapseDetails" class="collapsed">
+  <div class="user">
+    <div class="photo">
+      <img [src]="loggedUserImage"/>
+    </div>
+    <div class="user-info">
+      <a data-toggle="collapse" href="#collapseDetails" class="collapsed">
                 <span>
                     {{loggedUser.name}}
                     <b class="caret"></b>
                 </span>
-                <span>
+        <span>
                     {{loggedUser.firstName}}
                 </span>
+      </a>
+      <div class="collapse" id="collapseDetails">
+        <ul class="nav">
+          <li class="nav-item">
+            <a [routerLink]="['/users/user/', loggedUser.id]" class="nav-link">
+              <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
+              <span class="sidebar-normal">{{'users.edit_profile' | translate}}</span>
             </a>
-            <div class="collapse" id="collapseDetails">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a [routerLink]="['/users/user/', loggedUser.id]" class="nav-link">
-                            <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
-                            <span class="sidebar-normal">{{'users.edit_profile' | translate}}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="javascript:void(0)" (click)="logout()" class="nav-link">
-                            <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">lock</i></span>
-                            <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+          </li>
+          <li class="nav-item">
+            <a href="javascript:void(0)" (click)="logout()" class="nav-link">
+              <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">lock</i></span>
+              <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
-            <!--If is a single link-->
-            <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link">
-                <i class="material-icons">{{menuitem.icontype}}</i>
-                <p>{{menuitem.title}}</p>
-            </a>
-            <!--If it have a submenu-->
-            <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()" class="nav-link">
-                <i class="material-icons">{{menuitem.icontype}}</i>
-                <p>{{menuitem.title}}
-                    <b class="caret"></b>
-                </p>
-            </a>
+  </div>
+  <ul class="nav">
+    <li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
+      <!--If is a single link-->
+      <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link">
+        <i class="material-icons">{{menuitem.icontype}}</i>
+        <p>{{menuitem.title}}</p>
+      </a>
+      <!--If it have a submenu-->
+      <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()" class="nav-link">
+        <i class="material-icons">{{menuitem.icontype}}</i>
+        <p>{{menuitem.title}}
+          <b class="caret"></b>
+        </p>
+      </a>
 
-            <!--Display the submenu items-->
-            <div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
-                <ul class="nav">
-                    <li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
-                        <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
-                            <span class="sidebar-mini">{{childitem.ab}}</span>
-                            <span class="sidebar-normal">{{childitem.title}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
+      <!--Display the submenu items-->
+      <div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
+        <ul class="nav">
+          <li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
+            <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
+              <span class="sidebar-mini">{{childitem.ab}}</span>
+              <span class="sidebar-normal">{{childitem.title}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </div>

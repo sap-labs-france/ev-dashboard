@@ -1,114 +1,111 @@
-.pagination{
+.pagination {
 
-    > .page-item .page-link.mat-button .mat-button-ripple{
-      border-radius: 30px;
+  > .page-item .page-link.mat-button .mat-button-ripple {
+    border-radius: 30px;
+  }
+
+  > .page-item > .page-link.mat-button,
+  > .page-item > span,
+  .paginate_button a {
+    border: 0;
+    border-radius: 30px !important;
+    transition: all .3s;
+    padding: 0px 11px;
+    margin: 0 3px;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: $gray-color;
+    font-weight: $font-weight-default;
+    font-size: $mdb-btn-font-size-base;
+    text-transform: uppercase;
+    background: transparent;
+    text-align: center;
+
+    &:hover,
+    &:focus {
+      color: $gray-color;
+    }
+  }
+
+  .paginate_button a {
+    position: relative;
+    display: block;
+  }
+
+  > .page-item.active > a.mat-button,
+  > .page-item.active > span,
+  .paginate_button.active a {
+    color: $gray-color;
+
+    &,
+    &:focus,
+    &:hover {
+      background-color: $brand-primary;
+      border-color: $brand-primary;
+      color: $white-color;
+      @include shadow-4dp-color($brand-primary);
     }
 
-    > .page-item > .page-link.mat-button,
-    > .page-item > span,
-    .paginate_button a{
-      border: 0;
-      border-radius: 30px !important;
-      transition: all .3s;
-      padding: 0px 11px;
-      margin: 0 3px;
-      min-width: 30px;
-      height: 30px;
-      line-height: 30px;
-      color: $gray-color;
-      font-weight: $font-weight-default;
-      font-size: $mdb-btn-font-size-base;
-      text-transform: uppercase;
-      background: transparent;
-      text-align: center;
+  }
 
-      &:hover,
-      &:focus{
-          color: $gray-color;
+  // Colors
+  &.pagination-info {
+    > .page-item.active > a,
+    > .page-item.active > span,
+    .paginate_button.active a {
+      &,
+      &:focus,
+      &:hover {
+        background-color: $brand-info;
+        border-color: $brand-info;
+        @include shadow-4dp-color($brand-info);
       }
     }
+  }
 
-    .paginate_button a{
-      position: relative;
-      display: block;
-    }
-
-    > .page-item.active > a.mat-button,
+  &.pagination-success {
+    > .page-item.active > a,
     > .page-item.active > span,
-    .paginate_button.active a{
-        color: $gray-color;
-
-        &,
-        &:focus,
-        &:hover{
-            background-color: $brand-primary;
-            border-color: $brand-primary;
-            color: $white-color;
-            @include shadow-4dp-color($brand-primary);
-        }
-
+    .paginate_button.active a {
+      &,
+      &:focus,
+      &:hover {
+        background-color: $brand-success;
+        border-color: $brand-success;
+        @include shadow-4dp-color($brand-success);
+      }
     }
+  }
 
-    // Colors
-    &.pagination-info{
-        > .page-item.active > a,
-        > .page-item.active > span,
-        .paginate_button.active a{
-            &,
-            &:focus,
-            &:hover{
-                background-color: $brand-info;
-                border-color: $brand-info;
-                @include shadow-4dp-color($brand-info);
-            }
-        }
+  &.pagination-warning {
+    > .page-item.active > a,
+    > .page-item.active > span,
+    .paginate_button.active a {
+      &,
+      &:focus,
+      &:hover {
+        background-color: $brand-warning;
+        border-color: $brand-warning;
+        @include shadow-4dp-color($brand-warning);
+      }
     }
+  }
 
-    &.pagination-success{
-        > .page-item.active > a,
-        > .page-item.active > span,
-        .paginate_button.active a{
-            &,
-            &:focus,
-            &:hover{
-                background-color: $brand-success;
-                border-color: $brand-success;
-                @include shadow-4dp-color($brand-success);
-            }
-        }
+  &.pagination-danger {
+    > .page-item.active > a,
+    > .page-item.active > span,
+    .paginate_button.active a {
+      &,
+      &:focus,
+      &:hover {
+        background-color: $brand-danger;
+        border-color: $brand-danger;
+        @include shadow-4dp-color($brand-danger);
+      }
     }
-
-    &.pagination-warning{
-        > .page-item.active > a,
-        > .page-item.active > span,
-        .paginate_button.active a{
-            &,
-            &:focus,
-            &:hover{
-                background-color: $brand-warning;
-                border-color: $brand-warning;
-                @include shadow-4dp-color($brand-warning);
-            }
-        }
-    }
-
-    &.pagination-danger{
-        > .page-item.active > a,
-        > .page-item.active > span,
-        .paginate_button.active a{
-            &,
-            &:focus,
-            &:hover{
-                background-color: $brand-danger;
-                border-color: $brand-danger;
-                @include shadow-4dp-color($brand-danger);
-            }
-        }
-    }
+  }
 }
-
-
-
 
 // .page-item {
 //   &:first-child .page-link {
@@ -161,7 +158,7 @@
 //   }
 //   @include pagination-size($pagination-padding-y-sm, $pagination-padding-x-sm, $font-size-sm, $line-height-sm, 4em);
 // }
-.mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay{
+.mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay {
   opacity: 0;
-  background-color: transparent!important;
+  background-color: transparent !important;
 }

@@ -1,5 +1,5 @@
-.mat-button.btn,.mat-raised-button.btn,.mat-raised-button.btn:not([class*=mat-elevation-z]),
-.btn{
+.mat-button.btn, .mat-raised-button.btn, .mat-raised-button.btn:not([class*=mat-elevation-z]),
+.btn {
   position: relative;
   padding: 12px 30px;
   margin: $bmd-btn-margin-bottom 5px;
@@ -28,22 +28,22 @@
   // Colors
   @include bmd-raised-button-color();
   &.btn-white {
-      &,
-      &:focus,
-      &:hover {
-          background-color: $white-color;
-          color: $gray-color;
-      }
-      &.btn-link {
-          color: $white-color;
-          background: transparent;
-          box-shadow: none;
-      }
+    &,
+    &:focus,
+    &:hover {
+      background-color: $white-color;
+      color: $gray-color;
+    }
+    &.btn-link {
+      color: $white-color;
+      background: transparent;
+      box-shadow: none;
+    }
   }
   &.btn-link:hover,
   &.btn-link:focus,
   &.btn-link:active {
-      text-decoration: none !important;
+    text-decoration: none !important;
   }
 
   @include hover-focus();
@@ -85,97 +85,96 @@
   &.btn-round {
     border-radius: $border-radius-extreme;
 
-    > .mat-button-focus-overlay, .mat-button-ripple{
+    > .mat-button-focus-overlay, .mat-button-ripple {
       border-radius: $border-radius-extreme;
     }
   }
 
   &.btn-fab,
   &.btn-just-icon {
-      // see above for color variations
-      font-size: $mdb-btn-fab-font-size;
-      height: $mdb-btn-fab-size;
-      min-width: $mdb-btn-fab-size;
-      width: $mdb-btn-fab-size;
-      // margin: auto;
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-      line-height: $mdb-btn-fab-size;
+    // see above for color variations
+    font-size: $mdb-btn-fab-font-size;
+    height: $mdb-btn-fab-size;
+    min-width: $mdb-btn-fab-size;
+    width: $mdb-btn-fab-size;
+    // margin: auto;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    line-height: $mdb-btn-fab-size;
 
-        &.btn-round{
-            border-radius: 50%;
-        }
+    &.btn-round {
+      border-radius: 50%;
+    }
 
-      .btn-group-sm &,
-      &.btn-sm,
-      &.btn-fab-mini{
-          height: $mdb-btn-fab-size-mini + 1;
-          min-width: $mdb-btn-fab-size-mini + 1;
-          width: $mdb-btn-fab-size-mini + 1;
-
-          .material-icons,
-          .fa{
-              font-size: $mdb-btn-icon-size-mini;
-              line-height: $mdb-btn-fab-size-mini;
-          }
-      }
-
-      .btn-group-lg &,
-      &.btn-lg{
-          height: $mdb-btn-fab-size-lg + 1;
-          min-width: $mdb-btn-fab-size-lg + 1;
-          width: $mdb-btn-fab-size-lg + 1;
-          line-height: $mdb-btn-fab-size-lg;
-
-          .material-icons,
-          .fa{
-              font-size: $mdb-btn-icon-size;
-              line-height: $mdb-btn-fab-size-lg;
-          }
-      }
+    .btn-group-sm &,
+    &.btn-sm,
+    &.btn-fab-mini {
+      height: $mdb-btn-fab-size-mini + 1;
+      min-width: $mdb-btn-fab-size-mini + 1;
+      width: $mdb-btn-fab-size-mini + 1;
 
       .material-icons,
       .fa {
-        margin-top: 0;
-        position: absolute;
-        width: 100%;
-        transform: none;
-        left: 0;
-        top: 0;
-        height: 100%;
-
-        line-height: $mdb-btn-fab-size;
-        font-size: $mdb-btn-just-icon-font-size;
+        font-size: $mdb-btn-icon-size-mini;
+        line-height: $mdb-btn-fab-size-mini;
       }
+    }
+
+    .btn-group-lg &,
+    &.btn-lg {
+      height: $mdb-btn-fab-size-lg + 1;
+      min-width: $mdb-btn-fab-size-lg + 1;
+      width: $mdb-btn-fab-size-lg + 1;
+      line-height: $mdb-btn-fab-size-lg;
+
+      .material-icons,
+      .fa {
+        font-size: $mdb-btn-icon-size;
+        line-height: $mdb-btn-fab-size-lg;
+      }
+    }
+
+    .material-icons,
+    .fa {
+      margin-top: 0;
+      position: absolute;
+      width: 100%;
+      transform: none;
+      left: 0;
+      top: 0;
+      height: 100%;
+
+      line-height: $mdb-btn-fab-size;
+      font-size: $mdb-btn-just-icon-font-size;
+    }
   }
 }
 
-.btn-just-icon{
-    &.btn-lg{
-        font-size: $mdb-btn-fab-font-size;
-        height: $mdb-btn-fab-size;
-        min-width: $mdb-btn-fab-size;
-        width: $mdb-btn-fab-size;
-    }
+.btn-just-icon {
+  &.btn-lg {
+    font-size: $mdb-btn-fab-font-size;
+    height: $mdb-btn-fab-size;
+    min-width: $mdb-btn-fab-size;
+    width: $mdb-btn-fab-size;
+  }
 }
 
-.input-group-btn > .btn{
-    border: 0;
+.input-group-btn > .btn {
+  border: 0;
 }
-
 
 // Align icons inside buttons with text
 .btn .material-icons,
-.btn:not(.btn-just-icon):not(.btn-fab) .fa{
-      position: relative;
-      display: inline-block;
-      top: 0;
-      margin-top: -1em;
-      margin-bottom: -1em;
-      font-size: 1.1rem;
-      vertical-align: middle;
-    }
+.btn:not(.btn-just-icon):not(.btn-fab) .fa {
+  position: relative;
+  display: inline-block;
+  top: 0;
+  margin-top: -1em;
+  margin-bottom: -1em;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
 
 // Disabled buttons and button groups
 .mat-raised-button.btn,
@@ -229,20 +228,21 @@
   }
 
 }
+
 .btn-group > .mat-raised-button.btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .mat-raised-button.btn,
-
 .btn-group > .mat-raised-button.btn:not(:first-child) .mat-button-ripple, .btn-group > .btn-group:not(:first-child) > .mat-raised-button.btn .mat-button-ripple,
-
-.btn-group > .mat-raised-button.btn:not(:first-child) .mat-button-focus-overlay, .btn-group > .btn-group:not(:first-child) > .mat-raised-button.btn .mat-button-focus-overlay{
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.btn-group > .mat-raised-button.btn:not(:first-child) .mat-button-focus-overlay, .btn-group > .btn-group:not(:first-child) > .mat-raised-button.btn .mat-button-focus-overlay {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
+
 .btn-group > .mat-raised-button.btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-group:not(:last-child) > .mat-raised-button.btn,
 .btn-group > .mat-raised-button.btn:not(:last-child):not(.dropdown-toggle) .mat-button-ripple, .btn-group > .btn-group:not(:last-child) > .mat-raised-button.btn .mat-button-ripple,
 .btn-group > .mat-raised-button.btn:not(:last-child):not(.dropdown-toggle) .mat-button-focus-overlay, .btn-group > .btn-group:not(:last-child) > .mat-raised-button.btn .mat-button-focus-overlay {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
-.btn-no-ripple .mat-button-ripple{
+
+.btn-no-ripple .mat-button-ripple {
   display: none;
 }

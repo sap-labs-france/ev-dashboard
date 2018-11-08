@@ -2,8 +2,8 @@ form {
   // ensure enough room at the bottom of any form to display a one-line bmd-help
   margin-bottom: ($bmd-help-size-ratio * $font-size-base) * $line-height-base;
 
-  .card &{
-      margin: 0;
+  .card & {
+    margin: 0;
   }
   // reverse the above for navbars (no help expected in a navbar form)
   .navbar & {
@@ -25,7 +25,7 @@ form {
 //
 // Reference http://www.google.com/design/spec/components/text-fields.html
 // MDL implementation: http://www.getmdl.io/components/index.html#textfields-section
-.form-control{
+.form-control {
   background: $bmd-form-control-bg-repeat-y $bmd-form-control-bg-position;
   background-size: $bmd-form-control-bg-size;
   border: 0;
@@ -45,19 +45,17 @@ form {
   }
 
   @include material-placeholder() {
-      color: $mdb-input-placeholder-color;
-      font-weight: 400;
-      font-size: $mdb-input-font-size-base;
-}
+    color: $mdb-input-placeholder-color;
+    font-weight: 400;
+    font-size: $mdb-input-font-size-base;
+  }
 
-  .has-white &{
-      @include material-placeholder(){
-          color: $white-color;
-      }
+  .has-white & {
+    @include material-placeholder() {
+      color: $white-color;
+    }
   }
 }
-
-
 
 // Help blocks (not in v4)
 //  position: absolute approach - uses no vertical space and there is no form jumping, but text wrapping - not so good.
@@ -102,14 +100,14 @@ form {
   @include bmd-form-color($brand-info, $brand-info, $brand-info, $input-border-color);
 }
 
-.has-white{
+.has-white {
   @include bmd-form-color($white-color, $white-color, $white-color, $input-border-color-white);
 
-    .form-control{
-        &:focus{
-            color: $white-color;
-        }
+  .form-control {
+    &:focus {
+      color: $white-color;
     }
+  }
 }
 
 .has-warning {
@@ -138,14 +136,14 @@ form {
   // Reference http://www.google.com/design/spec/components/text-fields.html
   // MDL implementation: http://www.getmdl.io/components/index.html#textfields-section
 
-    &:not(.has-success):not(.has-danger){
-        [class^='bmd-label'],
-        [class*=' bmd-label']{
-            &.bmd-label-floating{
-                color: $mdb-input-placeholder-color;
-            }
-        }
+  &:not(.has-success):not(.has-danger) {
+    [class^='bmd-label'],
+    [class*=' bmd-label'] {
+      &.bmd-label-floating {
+        color: $mdb-input-placeholder-color;
+      }
     }
+  }
   [class^='bmd-label'],
   [class*=' bmd-label'] {
     position: absolute;
@@ -191,7 +189,7 @@ form {
 
     .collapsing,
     .width:not(.collapse),
-    // collapsing is removed and momentarily only width is present
+      // collapsing is removed and momentarily only width is present
     .collapse.show {
       display: block;
     }
@@ -220,7 +218,7 @@ form {
 
 select {
   &,
-  &.form-control{
+  &.form-control {
     // Use vendor prefixes as `appearance` isn't part of the CSS spec. OSX doesn't obey the border-radius: 0 without this.
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -265,7 +263,6 @@ select {
 //  }
 //}
 
-
 .form-inline {
   @include media-breakpoint-up(sm) {
     .input-group {
@@ -275,40 +272,40 @@ select {
   }
 }
 
-.form-control-feedback{
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    display: block;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    pointer-events: none;
-    opacity: 0;
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
 
-    .has-success &{
-        color: $green;
-        opacity: 1;
-    }
+  .has-success & {
+    color: $green;
+    opacity: 1;
+  }
 
-    .has-danger &{
-        color: $red;
-        opacity: 1;
-    }
+  .has-danger & {
+    color: $red;
+    opacity: 1;
+  }
 }
 
-.form-group{
-    padding-bottom: 10px;
-    position: relative;
-    margin: 8px 0 0;
+.form-group {
+  padding-bottom: 10px;
+  position: relative;
+  margin: 8px 0 0;
 }
 
-textarea{
-    height: auto !important;
-    resize: none;
-    line-height: $bmd-line-height !important;
+textarea {
+  height: auto !important;
+  resize: none;
+  line-height: $bmd-line-height !important;
 }
 
 .form-group input[type=file] {
@@ -323,96 +320,96 @@ textarea{
   z-index: -1;
 }
 
-.form-newsletter{
-    .input-group,
-    .form-group{
-        float: left;
-        width: 78%;
-        margin-right: 2%;
-        margin-top: 9px;
-        padding-top: 5px;
-    }
+.form-newsletter {
+  .input-group,
+  .form-group {
+    float: left;
+    width: 78%;
+    margin-right: 2%;
+    margin-top: 9px;
+    padding-top: 5px;
+  }
 
-    .btn{
-        float: left;
-        width: 20%;
-        margin: 9px 0 0;
-    }
+  .btn {
+    float: left;
+    width: 20%;
+    margin: 9px 0 0;
+  }
 }
 
-.form-file-upload{
-    .input-group-btn:last-child>.btn-round{
-        border-radius: 30px;
-    }
+.form-file-upload {
+  .input-group-btn:last-child > .btn-round {
+    border-radius: 30px;
+  }
 
-    .input-group-btn .btn{
-        margin: 0;
-    }
+  .input-group-btn .btn {
+    margin: 0;
+  }
 
-    .input-group{
-        width: 100%;
-    }
+  .input-group {
+    width: 100%;
+  }
 }
 
-.input-group .input-group-btn{
-    padding: 0 12px;
+.input-group .input-group-btn {
+  padding: 0 12px;
 }
 
 .form-control[disabled],
 fieldset[disabled] .form-control,
 .form-group .form-control[disabled],
-fieldset[disabled] .form-group .form-control{
+fieldset[disabled] .form-group .form-control {
   background-color: transparent;
   cursor: not-allowed;
   border-bottom: 1px dotted $input-border-color;
   background-repeat: no-repeat;
 }
 
-.mat-form-field{
-  &.mat-focused{
-    .mat-form-field-ripple{
+.mat-form-field {
+  &.mat-focused {
+    .mat-form-field-ripple {
       background-color: $brand-primary;
     }
-    .mat-form-field-label{
+    .mat-form-field-label {
       color: $brand-primary;
     }
   }
 }
 
-
-.mat-form-field{
+.mat-form-field {
   display: block !important;
 }
 
-.has-success{
+.has-success {
   .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
-  .mat-form-field-empty.mat-form-field-label{
+  .mat-form-field-empty.mat-form-field-label {
     color: #4caf50;
   }
-  &.mat-focused{
-    .mat-input-underline{
-      .mat-input-ripple{
+  &.mat-focused {
+    .mat-input-underline {
+      .mat-input-ripple {
         background-color: #4caf50;
       }
     }
   }
 }
 
-.has-danger{
+.has-danger {
   .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
-  .mat-form-field-empty.mat-form-field-label{
+  .mat-form-field-empty.mat-form-field-label {
     color: #f44336;
   }
-  &.mat-focused{
-    .mat-input-underline{
-      .mat-input-ripple{
+  &.mat-focused {
+    .mat-input-underline {
+      .mat-input-ripple {
         background-color: #f44336;
       }
     }
   }
 }
-.ng-invalid{
-  &.mat-focused .mat-form-field-label{
+
+.ng-invalid {
+  &.mat-focused .mat-form-field-label {
     color: #f44336;
   }
 }
@@ -421,15 +418,15 @@ fieldset[disabled] .form-group .form-control{
   width: 100%;
 }
 
-.mat-form-field.has-success{
-  .mat-input-underline{
+.mat-form-field.has-success {
+  .mat-input-underline {
     background-color: #4caf50;
     height: 2px;
-    .mat-input-ripple{
+    .mat-input-ripple {
       background-color: #4caf50;
     }
   }
-  .mat-form-field-label{
+  .mat-form-field-label {
     color: #4caf50;
   }
 }

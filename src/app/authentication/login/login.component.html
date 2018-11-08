@@ -1,5 +1,6 @@
 <div class="wrapper wrapper-full-page">
-  <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('./assets/img/login.jpg'); background-size: cover; background-position: top center;">
+  <div class="page-header login-page header-filter" filter-color="black"
+       style="background-image: url('./assets/img/login.jpg'); background-size: cover; background-position: top center;">
     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
     <div class="container">
       <div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
@@ -7,7 +8,7 @@
           <div class="card card-login card-hidden">
             <div class="card-header card-header-info text-center h-25">
               <div class="social-line">
-                <img class="w-50 mb-2" src="/assets/img/logo-low.gif" />
+                <img class="w-50 mb-2" src="/assets/img/logo-low.gif"/>
               </div>
               <h4 class="card-title">{{"authentication.sign_in" | translate}}</h4>
             </div>
@@ -19,7 +20,8 @@
                       <i class="material-icons">email</i>
                     </span>
                     <mat-form-field>
-                      <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email" required>
+                      <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
+                             [formControl]="email" required>
                       <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                       <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
@@ -29,15 +31,16 @@
                       <i class="material-icons">lock_outline</i>
                     </span>
                     <mat-form-field>
-                      <input id="password-field" matInput type="password" placeholder="{{'authentication.password' | translate}}" [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
+                      <input id="password-field" matInput type="password" placeholder="{{'authentication.password' | translate}}"
+                             [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
                       <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
                       <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
-                <div  class="input-group-prepend justify-content-center mt-3 ml-2">
-                  <mat-checkbox  [formControl]="acceptEula" required>
+                <div class="input-group-prepend justify-content-center mt-3 ml-2">
+                  <mat-checkbox [formControl]="acceptEula" required>
                     <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
                     <a class="auth-link" href="/auth/eula" target="_blank">
                       <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
@@ -47,7 +50,8 @@
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}</button>
+              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}
+              </button>
             </div>
           </div>
         </form>

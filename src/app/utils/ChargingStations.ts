@@ -118,17 +118,17 @@ export class ChargingStations {
       totalConsumption = transaction.stop.totalConsumption;
       // Show Total Consumption
       consumptionString += (totalConsumption / 1000).toLocaleString(
-        navigator.language, { minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2 }) +
+        navigator.language, {minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2}) +
         ' ' + i18nKWH;
     } else if (connector) {
       totalConsumption = connector.totalConsumption;
       // Show Current Consumption
       consumptionString = (connector.currentConsumption / 1000).toLocaleString(
-        navigator.language, { minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2 }) +
+        navigator.language, {minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2}) +
         ' ' + i18nKW;
       // Set
       consumptionString += ' (' + (totalConsumption / 1000).toLocaleString(
-        navigator.language, { minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2 }) +
+        navigator.language, {minimumIntegerDigits: 1, minimumFractionDigits: 0, maximumFractionDigits: 2}) +
         ' ' + i18nKWH + ')';
     }
     return consumptionString;

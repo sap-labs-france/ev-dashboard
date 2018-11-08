@@ -1,25 +1,25 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Log, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../common.types';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../services/central-server.service';
-import { LocaleService } from '../../services/locale.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { Utils } from '../../utils/Utils';
-import { MatDialogConfig, MatDialog } from '@angular/material';
-import { TenantDialogComponent } from './dialog/tenant.dialog.component';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {TableDataSource} from '../../shared/table/table-data-source';
+import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, Tenant} from '../../common.types';
+import {CentralServerNotificationService} from '../../services/central-server-notification.service';
+import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
+import {CentralServerService} from '../../services/central-server.service';
+import {LocaleService} from '../../services/locale.service';
+import {MessageService} from '../../services/message.service';
+import {SpinnerService} from '../../services/spinner.service';
+import {Utils} from '../../utils/Utils';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {TenantDialogComponent} from './dialog/tenant.dialog.component';
+import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
 import {TableUpdateAction} from '../../shared/table/actions/table-update-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
 
-export class TenantsDataSource extends TableDataSource<Log> {
+export class TenantsDataSource extends TableDataSource<Tenant> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
@@ -50,23 +50,23 @@ export class TenantsDataSource extends TableDataSource<Log> {
     // Get the Tenants
     this.centralServerService.getTenants(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((tenants) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(tenants.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(tenants.result);
-        // Set the data
-        this.setData(tenants.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
-      });
+      // Hide
+      this.spinnerService.hide();
+      // Update nbr records
+      this.setNumberOfRecords(tenants.count);
+      // Update Paginator
+      this.updatePaginator();
+      // Notify
+      this.getDataSubjet().next(tenants.result);
+      // Set the data
+      this.setData(tenants.result);
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Show error
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('general.error_backend'));
+    });
   }
 
   public getTableDef(): TableDef {

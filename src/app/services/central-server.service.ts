@@ -240,7 +240,7 @@ export class CentralServerService {
       );
   }
 
-  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TenantResult> {
     // Verify init
     this._checkInit();
     // Build Paging

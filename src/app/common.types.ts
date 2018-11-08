@@ -201,6 +201,7 @@ export interface LogResult {
 export interface Tenant {
   id: string;
   name: string;
+  email: string;
   subdomain: string;
 }
 

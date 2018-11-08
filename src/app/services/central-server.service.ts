@@ -517,7 +517,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
@@ -600,10 +600,11 @@ export class CentralServerService {
   public getLoggedUser(): User {
     // Verify init
     this._checkInit();
+    this.getLoggedUserFromToken();
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Return the user (should have already been initialized as the token is retrieved async)
-    return this.getLoggedUserFromToken();
+    return this.currentUser;
   }
 
   public resetUserPassword(data) {

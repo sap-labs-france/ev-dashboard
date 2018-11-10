@@ -19,6 +19,21 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.5',
+      date: new Date('2018-11-10'),
+      componentChanges: [
+        {
+          name: 'Tenant',
+          changes: [
+            `Deployed tenant management on SCP`,
+            `Created a new tenant for SAP Labs France (slf)`,
+            `Migrated the Database to the new 'slf' tenant`,
+            `Connected of the SAP Labs France chargers to the new 'slf' tenant`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.4',
       date: new Date('2018-10-10'),
       componentChanges: [

@@ -21,12 +21,13 @@ export class TenantDialogComponent implements OnInit {
   private readonly currentTenant: any;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<TenantDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private spinnerService: SpinnerService,
+      private router: Router,
+      protected dialogRef: MatDialogRef<TenantDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Check if data is passed to the dialog
     if (data) {
       this.currentTenant = data;
     } else {

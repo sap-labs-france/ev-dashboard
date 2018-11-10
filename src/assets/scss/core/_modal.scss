@@ -2,6 +2,11 @@
 // Modals
 // Material Design element Dialogs
 // --------------------------------------------------
+.dialog-title {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
 .modal-dialog {
   & .modal-content {
     @include shadow-z-5();

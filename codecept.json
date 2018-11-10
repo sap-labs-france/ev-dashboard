@@ -6,8 +6,8 @@
          "waitForNavigation": "networkidle0",
          "waitForAction": 200,
          "show": true,
-         "restart": false,
-         "windowSize": "1600x1200"
+         "restart": true,
+         "windowSize": "1024x1024"
       },
       "Mochawesome": {
          "uniqueScreenshotNames": "true"

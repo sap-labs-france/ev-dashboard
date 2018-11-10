@@ -10,6 +10,7 @@ BeforeSuite((I) => {
 Scenario('I create my account', async (I, loginPage, authLayoutPage, registerPage) => {
     I.amOnPage(loginPage.url);
     authLayoutPage.goToRegisterPage();
+    I.waitInUrl(registerPage.url, 5);
     registerPage.register(user);
     I.seeInCurrentUrl(loginPage.url);
     I.see('Your account has been created with success! Check your email', `//span[@data-notify='message']`);

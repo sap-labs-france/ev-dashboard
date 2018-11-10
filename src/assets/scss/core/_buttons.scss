@@ -4,11 +4,10 @@
   padding: 12px 30px;
   margin: $bmd-btn-margin-bottom 5px;
   min-width: auto;
-  font-size: .75rem; //  12px
+  font-size: 1rem; //  12px
   font-weight: 400;
   line-height: $bmd-line-height;
   text-decoration: none;
-  text-transform: uppercase;
   vertical-align: middle;
   letter-spacing: 0;
   cursor: pointer;
@@ -19,9 +18,9 @@
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
   @include undo-bs-tab-focus();
-  @media screen and (max-width: $res375) {
+  @media screen and (max-width: $res435) {
     width: 100%;
-    margin: 10px 0;
+    margin: 0 0 10px 0;
   }
 
   //--
@@ -170,9 +169,9 @@
   position: relative;
   display: inline-block;
   top: 0;
-  margin-top: -1em;
+  margin-top: -1.6rem;
   margin-bottom: -1em;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   vertical-align: middle;
 }
 

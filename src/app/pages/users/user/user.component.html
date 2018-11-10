@@ -238,7 +238,7 @@
                   <img [src]="image" class="" alt="...">
                 </div>
                 <div style="display:none">
-                  <input type="file" name="...">
+                  <input type="file" name="..." (change)="imageChanged()">
                 </div>
               </div>
               <button href="javascript:void(0)" (click)="clearImage()"

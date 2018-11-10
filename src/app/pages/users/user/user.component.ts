@@ -437,7 +437,15 @@ export class UserComponent implements OnInit {
     });
   }
 
+  public imageChanged() {
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
   public clearImage() {
+    // Clear
     jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    // Set form dirty
+    this.formGroup.markAsDirty();
   }
 }

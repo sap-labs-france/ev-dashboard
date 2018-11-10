@@ -14,6 +14,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableDef: TableDef;
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
+  private rowActionsDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<T>;
   private data: T[] = [];
@@ -38,6 +39,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.actionsRightDef = this.getTableActionsRightDef();
       // Check known actions
       this._checkKnownActions(this.actionsRightDef);
+    }
+    if (!this.rowActionsDef) {
+      this.rowActionsDef = this.getTableRowActions();
+      // Check known actions
+      this._checkKnownActions(this.rowActionsDef);
     }
   }
 
@@ -71,6 +77,13 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this._checkInitialized();
     // Return
     return this.actionsDef && this.actionsDef.length > 0;
+  }
+
+  public hasRowActions(): boolean {
+    // Check
+    this._checkInitialized();
+    // Return
+    return this.rowActionsDef && this.rowActionsDef.length > 0;
   }
 
   public hasFilters(): boolean {
@@ -230,6 +243,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [];
   }
 
+  public getTableRowActions(): TableActionDef[] {
+    // Return default
+    return [];
+  }
+
   public getTableFiltersDef(): TableFilterDef[] {
     // Return default
     return [];
@@ -268,6 +286,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
         break;
     }
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

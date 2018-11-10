@@ -66,6 +66,7 @@ import {AppRouting} from './app.routing';
 import {WINDOW_PROVIDERS} from './providers/window.provider';
 import {WindowService} from './services/window.service';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
+import {TenantGuard} from './guard/tenant.guard';
 
 @NgModule({
   exports: [
@@ -167,6 +168,7 @@ export function localeFactory(
     CentralServerService,
     CentralServerNotificationService,
     AuthorizationService,
+    TenantGuard,
     RouteGuardService,
     SpinnerService,
     LocaleService,

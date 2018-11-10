@@ -1,6 +1,7 @@
 const I = actor();
 
 module.exports = {
+  url: '/auth/register',
   fields: {
     firstName: '#first-name-field',
     lastName: '#last-name-field',

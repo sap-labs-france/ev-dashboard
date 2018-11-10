@@ -13,40 +13,51 @@ import {Constants} from '../../../utils/Constants';
   styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
 })
 export class TenantDialogComponent implements OnInit {
-  private messages;
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
   public subdomain: AbstractControl;
   public email: AbstractControl;
+  private readonly currentTenant: any;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<TenantDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private spinnerService: SpinnerService,
+      private router: Router,
+      protected dialogRef: MatDialogRef<TenantDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Check if data is passed to the dialog
+    if (data) {
+      this.currentTenant = data;
+    } else {
+      this.currentTenant = {
+        'id': '',
+        'name': '',
+        'email': '',
+        'subdomain': ''
+      }
+    }
   }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
+      'id': new FormControl(this.currentTenant.id),
+      'name': new FormControl(this.currentTenant.name,
         Validators.compose([
           Validators.required
         ])),
-      'email': new FormControl('',
+      'email': new FormControl(this.currentTenant.email,
         Validators.compose([
           Validators.required,
           Validators.email
         ])),
-      'subdomain': new FormControl('',
+      'subdomain': new FormControl(this.currentTenant.subdomain,
         Validators.compose([
           Validators.required,
           Validators.minLength(1),
           Validators.maxLength(20),
-          Validators.pattern('^[a-z0-9]*$')
+          Validators.pattern('^[a-z0-9]+$')
         ]))
     });
 
@@ -63,13 +74,20 @@ export class TenantDialogComponent implements OnInit {
   save(tenant) {
     // Show
     this.spinnerService.show();
-    // Yes: Update
+
+    if (this.currentTenant.id) {
+      // update existing tenant
+      this._updateTenant(tenant);
+    } else {
+      // create new tenant
+      this._createTenant(tenant);
+    }
+  }
+
+  private _createTenant(tenant) {
     this.centralServerService.createTenant(tenant).subscribe(response => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('tenants.create_success', {'name': tenant.name});
         this.dialogRef.close();
       } else {
@@ -77,10 +95,26 @@ export class TenantDialogComponent implements OnInit {
           this.messageService, 'tenants.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'tenants.create_error');
+    });
+  }
+
+  private _updateTenant(tenant) {
+    this.centralServerService.updateTenant(tenant).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage('tenants.update_success', {'name': tenant.name});
+        this.dialogRef.close();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'tenants.update_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'tenants.update_error');
     });
   }
 }

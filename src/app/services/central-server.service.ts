@@ -47,20 +47,20 @@ export class CentralServerService {
       icontype: 'dashboard'
     },
     {
-      id: 'logs',
-      path: '/logs',
-      title: 'Logs',
-      type: 'link',
-      icontype: 'list',
-      admin: true
-    },
-    {
       id: 'tenants',
       path: '/tenants',
       title: 'Tenants',
       type: 'link',
       icontype: 'account_balance',
       superAdmin: true
+    },
+    {
+      id: 'logs',
+      path: '/logs',
+      title: 'Logs',
+      type: 'link',
+      icontype: 'list',
+      admin: true
     }
   ];
 
@@ -252,7 +252,7 @@ export class CentralServerService {
       );
   }
 
-  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TenantResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -275,6 +275,31 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateTenant(tenant: Tenant) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantUpdate`, tenant,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteTenant(id): Observable<ActionResponse> {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })
@@ -478,7 +503,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
@@ -561,15 +586,18 @@ export class CentralServerService {
   public getLoggedUser(): User {
     // Verify init
     this._checkInit();
+    this.getLoggedUserFromToken();
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO();
+    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Return the user (should have already been initialized as the token is retrieved async)
-    return this.getLoggedUserFromToken();
+    return this.currentUser;
   }
 
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    data['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
@@ -583,6 +611,8 @@ export class CentralServerService {
   public registerUser(user): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
@@ -636,6 +666,8 @@ export class CentralServerService {
   public verifyEmail(params: any) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    params['tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
@@ -651,6 +683,8 @@ export class CentralServerService {
   public resendVerificationEmail(user) {
     // Verify init
     this._checkInit();
+    // Set the tenant
+    user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {

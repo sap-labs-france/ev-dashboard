@@ -63,7 +63,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text" [formControl]="name"
+                          <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}" type="text"
+                                 [formControl]="name"
                                  required>
                           <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
@@ -72,7 +73,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName" required>
+                          <input matInput placeholder="{{'users.first_name' | translate}}" type="text" [formControl]="firstName"
+                                 required>
                           <mat-error *ngIf="firstName.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         </mat-form-field>
                       </div>
@@ -171,11 +173,14 @@
                         <mat-form-field>
                           <input matInput type="password" placeholder="{{'authentication.password' | translate}}"
                                  [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
-                          <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' :
+                          <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ?
+                            'visibility' :
                             'visibility_off'}}
                           </mat-icon>
-                          <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
-                          <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}</mat-error>
+                          <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}
+                          </mat-error>
+                          <mat-error *ngIf="password.hasError('invalidPassword')">{{"authentication.password_rule" | translate}}
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -185,10 +190,12 @@
                           <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}"
                                  [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
                                  [errorStateMatcher]="parentErrorStateMatcher">
-                          <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword
+                          <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">
+                            {{hideRepeatPassword
                             ? 'visibility' : 'visibility_off'}}
                           </mat-icon>
-                          <mat-error *ngIf="passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>
+                          <mat-error *ngIf="passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -214,7 +221,8 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <mat-form-field>
-                          <input matInput placeholder="{{'users.cost_center' | translate}}" type="text" [formControl]="costCenter">
+                          <input matInput placeholder="{{'users.cost_center' | translate}}" type="text"
+                                 [formControl]="costCenter">
                           <mat-error *ngIf="costCenter.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
                         </mat-form-field>
                       </div>

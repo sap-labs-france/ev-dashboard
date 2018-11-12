@@ -15,7 +15,6 @@
    },
    "include": {
       "I": "./test/utils/Actor.js",
-      "emailServer": "./test/utils/EmailServer.js",
       "loginPage": "./test/pages/LoginPage.js",
       "authLayoutPage": "./test/pages/AuthLayoutPage.js",
       "registerPage": "./test/pages/RegisterPage.js",

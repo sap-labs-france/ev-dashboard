@@ -35,7 +35,8 @@
                              [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
                       <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
                       <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-                      <mat-error *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
+                      <mat-error
+                        *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -50,7 +51,8 @@
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}
+              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" |
+                translate}}
               </button>
             </div>
           </div>

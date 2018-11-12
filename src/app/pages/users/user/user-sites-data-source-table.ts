@@ -98,8 +98,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableAddAction(this.translateService).getActionDef(),
-      new TableRemoveAction(this.translateService).getActionDef()
+      new TableAddAction().getActionDef(),
+      new TableRemoveAction().getActionDef()
     ];
   }
 

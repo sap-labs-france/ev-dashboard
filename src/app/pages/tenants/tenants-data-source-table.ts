@@ -35,8 +35,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     super();
 
     this.tableActionsRow = [
-      new TableEditAction(this.translateService).getActionDef(),
-      new TableDeleteAction(this.translateService).getActionDef()
+      new TableUpdateAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
     ];
   }
 
@@ -64,8 +64,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       // Hide
       this.spinnerService.hide();
       // Show error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -81,33 +80,36 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('tenants.name'),
+        name: 'tenants.name',
         headerClass: 'col-25p',
         class: 'text-left col-25p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'email',
-        name: this.translateService.instant('tenants.email'),
+        name: 'tenants.email',
         headerClass: 'col-30p',
         class: 'col-30p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'subdomain',
-        name: this.translateService.instant('tenants.subdomain'),
+        name: 'tenants.subdomain',
         headerClass: 'col-25p',
-        class: 'col-25p'
+        class: 'col-25p',
+        sortable: true
       }
     ];
   }
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableCreateAction(this.translateService).getActionDef(),
-      new TableRefreshAction(this.translateService).getActionDef()
+      new TableCreateAction().getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 
@@ -142,7 +144,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(this.translateService, true).getActionDef()
+      new TableAutoRefreshAction(true).getActionDef()
     ];
   }
 

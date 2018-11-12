@@ -20,7 +20,8 @@
                         <i class="material-icons">email</i>
                       </span>
                       <mat-form-field>
-                        <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email" required
+                        <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email"
+                               required
                                [readonly]="true">
                         <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                         <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
@@ -34,7 +35,8 @@
                 </span>
             </div>
             <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">
-              <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" | translate}}
+              <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" |
+                translate}}
               </button>
             </div>
           </div>

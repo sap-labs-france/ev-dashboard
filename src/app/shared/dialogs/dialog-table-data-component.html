@@ -9,8 +9,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button class="mat-raised-button mat-primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">{{"general.add"
-    | translate}}
+  <button class="mat-raised-button mat-primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
+    {{"general.add" | translate}}
   </button>
   <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
 </mat-dialog-actions>

@@ -58,7 +58,8 @@
         <p>{{menuitem.title}}</p>
       </a>
       <!--If it have a submenu-->
-      <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()" class="nav-link">
+      <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()"
+         class="nav-link">
         <i class="material-icons">{{menuitem.icontype}}</i>
         <p>{{menuitem.title}}
           <b class="caret"></b>

@@ -21,6 +21,7 @@ import {UserNamePipe} from '../../shared/formatters/user-name.pipe';
 import {DurationPipe} from '../../shared/formatters/duration.pipe';
 import {PercentPipe} from '@angular/common';
 import {DateTimePipe} from '../../shared/formatters/date-time.pipe';
+import {PricePipe} from '../../shared/formatters/price.pipe';
 
 export class TransactionsDataSource extends TableDataSource<Transaction> {
   constructor(
@@ -110,10 +111,15 @@ export class TransactionsDataSource extends TableDataSource<Transaction> {
       },
       {
         id: 'chargeBoxID',
-        additionalIds: ['connectorId'],
         name: 'transactions.charging_station',
         headerClass: 'col-10p',
         class: 'text-left col-10p'
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-5p',
+        class: 'text-center col-10p'
       },
       {
         id: 'totalConsumption',
@@ -123,10 +129,12 @@ export class TransactionsDataSource extends TableDataSource<Transaction> {
         formatter: new KiloWattPipe().transform
       },
       {
-        id: 'totalPrice',
+        id: 'price',
+        additionalIds: ['priceUnit'],
         name: 'transactions.price',
         headerClass: 'text-right col-5p',
-        class: 'text-right col-5p'
+        class: 'text-right col-5p',
+        formatter: new PricePipe().transform
       }
     ];
   }

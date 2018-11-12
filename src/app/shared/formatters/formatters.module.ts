@@ -1,9 +1,9 @@
-import {KiloWattPipe} from '../formatters/kilo-watt.pipe';
-
 import {NgModule} from '@angular/core';
+import {KiloWattPipe} from './kilo-watt.pipe';
 import {UserNamePipe} from './user-name.pipe';
 import {DateTimePipe} from './date-time.pipe';
 import {DurationPipe} from './duration.pipe';
+import {PricePipe} from './price.pipe';
 
 @NgModule({
   imports: [],
@@ -11,19 +11,22 @@ import {DurationPipe} from './duration.pipe';
     KiloWattPipe,
     UserNamePipe,
     DateTimePipe,
-    DurationPipe
+    DurationPipe,
+    PricePipe
   ],
   exports: [
     KiloWattPipe,
     UserNamePipe,
     DateTimePipe,
-    DurationPipe
+    DurationPipe,
+    PricePipe
   ],
   providers: [
     KiloWattPipe,
     UserNamePipe,
     DateTimePipe,
-    DurationPipe
+    DurationPipe,
+    PricePipe
   ]
 })
 export class FormattersModule {

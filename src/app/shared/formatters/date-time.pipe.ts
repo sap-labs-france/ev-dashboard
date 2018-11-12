@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'dateTimePipe'})
+@Pipe({name: 'dateTime'})
 export class DateTimePipe implements PipeTransform {
   private locale;
 

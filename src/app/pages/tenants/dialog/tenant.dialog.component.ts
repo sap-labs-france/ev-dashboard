@@ -7,6 +7,7 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {Constants} from '../../../utils/Constants';
+import { log } from 'util';
 
 @Component({
   templateUrl: './tenant.dialog.component.html',
@@ -45,7 +46,8 @@ export class TenantDialogComponent implements OnInit {
       'id': new FormControl(this.currentTenant.id),
       'name': new FormControl(this.currentTenant.name,
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.maxLength(100)
         ])),
       'email': new FormControl(this.currentTenant.email,
         Validators.compose([
@@ -55,7 +57,6 @@ export class TenantDialogComponent implements OnInit {
       'subdomain': new FormControl(this.currentTenant.subdomain,
         Validators.compose([
           Validators.required,
-          Validators.minLength(1),
           Validators.maxLength(20),
           Validators.pattern('^[a-z0-9]+$')
         ]))

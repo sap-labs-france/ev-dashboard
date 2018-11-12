@@ -8,11 +8,9 @@
           <div class="col">
             <div class="form-group">
               <mat-form-field>
-                <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}" type="text"
-                       [formControl]="name" required>
-                <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" |
-                  translate}}
-                </mat-error>
+                <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}" type="text" [formControl]="name" required>
+                <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                <mat-error *ngIf="name.hasError('maxlength')"><div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div></mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -21,11 +19,9 @@
           <div class="col">
             <div class="form-group">
               <mat-form-field>
-                <input appSetAutoFocus matInput placeholder="{{'tenants.email' | translate}}" type="text"
-                       [formControl]="email" required>
-                <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" |
-                  translate}}
-                </mat-error>
+                <input matInput placeholder="{{'tenants.email' | translate}}" type="text" [formControl]="email" required>
+                <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -34,12 +30,10 @@
           <div class="col">
             <div class="form-group">
               <mat-form-field>
-                <input matInput placeholder="{{'tenants.subdomain' | translate}}" type="text"
-                       [formControl]="subdomain" required>
-                <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
-                  |
-                  translate}}
-                </mat-error>
+                <input matInput placeholder="{{'tenants.subdomain' | translate}}" type="text" [formControl]="subdomain" required>
+                <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                <mat-error *ngIf="subdomain.hasError('maxlength')"><div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div></mat-error>
+                <mat-error *ngIf="subdomain.hasError('pattern')">{{"tenants.error_subdomain" | translate}}</mat-error>
               </mat-form-field>
             </div>
           </div>

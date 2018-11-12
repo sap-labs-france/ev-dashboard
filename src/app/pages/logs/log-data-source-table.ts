@@ -17,7 +17,7 @@ import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
 import {DateTimePipe} from '../../shared/formatters/date-time.pipe';
-import {LoglevelIconPipe} from './formatters/loglevel-icon.pipe';
+import {LogLevelIconPipe} from './formatters/log-level-icon.pipe';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
@@ -100,7 +100,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'level',
         name: 'logs.level',
-        formatter: (logLevel) => new LoglevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
+        formatter: (logLevel) => new LogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
         headerClass: 'col-5p',
         class: 'col-5p',
         sortable: true

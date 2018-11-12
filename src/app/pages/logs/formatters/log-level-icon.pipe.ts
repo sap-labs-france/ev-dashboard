@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'loglevelIcon'})
-export class LoglevelIconPipe implements PipeTransform {
+@Pipe({name: 'logLevelIcon'})
+export class LogLevelIconPipe implements PipeTransform {
   transform(status: string, options = {iconClass: ''}): any {
     let clasNames = (options.iconClass ? options.iconClass : '');
     switch (status) {

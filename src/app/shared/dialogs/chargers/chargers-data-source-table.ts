@@ -51,14 +51,15 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
     return [
       {
         id: 'id',
-        name: this.translateService.instant('chargers.chargers'),
+        name: 'chargers.chargers',
         class: 'text-left',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'chargePointVendor',
-        name: this.translateService.instant('chargers.name'),
+        name: 'chargers.name',
         class: 'text-left'
       }
     ];

@@ -41,7 +41,8 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
         name: this.translateService.instant('sites.name'),
         class: 'text-left col-50p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'address.city',

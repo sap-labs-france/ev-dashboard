@@ -1,7 +1,7 @@
 {
   "general": {
     "app_name": "Charge-Angels",
-    "last_update": "Version 2.0.5",
+    "last_update": "Version 2.0.6",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -53,6 +53,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "From",
+      "search_date_until": "Until",
     "search_date_range": "Dates",
     "search_charging_station": "Charging Station",
     "search_user": "User",
@@ -615,5 +616,16 @@
     "delete_title": "Delete Tenant",
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
+   },
+   "transactions": {
+      "date_from": "Date",
+      "duration": "Duration",
+      "inactivity": "Inactivity",
+      "user": "User",
+      "badge_id": "Badge ID",
+      "charging_station": "Charging Station",
+      "connector": "Connector",
+      "total_consumption": "Consumed",
+      "price": "Price"
   }
 }

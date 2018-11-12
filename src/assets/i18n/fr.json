@@ -1,7 +1,7 @@
 {
   "general": {
     "app_name": "Charge-Angels",
-    "last_update": "Version 2.0.5",
+    "last_update": "Version 2.0.6",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -53,6 +53,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "A partir de",
+      "search_date_until": "Jusqu'à",
     "search_date_range": "Dates",
     "search_charging_station": "Borne",
     "search_user": "Utilisateur",
@@ -614,5 +615,16 @@
     "delete_title": "Supprimer le tenant",
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du tenant"
+   },
+   "transactions": {
+      "date_from": "Date",
+      "duration": "Durée",
+      "inactivity": "Inactivité",
+      "user": "Utilisateur",
+      "badge_id": "ID de badge",
+      "charging_station": "Station de Chargement",
+      "connector": "Connecteur",
+      "total_consumption": "Consommé",
+      "price": "Prix"
   }
 }

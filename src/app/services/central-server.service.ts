@@ -23,6 +23,7 @@ import {
   SiteResult,
   Tenant,
   TenantResult,
+  TransactionResult,
   User,
   UserResult
 } from '../common.types';
@@ -55,11 +56,11 @@ export class CentralServerService {
       superAdmin: true
     },
     {
-      id: 'logs',
-      path: '/logs',
-      title: 'Logs',
+      id: 'transactions',
+      path: '/transactions',
+      title: 'Transactions',
       type: 'link',
-      icontype: 'list',
+      icontype: 'account_balance',
       admin: true
     }
   ];
@@ -261,6 +262,24 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
         headers: this._buildHttpHeaders(),
         params

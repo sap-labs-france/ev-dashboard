@@ -7,9 +7,10 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MaterialModule} from '../../app.module';
 import {TransactionsComponent} from './transactions.component';
 import {TransactionsRoutes} from './transactions.routing';
-import {TableModule} from '../../shared/table/table.module';
 import {CommonDirectivesModule} from '../../directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
+import {TableModule} from '../../shared/table/table.module';
+import {TransactionsHistoryComponent} from './history/transactions-history.component';
 
 @NgModule({
   imports: [
@@ -24,10 +25,12 @@ import {DialogsModule} from '../../shared/dialogs/dialogs.module';
     DialogsModule
   ],
   declarations: [
-    TransactionsComponent
+    TransactionsComponent,
+    TransactionsHistoryComponent
   ],
   entryComponents: [
-    TransactionsComponent
+    TransactionsComponent,
+    TransactionsHistoryComponent
   ],
   exports: [
     TransactionsComponent

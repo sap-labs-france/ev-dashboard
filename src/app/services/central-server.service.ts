@@ -735,4 +735,16 @@ export class CentralServerService {
   private isUserSuperAdmin() {
     return this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
   }
+
+  deleteTransaction(id: string) {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
 }

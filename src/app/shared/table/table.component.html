@@ -72,7 +72,7 @@
       </div>
       <!-- Search -->
       <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
-        <input #searchInput matInput [placeholder]="searchPlaceholder"
+        <input #searchInput matInput [placeholder]="searchPlaceholder | translate"
                (keyup)="searchSourceSubject.next(searchInput.value)">
       </mat-form-field>
     </div>
@@ -117,7 +117,7 @@
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" *matCellDef="let row"
             [innerHtml]="buildRowValue(row, columnDef)"></td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>
-          {{columnDef.footerName}}
+          {{columnDef.footerName | translate}}
         </td>
       </ng-container>
 
@@ -165,7 +165,7 @@
       <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
       <tr mat-footer-row [hidden]="!dataSource.isFooterEnabled()" *matFooterRowDef="columns; sticky: true"></tr>
     </table>
-    <div class="ml-3 text-left" *ngIf="dataSource && dataSource.isEmpty()">{{'general.no_record_found' |
+    <div class="ml-4 text-left" *ngIf="dataSource && dataSource.isEmpty()">{{'general.no_record_found' |
       translate}}
     </div>
   </div>

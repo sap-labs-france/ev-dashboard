@@ -12,7 +12,7 @@ import {Constants} from '../../../utils/Constants';
   templateUrl: './tenant.dialog.component.html',
   styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
 })
-export class TenantDialogComponent implements OnInit {<<<<<<<<< Temporary merge branch 1
+export class TenantDialogComponent implements OnInit {
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;

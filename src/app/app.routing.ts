@@ -29,7 +29,6 @@ export const AppRoutes: Routes = [
       {path: 'users', loadChildren: './pages/users/users.module#UsersModule'},
       {path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule'},
       {path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule'},
-      {path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule'},
       {path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService], data: {forAdminOnly: true}},
     ]
   },

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../services/locale.service';
 import {CentralServerService} from '../../services/central-server.service';
 import {SpinnerService} from '../../services/spinner.service';
@@ -14,7 +13,6 @@ import {LogDataSource} from './log-data-source-table';
   templateUrl: 'logs.component.html'
 })
 export class LogsComponent implements OnInit {
-  private messages;
   public isAdmin;
   public logDataSource: LogDataSource;
 
@@ -24,20 +22,14 @@ export class LogsComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private centralServerNotificationService: CentralServerNotificationService,
-    private translateService: TranslateService,
     private localeService: LocaleService,
     private router: Router) {
-    // Get translated messages
-    this.translateService.get('logs', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     // Create table data source
     this.logDataSource = new LogDataSource(
       this.localeService,
       this.messageService,
-      this.translateService,
       this.spinnerService,
       this.router,
       this.centralServerNotificationService,

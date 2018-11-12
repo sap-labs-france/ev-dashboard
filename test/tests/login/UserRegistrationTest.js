@@ -33,5 +33,5 @@ Scenario('I validate my mail address', async (I, loginPage, mailboxPage) => {
 Scenario('I login', (I, loginPage) => {
   I.amOnPage(loginPage.url);
   loginPage.login(user);
-  I.waitUrlEquals('/dashboard');
+  I.waitUrlEquals('/#/dashboard');
 });

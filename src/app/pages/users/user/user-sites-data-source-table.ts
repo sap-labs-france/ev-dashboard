@@ -69,19 +69,20 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('sites.name'),
+        name: 'sites.name',
         class: 'text-left col-50p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'address.city',
-        name: this.translateService.instant('general.city'),
+        name: 'general.city',
         class: 'text-left col-25p'
       },
       {
         id: 'address.country',
-        name: this.translateService.instant('general.country'),
+        name: 'general.country',
         class: 'text-left col-20p'
       }
     ];
@@ -98,8 +99,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableAddAction(this.translateService).getActionDef(),
-      new TableRemoveAction(this.translateService).getActionDef()
+      new TableAddAction().getActionDef(),
+      new TableRemoveAction().getActionDef()
     ];
   }
 

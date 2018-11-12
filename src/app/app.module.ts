@@ -67,6 +67,7 @@ import {WINDOW_PROVIDERS} from './providers/window.provider';
 import {WindowService} from './services/window.service';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
+import {FormattersModule} from './shared/formatters/formatters.module';
 
 @NgModule({
   exports: [
@@ -151,7 +152,8 @@ export function localeFactory(
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    FormattersModule
   ],
   declarations: [
     AppComponent,

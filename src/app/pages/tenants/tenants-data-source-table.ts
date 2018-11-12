@@ -1,19 +1,19 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, Tenant} from '../../common.types';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../services/central-server.service';
-import { LocaleService } from '../../services/locale.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { Utils } from '../../utils/Utils';
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {TableDataSource} from '../../shared/table/table-data-source';
+import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant} from '../../common.types';
+import {CentralServerNotificationService} from '../../services/central-server-notification.service';
+import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
+import {CentralServerService} from '../../services/central-server.service';
+import {LocaleService} from '../../services/locale.service';
+import {MessageService} from '../../services/message.service';
+import {SpinnerService} from '../../services/spinner.service';
+import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import { TenantDialogComponent } from './dialog/tenant.dialog.component';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import {TenantDialogComponent} from './dialog/tenant.dialog.component';
+import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
@@ -35,8 +35,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     super();
 
     this.tableActionsRow = [
-      new TableEditAction(this.translateService).getActionDef(),
-      new TableDeleteAction(this.translateService).getActionDef()
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
     ];
   }
 
@@ -64,8 +64,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       // Hide
       this.spinnerService.hide();
       // Show error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -81,33 +80,36 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('tenants.name'),
+        name: 'tenants.name',
         headerClass: 'col-25p',
         class: 'text-left col-25p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'email',
-        name: this.translateService.instant('tenants.email'),
+        name: 'tenants.email',
         headerClass: 'col-30p',
         class: 'col-30p',
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
+        sortable: true
       },
       {
         id: 'subdomain',
-        name: this.translateService.instant('tenants.subdomain'),
+        name: 'tenants.subdomain',
         headerClass: 'col-25p',
-        class: 'col-25p'
+        class: 'col-25p',
+        sortable: true
       }
     ];
   }
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableCreateAction(this.translateService).getActionDef(),
-      new TableRefreshAction(this.translateService).getActionDef()
+      new TableCreateAction().getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 
@@ -142,8 +144,12 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(this.translateService, true).getActionDef()
+      new TableAutoRefreshAction(true).getActionDef()
     ];
+  }
+
+  public getTableFiltersDef(): TableFilterDef[] {
+    return [];
   }
 
   private _showTenantDialog(tenant?: any) {

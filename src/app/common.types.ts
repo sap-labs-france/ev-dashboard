@@ -294,40 +294,20 @@ export interface TableDef {
 
 export interface TableColumnDef {
   id: string;
+  additionalIds?: string[];
   name: string;
   footerName?: string;
   type?: string;
   headerClass?: string;
   class?: string;
   formatter?: Function,
-  formatterOptions?: any,
+  sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
 }
 
 export interface TableSearch {
   search: string;
-}
-
-export interface Transaction {
-  id: number;
-  timestamp: Date;
-  chargeBox: Charger;
-  connectorId: number;
-  meterStart: number;
-  user: User;
-  tagID: string;
-  stop: {
-    user: User;
-    tagID: string;
-    timestamp: Date;
-    meterStop: number;
-    totalConsumption: number;
-    price: number;
-    priceUnit: string;
-  };
-  dateTimestring: string;
-  consumptionstring: string;
 }
 
 export interface User {

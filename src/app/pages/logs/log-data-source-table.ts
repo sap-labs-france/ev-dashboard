@@ -1,5 +1,4 @@
 import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
 import {Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
@@ -17,12 +16,13 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
+import {DateTimePipe} from '../../shared/formatters/date-time.pipe';
+import {LogLevelIconPipe} from './formatters/log-level-icon.pipe';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -71,8 +71,7 @@ export class LogDataSource extends TableDataSource<Log> {
       // Show
       this.spinnerService.hide();
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -96,43 +95,47 @@ export class LogDataSource extends TableDataSource<Log> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
-    // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'level',
-        name: this.translateService.instant('logs.level'),
-        formatter: Formatters.formatLogLevel,
-        formatterOptions: {iconClass: 'pt-1'},
+        name: 'logs.level',
+        formatter: (logLevel) => new LogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
         headerClass: 'col-5p',
-        class: 'col-5p'
+        class: 'col-5p',
+        sortable: true
       },
       {
         id: 'timestamp',
         type: 'date',
-        formatter: Formatters.createDateTimeFormatter(this.localeService).format,
-        name: this.translateService.instant('logs.date'),
+        formatter: new DateTimePipe(locale).transform,
+        name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sorted: true,
-        direction: 'desc'
+        direction: 'desc',
+        sortable: true
       },
       {
         id: 'source',
-        name: this.translateService.instant('logs.source'),
+        name: 'logs.source',
         headerClass: 'col-15p',
-        class: 'text-left col-10p'
+        class: 'text-left col-10p',
+        sortable: true
       },
       {
         id: 'action',
-        name: this.translateService.instant('logs.action'),
+        name: 'logs.action',
         headerClass: 'col-15p',
-        class: 'text-left col-15p'
+        class: 'text-left col-15p',
+        sortable: true
       },
       {
         id: 'message',
-        name: this.translateService.instant('logs.message'),
+        name: 'logs.message',
         headerClass: 'col-40p',
-        class: 'text-left col-50p'
+        class: 'text-left col-50p',
+        sortable: true
       }
     ];
   }
@@ -143,23 +146,23 @@ export class LogDataSource extends TableDataSource<Log> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction(this.translateService).getActionDef()
+      new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(this.translateService, false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new LogDateTableFilter(this.translateService).getFilterDef(),
-      new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
-      new LogSourceTableFilter(this.translateService).getFilterDef(),
-      new UserTableFilter(this.translateService).getFilterDef(),
-      new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
+      new LogDateTableFilter().getFilterDef(),
+      new LogLevelTableFilter(this.centralServerService).getFilterDef(),
+      new LogSourceTableFilter().getFilterDef(),
+      new UserTableFilter().getFilterDef(),
+      new LogActionTableFilter(this.centralServerService).getFilterDef()
     ];
   }
 }

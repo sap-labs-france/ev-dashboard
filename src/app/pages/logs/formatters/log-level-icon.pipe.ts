@@ -3,18 +3,18 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({name: 'logLevelIcon'})
 export class LogLevelIconPipe implements PipeTransform {
   transform(status: string, options = {iconClass: ''}): any {
-    let clasNames = (options.iconClass ? options.iconClass : '');
+    let classNames = (options.iconClass ? options.iconClass : '');
     switch (status) {
       case 'I':
-        clasNames += ' icon-success';
+        classNames += ' icon-success';
         break;
       case 'W':
-        clasNames += ' icon-warning';
+        classNames += ' icon-warning';
         break;
       case 'E':
-        clasNames += ' icon-danger';
+        classNames += ' icon-danger';
         break;
     }
-    return `<i class="material-icons card-icon ${clasNames}">fiber_manual_record</i>`;
+    return `<i class="material-icons card-icon ${classNames}">fiber_manual_record</i>`;
   }
 }

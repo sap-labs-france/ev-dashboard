@@ -19,6 +19,24 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.6',
+      date: new Date('2018-11-14'),
+      componentChanges: [
+        {
+          name: 'Tenant',
+          changes: [
+            `Fixed access to EULA within the tenant`,
+            `Fixed Max Current setting`,
+            `Add error messages in Tenant management Create/Update form`,
+            `Add Tenant ID column in the Tenant list`,
+            `Handle ABB Status Notification with Connector ID = 0`,
+            `Fixed pricing change in multi-tenant`,
+            `Set the default Json Server URL for Chargers running OCPP 1.6`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.5',
       date: new Date('2018-11-10'),
       componentChanges: [

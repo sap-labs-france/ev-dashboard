@@ -16,8 +16,8 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {DateTimePipe} from '../../shared/formatters/date-time.pipe';
-import {LogLevelIconPipe} from './formatters/log-level-icon.pipe';
+import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
+import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
@@ -95,12 +95,11 @@ export class LogDataSource extends TableDataSource<Log> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'level',
         name: 'logs.level',
-        formatter: (logLevel) => new LogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
+        formatter: (logLevel) => new AppLogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
         headerClass: 'col-5p',
         class: 'col-5p',
         sortable: true
@@ -108,7 +107,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: new DateTimePipe(locale).transform,
+        formatter: new AppDateTimePipe(this.localeService).transform,
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',

@@ -1,11 +1,12 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {LocaleService} from '../../services/locale.service';
 
 @Pipe({name: 'dateTime'})
-export class DateTimePipe implements PipeTransform {
-  private locale;
+export class AppDateTimePipe implements PipeTransform {
+  private locale: string;
 
-  constructor(locale: string) {
-    this.locale = locale;
+  constructor(locale: LocaleService) {
+    this.locale = locale.getCurrentFullLocaleForJS();
   }
 
   transform(value: any): any {

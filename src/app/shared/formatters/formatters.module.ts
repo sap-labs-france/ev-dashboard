@@ -4,7 +4,6 @@ import {AppUserNamePipe} from './app-user-name.pipe';
 import {AppDateTimePipe} from './app-date-time.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
 import {AppPricePipe} from './app-price.pipe';
-import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
   imports: [],
@@ -18,7 +17,6 @@ import {LocaleService} from '../../services/locale.service';
   exports: [
   ],
   providers: [
-    LocaleService
   ]
 })
 export class FormattersModule {

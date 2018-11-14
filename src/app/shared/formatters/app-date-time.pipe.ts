@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {LocaleService} from '../../services/locale.service';
 
-@Pipe({name: 'dateTime'})
+@Pipe({name: 'appDateTime'})
 export class AppDateTimePipe implements PipeTransform {
   private locale: string;
 

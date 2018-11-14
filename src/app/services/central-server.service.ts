@@ -402,7 +402,10 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`)
+    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`,
+      {
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
+      })
       .pipe(
         catchError(this._handleHttpError)
       );

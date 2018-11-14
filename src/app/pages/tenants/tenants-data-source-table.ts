@@ -79,6 +79,15 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'col-25p',
+        class: 'text-left col-25p',
+        sorted: true,
+        direction: 'asc',
+        sortable: true
+      },
+      {
         id: 'name',
         name: 'tenants.name',
         headerClass: 'col-25p',

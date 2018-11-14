@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {User} from '../../common.types';
 
 @Pipe({name: 'userName'})
-export class UserNamePipe implements PipeTransform {
+export class AppUserNamePipe implements PipeTransform {
   transform(user: User): any {
     const name = user.name ? user.name : '';
     const firstName = user.firstName ? user.firstName : '';

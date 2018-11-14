@@ -8,7 +8,7 @@ import {MaterialModule} from '../../app.module';
 import {TenantsComponent} from './tenants.component';
 import {TenantsRoutes} from './tenants.routing';
 import {TableModule} from '../../shared/table/table.module';
-import {CommonDirectivesModule} from '../../directives/common-directives.module';
+import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TenantDialogComponent} from './dialog/tenant.dialog.component';
 

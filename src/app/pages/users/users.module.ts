@@ -9,7 +9,7 @@ import {UserComponent} from './user/user.component';
 import {UserRoutes} from './users.routing';
 import {AddressModule} from '../../shared/address/address.module';
 import {TableModule} from '../../shared/table/table.module';
-import {CommonDirectivesModule} from '../../directives/common-directives.module';
+import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 
 @NgModule({

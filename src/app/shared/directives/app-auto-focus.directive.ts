@@ -3,7 +3,7 @@ import {Directive, ElementRef, OnInit} from '@angular/core';
 @Directive({
   selector: '[appSetAutoFocus]'
 })
-export class AutofocusDirective implements OnInit {
+export class AppAutofocusDirective implements OnInit {
 
   constructor(private elementRef: ElementRef) {
   }

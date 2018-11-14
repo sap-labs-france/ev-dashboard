@@ -8,8 +8,9 @@ import {MaterialModule} from '../../app.module';
 import {LogsComponent} from './logs.component';
 import {LogsRoutes} from './logs.routing';
 import {TableModule} from '../../shared/table/table.module';
-import {CommonDirectivesModule} from '../../directives/common-directives.module';
+import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
+import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import {DialogsModule} from '../../shared/dialogs/dialogs.module';
     DialogsModule
   ],
   declarations: [
-    LogsComponent
+    LogsComponent,
+    AppLogLevelIconPipe
   ]
 })
 

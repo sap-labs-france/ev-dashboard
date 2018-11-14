@@ -43,7 +43,7 @@
            *ngFor="let filterDef of filtersDef; let i=index">
         <!-- Dropdown Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dropdown'">
-          <mat-select [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
+          <mat-select [placeholder]="filterDef.name | translate" [(value)]="filterDef.currentValue"
                       (selectionChange)="filterChanged(filterDef)">
             <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
             </mat-option>

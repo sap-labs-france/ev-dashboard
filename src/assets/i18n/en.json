@@ -72,7 +72,7 @@
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Landscape",
-      "transactions": "Sessions",
+      "transactions": "Transactions",
       "active": "Active",
       "history": "History",
       "statistics": "Statistics",
@@ -313,7 +313,7 @@
     "duration": "Duration",
     "inactivity": "Inactivity",
     "consumption": "Consumed",
-    "transactions_button": "Sessions",
+    "transactions_button": "Transactions",
     "transaction_today": "Today",
     "transaction_one_week_ago": "1 Week ago",
     "transaction_one_month_ago": "1 Month ago",
@@ -620,7 +620,14 @@
     "delete_error": "Error occurred while deleting the tenant"
    },
    "transactions": {
+     "tabs":{
+       "history":"History",
+       "in_progress":"In Progress"
+     },
       "date_from": "Date",
+      "state": "Status",
+      "state": "Status",
+      "started_at": "Started At",
       "duration": "Duration",
       "inactivity": "Inactivity",
       "user": "User",

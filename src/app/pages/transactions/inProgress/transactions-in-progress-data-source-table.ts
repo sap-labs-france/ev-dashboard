@@ -14,19 +14,20 @@ import {Utils} from '../../../utils/Utils';
 import {MatDialog} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
-import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
-import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppKiloUnitPipe} from '../../../shared/formatters/app-kilo-unit.pipe';
-import {CurrencyPipe, PercentPipe} from '@angular/common';
-import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
+import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
-import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
+import {TableStopAction} from './actions/table-stop-action';
+import * as moment from 'moment'
+import {TransactionStateIconPipe} from './formatters/transaction-state-icon.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
+import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
 
-export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
+export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
   private readonly tableActionsRow: TableActionDef[];
+  private i = 0;
 
   constructor(
     private localeService: LocaleService,
@@ -40,9 +41,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private centralServerService: CentralServerService,
     private appDateTimePipe: AppDateTimePipe) {
     super();
-
+    this.i = 0;
     this.tableActionsRow = [
-      new TableDeleteAction().getActionDef()
+      new TableStopAction().getActionDef()
     ];
   }
 
@@ -52,7 +53,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public loadData() {
     this.spinnerService.show();
-    this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
+    this.centralServerService.getActiveTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);
@@ -69,38 +70,53 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public getTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: false
       }
     };
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'timestamp',
-        name: 'transactions.date_from',
-        formatter: timestamp => this.appDateTimePipe.transform(timestamp),
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        name: 'transactions.started_at',
+        formatter: this.appDateTimePipe.transform,
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         sorted: true,
         sortable: true,
-        direction: 'desc'
+        direction: 'asc'
+      },
+      {
+        id: 'isLoading',
+        name: 'transactions.state',
+        formatter: (isLoading) => new TransactionStateIconPipe().transform(isLoading, {iconClass: 'pt-1'}),
+        headerClass: 'text-center col-5p',
+        class: 'text-center col-5p',
       },
       {
         id: 'totalDurationSecs',
+        additionalIds: ['timestamp'],
         name: 'transactions.duration',
-        formatter: new AppDurationPipe().transform,
+        formatter: (totalDurationSecs, startDate) => {
+          return new AppDurationPipe().transform(moment.duration(moment().diff(startDate)).asSeconds());
+        },
         headerClass: 'col-10p',
         class: 'text-left col-10p'
       },
       {
         id: 'totalInactivitySecs',
-        additionalIds: ['totalDurationSecs'],
+        additionalIds: ['totalDurationSecs', 'timestamp'],
         name: 'transactions.inactivity',
-        formatter: (totalInactivitySecs, totalDurationSecs) => {
-          const percentage = totalDurationSecs > 0 ? totalInactivitySecs / totalDurationSecs : 0;
-          return new AppDurationPipe().transform(totalInactivitySecs) +
+        formatter: (totalInactivitySecs, totalDurationSecs, startDate) => {
+          console.log(`getTableColumnDefs ${this.i++}`);
+          const now = moment();
+          const totalDuration = moment.duration(now.diff(startDate)).asSeconds();
+          const totalInactivity = moment.duration(now.diff(moment(startDate).add(totalDurationSecs - totalInactivitySecs, 'seconds'))).asSeconds();
+          const percentage = totalDuration > 0 ? (totalInactivity / totalDuration) : 0;
+          return new AppDurationPipe().transform(totalInactivity) +
             ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
         },
         headerClass: 'col-10p',
@@ -129,18 +145,11 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       },
       {
         id: 'totalConsumption',
+        additionalIds: ['currentConsumption'],
         name: 'transactions.total_consumption',
         headerClass: 'text-right col-10p',
         class: 'text-right col-10p',
-        formatter: (totalConsumption) => new AppKiloUnitPipe(locale).transform(totalConsumption, 'kW')
-      },
-      {
-        id: 'price',
-        additionalIds: ['priceUnit'],
-        name: 'transactions.price',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
-        formatter: (price, priceUnit) => new CurrencyPipe(locale).transform(price, priceUnit, 'symbol')
+        formatter: (totalConsumption, currentConsumption) => `${new AppKiloUnitPipe(locale).transform(totalConsumption, 'kW')} (${new AppKiloUnitPipe(locale).transform(currentConsumption, 'kWh')})`
       }
     ];
   }
@@ -170,8 +179,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new TransactionsDateFromFilter().getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
@@ -179,35 +186,35 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
-      case 'delete':
-        this._deleteTransaction(rowItem);
+      case 'stop':
+        this._softStopTransaction(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
-  private _deleteTransaction(transaction) {
+  private _softStopTransaction(transaction) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
-      this.translateService.instant('transactions.delete_title'),
-      this.translateService.instant('transactions.delete_confirm', {'name': transaction.name})
+      this.translateService.instant('transactions.soft_stop_title'),
+      this.translateService.instant('transactions.soft_stop_confirm', {'name': transaction.name})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.spinnerService.show();
-        this.centralServerService.deleteTransaction(transaction.id).subscribe(response => {
+        this.centralServerService.softStopTransaction(transaction.id).subscribe(response => {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.loadData();
-            this.messageService.showSuccessMessage('transactions.delete_success', {'name': transaction.name});
+            this.messageService.showSuccessMessage('transactions.soft_stop_success', {'name': transaction.name});
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'transactions.delete_error');
+              this.messageService, 'transactions.soft_stop_error');
           }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'transactions.delete_error');
+            'transactions.soft_stop_error');
         });
       }
     });

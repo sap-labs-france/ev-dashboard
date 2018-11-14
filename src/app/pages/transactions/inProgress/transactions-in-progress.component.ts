@@ -7,18 +7,18 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {MessageService} from '../../../services/message.service';
-import {TransactionsHistoryDataSource} from './transactions-history-data-source-table';
+import {TransactionsInProgressDataSource} from './transactions-in-progress-data-source-table';
 import {MatDialog} from '@angular/material';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
 
 @Component({
-  selector: 'app-transactions-history',
-  templateUrl: 'transactions-history.component.html'
+  selector: 'app-transactions-in-progress',
+  templateUrl: 'transactions-in-progress.component.html'
 })
-export class TransactionsHistoryComponent implements OnInit {
+export class TransactionsInProgressComponent implements OnInit {
   public isAdmin;
-  public transactionsHistoryDataSource: TransactionsHistoryDataSource;
+  public transactionsInProgressDataSource: TransactionsInProgressDataSource;
   private messages;
 
   constructor(
@@ -32,14 +32,15 @@ export class TransactionsHistoryComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private router: Router,
-    private appDateTimePipe: AppDateTimePipe) {
+    private appDateTimePipe: AppDateTimePipe
+    ) {
     // Get translated messages
     this.translateService.get('logs', {}).subscribe((messages) => {
       this.messages = messages;
     });
     this.isAdmin = this.authorizationService.isAdmin();
     // Create table data source
-    this.transactionsHistoryDataSource = new TransactionsHistoryDataSource(
+    this.transactionsInProgressDataSource = new TransactionsInProgressDataSource(
       this.localeService,
       this.messageService,
       this.translateService,

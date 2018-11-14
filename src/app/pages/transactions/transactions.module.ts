@@ -7,10 +7,12 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MaterialModule} from '../../app.module';
 import {TransactionsComponent} from './transactions.component';
 import {TransactionsRoutes} from './transactions.routing';
-import {CommonDirectivesModule} from '../../directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
 import {TransactionsHistoryComponent} from './history/transactions-history.component';
+import {TransactionsInProgressComponent} from './inProgress/transactions-in-progress.component';
+import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
+import {FormattersModule} from '../../shared/formatters/formatters.module';
 
 @NgModule({
   imports: [
@@ -22,15 +24,18 @@ import {TransactionsHistoryComponent} from './history/transactions-history.compo
     MaterialModule,
     TableModule,
     CommonDirectivesModule,
-    DialogsModule
+    DialogsModule,
+    FormattersModule
   ],
   declarations: [
     TransactionsComponent,
-    TransactionsHistoryComponent
+    TransactionsHistoryComponent,
+    TransactionsInProgressComponent
   ],
   entryComponents: [
     TransactionsComponent,
-    TransactionsHistoryComponent
+    TransactionsHistoryComponent,
+    TransactionsInProgressComponent
   ],
   exports: [
     TransactionsComponent

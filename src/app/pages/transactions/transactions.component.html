@@ -2,26 +2,39 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 ml-auto mr-auto">
-        <ul class="nav nav-pills nav-pills-info nav-pills-icons justify-content-center" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#linkHistory" role="tablist">
-              <i class="material-icons">location_on</i>Finished
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#linkActives" role="tablist">
-              <i class="material-icons">info</i>
-              In Progress
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content tab-space tab-subcategories">
-          <div class="tab-pane" id="linkActives">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-info">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#inProgress" data-toggle="tab">
+                      <i class="material-icons">flash_on</i>{{'transactions.tabs.in_progress' | translate}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#history" data-toggle="tab">
+                      <i class="material-icons">history</i>{{'transactions.tabs.history' | translate}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="tab-pane active" id="linkHistory">
-            <app-transactions-history></app-transactions-history>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="inProgress">
+                <app-transactions-in-progress></app-transactions-in-progress>
+              </div>
+              <div class="tab-pane" id="history">
+                <app-transactions-history></app-transactions-history>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

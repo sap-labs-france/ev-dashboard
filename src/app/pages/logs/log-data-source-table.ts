@@ -26,7 +26,8 @@ export class LogDataSource extends TableDataSource<Log> {
     private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private appDateTimePipe: AppDateTimePipe) {
     super();
   }
 
@@ -107,7 +108,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: new AppDateTimePipe(this.localeService).transform,
+        formatter: this.appDateTimePipe.transform,
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',

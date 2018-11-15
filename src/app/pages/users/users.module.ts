@@ -28,10 +28,26 @@ import {UserDialogComponent} from './user/user.dialog.component';
     AddressModule,
     TableModule,
     DialogsModule,
-    CommonDirectivesModule
+    CommonDirectivesModule,
+    FormattersModule
   ],
   declarations: [
-    UserComponent
+    UsersComponent,
+    UserComponent,
+    UserDialogComponent,
+    UserRolePipe,
+    UserStatusPipe
+  ],
+  entryComponents: [
+    UserDialogComponent
+  ],
+  exports: [
+    UserDialogComponent
+  ],
+  providers: [
+    UserRolePipe,
+    UserStatusPipe,
+    UsersDataSource
   ]
 })
 

@@ -115,7 +115,7 @@
         </ng-template>
 
         <td mat-cell [class]="(columnDef.class?columnDef.class:'')" *matCellDef="let row"
-            [innerHtml]="buildRowValue(row, columnDef)"></td>
+            [innerHtml]="buildRowValue(row, columnDef) | translate" ></td>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>
           {{columnDef.footerName | translate}}
         </td>

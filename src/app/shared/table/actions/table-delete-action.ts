@@ -8,8 +8,7 @@ export class TableDeleteAction implements TableAction {
     icon: 'delete',
     class: 'btn-danger',
     name: 'general.delete'
-  }
-
+  };
 
   // Return an action
   public getActionDef(): TableActionDef {

@@ -21,6 +21,13 @@ import {AppDatePipe} from './app-date.pipe';
   exports: [
   ],
   providers: [
+    AppArrayToStringPipe,
+    AppKiloWattPipe,
+    AppUserNamePipe,
+    AppDatePipe,
+    AppDateTimePipe,
+    AppDurationPipe,
+    AppPricePipe
   ]
 })
 export class FormattersModule {

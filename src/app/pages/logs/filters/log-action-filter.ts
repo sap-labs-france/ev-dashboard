@@ -15,19 +15,10 @@ export class LogActionTableFilter extends TableFilter {
       name: 'logs.action',
       class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: Constants.FILTER_ALL_KEY,
-      items: []
+      items: this.centralServerService.getLogActions()
     };
     // Add <All>
-    filterDef.items.push({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
-    // Get the Chargers
-    this.centralServerService.getLogActions().subscribe((actions) => {
-      // Create
-      actions.forEach((action) => {
-        // Add
-        filterDef.items.push({key: action.key, value: action.value});
-      });
-    });
-    // Set
+    filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     this.setFilterDef(filterDef);
   }
 }

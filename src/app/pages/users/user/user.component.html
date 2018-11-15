@@ -109,7 +109,7 @@
                         <mat-form-field>
                           <mat-select placeholder="{{'users.status' | translate}}" [formControl]="status">
                             <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus.key">
-                              {{userStatus.value}}
+                              {{userStatus.value | translate}}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -129,7 +129,7 @@
                         <mat-form-field>
                           <mat-select placeholder="{{'users.role' | translate}}" [formControl]="role">
                             <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
-                              {{userRole.value}}
+                              {{userRole.value | translate}}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -140,7 +140,7 @@
                         <mat-form-field>
                           <mat-select placeholder="{{'users.locale' | translate}}" [formControl]="locale">
                             <mat-option *ngFor="let userLocale of userLocales" [value]="userLocale.key">
-                              {{userLocale.value}}
+                              {{userLocale.value | translate}}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>

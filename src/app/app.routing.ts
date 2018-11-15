@@ -25,7 +25,7 @@ export const AppRoutes: Routes = [
   {
     path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard, RouteGuardService],
     children: [
-      {path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
       {path: 'users', loadChildren: './pages/users/users.module#UsersModule'},
       {path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule'},

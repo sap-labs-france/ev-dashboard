@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import {CentralServerService} from './central-server.service';
 import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
-export class RouteGuardService implements CanActivate {
+export class RouteGuardService implements CanActivate, CanActivateChild {
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -15,7 +15,7 @@ export class RouteGuardService implements CanActivate {
     private centralServerService: CentralServerService) {
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean {
     const queryParams = {};
     const forAdminOnly = route.data['forAdminOnly'];
 
@@ -58,5 +58,9 @@ export class RouteGuardService implements CanActivate {
       this.router.navigate(['/auth/login'], {queryParams});
     }
     return false;
+  }
+
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    return this.canActivate(childRoute, state);
   }
 }

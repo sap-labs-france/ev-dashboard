@@ -23,9 +23,9 @@ export class TenantGuard implements CanActivate, CanActivateChild {
         this.status = TenantGuard.STATUS_VALID;
 
         if (state.url.includes(TenantGuard.NOT_FOUND_ROUTE)) {
-          this.router.navigate(['']);
+          this.router.navigateByUrl('');
         } else {
-          this.router.navigate([state.url]);
+          this.router.navigateByUrl(state.url);
         }
       }, (error) => {
         this.status = TenantGuard.STATUS_INVALID;

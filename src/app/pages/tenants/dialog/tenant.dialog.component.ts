@@ -7,7 +7,6 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {Constants} from '../../../utils/Constants';
-import { log } from 'util';
 
 @Component({
   templateUrl: './tenant.dialog.component.html',
@@ -22,12 +21,12 @@ export class TenantDialogComponent implements OnInit {
   private readonly currentTenant: any;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private messageService: MessageService,
-      private spinnerService: SpinnerService,
-      private router: Router,
-      protected dialogRef: MatDialogRef<TenantDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) data) {
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private router: Router,
+    protected dialogRef: MatDialogRef<TenantDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
     if (data) {
       this.currentTenant = data;

@@ -11,6 +11,12 @@ import {AddressModule} from '../../shared/address/address.module';
 import {TableModule} from '../../shared/table/table.module';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
+import {UsersComponent} from './users.component';
+import {UserRolePipe} from './formatters/user-role.pipe';
+import {UserStatusPipe} from './formatters/user-status.pipe';
+import {FormattersModule} from '../../shared/formatters/formatters.module';
+import {UsersDataSource} from './users-data-source-table';
+import {UserDialogComponent} from './user/user.dialog.component';
 
 @NgModule({
   imports: [

@@ -16,8 +16,8 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
 import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
+import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 
 export class LogDataSource extends TableDataSource<Log> {
   constructor(
@@ -26,7 +26,8 @@ export class LogDataSource extends TableDataSource<Log> {
     private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe) {
     super();
   }
 
@@ -107,7 +108,7 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: new AppDateTimePipe(this.localeService).transform,
+        formatter: (createdOn) => this.datePipe.transform(createdOn, 'datetime'),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',

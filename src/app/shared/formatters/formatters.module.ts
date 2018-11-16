@@ -4,12 +4,15 @@ import {AppUserNamePipe} from './app-user-name.pipe';
 import {AppDateTimePipe} from './app-date-time.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
 import {AppPricePipe} from './app-price.pipe';
+import {AppDatePipe} from './app-date.pipe';
+import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
   imports: [],
   declarations: [
     AppKiloWattPipe,
     AppUserNamePipe,
+    AppDatePipe,
     AppDateTimePipe,
     AppDurationPipe,
     AppPricePipe
@@ -17,6 +20,13 @@ import {AppPricePipe} from './app-price.pipe';
   exports: [
   ],
   providers: [
+    LocaleService,
+    AppKiloWattPipe,
+    AppUserNamePipe,
+    AppDatePipe,
+    AppDateTimePipe,
+    AppDurationPipe,
+    AppPricePipe
   ]
 })
 export class FormattersModule {

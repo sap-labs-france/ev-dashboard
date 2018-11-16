@@ -3,7 +3,7 @@ import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, ObservableInput} from 'rxjs/Observable';
 import {catchError} from 'rxjs/operators';
-import {of, throwError} from 'rxjs';
+import {BehaviorSubject, of, throwError} from 'rxjs';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../utils/Constants';
@@ -37,6 +37,7 @@ export class CentralServerService {
   private initialized = false;
   private currentUserToken;
   private currentUser;
+  private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
   private routesTranslated: RouteInfo[];
   private routes: RouteInfo[] = [
     {
@@ -519,6 +520,7 @@ export class CentralServerService {
     if (token) {
       // Decode the token
       this.currentUser = new JwtHelperService().decodeToken(token);
+      this.currentUserSubject.next(this.currentUser);
     }
     // Write?
     if (writeInLocalStorage) {
@@ -551,10 +553,15 @@ export class CentralServerService {
     return this.currentUserToken;
   }
 
+  public getCurrentUserSubject(): BehaviorSubject<User> {
+    return this.currentUserSubject;
+  }
+
   public clearLoggedUserToken() {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
+    this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
     this.localStorageService.removeItem('token');
   }

@@ -147,12 +147,12 @@
       <ng-container matColumnDef="rowDetails">
         <td mat-cell *matCellDef="let rowDetail" [attr.colspan]="columns.length">
           <div class="element-details" [@detailExpand]="(rowDetail.isExpanded ? 'expanded' : 'collapsed')">
-            <ng-container *ngIf="!tableDef.rowDetails.isDetailComponent && tableDef.rowDetails && rowDetail[tableDef.rowDetails.detailsField]">
+            <ng-container *ngIf="tableDef.rowDetails && !tableDef.rowDetails.isDetailComponent && rowDetail[tableDef.rowDetails.detailsField]">
               <div [innerHtml]="(tableDef.rowDetails ? rowDetail[tableDef.rowDetails.detailsField] : '')">
               ...
               </div>
             </ng-container>
-            <ng-container *ngIf="tableDef.rowDetails.isDetailComponent">
+            <ng-container *ngIf="tableDef.rowDetails && tableDef.rowDetails.isDetailComponent">
                 <detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></detail-component-container>
             </ng-container>
           </div>

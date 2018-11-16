@@ -1,0 +1,27 @@
+<!-- Table -->
+<div [class]="(tableDef.class ? tableDef.class : 'table-list')">
+  <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()">
+    <!-- Columns -->
+    <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
+      <th mat-header-cell [class]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
+        *matHeaderCellDef mat-sort-header>{{columnDef.name}}</th>
+
+        <ng-container *ngIf="columnDef.isAngularComponent">
+          <td mat-cell [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row) : ''))" *matCellDef="let row">              
+              <cell-component-container [row]="row" [columnDef]="columnDef"></cell-component-container>  
+          </td>
+        </ng-container>
+        <ng-container *ngIf="!columnDef.isAngularComponent">
+            <td mat-cell [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row) : ''))" *matCellDef="let row"
+            [innerHtml]="buildRowValue(row, columnDef)">
+          </td>  
+        </ng-container>
+      <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>{{columnDef.footerName}}</td>
+    </ng-container>
+
+    <!-- Rows -->
+    <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;" [class.example-expanded-row]="true"></tr>
+  </table>
+  <div class="ml-3 text-left" *ngIf="dataSource && dataSource.isEmpty()">{{'general.no_record_found' | translate}}</div>
+</div>

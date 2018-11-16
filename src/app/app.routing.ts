@@ -27,6 +27,7 @@ export const AppRoutes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
+      {path: 'chargingStations', loadChildren: './pages/chargingstations/chargestations.module#ChargeStationsModule'},
       {path: 'users', loadChildren: './pages/users/users.module#UsersModule'},
       {path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule'},
       {path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule'},

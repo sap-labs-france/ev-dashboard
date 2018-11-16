@@ -5,6 +5,9 @@ import {RouterModule} from '@angular/router';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormattersModule} from '../formatters/formatters.module';
+import { DetailComponentContainer } from "./detailComponent/detailComponentContainer.component";
+import { DetailComponentDirective } from "./detailComponent/detailComponent.directive";
+import { CellContentTemplateModule } from "./cellContentTemplate/cellContentTemplate.module";
 
 @NgModule({
   imports: [
@@ -12,10 +15,14 @@ import {FormattersModule} from '../formatters/formatters.module';
     CommonModule,
     MaterialModule,
     TranslateModule,
-    FormattersModule
+    FormattersModule,
+    CellContentTemplateModule
   ],
   declarations: [
-    TableComponent
+    TableComponent,
+// Template for details component
+    DetailComponentDirective,
+    DetailComponentContainer
   ],
   exports: [
     TableComponent

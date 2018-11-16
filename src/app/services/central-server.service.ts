@@ -48,6 +48,15 @@ export class CentralServerService {
       icontype: 'dashboard'
     },
     {
+      id: 'charging_stations',
+      path: '/chargingStations',
+      title: 'Charging Stations',
+      type: 'link',
+      icontype: 'dashboard',
+      admin: true,
+      superAdmin: false
+    },
+    {
       id: 'tenants',
       path: '/tenants',
       title: 'Tenants',
@@ -725,5 +734,27 @@ export class CentralServerService {
 
   private isUserSuperAdmin() {
     return this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
+  }
+
+  getChargerConnectorTypes() {
+    // Return
+    return [
+      { key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif' },
+      { key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif' },
+      { key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif' }
+    ];
+  }
+
+  getChargerConnectorTypeByKey(type) {
+    // Return the found key
+    const foundConnectorType = this.getChargerConnectorTypes().find(
+      (connectorType) => connectorType.key === type);
+    return (foundConnectorType  ? foundConnectorType :
+      {
+        key: 'U',
+        description: this.translateService.instant('chargers.connector_unknown'),
+        image: 'assets/img/connectors/no-connector.gif'
+      }
+    );
   }
 }

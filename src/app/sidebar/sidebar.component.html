@@ -34,13 +34,13 @@
       </a>
       <div class="collapse" id="collapseDetails">
         <ul class="nav">
-          <li class="nav-item">
-            <a [routerLink]="['/users/', loggedUser.id]" class="nav-link">
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+            <a [routerLink]="['/users/' + loggedUser.id ]" class="nav-link">
               <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
               <span class="sidebar-normal">{{'users.edit_profile' | translate}}</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
             <a href="javascript:void(0)" (click)="logout()" class="nav-link">
               <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">lock</i></span>
               <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
@@ -51,7 +51,7 @@
     </div>
   </div>
   <ul class="nav">
-    <li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuitem of menuItems" class="nav-item">
       <!--If is a single link-->
       <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link">
         <i class="material-icons">{{menuitem.icontype}}</i>

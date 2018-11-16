@@ -19,20 +19,13 @@ import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
 import {TranslateService} from '@ngx-translate/core';
-import {UsersDialogComponent} from '../../shared/dialogs/users/users-dialog-component';
 import {AppUserNamePipe} from '../../shared/formatters/app-user-name.pipe';
 import {Injectable} from '@angular/core';
 import {AppArrayToStringPipe} from '../../shared/formatters/app-array-to-string.pipe';
-import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
-import {LogDateTableFilter} from '../logs/filters/log-date-filter';
-import {LogLevelTableFilter} from '../logs/filters/log-level-filter';
-import {LogSourceTableFilter} from '../logs/filters/log-source-filter';
-import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {LogActionTableFilter} from '../logs/filters/log-action-filter';
 import {UserRoleFilter} from './filters/user-role-filter';
 import {UserStatusFilter} from './filters/user-status-filter';
-import {UserComponent} from './user/user.component';
 import {UserDialogComponent} from './user/user.dialog.component';
+import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
@@ -51,7 +44,8 @@ export class UsersDataSource extends TableDataSource<User> {
     private userRolePipe: UserRolePipe,
     private userStatusPipe: UserStatusPipe,
     private userNamePipe: AppUserNamePipe,
-    private arrayToStringPipe: AppArrayToStringPipe) {
+    private arrayToStringPipe: AppArrayToStringPipe,
+    private datePipe: AppDatePipe) {
     super();
 
     this.tableActionsRow = [
@@ -117,7 +111,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: new AppDateTimePipe(this.localeService).transform,
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true

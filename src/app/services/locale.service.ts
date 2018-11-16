@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {CentralServerService} from './central-server.service';
-import {KeyValue} from '../common.types';
+import {KeyValue, User} from '../common.types';
 
 @Injectable()
 export class LocaleService {
@@ -13,12 +13,14 @@ export class LocaleService {
     private configService: ConfigService,
     private centralServerService: CentralServerService) {
     // Set
-    this.updateLanguage();
+
+    this.centralServerService.getCurrentUserSubject().subscribe(user => {
+      this.updateLanguage(user);
+    })
   }
 
-  public updateLanguage() {
-    const loggedUser = this.centralServerService.getLoggedUserFromToken();
-    if (loggedUser) {
+  public updateLanguage(loggedUser: User) {
+    if (loggedUser && loggedUser.language) {
       this.language = loggedUser.language;
     } else {
       this.language = this.translateService.getBrowserLang();

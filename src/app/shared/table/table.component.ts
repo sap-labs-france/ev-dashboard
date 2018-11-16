@@ -11,7 +11,7 @@ import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {Utils} from '../../utils/Utils';
-import { DetailComponentContainer } from './detailComponent/detailComponentContainer.component';
+import { DetailComponentContainer } from './detail-component/detail-component-container.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.

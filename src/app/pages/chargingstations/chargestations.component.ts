@@ -8,8 +8,6 @@ import { AuthorizationService } from '../../services/authorization-service';
 import { CentralServerNotificationService } from '../../services/central-server-notification.service';
 import { MessageService } from '../../services/message.service';
 import { ChargeStationsDataSource } from './chargestations-data-source-table';
-import { ConnectorsDataSource } from "./detailsContentComponent/connectors-data-source-detail-table";
-
 @Component({
     selector: 'app-chargestations-cmp',
     templateUrl: 'chargestations.component.html'

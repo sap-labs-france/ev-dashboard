@@ -12,12 +12,12 @@ import { TableModule } from '../../shared/table/table.module';
 import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 //import { ConnectorsModule } from '../connectors/connectors.module';
-import { HertbeatCellComponent } from "./cellContentComponents/heartbeatCell.component";
-import { ConsumptionProgressBarComponent } from "./cellContentComponents/consumption-progress-bar.component";
-import { ConnectorsDetailComponent } from "./detailsContentComponent/connectorsDetailComponent.component";
-import { SimpleTableComponent } from "../../shared/table/simpleTable/simpleTable.component";
-import { ConnectorAvailibilityComponent } from "./detailsContentComponent/connectorAvailibility.component";
-import { SimpleTableModule } from "../../shared/table/simpleTable/simpleTable.module";
+import { HertbeatCellComponent } from "./cell-content-components/heartbeat-cell.component";
+import { ConsumptionProgressBarComponent } from "./cell-content-components/consumption-progress-bar.component";
+import { ConnectorsDetailComponent } from "./details-content-component/connectors-detail-component.component";
+import { SimpleTableComponent } from "../../shared/table/simple-table/simple-table.component";
+import { ConnectorAvailibilityComponent } from "./details-content-component/connector-availibility.component";
+import { SimpleTableModule } from "../../shared/table/simple-table/simple-table.module";
 
 @NgModule({
     imports: [

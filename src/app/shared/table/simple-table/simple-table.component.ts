@@ -6,15 +6,15 @@ import { Subject } from 'rxjs';
 import { TableColumnDef, TableDef, TableActionDef } from '../../../common.types';
 import { ConfigService } from '../../../services/config.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { SimpleTableDataSource } from './simpleTable-data-source';
+import { SimpleTableDataSource } from './simple-table-data-source';
 import { Utils } from '../../../utils/Utils';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component({
-  selector: 'app-table-simple',
-  templateUrl: 'simpleTable.component.html',
+  selector: 'app-simple-table',
+  templateUrl: 'simple-table.component.html',
 
 })
 export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {

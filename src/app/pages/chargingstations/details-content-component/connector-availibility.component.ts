@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TableColumnDef, Connector } from "../../../common.types";
 
 
-import { CellContentTemplateComponent }      from '../../../shared/table/cellContentTemplate/cellContentTemplate.component';
+import { CellContentTemplateComponent }      from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   styleUrls: ['../chargers-data-source-table.scss'],

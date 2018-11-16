@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TableColumnDef } from "../../../common.types";
 import { AppKiloWattPipe } from "../../../shared/formatters/app-kilo-watt.pipe";
 
-import { CellContentTemplateComponent }      from '../../../shared/table/cellContentTemplate/cellContentTemplate.component';
+import { CellContentTemplateComponent }      from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   styleUrls: ['../chargers-data-source-table.scss'],

@@ -5,8 +5,8 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { CentralServerService } from '../../../services/central-server.service';
 import { MatDialog } from "@angular/material";
 import {ConfigService} from '../../../services/config.service';
-import { SimpleTableDataSource } from '../../../shared/table/simpleTable/simpleTable-data-source';
-import { ConnectorAvailibilityComponent } from "./connectorAvailibility.component";
+import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
+import { ConnectorAvailibilityComponent } from "./connector-availibility.component";
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,

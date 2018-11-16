@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy } from '@angular/core';
 
-import { CellContentTemplateDirective } from './cellContentTemplate.directive';
-import { CellContentTemplateComponent } from './cellContentTemplate.component';
+import { CellContentTemplateDirective } from './cell-content-template.directive';
+import { CellContentTemplateComponent } from './cell-content-template.component';
 import { TableColumnDef } from "../../../common.types";
 
 @Component({

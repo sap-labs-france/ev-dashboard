@@ -6,12 +6,12 @@ import {ConfigService} from '../../../services/config.service';
 import {CentralServerService} from '../../../services/central-server.service';
 
 
-import { DetailComponent }      from '../../../shared/table/detailComponent/detailComponent.component';
+import { DetailComponent }      from '../../../shared/table/detail-component/detail-component.component';
 import { ConnectorsDataSource } from './connectors-data-source-detail-table';
 
 @Component({
   styleUrls: ['../chargers-data-source-table.scss'],
-  template: '<app-table-simple [dataSource]="connectorsDataSource"></app-table-simple>'
+  template: '<app-simple-table [dataSource]="connectorsDataSource"></app-simple-table>'
 })
 
 export class ConnectorsDetailComponent implements DetailComponent {

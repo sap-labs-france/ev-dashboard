@@ -14,9 +14,9 @@ import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
-import { ConsumptionProgressBarComponent } from "./cellContentComponents/consumption-progress-bar.component";
-import { ConnectorsDetailComponent } from "./detailsContentComponent/connectorsDetailComponent.component";
-import { HertbeatCellComponent } from "./cellContentComponents/heartbeatCell.component";
+import { ConsumptionProgressBarComponent } from "./cell-content-components/consumption-progress-bar.component";
+import { ConnectorsDetailComponent } from "./details-content-component/connectors-detail-component.component";
+import { HertbeatCellComponent } from "./cell-content-components/heartbeat-cell.component";
 
 export class ChargeStationsDataSource extends TableDataSource<Charger> {
 

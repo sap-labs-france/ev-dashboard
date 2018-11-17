@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CellContentComponentContainer } from "./cell-content-container.component";
-import { CellContentTemplateDirective } from "./cell-content-template.directive";
-
+import { CellContentComponentContainer } from './cell-content-container.component';
+import { CellContentTemplateDirective } from './cell-content-template.directive';
 
 @NgModule({
   declarations: [

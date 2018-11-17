@@ -1,7 +1,7 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[cell-content-template]',
+  selector: '[appCellContentTemplate]',
 })
 export class CellContentTemplateDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }

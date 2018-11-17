@@ -2,15 +2,15 @@ import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestro
 
 import { CellContentTemplateDirective } from './cell-content-template.directive';
 import { CellContentTemplateComponent } from './cell-content-template.component';
-import { TableColumnDef } from "../../../common.types";
+import { TableColumnDef } from '../../../common.types';
 
 @Component({
-  selector: 'cell-component-container',
+  selector: 'app-cell-component-container',
   template: `
-              <div>
-                <ng-template cell-content-template></ng-template>
-              </div>
-            `
+      <div>
+        <ng-template appCellContentTemplate></ng-template>
+      </div>
+    `
 })
 export class CellContentComponentContainer implements OnInit, OnDestroy {
   @Input() row: any;
@@ -28,14 +28,10 @@ export class CellContentComponentContainer implements OnInit, OnDestroy {
   }
 
   loadComponent() {
-    
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.columnDef.angularComponentName);
-
-    let viewContainerRef = this.angularCellContentDirective.viewContainerRef;
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.columnDef.angularComponentName);
+    const viewContainerRef = this.angularCellContentDirective.viewContainerRef;
     viewContainerRef.clear();
-
-    let componentRef = viewContainerRef.createComponent(componentFactory);
+    const componentRef = viewContainerRef.createComponent(componentFactory);
     (<CellContentTemplateComponent>componentRef.instance).setData(this.row, this.columnDef);
   }
-
 }

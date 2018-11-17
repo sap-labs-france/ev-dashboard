@@ -49,7 +49,7 @@ export class CentralServerService {
     },
     {
       id: 'charging_stations',
-      path: '/chargingStations',
+      path: '/charging-stations',
       title: 'Charging Stations',
       type: 'link',
       icontype: 'dashboard',

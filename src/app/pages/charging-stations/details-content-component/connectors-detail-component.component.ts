@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { TableDef } from "../../../common.types";
-import { MatDialog } from "@angular/material";
-import {TranslateService} from '@ngx-translate/core';
-import {ConfigService} from '../../../services/config.service';
-import {CentralServerService} from '../../../services/central-server.service';
+import { TableDef } from '../../../common.types';
+import { MatDialog } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfigService } from '../../../services/config.service';
+import { CentralServerService } from '../../../services/central-server.service';
 
-
-import { DetailComponent }      from '../../../shared/table/detail-component/detail-component.component';
+import { DetailComponent } from '../../../shared/table/detail-component/detail-component.component';
 import { ConnectorsDataSource } from './connectors-data-source-detail-table';
 
 @Component({
@@ -26,14 +25,15 @@ export class ConnectorsDetailComponent implements DetailComponent {
     private translateService: TranslateService,
     private dialog: MatDialog) {
     this.connectorsDataSource = new ConnectorsDataSource(this.configService,
-                                                          this.centralServerService,
-                                                          this.translateService,
-                                                          this.dialog);
+      this.centralServerService,
+      this.translateService,
+      this.dialog);
   }
+
   /**
    * setData
    */
-   setData(row: any, tabledef: TableDef) {
+  setData(row: any, tabledef: TableDef) {
     this.connectorsDataSource.setDetailedDataSource(row.connectors);
     this.connectorsDataSource.loadData();
   }

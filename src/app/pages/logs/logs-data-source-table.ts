@@ -19,7 +19,7 @@ import {UserTableFilter} from '../../shared/table/filters/user-filter';
 import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 
-export class LogDataSource extends TableDataSource<Log> {
+export class LogsDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,

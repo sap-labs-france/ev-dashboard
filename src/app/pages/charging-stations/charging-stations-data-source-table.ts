@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from '../../shared/table/table-data-source';
@@ -10,15 +10,12 @@ import { CentralServerService } from '../../services/central-server.service';
 import { LocaleService } from '../../services/locale.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Formatters } from '../../utils/Formatters';
 import { Utils } from '../../utils/Utils';
-import { forEach } from '@angular/router/src/utils/collection';
-import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
-import { ConsumptionProgressBarComponent } from "./cell-content-components/consumption-progress-bar.component";
-import { ConnectorsDetailComponent } from "./details-content-component/connectors-detail-component.component";
-import { HertbeatCellComponent } from "./cell-content-components/heartbeat-cell.component";
+import { ConsumptionProgressBarComponent } from './cell-content-components/consumption-progress-bar.component';
+import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
+import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
 
-export class ChargeStationsDataSource extends TableDataSource<Charger> {
+export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   constructor(
     private localeService: LocaleService,
@@ -48,11 +45,6 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
         this.setNumberOfRecords(chargers.count);
         // Update page length
         this.updatePaginator();
-/*        chargers.result.map((charger) => {
-          let connector;
-          charger.numberOfConnector = charger.connectors.count;
-          return charger;
-        });*/
         // Return logs
         this.getDataSubjet().next(chargers.result);
         // Keep the result
@@ -66,9 +58,11 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
       });
   }
 
-  public getConnectors(id):Observable<Connector>  {
+  public getConnectors(id): Observable<Connector>  {
     this.getData().forEach(charger => {
-      if (charger.id === id) return charger; 
+      if (charger.id === id) {
+        return charger;
+      }
     });
     return null;
   }
@@ -79,7 +73,7 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
           enabled: true
       },
       rowSelection: {
-        enabled:true,
+        enabled: true,
         multiple: true
       },
       rowDetails: {
@@ -92,10 +86,10 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-    let nbTotalKW : number = 0;
-    let nbUsedKW : number = 0;
+    let nbTotalKW = 0;
+    let nbUsedKW = 0;
     nbUsedKW = 0;
-    let centralServerService = this.centralServerService;
+    const centralServerService = this.centralServerService;
     return [
       {
         id: 'id',
@@ -107,43 +101,34 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'inactive',
         name: this.translateService.instant('chargers.status_available'),
-/*        formatter: (value, row: Charger) => {
-          let heartbeatDate = Utils.convertToDate(row.lastHeartBeat).toLocaleString();
-          let classIcon = (row.inactive ? "charger-heartbeat-error" : "charger-heartbeat-ok");
-          let classDateError = (row.inactive ? "charger-heartbeatdate-error" : "");
-          let heartbeatIcon = `<i class='fa fa-heartbeat charger-heartbeat-icon ${classIcon}'></i>`;
-
-          let innerHtml = `<div class='charger-heartbeat'>${heartbeatIcon}` +
-                          (row.inactive ? `<span class='charger-heartbeat-date ${classDateError}'>${heartbeatDate}</span>` : ``) + 
-                          "</div>" 
-          return innerHtml;
-        },*/
         isAngularComponent: true,
-        angularComponentName: HertbeatCellComponent,
+        angularComponentName: HeartbeatCellComponent,
         headerClass: 'col-5p',
         sortable: true
       },
       {
         id: 'connectors',
         name: this.translateService.instant('chargers.connector'),
-        formatter: (connectors:Connector[], row: Charger) => { 
-          let nbTotalConnectors : number = 0;
-          let nbUsedConnectors : number = 0;
-          let connectorHTML = "";
-          
+        formatter: (connectors: Connector[], row: Charger) => {
+          let nbTotalConnectors = 0;
+          let nbUsedConnectors = 0;
+          let connectorHTML = '';
           if (Array.isArray(connectors)) {
             nbTotalKW = 0;
             nbUsedKW = 0;
             nbTotalConnectors = connectors.length;
             connectors.forEach(connector => {
-              if (connector.activeTransactionID) nbUsedConnectors++;
+              if (connector.activeTransactionID) {
+                nbUsedConnectors++
+              };
               nbTotalKW += connector.power;
               nbUsedKW += connector.currentConsumption;
-              let classUsage = (connector.activeTransactionID > 0 ? "charger-connector-busy": "charger-connector-available");
-              connectorHTML += `<img class="charger-connector ${classUsage}" src="${centralServerService.getChargerConnectorTypeByKey(connector.type).image}"/>`;
+              const classUsage = (connector.activeTransactionID > 0 ? 'charger-connector-busy' : 'charger-connector-available');
+              connectorHTML += `<img class='charger-connector ${classUsage}'
+                src='${centralServerService.getChargerConnectorTypeByKey(connector.type).image}'/>`;
             });
           }
-          return connectorHTML; //`${nbUsedConnectors}/${nbTotalConnectors}`;
+          return connectorHTML;
         },
         headerClass: 'col-5p',
         class: 'charger-connector'
@@ -185,18 +170,5 @@ export class ChargeStationsDataSource extends TableDataSource<Charger> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
-/*    return [
-      new LogDateTableFilter(this.translateService).getFilterDef(),
-      new LogLevelTableFilter(this.translateService, this.centralServerService).getFilterDef(),
-      new LogSourceTableFilter(this.translateService).getFilterDef(),
-      new UserTableFilter(this.translateService).getFilterDef(),
-      new LogActionTableFilter(this.translateService, this.centralServerService).getFilterDef()
-    ];*/
   }
-
-/*  public getDetailedDataSource(row: Charger) {
-    return new ConnectorsDataSource(this.localeService, this.messageService, this.translateService, this.spinnerService, this.router, this.centralServerNotificationService, this.centralServerService,
-                    row.connectors);
-  }*/
-
 }

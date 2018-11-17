@@ -3,7 +3,7 @@ import { TableColumnDef } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  styleUrls: ['../chargers-data-source-table.scss'],
+  styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
     <mat-progress-bar
       matTooltip="{{consumptionKw/1000}}/{{maxPower/1000}}"

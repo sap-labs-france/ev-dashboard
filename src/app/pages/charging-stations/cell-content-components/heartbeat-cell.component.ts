@@ -4,11 +4,11 @@ import { Utils } from '../../../utils/Utils';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  styleUrls: ['../chargers-data-source-table.scss'],
+  styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-    <div class='charger-heartbeat' [innerHtml]="heartbeatIcon"></div>
+    <span class='charger-heartbeat' [innerHtml]="heartbeatIcon"></span>
     <span [hidden]="chargerInactive" class='charger-heartbeat-date ' [class]="classDateError">{{heartbeatDate}}</span>
-    `
+  `
 })
 export class HeartbeatCellComponent implements CellContentTemplateComponent {
   heartbeatIcon: string;

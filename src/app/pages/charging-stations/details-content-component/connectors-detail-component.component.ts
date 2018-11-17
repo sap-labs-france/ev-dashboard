@@ -9,7 +9,7 @@ import { DetailComponent } from '../../../shared/table/detail-component/detail-c
 import { ConnectorsDataSource } from './connectors-data-source-detail-table';
 
 @Component({
-  styleUrls: ['../chargers-data-source-table.scss'],
+  styleUrls: ['../charging-stations-data-source-table.scss'],
   template: '<app-simple-table [dataSource]="connectorsDataSource"></app-simple-table>'
 })
 

@@ -52,7 +52,7 @@ export class CentralServerService {
       path: '/charging-stations',
       title: 'Charging Stations',
       type: 'link',
-      icontype: 'dashboard',
+      icontype: 'local_gas_station',
       admin: true,
       superAdmin: false
     },

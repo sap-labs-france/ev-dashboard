@@ -6,23 +6,22 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-    <span class='charger-heartbeat' [innerHtml]="heartbeatIcon"></span>
-    <span [hidden]="chargerInactive" class='charger-heartbeat-date ' [class]="classDateError">{{heartbeatDate}}</span>
+    <span class="charger-heartbeat">
+      <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
+      <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok"
+        [class.charger-heartbeat-date-error]="row.inactive">
+        {{row.lastHeartBeat | appDateTime}}
+      </span>
+    </span>
   `
 })
 export class HeartbeatCellComponent implements CellContentTemplateComponent {
-  heartbeatIcon: string;
-  chargerInactive: boolean;
-  classDateError: string;
-  heartbeatDate: string;
+  row: any = {};
+
   /**
    * setData
    */
   setData(row: any, columndef: TableColumnDef) {
-    this.chargerInactive = !row.inactive;
-    this.heartbeatDate = Utils.convertToDate(row.lastHeartBeat).toLocaleString();
-    const classIcon = (row.inactive ? 'charger-heartbeat-error' : 'charger-heartbeat-ok');
-    this.classDateError = (row.inactive ? 'charger-heartbeatdate-error' : '');
-    this.heartbeatIcon = `<i class='fa fa-heartbeat charger-heartbeat-icon ${classIcon}'></i>`;
+    this.row = row;
   }
 }

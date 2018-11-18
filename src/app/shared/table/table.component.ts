@@ -249,9 +249,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             // No: Expand it!
             row.isExpanded = true;
           });
-        } else{
-// find the container related to the row
-            let index = this.dataSource.getRowIndex(row);
+        } else {
+            // find the container related to the row
+            const index = this.dataSource.getRowIndex(row);
             this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
               if (detailComponentContainer.containerId === index) {
                 detailComponentContainer.setReferenceRow(row, this);

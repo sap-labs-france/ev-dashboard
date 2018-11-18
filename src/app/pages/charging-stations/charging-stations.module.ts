@@ -16,6 +16,7 @@ import { ConsumptionProgressBarComponent } from './cell-content-components/consu
 import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
 import { ConnectorAvailibilityComponent } from './details-content-component/connector-availibility.component';
 import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.module';
+import { FormattersModule } from '../../shared/formatters/formatters.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.
     CommonDirectivesModule,
     DialogsModule,
     MatProgressBarModule,
+    FormattersModule,
     SimpleTableModule
   ],
   entryComponents: [

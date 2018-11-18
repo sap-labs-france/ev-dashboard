@@ -5,9 +5,9 @@ import {RouterModule} from '@angular/router';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormattersModule} from '../formatters/formatters.module';
-import { DetailComponentContainer } from "./detail-component/detail-component-container.component";
-import { DetailComponentDirective } from "./detail-component/detail-component.directive";
-import { CellContentTemplateModule } from "./cell-content-template/cell-content-template.module";
+import { DetailComponentContainer } from './detail-component/detail-component-container.component';
+import { DetailComponentDirective } from './detail-component/detail-component.directive';
+import { CellContentTemplateModule } from './cell-content-template/cell-content-template.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,6 @@ import { CellContentTemplateModule } from "./cell-content-template/cell-content-
   ],
   declarations: [
     TableComponent,
-// Template for details component
     DetailComponentDirective,
     DetailComponentContainer
   ],

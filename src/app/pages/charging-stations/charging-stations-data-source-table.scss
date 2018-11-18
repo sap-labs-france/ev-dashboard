@@ -54,19 +54,19 @@ $transition_text_fct: linear;
       transform: scale(1.5);
     }
   }
-}
 
-::ng-deep .charger-heartbeat-error {
-  color: $danger;
-  @include anim-status-blinking();
-}
-
-::ng-deep .charger-heartbeat-ok {
-  color: green;
-}
-
-::ng-deep .charger-heartbeatdate-error {
-  color: $danger;
+  .charger-heartbeat-ok {
+    color: green;
+  }
+  
+  .charger-heartbeat-error {
+    color: $danger;
+    @include anim-status-blinking();
+  }
+  
+  .charger-heartbeat-date-error {
+    color: $danger;
+  }
 }
 
 ::ng-deep .charger-connector {
@@ -76,10 +76,10 @@ $transition_text_fct: linear;
   border-radius: 50%;
 
   .charger-connector-available {
-
   }
 
   .charger-connector-busy {
     @include anim-status-glowing();
   }
 }
+

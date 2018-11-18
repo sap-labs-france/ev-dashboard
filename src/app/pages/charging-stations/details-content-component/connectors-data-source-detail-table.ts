@@ -1,12 +1,12 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, Connector, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../../common.types';
+import { Connector, TableColumnDef, TableActionDef, TableDef } from '../../../common.types';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { CentralServerService } from '../../../services/central-server.service';
-import { MatDialog } from "@angular/material";
+import { MatDialog } from '@angular/material';
 import {ConfigService} from '../../../services/config.service';
 import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
-import { ConnectorAvailibilityComponent } from "./connector-availibility.component";
+import { ConnectorAvailibilityComponent } from './connector-availibility.component';
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
@@ -53,33 +53,29 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'connectorId',
         name: this.translateService.instant('chargers.connector'),
-        headerClass: 'col-5p',
-        class: 'col-5p'
+        class: 'col-75px',
       },
       {
         id: 'status',
         name: this.translateService.instant('chargers.status_available'),
-        headerClass: 'col-5p',
+        class: 'col-75px',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent
       },
       {
         id: 'currentConsumption',
         name: this.translateService.instant('chargers.connector'),
-        headerClass: 'col-5p',
-        class: 'charger-connector'
+        class: 'col-75px',
       },
       {
         id: 'totalConsumption',
         name: this.translateService.instant('chargers.charger_kw'),
-        headerClass: 'col-5p',
-        class: 'col-5p'
+        class: 'col-75px',
       },
       {
         id: 'type',
         name: this.translateService.instant('chargers.vendor'),
-        headerClass: 'col-5p',
-        class: 'col-5p'
+        class: 'col-75px',
       }
     ];
   }

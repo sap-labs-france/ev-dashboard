@@ -1,0 +1,85 @@
+$danger: #e85656 !default;
+$res320: 320px;
+$transition_bg_duration: 0.5s;
+$transition_bg_delay: 0s;
+$transition_bg_fct: linear;
+$transition_text_duration: 0.25s;
+$transition_text_delay: 0s;
+$transition_text_fct: linear;
+
+@keyframes status-blinking {
+  50% {
+    opacity: 0;
+  }
+}
+
+@mixin anim-status-blinking {
+  animation: status-blinking 2s ease-in-out infinite;
+}
+
+@keyframes status-glowing {
+  50% {
+    box-shadow: 0 0 25px #F00;
+  }
+}
+
+@mixin anim-status-glowing {
+  animation: status-glowing 4s ease-in-out infinite;
+}
+
+::ng-deep .charger-heartbeat {
+  .charger-heartbeat-date {
+    font-size: 0.9rem;
+
+    @media screen and (max-width: $res320) {
+      font-size: 0.9rem;
+    }
+  }
+
+  .charger-heartbeat-icon {
+    font-size: 1.1rem;
+    margin-right: 3px;
+
+    @media screen and (max-width: $res320) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .charger-heartbeat-changed {
+    animation: heartbeat 1s ease-in-out 2;
+  }
+
+  @keyframes heartbeat {
+    50% {
+      transform: scale(1.5);
+    }
+  }
+
+  .charger-heartbeat-ok {
+    color: green;
+  }
+  
+  .charger-heartbeat-error {
+    color: $danger;
+    @include anim-status-blinking();
+  }
+  
+  .charger-heartbeat-date-error {
+    color: $danger;
+  }
+}
+
+::ng-deep .charger-connector {
+  width: 28px;
+  height: 28px;
+  margin-right: 3px;
+  border-radius: 50%;
+
+  .charger-connector-available {
+  }
+
+  .charger-connector-busy {
+    @include anim-status-glowing();
+  }
+}
+

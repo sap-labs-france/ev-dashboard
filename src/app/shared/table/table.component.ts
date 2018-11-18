@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {Utils} from '../../utils/Utils';
+import { DetailComponentContainer } from './detail-component/detail-component-container.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -28,6 +29,7 @@ import {Utils} from '../../utils/Utils';
   ]
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
+  private _detailComponentId: number;
   @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
@@ -39,6 +41,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
@@ -53,6 +56,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+    this._detailComponentId = 0;
   }
 
   ngOnInit() {
@@ -202,9 +206,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (columnDef.formatter) {
       if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, ...additionalProperties);
+        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
       } else {
-        propertyValue = columnDef.formatter(propertyValue);
+        propertyValue = columnDef.formatter(propertyValue, row);
       }
     }
     // Return the property
@@ -236,14 +240,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Already Expanded
     if (!row.isExpanded) {
       // Already loaded?
-      if (!row[this.tableDef.rowDetails.detailsField]) {
-        // No: Load details from data source
-        this.dataSource.getRowDetails(row).subscribe((details) => {
-          // Set details
-          row[this.tableDef.rowDetails.detailsField] = details;
-          // No: Expand it!
-          row.isExpanded = true;
-        });
+      if (this.tableDef.rowDetails.enabled && !row[this.tableDef.rowDetails.detailsField]) {
+        if (!this.tableDef.rowDetails.isDetailComponent) {
+          // No: Load details from data source
+          this.dataSource.getRowDetails(row).subscribe((details) => {
+            // Set details
+            row[this.tableDef.rowDetails.detailsField] = details;
+            // No: Expand it!
+            row.isExpanded = true;
+          });
+        } else {
+            // find the container related to the row
+            const index = this.dataSource.getRowIndex(row);
+            this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
+              if (detailComponentContainer.containerId === index) {
+                detailComponentContainer.setReferenceRow(row, this);
+              }
+            });
+            row.isExpanded = true;
+        }
       } else {
         // No: Expand it!
         row.isExpanded = true;
@@ -265,4 +280,34 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return propertyValue;
   }
+
+/*  public setDetailedDataSource(row){
+    this.detailDataSource.setDetailedDataSource(row);
+  }*/
+
+  /**
+   * isDetailedTableEnable
+   */
+/*  public isDetailedTableEnable(): Boolean {
+    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
+  }*/
+
+  /**
+   * set*ReferenceRow
+   *row, */
+  public setReferenceRow(row, rowDetails) {
+    rowDetails.parentRow = row;
+    return true;
+  }
+
+  /**
+   * get
+   */
+  public getNextDetailComponentId() {
+    if (this._detailComponentId === this.dataSource.getData().length) {
+      this._detailComponentId = 0;
+    }
+    return this._detailComponentId++;
+  }
+
 }

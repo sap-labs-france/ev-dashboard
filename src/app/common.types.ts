@@ -114,6 +114,7 @@ export interface Connector {
   status: string;
   activeForUser: boolean;
   activeTransactionID: number;
+  type: string;
 }
 
 export interface Charger {
@@ -287,7 +288,9 @@ export interface TableDef {
   },
   rowDetails?: {
     enabled: boolean;
-    detailsField: string;
+    detailsField?: string;
+    isDetailComponent?: boolean;
+    detailComponentName?: any;    
     hideShowField?: string;
   }
 }
@@ -304,6 +307,8 @@ export interface TableColumnDef {
   sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
+  isAngularComponent?: boolean
+  angularComponentName?: any;
 }
 
 export interface TableSearch {

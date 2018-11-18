@@ -1,8 +1,5 @@
 @import "../../../assets/scss/core/variables";
-
-table {
-  width: 100%;
-}
+@import "../../pages/charging-stations/charging-stations-data-source-table.scss";
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: 0.9rem !important;
@@ -40,45 +37,50 @@ th:nth-child(n+2), td:nth-child(n+2) {
 @mixin col-size($width) {
   width: $width;
   min-width: $width;
-  max-width: $width;
-  word-wrap: break-word;
-  border: 0;
 }
 
-.col-2p {
-  @include col-size(2%);
+.col-350pxx {
+  @include col-size(25px);
 }
 
-.col-5p {
-  @include col-size(5%);
+.col-600pxx {
+  @include col-size(50px);
 }
 
-.col-10p {
-  @include col-size(10%);
+.col-75px {
+  @include col-size(75px);
 }
 
-.col-15p {
-  @include col-size(15%);
+.col-100px {
+  @include col-size(100px);
 }
 
-.col-20p {
-  @include col-size(20%);
+.col-150px {
+  @include col-size(150px);
 }
 
-.col-25p {
-  @include col-size(25%);
+.col-200px {
+  @include col-size(200px);
 }
 
-.col-30p {
-  @include col-size(30%);
+.col-250px {
+  @include col-size(250px);
 }
 
-.col-40p {
-  @include col-size(40%);
+.col-300px {
+  @include col-size(300px);
 }
 
-.col-50p {
-  @include col-size(50%);
+.col-400px {
+  @include col-size(400px);
+}
+
+.col-500px {
+  @include col-size(500px);
+}
+
+.col-600px {
+  @include col-size(600px);
 }
 
 .filter-row {
@@ -87,6 +89,12 @@ th:nth-child(n+2), td:nth-child(n+2) {
     width: 100%;
     margin: 0;
   }
+}
+
+.table-detailed-list {
+  overflow: auto;
+  white-space: nowrap;
+  background-color: white;
 }
 
 .table-list {
@@ -125,8 +133,13 @@ tr.mat-footer-row {
   font-weight: bold;
 }
 
+tr.mat-header-row {
+  height: 40px;
+}
+
 .table-header {
   background-color: white;
+
 }
 
 .col-select {

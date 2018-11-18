@@ -14,6 +14,7 @@ import { Utils } from '../../../utils/Utils';
  */
 @Component({
   selector: 'app-simple-table',
+  styleUrls: ['../table.component.scss'],
   templateUrl: 'simple-table.component.html',
 
 })
@@ -52,7 +53,7 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Yes: Set Sorting
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
-    }     
+    }
   }
 
   ngAfterViewInit() {
@@ -145,6 +146,5 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
     return propertyValue;
-  } 
-
+  }
 }

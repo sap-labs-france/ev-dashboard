@@ -1,10 +1,6 @@
 @import "../../../assets/scss/core/variables";
 @import "../../pages/charging-stations/charging-stations-data-source-table.scss";
 
-table {
-  // width: 100%;
-}
-
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: 0.9rem !important;
   width: 100%;
@@ -95,6 +91,12 @@ th:nth-child(n+2), td:nth-child(n+2) {
   }
 }
 
+.table-detailed-list {
+  overflow: auto;
+  white-space: nowrap;
+  background-color: white;
+}
+
 .table-list {
   overflow: auto;
   white-space: nowrap;
@@ -131,8 +133,13 @@ tr.mat-footer-row {
   font-weight: bold;
 }
 
+tr.mat-header-row {
+  height: 40px;
+}
+
 .table-header {
   background-color: white;
+
 }
 
 .col-select {

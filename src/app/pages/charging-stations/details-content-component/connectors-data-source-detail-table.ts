@@ -31,6 +31,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
 
   public getTableDef(): TableDef {
     return {
+      class: 'table-detailed-list',
       rowSelection: {
         enabled: false
       },

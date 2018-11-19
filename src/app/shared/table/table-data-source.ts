@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, of, Subscription} from 'rxjs';
+import {BehaviorSubject, interval, Observable, of, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
@@ -20,6 +20,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private data: T[] = [];
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
+  private pollingInterval: number;
 
   private _checkInitialized(): any {
     // Check
@@ -45,6 +46,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       // Check known actions
       this._checkKnownActions(this.rowActionsDef);
     }
+  }
+
+  public setPollingInterval(pollingInterval: number) {
+    this.pollingInterval = pollingInterval;
   }
 
   public isEmpty(): boolean {
@@ -299,9 +304,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public registerToDataChange() {
     // Listen for changes
     if (!this.dataChangeSubscription) {
-      this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
-        this.loadData();
-      });
+      if (this.pollingInterval > 0) {
+        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => this.loadData());
+      } else {
+        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => this.loadData());
+      }
     }
   }
 
@@ -365,11 +372,13 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   /**
    * getRowIndex
-row: T   */
+   row: T   */
   public getRowIndex(row: T) {
     for (let index = 0; index < this.data.length; index++) {
-      if (this.data[index] === row) return index;
-    }  
+      if (this.data[index] === row) {
+        return index;
+      }
+    }
   }
 
   abstract getTableColumnDefs(): TableColumnDef[];

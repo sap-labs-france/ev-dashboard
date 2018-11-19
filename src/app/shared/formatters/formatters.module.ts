@@ -5,6 +5,7 @@ import {AppDateTimePipe} from './app-date-time.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
 import {AppPricePipe} from './app-price.pipe';
 import {AppDatePipe} from './app-date.pipe';
+import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
   imports: [],
@@ -17,6 +18,15 @@ import {AppDatePipe} from './app-date.pipe';
     AppPricePipe
   ],
   exports: [
+    AppKiloWattPipe,
+    AppUserNamePipe,
+    AppDatePipe,
+    AppDateTimePipe,
+    AppDurationPipe,
+    AppPricePipe
+  ],
+  providers: [
+    LocaleService,
     AppKiloWattPipe,
     AppUserNamePipe,
     AppDatePipe,

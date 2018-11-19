@@ -70,7 +70,7 @@
     "invalid_content": "Invalid Content",
     "menu": {
       "dashboard": "Dashboard",
-      "charging_stations": "Landscape",
+      "charging_stations": "Charging Stations",
       "transactions": "Sessions",
       "active": "Active",
       "history": "History",

@@ -81,15 +81,13 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       {
         id: 'id',
         name: 'general.id',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        class: 'text-left col-350px',
         sortable: true
       },
       {
         id: 'name',
         name: 'tenants.name',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        class: 'text-left col-350px',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -97,15 +95,13 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       {
         id: 'email',
         name: 'tenants.email',
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        class: 'col-400px',
         sortable: true
       },
       {
         id: 'subdomain',
         name: 'tenants.subdomain',
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        class: 'col-350px',
         sortable: true
       }
     ];

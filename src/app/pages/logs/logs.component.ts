@@ -6,8 +6,8 @@ import {SpinnerService} from '../../services/spinner.service';
 import {AuthorizationService} from '../../services/authorization-service';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {MessageService} from '../../services/message.service';
-import {LogDataSource} from './log-data-source-table';
-import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
+import {LogsDataSource} from './logs-data-source-table';
+import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 
 @Component({
   selector: 'app-logs-cmp',
@@ -15,7 +15,7 @@ import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
 })
 export class LogsComponent implements OnInit {
   public isAdmin;
-  public logDataSource: LogDataSource;
+  public logsDataSource: LogsDataSource;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -25,18 +25,18 @@ export class LogsComponent implements OnInit {
     private centralServerNotificationService: CentralServerNotificationService,
     private localeService: LocaleService,
     private router: Router,
-    private appDateTimePipe: AppDateTimePipe) {
+    private datePipe: AppDatePipe) {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     // Create table data source
-    this.logDataSource = new LogDataSource(
+    this.logsDataSource = new LogsDataSource(
       this.localeService,
       this.messageService,
       this.spinnerService,
       this.router,
       this.centralServerNotificationService,
       this.centralServerService,
-      this.appDateTimePipe);
+      this.datePipe);
   }
 
   ngOnInit() {

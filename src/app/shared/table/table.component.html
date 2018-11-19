@@ -84,14 +84,14 @@
            (matSortChange)="handleSortChanged()">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef class="text-left col-5p pt-2">
+        <th mat-header-cell *matHeaderCellDef class="text-left col-75px pt-2">
           <mat-checkbox [hidden]="!dataSource.isRowSelectionEnabled()"
                         (change)="$event ? masterSelectToggle() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
                         [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
-        <td mat-cell *matCellDef="let row" class="text-left col-5p col-select pt-2">
+        <td mat-cell *matCellDef="let row" class="text-left col-75px col-select pt-2">
           <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)">
           </mat-checkbox>
@@ -114,8 +114,16 @@
           </th>
         </ng-template>
 
-        <td mat-cell [class]="(columnDef.class?columnDef.class:'')" *matCellDef="let row"
-            [innerHtml]="buildRowValue(row, columnDef)"></td>
+        <ng-container *ngIf="columnDef.isAngularComponent">
+          <td mat-cell [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row) : ''))" *matCellDef="let row">              
+              <app-cell-component-container [row]="row" [columnDef]="columnDef"></app-cell-component-container>  
+          </td>
+        </ng-container>
+        <ng-container *ngIf="!columnDef.isAngularComponent">
+            <td mat-cell [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row) : ''))" *matCellDef="let row"
+            [innerHtml]="buildRowValue(row, columnDef)">
+          </td>  
+        </ng-container>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>
           {{columnDef.footerName | translate}}
         </td>
@@ -123,10 +131,10 @@
 
       <!-- Detailed Icon Column -->
       <ng-container matColumnDef="details">
-        <th mat-header-cell class="col-2p details-column-header" *matHeaderCellDef><i
+        <th mat-header-cell class="col-600pxx details-column-header" *matHeaderCellDef><i
           class="material-icons">keyboard_arrow_right</i>
         </th>
-        <td mat-cell class="col-2p details-column-row" *matCellDef="let row">
+        <td mat-cell class="col-600pxx details-column-row" *matCellDef="let row">
           <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row[tableDef.rowDetails.hideShowField] : true"
              class="material-icons"
              (click)="showHideDetailsClicked(row)">{{row.isExpanded ? 'keyboard_arrow_down' :
@@ -139,16 +147,21 @@
       <ng-container matColumnDef="rowDetails">
         <td mat-cell *matCellDef="let rowDetail" [attr.colspan]="columns.length">
           <div class="element-details" [@detailExpand]="(rowDetail.isExpanded ? 'expanded' : 'collapsed')">
-            <div [innerHtml]="(tableDef.rowDetails ? rowDetail[tableDef.rowDetails.detailsField] : '')">
+            <ng-container *ngIf="tableDef.rowDetails && !tableDef.rowDetails.isDetailComponent && rowDetail[tableDef.rowDetails.detailsField]">
+              <div [innerHtml]="(tableDef.rowDetails ? rowDetail[tableDef.rowDetails.detailsField] : '')">
               ...
-            </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="tableDef.rowDetails && tableDef.rowDetails.isDetailComponent">
+                <detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></detail-component-container>
+            </ng-container>
           </div>
         </td>
       </ng-container>
 
       <!-- Actions Column -->
       <ng-container ng-if="dataSource.hasRowActions()" matColumnDef="actions">
-        <th mat-header-cell class="table-header text-center col-5p"
+        <th mat-header-cell class="table-header text-center col-75px"
             *matHeaderCellDef>{{'general.actions' | translate}}
         </th>
         <td mat-cell *matCellDef="let actionCell" class="text-center">

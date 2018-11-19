@@ -3,7 +3,7 @@ import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, ObservableInput} from 'rxjs/Observable';
 import {catchError} from 'rxjs/operators';
-import {of, throwError} from 'rxjs';
+import {BehaviorSubject, of, throwError} from 'rxjs';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../utils/Constants';
@@ -38,6 +38,7 @@ export class CentralServerService {
   private initialized = false;
   private currentUserToken;
   private currentUser;
+  private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
   private routesTranslated: RouteInfo[];
   private routes: RouteInfo[] = [
     {
@@ -46,6 +47,15 @@ export class CentralServerService {
       title: 'Dashboard',
       type: 'link',
       icontype: 'dashboard'
+    },
+    {
+      id: 'charging_stations',
+      path: '/charging-stations',
+      title: 'Charging Stations',
+      type: 'link',
+      icontype: 'local_gas_station',
+      admin: true,
+      superAdmin: false
     },
     {
       id: 'tenants',
@@ -501,6 +511,7 @@ export class CentralServerService {
     if (token) {
       // Decode the token
       this.currentUser = new JwtHelperService().decodeToken(token);
+      this.currentUserSubject.next(this.currentUser);
     }
     // Write?
     if (writeInLocalStorage) {
@@ -533,10 +544,15 @@ export class CentralServerService {
     return this.currentUserToken;
   }
 
+  public getCurrentUserSubject(): BehaviorSubject<User> {
+    return this.currentUserSubject;
+  }
+
   public clearLoggedUserToken() {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
+    this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
     this.localStorageService.removeItem('token');
   }
@@ -789,5 +805,25 @@ export class CentralServerService {
     return this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
   }
 
+  getChargerConnectorTypes() {
+    // Return
+    return [
+      { key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif' },
+      { key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif' },
+      { key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif' }
+    ];
+  }
 
+  getChargerConnectorTypeByKey(type) {
+    // Return the found key
+    const foundConnectorType = this.getChargerConnectorTypes().find(
+      (connectorType) => connectorType.key === type);
+    return (foundConnectorType  ? foundConnectorType :
+      {
+        key: 'U',
+        description: this.translateService.instant('chargers.connector_unknown'),
+        image: 'assets/img/connectors/no-connector.gif'
+      }
+    );
+  }
 }

@@ -16,10 +16,10 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {AppDateTimePipe} from '../../shared/formatters/app-date-time.pipe';
 import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
+import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 
-export class LogDataSource extends TableDataSource<Log> {
+export class LogsDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -27,7 +27,7 @@ export class LogDataSource extends TableDataSource<Log> {
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private appDateTimePipe: AppDateTimePipe) {
+    private datePipe: AppDatePipe) {
     super();
   }
 
@@ -101,17 +101,17 @@ export class LogDataSource extends TableDataSource<Log> {
         id: 'level',
         name: 'logs.level',
         formatter: (logLevel) => new AppLogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
-        headerClass: 'col-5p',
-        class: 'col-5p',
+        headerClass: 'col-75px',
+        class: 'col-75px',
         sortable: true
       },
       {
         id: 'timestamp',
         type: 'date',
-        formatter: this.appDateTimePipe.transform,
+        formatter: (createdOn) => this.datePipe.transform(createdOn, 'datetime'),
         name: 'logs.date',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        headerClass: 'col-200px',
+        class: 'text-left col-200px',
         sorted: true,
         direction: 'desc',
         sortable: true
@@ -119,22 +119,22 @@ export class LogDataSource extends TableDataSource<Log> {
       {
         id: 'source',
         name: 'logs.source',
-        headerClass: 'col-15p',
-        class: 'text-left col-10p',
+        headerClass: 'col-200px',
+        class: 'text-left col-150px',
         sortable: true
       },
       {
         id: 'action',
         name: 'logs.action',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        headerClass: 'col-200px',
+        class: 'text-left col-200px',
         sortable: true
       },
       {
         id: 'message',
         name: 'logs.message',
-        headerClass: 'col-40p',
-        class: 'text-left col-50p',
+        headerClass: 'col-500px',
+        class: 'text-left col-600px',
         sortable: true
       }
     ];

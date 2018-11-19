@@ -10,7 +10,8 @@ import {TenantGuard} from './guard/tenant.guard';
 
 export const AppRoutes: Routes = [
   {
-    path: '', redirectTo: 'dashboard', pathMatch: 'full',
+    path: 'auth', component: AuthLayoutComponent, canActivateChild: [TenantGuard],
+    loadChildren: './authentication/authentication.module#AuthenticationModule'
   },
   {
     path: 'not-found', component: NotFoundComponent, canActivate: [TenantGuard]
@@ -22,10 +23,11 @@ export const AppRoutes: Routes = [
     path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
+    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard, RouteGuardService],
     children: [
-      {path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
+      {path: 'charging-stations', loadChildren: './pages/charging-stations/charging-stations.module#ChargingStationsModule'},
       {path: 'users', loadChildren: './pages/users/users.module#UsersModule'},
       {path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule'},
       {path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule'},
@@ -34,11 +36,7 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: '', component: AuthLayoutComponent, canActivateChild: [TenantGuard],
-    children: [{
-      path: 'auth',
-      loadChildren: './authentication/authentication.module#AuthenticationModule'
-    }]
+    path: '**', redirectTo: 'dashboard', pathMatch: 'full'
   }
 ];
 

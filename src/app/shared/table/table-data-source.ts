@@ -363,6 +363,15 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.staticFilters;
   }
 
+  /**
+   * getRowIndex
+row: T   */
+  public getRowIndex(row: T) {
+    for (let index = 0; index < this.data.length; index++) {
+      if (this.data[index] === row) return index;
+    }  
+  }
+
   abstract getTableColumnDefs(): TableColumnDef[];
 
   abstract loadData();

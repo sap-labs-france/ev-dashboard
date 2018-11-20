@@ -15,7 +15,10 @@ import { InstantPowerProgressBarComponent } from './cell-content-components/inst
 import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
 import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
 import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
+import {TableEditAction} from '../../shared/table/actions/table-edit-action';
+import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
+  private readonly tableActionsRow: TableActionDef[];
 
   constructor(
     private localeService: LocaleService,
@@ -27,6 +30,10 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     private centralServerService: CentralServerService
   ) {
     super();
+    this.tableActionsRow = [
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -115,6 +122,12 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         angularComponentName: InstantPowerProgressBarComponent
       },
       {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        class: 'col-150px',
+        sortable: true
+      },
+      {
         id: 'chargePointVendor',
         name: 'chargers.vendor',
         class: 'col-150px',
@@ -132,16 +145,43 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef()
-    ];
-  }
-
   public getTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef()
     ];
+  }
+
+  public getTableActionsDef(): TableActionDef[] {
+    return [
+      new TableDeleteAction().getActionDef(),
+      new TableRefreshAction().getActionDef()
+    ];
+  }
+
+  public getTableRowActions(): TableActionDef[] {
+    return this.tableActionsRow;
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      // Add
+      case 'create':
+        break;
+      default:
+        super.actionTriggered(actionDef);
+    }
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    switch (actionDef.id) {
+      case 'edit':
+        break;
+      case 'delete':
+        break;
+      default:
+        super.rowActionTriggered(actionDef, rowItem);
+    }
   }
 
   public getTableFiltersDef(): TableFilterDef[] {

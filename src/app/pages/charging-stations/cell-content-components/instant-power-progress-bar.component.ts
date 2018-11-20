@@ -4,8 +4,8 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-    <div>{{instantPowerW | appKiloWatt}}/{{maxPowerW | appKiloWatt}}</div>
-    <mat-progress-bar
+    <div>{{instantPowerW | appKiloWatt}}<ng-container *ngIf="maxPowerW!==0">/{{maxPowerW | appKiloWatt}}</ng-container></div>
+    <mat-progress-bar [hidden]="maxPowerW===0"
       value="{{instantPowerW/maxPowerW*100}}"
       mode="determinate">
     </mat-progress-bar>

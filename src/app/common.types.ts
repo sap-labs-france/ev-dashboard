@@ -137,6 +137,7 @@ export interface Charger {
   chargingStationURL: string;
   numberOfConnectedPhase: number;
   connectors: Connector[];
+  siteArea: SiteArea;
 }
 
 export interface ChargerResult {

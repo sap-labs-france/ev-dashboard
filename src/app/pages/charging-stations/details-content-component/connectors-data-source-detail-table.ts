@@ -71,7 +71,9 @@ connectorId: number;
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        formatter: (connectorId) => { return new AppConnectorIdPipe().transform(connectorId)},
+        formatter: (connectorId) => { 
+          return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
+        },
         class: 'col-50px',
         sortable: false
       },

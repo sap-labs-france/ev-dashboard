@@ -383,7 +383,11 @@
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
+    "heartbeat_title": "Heartbeat",
+    "connectors_title": "Connectors",
+    "consumption_title": "Power (kW)",
     "firmware_version": "Firmware Version",
+    "connector_status": "Status",
     "ocpp_version": "OCPP Version",
     "private_url": "Private URL",
     "nb_connected_phase": "Number of Connected Phase",
@@ -397,6 +401,8 @@
     "change_param": "Parameter",
     "site_usage": "Usage",
     "connector": "Connector",
+    "connector_type": "Type",
+    "connector_error_title": "Error code",
     "charger_url": "URL",
     "charger_w": "W",
     "charger_kw": "kW",
@@ -618,16 +624,5 @@
     "delete_title": "Delete Tenant",
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
-   },
-   "transactions": {
-      "date_from": "Date",
-      "duration": "Duration",
-      "inactivity": "Inactivity",
-      "user": "User",
-      "badge_id": "Badge ID",
-      "charging_station": "Charging Station",
-      "connector": "Connector",
-      "total_consumption": "Consumed",
-      "price": "Price"
-  }
+   }
 }

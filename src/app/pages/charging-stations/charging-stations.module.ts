@@ -12,12 +12,12 @@ import { TableModule } from '../../shared/table/table.module';
 import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
-import { ConsumptionProgressBarComponent } from './cell-content-components/consumption-progress-bar.component';
+import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
 import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
 import { ConnectorAvailibilityComponent } from './details-content-component/connector-availibility.component';
 import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
-
+import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -35,15 +35,17 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
   ],
   entryComponents: [
     HeartbeatCellComponent,
-    ConsumptionProgressBarComponent,
+    InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
-    ConnectorAvailibilityComponent],
+    ConnectorAvailibilityComponent,
+    ConnectorsCellComponent],
   declarations: [
     ChargingStationsComponent,
     HeartbeatCellComponent,
-    ConsumptionProgressBarComponent,
+    InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
-    ConnectorAvailibilityComponent
+    ConnectorAvailibilityComponent,
+    ConnectorsCellComponent
   ]
 })
 export class ChargingStationsModule { }

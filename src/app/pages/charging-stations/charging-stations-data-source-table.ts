@@ -11,10 +11,10 @@ import { LocaleService } from '../../services/locale.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { Utils } from '../../utils/Utils';
-import { ConsumptionProgressBarComponent } from './cell-content-components/consumption-progress-bar.component';
+import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
 import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
 import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
-
+import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   constructor(
@@ -86,63 +86,43 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-    let nbTotalKW = 0;
-    let nbUsedKW = 0;
-    nbUsedKW = 0;
-    const centralServerService = this.centralServerService;
     return [
       {
         id: 'id',
-        name: this.translateService.instant('chargers.name'),
+        name: 'chargers.name',
         class: 'col-150px',
         sortable: true
       },
       {
         id: 'inactive',
-        name: this.translateService.instant('chargers.status_available'),
+        name: 'chargers.heartbeat_title',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
         class: 'col-250px',
         sortable: true
       },
       {
-        id: 'connectors',
-        name: this.translateService.instant('chargers.connector'),
-        formatter: (connectors: Connector[], row: Charger) => {
-          let nbTotalConnectors = 0;
-          let nbUsedConnectors = 0;
-          let connectorHTML = '';
-          if (Array.isArray(connectors)) {
-            nbTotalKW = 0;
-            nbUsedKW = 0;
-            nbTotalConnectors = connectors.length;
-            connectors.forEach(connector => {
-              if (connector.activeTransactionID) {
-                nbUsedConnectors++
-              };
-              nbTotalKW += connector.power;
-              nbUsedKW += connector.currentConsumption;
-              const classUsage = (connector.activeTransactionID > 0 ? 'charger-connector-busy' : 'charger-connector-available');
-              connectorHTML += `<img class='charger-connector ${classUsage}'
-                src='${centralServerService.getChargerConnectorTypeByKey(connector.type).image}'/>`;
-            });
-          }
-          return connectorHTML;
-        },
-        class: 'charger-connector col-150px'
+        id: 'connectorsStatus',
+        name: 'chargers.connectors_title',
+        isAngularComponent: true,
+        angularComponentName: ConnectorsCellComponent
       },
       {
         id: 'connectorsConsumption',
-        name: this.translateService.instant('chargers.charger_kw'),
+        name: 'chargers.consumption_title',
         class: 'col-150px',
         isAngularComponent: true,
-        angularComponentName: ConsumptionProgressBarComponent,
-        sortable: true
+        angularComponentName: InstantPowerProgressBarComponent
       },
       {
         id: 'chargePointVendor',
-        name: this.translateService.instant('chargers.vendor'),
-        class: 'col-250px',
+        name: 'chargers.vendor',
+        class: 'col-150px',
+        sortable: true
+      }, {
+        id: 'chargePointModel',
+        name: 'chargers.model',
+        class: 'col-150px',
         sortable: true
       }
     ];

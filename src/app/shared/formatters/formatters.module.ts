@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {AppKiloUnitPipe} from './app-kilo-unit.pipe';
+import {AppUnitPipe} from './app-unit.pipe';
 import {AppUserNamePipe} from './app-user-name.pipe';
 import {AppDateTimePipe} from './app-date-time.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
@@ -12,7 +12,7 @@ import {AppDatePipe} from './app-date.pipe';
     AppUserNamePipe,
     AppDatePipe,
     AppDateTimePipe,
-    AppKiloUnitPipe,
+    AppUnitPipe,
     AppDurationPipe
   ],
   exports: [
@@ -20,14 +20,14 @@ import {AppDatePipe} from './app-date.pipe';
     AppDatePipe,
     AppDateTimePipe,
     AppDurationPipe,
-    AppKiloUnitPipe
-  ],providers: [
+    AppUnitPipe,
+  ], providers: [
     LocaleService,
     AppUserNamePipe,
     AppDatePipe,
     AppDateTimePipe,
-    AppDurationPipe,
-    AppKiloUnitPipe
+    AppUnitPipe,
+    AppDurationPipe
   ]
 })
 export class FormattersModule {

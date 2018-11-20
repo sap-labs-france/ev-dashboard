@@ -11,6 +11,8 @@ import {TransactionsHistoryDataSource} from './transactions-history-data-source-
 import {MatDialog} from '@angular/material';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
+import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-transactions-history',
@@ -32,7 +34,10 @@ export class TransactionsHistoryComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private router: Router,
-    private appDateTimePipe: AppDateTimePipe) {
+    private appDateTimePipe: AppDateTimePipe,
+    private appUnitPipe: AppUnitPipe,
+    private currencyPipe: CurrencyPipe
+  ) {
     // Get translated messages
     this.translateService.get('logs', {}).subscribe((messages) => {
       this.messages = messages;
@@ -49,7 +54,9 @@ export class TransactionsHistoryComponent implements OnInit {
       this.dialog,
       this.centralServerNotificationService,
       this.centralServerService,
-      this.appDateTimePipe
+      this.appDateTimePipe,
+      this.appUnitPipe,
+      this.currencyPipe
     );
   }
 

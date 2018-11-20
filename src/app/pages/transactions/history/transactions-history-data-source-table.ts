@@ -16,7 +16,7 @@ import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {AppKiloUnitPipe} from '../../../shared/formatters/app-kilo-unit.pipe';
+import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {CurrencyPipe, PercentPipe} from '@angular/common';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
@@ -24,6 +24,7 @@ import {DialogService} from '../../../services/dialog.service';
 import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
+import * as moment from 'moment';
 
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
   private readonly tableActionsRow: TableActionDef[];
@@ -38,7 +39,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private appDateTimePipe: AppDateTimePipe) {
+    private appDateTimePipe: AppDateTimePipe,
+    private appUnitPipe: AppUnitPipe,
+    private currencyPipe: CurrencyPipe
+  ) {
     super();
 
     this.tableActionsRow = [
@@ -68,6 +72,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableDef(): TableDef {
     return {
+      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }
@@ -79,68 +84,77 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return [
       {
         id: 'timestamp',
-        name: 'transactions.date_from',
-        formatter: timestamp => this.appDateTimePipe.transform(timestamp),
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        name: 'transactions.started_at',
+        formatter: this.appDateTimePipe.transform,
+        headerClass: 'col-350px',
+        class: 'text-left col-350px',
         sorted: true,
         sortable: true,
         direction: 'desc'
       },
       {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-350px',
+        class: 'text-left col-350px',
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-350px',
+        class: 'text-center col-350px'
+      },
+
+      {
         id: 'totalDurationSecs',
         name: 'transactions.duration',
-        formatter: new AppDurationPipe().transform,
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        formatter: (totalDurationSecs, row) => {
+          return new AppDurationPipe().transform(moment.duration(moment().diff(row.timestamp)).asSeconds());
+        },
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'totalInactivitySecs',
-        additionalIds: ['totalDurationSecs'],
         name: 'transactions.inactivity',
-        formatter: (totalInactivitySecs, totalDurationSecs) => {
-          const percentage = totalDurationSecs > 0 ? totalInactivitySecs / totalDurationSecs : 0;
+        formatter: (totalInactivitySecs, row) => {
+          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+          if (percentage === 0) {
+            return '';
+          }
           return new AppDurationPipe().transform(totalInactivitySecs) +
             ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
         },
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'user',
         name: 'transactions.user',
         formatter: new AppUserNamePipe().transform,
-        headerClass: 'col-15p',
-        class: 'text-left col-15p'
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'chargeBoxID',
-        additionalIds: ['connectorId'],
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (chargeBoxID, connectorId) => `${chargeBoxID} (${connectorId})`
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
-        formatter: (totalConsumption) => new AppKiloUnitPipe(locale).transform(totalConsumption, 'kW')
+        headerClass: 'col-350px',
+        class: 'text-right col-350px',
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       },
       {
         id: 'price',
         additionalIds: ['priceUnit'],
         name: 'transactions.price',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
-        formatter: (price, priceUnit) => new CurrencyPipe(locale).transform(price, priceUnit, 'symbol')
+        headerClass: 'text-right col-350px',
+        class: 'text-right col-350px',
+        formatter: (price, row, priceUnit) => this.currencyPipe.transform(price, priceUnit, 'symbol')
       }
     ];
   }

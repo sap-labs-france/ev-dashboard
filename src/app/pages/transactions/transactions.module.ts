@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
+import {CommonModule, CurrencyPipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -13,6 +13,7 @@ import {TransactionsHistoryComponent} from './history/transactions-history.compo
 import {TransactionsInProgressComponent} from './inProgress/transactions-in-progress.component';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
+import {TransactionStateIconPipe} from './inProgress/formatters/transaction-state-icon.pipe';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {FormattersModule} from '../../shared/formatters/formatters.module';
   declarations: [
     TransactionsComponent,
     TransactionsHistoryComponent,
-    TransactionsInProgressComponent
+    TransactionsInProgressComponent,
+    TransactionStateIconPipe
   ],
   entryComponents: [
     TransactionsComponent,
@@ -39,6 +41,8 @@ import {FormattersModule} from '../../shared/formatters/formatters.module';
   ],
   exports: [
     TransactionsComponent
+  ], providers: [
+    CurrencyPipe
   ]
 })
 

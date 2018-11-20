@@ -14,7 +14,7 @@ import {Utils} from '../../../utils/Utils';
 import {MatDialog} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
-import {AppKiloUnitPipe} from '../../../shared/formatters/app-kilo-unit.pipe';
+import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
@@ -27,7 +27,6 @@ import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
 
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
   private readonly tableActionsRow: TableActionDef[];
-  private i = 0;
 
   constructor(
     private localeService: LocaleService,
@@ -39,9 +38,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private appDateTimePipe: AppDateTimePipe) {
+    private appDateTimePipe: AppDateTimePipe,
+    private appUnitPipe: AppUnitPipe) {
     super();
-    this.i = 0;
     this.tableActionsRow = [
       new TableStopAction().getActionDef()
     ];
@@ -69,6 +68,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   public getTableDef(): TableDef {
     return {
+      class: 'table-list-under-tabs',
       search: {
         enabled: false
       }
@@ -83,108 +83,130 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         id: 'timestamp',
         name: 'transactions.started_at',
         formatter: this.appDateTimePipe.transform,
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'col-350px',
+        class: 'text-left col-350px',
         sorted: true,
         sortable: true,
-        direction: 'asc'
+        direction: 'desc'
       },
       {
-        id: 'isLoading',
-        name: 'transactions.state',
-        formatter: (isLoading) => new TransactionStateIconPipe().transform(isLoading, {iconClass: 'pt-1'}),
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-350px',
+        class: 'text-left col-350px',
       },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-350px',
+        class: 'text-center col-350px'
+      },
+
       {
         id: 'totalDurationSecs',
-        additionalIds: ['timestamp'],
         name: 'transactions.duration',
-        formatter: (totalDurationSecs, startDate) => {
-          return new AppDurationPipe().transform(moment.duration(moment().diff(startDate)).asSeconds());
+        formatter: (totalDurationSecs, row) => {
+          return new AppDurationPipe().transform(moment.duration(moment().diff(row.timestamp)).asSeconds());
         },
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'totalInactivitySecs',
-        additionalIds: ['totalDurationSecs', 'timestamp'],
         name: 'transactions.inactivity',
-        formatter: (totalInactivitySecs, totalDurationSecs, startDate) => {
-          console.log(`getTableColumnDefs ${this.i++}`);
-          const now = moment();
-          const totalDuration = moment.duration(now.diff(startDate)).asSeconds();
-          const totalInactivity = moment.duration(now.diff(moment(startDate).add(totalDurationSecs - totalInactivitySecs, 'seconds'))).asSeconds();
-          const percentage = totalDuration > 0 ? (totalInactivity / totalDuration) : 0;
-          return new AppDurationPipe().transform(totalInactivity) +
+        formatter: (totalInactivitySecs, row) => {
+          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+          if (percentage === 0) {
+            return '';
+          }
+          return new AppDurationPipe().transform(totalInactivitySecs) +
             ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
         },
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'user',
         name: 'transactions.user',
         formatter: new AppUserNamePipe().transform,
-        headerClass: 'col-15p',
-        class: 'text-left col-15p'
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'chargeBoxID',
-        additionalIds: ['connectorId'],
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (chargeBoxID, connectorId) => `${chargeBoxID} (${connectorId})`
+        headerClass: 'col-350px',
+        class: 'text-left col-350px'
       },
       {
         id: 'totalConsumption',
-        additionalIds: ['currentConsumption'],
         name: 'transactions.total_consumption',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
-        formatter: (totalConsumption, currentConsumption) => `${new AppKiloUnitPipe(locale).transform(totalConsumption, 'kW')} (${new AppKiloUnitPipe(locale).transform(currentConsumption, 'kWh')})`
+        headerClass: 'col-350px',
+        class: 'text-right col-350px',
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+      },
+      {
+        id: 'currentConsumption',
+        name: 'transactions.current_consumption',
+        headerClass: 'col-350px',
+        class: 'text-right col-350px',
+        formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state',
+        formatter: (stateOfCharge) => stateOfCharge,
+        headerClass: 'text-center col-350px',
+        class: 'text-center col-350px',
       }
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
+  getTableActionsDef()
+    :
+    TableActionDef[] {
     return [
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  getTableRowActions()
+    :
+    TableActionDef[] {
     return this.tableActionsRow;
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
+  actionTriggered(actionDef
+                    :
+                    TableActionDef
+  ) {
     switch (actionDef.id) {
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  getTableActionsRightDef()
+    :
+    TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  getTableFiltersDef()
+    :
+    TableFilterDef[] {
     return [
       new TransactionsChargerFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  rowActionTriggered(actionDef
+                       :
+                       TableActionDef, rowItem
+  ) {
     switch (actionDef.id) {
       case 'stop':
         this._softStopTransaction(rowItem);
@@ -194,7 +216,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     }
   }
 
-  private _softStopTransaction(transaction) {
+  _softStopTransaction(transaction) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('transactions.soft_stop_title'),

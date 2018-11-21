@@ -164,6 +164,9 @@ export class UsersDataSource extends TableDataSource<User> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
+      case 'create':
+        this._showUserDialog();
+        break;
       default:
         super.actionTriggered(actionDef);
     }
@@ -198,7 +201,8 @@ export class UsersDataSource extends TableDataSource<User> {
   private _showUserDialog(user?: User) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '50vw';
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
     if (user) {
       dialogConfig.data = user;
     }

@@ -6,5 +6,5 @@ import {UsersComponent} from './users.component';
 
 export const UserRoutes: Routes = [
   {path: ':id', component: UserComponent, canActivate: [RouteGuardService]},
-  {path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {forAdminOnly: true}},
+  {path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {forAdminOnly: true, forSuperAdminOnly: true}},
 ];

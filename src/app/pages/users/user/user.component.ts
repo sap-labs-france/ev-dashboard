@@ -90,7 +90,7 @@ export class UserComponent implements OnInit {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Create table data source
     this.userSitesDataSource = new UserSitesDataSource(
       this.messageService,

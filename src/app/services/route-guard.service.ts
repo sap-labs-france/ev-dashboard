@@ -18,15 +18,24 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean {
     const queryParams = {};
     const forAdminOnly = route.data['forAdminOnly'];
+    const forSuperAdminOnly = route.data['forSuperAdminOnly'];
 
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
-      // Check if Admin?
-      if (forAdminOnly && !this.authorizationService.isAdmin()) {
-        return false;
+      let isAuthorized = false;
+
+      if (this.authorizationService.isSuperAdmin()) {
+        if (forSuperAdminOnly || !forAdminOnly) {
+          isAuthorized = true;
+        }
+      } else if (this.authorizationService.isAdmin()) {
+        if (forAdminOnly || !forSuperAdminOnly) {
+          isAuthorized = true;
+        }
+      } else if (!forSuperAdminOnly && !forAdminOnly) {
+        isAuthorized = true;
       }
-      // logged in so return true
-      return true;
+      return isAuthorized;
     }
 
     // Add URL origin

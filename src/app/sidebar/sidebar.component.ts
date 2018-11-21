@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.menuItems = routes.filter(menuItem => menuItem);
     });
     // Set admin
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
     this.loggedUser = this.centralServerService.getLoggedUser();
     // Read user

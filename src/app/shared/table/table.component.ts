@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -11,7 +11,9 @@ import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {Utils} from '../../utils/Utils';
-import { DetailComponentContainer } from './detail-component/detail-component-container.component';
+import {DetailComponentContainer} from './detail-component/detail-component-container.component';
+
+const DEFAULT_POLLING = 10000;
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -60,6 +62,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.configService.getCentralSystemServer().pollEnabled) {
+      this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
+        this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
+    }
     // Get Table def
     this.tableDef = this.dataSource.getTableDef();
     // Get Filters def
@@ -250,14 +256,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             row.isExpanded = true;
           });
         } else {
-            // find the container related to the row
-            const index = this.dataSource.getRowIndex(row);
-            this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
-              if (detailComponentContainer.containerId === index) {
-                detailComponentContainer.setReferenceRow(row, this);
-              }
-            });
-            row.isExpanded = true;
+          // find the container related to the row
+          const index = this.dataSource.getRowIndex(row);
+          this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
+            if (detailComponentContainer.containerId === index) {
+              detailComponentContainer.setReferenceRow(row, this);
+            }
+          });
+          row.isExpanded = true;
         }
       } else {
         // No: Expand it!
@@ -281,16 +287,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return propertyValue;
   }
 
-/*  public setDetailedDataSource(row){
-    this.detailDataSource.setDetailedDataSource(row);
-  }*/
+  /*  public setDetailedDataSource(row){
+      this.detailDataSource.setDetailedDataSource(row);
+    }*/
 
   /**
    * isDetailedTableEnable
    */
-/*  public isDetailedTableEnable(): Boolean {
-    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
-  }*/
+
+  /*  public isDetailedTableEnable(): Boolean {
+      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
+    }*/
 
   /**
    * set*ReferenceRow

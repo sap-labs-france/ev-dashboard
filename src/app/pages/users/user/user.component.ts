@@ -274,12 +274,11 @@ export class UserComponent implements OnInit {
   }
 
   public loadUser() {
-    // Init
-    this.formGroup.markAsUntouched();
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
+      this.formGroup.markAsPristine();
       // Set user
       this.userSitesDataSource.setUser(user);
       // Init form
@@ -356,7 +355,6 @@ export class UserComponent implements OnInit {
       if (userImage && userImage.image) {
         this.image = userImage.image.toString();
       }
-      // Hide
       this.spinnerService.hide();
     }, (error) => {
       // Hide
@@ -404,7 +402,6 @@ export class UserComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
           {'userFullName': user.firstName + ' ' + user.name}));
-        // Refresh
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),

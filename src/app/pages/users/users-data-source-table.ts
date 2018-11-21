@@ -119,7 +119,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: this.userRolePipe.transform,
+        formatter: (role) => this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role),
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         sortable: true
@@ -184,14 +184,14 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
-      new UserStatusFilter(this.centralServerService).getFilterDef()
+      new UserStatusFilter().getFilterDef()
     ];
   }
 

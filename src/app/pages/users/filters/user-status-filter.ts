@@ -1,11 +1,10 @@
 import {TableFilter} from '../../../shared/table/filters/table-filter';
 import {Constants} from '../../../utils/Constants';
-import {CentralServerService} from '../../../services/central-server.service';
 import {TableFilterDef} from '../../../common.types';
+import {UserStatuses} from '../users.model';
 
 export class UserStatusFilter extends TableFilter {
-  constructor(
-    private centralServerService: CentralServerService) {
+  constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -15,7 +14,7 @@ export class UserStatusFilter extends TableFilter {
       name: 'users.status',
       class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: Constants.FILTER_ALL_KEY,
-      items: this.centralServerService.getUserStatuses()
+      items: Object.assign([], UserStatuses)
     };
     // Add <All>
     filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});

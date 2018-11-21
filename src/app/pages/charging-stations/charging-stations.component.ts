@@ -15,7 +15,6 @@ import { ChargingStationsDataSource } from './charging-stations-data-source-tabl
 })
 export class ChargingStationsComponent implements OnInit {
   private messages;
-  public isAdmin;
   public chargingStationsDataSource: ChargingStationsDataSource;
 
   constructor(
@@ -32,8 +31,6 @@ export class ChargingStationsComponent implements OnInit {
     this.translateService.get('chargers', {}).subscribe((messages) => {
       this.messages = messages;
     });
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
     // Create table data source
     this.chargingStationsDataSource = new ChargingStationsDataSource(
       this.localeService,

@@ -54,8 +54,7 @@ export class CentralServerService {
       title: 'Charging Stations',
       type: 'link',
       icontype: 'local_gas_station',
-      admin: true,
-      superAdmin: false
+      admin: true
     },
     {
       id: 'tenants',
@@ -79,7 +78,8 @@ export class CentralServerService {
       title: 'Logs',
       type: 'link',
       icontype: 'list',
-      admin: true
+      admin: true,
+      superAdmin: true
     }
   ];
 
@@ -99,19 +99,25 @@ export class CentralServerService {
     if (!this.routesTranslated) {
       // Filter
       const filteredRoutes = this.routes.filter((route: RouteInfo) => {
-        // Route for Admins?
-        if (route.admin && !(this.isAdmin() || this.isUserSuperAdmin())) {
-          // Not Admins: Remove route
-          return null;
+        switch (this.getLoggedUser().role) {
+          case Constants.ROLE_SUPER_ADMIN:
+            if (route.superAdmin || !route.admin) {
+              return true;
+            }
+            break;
+          case Constants.ROLE_ADMIN:
+            if (route.admin || !route.superAdmin) {
+              return true;
+            }
+            break;
+          case Constants.ROLE_BASIC:
+          case Constants.ROLE_DEMO:
+          default:
+            if (!route.admin && !route.superAdmin) {
+              return true;
+            }
         }
-
-        // Only for Super Admin only?
-        if (route.superAdmin && !this.isUserSuperAdmin()) {
-          // Not Super Admin: Remove route
-          return null;
-        }
-        // Ok
-        return route;
+        return false;
       });
       // No: translate
       this.routesTranslated = filteredRoutes.map((route) => {
@@ -396,7 +402,7 @@ export class CentralServerService {
   }
 
   public getUserRoles(): Observable<KeyValue[]> {
-    if (this.isUserSuperAdmin()) {
+    if (this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN) {
       return of([
         {key: 'A', value: this.translateService.instant('users.role_admin')},
         {key: 'S', value: this.translateService.instant('users.role_super_admin')},
@@ -797,20 +803,12 @@ export class CentralServerService {
     return throwError(errMsg);
   }
 
-  private isAdmin() {
-    return this.getLoggedUser().role === Constants.ROLE_ADMIN;
-  }
-
-  private isUserSuperAdmin() {
-    return this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
-  }
-
   getChargerConnectorTypes() {
     // Return
     return [
-      { key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif' },
-      { key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif' },
-      { key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif' }
+      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
+      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
+      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
     ];
   }
 
@@ -818,12 +816,12 @@ export class CentralServerService {
     // Return the found key
     const foundConnectorType = this.getChargerConnectorTypes().find(
       (connectorType) => connectorType.key === type);
-    return (foundConnectorType  ? foundConnectorType :
-      {
-        key: 'U',
-        description: this.translateService.instant('chargers.connector_unknown'),
-        image: 'assets/img/connectors/no-connector.gif'
-      }
+    return (foundConnectorType ? foundConnectorType :
+        {
+          key: 'U',
+          description: this.translateService.instant('chargers.connector_unknown'),
+          image: 'assets/img/connectors/no-connector.gif'
+        }
     );
   }
 }

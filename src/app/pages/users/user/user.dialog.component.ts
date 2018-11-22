@@ -393,6 +393,59 @@ export class UserDialogComponent implements OnInit {
   }
 
   public saveUser(user) {
+    if (this.currentUser) {
+      this._updateUser(user);
+    } else {
+      this._createUser(user);
+    }
+  }
+
+  private _createUser(user) {
+    // Show
+    this.spinnerService.show();
+    // Set the image
+    this.updateUserImage(user);
+    // Yes: Update
+    this.centralServerService.createUser(user).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage(this.translateService.instant('users.create_success',
+          {'userFullName': user.firstName + ' ' + user.name}));
+        // Refresh
+        this.currentUser = user;
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.messages['create_error']);
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Email already exists
+        case 510:
+          // Show error
+          this.messageService.showErrorMessage(
+            this.translateService.instant('authentication.email_already_exists'));
+          break;
+        // User deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.messages['create_error']);
+      }
+    });
+  }
+
+  private _updateUser(user) {
     // Show
     this.spinnerService.show();
     // Set the image

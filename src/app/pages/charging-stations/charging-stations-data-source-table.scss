@@ -20,6 +20,10 @@
   animation: status-glowing 4s ease-in-out infinite;
 }
 
+::ng-deep .charger-not-assigned {
+  color: $state-danger-bg;
+}
+
 ::ng-deep .charger-heartbeat {
   .charger-heartbeat-date {
     font-size: 0.9rem;
@@ -52,6 +56,15 @@
   .charger-heartbeat-date-error {
     color: $state-danger-bg;
   }
+}
+
+::ng-deep .power-bar-text {
+  text-align: center;
+
+  .power-bar-text-error {
+    color: $state-danger-bg;
+  }
+
 }
 
 ::ng-deep .charger-connector {
@@ -97,5 +110,31 @@
     background-color:$amber-500;
     @include anim-status-glowing;
   }
+  
+  .charger-connector-preparing{
+    color:$amber-200;
+    @include anim-status-glowing;
+  }
+  
+  .charger-connector-suspended-evse {
+    color:$amber-500;
+    background-color:$amber-500;
+    @include anim-status-glowing;
+  }
+  .charger-connector-suspended-ev {
+    color:$amber-500;
+    background-color:$amber-500;
+    @include anim-status-glowing;
+  }
+
+  .charger-connector-finishing {
+    color:$amber-500;
+    @include anim-status-glowing;
+  }
+
+  .charger-connector-reserved {
+    color:$light-blue-600;
+  }
+
 }
 

@@ -325,9 +325,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
         } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
           if (filterDef.currentValue.length > 0) {
-            // TODO: must be updated when the multi selection is supported
             if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
-              filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+              if (filterDef.currentValue.length > 1) {
+                // Handle multiple key selection as a JSON array
+                const jsonKeys = [];
+                for (let index = 0; index < filterDef.currentValue.length; index++) {
+                  jsonKeys.push(filterDef.currentValue[index].key);
+                }
+                filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+              } else {
+                filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+              }
             }
           }
         } else {

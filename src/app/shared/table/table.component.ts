@@ -183,10 +183,42 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public buildRowValue(row: any, columnDef: TableColumnDef) {
-    let propertyValue = this.findPropertyValue(columnDef.id, row);
+    let propertyValue;
+    try {
+      propertyValue = this.findPropertyValue(columnDef.id, row);
+    } catch (error) {
+      if (error === "NotFound") {
+          if (columnDef.defaultValue) {
+            propertyValue = columnDef.defaultValue;
+          } else {
+            switch (columnDef.type) {
+              case 'number':
+              case 'float':
+                propertyValue = 0;
+                break;
+              default:
+                propertyValue = '';
+                break;
+            }
+          }
+      } else {
+        throw error;
+      }
+    }
+    
     const additionalProperties = [];
     if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => additionalProperties.push(this.findPropertyValue(propertyName, row)));
+      columnDef.additionalIds.forEach(propertyName => {
+        try {
+          additionalProperties.push(this.findPropertyValue(propertyName, row));
+        } catch (error) {
+          if (error !== "NotFound") {
+            // ignore NotFound error
+            throw error;
+          }
+        }
+      }
+      );
     }
     // Type?
     switch (columnDef.type) {
@@ -275,7 +307,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (propertyName.indexOf('.') > 0) {
       propertyValue = source;
       propertyName.split('.').forEach((key) => {
-        propertyValue = propertyValue[key];
+        if (propertyValue.hasOwnProperty(key)) {
+          propertyValue = propertyValue[key];
+        } else {
+          throw "NotFound";
+        }
       });
     }
     return propertyValue;
@@ -304,8 +340,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
    * get
    */
   public getNextDetailComponentId() {
-    if (this._detailComponentId === this.dataSource.getData().length) {
+    if (this._detailComponentId === this.dataSource.getData().length - 1) {
+// We are dealing with last entry so we should reset the Id in case we start another loop
       this._detailComponentId = 0;
+      return this.dataSource.getData().length - 1;
     }
     return this._detailComponentId++;
   }

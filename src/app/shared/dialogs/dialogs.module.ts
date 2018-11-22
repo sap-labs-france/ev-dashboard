@@ -11,6 +11,7 @@ import {ConfirmationDialogComponent} from './confirmation/confirmation-dialog-co
 import {TableModule} from '../table/table.module';
 import {UsersDialogComponent} from './users/users-dialog-component';
 import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
+import {SitesFilterDialogComponent} from "./sites/sites-filter-dialog-component";
 
 @NgModule({
   imports: [
@@ -24,19 +25,22 @@ import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent
+    ChargersDialogComponent,
+    SitesFilterDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent
+    ChargersDialogComponent,
+    SitesFilterDialogComponent
   ],
   exports: [
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent
+    ChargersDialogComponent,
+    SitesFilterDialogComponent
   ]
 })
 export class DialogsModule {

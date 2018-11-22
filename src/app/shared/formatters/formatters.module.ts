@@ -8,6 +8,7 @@ import {AppDatePipe} from './app-date.pipe';
 import {AppConnectorIdPipe} from "./app-connector-id.pipe";
 import {AppConnectorTypePipe} from "./app-connector-type.pipe";
 import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
+import {AppUnitPipe} from "./app-unit.pipe";
 
 @NgModule({
   imports: [],
@@ -20,7 +21,8 @@ import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
     AppPricePipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
-    AppConnectorErrorCodePipe
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ],
   exports: [
     AppKiloWattPipe,
@@ -31,7 +33,8 @@ import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
     AppPricePipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
-    AppConnectorErrorCodePipe
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ],
   providers: [
     AppKiloWattPipe,
@@ -42,7 +45,8 @@ import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
     AppPricePipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
-    AppConnectorErrorCodePipe
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ]
 })
 export class FormattersModule {

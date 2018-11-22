@@ -8,7 +8,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     <ng-container *ngFor="let connector of row.connectors">
     <td class="charger-connector">
       <div class="charger-connector charger-connector-background {{getClassForStatus(connector.status)}}">
-        <span [class]="(connector.status !== 'Available' ? 'charger-connector-active-text' : 'charger-connector-text')">
+        <span [class]="getTextClassForStatus(connector.status)">
           {{connector.connectorId | appConnectorId}}
         </span>
       </div>
@@ -36,6 +36,21 @@ export class ConnectorsCellComponent implements CellContentTemplateComponent {
       case "Available": {
         return "charger-connector-available";
       }
+      case "Preparing": {
+        return "charger-connector-preparing";
+      }
+      case "SuspendedEVSE": {
+        return "charger-connector-suspended-evse";
+      }
+      case "SuspendedEV": {
+        return "charger-connector-suspended-ev";
+      }
+      case "Finishing": {
+        return "charger-connector-finishing";
+      }
+      case "Reserved": {
+        return "charger-connector-reserved";
+      }
       case "Charging":
       case "Occupied": {
         return "charger-connector-charging";
@@ -45,7 +60,27 @@ export class ConnectorsCellComponent implements CellContentTemplateComponent {
         return "charger-connector-error";
       }
       default: {
-        return "charger-connector-warning";
+        return "'charger-connector-active-text'";
+      }
+    }
+  }
+
+  getTextClassForStatus(status: String) {
+    switch (status) {
+      case "Preparing":
+      case "Finishing":
+      case "Reserved":
+      case "Available": {
+        return "charger-connector-text";
+      }
+      case "SuspendedEVSE":
+      case "SuspendedEV":
+      case "Charging":
+      case "Occupied":
+      case "Unavailable":
+      case "Faulted":
+      default: {
+        return "charger-connector-active-text";
       }
     }
   }

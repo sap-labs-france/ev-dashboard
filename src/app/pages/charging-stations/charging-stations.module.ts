@@ -38,7 +38,8 @@ import { ConnectorsCellComponent } from "./cell-content-components/connectors-ce
     InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
     ConnectorAvailibilityComponent,
-    ConnectorsCellComponent],
+    ConnectorsCellComponent
+  ],
   declarations: [
     ChargingStationsComponent,
     HeartbeatCellComponent,

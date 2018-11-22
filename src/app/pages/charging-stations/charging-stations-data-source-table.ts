@@ -17,6 +17,8 @@ import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell
 import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
+import {ChargerTableFilter} from '../../shared/table/filters/charger-filter';
+import {SitesTableFilter} from '../../shared/table/filters/site-filter';
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
   private readonly tableActionsRow: TableActionDef[];
 
@@ -34,6 +36,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       new TableEditAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
+    this.setStaticFilters([ {'WithSite': true } ]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -97,15 +100,16 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'id',
         name: 'chargers.name',
-        class: 'col-150px',
-        sortable: true
+        sortable: true,
+        dynamicClass: (row: Charger) => {
+          return (row.siteArea ? 'col-150px' : 'col-150px charger-not-assigned');
+        }
       },
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
-        class: 'col-250px',
         sortable: true
       },
       {
@@ -117,25 +121,46 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'connectorsConsumption',
         name: 'chargers.consumption_title',
-        class: 'col-150px',
         isAngularComponent: true,
         angularComponentName: InstantPowerProgressBarComponent
       },
       {
+        id: 'siteArea.site.name',
+        name: 'sites.site',
+        sortable: false,
+        defaultValue: 'sites.unassigned',
+        formatter: (value) => {
+          if (value === 'sites.unassigned')
+            return this.translateService.instant(value)
+          else 
+            return value;
+        },
+        dynamicClass: (row: Charger) => {
+          return (row.siteArea ? '' : 'charger-not-assigned');
+        }
+      },
+      {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        class: 'col-150px',
-        sortable: true
+        sortable: false,
+        defaultValue: 'site_areas.unassigned',
+        formatter: (value) => {
+          if (value === 'site_areas.unassigned')
+            return this.translateService.instant(value)
+          else 
+            return value;
+        },
+        dynamicClass: (row: Charger) => {
+          return (row.siteArea ? '' : 'charger-not-assigned');
+        }
       },
       {
         id: 'chargePointVendor',
         name: 'chargers.vendor',
-        class: 'col-150px',
         sortable: true
       }, {
         id: 'chargePointModel',
         name: 'chargers.model',
-        class: 'col-150px',
         sortable: true
       }
     ];
@@ -185,6 +210,9 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new ChargerTableFilter().getFilterDef(),
+      new SitesTableFilter().getFilterDef()
+    ];
   }
 }

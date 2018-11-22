@@ -138,6 +138,7 @@ export interface Charger {
   numberOfConnectedPhase: number;
   connectors: Connector[];
   siteArea: SiteArea;
+  site: Site;
 }
 
 export interface ChargerResult {
@@ -304,12 +305,14 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
+  dynamicClass?: Function;
   formatter?: Function,
   sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
   isAngularComponent?: boolean
   angularComponentName?: any;
+  defaultValue?: any;
 }
 
 export interface TableSearch {

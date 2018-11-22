@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {CommonModule, CurrencyPipe} from '@angular/common';
+import {CommonModule, CurrencyPipe, PercentPipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -14,6 +14,9 @@ import {TransactionsInProgressComponent} from './inProgress/transactions-in-prog
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {TransactionStateIconPipe} from './inProgress/formatters/transaction-state-icon.pipe';
+import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
+import {TransactionsInProgressDataSource} from './inProgress/transactions-in-progress-data-source-table';
+import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
   imports: [
@@ -42,7 +45,10 @@ import {TransactionStateIconPipe} from './inProgress/formatters/transaction-stat
   exports: [
     TransactionsComponent
   ], providers: [
-    CurrencyPipe
+    CurrencyPipe,
+    PercentPipe,
+    TransactionsHistoryDataSource,
+    TransactionsInProgressDataSource
   ]
 })
 

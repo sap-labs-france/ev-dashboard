@@ -7,7 +7,6 @@ import {CentralServerNotificationService} from '../../../services/central-server
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../../services/central-server.service';
-import {LocaleService} from '../../../services/locale.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
@@ -19,17 +18,16 @@ import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
 import {TableStopAction} from './actions/table-stop-action';
-import * as moment from 'moment'
-import {TransactionStateIconPipe} from './formatters/transaction-state-icon.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
+import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    private localeService: LocaleService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
@@ -38,7 +36,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private appDateTimePipe: AppDateTimePipe,
+    private appDatePipe: AppDatePipe,
+    private percentPipe: PercentPipe,
     private appUnitPipe: AppUnitPipe) {
     super();
     this.tableActionsRow = [
@@ -77,12 +76,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   public getTableColumnDefs(): TableColumnDef[] {
 
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        formatter: this.appDateTimePipe.transform,
+        formatter: (value) => this.appDatePipe.transform(value, 'datetime'),
         headerClass: 'col-350px',
         class: 'text-left col-350px',
         sorted: true,
@@ -105,8 +103,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'totalDurationSecs',
         name: 'transactions.duration',
-        formatter: (totalDurationSecs, row) => {
-          return new AppDurationPipe().transform(moment.duration(moment().diff(row.timestamp)).asSeconds());
+        formatter: (totalDurationSecs) => {
+          return new AppDurationPipe().transform(totalDurationSecs);
         },
         headerClass: 'col-350px',
         class: 'text-left col-350px'
@@ -120,7 +118,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
             return '';
           }
           return new AppDurationPipe().transform(totalInactivitySecs) +
-            ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
+            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
         },
         headerClass: 'col-350px',
         class: 'text-left col-350px'
@@ -128,7 +126,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'user',
         name: 'transactions.user',
-        formatter: new AppUserNamePipe().transform,
+        formatter: (value) => new AppUserNamePipe().transform(value),
         headerClass: 'col-350px',
         class: 'text-left col-350px'
       },
@@ -154,8 +152,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       },
       {
         id: 'stateOfCharge',
-        name: 'transactions.state',
-        formatter: (stateOfCharge) => stateOfCharge,
+        name: 'transactions.state_of_charge',
+        formatter: (stateOfCharge) => this.percentPipe.transform(stateOfCharge / 100, '2.0-0'),
         headerClass: 'text-center col-350px',
         class: 'text-center col-350px',
       }

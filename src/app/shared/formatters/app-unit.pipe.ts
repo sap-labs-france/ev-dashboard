@@ -4,10 +4,8 @@ import {LocaleService} from '../../services/locale.service';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
-  private locale: string;
 
-  constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentFullLocaleForJS();
+  constructor(private localeService: LocaleService) {
   }
 
   _parseMeasure(measureAsString): Measure {
@@ -20,7 +18,7 @@ export class AppUnitPipe implements PipeTransform {
   transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true): any {
     const src = this._parseMeasure(srcMeasure);
     const dest = this._parseMeasure(destMeasure);
-    return `${new DecimalPipe(this.locale).transform(value / (src.size * dest.size), '2.2-2')} ${withUnit ? destMeasure : ''}`;
+    return `${new DecimalPipe(this.localeService.getCurrentFullLocaleForJS()).transform(value / (src.size * dest.size), '2.2-2')} ${withUnit ? destMeasure : ''}`;
   }
 }
 

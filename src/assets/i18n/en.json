@@ -626,7 +626,7 @@
      },
       "date_from": "Date",
       "state": "Status",
-      "state": "Status",
+      "state_of_charge": "Battery level",
       "started_at": "Started At",
       "duration": "Duration",
       "inactivity": "Inactivity",
@@ -635,6 +635,7 @@
       "charging_station": "Charging Station",
       "connector": "Connector",
       "total_consumption": "Consumed",
+      "current_consumption": "Power",
       "price": "Price"
   }
 }

@@ -7,7 +7,6 @@ import {CentralServerNotificationService} from '../../../services/central-server
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../../services/central-server.service';
-import {LocaleService} from '../../../services/locale.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
@@ -21,16 +20,17 @@ import {CurrencyPipe, PercentPipe} from '@angular/common';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
-import {AppDateTimePipe} from '../../../shared/formatters/app-date-time.pipe';
+import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import * as moment from 'moment';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    private localeService: LocaleService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
@@ -39,8 +39,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private appDateTimePipe: AppDateTimePipe,
+    private appDatePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
+    private percentPipe: PercentPipe,
     private currencyPipe: CurrencyPipe
   ) {
     super();
@@ -80,12 +81,11 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        formatter: this.appDateTimePipe.transform,
+        formatter: (value) => this.appDatePipe.transform(value, 'datetime'),
         headerClass: 'col-350px',
         class: 'text-left col-350px',
         sorted: true,
@@ -109,7 +109,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         id: 'totalDurationSecs',
         name: 'transactions.duration',
         formatter: (totalDurationSecs, row) => {
-          return new AppDurationPipe().transform(moment.duration(moment().diff(row.timestamp)).asSeconds());
+          return new AppDurationPipe().transform(row.timestamp);
         },
         headerClass: 'col-350px',
         class: 'text-left col-350px'
@@ -123,7 +123,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
             return '';
           }
           return new AppDurationPipe().transform(totalInactivitySecs) +
-            ` (${new PercentPipe(locale).transform(percentage, '2.0-0')})`
+            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
         },
         headerClass: 'col-350px',
         class: 'text-left col-350px'

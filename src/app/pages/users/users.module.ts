@@ -17,6 +17,7 @@ import {UserStatusPipe} from './formatters/user-status.pipe';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {UsersDataSource} from './users-data-source-table';
 import {UserDialogComponent} from './user/user.dialog.component';
+import {UserStatusComponent} from './formatters/user-status.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {UserDialogComponent} from './user/user.dialog.component';
     FormattersModule
   ],
   declarations: [
+    UserStatusComponent,
     UsersComponent,
     UserComponent,
     UserDialogComponent,
@@ -39,6 +41,7 @@ import {UserDialogComponent} from './user/user.dialog.component';
     UserStatusPipe
   ],
   entryComponents: [
+    UserStatusComponent,
     UserDialogComponent
   ],
   exports: [

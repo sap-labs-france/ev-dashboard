@@ -26,6 +26,7 @@ import {UserRoleFilter} from './filters/user-role-filter';
 import {UserStatusFilter} from './filters/user-status-filter';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
+import {UserStatusComponent} from './formatters/user-status.component';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
@@ -127,9 +128,10 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'status',
         name: 'users.status',
-        formatter: this.userStatusPipe.transform,
+        isAngularComponent: true,
+        angularComponentName: UserStatusComponent,
         headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        class: 'col-10p',
         sortable: true
       },
       {

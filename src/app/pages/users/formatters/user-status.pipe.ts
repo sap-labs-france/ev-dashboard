@@ -7,7 +7,7 @@ export class UserStatusPipe implements PipeTransform {
   transform(status: string): any {
     for (const userStatus of UserStatuses) {
       if (userStatus.key === status) {
-        return userStatus.value;
+        return `<mat-chip-list><mat-chip>${userStatus.value}</mat-chip></mat-chip-list>`;
       }
     }
     return status;

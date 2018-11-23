@@ -54,29 +54,29 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'connectorId',
         name: this.translateService.instant('chargers.connector'),
-        class: 'col-75px',
+        class: 'col-5em',
       },
       {
         id: 'status',
         name: this.translateService.instant('chargers.status_available'),
-        class: 'col-75px',
+        class: 'col-5em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent
       },
       {
         id: 'currentConsumption',
         name: this.translateService.instant('chargers.connector'),
-        class: 'col-75px',
+        class: 'col-5em',
       },
       {
         id: 'totalConsumption',
         name: this.translateService.instant('chargers.charger_kw'),
-        class: 'col-75px',
+        class: 'col-5em',
       },
       {
         id: 'type',
         name: this.translateService.instant('chargers.vendor'),
-        class: 'col-75px',
+        class: 'col-5em',
       }
     ];
   }

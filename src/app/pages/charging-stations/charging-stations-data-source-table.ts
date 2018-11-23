@@ -94,7 +94,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'id',
         name: this.translateService.instant('chargers.name'),
-        class: 'col-150px',
+        class: 'col-15p',
         sortable: true
       },
       {
@@ -102,7 +102,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         name: this.translateService.instant('chargers.status_available'),
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
-        class: 'col-250px',
+        class: 'col-25p',
         sortable: true
       },
       {
@@ -129,12 +129,12 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
           }
           return connectorHTML;
         },
-        class: 'charger-connector col-150px'
+        class: 'charger-connector col-10p'
       },
       {
         id: 'connectorsConsumption',
         name: this.translateService.instant('chargers.charger_kw'),
-        class: 'col-150px',
+        class: 'col-20p',
         isAngularComponent: true,
         angularComponentName: ConsumptionProgressBarComponent,
         sortable: true
@@ -142,7 +142,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'chargePointVendor',
         name: this.translateService.instant('chargers.vendor'),
-        class: 'col-250px',
+        class: 'col-25p',
         sortable: true
       }
     ];

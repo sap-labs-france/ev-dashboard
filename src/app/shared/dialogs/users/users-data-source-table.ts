@@ -52,7 +52,7 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       {
         id: 'name',
         name: 'users.name',
-        class: 'text-left col-400px',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -60,12 +60,12 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       {
         id: 'firstName',
         name: 'users.first_name',
-        class: 'text-left col-350px'
+        class: 'text-left col-25p'
       },
       {
         id: 'email',
         name: 'users.email',
-        class: 'text-left col-500px'
+        class: 'text-left col-40p'
       }
     ];
   }

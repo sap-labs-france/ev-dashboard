@@ -1,13 +1,12 @@
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {Charger, TableColumnDef, TableDef, TableFilterDef} from '../../../common.types';
-import { TableFilter } from "../../table/filters/table-filter";
+import {Site, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 
-export class ChargersDataSource extends DialogTableDataSource<Charger> {
+export class SitesFilterDataSource extends DialogTableDataSource<Site> {
   constructor(
     private messageService: MessageService,
     private translateService: TranslateService,
@@ -18,16 +17,16 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
 
   loadData() {
     // Get data
-    this.centralServerService.getChargers(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((chargers) => {
+    this.centralServerService.getSites(this.getFilterValues(),
+      this.getPaging(), this.getOrdering()).subscribe((sites) => {
       // Set number of records
-      this.setNumberOfRecords(chargers.count);
+      this.setNumberOfRecords(sites.count);
       // Update page length (number of sites is in User)
       this.updatePaginator();
-      // Return chargers
-      this.getDataSubjet().next(chargers.result);
+      // Return sites
+      this.getDataSubjet().next(sites.result);
       // Keep it
-      this.setData(chargers.result);
+      this.setData(sites.result);
     }, (error) => {
       // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -51,17 +50,22 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
   getTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'id',
-        name: 'chargers.chargers',
-        class: 'text-left',
+        id: 'name',
+        name: this.translateService.instant('sites.name'),
+        class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
         sortable: true
       },
       {
-        id: 'chargePointVendor',
-        name: 'chargers.name',
-        class: 'text-left'
+        id: 'address.city',
+        name: this.translateService.instant('general.city'),
+        class: 'text-left col-350px'
+      },
+      {
+        id: 'address.country',
+        name: this.translateService.instant('general.country'),
+        class: 'text-left col-300px'
       }
     ];
   }

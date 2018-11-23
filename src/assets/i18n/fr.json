@@ -55,6 +55,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "A partir de",
+      "search_date_until": "Jusqu'à",
     "search_date_range": "Dates",
     "search_charging_station": "Borne",
     "search_user": "Utilisateur",
@@ -184,6 +185,7 @@
     "no_sites": "Aucun site n'a été trouvé",
     "select_sites": "Selection Sites",
     "site": "Site",
+    "unassigned": "Non assigné",
     "no_connected_chargers": "Vous n'êtes pas connecté à une borne",
     "site_number": "Site(s)",
     "number_of_site_areas": "Nb Zones",
@@ -220,6 +222,7 @@
     "charger_list_target_title": "Utilisées",
     "number_of_charging_stations": "Nb Bornes",
     "site_area_not_found": "Zone inconnue",
+    "unassigned": "Non assigné",
     "image": "Image",
     "assigned_chargers": "Bornes",
     "name": "Nom",
@@ -382,7 +385,12 @@
     "vendor": "Vendeur",
     "model": "Modèle",
     "name": "Nom",
+    "heartbeat_title": "Heartbeat",
+    "connectors_title": "Connecteurs",
+    "consumption_title": "Puissance (kW)",
     "firmware_version": "Version Firmware",
+    "connector_status": "Status",
+    "connector_error_title": "Error code",
     "ocpp_version": "Version OCPP",
     "nb_connected_phase": "Nombre de Phase Connectée",
     "private_url": "URL Privée",
@@ -396,6 +404,7 @@
     "change_param": "Paramètre",
     "site_usage": "Utilisation",
     "connector": "Connector",
+    "connector_type": "Type",
     "charger_url": "URL",
     "charger_w": "W",
     "charger_kw": "kW",
@@ -617,5 +626,5 @@
     "delete_title": "Supprimer le tenant",
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du tenant"
-  }
+   }
 }

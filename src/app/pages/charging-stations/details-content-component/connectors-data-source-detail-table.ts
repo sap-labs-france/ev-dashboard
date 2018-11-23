@@ -7,6 +7,11 @@ import { MatDialog } from '@angular/material';
 import {ConfigService} from '../../../services/config.service';
 import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
 import { ConnectorAvailibilityComponent } from './connector-availibility.component';
+import { AppConnectorIdPipe } from "../../../shared/formatters/app-connector-id.pipe";
+import { AppKiloWattPipe } from "../../../shared/formatters/app-kilo-watt.pipe";
+import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
+import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
+
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
@@ -50,33 +55,75 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+/*
+connectorId: number;
+  errorCode: string;
+  currentConsumption: number;
+  totalConsumption: number;
+  power: number;
+  status: string;
+  activeForUser: boolean;
+  activeTransactionID: number;
+  type: string;
+
+  */
     return [
       {
         id: 'connectorId',
-        name: this.translateService.instant('chargers.connector'),
-        class: 'col-75px',
+        name: 'chargers.connector',
+        formatter: (connectorId) => { 
+          return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
+        },
+        class: 'col-50px',
+        sortable: false
       },
       {
         id: 'status',
-        name: this.translateService.instant('chargers.status_available'),
+        name: 'chargers.connector_status',
         class: 'col-75px',
         isAngularComponent: true,
-        angularComponentName: ConnectorAvailibilityComponent
+        angularComponentName: ConnectorAvailibilityComponent,
+        sortable: false
       },
       {
         id: 'currentConsumption',
-        name: this.translateService.instant('chargers.connector'),
-        class: 'col-75px',
+        name: 'transactions.consumption',
+        class: 'col-50px',
+        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        sortable: false
       },
       {
         id: 'totalConsumption',
-        name: this.translateService.instant('chargers.charger_kw'),
-        class: 'col-75px',
+        name: 'transactions.total_consumption_kw',
+        class: 'col-50px',
+        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        sortable: false
       },
       {
         id: 'type',
-        name: this.translateService.instant('chargers.vendor'),
+        name: 'chargers.connector_type',
         class: 'col-75px',
+        formatter: (type) => {
+          let imageUrl = new AppConnectorTypePipe().transform(type, true);
+          return `<img class="charger-connector" src="${imageUrl}"/>`;
+        },
+        sortable: false
+      },
+      {
+        id: 'power',
+        name: 'chargers.maximum_energy',
+        class: 'col-75px',
+        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        sortable: false
+      },
+      {
+        id: 'errorCode',
+        name: 'chargers.connector_error_title',
+        class: 'col-75px',
+        formatter: (errorCode) => {
+          return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
+        },
+        sortable: false
       }
     ];
   }

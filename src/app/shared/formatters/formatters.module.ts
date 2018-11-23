@@ -4,6 +4,10 @@ import {AppUserNamePipe} from './app-user-name.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
 import {AppPricePipe} from './app-price.pipe';
 import {AppDatePipe} from './app-date.pipe';
+import {AppConnectorIdPipe} from "./app-connector-id.pipe";
+import {AppConnectorTypePipe} from "./app-connector-type.pipe";
+import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
+import {AppUnitPipe} from "./app-unit.pipe";
 import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
@@ -13,7 +17,11 @@ import {LocaleService} from '../../services/locale.service';
     AppUserNamePipe,
     AppDatePipe,
     AppDurationPipe,
-    AppPricePipe
+    AppPricePipe,
+    AppConnectorIdPipe,
+    AppConnectorTypePipe,
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ],
   exports: [
     AppKiloWattPipe,
@@ -28,7 +36,23 @@ import {LocaleService} from '../../services/locale.service';
     AppUserNamePipe,
     AppDatePipe,
     AppDurationPipe,
-    AppPricePipe
+    AppPricePipe,
+    AppConnectorIdPipe,
+    AppConnectorTypePipe,
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
+  ],
+  providers: [
+    AppKiloWattPipe,
+    AppUserNamePipe,
+    AppDatePipe,
+    AppDateTimePipe,
+    AppDurationPipe,
+    AppPricePipe,
+    AppConnectorIdPipe,
+    AppConnectorTypePipe,
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ]
 })
 export class FormattersModule {

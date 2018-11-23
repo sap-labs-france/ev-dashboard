@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AppKiloWattPipe} from './app-kilo-watt.pipe';
 import {AppUserNamePipe} from './app-user-name.pipe';
-import {AppDateTimePipe} from './app-date-time.pipe';
 import {AppDurationPipe} from './app-duration.pipe';
 import {AppPricePipe} from './app-price.pipe';
 import {AppDatePipe} from './app-date.pipe';
@@ -9,6 +8,7 @@ import {AppConnectorIdPipe} from "./app-connector-id.pipe";
 import {AppConnectorTypePipe} from "./app-connector-type.pipe";
 import {AppConnectorErrorCodePipe} from "./app-connector-error-code.pipe";
 import {AppUnitPipe} from "./app-unit.pipe";
+import {LocaleService} from '../../services/locale.service';
 
 @NgModule({
   imports: [],
@@ -16,7 +16,6 @@ import {AppUnitPipe} from "./app-unit.pipe";
     AppKiloWattPipe,
     AppUserNamePipe,
     AppDatePipe,
-    AppDateTimePipe,
     AppDurationPipe,
     AppPricePipe,
     AppConnectorIdPipe,
@@ -28,7 +27,14 @@ import {AppUnitPipe} from "./app-unit.pipe";
     AppKiloWattPipe,
     AppUserNamePipe,
     AppDatePipe,
-    AppDateTimePipe,
+    AppDurationPipe,
+    AppPricePipe
+  ],
+  providers: [
+    LocaleService,
+    AppKiloWattPipe,
+    AppUserNamePipe,
+    AppDatePipe,
     AppDurationPipe,
     AppPricePipe,
     AppConnectorIdPipe,

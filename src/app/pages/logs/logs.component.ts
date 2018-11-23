@@ -14,7 +14,6 @@ import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
   templateUrl: 'logs.component.html'
 })
 export class LogsComponent implements OnInit {
-  public isAdmin;
   public logsDataSource: LogsDataSource;
 
   constructor(
@@ -26,8 +25,6 @@ export class LogsComponent implements OnInit {
     private localeService: LocaleService,
     private router: Router,
     private datePipe: AppDatePipe) {
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
     // Create table data source
     this.logsDataSource = new LogsDataSource(
       this.localeService,

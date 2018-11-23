@@ -429,7 +429,7 @@ export class AuthorizationService {
   }
 
   public isAdmin(): boolean {
-    return this.isSuperAdmin() || this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
+    return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
   }
 
   public isSuperAdmin(): boolean {

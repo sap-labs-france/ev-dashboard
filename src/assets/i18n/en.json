@@ -540,7 +540,7 @@
     "role_invalid": "Invalid role",
     "user_not_found": "User not found",
     "invalid_phone_number": "Invalid phone number",
-    "invalid_tag_ids": "Only uppercases and numbers allowed",
+    "invalid_tag_ids": "Only letters and numbers allowed",
     "locale": "Language",
     "locale_invalid": "Invalid locale",
     "locale_desc_english": "English",

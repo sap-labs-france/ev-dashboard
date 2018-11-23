@@ -134,7 +134,7 @@ export class UserDialogComponent implements OnInit {
         ])),
       'tagIDs': new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9,]*$')
+          Validators.pattern('^[a-zA-Z0-9,]*$')
         ])),
       'costCenter': new FormControl('',
         Validators.compose([

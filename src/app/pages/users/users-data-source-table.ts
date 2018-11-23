@@ -209,7 +209,8 @@ export class UsersDataSource extends TableDataSource<User> {
       dialogConfig.data = user;
     }
     // Open
-    this.dialog.open(UserDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
   private _deleteUser(user: User) {
@@ -219,10 +220,9 @@ export class UsersDataSource extends TableDataSource<User> {
       this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteUser(user.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.loadData();
             this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),

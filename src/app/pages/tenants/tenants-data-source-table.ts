@@ -165,7 +165,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       dialogConfig.data = tenant;
     }
     // Open
-    this.dialog.open(TenantDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
   private _deleteTenant(tenant) {

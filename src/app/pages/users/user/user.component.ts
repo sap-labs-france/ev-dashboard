@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
@@ -16,6 +16,7 @@ import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
+import {UserRoles, userStatuses} from '../users.model';
 
 @Component({
   selector: 'app-user-cmp',
@@ -23,6 +24,8 @@ import {Utils} from '../../../utils/Utils';
 })
 export class UserComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
+  @Input() currentUserID: string;
+  @Input() inDialog: boolean;
   private messages;
   public userStatuses;
   public userRoles;
@@ -73,8 +76,9 @@ export class UserComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
+
     // Check auth
-    if (!this.activatedRoute.snapshot.params['id'] ||
+    if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateUser({'id': this.activatedRoute.snapshot.params['id']})) {
       // Not authorized
       this.router.navigate(['/']);
@@ -84,13 +88,9 @@ export class UserComponent implements OnInit {
       this.messages = messages;
     });
     // Get statuses
-    this.centralServerService.getUserStatuses().subscribe((userStatuses) => {
-      this.userStatuses = userStatuses;
-    });
+    this.userStatuses = userStatuses;
     // Get Roles
-    this.centralServerService.getUserRoles().subscribe((userRoles) => {
-      this.userRoles = userRoles;
-    });
+    this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
@@ -136,7 +136,7 @@ export class UserComponent implements OnInit {
         ])),
       'tagIDs': new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9,]*$')
+          Validators.pattern('^[a-zA-Z0-9,]*$')
         ])),
       'costCenter': new FormControl('',
         Validators.compose([
@@ -215,13 +215,26 @@ export class UserComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
-    // Subscribe to changes in params
-    this.activatedRoute.params.subscribe((params: Params) => {
-      // Load User
+
+
+    if (this.currentUserID) {
       this.loadUser();
-    });
+    } else if (this.activatedRoute && this.activatedRoute.params) {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        this.currentUserID = params['id'];
+        this.loadUser();
+      });
+    }
     // Scroll up
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+  }
+
+  public isOpenInDialog(): boolean {
+    return this.inDialog;
+  }
+
+  public setCurrentUserId(currentUserId) {
+    this.currentUserID = currentUserId;
   }
 
   public setAddress(address: Address) {
@@ -277,12 +290,14 @@ export class UserComponent implements OnInit {
   }
 
   public loadUser() {
-    // Init
-    this.formGroup.markAsUntouched();
+    if (!this.currentUserID) {
+      return;
+    }
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getUser(this.activatedRoute.snapshot.params['id']).flatMap((user) => {
+    this.centralServerService.getUser(this.currentUserID).flatMap((user) => {
+      this.formGroup.markAsPristine();
       // Set user
       this.userSitesDataSource.setUser(user);
       // Init form
@@ -354,12 +369,11 @@ export class UserComponent implements OnInit {
       this.passwords.controls.password.setValue('');
       this.passwords.controls.repeatPassword.setValue('');
       // Yes, get image
-      return this.centralServerService.getUserImage(this.activatedRoute.snapshot.params['id']);
+      return this.centralServerService.getUserImage(this.currentUserID);
     }).subscribe((userImage) => {
       if (userImage && userImage.image) {
         this.image = userImage.image.toString();
       }
-      // Hide
       this.spinnerService.hide();
     }, (error) => {
       // Hide
@@ -394,6 +408,59 @@ export class UserComponent implements OnInit {
   }
 
   public saveUser(user) {
+    if (this.currentUserID) {
+      this._updateUser(user);
+    } else {
+      this._createUser(user);
+    }
+  }
+
+  private _createUser(user) {
+    // Show
+    this.spinnerService.show();
+    // Set the image
+    this.updateUserImage(user);
+    // Yes: Update
+    this.centralServerService.createUser(user).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage(this.translateService.instant('users.create_success',
+          {'userFullName': user.firstName + ' ' + user.name}));
+        // Refresh
+        this.currentUserID = user.id;
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.messages['create_error']);
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Email already exists
+        case 510:
+          // Show error
+          this.messageService.showErrorMessage(
+            this.translateService.instant('authentication.email_already_exists'));
+          break;
+        // User deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.messages['create_error']);
+      }
+    });
+  }
+
+  private _updateUser(user) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -407,7 +474,6 @@ export class UserComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
           {'userFullName': user.firstName + ' ' + user.name}));
-        // Refresh
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),

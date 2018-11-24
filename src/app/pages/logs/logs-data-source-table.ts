@@ -101,8 +101,8 @@ export class LogsDataSource extends TableDataSource<Log> {
         id: 'level',
         name: 'logs.level',
         formatter: (logLevel) => new AppLogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
-        headerClass: 'col-75px',
-        class: 'col-75px',
+        headerClass: 'col-5p',
+        class: 'col-5p',
         sortable: true
       },
       {
@@ -110,8 +110,8 @@ export class LogsDataSource extends TableDataSource<Log> {
         type: 'date',
         formatter: (createdOn) => this.datePipe.transform(createdOn, 'datetime'),
         name: 'logs.date',
-        headerClass: 'col-200px',
-        class: 'text-left col-200px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
         sortable: true
@@ -119,22 +119,22 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'source',
         name: 'logs.source',
-        headerClass: 'col-200px',
-        class: 'text-left col-150px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true
       },
       {
         id: 'action',
         name: 'logs.action',
-        headerClass: 'col-200px',
-        class: 'text-left col-200px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true
       },
       {
         id: 'message',
         name: 'logs.message',
-        headerClass: 'col-500px',
-        class: 'text-left col-600px',
+        headerClass: 'col-50p',
+        class: 'text-left col-50p',
         sortable: true
       }
     ];

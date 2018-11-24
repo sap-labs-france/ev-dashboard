@@ -1,8 +1,7 @@
 import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
-import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant} from '../../common.types';
+import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User} from '../../common.types';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
@@ -12,14 +11,25 @@ import {MessageService} from '../../services/message.service';
 import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TenantDialogComponent} from './dialog/tenant.dialog.component';
 import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
+import {DialogService} from '../../services/dialog.service';
+import {UserRolePipe} from './formatters/user-role.pipe';
+import {UserStatusPipe} from './formatters/user-status.pipe';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
-import {DialogService} from '../../services/dialog.service';
+import {TranslateService} from '@ngx-translate/core';
+import {AppUserNamePipe} from '../../shared/formatters/app-user-name.pipe';
+import {Injectable} from '@angular/core';
+import {AppArrayToStringPipe} from '../../shared/formatters/app-array-to-string.pipe';
+import {UserRoleFilter} from './filters/user-role-filter';
+import {UserStatusFilter} from './filters/user-status-filter';
+import {UserDialogComponent} from './user/user.dialog.component';
+import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
+import {UserStatusComponent} from './formatters/user-status.component';
 
-export class TenantsDataSource extends TableDataSource<Tenant> {
+@Injectable()
+export class UsersDataSource extends TableDataSource<User> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
@@ -31,7 +41,12 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private userRolePipe: UserRolePipe,
+    private userStatusPipe: UserStatusPipe,
+    private userNamePipe: AppUserNamePipe,
+    private arrayToStringPipe: AppArrayToStringPipe,
+    private datePipe: AppDatePipe) {
     super();
 
     this.tableActionsRow = [
@@ -41,25 +56,25 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectTenants();
+    return this.centralServerNotificationService.getSubjectUsers();
   }
 
   public loadData() {
     // Show
     this.spinnerService.show();
     // Get the Tenants
-    this.centralServerService.getTenants(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((tenants) => {
+    this.centralServerService.getUsers(this.getFilterValues(),
+      this.getPaging(), this.getOrdering()).subscribe((users) => {
       // Hide
       this.spinnerService.hide();
       // Update nbr records
-      this.setNumberOfRecords(tenants.count);
+      this.setNumberOfRecords(users.count);
       // Update Paginator
       this.updatePaginator();
       // Notify
-      this.getDataSubjet().next(tenants.result);
+      this.getDataSubjet().next(users.result);
       // Set the data
-      this.setData(tenants.result);
+      this.setData(users.result);
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -79,33 +94,59 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponentName: UserStatusComponent,
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: true
+      },
+      {
+        id: 'role',
+        name: 'users.role',
+        formatter: (role) => this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role),
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         sortable: true
       },
       {
         id: 'name',
-        name: 'tenants.name',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        name: 'users.name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         direction: 'asc',
         sortable: true
       },
       {
-        id: 'email',
-        name: 'tenants.email',
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        id: 'firstName',
+        name: 'users.first_name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true
       },
       {
-        id: 'subdomain',
-        name: 'tenants.subdomain',
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        id: 'email',
+        name: 'users.email',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true
+      },
+      {
+        id: 'tagIDs',
+        name: 'users.tag_ids',
+        formatter: this.arrayToStringPipe.transform,
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true
+      },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true
       }
     ];
@@ -125,9 +166,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      // Add
       case 'create':
-        this._showTenantDialog();
+        this._showUserDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -137,10 +177,10 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showTenantDialog(rowItem);
+        this._showUserDialog(rowItem);
         break;
       case 'delete':
-        this._deleteTenant(rowItem);
+        this._deleteUser(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -149,46 +189,49 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new UserRoleFilter(this.centralServerService).getFilterDef(),
+      new UserStatusFilter().getFilterDef()
+    ];
   }
 
-  private _showTenantDialog(tenant?: any) {
+  private _showUserDialog(user?: User) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '50vw';
-    if (tenant) {
-      dialogConfig.data = tenant;
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (user) {
+      dialogConfig.data = user.id;
     }
     // Open
-    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  private _deleteTenant(tenant) {
+  private _deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
-      this.translateService.instant('tenants.delete_title'),
-      this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
+      this.translateService.instant('users.delete_title'),
+      this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-        this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
-          this.spinnerService.hide();
+        this.centralServerService.deleteUser(user.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
+            this.loadData();
+            this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'tenants.delete_error');
+              this.messageService, 'users.delete_error');
           }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'tenants.delete_error');
+            'users.delete_error');
         });
       }
     });

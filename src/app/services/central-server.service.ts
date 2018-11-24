@@ -56,6 +56,15 @@ export class CentralServerService {
       admin: true
     },
     {
+      id: 'users',
+      path: '/users',
+      title: 'Users',
+      type: 'link',
+      icontype: 'people',
+      admin: true,
+      superAdmin: true
+    },
+    {
       id: 'tenants',
       path: '/tenants',
       title: 'Tenants',
@@ -408,46 +417,19 @@ export class CentralServerService {
       );
   }
 
-  public getUserStatuses(): Observable<KeyValue[]> {
+  public getLogStatus(): KeyValue[] {
     // Return
-    return of([
-      {key: 'A', value: this.translateService.instant('users.status_active', {})},
-      {key: 'B', value: this.translateService.instant('users.status_blocked', {})},
-      {key: 'I', value: this.translateService.instant('users.status_inactive', {})},
-      {key: 'L', value: this.translateService.instant('users.status_locked', {})},
-      {key: 'P', value: this.translateService.instant('users.status_pending', {})}
-    ]);
+    return [
+      {key: 'E', value: 'logs.error'},
+      {key: 'W', value: 'logs.warning'},
+      {key: 'I', value: 'logs.info'},
+      {key: 'D', value: 'logs.debug'}
+    ];
   }
 
-  public getUserRoles(): Observable<KeyValue[]> {
-    if (this.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN) {
-      return of([
-        {key: 'A', value: this.translateService.instant('users.role_admin')},
-        {key: 'S', value: this.translateService.instant('users.role_super_admin')},
-        {key: 'B', value: this.translateService.instant('users.role_basic')},
-        {key: 'D', value: this.translateService.instant('users.role_demo')}
-      ]);
-    }
-    return of([
-      {key: 'A', value: this.translateService.instant('users.role_admin')},
-      {key: 'B', value: this.translateService.instant('users.role_basic')},
-      {key: 'D', value: this.translateService.instant('users.role_demo')}
-    ]);
-  }
-
-  public getLogStatus(): Observable<KeyValue[]> {
+  public getLogActions(): KeyValue[] {
     // Return
-    return of([
-      {key: 'E', value: this.translateService.instant('logs.error')},
-      {key: 'W', value: this.translateService.instant('logs.warning')},
-      {key: 'I', value: this.translateService.instant('logs.info')},
-      {key: 'D', value: this.translateService.instant('logs.debug')}
-    ]);
-  }
-
-  public getLogActions(): Observable<KeyValue[]> {
-    // Return
-    return of([
+    return [
       {key: 'Authorize', value: 'Authorize'},
       {key: 'BuildConsumption', value: 'BuildConsumption'},
       {key: 'BootNotification', value: 'BootNotification'},
@@ -498,7 +480,7 @@ export class CentralServerService {
       {key: 'UserCreate', value: 'UserCreate'},
       {key: 'UserDelete', value: 'UserDelete'},
       {key: 'UserUpdate', value: 'UserUpdate'}
-    ]);
+    ];
   }
 
   public login(user): Observable<any> {

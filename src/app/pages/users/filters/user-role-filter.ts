@@ -1,24 +1,25 @@
+import {TableFilter} from '../../../shared/table/filters/table-filter';
 import {Constants} from '../../../utils/Constants';
 import {CentralServerService} from '../../../services/central-server.service';
-import {TableFilter} from '../../../shared/table/filters/table-filter';
 import {TableFilterDef} from '../../../common.types';
+import {UserRoles} from '../users.model';
 
-export class LogLevelTableFilter extends TableFilter {
+export class UserRoleFilter extends TableFilter {
   constructor(
     private centralServerService: CentralServerService) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
-      id: 'level',
-      httpId: 'Level',
+      id: 'role',
+      httpId: 'Role',
       type: Constants.FILTER_TYPE_DROPDOWN,
-      name: 'logs.level',
-      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
+      name: 'users.role',
+      class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: Constants.FILTER_ALL_KEY,
-      items: this.centralServerService.getLogStatus()
+      items: UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role)
     };
+    // Add <All>
     filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
-    // Set
     this.setFilterDef(filterDef);
   }
 }

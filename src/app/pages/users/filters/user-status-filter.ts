@@ -1,21 +1,20 @@
 import {TableFilter} from '../../../shared/table/filters/table-filter';
 import {Constants} from '../../../utils/Constants';
-import {CentralServerService} from '../../../services/central-server.service';
 import {TableFilterDef} from '../../../common.types';
+import {userStatuses} from '../users.model';
 
-export class LogActionTableFilter extends TableFilter {
-  constructor(
-    private centralServerService: CentralServerService) {
+export class UserStatusFilter extends TableFilter {
+  constructor() {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
-      id: 'action',
-      httpId: 'Action',
+      id: 'status',
+      httpId: 'Status',
       type: Constants.FILTER_TYPE_DROPDOWN,
-      name: 'logs.action',
+      name: 'users.status',
       class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: Constants.FILTER_ALL_KEY,
-      items: this.centralServerService.getLogActions()
+      items: Object.assign([], userStatuses)
     };
     // Add <All>
     filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});

@@ -1,0 +1,31 @@
+@import "../../../../assets/scss/core/variables";
+
+@mixin chip($color, $bgColor) {
+  color: $color;
+  background-color: $bgColor;
+}
+
+// flat bg with text color variations
+.chip-primary {
+  @include chip($btn-primary-color, $btn-primary-bg);
+}
+
+.chip-secondary {
+  @include chip($btn-secondary-color, $btn-secondary-color);
+}
+
+.chip-info {
+  @include chip($btn-info-color, $btn-info-bg);
+}
+
+.chip-success {
+  @include chip($btn-success-color, $btn-success-bg);
+}
+
+.chip-warning {
+  @include chip($btn-warning-color, $btn-warning-bg);
+}
+
+.chip-danger {
+  @include chip($btn-danger-color, $btn-danger-bg);
+}

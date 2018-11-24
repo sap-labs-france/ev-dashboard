@@ -71,16 +71,16 @@ connectorId: number;
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        formatter: (connectorId) => { 
+        formatter: (connectorId) => {
           return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
         },
-        class: 'col-50px',
+        class: 'col-5em',
         sortable: false
       },
       {
         id: 'status',
         name: 'chargers.connector_status',
-        class: 'col-75px',
+        class: 'col-5em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -88,21 +88,21 @@ connectorId: number;
       {
         id: 'currentConsumption',
         name: 'transactions.consumption',
-        class: 'col-50px',
+        class: 'col-5em',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption_kw',
-        class: 'col-50px',
+        class: 'col-5em',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'type',
         name: 'chargers.connector_type',
-        class: 'col-75px',
+        class: 'col-5em',
         formatter: (type) => {
           let imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector" src="${imageUrl}"/>`;
@@ -112,14 +112,14 @@ connectorId: number;
       {
         id: 'power',
         name: 'chargers.maximum_energy',
-        class: 'col-75px',
+        class: 'col-5em',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        class: 'col-75px',
+        class: 'col-5em',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

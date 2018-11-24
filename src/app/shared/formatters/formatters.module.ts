@@ -31,7 +31,11 @@ import {LocaleService} from '../../services/locale.service';
     AppUserNamePipe,
     AppDatePipe,
     AppDurationPipe,
-    AppPricePipe
+    AppPricePipe,
+    AppConnectorIdPipe,
+    AppConnectorTypePipe,
+    AppConnectorErrorCodePipe,
+    AppUnitPipe
   ],
   providers: [
     LocaleService,

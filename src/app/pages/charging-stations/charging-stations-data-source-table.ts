@@ -1,24 +1,25 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Charger, Connector, SubjectInfo, TableColumnDef, TableActionDef, TableFilterDef, TableDef } from '../../common.types';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../services/central-server.service';
-import { LocaleService } from '../../services/locale.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { Utils } from '../../utils/Utils';
-import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
-import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
-import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
-import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {TableDataSource} from '../../shared/table/table-data-source';
+import {Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {CentralServerNotificationService} from '../../services/central-server-notification.service';
+import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
+import {CentralServerService} from '../../services/central-server.service';
+import {LocaleService} from '../../services/locale.service';
+import {MessageService} from '../../services/message.service';
+import {SpinnerService} from '../../services/spinner.service';
+import {Utils} from '../../utils/Utils';
+import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
+import {ConnectorsDetailComponent} from './details-content-component/connectors-detail-component.component';
+import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
+import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {ChargerTableFilter} from '../../shared/table/filters/charger-filter';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
+
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
   private readonly tableActionsRow: TableActionDef[];
 
@@ -36,7 +37,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       new TableEditAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
-    this.setStaticFilters([ {'WithSite': true } ]);
+    this.setStaticFilters([{'WithSite': true}]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -49,26 +50,26 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
-        // Show
-        this.spinnerService.hide();
-        // Set number of records
-        this.setNumberOfRecords(chargers.count);
-        // Update page length
-        this.updatePaginator();
-        // Return logs
-        this.getDataSubjet().next(chargers.result);
-        // Keep the result
-        this.setData(chargers.result);
-      }, (error) => {
-        // Show
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
-      });
+      // Show
+      this.spinnerService.hide();
+      // Set number of records
+      this.setNumberOfRecords(chargers.count);
+      // Update page length
+      this.updatePaginator();
+      // Return logs
+      this.getDataSubjet().next(chargers.result);
+      // Keep the result
+      this.setData(chargers.result);
+    }, (error) => {
+      // Show
+      this.spinnerService.hide();
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('general.error_backend'));
+    });
   }
 
-  public getConnectors(id): Observable<Connector>  {
+  public getConnectors(id): Observable<Connector> {
     this.getData().forEach(charger => {
       if (charger.id === id) {
         return charger;
@@ -80,7 +81,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   public getTableDef(): TableDef {
     return {
       search: {
-          enabled: true
+        enabled: true
       },
       rowSelection: {
         enabled: true,
@@ -101,6 +102,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         id: 'id',
         name: 'chargers.name',
         sortable: true,
+        headerClass: 'col-15p',
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
         }
@@ -110,6 +112,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         name: 'chargers.heartbeat_title',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
+        headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true
       },
@@ -132,10 +135,11 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         sortable: false,
         defaultValue: 'sites.unassigned',
         formatter: (value) => {
-          if (value === 'sites.unassigned')
+          if (value === 'sites.unassigned') {
             return this.translateService.instant(value)
-          else
+          } else {
             return value;
+          }
         },
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? '' : 'charger-not-assigned');
@@ -147,10 +151,11 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         sortable: false,
         defaultValue: 'site_areas.unassigned',
         formatter: (value) => {
-          if (value === 'site_areas.unassigned')
+          if (value === 'site_areas.unassigned') {
             return this.translateService.instant(value)
-          else
+          } else {
             return value;
+          }
         },
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? '' : 'charger-not-assigned');

@@ -7,7 +7,7 @@ export class TableDeleteAction implements TableAction {
     type: 'button',
     icon: 'delete',
     class: 'btn-danger',
-    name: 'general.delete'
+    name: 'general.remove'
   };
 
   // Return an action

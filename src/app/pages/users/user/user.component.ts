@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
@@ -24,7 +24,8 @@ import {UserRoles, UserStatuses} from '../users.model';
 })
 export class UserComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  protected currentUserID: string;
+  @Input() currentUserID: string;
+  @Input() inDialog: boolean;
   private messages;
   public userStatuses;
   public userRoles;
@@ -65,24 +66,22 @@ export class UserComponent implements OnInit {
   public repeatPassword: AbstractControl;
 
   constructor(
-    protected authorizationService: AuthorizationService,
-    protected centralServerService: CentralServerService,
-    protected messageService: MessageService,
-    protected spinnerService: SpinnerService,
-    protected translateService: TranslateService,
-    protected localeService: LocaleService,
-    protected activatedRoute: ActivatedRoute,
-    protected dialog: MatDialog,
-    protected dialogService: DialogService,
-    protected router: Router) {
+    private authorizationService: AuthorizationService,
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private router: Router) {
 
-    if (this.activatedRoute) {
-      // Check auth
-      if (!this.activatedRoute.snapshot.params['id'] ||
-        !authorizationService.canUpdateUser({'id': this.activatedRoute.snapshot.params['id']})) {
-        // Not authorized
-        this.router.navigate(['/']);
-      }
+    // Check auth
+    if (this.activatedRoute.snapshot.params['id'] &&
+      !authorizationService.canUpdateUser({'id': this.activatedRoute.snapshot.params['id']})) {
+      // Not authorized
+      this.router.navigate(['/']);
     }
     // Get translated messages
     this.translateService.get('users', {}).subscribe((messages) => {
@@ -217,16 +216,25 @@ export class UserComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-    // Subscribe to changes in params
-    if (this.activatedRoute && this.activatedRoute.params) {
+
+    if (this.currentUserID) {
+      this.loadUser();
+    } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        // Load User
         this.currentUserID = params['id'];
         this.loadUser();
       });
     }
     // Scroll up
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+  }
+
+  public isOpenInDialog(): boolean {
+    return this.inDialog;
+  }
+
+  public setCurrentUserId(currentUserId) {
+    this.currentUserID = currentUserId;
   }
 
   public setAddress(address: Address) {

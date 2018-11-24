@@ -206,7 +206,7 @@ export class UsersDataSource extends TableDataSource<User> {
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     if (user) {
-      dialogConfig.data = user;
+      dialogConfig.data = user.id;
     }
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);

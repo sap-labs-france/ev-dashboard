@@ -50,7 +50,8 @@ import {UserStatusComponent} from './formatters/user-status.component';
   providers: [
     UserRolePipe,
     UserStatusPipe,
-    UsersDataSource
+    UsersDataSource,
+    UserComponent
   ]
 })
 

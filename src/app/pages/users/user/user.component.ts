@@ -16,7 +16,7 @@ import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
-import {UserRoles, UserStatuses} from '../users.model';
+import {UserRoles, userStatuses} from '../users.model';
 
 @Component({
   selector: 'app-user-cmp',
@@ -88,7 +88,7 @@ export class UserComponent implements OnInit {
       this.messages = messages;
     });
     // Get statuses
-    this.userStatuses = UserStatuses;
+    this.userStatuses = userStatuses;
     // Get Roles
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales

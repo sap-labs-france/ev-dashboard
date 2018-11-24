@@ -1,6 +1,6 @@
 import {TableColumnDef, User} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
-import {UserStatuses} from '../users.model';
+import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
 import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
@@ -9,7 +9,7 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
    * setData
    */
   setData(user: User, columndef: TableColumnDef) {
-    for (const userStatus of UserStatuses) {
+    for (const userStatus of userStatuses) {
       if (userStatus.key === user.status) {
         this.text = userStatus.value
       }

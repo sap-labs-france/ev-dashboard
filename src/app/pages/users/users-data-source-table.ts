@@ -94,6 +94,23 @@ export class UsersDataSource extends TableDataSource<User> {
   public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponentName: UserStatusComponent,
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: true
+      },
+      {
+        id: 'role',
+        name: 'users.role',
+        formatter: (role) => this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role),
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        sortable: true
+      },
+      {
         id: 'name',
         name: 'users.name',
         headerClass: 'col-15p',
@@ -110,31 +127,6 @@ export class UsersDataSource extends TableDataSource<User> {
         sortable: true
       },
       {
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true
-      },
-      {
-        id: 'role',
-        name: 'users.role',
-        formatter: (role) => this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role),
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        sortable: true
-      },
-      {
-        id: 'status',
-        name: 'users.status',
-        isAngularComponent: true,
-        angularComponentName: UserStatusComponent,
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: true
-      },
-      {
         id: 'email',
         name: 'users.email',
         headerClass: 'col-20p',
@@ -145,6 +137,14 @@ export class UsersDataSource extends TableDataSource<User> {
         id: 'tagIDs',
         name: 'users.tag_ids',
         formatter: this.arrayToStringPipe.transform,
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true
+      },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true

@@ -55,6 +55,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "From",
+      "search_date_until": "Until",
     "search_date_range": "Dates",
     "search_charging_station": "Charging Station",
     "search_user": "User",
@@ -184,6 +185,7 @@
     "no_sites": "No sites found",
     "select_sites": "Select Sites",
     "site": "Site",
+    "unassigned": "Unassigned",
     "no_connected_chargers": "You are not connected to a charging station",
     "site_number": "Site(s)",
     "number_of_site_areas": "Nb Site Areas",
@@ -220,6 +222,7 @@
     "charger_list_target_title": "Assigned",
     "number_of_charging_stations": "Nb Chargers",
     "site_area_not_found": "Site Area not found",
+    "unassigned": "Unassigned",
     "image": "Image",
     "assigned_chargers": "Charging Stations",
     "name": "Name",
@@ -382,7 +385,11 @@
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
+    "heartbeat_title": "Heartbeat",
+    "connectors_title": "Connectors",
+    "consumption_title": "Power (kW)",
     "firmware_version": "Firmware Version",
+    "connector_status": "Status",
     "ocpp_version": "OCPP Version",
     "private_url": "Private URL",
     "nb_connected_phase": "Number of Connected Phase",
@@ -396,6 +403,8 @@
     "change_param": "Parameter",
     "site_usage": "Usage",
     "connector": "Connector",
+    "connector_type": "Type",
+    "connector_error_title": "Error code",
     "charger_url": "URL",
     "charger_w": "W",
     "charger_kw": "kW",
@@ -617,5 +626,5 @@
     "delete_title": "Delete Tenant",
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
-  }
+   }
 }

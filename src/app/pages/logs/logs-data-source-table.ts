@@ -16,9 +16,11 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
+import {LogLevelComponent} from './formatters/log-level.component';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
@@ -100,9 +102,10 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'level',
         name: 'logs.level',
-        formatter: (logLevel) => new AppLogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
-        headerClass: 'col-5p',
-        class: 'col-5p',
+        isAngularComponent: true,
+        angularComponentName: LogLevelComponent,
+        headerClass: 'col-7p',
+        class: 'col-7p',
         sortable: true
       },
       {
@@ -159,10 +162,10 @@ export class LogsDataSource extends TableDataSource<Log> {
   public getTableFiltersDef(): TableFilterDef[] {
     return [
       new LogDateTableFilter().getFilterDef(),
-      new LogLevelTableFilter(this.centralServerService).getFilterDef(),
+      new LogLevelTableFilter().getFilterDef(),
       new LogSourceTableFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
-      new LogActionTableFilter(this.centralServerService).getFilterDef()
+      new LogActionTableFilter().getFilterDef()
     ];
   }
 }

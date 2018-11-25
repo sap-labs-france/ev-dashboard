@@ -1,7 +1,7 @@
 import {KeyValue} from '../../common.types';
 import {Constants} from '../../utils/Constants';
 
-export const userStatuses = [
+export const userStatuses: KeyValue[] = [
   {key: 'A', value: 'users.status_active'},
   {key: 'B', value: 'users.status_blocked'},
   {key: 'I', value: 'users.status_inactive'},

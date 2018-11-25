@@ -92,6 +92,7 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    const loggedUserRole = this.centralServerService.getLoggedUser().role;
     return [
       {
         id: 'status',
@@ -105,7 +106,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role) => this.userRolePipe.transform(role, this.centralServerService.getLoggedUser().role),
+        formatter: (role) => this.userRolePipe.transform(role, loggedUserRole),
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         sortable: true

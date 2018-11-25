@@ -3,6 +3,8 @@
 @mixin chip($color, $bgColor) {
   color: $color;
   background-color: $bgColor;
+  width: 100%;
+  justify-content: center;
 }
 
 // flat bg with text color variations

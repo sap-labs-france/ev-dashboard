@@ -5,7 +5,7 @@ import {
   TYPE_DANGER,
   TYPE_DEFAULT,
   TYPE_INFO,
-  TYPE_PRIMARY,
+  TYPE_SUCCESS,
   TYPE_WARNING
 } from '../../../shared/component/chip/chip.component';
 import {logLevels} from '../logs.model';
@@ -31,7 +31,7 @@ export class LogLevelComponent extends ChipComponent implements CellContentTempl
         break;
 
       case 'I':
-        this.type = TYPE_DEFAULT;
+        this.type = TYPE_SUCCESS;
         break;
 
       case 'D':
@@ -39,7 +39,7 @@ export class LogLevelComponent extends ChipComponent implements CellContentTempl
         break;
 
       default:
-        this.type = TYPE_PRIMARY;
+        this.type = TYPE_DEFAULT;
     }
   }
 }

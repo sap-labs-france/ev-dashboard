@@ -9,11 +9,8 @@ export const TYPE_WARNING = 'chip-warning';
 
 @Component({
   selector: 'app-chip',
-  styleUrls: ['./chip.component.scss'],
-  template: `
-      <mat-chip-list>
-          <mat-chip [ngClass]="type ? type : TYPE_PRIMARY">{{text | translate}}</mat-chip>
-      </mat-chip-list>`
+  styleUrls: ['chip.component.scss'],
+  templateUrl: 'chip.component.html'
 })
 export class ChipComponent {
   text: String;

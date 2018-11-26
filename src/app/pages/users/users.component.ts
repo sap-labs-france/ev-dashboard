@@ -10,7 +10,7 @@ export class UsersComponent implements OnInit {
   public isAdmin;
 
   constructor(
-    private usersDataSource: UsersDataSource,
+    public usersDataSource: UsersDataSource,
     private authorizationService: AuthorizationService) {
 
     this.isAdmin = this.authorizationService.isAdmin();

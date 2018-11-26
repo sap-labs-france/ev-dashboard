@@ -13,6 +13,7 @@ import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 import {LogLevelComponent} from './formatters/log-level.component';
 import {LogsDataSource} from './logs-data-source-table';
+import {ComponentModule} from '../../shared/component/component.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {LogsDataSource} from './logs-data-source-table';
     TranslateModule,
     MaterialModule,
     TableModule,
+    ComponentModule,
     CommonDirectivesModule,
     DialogsModule
   ],

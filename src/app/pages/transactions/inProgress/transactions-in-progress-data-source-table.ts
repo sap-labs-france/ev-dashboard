@@ -1,11 +1,8 @@
 import {from, Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
+import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
-import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
@@ -18,30 +15,33 @@ import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
 import {TableStopAction} from './actions/table-stop-action';
-import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
-import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {map, zipAll} from 'rxjs/operators';
+import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
+import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
+import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
+import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 
 @Injectable()
-export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
-  private readonly tableActionsRow: TableActionDef[];
-
+export class TransactionsInProgressDataSource extends TransactionsBaseDataSource {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private appDatePipe: AppDatePipe,
-    private percentPipe: PercentPipe,
-    private appUnitPipe: AppUnitPipe) {
-    super();
+    messageService: MessageService,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    dialogService: DialogService,
+    router: Router,
+    dialog: MatDialog,
+    centralServerNotificationService: CentralServerNotificationService,
+    centralServerService: CentralServerService,
+    appDatePipe: AppDatePipe,
+    percentPipe: PercentPipe,
+    appUnitPipe: AppUnitPipe,
+    appConnectorIdPipe: AppConnectorIdPipe,
+    appUserNamePipe: AppUserNamePipe,
+    appDurationPipe: AppDurationPipe) {
+    super(messageService, translateService, spinnerService, dialogService, router, dialog, centralServerNotificationService,
+      centralServerService, appDatePipe, percentPipe, appUnitPipe, appConnectorIdPipe, appUserNamePipe, appDurationPipe);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -80,119 +80,32 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   public getTableColumnDefs(): TableColumnDef[] {
 
     return [
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, 'datetime')
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-350px',
-        class: 'text-center col-350px'
-      },
-
-      {
-        id: 'totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px',
-        formatter: (totalDurationSecs) => {
-          return new AppDurationPipe().transform(totalDurationSecs);
-        }
-      },
-      {
-        id: 'totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px',
-        formatter: (totalInactivitySecs, row) => {
-          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
-          if (percentage === 0) {
-            return '';
-          }
-          return new AppDurationPipe().transform(totalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
-        }
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px',
-        formatter: (value) => new AppUserNamePipe().transform(value)
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-350px',
-        class: 'text-left col-350px'
-      },
-      {
-        id: 'totalConsumption',
-        name: 'transactions.total_consumption',
-        headerClass: 'col-350px',
-        class: 'text-right col-350px',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      },
+      ...super.getTableColumnDefs(),
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        headerClass: 'col-350px',
-        class: 'text-right col-350px',
+        headerClass: 'text-right col-10p',
+        class: 'text-right col-10p',
         formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
       },
       {
         id: 'stateOfCharge',
         name: 'transactions.state_of_charge',
-        headerClass: 'text-center col-350px',
-        class: 'text-center col-350px',
+        headerClass: 'text-right col-10p',
+        class: 'text-right col-10p',
         formatter: (stateOfCharge) => this.percentPipe.transform(stateOfCharge / 100, '2.0-0')
       }
     ];
   }
 
   getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+    return [...super.getTableActionsDef(),
       new TableStopAction().getActionDef()
     ];
   }
 
-  getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
-  }
-
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-
-      case 'delete':
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.confirm', {count: this.getSelectedRows().length})
-          ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
-              this._deleteTransactions(this.getSelectedRows().map((row) => row.id));
-            }
-          });
-        }
-        break;
       case 'stop':
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
@@ -213,11 +126,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableAutoRefreshAction(false).getActionDef()
-    ];
-  }
 
   getTableFiltersDef(): TableFilterDef[] {
     return [
@@ -242,19 +150,4 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       });
   }
 
-  private _deleteTransactions(transactionIds: number[]) {
-    from(transactionIds).pipe(
-      map(transactionId => this.centralServerService.deleteTransaction(transactionId)),
-      zipAll())
-      .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.delete.success', {count: successCount}));
-        this.clearSelectedRows();
-        this.loadData();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('transactions.notification.delete.error'));
-      });
-  }
 }

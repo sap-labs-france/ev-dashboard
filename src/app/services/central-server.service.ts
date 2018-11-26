@@ -702,7 +702,7 @@ export class CentralServerService {
       );
   }
 
-  deleteTransaction(id: string) {
+  deleteTransaction(id: number) {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
@@ -714,7 +714,7 @@ export class CentralServerService {
       );
   }
 
-  softStopTransaction(id: string) {
+  softStopTransaction(id: number) {
     this._checkInit();
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
       `{ "transactionId": "${id}" }`,

@@ -1,8 +1,8 @@
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
+import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
@@ -23,8 +23,8 @@ import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import * as moment from 'moment';
 import {Injectable} from '@angular/core';
+import {map, zipAll} from 'rxjs/operators';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -45,10 +45,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private currencyPipe: CurrencyPipe
   ) {
     super();
-
-    this.tableActionsRow = [
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -74,6 +70,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public getTableDef(): TableDef {
     return {
       class: 'table-list-under-tabs',
+      rowSelection: {
+        enabled: true,
+        multiple: true
+      },
       search: {
         enabled: true
       }
@@ -108,8 +108,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       {
         id: 'totalDurationSecs',
         name: 'transactions.duration',
-        formatter: (totalDurationSecs, row) => {
-          return new AppDurationPipe().transform(row.timestamp);
+        formatter: (totalDurationSecs) => {
+          return new AppDurationPipe().transform(totalDurationSecs);
         },
         headerClass: 'col-350px',
         class: 'text-left col-350px'
@@ -161,7 +161,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
     ];
   }
 
@@ -171,6 +172,21 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
+      case 'delete':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.dialog,
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.confirm', {count: this.getSelectedRows().length})
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._deleteTransactions(this.getSelectedRows().map((row) => row.id));
+            }
+          });
+        }
+        break;
       default:
         super.actionTriggered(actionDef);
     }
@@ -193,37 +209,24 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
-      case 'delete':
-        this._deleteTransaction(rowItem);
-        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
-  private _deleteTransaction(transaction) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
-      this.translateService.instant('transactions.delete_title'),
-      this.translateService.instant('transactions.delete_confirm', {'name': transaction.name})
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-        this.centralServerService.deleteTransaction(transaction.id).subscribe(response => {
-          this.spinnerService.hide();
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.loadData();
-            this.messageService.showSuccessMessage('transactions.delete_success', {'name': transaction.name});
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'transactions.delete_error');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'transactions.delete_error');
-        });
-      }
-    });
+  private _deleteTransactions(transactionIds: number[]) {
+    from(transactionIds).pipe(
+      map(transactionId => this.centralServerService.deleteTransaction(transactionId)),
+      zipAll())
+      .subscribe((responses: ActionResponse[]) => {
+        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.delete.success', {count: successCount}));
+        this.clearSelectedRows();
+        this.loadData();
+      }, (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('transactions.notification.delete.error'));
+      });
   }
 }

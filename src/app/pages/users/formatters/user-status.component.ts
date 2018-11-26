@@ -2,7 +2,7 @@ import {TableColumnDef, User} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
-import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
 export class UserStatusComponent extends ChipComponent implements CellContentTemplateComponent {
   /**
@@ -31,7 +31,7 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
         break;
 
       default:
-        this.type = TYPE_INFO;
+        this.type = TYPE_DEFAULT;
     }
   }
 }

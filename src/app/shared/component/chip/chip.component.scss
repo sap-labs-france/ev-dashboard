@@ -3,17 +3,18 @@
 @mixin chip($color, $bgColor) {
   color: $color;
   background-color: $bgColor;
-  width: 100%;
+  width: 80%;
+  max-width: 5em;
   justify-content: center;
 }
 
 // flat bg with text color variations
-.chip-primary {
-  @include chip($btn-primary-color, $btn-primary-bg);
+.chip-default {
+  @include chip($btn-default-color, $btn-default-bg);
 }
 
-.chip-secondary {
-  @include chip($btn-secondary-color, $btn-secondary-color);
+.chip-primary {
+  @include chip($btn-primary-color, $btn-primary-bg);
 }
 
 .chip-info {

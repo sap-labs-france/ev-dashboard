@@ -15,6 +15,7 @@ import {CommonDirectivesModule} from '../../shared/directives/common-directives.
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
 import {TransactionsInProgressDataSource} from './inProgress/transactions-in-progress-data-source-table';
+import {ConnectorCellComponent} from './inProgress/components/connector-cell.component';
 
 @NgModule({
   imports: [
@@ -32,12 +33,14 @@ import {TransactionsInProgressDataSource} from './inProgress/transactions-in-pro
   declarations: [
     TransactionsComponent,
     TransactionsHistoryComponent,
-    TransactionsInProgressComponent
+    TransactionsInProgressComponent,
+    ConnectorCellComponent
   ],
   entryComponents: [
     TransactionsComponent,
     TransactionsHistoryComponent,
-    TransactionsInProgressComponent
+    TransactionsInProgressComponent,
+    ConnectorCellComponent
   ],
   exports: [
     TransactionsComponent
@@ -46,7 +49,8 @@ import {TransactionsInProgressDataSource} from './inProgress/transactions-in-pro
     CurrencyPipe,
     PercentPipe,
     TransactionsHistoryDataSource,
-    TransactionsInProgressDataSource
+    TransactionsInProgressDataSource,
+    ConnectorCellComponent
   ]
 })
 

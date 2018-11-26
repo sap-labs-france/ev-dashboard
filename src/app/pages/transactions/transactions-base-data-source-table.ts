@@ -21,6 +21,8 @@ import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {map, zipAll} from 'rxjs/operators';
 import {AppConnectorIdPipe} from '../../shared/formatters/app-connector-id.pipe';
+import {HeartbeatCellComponent} from '../charging-stations/cell-content-components/heartbeat-cell.component';
+import {ConnectorCellComponent} from './inProgress/components/connector-cell.component';
 
 
 export abstract class TransactionsBaseDataSource extends TableDataSource<Transaction> {
@@ -60,78 +62,6 @@ export abstract class TransactionsBaseDataSource extends TableDataSource<Transac
       }
     };
   }
-
-  public getTableColumnDefs(): TableColumnDef[] {
-
-    return [
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-12p',
-        class: 'text-left col-12p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, 'datetime')
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
-      },
-
-      {
-        id: 'totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-7p',
-        class: 'text-left col-7p',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      },
-      {
-        id: 'totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalInactivitySecs, row) => {
-          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
-          if (percentage === 0) {
-            return '';
-          }
-          return this.appDurationPipe.transform(totalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
-        }
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-7p',
-        class: 'text-left col-7p'
-      },
-      {
-        id: 'totalConsumption',
-        name: 'transactions.total_consumption',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      },
-    ];
-  }
-
   getTableActionsDef(): TableActionDef[] {
     return [
       new TableRefreshAction().getActionDef(),

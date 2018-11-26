@@ -22,6 +22,7 @@ import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pi
 import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
+import {ConnectorCellComponent} from './components/connector-cell.component';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TransactionsBaseDataSource {
@@ -80,7 +81,72 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
   public getTableColumnDefs(): TableColumnDef[] {
 
     return [
-      ...super.getTableColumnDefs(),
+      {
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        headerClass: 'col-12p',
+        class: 'text-left col-12p',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value) => this.appDatePipe.transform(value, 'datetime')
+      },
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p'
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-5p',
+        isAngularComponent: true,
+        angularComponentName: ConnectorCellComponent,
+        class: 'text-center col-5p',
+      },
+
+      {
+        id: 'totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-7p',
+        class: 'text-left col-7p',
+        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
+      },
+      {
+        id: 'totalInactivitySecs',
+        name: 'transactions.inactivity',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalInactivitySecs, row) => {
+          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+          if (percentage === 0) {
+            return '';
+          }
+          return this.appDurationPipe.transform(totalInactivitySecs) +
+            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+        }
+      },
+      {
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-7p',
+        class: 'text-left col-7p'
+      },
+      {
+        id: 'totalConsumption',
+        name: 'transactions.total_consumption',
+        headerClass: 'text-right col-10p',
+        class: 'text-right col-10p',
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+      },
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',

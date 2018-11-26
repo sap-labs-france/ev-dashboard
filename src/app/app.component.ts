@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SpinnerService} from './services/spinner.service';
+import * as moment from 'moment'
+import 'moment-duration-format';
 
 @Component({
   selector: 'app-my-app',

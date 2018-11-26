@@ -1,0 +1,41 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ml-auto mr-auto">
+        <div class="card ">
+          <div class="card-header card-header-tabs card-header-info">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#history" data-toggle="tab">
+                      <i class="material-icons">history</i>{{'transactions.tabs.history' | translate}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#inProgress" data-toggle="tab">
+                      <i class="material-icons">flash_on</i>{{'transactions.tabs.in_progress' | translate}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane" id="inProgress">
+                <app-transactions-in-progress></app-transactions-in-progress>
+              </div>
+              <div class="tab-pane active" id="history">
+                <app-transactions-history></app-transactions-history>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

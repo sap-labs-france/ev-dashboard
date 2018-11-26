@@ -1,24 +1,26 @@
-import { TranslateService } from '@ngx-translate/core';
-import { Connector, TableColumnDef, TableActionDef, TableDef } from '../../../common.types';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../../services/central-server.service';
-import { MatDialog } from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {Connector, TableActionDef, TableColumnDef, TableDef} from '../../../common.types';
+import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
+import {CentralServerService} from '../../../services/central-server.service';
+import {MatDialog} from '@angular/material';
 import {ConfigService} from '../../../services/config.service';
-import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
-import { ConnectorAvailibilityComponent } from './connector-availibility.component';
-import { AppConnectorIdPipe } from "../../../shared/formatters/app-connector-id.pipe";
-import { AppKiloWattPipe } from "../../../shared/formatters/app-kilo-watt.pipe";
-import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
-import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
+import {SimpleTableDataSource} from '../../../shared/table/simple-table/simple-table-data-source';
+import {ConnectorAvailibilityComponent} from './connector-availibility.component';
+import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
+import {AppConnectorTypePipe} from '../../../shared/formatters/app-connector-type.pipe';
+import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
+import {LocaleService} from '../../../services/locale.service';
+import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
-    private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private dialog: MatDialog
-  ) {
+              private centralServerService: CentralServerService,
+              private translateService: TranslateService,
+              private localeService: LocaleService,
+              private appUnitPipe: AppUnitPipe,
+              private dialog: MatDialog) {
     super();
   }
 
@@ -55,18 +57,18 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
-/*
-connectorId: number;
-  errorCode: string;
-  currentConsumption: number;
-  totalConsumption: number;
-  power: number;
-  status: string;
-  activeForUser: boolean;
-  activeTransactionID: number;
-  type: string;
+    /*
+    connectorId: number;
+      errorCode: string;
+      currentConsumption: number;
+      totalConsumption: number;
+      power: number;
+      status: string;
+      activeForUser: boolean;
+      activeTransactionID: number;
+      type: string;
 
-  */
+      */
     return [
       {
         id: 'connectorId',
@@ -80,7 +82,7 @@ connectorId: number;
       {
         id: 'status',
         name: 'chargers.connector_status',
-        class: 'col-5em',
+        class: 'col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -89,14 +91,14 @@ connectorId: number;
         id: 'currentConsumption',
         name: 'transactions.consumption',
         class: 'col-5em',
-        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption_kw',
         class: 'col-5em',
-        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {
@@ -104,7 +106,7 @@ connectorId: number;
         name: 'chargers.connector_type',
         class: 'col-5em',
         formatter: (type) => {
-          let imageUrl = new AppConnectorTypePipe().transform(type, true);
+          const imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector" src="${imageUrl}"/>`;
         },
         sortable: false
@@ -113,7 +115,7 @@ connectorId: number;
         id: 'power',
         name: 'chargers.maximum_energy',
         class: 'col-5em',
-        formatter: (value) => { return new AppKiloWattPipe().transform(value); },
+        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {

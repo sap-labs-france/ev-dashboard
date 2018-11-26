@@ -34,6 +34,8 @@
     "create": "Create",
     "refresh": "Refresh",
     "save": "Save",
+    "delete": "Delete",
+    "stop": "Stop",
     "change": "Change",
     "reload": "Reload",
     "close": "Close",
@@ -55,7 +57,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "From",
-      "search_date_until": "Until",
+    "search_date_until": "Until",
     "search_date_range": "Dates",
     "search_charging_station": "Charging Station",
     "search_user": "User",
@@ -72,7 +74,7 @@
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
-      "transactions": "Sessions",
+      "transactions": "Transactions",
       "active": "Active",
       "history": "History",
       "statistics": "Statistics",
@@ -315,7 +317,7 @@
     "duration": "Duration",
     "inactivity": "Inactivity",
     "consumption": "Consumed",
-    "transactions_button": "Sessions",
+    "transactions_button": "Transactions",
     "transaction_today": "Today",
     "transaction_one_week_ago": "1 Week ago",
     "transaction_one_month_ago": "1 Month ago",
@@ -626,5 +628,45 @@
     "delete_title": "Delete Tenant",
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
-   }
+  },
+  "transactions": {
+    "tabs": {
+      "history": "History",
+      "in_progress": "In Progress"
+    },
+    "dialog": {
+      "delete": {
+        "title": "Delete Transactions",
+        "confirm": "Do you really want to delete {{count}} transaction(s)?"
+      },
+      "soft_stop": {
+        "title": "Stop Transactions",
+        "confirm": "Do you really want to stop {{count}} transaction(s)?"
+      }
+    },
+    "notification": {
+      "delete": {
+        "success": "{{count}} transaction(s) deleted successfully",
+        "error": "An error occurred during transaction deletion"
+
+      },
+      "soft_stop": {
+        "success": "{{count}} transaction(s) stopped successfully",
+        "error": "An error occurred during transaction stop"
+      }
+    },
+    "date_from": "Date",
+    "state": "Status",
+    "state_of_charge": "Battery level",
+    "started_at": "Started At",
+    "duration": "Duration",
+    "inactivity": "Inactivity",
+    "user": "User",
+    "badge_id": "Badge ID",
+    "charging_station": "Charging Station",
+    "connector": "Connector",
+    "total_consumption": "Consumed",
+    "current_consumption": "Power",
+    "price": "Price"
+  }
 }

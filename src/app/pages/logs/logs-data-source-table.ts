@@ -16,9 +16,11 @@ import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
 import {LogDateTableFilter} from './filters/log-date-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
-import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
+import {LogLevelComponent} from './formatters/log-level.component';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
     private localeService: LocaleService,
@@ -100,9 +102,10 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'level',
         name: 'logs.level',
-        formatter: (logLevel) => new AppLogLevelIconPipe().transform(logLevel, {iconClass: 'pt-1'}),
-        headerClass: 'col-75px',
-        class: 'col-75px',
+        isAngularComponent: true,
+        angularComponentName: LogLevelComponent,
+        headerClass: 'col-7p',
+        class: 'col-7p',
         sortable: true
       },
       {
@@ -110,8 +113,8 @@ export class LogsDataSource extends TableDataSource<Log> {
         type: 'date',
         formatter: (createdOn) => this.datePipe.transform(createdOn, 'datetime'),
         name: 'logs.date',
-        headerClass: 'col-200px',
-        class: 'text-left col-200px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
         sortable: true
@@ -119,22 +122,22 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'source',
         name: 'logs.source',
-        headerClass: 'col-200px',
-        class: 'text-left col-150px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true
       },
       {
         id: 'action',
         name: 'logs.action',
-        headerClass: 'col-200px',
-        class: 'text-left col-200px',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true
       },
       {
         id: 'message',
         name: 'logs.message',
-        headerClass: 'col-500px',
-        class: 'text-left col-600px',
+        headerClass: 'col-50p',
+        class: 'text-left col-50p',
         sortable: true
       }
     ];
@@ -159,10 +162,10 @@ export class LogsDataSource extends TableDataSource<Log> {
   public getTableFiltersDef(): TableFilterDef[] {
     return [
       new LogDateTableFilter().getFilterDef(),
-      new LogLevelTableFilter(this.centralServerService).getFilterDef(),
+      new LogLevelTableFilter().getFilterDef(),
       new LogSourceTableFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
-      new LogActionTableFilter(this.centralServerService).getFilterDef()
+      new LogActionTableFilter().getFilterDef()
     ];
   }
 }

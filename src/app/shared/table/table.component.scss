@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+table {
+  width: 100%;
+}
+
 th {
   font-weight: bold;
 }
@@ -34,53 +38,27 @@ th:nth-child(n+2), td:nth-child(n+2) {
   padding-right: 20px;
 }
 
+@mixin col-fixsize($width) {
+  width: $width;
+  min-width: $width;
+  max-width: $width;
+}
+
 @mixin col-size($width) {
   width: $width;
   min-width: $width;
 }
 
-.col-350pxx {
-  @include col-size(25px);
+@for $i from 1 through 10 {
+  .col-#{$i}em {
+    @include col-fixsize(1em*$i)
+  }
 }
 
-.col-600pxx {
-  @include col-size(50px);
-}
-
-.col-75px {
-  @include col-size(75px);
-}
-
-.col-100px {
-  @include col-size(100px);
-}
-
-.col-150px {
-  @include col-size(150px);
-}
-
-.col-200px {
-  @include col-size(200px);
-}
-
-.col-250px {
-  @include col-size(250px);
-}
-
-.col-300px {
-  @include col-size(300px);
-}
-
-.col-400px {
-  @include col-size(400px);
-}
-
-.col-500px {
-  @include col-size(500px);
-}
-
-.col-600px {
-  @include col-size(600px);
+@for $i from 1 through 100 {
+  .col-#{$i}p {
+    @include col-size(1%*$i)
+  }
 }
 
 .filter-row {

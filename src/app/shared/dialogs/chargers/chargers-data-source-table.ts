@@ -1,6 +1,7 @@
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {Charger, TableColumnDef, TableDef} from '../../../common.types';
+import {Charger, TableColumnDef, TableDef, TableFilterDef} from '../../../common.types';
+import { TableFilter } from "../../table/filters/table-filter";
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';

@@ -70,7 +70,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
       {
         id: 'name',
         name: 'sites.name',
-        class: 'text-left col-400px',
+        headerClass: 'col-50p',
+        class: 'text-left',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -78,12 +79,14 @@ export class UserSitesDataSource extends TableDataSource<Site> {
       {
         id: 'address.city',
         name: 'general.city',
-        class: 'text-left col-350px'
+        headerClass: 'col-25p',
+        class: 'text-left'
       },
       {
         id: 'address.country',
         name: 'general.country',
-        class: 'text-left col-300px'
+        headerClass: 'col-20p',
+        class: 'text-left'
       }
     ];
   }

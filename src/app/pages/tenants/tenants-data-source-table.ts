@@ -81,15 +81,15 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       {
         id: 'id',
         name: 'general.id',
-        class: 'text-left col-350px',
-        sorted: true,
-        direction: 'asc',
+        headerClass: 'col-25p',
+        class: 'text-left col-25p',
         sortable: true
       },
       {
         id: 'name',
         name: 'tenants.name',
-        class: 'text-left col-350px',
+        headerClass: 'col-25p',
+        class: 'text-left col-25p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -97,15 +97,15 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       {
         id: 'email',
         name: 'tenants.email',
-        class: 'col-400px',
-        sorted: true,
-        direction: 'asc',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: true
       },
       {
         id: 'subdomain',
         name: 'tenants.subdomain',
-        class: 'col-350px',
+        headerClass: 'col-25p',
+        class: 'col-25p',
         sortable: true
       }
     ];
@@ -165,7 +165,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       dialogConfig.data = tenant;
     }
     // Open
-    this.dialog.open(TenantDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
   private _deleteTenant(tenant) {

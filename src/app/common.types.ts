@@ -137,6 +137,8 @@ export interface Charger {
   chargingStationURL: string;
   numberOfConnectedPhase: number;
   connectors: Connector[];
+  siteArea: SiteArea;
+  site: Site;
 }
 
 export interface ChargerResult {
@@ -207,11 +209,6 @@ export interface Tenant {
 export interface TenantResult {
   count: number,
   result: Tenant[]
-}
-
-export interface TransactionResult {
-  count: number,
-  result: Transaction[]
 }
 
 export interface Logo {
@@ -308,37 +305,18 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
+  dynamicClass?: Function;
   formatter?: Function,
   sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
   isAngularComponent?: boolean
   angularComponentName?: any;
+  defaultValue?: any;
 }
 
 export interface TableSearch {
   search: string;
-}
-
-export interface Transaction {
-  id: number;
-  timestamp: Date;
-  chargeBox: Charger;
-  connectorId: number;
-  meterStart: number;
-  user: User;
-  tagID: string;
-  stop: {
-    user: User;
-    tagID: string;
-    timestamp: Date;
-    meterStop: number;
-    totalConsumption: number;
-    price: number;
-    priceUnit: string;
-  };
-  dateTimestring: string;
-  consumptionstring: string;
 }
 
 export interface User {

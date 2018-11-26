@@ -7,8 +7,7 @@ export class TableRefreshAction implements TableAction {
     type: 'button',
     icon: 'refresh',
     name: 'general.refresh'
-  }
-
+  };
 
   // Return an action
   public getActionDef(): TableActionDef {

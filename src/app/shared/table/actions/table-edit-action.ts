@@ -8,7 +8,7 @@ export class TableEditAction implements TableAction {
     icon: 'edit',
     class: 'btn-info',
     name: 'general.edit'
-  }
+  };
 
   public getActionDef(): TableActionDef {
     return this.action;

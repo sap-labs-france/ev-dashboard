@@ -3,9 +3,9 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 import {
   ChipComponent,
   TYPE_DANGER,
+  TYPE_DEFAULT,
   TYPE_INFO,
   TYPE_PRIMARY,
-  TYPE_SUCCESS,
   TYPE_WARNING
 } from '../../../shared/component/chip/chip.component';
 import {logLevels} from '../logs.model';
@@ -31,7 +31,7 @@ export class LogLevelComponent extends ChipComponent implements CellContentTempl
         break;
 
       case 'I':
-        this.type = TYPE_SUCCESS;
+        this.type = TYPE_DEFAULT;
         break;
 
       case 'D':

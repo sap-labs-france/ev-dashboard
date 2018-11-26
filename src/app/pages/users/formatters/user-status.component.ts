@@ -3,7 +3,13 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
 import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
+import {Component} from '@angular/core';
 
+@Component({
+  selector: 'app-log-level-chip',
+  styleUrls: ['../../../shared/component/chip/chip.component.scss'],
+  templateUrl: '../../../shared/component/chip/chip.component.html'
+})
 export class UserStatusComponent extends ChipComponent implements CellContentTemplateComponent {
   /**
    * setData

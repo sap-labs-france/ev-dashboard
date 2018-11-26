@@ -7,7 +7,7 @@ import 'rxjs/add/operator/mergeMap';
   templateUrl: 'user.dialog.component.html'
 })
 export class UserDialogComponent {
-  private userID: string;
+  userID: string;
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,

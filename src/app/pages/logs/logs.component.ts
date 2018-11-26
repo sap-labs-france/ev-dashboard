@@ -7,7 +7,7 @@ import {LogsDataSource} from './logs-data-source-table';
 })
 export class LogsComponent implements OnInit {
   constructor(
-    private logsDataSource: LogsDataSource) {
+    public logsDataSource: LogsDataSource) {
   }
 
   ngOnInit() {

@@ -1,5 +1,7 @@
 import {Log, TableColumnDef} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+import {logLevels} from '../logs.model';
+import {Component} from '@angular/core';
 import {
   ChipComponent,
   TYPE_DANGER,
@@ -8,8 +10,12 @@ import {
   TYPE_SUCCESS,
   TYPE_WARNING
 } from '../../../shared/component/chip/chip.component';
-import {logLevels} from '../logs.model';
 
+@Component({
+  selector: 'app-log-level-chip',
+  styleUrls: ['../../../shared/component/chip/chip.component.scss'],
+  templateUrl: '../../../shared/component/chip/chip.component.html'
+})
 export class LogLevelComponent extends ChipComponent implements CellContentTemplateComponent {
   /**
    * setData

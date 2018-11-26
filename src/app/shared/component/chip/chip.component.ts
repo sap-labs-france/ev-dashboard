@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 export const TYPE_PRIMARY = 'chip-primary';
-export const TYPE_SECONDARY = 'chip-secondary';
+export const TYPE_DEFAULT = 'chip-default';
 export const TYPE_INFO = 'chip-info';
 export const TYPE_SUCCESS = 'chip-success';
 export const TYPE_DANGER = 'chip-danger';

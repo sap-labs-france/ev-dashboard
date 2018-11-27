@@ -81,7 +81,7 @@
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">
     <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear
-           (matSortChange)="handleSortChanged()">
+           (matSortChange)="handleSortChanged()" [trackBy]="trackByObjectId">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="text-left col-5em pt-2">

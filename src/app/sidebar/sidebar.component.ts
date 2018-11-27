@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CentralServerService} from '../services/central-server.service';
 import {CentralServerNotificationService} from '../services/central-server-notification.service';
@@ -5,7 +7,7 @@ import {AuthorizationService} from '../services/authorization-service';
 import {ConfigService} from '../services/config.service';
 import {Router} from '@angular/router';
 import {Constants} from '../utils/Constants';
-import 'rxjs/add/operator/debounceTime';
+
 
 declare const $: any;
 
@@ -41,8 +43,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Subscribe to user's change
-    this.userSubscription = this.centralServerNotificationService.getSubjectUser().debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis).subscribe((notifInfo) => {
+    this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
       // Update user?
       if (notifInfo['data']['id'] === this.loggedUser.id) {
         // Deleted?

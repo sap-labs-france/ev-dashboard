@@ -178,8 +178,8 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
         } else {
           this.dialogService.createAndShowYesNoDialog(
             this.dialog,
-            this.translateService.instant('transactions.dialog.dialog.soft_stop.title'),
-            this.translateService.instant('transactions.dialog.dialog.soft_stop.confirm', {count: this.getSelectedRows().length})
+            this.translateService.instant('transactions.dialog.soft_stop.title'),
+            this.translateService.instant('transactions.dialog.soft_stop.confirm', {count: this.getSelectedRows().length})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
               this._softStopTransactions(this.getSelectedRows().map((row) => row.id));

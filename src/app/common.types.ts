@@ -332,6 +332,7 @@ export interface Transaction {
   meterStart: number;
   user: User;
   tagID: string;
+  status: string;
   stop: {
     user: User;
     tagID: string;

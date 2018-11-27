@@ -19,6 +19,7 @@ import {UserTableFilter} from '../../shared/table/filters/user-filter';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {LogLevelComponent} from './formatters/log-level.component';
 import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
@@ -80,8 +81,8 @@ export class LogsDataSource extends TableDataSource<Log> {
 
   public getRowDetails(row: Log): Observable<String> {
     // Read the log details
-    return this.centralServerService.getLog(row.id)
-      .map((log => Formatters.formatTextToHTML(log.detailedMessages)));
+    return this.centralServerService.getLog(row.id).pipe(
+      map(log => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
   public getTableDef(): TableDef {

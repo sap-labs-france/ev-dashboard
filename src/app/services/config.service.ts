@@ -1,27 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-import 'rxjs/add/operator/map';
+
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class ConfigService {
   private _config: Object;
 
   constructor(
-    private http: Http) {
+    private http: HttpClient) {
   }
 
   public load() {
-    // Get the Config
-    return new Promise((resolve, reject) => {
-      // Get the conf
-      this.http.get('/assets/config.json')  // path of your config.json file
-        .map(res => res.json())
-        .subscribe(config => {
-          // Store
-          this._config = config;
-          // End
-          resolve(true);
-        });
+    this.http.get('/assets/config.json').subscribe(data => {
+      this._config = data;
     });
   }
 

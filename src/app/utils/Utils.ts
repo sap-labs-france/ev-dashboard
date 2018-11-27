@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 import {CentralServerService} from '../services/central-server.service';
 import {MessageService} from '../services/message.service';

@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -260,6 +270,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selection.clear();
     // Load data
     this.loadData();
+  }
+
+  public trackByObjectId(index: number, item: any): any {
+    return item ? item.id : null;
   }
 
   public handlePageChanged() {

@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput} from 'rxjs/Observable';
+import {Observable, ObservableInput, BehaviorSubject, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {BehaviorSubject, of, throwError} from 'rxjs';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../utils/Constants';

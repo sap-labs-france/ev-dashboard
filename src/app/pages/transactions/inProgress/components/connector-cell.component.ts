@@ -22,8 +22,7 @@ import {TableColumnDef, Transaction} from '../../../../common.types';
 
 export class ConnectorCellComponent implements CellContentTemplateComponent {
 
-  classForStatus: any = 'charger-connector-available';
-  private transaction: Transaction;
+  transaction: Transaction;
 
   setData(transaction: Transaction, columnDef: TableColumnDef) {
     this.transaction = transaction;

@@ -12,7 +12,7 @@ export class TransactionsHistoryComponent implements OnInit {
   private messages;
 
   constructor(
-    private transactionsHistoryDataSource: TransactionsHistoryDataSource,
+    public transactionsHistoryDataSource: TransactionsHistoryDataSource,
     private authorizationService: AuthorizationService,
     private translateService: TranslateService
   ) {

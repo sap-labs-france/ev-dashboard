@@ -12,7 +12,7 @@ export class TransactionsInProgressComponent implements OnInit {
   private messages;
 
   constructor(
-    private transactionsInProgressDataSource: TransactionsInProgressDataSource,
+    public transactionsInProgressDataSource: TransactionsInProgressDataSource,
     private authorizationService: AuthorizationService,
     private translateService: TranslateService
   ) {

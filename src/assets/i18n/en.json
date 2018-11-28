@@ -450,6 +450,7 @@
     "google_map": "Google Map",
     "sky_map": "Sky Map",
     "action_button": "Actions",
+    "get_configuration_button": "Get Configuration",
     "reboot_title": "Reboot Charging Station",
     "reboot_button": "Reboot",
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",

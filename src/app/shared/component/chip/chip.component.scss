@@ -3,10 +3,18 @@
 @mixin chip($color, $bgColor) {
   color: $color;
   background-color: $bgColor;
-  width: 80%;
-  max-width: 5em;
   justify-content: center;
 }
+
+@mixin max-width($width, $maxWidth) {
+  width: $width;
+  max-width: $maxWidth;
+}
+
+.chip-width-8em {
+  @include max-width( 80%, 8em );
+}
+
 
 // flat bg with text color variations
 .chip-default {

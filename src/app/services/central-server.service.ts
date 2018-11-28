@@ -671,4 +671,20 @@ export class CentralServerService {
         }
     );
   }
+
+  updateChargingStationParams(chargingStation): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Set the tenant
+    chargingStation['tenant'] = this.windowService.getSubdomain();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ChargingStationUpdateParams`, chargingStation,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
 }

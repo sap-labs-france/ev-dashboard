@@ -11,7 +11,7 @@ import { AppConnectorIdPipe } from "../../../shared/formatters/app-connector-id.
 import { AppKiloWattPipe } from "../../../shared/formatters/app-kilo-watt.pipe";
 import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
 import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
-
+import { ConnectorCellComponent } from "../cell-content-components/connector-cell.component";
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
@@ -71,16 +71,20 @@ connectorId: number;
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        formatter: (connectorId) => {
+/*        formatter: (connectorId) => {
           return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
         },
-        class: 'col-5em',
-        sortable: false
+        class: 'col-5em',*/
+        headerClass: 'col-25p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponentName: ConnectorCellComponent
       },
       {
         id: 'status',
         name: 'chargers.connector_status',
-        class: 'col-5em',
+        headerClass: 'col-10em',
+        class: 'col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -88,21 +92,21 @@ connectorId: number;
       {
         id: 'currentConsumption',
         name: 'transactions.consumption',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption_kw',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'type',
         name: 'chargers.connector_type',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (type) => {
           let imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector" src="${imageUrl}"/>`;
@@ -112,14 +116,14 @@ connectorId: number;
       {
         id: 'power',
         name: 'chargers.maximum_energy',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (value) => { return new AppKiloWattPipe().transform(value); },
         sortable: false
       },
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

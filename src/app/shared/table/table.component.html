@@ -81,7 +81,7 @@
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">
     <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear
-           (matSortChange)="handleSortChanged()">
+           (matSortChange)="handleSortChanged()" [trackBy]="trackByObjectId">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="text-left col-5em pt-2">
@@ -164,7 +164,7 @@
         <th mat-header-cell class="table-header text-center col-5em"
             *matHeaderCellDef>{{'general.actions' | translate}}
         </th>
-        <td mat-cell *matCellDef="let actionCell" class="text-right">
+        <td mat-cell *matCellDef="let actionCell" class="text-center">
           <a *ngFor="let rowAction of dataSource.getTableRowActions()"
              [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
              (click)="rowActionTriggered(rowAction, actionCell)"><i class="material-icons">{{rowAction.icon}}</i></a>

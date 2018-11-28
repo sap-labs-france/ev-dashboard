@@ -1,9 +1,11 @@
+
+import {mergeMap} from 'rxjs/operators';
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import 'rxjs/add/operator/mergeMap';
+
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
 import {CentralServerService} from '../../../services/central-server.service';
@@ -296,7 +298,7 @@ export class UserComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getUser(this.currentUserID).flatMap((user) => {
+    this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       // Set user
       this.userSitesDataSource.setUser(user);
@@ -370,7 +372,7 @@ export class UserComponent implements OnInit {
       this.passwords.controls.repeatPassword.setValue('');
       // Yes, get image
       return this.centralServerService.getUserImage(this.currentUserID);
-    }).subscribe((userImage) => {
+    })).subscribe((userImage) => {
       if (userImage && userImage.image) {
         this.image = userImage.image.toString();
       }

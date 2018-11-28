@@ -3,10 +3,7 @@ import {LocaleService} from '../../services/locale.service';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
-  private localeService: LocaleService;
-
-  constructor(localeService: LocaleService) {
-    this.localeService = localeService;
+  constructor(private localeService: LocaleService) {
   }
 
   transform(value: any, ...args: any[]): any {

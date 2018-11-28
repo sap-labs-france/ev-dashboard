@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -31,7 +41,6 @@ const DEFAULT_POLLING = 10000;
   ]
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _detailComponentId: number;
   @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
@@ -44,6 +53,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
+  private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
@@ -193,37 +203,37 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       propertyValue = this.findPropertyValue(columnDef.id, row);
     } catch (error) {
-      if (error === "NotFound") {
-          if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
+      if (error === 'NotFound') {
+        if (columnDef.defaultValue) {
+          propertyValue = columnDef.defaultValue;
+        } else {
+          switch (columnDef.type) {
+            case 'number':
+            case 'float':
+              propertyValue = 0;
+              break;
+            default:
+              propertyValue = '';
+              break;
           }
+        }
       } else {
         throw error;
       }
     }
-    
+
     const additionalProperties = [];
     if (columnDef.additionalIds) {
       columnDef.additionalIds.forEach(propertyName => {
-        try {
-          additionalProperties.push(this.findPropertyValue(propertyName, row));
-        } catch (error) {
-          if (error !== "NotFound") {
-            // ignore NotFound error
-            throw error;
+          try {
+            additionalProperties.push(this.findPropertyValue(propertyName, row));
+          } catch (error) {
+            if (error !== 'NotFound') {
+              // ignore NotFound error
+              throw error;
+            }
           }
         }
-      }
       );
     }
     // Type?
@@ -250,7 +260,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     // Return the property
-    return propertyValue;
+    return `${propertyValue ? propertyValue : ''}`;
   }
 
   public handleSortChanged() {
@@ -260,6 +270,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selection.clear();
     // Load data
     this.loadData();
+  }
+
+  public trackByObjectId(index: number, item: any): any {
+    return item ? item.id : null;
   }
 
   public handlePageChanged() {
@@ -307,20 +321,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private findPropertyValue(propertyName, source) {
-    let propertyValue = source[propertyName];
-
-    if (propertyName.indexOf('.') > 0) {
-      propertyValue = source;
-      propertyName.split('.').forEach((key) => {
-        if (propertyValue.hasOwnProperty(key)) {
-          propertyValue = propertyValue[key];
-        } else {
-          throw "NotFound";
-        }
-      });
-    }
-    return propertyValue;
+  /**
+   * set*ReferenceRow
+   *row, */
+  public setReferenceRow(row, rowDetails) {
+    rowDetails.parentRow = row;
+    return true;
   }
 
   /*  public setDetailedDataSource(row){
@@ -336,14 +342,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }*/
 
   /**
-   * set*ReferenceRow
-   *row, */
-  public setReferenceRow(row, rowDetails) {
-    rowDetails.parentRow = row;
-    return true;
-  }
-
-  /**
    * get
    */
   public getNextDetailComponentId() {
@@ -353,6 +351,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       return this.dataSource.getData().length - 1;
     }
     return this._detailComponentId++;
+  }
+
+  private findPropertyValue(propertyName, source) {
+    let propertyValue = source[propertyName];
+
+    if (propertyName.indexOf('.') > 0) {
+      propertyValue = source;
+      propertyName.split('.').forEach((key) => {
+        if (propertyValue.hasOwnProperty(key)) {
+          propertyValue = propertyValue[key];
+        } else {
+          throw new Error('NotFound');
+        }
+      });
+    }
+    return propertyValue;
   }
 
 }

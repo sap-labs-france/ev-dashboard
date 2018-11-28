@@ -1,6 +1,5 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {CentralServerService} from './services/central-server.service';
@@ -137,7 +136,6 @@ export function localeFactory(
     BrowserAnimationsModule,
     FormsModule,
     AppRouting,
-    HttpModule,
     MaterialModule,
     MatNativeDateModule,
     SidebarModule,

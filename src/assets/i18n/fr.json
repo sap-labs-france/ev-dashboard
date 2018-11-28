@@ -55,7 +55,7 @@
     "use_place": "Use",
     "check_place": "Check",
     "search_date_from": "A partir de",
-      "search_date_until": "Jusqu'à",
+    "search_date_until": "Jusqu'à",
     "search_date_range": "Dates",
     "search_charging_station": "Borne",
     "search_user": "Utilisateur",
@@ -72,7 +72,7 @@
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
-      "transactions": "Sessions",
+      "transactions": "Transactions",
       "active": "Actives",
       "history": "Historique",
       "statistics": "Statistiques",
@@ -626,5 +626,18 @@
     "delete_title": "Supprimer le tenant",
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du tenant"
-   }
+  },
+  "transactions": {
+    "date_from": "Date",
+    "duration": "Durée",
+    "inactivity": "Inactivité",
+    "user": "Utilisateur",
+    "badge_id": "ID de badge",
+    "charging_station": "Station de Chargement",
+    "connector": "Connecteur",
+    "total_consumption": "Consommé",
+    "current_consumption": "Puissance",
+    "price": "Prix",
+    "state_of_charge": "Niveau Batterie"
+  }
 }

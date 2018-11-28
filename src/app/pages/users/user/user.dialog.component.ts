@@ -1,13 +1,13 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import 'rxjs/add/operator/mergeMap';
+
 
 @Component({
   selector: 'app-user-dialog-cmp',
   templateUrl: 'user.dialog.component.html'
 })
 export class UserDialogComponent {
-  private userID: string;
+  userID: string;
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,

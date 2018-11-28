@@ -211,6 +211,11 @@ export interface TenantResult {
   result: Tenant[]
 }
 
+export interface TransactionResult {
+  count: number,
+  result: Transaction[]
+}
+
 export interface Logo {
   id: string;
   logo: string;
@@ -292,7 +297,7 @@ export interface TableDef {
     enabled: boolean;
     detailsField?: string;
     isDetailComponent?: boolean;
-    detailComponentName?: any;    
+    detailComponentName?: any;
     hideShowField?: string;
   }
 }
@@ -317,6 +322,28 @@ export interface TableColumnDef {
 
 export interface TableSearch {
   search: string;
+}
+
+export interface Transaction {
+  id: number;
+  timestamp: Date;
+  chargeBox: Charger;
+  connectorId: number;
+  meterStart: number;
+  user: User;
+  tagID: string;
+  status: string;
+  stop: {
+    user: User;
+    tagID: string;
+    timestamp: Date;
+    meterStop: number;
+    totalConsumption: number;
+    price: number;
+    priceUnit: string;
+  };
+  dateTimestring: string;
+  consumptionstring: string;
 }
 
 export interface User {

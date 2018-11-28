@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput} from 'rxjs/Observable';
+import {Observable, ObservableInput, BehaviorSubject, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {BehaviorSubject, of, throwError} from 'rxjs';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../utils/Constants';
@@ -23,6 +22,7 @@ import {
   SiteResult,
   Tenant,
   TenantResult,
+  TransactionResult,
   User,
   UserResult
 } from '../common.types';
@@ -73,6 +73,14 @@ export class CentralServerService {
       superAdmin: true
     },
     {
+      id: 'transactions',
+      path: '/transactions',
+      title: 'Transactions',
+      type: 'link',
+      icontype: 'network_check',
+      admin: true
+    },
+    {
       id: 'logs',
       path: '/logs',
       title: 'Logs',
@@ -92,26 +100,6 @@ export class CentralServerService {
     private windowService: WindowService) {
     // Default
     this.initialized = false;
-  }
-
-  private _checkInit() {
-    // initialized?
-    if (!this.initialized) {
-      // No: Process the init
-      // Get the server config
-      this.centralSystemServerConfig = this.configService.getCentralSystemServer();
-      // Central Service URL
-      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
-        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
-      // Set Web Socket URL
-      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
-      // Auth API
-      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
-      // Secured API
-      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
-      // Done
-      this.initialized = true;
-    }
   }
 
   public getRoutes(): Observable<RouteInfo[]> {
@@ -149,49 +137,6 @@ export class CentralServerService {
     }
     // Menu Items
     return of(this.routesTranslated);
-  }
-
-  private _buildHttpHeaders(tenant?: String) {
-    const header = {
-      'Content-Type': 'application/json'
-    };
-
-    if (tenant !== undefined) {
-      header['Tenant'] = tenant;
-    }
-
-    // Check token
-    if (this.getLoggedUserToken()) {
-      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
-    }
-    // Build Header
-    return new HttpHeaders(header);
-  }
-
-  private _buildOrdering(ordering: Ordering[], queryString: any) {
-    // Check
-    if (ordering && ordering.length) {
-      if (!queryString['SortFields']) {
-        queryString['SortFields'] = [];
-        queryString['SortDirs'] = [];
-      }
-      // Set
-      ordering.forEach((order) => {
-        queryString['SortFields'].push(order.field);
-        queryString['SortDirs'].push(order.direction);
-      });
-    }
-  }
-
-  private _buildPaging(paging: Paging, queryString: any) {
-    // Limit
-    if (paging.limit) {
-      queryString['Limit'] = paging.limit;
-    }
-    // Skip
-    if (paging.skip) {
-      queryString['Skip'] = paging.skip;
-    }
   }
 
   public removeSitesFromUser(userID, siteIDs) {
@@ -286,6 +231,42 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -634,6 +615,93 @@ export class CentralServerService {
       .pipe(
         catchError(this._handleHttpError)
       );
+  }
+
+  deleteTransaction(id: number) {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  softStopTransaction(id: number) {
+    this._checkInit();
+    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
+      `{ "transactionId": "${id}" }`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  private _checkInit() {
+    // initialized?
+    if (!this.initialized) {
+      // No: Process the init
+      // Get the server config
+      this.centralSystemServerConfig = this.configService.getCentralSystemServer();
+      // Central Service URL
+      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
+        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      // Set Web Socket URL
+      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
+      // Auth API
+      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
+      // Secured API
+      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      // Done
+      this.initialized = true;
+    }
+  }
+
+  private _buildHttpHeaders(tenant?: String) {
+    const header = {
+      'Content-Type': 'application/json'
+    };
+
+    if (tenant !== undefined) {
+      header['Tenant'] = tenant;
+    }
+
+    // Check token
+    if (this.getLoggedUserToken()) {
+      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
+    }
+    // Build Header
+    return new HttpHeaders(header);
+  }
+
+  private _buildOrdering(ordering: Ordering[], queryString: any) {
+    // Check
+    if (ordering && ordering.length) {
+      if (!queryString['SortFields']) {
+        queryString['SortFields'] = [];
+        queryString['SortDirs'] = [];
+      }
+      // Set
+      ordering.forEach((order) => {
+        queryString['SortFields'].push(order.field);
+        queryString['SortDirs'].push(order.direction);
+      });
+    }
+  }
+
+  private _buildPaging(paging: Paging, queryString: any) {
+    // Limit
+    if (paging.limit) {
+      queryString['Limit'] = paging.limit;
+    }
+    // Skip
+    if (paging.skip) {
+      queryString['Skip'] = paging.skip;
+    }
   }
 
   private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {

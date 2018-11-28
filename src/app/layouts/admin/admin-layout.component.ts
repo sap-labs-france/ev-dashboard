@@ -1,9 +1,11 @@
+
+import {filter} from 'rxjs/operators';
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {NavItem, NavItemType} from '../../common.types';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {Location, PopStateEvent} from '@angular/common';
-import 'rxjs/add/operator/filter';
+
 import {NavbarComponent} from '../../shared/navbar/navbar.component';
 import PerfectScrollbar from 'perfect-scrollbar';
 
@@ -49,7 +51,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       elemMainPanel.scrollTop = 0;
       elemSidebar.scrollTop = 0;
     });
@@ -61,7 +63,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     } else {
       html.classList.add('perfect-scrollbar-off');
     }
-    this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.navbar.sidebarClose();
     });
 

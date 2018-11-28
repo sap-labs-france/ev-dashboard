@@ -1,8 +1,17 @@
 @import "../../../../assets/scss/core/variables";
 
-@mixin chip($color, $bgColor) {
+@mixin chip($color) {
   color: $color;
+<<<<<<< HEAD
   background-color: $bgColor;
+=======
+  border: 2px solid $color;
+  background-color: transparent;
+  font-size: 0.9rem;
+  font-weight: bold;
+  width: 80%;
+  max-width: 5em;
+>>>>>>> 104c42a626c471d3d6a6e53ca6a174d3f89be6a2
   justify-content: center;
 }
 
@@ -18,25 +27,25 @@
 
 // flat bg with text color variations
 .chip-default {
-  @include chip($btn-default-color, $btn-default-bg);
+  @include chip($brand-default);
 }
 
 .chip-primary {
-  @include chip($btn-primary-color, $btn-primary-bg);
+  @include chip($brand-primary);
 }
 
 .chip-info {
-  @include chip($btn-info-color, $btn-info-bg);
+  @include chip($brand-info);
 }
 
 .chip-success {
-  @include chip($btn-success-color, $btn-success-bg);
+  @include chip($brand-success);
 }
 
 .chip-warning {
-  @include chip($btn-warning-color, $btn-warning-bg);
+  @include chip($brand-warning);
 }
 
 .chip-danger {
-  @include chip($btn-danger-color, $btn-danger-bg);
+  @include chip($brand-danger);
 }

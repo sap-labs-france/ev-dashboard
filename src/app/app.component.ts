@@ -1,7 +1,11 @@
+
+import {filter} from 'rxjs/operators';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {SpinnerService} from './services/spinner.service';
+import * as moment from 'moment'
+import 'moment-duration-format';
 
 @Component({
   selector: 'app-my-app',
@@ -17,7 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       const body = document.getElementsByTagName('body')[0];
       const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
       if (body.classList.contains('modal-open')) {

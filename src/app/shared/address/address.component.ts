@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import 'rxjs/add/operator/mergeMap';
+
 
 @Component({
   selector: 'app-address-cmp',

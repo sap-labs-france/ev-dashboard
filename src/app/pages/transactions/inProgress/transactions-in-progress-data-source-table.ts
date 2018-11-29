@@ -1,7 +1,7 @@
 import {from, Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../../common.types';
+import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -23,6 +23,7 @@ import {TransactionsBaseDataSource} from '../transactions-base-data-source-table
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {ConnectorCellComponent} from './components/connector-cell.component';
+import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TransactionsBaseDataSource {
@@ -84,8 +85,8 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        headerClass: 'col-12p',
-        class: 'text-left col-12p',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -101,16 +102,16 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
         id: 'connectorId',
         name: 'transactions.connector',
         headerClass: 'text-center col-5p',
+        class: 'text-center col-5p',
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent,
-        class: 'text-center col-5p',
       },
 
       {
         id: 'totalDurationSecs',
         name: 'transactions.duration',
-        headerClass: 'col-7p',
-        class: 'text-left col-7p',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
       },
       {
@@ -137,35 +138,36 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-7p',
-        class: 'text-left col-7p'
+        headerClass: 'col-10p',
+        class: 'text-left col-10p'
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       },
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
       },
       {
         id: 'stateOfCharge',
         name: 'transactions.state_of_charge',
-        headerClass: 'text-right col-10p',
-        class: 'text-right col-10p',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (stateOfCharge) => this.percentPipe.transform(stateOfCharge / 100, '2.0-0')
       }
     ];
   }
 
   getTableActionsDef(): TableActionDef[] {
-    return [...super.getTableActionsDef(),
+    return [
+      new TableRefreshAction().getActionDef(),
       new TableStopAction().getActionDef()
     ];
   }
@@ -182,7 +184,8 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
             this.translateService.instant('transactions.dialog.soft_stop.confirm', {count: this.getSelectedRows().length})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
-              this._softStopTransactions(this.getSelectedRows().map((row) => row.id));
+
+              this._stopTransactions(this.getSelectedRows());
             }
           });
         }
@@ -200,9 +203,31 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
     ];
   }
 
-  private _softStopTransactions(transactionIds: number[]) {
-    from(transactionIds).pipe(
-      map(transactionId => this.centralServerService.softStopTransaction(transactionId)),
+  private _stopTransactions(transactions: Transaction[]) {
+    const isActive = (status) => status === 'Available';
+    this._softStopTransactions(transactions.filter(transaction => isActive(transaction.status)));
+    this._stationStopTransactions(transactions.filter(transaction => !isActive(transaction.status)));
+  }
+
+  private _stationStopTransactions(transactions: Transaction[]) {
+    from(transactions).pipe(
+      map((transaction: Transaction) => this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id)),
+      zipAll())
+      .subscribe((responses: ActionResponse[]) => {
+        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.soft_stop.success', {count: successCount}));
+        this.clearSelectedRows();
+        this.loadData();
+      }, (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      });
+  }
+
+  private _softStopTransactions(transactions: Transaction[]) {
+    from(transactions).pipe(
+      map((transaction: Transaction) => this.centralServerService.softStopTransaction(transaction.id)),
       zipAll())
       .subscribe((responses: ActionResponse[]) => {
         const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;

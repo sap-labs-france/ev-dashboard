@@ -155,8 +155,8 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableCreateAction().getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
+      new TableCreateAction().getActionDef()
     ];
   }
 

@@ -150,13 +150,13 @@ export class LogsDataSource extends TableDataSource<Log> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 

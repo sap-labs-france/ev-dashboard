@@ -6,7 +6,7 @@ export class TableRefreshAction implements TableAction {
     id: 'refresh',
     type: 'button',
     icon: 'refresh',
-    name: 'general.refresh'
+    name: ''
   };
 
   // Return an action

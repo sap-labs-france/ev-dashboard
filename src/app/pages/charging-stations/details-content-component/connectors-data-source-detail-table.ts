@@ -132,13 +132,13 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 

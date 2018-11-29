@@ -179,14 +179,14 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableDeleteAction().getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableDeleteAction().getActionDef()
     ];
   }
 

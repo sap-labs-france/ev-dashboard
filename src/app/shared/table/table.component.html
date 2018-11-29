@@ -23,9 +23,12 @@
         <button
           [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
           *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
-          <span class="mat-button-wrapper">
+          <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
             <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
             <span class="btn-label">{{actionRightDef.name| translate}}</span>
+          </span>
+          <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
+            <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
           </span>
         </button>
         <!-- Action Slide -->

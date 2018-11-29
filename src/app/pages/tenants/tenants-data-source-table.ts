@@ -113,8 +113,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableCreateAction().getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableCreateAction().getActionDef()
     ];
   }
 
@@ -149,7 +148,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef()
+      new TableAutoRefreshAction(true).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 

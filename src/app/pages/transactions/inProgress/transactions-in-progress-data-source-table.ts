@@ -167,7 +167,6 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
 
   getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef(),
       new TableStopAction().getActionDef()
     ];
   }

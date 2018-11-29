@@ -78,10 +78,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public hasActions(): boolean {
-    // Check
     this._checkInitialized();
-    // Return
-    return this.actionsDef && this.actionsDef.length > 0;
+    return (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
   }
 
   public hasRowActions(): boolean {

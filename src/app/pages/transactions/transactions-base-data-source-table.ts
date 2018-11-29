@@ -64,8 +64,7 @@ export abstract class TransactionsBaseDataSource extends TableDataSource<Transac
   }
   getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 
@@ -97,7 +96,8 @@ export abstract class TransactionsBaseDataSource extends TableDataSource<Transac
 
   getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 

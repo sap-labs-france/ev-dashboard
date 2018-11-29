@@ -2,28 +2,19 @@
 
 @mixin chip($color) {
   color: $color;
-<<<<<<< HEAD
-  background-color: $bgColor;
-=======
+  opacity: 1 !important;
   border: 2px solid $color;
   background-color: transparent;
   font-size: 0.9rem;
   font-weight: bold;
   width: 80%;
   max-width: 5em;
->>>>>>> 104c42a626c471d3d6a6e53ca6a174d3f89be6a2
   justify-content: center;
 }
 
-@mixin max-width($width, $maxWidth) {
-  width: $width;
-  max-width: $maxWidth;
+.mat-chip-disabled {
+  opacity: 0;
 }
-
-.chip-width-8em {
-  @include max-width( 80%, 8em );
-}
-
 
 // flat bg with text color variations
 .chip-default {

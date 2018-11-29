@@ -11,7 +11,8 @@ import { ChargingStationsDataSource } from './charging-stations-data-source-tabl
 
 @Component({
   selector: 'app-charging-stations-cmp',
-  templateUrl: 'charging-stations.component.html'
+  templateUrl: 'charging-stations.component.html',
+  styleUrls: ['charging-stations-data-source-table.scss']
 })
 export class ChargingStationsComponent implements OnInit {
   private messages;

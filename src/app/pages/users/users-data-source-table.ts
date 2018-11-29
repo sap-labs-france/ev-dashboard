@@ -155,7 +155,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef(),
       new TableCreateAction().getActionDef()
     ];
   }
@@ -190,7 +189,8 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef()
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 

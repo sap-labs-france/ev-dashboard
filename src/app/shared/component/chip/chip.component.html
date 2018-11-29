@@ -1,3 +1,3 @@
-<mat-chip-list>
-    <mat-chip [ngClass]="type ? type : 'chip-primary'">{{text | translate}}</mat-chip>
+<mat-chip-list [selectable]="false">
+    <mat-chip [ngClass]="type ? type : 'chip-primary'" [disabled]="true">{{text | translate}}</mat-chip>
 </mat-chip-list>

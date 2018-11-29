@@ -90,6 +90,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   width: 50vh;
   height: calc(100vh - (0.7 * 100vh));
   background-color: white;
+  white-space: nowrap;
 }
 
 .table-list-under-tabs {
@@ -97,6 +98,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   height: calc(100vh - 400px);
   min-height: 250px;
   background-color: white;
+  white-space: nowrap;
 }
 
 .form-field-popup {

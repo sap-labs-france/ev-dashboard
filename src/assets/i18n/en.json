@@ -583,14 +583,21 @@
     "delete_error": "Error occurred while deleting the tenant"
   },
   "transactions": {
-    "date": "Date",
-    "user": "User",
-    "tag_ids": "Badge IDs",
-    "charging_station": "Charging Station",
-    "start_date": "Start Date",
-    "end_date": "End Date",
+    "date_from": "Date",
     "duration": "Duration",
     "inactivity": "Inactivity",
+    "user": "User",
+    "badge_id": "Badge ID",
+    "connector": "Connector",
+    "total_consumption": "Consumed",
+    "current_consumption": "Power",
+    "state": "Status",
+    "state_of_charge": "Battery level",
+    "date": "Date",
+    "tag_ids": "Badge IDs",
+    "charging_station": "Charging Station",
+    "started_at": "Started At",
+    "end_date": "End Date",
     "consumption": "Consumed",
     "transactions_button": "Transactions",
     "transaction_today": "Today",
@@ -652,14 +659,6 @@
         "success": "{{count}} transaction(s) stopped successfully",
         "error": "An error occurred during transaction stop"
       }
-    },
-    "date_from": "Date",
-    "state": "Status",
-    "state_of_charge": "Battery level",
-    "started_at": "Started At",
-    "badge_id": "Badge ID",
-    "connector": "Connector",
-    "total_consumption": "Consumed",
-    "current_consumption": "Power"
+    }
   }
 }

@@ -328,6 +328,7 @@ export interface Transaction {
   id: number;
   timestamp: Date;
   chargeBox: Charger;
+  chargeBoxID: string;
   connectorId: number;
   meterStart: number;
   user: User;

@@ -2,6 +2,7 @@
 
 @mixin chip($color) {
   color: $color;
+  opacity: 1 !important;
   border: 2px solid $color;
   background-color: transparent;
   font-size: 0.9rem;
@@ -9,6 +10,10 @@
   width: 80%;
   max-width: 5em;
   justify-content: center;
+}
+
+.mat-chip-disabled {
+  opacity: 0;
 }
 
 // flat bg with text color variations

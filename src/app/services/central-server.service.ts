@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput, BehaviorSubject, of, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, ObservableInput, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -13,7 +13,6 @@ import {
   ActionResponse,
   ChargerResult,
   Image,
-  KeyValue,
   Log,
   LogResult,
   Ordering,
@@ -641,6 +640,45 @@ export class CentralServerService {
       );
   }
 
+  stationStopTransaction(chargeBoxId: string, transactionId: number) {
+    this._checkInit();
+    const body = {
+      chargeBoxID: chargeBoxId,
+      args: {
+        transactionId: transactionId
+      }
+    };
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStopTransaction`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  getChargerConnectorTypes() {
+    // Return
+    return [
+      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
+      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
+      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
+    ];
+  }
+
+  getChargerConnectorTypeByKey(type) {
+    // Return the found key
+    const foundConnectorType = this.getChargerConnectorTypes().find(
+      (connectorType) => connectorType.key === type);
+    return (foundConnectorType ? foundConnectorType :
+        {
+          key: 'U',
+          description: this.translateService.instant('chargers.connector_unknown'),
+          image: 'assets/img/connectors/no-connector.gif'
+        }
+    );
+  }
+
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -716,27 +754,5 @@ export class CentralServerService {
       errMsg.details = error.error;
     }
     return throwError(errMsg);
-  }
-
-  getChargerConnectorTypes() {
-    // Return
-    return [
-      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
-      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
-      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
-    ];
-  }
-
-  getChargerConnectorTypeByKey(type) {
-    // Return the found key
-    const foundConnectorType = this.getChargerConnectorTypes().find(
-      (connectorType) => connectorType.key === type);
-    return (foundConnectorType ? foundConnectorType :
-        {
-          key: 'U',
-          description: this.translateService.instant('chargers.connector_unknown'),
-          image: 'assets/img/connectors/no-connector.gif'
-        }
-    );
   }
 }

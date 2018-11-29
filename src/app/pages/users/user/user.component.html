@@ -35,12 +35,6 @@
                                                 <div class="ripple-container"></div>
                                             </a>
                                         </li>
-                                        <li *ngIf="isAdmin" class="nav-item">
-                                            <a class="nav-link" href="#sites" data-toggle="tab" (click)="loadSites()">
-                                                <i class="material-icons">business</i> {{'sites.site' | translate}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
                                         <span class="toolbar-spacer"></span>
                                         <button class="btn btn-info mat-raised-button"
                                                 (click)="saveUser(formGroup.value)"
@@ -50,7 +44,7 @@
                                               <span class="btn-label">{{'users.save_profile' | translate}}</span>
                                             </span>
                                         </button>
-                                        <button class="btn btn-info mat-raised-button" (click)="refresh()">
+                                        <button *ngIf="currentUserID" class="btn btn-info mat-raised-button" (click)="refresh()">
                                             <span class="mat-button-wrapper">
                                               <i class="material-icons mr-2">refresh</i>
                                               <span class="btn-label">{{'general.refresh' | translate}}</span>
@@ -58,8 +52,7 @@
                                         </button>
                                         <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button" mat-dialog-close>
                                             <span class="mat-button-wrapper">
-                                              <i class="material-icons mr-2">close</i>
-                                              <span class="btn-label">{{'general.close' | translate}}</span>
+                                              <i class="material-icons">close</i>
                                             </span>
                                         </button>
                                     </ul>
@@ -256,13 +249,6 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div *ngIf="isAdmin" class="tab-pane" id="sites">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <app-table [dataSource]="userSitesDataSource"></app-table>
                                         </div>
                                     </div>
                                 </div>

@@ -3,3 +3,19 @@
 .mat-dialog-content {
   padding: 4px 24px;
 }
+
+.dialog-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.dialog-title {
+  align-self: flex-start;
+  margin: auto 0 20px 0;
+  flex-grow: 1;
+}
+
+.dialog-icon-right {
+  align-self: flex-end;
+  margin: auto 0 20px 5px !important;
+}

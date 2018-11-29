@@ -2,7 +2,7 @@ import {from, Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, Transaction} from '../../common.types';
+import {ActionResponse, SubjectInfo, TableActionDef, TableDef, Transaction} from '../../common.types';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
@@ -18,11 +18,9 @@ import {DialogService} from '../../services/dialog.service';
 import {AppUserNamePipe} from '../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../shared/formatters/app-duration.pipe';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
-import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {map, zipAll} from 'rxjs/operators';
 import {AppConnectorIdPipe} from '../../shared/formatters/app-connector-id.pipe';
-import {HeartbeatCellComponent} from '../charging-stations/cell-content-components/heartbeat-cell.component';
-import {ConnectorCellComponent} from './inProgress/components/connector-cell.component';
+import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 
 
 export abstract class TransactionsBaseDataSource extends TableDataSource<Transaction> {
@@ -62,9 +60,10 @@ export abstract class TransactionsBaseDataSource extends TableDataSource<Transac
       }
     };
   }
+
   getTableActionsDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef()
+      new TableDeleteAction().getActionDef()
     ];
   }
 

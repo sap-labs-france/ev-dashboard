@@ -227,8 +227,7 @@ export class UsersDataSource extends TableDataSource<User> {
       dialogConfig.data = user;
     }
     // Open
-    const dialogRef = this.dialog.open(UserSitesDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    this.dialog.open(UserSitesDialogComponent, dialogConfig);
   }
 
   private _deleteUser(user: User) {

@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {memoize} from 'decko';
 
-const connectorTypeMap = 
+const connectorTypeMap =
 [
   { key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif' },
   { key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif' },
@@ -14,6 +15,7 @@ const connectorTypeMap =
  */
 @Pipe({name: 'appConnectorType'})
 export class AppConnectorTypePipe implements PipeTransform {
+  @memoize
   transform(type: string, asIconUrl: boolean = true): any {
     // Return the found key
     const foundConnectorType = connectorTypeMap.find(

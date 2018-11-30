@@ -4,6 +4,7 @@ import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
 import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 import {Component} from '@angular/core';
+import {memoize} from 'decko';
 
 @Component({
   selector: 'app-log-level-chip',
@@ -14,6 +15,7 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
   /**
    * setData
    */
+
   setData(user: User, columndef: TableColumnDef) {
     for (const userStatus of userStatuses) {
       if (userStatus.key === user.status) {

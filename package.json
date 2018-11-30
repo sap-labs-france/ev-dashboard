@@ -40,6 +40,7 @@
     "bootstrap-rtl": "^3.3.4",
     "bootstrap-select": "^1.13.3",
     "bootstrap-tagsinput": "^0.7.1",
+    "decko": "^1.2.0",
     "hammerjs": "^2.0.8",
     "http-status-codes": "^1.3.0",
     "jasny-bootstrap": "^3.1.3",

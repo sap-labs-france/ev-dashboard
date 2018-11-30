@@ -21,6 +21,7 @@ import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pi
 import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
+import {memoize} from 'decko';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
@@ -117,14 +118,7 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
         name: 'transactions.inactivity',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
-        formatter: (totalInactivitySecs, row) => {
-          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
-          if (percentage === 0) {
-            return '';
-          }
-          return this.appDurationPipe.transform(totalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
-        }
+        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
       },
       {
         id: 'user',
@@ -152,9 +146,24 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price, row, priceUnit) => this.currencyPipe.transform(price, priceUnit, 'symbol')
+        formatter: (price, row, priceUnit) => this.formatPrice(price, priceUnit)
       }
     ];
+  }
+
+  @memoize
+  formatInactivity(totalInactivitySecs, row) {
+    const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+    if (percentage === 0) {
+      return '';
+    }
+    return this.appDurationPipe.transform(totalInactivitySecs) +
+      ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+  }
+
+  @memoize
+  formatPrice(price, priceUnit) {
+    return this.currencyPipe.transform(price, priceUnit);
   }
 
   getTableFiltersDef(): TableFilterDef[] {

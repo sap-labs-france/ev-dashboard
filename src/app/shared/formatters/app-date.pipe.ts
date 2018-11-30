@@ -1,11 +1,12 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {LocaleService} from '../../services/locale.service';
+import {memoize} from 'decko';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
   constructor(private localeService: LocaleService) {
   }
-
+  @memoize
   transform(value: any, ...args: any[]): any {
     const format = args && args[0] ? args[0] : '';
     let options;

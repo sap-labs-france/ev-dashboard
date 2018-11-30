@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import {memoize} from 'decko';
 
 const connectorErrorCodeMap = {
   "ConnectorLockFailure" : "chargers.status_error_connector_lock_failure",
@@ -30,9 +31,10 @@ const connectorErrorCodeMap = {
 export class AppConnectorErrorCodePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {
   }
+  @memoize
   transform(errocode: string): any {
-    return (connectorErrorCodeMap[errocode] ? 
-              this.translateService.instant(connectorErrorCodeMap[errocode]) : 
+    return (connectorErrorCodeMap[errocode] ?
+              this.translateService.instant(connectorErrorCodeMap[errocode]) :
               this.translateService.instant('chargers.status_error_unknown'));
   }
 }

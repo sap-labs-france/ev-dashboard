@@ -21,10 +21,12 @@ export class AppUnitPipe implements PipeTransform {
   }
 
   @memoize
-  transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 2, numberOfDecimal: number = 2): any {
+  transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 2,
+            numberOfDecimal: number = 2): any {
     const src = this._parseMeasure(srcMeasure);
     const dest = this._parseMeasure(destMeasure);
-    return this.decimalPipe.transform(value / (src.size * dest.size), `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + destMeasure : ''}`;
+    return this.decimalPipe.transform(value / (src.size * dest.size),
+      `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + destMeasure : ''}`;
   }
 }
 

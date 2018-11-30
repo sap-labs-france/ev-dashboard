@@ -22,6 +22,7 @@ import {TransactionsBaseDataSource} from '../transactions-base-data-source-table
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {memoize} from 'decko';
+import {LocaleService} from '../../../services/locale.service';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
@@ -31,6 +32,7 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
     translateService: TranslateService,
     spinnerService: SpinnerService,
     dialogService: DialogService,
+    protected localeService: LocaleService,
     router: Router,
     dialog: MatDialog,
     centralServerNotificationService: CentralServerNotificationService,
@@ -81,6 +83,7 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'timestamp',
@@ -90,7 +93,7 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, 'datetime')
+        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
         id: 'chargeBoxID',

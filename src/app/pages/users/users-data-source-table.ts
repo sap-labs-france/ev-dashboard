@@ -96,6 +96,7 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'status',
@@ -148,7 +149,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn),
+        formatter: (createdOn) => this.datePipe.transform(createdOn, locale),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true

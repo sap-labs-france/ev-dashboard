@@ -99,6 +99,7 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'level',
@@ -112,7 +113,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn) => this.datePipe.transform(createdOn, 'datetime'),
+        formatter: (createdOn) => this.datePipe.transform(createdOn, locale, 'datetime'),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',

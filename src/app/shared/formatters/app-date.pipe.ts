@@ -1,14 +1,11 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {LocaleService} from '../../services/locale.service';
 import {memoize} from 'decko';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
-  constructor(private localeService: LocaleService) {
-  }
+
   @memoize
-  transform(value: any, ...args: any[]): any {
-    const format = args && args[0] ? args[0] : '';
+  transform(value: any, locale = 'en_US', format = 'date'): any {
     let options;
     switch (format) {
       case 'datetime':
@@ -33,6 +30,6 @@ export class AppDatePipe implements PipeTransform {
         break;
     }
     const date = value instanceof Date ? value : new Date(value);
-    return new Intl.DateTimeFormat(this.localeService.getCurrentFullLocaleForJS(), options).format(date);
+    return new Intl.DateTimeFormat(locale, options).format(date);
   }
 }

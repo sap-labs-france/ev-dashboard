@@ -10,7 +10,7 @@ import {LocaleService} from '../../../services/locale.service';
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok"
             [class.charger-heartbeat-date-error]="row.inactive">
-        {{row.lastHeartBeat | appDate: [locale, 'datetime']}}
+        {{row.lastHeartBeat | appDate : locale : 'datetime'}}
       </span>
     </span>
   `

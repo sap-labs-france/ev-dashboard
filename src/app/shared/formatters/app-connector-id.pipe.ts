@@ -1,5 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {memoize} from 'decko';
 
 const connectorIdMap = {
   1: 'A',
@@ -24,7 +23,7 @@ const connectorIdMap = {
  */
 @Pipe({name: 'appConnectorId'})
 export class AppConnectorIdPipe implements PipeTransform {
-  @memoize
+
   transform(value: number): any {
     return connectorIdMap[value];
   }

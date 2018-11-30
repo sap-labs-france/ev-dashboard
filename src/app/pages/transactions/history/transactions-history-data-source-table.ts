@@ -21,7 +21,6 @@ import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pi
 import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {memoize} from 'decko';
 import {LocaleService} from '../../../services/locale.service';
 
 @Injectable()
@@ -154,7 +153,6 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
     ];
   }
 
-  @memoize
   formatInactivity(totalInactivitySecs, row) {
     const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
     if (percentage === 0) {
@@ -164,7 +162,6 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
   }
 
-  @memoize
   formatPrice(price, priceUnit) {
     return this.currencyPipe.transform(price, priceUnit);
   }

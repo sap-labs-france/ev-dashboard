@@ -1,7 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DecimalPipe} from '@angular/common';
 import {LocaleService} from '../../services/locale.service';
-import {memoize} from 'decko';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
@@ -20,7 +19,6 @@ export class AppUnitPipe implements PipeTransform {
     return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any}
   }
 
-  @memoize
   transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 2,
             numberOfDecimal: number = 2): any {
     const src = this._parseMeasure(srcMeasure);

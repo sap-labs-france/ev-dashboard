@@ -1,10 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {memoize} from 'decko';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
 
-  @memoize
   transform(value: any, locale = 'en_US', format = 'date'): any {
     let options;
     switch (format) {

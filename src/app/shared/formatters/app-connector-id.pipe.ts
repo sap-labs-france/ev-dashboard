@@ -23,6 +23,7 @@ const connectorIdMap = {
  */
 @Pipe({name: 'appConnectorId'})
 export class AppConnectorIdPipe implements PipeTransform {
+
   transform(value: number): any {
     return connectorIdMap[value];
   }

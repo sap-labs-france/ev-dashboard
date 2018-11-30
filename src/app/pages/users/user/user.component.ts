@@ -3,7 +3,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -12,7 +11,6 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {MessageService} from '../../../services/message.service';
 import {ParentErrorStateMatcher} from '../../../utils/ParentStateMatcher';
-import {UserSitesDataSource} from './user-sites-data-source-table';
 import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
@@ -65,7 +63,6 @@ export class UserComponent implements OnInit {
   public repeatPassword: AbstractControl;
 
   constructor(
-    public userSitesDataSource: UserSitesDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -265,15 +262,6 @@ export class UserComponent implements OnInit {
   public refresh() {
     // Load User
     this.loadUser();
-    // Reload Site?
-    if (this.userSitesDataSource) {
-      this.userSitesDataSource.loadData();
-    }
-  }
-
-  public loadSites() {
-    // Load
-    this.userSitesDataSource.loadData();
   }
 
   public loadUser() {
@@ -285,8 +273,6 @@ export class UserComponent implements OnInit {
     // Yes, get it
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
-      // Set user
-      this.userSitesDataSource.setUser(user);
       // Init form
       if (user.id) {
         this.formGroup.controls.id.setValue(user.id);

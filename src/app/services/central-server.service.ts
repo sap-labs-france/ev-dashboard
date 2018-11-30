@@ -51,7 +51,7 @@ export class CentralServerService {
       path: '/charging-stations',
       title: 'Charging Stations',
       type: 'link',
-      icontype: 'local_gas_station',
+      icontype: 'ev_station',
       admin: true
     },
     {

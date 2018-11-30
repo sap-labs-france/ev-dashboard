@@ -1,6 +1,6 @@
 {
   "general": {
-    "app_name": "Charge-Angels",
+    "app_name": "e-Mobility",
     "last_update": "Version 2.0.6",
     "version": "Version",
     "about_us": "About Us",
@@ -251,7 +251,7 @@
     "eula": "End-user License Agreement",
     "must_accept_eula": "You must accept the End-user License Agreement",
     "no_space_in_password": "No space is allowed at the beginning and the end",
-    "title": "Sign in to Charge-Angels",
+    "title": "Sign in to e-Mobility",
     "register": "Register",
     "signup_link": "New user? Sign up!",
     "signin_link": "Already have an account? Sign in!",

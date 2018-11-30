@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -18,6 +18,8 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import * as $ from 'jquery';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import {
   MAT_DATE_LOCALE,
@@ -67,6 +69,10 @@ import {WindowService} from './services/window.service';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
 
+
+
+registerLocaleData(localeFr, 'fr');
+
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -100,7 +106,8 @@ import {TenantGuard} from './guard/tenant.guard';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
-  ]
+  ],
+  providers: [ { provide: LOCALE_ID, useValue: 'fr' } ],
 })
 export class MaterialModule {
 }

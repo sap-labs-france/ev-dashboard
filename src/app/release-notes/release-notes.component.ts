@@ -26,8 +26,8 @@ export class ReleaseNotesComponent {
           name: 'Components',
           changes: [
             `Added User Management`,
-            `Added Charging Station list`,
-            `Added Transaction list`
+            `Added Charging Station List`,
+            `Added Transaction History and Active`
           ]
         }
       ]

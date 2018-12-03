@@ -67,3 +67,67 @@
     margin-top: -30px !important;
   }
 }
+
+.mat-tab-labels {
+  border-radius: $border-radius-base;
+  /* margin-top: -20px; */
+  padding: 15px 15px 10px 15px;
+  margin: 0px 15px 15px;
+  color: $white-color !important;
+}
+.mat-tab-info .mat-tab-labels {
+  background: linear-gradient(60deg, $cyan-400, $cyan-600);
+  @include shadow-big-color($brand-info);
+}
+
+.mat-tab-danger .mat-tab-labels {
+  background: linear-gradient(60deg, $red-400, $red-600);
+  @include shadow-big-color($brand-danger);
+}
+
+.mat-ink-bar {
+  visibility: hidden !important;
+}
+
+.mat-tab-header {
+  margin-top: -20px;
+  border-bottom: none;
+}
+
+.mat-tab-label {
+  opacity: 1 !important;
+  color: $white-color !important;
+  border: 0;
+  margin: 0;
+  border-radius: $border-radius-base;
+  line-height: $mdb-btn-font-size-base * 2;
+  font-size: $mdb-btn-font-size-base;
+  padding: 8px 15px;
+  background-color: transparent;
+  transition: 0.3s background-color 0s;
+  text-transform: uppercase;
+  &:focus {
+    border: 0 !important;
+    color: $white-color !important;
+    font-weight: $font-weight-bold;
+  }
+  disabled .mat-tab-label:hover {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.mat-tab-label-active {
+  color: $white-color !important;
+  border: 0;
+  margin: 0;
+  border-radius: $border-radius-base;
+  line-height: $mdb-btn-font-size-base * 2;
+  font-size: $mdb-btn-font-size-base;
+  padding: 8px 15px;
+  background-color: rgba(255, 255, 255, .2);
+  transition: 0.3s background-color 0.2s;
+}
+
+.mat-tab-body-content {
+  padding: 0 20px 20px 20px;
+}

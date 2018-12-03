@@ -59,7 +59,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public loadData() {
     this.spinnerService.show();
-    console.log(this.getFilterValues());
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();

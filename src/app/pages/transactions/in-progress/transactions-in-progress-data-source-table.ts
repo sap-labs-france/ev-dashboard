@@ -162,7 +162,14 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
         name: 'transactions.state_of_charge',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (stateOfCharge) => this.percentPipe.transform(stateOfCharge / 100, '2.0-0')
+        formatter: (stateOfCharge, row) => {
+          if (!stateOfCharge) {
+            return '';
+          }
+          return `${this.percentPipe.transform(stateOfCharge / 100, '2.0-0')} > ` +
+            `${this.percentPipe.transform(row.currentStateOfCharge / 100, '2.0-0')} ` +
+            `(${this.percentPipe.transform((row.currentStateOfCharge - stateOfCharge) / 100, '2.0-0')})`;
+        }
       }
     ];
   }

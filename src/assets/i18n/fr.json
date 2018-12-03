@@ -1,7 +1,7 @@
 {
   "general": {
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.6",
+    "last_update": "Version 2.0.7",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -72,7 +72,7 @@
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
-      "transactions": "Transactions",
+      "transactions": "Sessions",
       "active": "Actives",
       "history": "Historique",
       "statistics": "Statistiques",
@@ -178,7 +178,7 @@
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
   },
   "sites": {
-    "allow_all_users": "Autoriser les utilisateurs à arrêter les transactions des autres utilisateurs sur ce site",
+    "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
@@ -624,7 +624,7 @@
     "refund_transaction_error": "Error occurred while refunding the session",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Conso. Totale",
-    "transaction_not_found": "Transaction inconnue",
+    "transaction_not_found": "Session inconnue",
     "load_transactions_error": "Une erreur est survenue pendant le remboursement de la session",
     "total_duration": "Durée Totale",
     "hours": "heure(s)",
@@ -639,23 +639,23 @@
     },
     "dialog": {
       "delete": {
-        "title": "Supprimer les Transactions",
-        "confirm": "Voulez-vous vraiment supprimer {{count}} transaction(s)?"
+        "title": "Supprimer les Sessions",
+        "confirm": "Voulez-vous vraiment supprimer {{count}} session(s)?"
       },
       "soft_stop": {
-        "title": "Arréter les Transactions",
-        "confirm": "Voulez-vous vraiment arréter {{count}} transaction(s)?"
+        "title": "Arréter les Sessions",
+        "confirm": "Voulez-vous vraiment arréter {{count}} session(s)?"
       }
     },
     "notification": {
       "delete": {
-        "success": "{{count}} transaction(s) supprimées avec succès",
-        "error": "Une erreur est survenue pendant la suppression des transactions"
+        "success": "{{count}} session(s) supprimées avec succès",
+        "error": "Une erreur est survenue pendant la suppression des session"
 
       },
       "soft_stop": {
-        "success": "{{count}} transaction(s) arrétées avec succès",
-        "error": "Une erreur est survenue pendant l'arret des transactions"
+        "success": "{{count}} session(s) arrétées avec succès",
+        "error": "Une erreur est survenue pendant l'arret des session"
       }
     }
   }

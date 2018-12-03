@@ -168,10 +168,10 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
 
   getTableFiltersDef(): TableFilterDef[] {
     return [
-      new TransactionsChargerFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef(),
       new TransactionsDateFromFilter().getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
+      new TransactionsChargerFilter().getFilterDef(),
+      new UserTableFilter().getFilterDef()
     ];
   }
 

@@ -10,12 +10,12 @@ import {TransactionsRoutes} from './transactions.routing';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
 import {TransactionsHistoryComponent} from './history/transactions-history.component';
-import {TransactionsInProgressComponent} from './inProgress/transactions-in-progress.component';
+import {TransactionsInProgressComponent} from './in-progress/transactions-in-progress.component';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
-import {TransactionsInProgressDataSource} from './inProgress/transactions-in-progress-data-source-table';
-import {ConnectorCellComponent} from './inProgress/components/connector-cell.component';
+import {TransactionsInProgressDataSource} from './in-progress/transactions-in-progress-data-source-table';
+import {ConnectorCellComponent} from './in-progress/components/connector-cell.component';
 
 @NgModule({
   imports: [

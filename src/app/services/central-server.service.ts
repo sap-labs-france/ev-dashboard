@@ -55,6 +55,14 @@ export class CentralServerService {
       admin: true
     },
     {
+      id: 'transactions',
+      path: '/transactions',
+      title: 'Transactions',
+      type: 'link',
+      icontype: 'list',
+      admin: true
+    },
+    {
       id: 'users',
       path: '/users',
       title: 'Users',
@@ -70,14 +78,6 @@ export class CentralServerService {
       type: 'link',
       icontype: 'account_balance',
       superAdmin: true
-    },
-    {
-      id: 'transactions',
-      path: '/transactions',
-      title: 'Transactions',
-      type: 'link',
-      icontype: 'network_check',
-      admin: true
     },
     {
       id: 'logs',

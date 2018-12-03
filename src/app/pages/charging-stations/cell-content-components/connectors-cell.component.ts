@@ -6,7 +6,7 @@ import { ConnectorCellComponent } from "./connector-cell.component";
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
   <table><tr>
-    <ng-container *ngFor="let connector of this.charger.connectors">
+    <ng-container *ngFor="let connector of charger.connectors">
     <td class="charger-connector">
       <connector-id-cell [connectorInput]="connector"></connector-id-cell>
     </td>

@@ -3,7 +3,6 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import 'rxjs/add/operator/mergeMap';
 import {LocaleService} from '../../../services/locale.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {SpinnerService} from '../../../services/spinner.service';

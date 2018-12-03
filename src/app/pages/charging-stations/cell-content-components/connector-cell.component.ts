@@ -35,11 +35,12 @@ export class ConnectorCellComponent implements CellContentTemplateComponent {
    */
    setData(connector: any, columndef: TableColumnDef) {
      try { 
-        if (connector.errorCode && connector.activeForUser && connector.currentConsumption) {
+        if (connector.errorCode && connector.power) {
           // Assume we have a real Connector
           this.connector = <Connector>connector;
         } else {
           // Just copy the minimum information
+          this.connector = <Connector>{};
           this.connector.connectorId = connector.connectorId;
           this.connector.status = connector.status;
         }

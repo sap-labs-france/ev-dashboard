@@ -203,7 +203,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       propertyValue = this.findPropertyValue(columnDef.id, row);
     } catch (error) {
-      if (error === 'NotFound') {
+      if (error.message === 'NotFound') {
         if (columnDef.defaultValue) {
           propertyValue = columnDef.defaultValue;
         } else {

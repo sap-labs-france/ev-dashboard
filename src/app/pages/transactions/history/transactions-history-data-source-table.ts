@@ -1,7 +1,7 @@
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {SubjectInfo, TableColumnDef, TableDef, TableFilterDef} from '../../../common.types';
+import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -18,34 +18,39 @@ import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
-import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {LocaleService} from '../../../services/locale.service';
+import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
+import {Constants} from '../../../utils/Constants';
+import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
+import {map, zipAll} from 'rxjs/operators';
+import {TableDataSource} from '../../../shared/table/table-data-source';
 
 @Injectable()
-export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
+export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
+
+  private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    messageService: MessageService,
-    translateService: TranslateService,
-    spinnerService: SpinnerService,
-    dialogService: DialogService,
-    protected localeService: LocaleService,
-    router: Router,
-    dialog: MatDialog,
-    centralServerNotificationService: CentralServerNotificationService,
-    centralServerService: CentralServerService,
-    appDatePipe: AppDatePipe,
-    appUnitPipe: AppUnitPipe,
-    percentPipe: PercentPipe,
-    appConnectorIdPipe: AppConnectorIdPipe,
-    appUserNamePipe: AppUserNamePipe,
-    appDurationPipe: AppDurationPipe,
-    private currencyPipe: CurrencyPipe
-  ) {
-    super(messageService, translateService, spinnerService, dialogService, router, dialog, centralServerNotificationService,
-      centralServerService, appDatePipe, percentPipe, appUnitPipe, appConnectorIdPipe, appUserNamePipe, appDurationPipe);
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private localeService: LocaleService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private appDatePipe: AppDatePipe,
+    private appUnitPipe: AppUnitPipe,
+    private percentPipe: PercentPipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe,
+    private  currencyPipe: CurrencyPipe) {
+    super()
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -54,6 +59,7 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
 
   public loadData() {
     this.spinnerService.show();
+    console.log(this.getFilterValues());
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();
@@ -173,6 +179,61 @@ export class TransactionsHistoryDataSource extends TransactionsBaseDataSource {
       new TransactionsChargerFilter().getFilterDef(),
       new UserTableFilter().getFilterDef()
     ];
+  }
+
+  getTableActionsDef(): TableActionDef[] {
+    return [
+      new TableDeleteAction().getActionDef()
+    ];
+  }
+
+  getTableRowActions(): TableActionDef[] {
+    return this.tableActionsRow;
+  }
+
+  actionTriggered(actionDef: TableActionDef) {
+    switch (actionDef.id) {
+      case 'delete':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.dialog,
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.confirm', {count: this.getSelectedRows().length})
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._deleteTransactions(this.getSelectedRows().map((row) => row.id));
+            }
+          });
+        }
+        break;
+      default:
+        super.actionTriggered(actionDef);
+    }
+  }
+
+  getTableActionsRightDef(): TableActionDef[] {
+    return [
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
+    ];
+  }
+
+  protected _deleteTransactions(transactionIds: number[]) {
+    from(transactionIds).pipe(
+      map(transactionId => this.centralServerService.deleteTransaction(transactionId)),
+      zipAll())
+      .subscribe((responses: ActionResponse[]) => {
+        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.delete.success', {count: successCount}));
+        this.clearSelectedRows();
+        this.loadData();
+      }, (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('transactions.notification.delete.error'));
+      });
   }
 
 }

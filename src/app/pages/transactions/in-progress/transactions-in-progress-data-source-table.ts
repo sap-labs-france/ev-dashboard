@@ -19,32 +19,36 @@ import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {map, zipAll} from 'rxjs/operators';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
-import {TransactionsBaseDataSource} from '../transactions-base-data-source-table';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {ConnectorCellComponent} from './components/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
+import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
+import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
+import {TableDataSource} from '../../../shared/table/table-data-source';
 
 @Injectable()
-export class TransactionsInProgressDataSource extends TransactionsBaseDataSource {
+export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
+
+  private readonly tableActionsRow: TableActionDef[];
+
   constructor(
-    messageService: MessageService,
-    translateService: TranslateService,
-    spinnerService: SpinnerService,
-    dialogService: DialogService,
-    protected localeService: LocaleService,
-    router: Router,
-    dialog: MatDialog,
-    centralServerNotificationService: CentralServerNotificationService,
-    centralServerService: CentralServerService,
-    appDatePipe: AppDatePipe,
-    percentPipe: PercentPipe,
-    appUnitPipe: AppUnitPipe,
-    appConnectorIdPipe: AppConnectorIdPipe,
-    appUserNamePipe: AppUserNamePipe,
-    appDurationPipe: AppDurationPipe) {
-    super(messageService, translateService, spinnerService, dialogService, router, dialog, centralServerNotificationService,
-      centralServerService, appDatePipe, percentPipe, appUnitPipe, appConnectorIdPipe, appUserNamePipe, appDurationPipe);
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private localeService: LocaleService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private appDatePipe: AppDatePipe,
+    private percentPipe: PercentPipe,
+    private appUnitPipe: AppUnitPipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe) {
+    super()
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -204,6 +208,17 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
     ];
   }
 
+  getTableRowActions(): TableActionDef[] {
+    return this.tableActionsRow;
+  }
+
+  getTableActionsRightDef(): TableActionDef[] {
+    return [
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
+    ];
+  }
+
   private _stopTransactions(transactions: Transaction[]) {
     const isActive = (status) => status === 'Available';
     this._softStopTransactions(transactions.filter(transaction => isActive(transaction.status)));
@@ -215,7 +230,7 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
       map((transaction: Transaction) => this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id)),
       zipAll())
       .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
+        const successCount = responses.filter(response => response.status === 'Accepted').length;
         this.messageService.showSuccessMessage(
           this.translateService.instant('transactions.notification.soft_stop.success', {count: successCount}));
         this.clearSelectedRows();
@@ -231,7 +246,7 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
       map((transaction: Transaction) => this.centralServerService.softStopTransaction(transaction.id)),
       zipAll())
       .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
+        const successCount = responses.filter(response => response.status === 'Accepted').length;
         this.messageService.showSuccessMessage(
           this.translateService.instant('transactions.notification.soft_stop.success', {count: successCount}));
         this.clearSelectedRows();
@@ -241,5 +256,4 @@ export class TransactionsInProgressDataSource extends TransactionsBaseDataSource
           this.translateService.instant('transactions.notification.soft_stop.error'));
       });
   }
-
 }

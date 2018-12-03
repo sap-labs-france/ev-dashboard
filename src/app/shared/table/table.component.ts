@@ -45,6 +45,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
+  public buildCellValue: any;
   private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
@@ -52,7 +53,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
-  public buildCellValue: any;
 
   constructor(
     private configService: ConfigService,
@@ -68,7 +68,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     const locale = this.localService.getCurrentFullLocaleForJS();
     this.buildCellValue = _.memoize(this._buildCellValue, (row: any, col: TableColumnDef) => {
-      return row.id + col.id + locale + this.findPropertyValue(col.id, row);
+      return row.id + col.id + locale + this.findPropertyValue(col, col.id, row);
     });
 
     if (this.configService.getCentralSystemServer().pollEnabled) {
@@ -197,71 +197,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
-  private _buildCellValue(_row: any, _columnDef: TableColumnDef) {
-    let propertyValue;
-    try {
-      propertyValue = this.findPropertyValue(_columnDef.id, _row);
-    } catch (error) {
-      if (error === 'NotFound') {
-        if (_columnDef.defaultValue) {
-          propertyValue = _columnDef.defaultValue;
-        } else {
-          switch (_columnDef.type) {
-            case 'number':
-            case 'float':
-              propertyValue = 0;
-              break;
-            default:
-              propertyValue = '';
-              break;
-          }
-        }
-      } else {
-        throw error;
-      }
-    }
-
-    const additionalProperties = [];
-    if (_columnDef.additionalIds) {
-      _columnDef.additionalIds.forEach(propertyName => {
-          try {
-            additionalProperties.push(this.findPropertyValue(propertyName, _row));
-          } catch (error) {
-            if (error !== 'NotFound') {
-              // ignore NotFound error
-              throw error;
-            }
-          }
-        }
-      );
-    }
-    // Type?
-    switch (_columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
-    }
-
-    if (_columnDef.formatter) {
-      if (additionalProperties.length > 0) {
-        propertyValue = _columnDef.formatter(propertyValue, _row, ...additionalProperties);
-      } else {
-        propertyValue = _columnDef.formatter(propertyValue, _row);
-      }
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : '' }`;
-  }
-
   public handleSortChanged() {
     // Reset paginator
     this.paginator.pageIndex = 0;
@@ -328,18 +263,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return true;
   }
 
-  /*  public setDetailedDataSource(row){
-      this.detailDataSource.setDetailedDataSource(row);
-    }*/
-
-  /**
-   * isDetailedTableEnable
-   */
-
-  /*  public isDetailedTableEnable(): Boolean {
-      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
-    }*/
-
   /**
    * get
    */
@@ -352,18 +275,85 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._detailComponentId++;
   }
 
-  private findPropertyValue(propertyName, source) {
-    let propertyValue = source[propertyName];
+  /*  public setDetailedDataSource(row){
+      this.detailDataSource.setDetailedDataSource(row);
+    }*/
 
+  /**
+   * isDetailedTableEnable
+   */
+
+  /*  public isDetailedTableEnable(): Boolean {
+      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
+    }*/
+
+  private _buildCellValue(row: any, columnDef: TableColumnDef) {
+    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
+
+    const additionalProperties = [];
+    if (columnDef.additionalIds) {
+      columnDef.additionalIds.forEach(propertyName => {
+          try {
+            additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
+          } catch (error) {
+            if (error !== 'NotFound') {
+              // ignore NotFound error
+              throw error;
+            }
+          }
+        }
+      );
+    }
+    // Type?
+    switch (columnDef.type) {
+      // Date
+      case 'date':
+        propertyValue = Utils.convertToDate(propertyValue);
+        break;
+      // Integer
+      case 'integer':
+        propertyValue = Utils.convertToInteger(propertyValue);
+        break;
+      // Float
+      case 'float':
+        propertyValue = Utils.convertToFloat(propertyValue);
+        break;
+    }
+
+    if (columnDef.formatter) {
+      if (additionalProperties.length > 0) {
+        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
+      } else {
+        propertyValue = columnDef.formatter(propertyValue, row);
+      }
+    }
+    // Return the property
+    return `${propertyValue ? propertyValue : '' }`;
+  }
+
+  private findPropertyValue(columnDef, propertyName, source) {
+    let propertyValue = null;
+    propertyValue = source[propertyName];
     if (propertyName.indexOf('.') > 0) {
       propertyValue = source;
       propertyName.split('.').forEach((key) => {
-        if (propertyValue.hasOwnProperty(key)) {
-          propertyValue = propertyValue[key];
-        } else {
-          throw new Error('NotFound');
+          if (propertyValue.hasOwnProperty(key)) {
+            propertyValue = propertyValue[key];
+          } else if (columnDef.defaultValue) {
+            propertyValue = columnDef.defaultValue;
+          } else {
+            switch (columnDef.type) {
+              case 'number':
+              case 'float':
+                propertyValue = 0;
+                break;
+              default:
+                propertyValue = '';
+                break;
+            }
+          }
         }
-      });
+      );
     }
     return propertyValue;
   }

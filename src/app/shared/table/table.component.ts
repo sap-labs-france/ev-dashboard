@@ -293,14 +293,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     const additionalProperties = [];
     if (columnDef.additionalIds) {
       columnDef.additionalIds.forEach(propertyName => {
-          try {
             additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
-          } catch (error) {
-            if (error !== 'NotFound') {
-              // ignore NotFound error
-              throw error;
-            }
-          }
         }
       );
     }

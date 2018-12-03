@@ -1,7 +1,7 @@
 {
   "general": {
-    "app_name": "Charge-Angels",
-    "last_update": "Version 2.0.6",
+    "app_name": "e-Mobility",
+    "last_update": "Version 2.0.7",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -74,7 +74,7 @@
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
-      "transactions": "Transactions",
+      "transactions": "Sessions",
       "active": "Active",
       "history": "History",
       "statistics": "Statistics",
@@ -180,7 +180,7 @@
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
   "sites": {
-    "allow_all_users": "Allow users to stop the transactions of any users on this site",
+    "allow_all_users": "Allow users to stop the sessions of any users on this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -251,7 +251,7 @@
     "eula": "End-user License Agreement",
     "must_accept_eula": "You must accept the End-user License Agreement",
     "no_space_in_password": "No space is allowed at the beginning and the end",
-    "title": "Sign in to Charge-Angels",
+    "title": "Sign in to e-Mobility",
     "register": "Register",
     "signup_link": "New user? Sign up!",
     "signin_link": "Already have an account? Sign in!",
@@ -515,6 +515,7 @@
     "status": "Status",
     "picture": "Picture",
     "show_image": "Show Pictures",
+    "sites": "Sites",
     "status_invalid": "Invalid status",
     "status_active": "Active",
     "status_blocked": "Blocked",
@@ -584,16 +585,23 @@
     "delete_error": "Error occurred while deleting the tenant"
   },
   "transactions": {
-    "date": "Date",
-    "user": "User",
-    "tag_ids": "Badge IDs",
-    "charging_station": "Charging Station",
-    "start_date": "Start Date",
-    "end_date": "End Date",
+    "date_from": "Date",
     "duration": "Duration",
     "inactivity": "Inactivity",
+    "user": "User",
+    "badge_id": "Badge ID",
+    "connector": "Connector",
+    "total_consumption": "Consumed",
+    "current_consumption": "Power",
+    "state": "Status",
+    "state_of_charge": "Battery level",
+    "date": "Date",
+    "tag_ids": "Badge IDs",
+    "charging_station": "Charging Station",
+    "started_at": "Started At",
+    "end_date": "End Date",
     "consumption": "Consumed",
-    "transactions_button": "Transactions",
+    "transactions_button": "Sessions",
     "transaction_today": "Today",
     "transaction_one_week_ago": "1 Week ago",
     "transaction_one_month_ago": "1 Month ago",
@@ -620,7 +628,7 @@
     "refund_transaction_error": "Error occurred while refunding the session",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Total Consumption",
-    "transaction_not_found": "Transaction not found",
+    "transaction_not_found": "Session not found",
     "load_transactions_error": "Error occurred while retrieving the sessions",
     "total_duration": "Total Duration",
     "hours": "hour(s)",
@@ -635,32 +643,24 @@
     },
     "dialog": {
       "delete": {
-        "title": "Delete Transactions",
-        "confirm": "Do you really want to delete {{count}} transaction(s)?"
+        "title": "Delete Sessions",
+        "confirm": "Do you really want to delete {{count}} session(s)?"
       },
       "soft_stop": {
-        "title": "Stop Transactions",
-        "confirm": "Do you really want to stop {{count}} transaction(s)?"
+        "title": "Stop Sessions",
+        "confirm": "Do you really want to stop {{count}} session(s)?"
       }
     },
     "notification": {
       "delete": {
-        "success": "{{count}} transaction(s) deleted successfully",
-        "error": "An error occurred during transaction deletion"
+        "success": "{{count}} session(s) deleted successfully",
+        "error": "An error occurred during session deletion"
 
       },
       "soft_stop": {
-        "success": "{{count}} transaction(s) stopped successfully",
-        "error": "An error occurred during transaction stop"
+        "success": "{{count}} session(s) stopped successfully",
+        "error": "An error occurred during session stop"
       }
-    },
-    "date_from": "Date",
-    "state": "Status",
-    "state_of_charge": "Battery level",
-    "started_at": "Started At",
-    "badge_id": "Badge ID",
-    "connector": "Connector",
-    "total_consumption": "Consumed",
-    "current_consumption": "Power"
+    }
   }
 }

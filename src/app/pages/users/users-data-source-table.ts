@@ -27,6 +27,8 @@ import {UserStatusFilter} from './filters/user-status-filter';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {UserStatusComponent} from './formatters/user-status.component';
+import {TableEditLocationAction} from '../../shared/table/actions/table-edit-location';
+import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
@@ -51,6 +53,7 @@ export class UsersDataSource extends TableDataSource<User> {
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
+      new TableEditLocationAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -93,6 +96,7 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'status',
@@ -145,7 +149,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn),
+        formatter: (createdOn) => this.datePipe.transform(createdOn, locale),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true
@@ -178,6 +182,9 @@ export class UsersDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case 'edit':
         this._showUserDialog(rowItem);
+        break;
+      case 'edit_location':
+        this._showSitesDialog(rowItem);
         break;
       case 'delete':
         this._deleteUser(rowItem);
@@ -212,6 +219,16 @@ export class UsersDataSource extends TableDataSource<User> {
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _showSitesDialog(user?: User) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    if (user) {
+      dialogConfig.data = user;
+    }
+    // Open
+    this.dialog.open(UserSitesDialogComponent, dialogConfig);
   }
 
   private _deleteUser(user: User) {

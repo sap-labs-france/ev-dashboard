@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput, BehaviorSubject, of, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, ObservableInput, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -13,7 +13,6 @@ import {
   ActionResponse,
   ChargerResult,
   Image,
-  KeyValue,
   Log,
   LogResult,
   Ordering,
@@ -52,7 +51,15 @@ export class CentralServerService {
       path: '/charging-stations',
       title: 'Charging Stations',
       type: 'link',
-      icontype: 'local_gas_station',
+      icontype: 'ev_station',
+      admin: true
+    },
+    {
+      id: 'transactions',
+      path: '/transactions',
+      title: 'Transactions',
+      type: 'link',
+      icontype: 'list',
       admin: true
     },
     {
@@ -71,14 +78,6 @@ export class CentralServerService {
       type: 'link',
       icontype: 'account_balance',
       superAdmin: true
-    },
-    {
-      id: 'transactions',
-      path: '/transactions',
-      title: 'Transactions',
-      type: 'link',
-      icontype: 'network_check',
-      admin: true
     },
     {
       id: 'logs',
@@ -633,6 +632,23 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
       `{ "transactionId": "${id}" }`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  stationStopTransaction(chargeBoxId: string, transactionId: number) {
+    this._checkInit();
+    const body = {
+      chargeBoxID: chargeBoxId,
+      args: {
+        transactionId: transactionId
+      }
+    };
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStopTransaction`, body,
       {
         headers: this._buildHttpHeaders()
       })

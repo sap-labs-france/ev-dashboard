@@ -1,10 +1,8 @@
-
 import {mergeMap} from 'rxjs/operators';
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -13,7 +11,6 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {MessageService} from '../../../services/message.service';
 import {ParentErrorStateMatcher} from '../../../utils/ParentStateMatcher';
-import {UserSitesDataSource} from './user-sites-data-source-table';
 import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
@@ -28,7 +25,6 @@ export class UserComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentUserID: string;
   @Input() inDialog: boolean;
-  private messages;
   public userStatuses;
   public userRoles;
   public userLocales;
@@ -37,7 +33,6 @@ export class UserComponent implements OnInit {
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
   public hidePassword = true;
-  public userSitesDataSource: UserSitesDataSource;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -72,7 +67,6 @@ export class UserComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private translateService: TranslateService,
     private localeService: LocaleService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
@@ -85,10 +79,6 @@ export class UserComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Get translated messages
-    this.translateService.get('users', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Get statuses
     this.userStatuses = userStatuses;
     // Get Roles
@@ -97,14 +87,6 @@ export class UserComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    // Create table data source
-    this.userSitesDataSource = new UserSitesDataSource(
-      this.messageService,
-      this.translateService,
-      this.router,
-      this.dialog,
-      this.dialogService,
-      this.centralServerService);
   }
 
   ngOnInit() {
@@ -280,15 +262,6 @@ export class UserComponent implements OnInit {
   public refresh() {
     // Load User
     this.loadUser();
-    // Reload Site?
-    if (this.userSitesDataSource) {
-      this.userSitesDataSource.loadData();
-    }
-  }
-
-  public loadSites() {
-    // Load
-    this.userSitesDataSource.loadData();
   }
 
   public loadUser() {
@@ -300,8 +273,6 @@ export class UserComponent implements OnInit {
     // Yes, get it
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
-      // Set user
-      this.userSitesDataSource.setUser(user);
       // Init form
       if (user.id) {
         this.formGroup.controls.id.setValue(user.id);
@@ -385,13 +356,12 @@ export class UserComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['user_not_found']);
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.user_not_found');
           break;
         default:
           // Unexpected error`
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('general.unexpected_error_backend'));
+            'general.unexpected_error_backend');
       }
     });
   }
@@ -429,14 +399,14 @@ export class UserComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('users.create_success',
-          {'userFullName': user.firstName + ' ' + user.name}));
+        this.messageService.showSuccessMessage('users.create_success',
+          {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
         this.currentUserID = user.id;
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['create_error']);
+          this.messageService, 'users.create_error');
       }
     }, (error) => {
       // Hide
@@ -446,18 +416,16 @@ export class UserComponent implements OnInit {
         // Email already exists
         case 510:
           // Show error
-          this.messageService.showErrorMessage(
-            this.translateService.instant('authentication.email_already_exists'));
+          this.messageService.showErrorMessage('authentication.email_already_exists');
           break;
         // User deleted
         case 550:
           // Show error
-          this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+          this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['create_error']);
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
       }
     });
   }
@@ -474,12 +442,11 @@ export class UserComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('users.update_success',
-          {'userFullName': user.firstName + ' ' + user.name}));
+        this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['update_error']);
+          this.messageService, 'users.update_error');
       }
     }, (error) => {
       // Hide
@@ -489,18 +456,16 @@ export class UserComponent implements OnInit {
         // Email already exists
         case 510:
           // Show error
-          this.messageService.showErrorMessage(
-            this.translateService.instant('authentication.email_already_exists'));
+          this.messageService.showErrorMessage('authentication.email_already_exists');
           break;
         // User deleted
         case 550:
           // Show error
-          this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+          this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['update_error']);
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
   }

@@ -11,7 +11,9 @@ import {TableAddAction} from '../../../shared/table/actions/table-add-action';
 import {TableRemoveAction} from '../../../shared/table/actions/table-remove-action';
 import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class UserSitesDataSource extends TableDataSource<Site> {
   private user: User;
 
@@ -54,7 +56,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
+      class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
         multiple: true

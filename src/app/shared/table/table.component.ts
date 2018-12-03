@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -22,6 +12,8 @@ import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {Utils} from '../../utils/Utils';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
+import * as _ from 'lodash';
+import {LocaleService} from '../../services/locale.service';
 
 const DEFAULT_POLLING = 10000;
 
@@ -60,11 +52,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
+  public buildCellValue: any;
 
   constructor(
     private configService: ConfigService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
+    protected localService: LocaleService,
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
@@ -72,6 +66,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    const locale = this.localService.getCurrentFullLocaleForJS();
+    this.buildCellValue = _.memoize(this._buildCellValue, (row: any, col: TableColumnDef) => {
+      return row.id + col.id + locale + this.findPropertyValue(col.id, row);
+    });
+
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
@@ -198,16 +197,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource.getData().forEach(row => this.selection.select(row));
   }
 
-  public buildRowValue(row: any, columnDef: TableColumnDef) {
+  private _buildCellValue(_row: any, _columnDef: TableColumnDef) {
     let propertyValue;
     try {
-      propertyValue = this.findPropertyValue(columnDef.id, row);
+      propertyValue = this.findPropertyValue(_columnDef.id, _row);
     } catch (error) {
       if (error.message === 'NotFound') {
-        if (columnDef.defaultValue) {
-          propertyValue = columnDef.defaultValue;
+        if (_columnDef.defaultValue) {
+          propertyValue = _columnDef.defaultValue;
         } else {
-          switch (columnDef.type) {
+          switch (_columnDef.type) {
             case 'number':
             case 'float':
               propertyValue = 0;
@@ -223,10 +222,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => {
+    if (_columnDef.additionalIds) {
+      _columnDef.additionalIds.forEach(propertyName => {
           try {
-            additionalProperties.push(this.findPropertyValue(propertyName, row));
+            additionalProperties.push(this.findPropertyValue(propertyName, _row));
           } catch (error) {
             if (error !== 'NotFound') {
               // ignore NotFound error
@@ -237,7 +236,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     // Type?
-    switch (columnDef.type) {
+    switch (_columnDef.type) {
       // Date
       case 'date':
         propertyValue = Utils.convertToDate(propertyValue);
@@ -252,15 +251,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
     }
 
-    if (columnDef.formatter) {
+    if (_columnDef.formatter) {
       if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
+        propertyValue = _columnDef.formatter(propertyValue, _row, ...additionalProperties);
       } else {
-        propertyValue = columnDef.formatter(propertyValue, row);
+        propertyValue = _columnDef.formatter(propertyValue, _row);
       }
     }
     // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
+    return `${propertyValue ? propertyValue : '' }`;
   }
 
   public handleSortChanged() {

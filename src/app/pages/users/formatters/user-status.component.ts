@@ -14,6 +14,7 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
   /**
    * setData
    */
+
   setData(user: User, columndef: TableColumnDef) {
     for (const userStatus of userStatuses) {
       if (userStatus.key === user.status) {

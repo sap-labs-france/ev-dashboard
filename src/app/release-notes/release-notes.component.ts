@@ -19,6 +19,20 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.7',
+      date: new Date('2018-12-01'),
+      componentChanges: [
+        {
+          name: 'Components',
+          changes: [
+            `Added User Management`,
+            `Added Charging Station List`,
+            `Added Transaction History and Active`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.6',
       date: new Date('2018-11-14'),
       componentChanges: [

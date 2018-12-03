@@ -1,26 +1,27 @@
-import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy } from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnChanges, OnDestroy, ViewChild} from '@angular/core';
 
-import { CellContentTemplateDirective } from './cell-content-template.directive';
-import { CellContentTemplateComponent } from './cell-content-template.component';
-import { TableColumnDef } from '../../../common.types';
+import {CellContentTemplateDirective} from './cell-content-template.directive';
+import {CellContentTemplateComponent} from './cell-content-template.component';
+import {TableColumnDef} from '../../../common.types';
 
 @Component({
   selector: 'app-cell-component-container',
   template: `
-      <div>
-        <ng-template appCellContentTemplate></ng-template>
-      </div>
-    `
+    <div>
+      <ng-template appCellContentTemplate></ng-template>
+    </div>
+  `
 })
-export class CellContentComponentContainer implements OnInit, OnDestroy {
+export class CellContentComponentContainer implements OnChanges, OnDestroy {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
 
   @ViewChild(CellContentTemplateDirective) angularCellContentDirective: CellContentTemplateDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.loadComponent();
   }
 

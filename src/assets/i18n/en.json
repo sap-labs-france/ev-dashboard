@@ -342,7 +342,7 @@
     "name": "Name",
     "heartbeat_title": "Heartbeat",
     "connectors_title": "Connectors",
-    "consumption_title": "Power (kW)",
+    "consumption_title": "Power",
     "firmware_version": "Firmware Version",
     "connector_status": "Status",
     "ocpp_version": "OCPP Version",

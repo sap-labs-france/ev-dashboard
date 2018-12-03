@@ -340,7 +340,7 @@
     "name": "Nom",
     "heartbeat_title": "Heartbeat",
     "connectors_title": "Connecteurs",
-    "consumption_title": "Puissance (kW)",
+    "consumption_title": "Puissance",
     "firmware_version": "Version Firmware",
     "connector_status": "Status",
     "connector_error_title": "Error code",

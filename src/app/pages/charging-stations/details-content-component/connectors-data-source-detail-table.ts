@@ -73,10 +73,6 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
-/*        formatter: (connectorId) => {
-          return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
-        },
-        class: 'col-5em',*/
         headerClass: 'col-25p',
         sortable: false,
         isAngularComponent: true,
@@ -93,14 +89,14 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       },
       {
         id: 'currentConsumption',
-        name: 'transactions.consumption',
+        name: 'transactions.current_consumption',
         class: 'col-5em',
         formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {
         id: 'totalConsumption',
-        name: 'transactions.total_consumption_kw',
+        name: 'transactions.total_consumption',
         class: 'col-5em',
         formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false

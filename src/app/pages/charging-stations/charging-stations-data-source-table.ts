@@ -3,6 +3,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
 import {Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {DialogService} from '../../services/dialog.service';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
@@ -17,9 +19,13 @@ import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.c
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
+import { TableGetConfigurationAction } from "./actions/get-configuration-action";
 import {ChargerTableFilter} from '../../shared/table/filters/charger-filter';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
+import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
   private readonly tableActionsRow: TableActionDef[];
 
@@ -30,7 +36,9 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService
+    private centralServerService: CentralServerService,
+    private dialog: MatDialog,
+    private dialogService: DialogService
   ) {
     super();
     this.tableActionsRow = [
@@ -41,7 +49,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectLoggings();
+    return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
   public loadData() {
@@ -186,7 +194,8 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableDeleteAction().getActionDef()
+      new TableDeleteAction().getActionDef(),
+      new TableGetConfigurationAction().getActionDef()
     ];
   }
 
@@ -197,8 +206,8 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      // Add
-      case 'create':
+      // Delete
+      case 'delete':
         break;
       default:
         super.actionTriggered(actionDef);
@@ -208,6 +217,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
+      this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
         break;
@@ -221,5 +231,18 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef()
     ];
+  }
+
+  private _showChargingStationDialog(chargingStation?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (chargingStation) {
+      dialogConfig.data = chargingStation.id;
+    }
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

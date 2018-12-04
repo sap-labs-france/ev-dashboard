@@ -1,0 +1,105 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form" [formGroup]="formGroup">
+                    <div class="card card-profile card-testimonial">
+                        <div class="card-header card-header-tabs card-header-danger">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#profile" data-toggle="tab">
+                                                <i class="material-icons">portrait</i> {{currentCharger.id}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#connectors" data-toggle="tab">
+                                                <i class="material-icons">location_on</i> {{'general.address' |
+                                                translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li *ngIf="isAdmin" class="nav-item">
+                                            <a class="nav-link" href="#sites" data-toggle="tab" (click)="loadSites()">
+                                                <i class="material-icons">business</i> {{'sites.site' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <span class="toolbar-spacer"></span>
+                                        <button class="btn btn-info mat-raised-button"
+                                                (click)="saveChargeBoxID(formGroup.value)"
+                                                [disabled]="!formGroup.valid || !formGroup.dirty">
+                                            <span class="mat-button-wrapper">
+                                              <i class="material-icons mr-2">save</i>
+                                              <span class="btn-label">{{'users.save_profile' | translate}}</span>
+                                            </span>
+                                        </button>
+                                        <button class="btn btn-info mat-raised-button" (click)="refresh()">
+                                            <span class="mat-button-wrapper">
+                                              <i class="material-icons mr-2">refresh</i>
+                                              <span class="btn-label">{{'general.refresh' | translate}}</span>
+                                            </span>
+                                        </button>
+                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button" mat-dialog-close>
+                                            <span class="mat-button-wrapper">
+                                              <i class="material-icons mr-2">close</i>
+                                              <span class="btn-label">{{'general.close' | translate}}</span>
+                                            </span>
+                                        </button>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="profile">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input appSetAutoFocus matInput
+                                                           placeholder="{{'currentCharger.id' | translate}}" type="text"
+                                                           [formControl]="chargeBoxID"
+                                                           required>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="{{'currentCharger.chargingStationURL' | translate}}"
+                                                           type="text" [formControl]="inputURL"
+                                                           required>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="isAdmin" class="col-md-6">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="{{'currentCharger.numberOfConnectedPhase' | translate}}"
+                                                                [formControl]="status">
+                                                        <mat-option value="1">
+                                                            1
+                                                        </mat-option>
+                                                        <mat-option value="2">
+                                                            1
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

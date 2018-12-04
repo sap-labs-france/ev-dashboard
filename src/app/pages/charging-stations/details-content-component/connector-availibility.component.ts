@@ -1,20 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TableColumnDef, Connector } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
-@Component({
-  styleUrls: ['../charging-stations-data-source-table.scss'],
-  template: `
-    <div class='charger-heartbeat'></div>
-    <span class='charger-heartbeat-date ' [class.charger-heartbeatdate-error]="row.currentConsumption > 0">{{row.status}}</span>
-    `
-})
-export class ConnectorAvailibilityComponent implements CellContentTemplateComponent {
-  row: Connector;
-  /**
-   * setData
-   */
-  setData(row: Connector, columndef: TableColumnDef) {
-    this.row = row;
+export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+  @Input() row: Connector;
+
+ngOnInit(): void {
+  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+  //Add 'implements OnInit' to the class.
+  this.text = this.row.status;
+  this.type = "chip-width-8em ";
+    switch (this.row.status) {
+      case 'Available': {
+        this.type += TYPE_SUCCESS;
+        break;
+      }
+      case 'Preparing': {
+        this.type += TYPE_WARNING;
+        break;
+      }
+      case 'SuspendedEVSE': {
+        this.type += TYPE_INFO;
+        break;
+      }
+      case 'SuspendedEV': {
+        this.type += TYPE_INFO;
+        break;
+      }
+      case 'Finishing': {
+        this.type += TYPE_WARNING;
+        break;
+      }
+      case 'Reserved': {
+        this.type += TYPE_INFO;
+        break;
+      }
+      case 'Charging':
+      case 'Occupied': {
+        this.type += TYPE_INFO;
+        break;
+      }
+      case 'Unavailable': {
+        this.type += TYPE_DANGER;
+        break;
+      }
+      case 'Faulted': {
+        this.type += TYPE_DANGER;
+        break;
+      }
+      default: {
+        this.type += TYPE_WARNING;
+        break;
+      }
+    }
   }
 }

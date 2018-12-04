@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {TableColumnDef} from '../../../common.types';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Charger} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {LocaleService} from '../../../services/locale.service';
 
@@ -15,19 +15,20 @@ import {LocaleService} from '../../../services/locale.service';
     </span>
   `
 })
-export class HeartbeatCellComponent implements CellContentTemplateComponent {
-  row: any = {};
+export class HeartbeatCellComponent implements CellContentTemplateComponent, OnChanges {
+//  row: any = {};
   locale: string;
+
+  @Input() row: Charger;
 
   constructor(localeService: LocaleService) {
     this.locale = localeService.getCurrentFullLocaleForJS()
   }
 
-
-  /**
-   * setData
-   */
-  setData(row: any, columndef: TableColumnDef) {
-    this.row = row;
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.row.chargePointVendor;
   }
+
 }

@@ -657,28 +657,6 @@ export class CentralServerService {
       );
   }
 
-  getChargerConnectorTypes() {
-    // Return
-    return [
-      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
-      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
-      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
-    ];
-  }
-
-  getChargerConnectorTypeByKey(type) {
-    // Return the found key
-    const foundConnectorType = this.getChargerConnectorTypes().find(
-      (connectorType) => connectorType.key === type);
-    return (foundConnectorType ? foundConnectorType :
-        {
-          key: 'U',
-          description: this.translateService.instant('chargers.connector_unknown'),
-          image: 'assets/img/connectors/no-connector.gif'
-        }
-    );
-  }
-
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -755,4 +733,42 @@ export class CentralServerService {
     }
     return throwError(errMsg);
   }
+
+  getChargerConnectorTypes() {
+    // Return
+    return [
+      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
+      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
+      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
+    ];
+  }
+
+  getChargerConnectorTypeByKey(type) {
+    // Return the found key
+    const foundConnectorType = this.getChargerConnectorTypes().find(
+      (connectorType) => connectorType.key === type);
+    return (foundConnectorType ? foundConnectorType :
+        {
+          key: 'U',
+          description: this.translateService.instant('chargers.connector_unknown'),
+          image: 'assets/img/connectors/no-connector.gif'
+        }
+    );
+  }
+
+  updateChargingStationParams(chargingStation): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Set the tenant
+    chargingStation['tenant'] = this.windowService.getSubdomain();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ChargingStationUpdateParams`, chargingStation,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
 }

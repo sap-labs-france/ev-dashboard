@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CellContentTemplateComponent} from '../../../../shared/table/cell-content-template/cell-content-template.component';
 import {TableColumnDef, Transaction} from '../../../../common.types';
 
@@ -8,9 +8,9 @@ import {TableColumnDef, Transaction} from '../../../../common.types';
     <table>
       <tr>
         <td class="charger-connector">
-          <div class="charger-connector charger-connector-background {{getClassForStatus(transaction.status)}}">
-        <span [class]="getTextClassForStatus(transaction.status) ">
-          {{transaction.connectorId | appConnectorId}}
+          <div class="charger-connector charger-connector-background {{getClassForStatus(row.status)}}">
+        <span [class]="getTextClassForStatus(row.status) ">
+          {{row.connectorId | appConnectorId}}
         </span>
           </div>
         </td>
@@ -22,11 +22,7 @@ import {TableColumnDef, Transaction} from '../../../../common.types';
 
 export class ConnectorCellComponent implements CellContentTemplateComponent {
 
-  transaction: Transaction;
-
-  setData(transaction: Transaction, columnDef: TableColumnDef) {
-    this.transaction = transaction;
-  }
+  @Input() row: Transaction;
 
   getClassForStatus(status: String) {
     switch (status) {

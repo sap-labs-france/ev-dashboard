@@ -131,6 +131,15 @@ export class AuthorizationService {
       });
   }
 
+  public canUpdateChargingStation(chargingStation): boolean {
+    // Check
+    return this._canPerformAction(Constants.ENTITY_CHARGING_STATION,
+      {
+        'Action': Constants.ACTION_UPDATE,
+        'ChargingStationID': chargingStation.id,
+      });
+  }
+
   public canListCompanies(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_COMPANIES,

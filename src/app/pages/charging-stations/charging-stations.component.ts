@@ -16,32 +16,28 @@ import { ChargingStationsDataSource } from './charging-stations-data-source-tabl
 })
 export class ChargingStationsComponent implements OnInit {
   private messages;
-  public chargingStationsDataSource: ChargingStationsDataSource;
+//  public chargingStationsDataSource: ChargingStationsDataSource;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private router: Router,
+    private chargingStationsDataSource: ChargingStationsDataSource,
+    private translateService: TranslateService
   ) {
     // Get translated messages
     this.translateService.get('chargers', {}).subscribe((messages) => {
       this.messages = messages;
     });
     // Create table data source
-    this.chargingStationsDataSource = new ChargingStationsDataSource(
+/*    this.chargingStationsDataSource = new ChargingStationsDataSource(
       this.localeService,
       this.messageService,
       this.translateService,
       this.spinnerService,
       this.router,
       this.centralServerNotificationService,
-      this.centralServerService
-    );
+      this.centralServerService,
+      this.dialog,
+      this.dialogService
+    );*/
   }
 
   ngOnInit() {

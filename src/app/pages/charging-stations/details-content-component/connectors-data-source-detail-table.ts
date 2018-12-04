@@ -5,14 +5,14 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {CentralServerService} from '../../../services/central-server.service';
 import {MatDialog} from '@angular/material';
 import {ConfigService} from '../../../services/config.service';
-import {SimpleTableDataSource} from '../../../shared/table/simple-table/simple-table-data-source';
-import {ConnectorAvailibilityComponent} from './connector-availibility.component';
-import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
-import {AppConnectorTypePipe} from '../../../shared/formatters/app-connector-type.pipe';
-import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
+import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
+import { ConnectorAvailibilityComponent } from './connector-availibility.component';
+import { AppConnectorIdPipe } from "../../../shared/formatters/app-connector-id.pipe";
+import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
+import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
+import { ConnectorCellComponent } from "../cell-content-components/connector-cell.component";
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
@@ -49,8 +49,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         enabled: false
       },
       rowDetails: {
-        enabled: false,
-        detailsField: 'detailsComponent'
+        enabled: false
       }
     };
   }
@@ -73,15 +72,15 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        formatter: (connectorId) => {
-          return `<span style="font-weight: bold">${new AppConnectorIdPipe().transform(connectorId)}</span>`
-        },
-        class: 'col-5em',
-        sortable: false
+        headerClass: 'col-25p',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponentName: ConnectorCellComponent
       },
       {
         id: 'status',
         name: 'chargers.connector_status',
+        headerClass: 'col-10em',
         class: 'col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
@@ -89,14 +88,14 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       },
       {
         id: 'currentConsumption',
-        name: 'transactions.consumption',
+        name: 'transactions.current_consumption',
         class: 'col-5em',
         formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {
         id: 'totalConsumption',
-        name: 'transactions.total_consumption_kw',
+        name: 'transactions.total_consumption',
         class: 'col-5em',
         formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
@@ -104,7 +103,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'type',
         name: 'chargers.connector_type',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (type) => {
           const imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector" src="${imageUrl}"/>`;
@@ -121,7 +120,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        class: 'col-5em',
+        headerClass: 'col-100p',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

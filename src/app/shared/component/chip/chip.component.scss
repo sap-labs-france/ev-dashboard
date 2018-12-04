@@ -8,8 +8,15 @@
   font-size: 0.9rem;
   font-weight: bold;
   width: 80%;
-  max-width: 5em;
   justify-content: center;
+}
+
+.chip-width-8em {
+  max-width: 8em;
+}
+
+.chip-width-5em {
+  max-width: 5em;
 }
 
 .mat-chip-disabled {

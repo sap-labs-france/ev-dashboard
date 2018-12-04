@@ -18,6 +18,10 @@ import { ConnectorAvailibilityComponent } from './details-content-component/conn
 import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
+import { ConnectorCellComponent } from "./cell-content-components/connector-cell.component";
+import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
+import { ChargingStationComponent} from "./charging-station/charging-station.component";
+import { ChargingStationsDataSource } from "./charging-stations-data-source-table";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +42,10 @@ import { ConnectorsCellComponent } from "./cell-content-components/connectors-ce
     InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
     ConnectorAvailibilityComponent,
-    ConnectorsCellComponent
+    ConnectorsCellComponent,
+    ConnectorCellComponent,
+    ChargingStationComponent,
+    ChargingStationDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -46,7 +53,17 @@ import { ConnectorsCellComponent } from "./cell-content-components/connectors-ce
     InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
     ConnectorAvailibilityComponent,
-    ConnectorsCellComponent
+    ConnectorsCellComponent,
+    ConnectorCellComponent,
+    ChargingStationComponent,
+    ChargingStationDialogComponent
+  ],
+  exports: [
+    ChargingStationDialogComponent
+  ],
+  providers:[
+    ChargingStationComponent,
+    ChargingStationsDataSource
   ]
 })
 export class ChargingStationsModule { }

@@ -7,7 +7,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
   templateUrl: 'charging-station.dialog.component.html'
 })
 export class ChargingStationDialogComponent {
-  private chargeBoxID: string;
+   chargeBoxID: string;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationDialogComponent>,

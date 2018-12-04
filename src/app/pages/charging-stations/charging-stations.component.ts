@@ -19,7 +19,7 @@ export class ChargingStationsComponent implements OnInit {
 //  public chargingStationsDataSource: ChargingStationsDataSource;
 
   constructor(
-    private chargingStationsDataSource: ChargingStationsDataSource,
+    public chargingStationsDataSource: ChargingStationsDataSource,
     private translateService: TranslateService
   ) {
     // Get translated messages

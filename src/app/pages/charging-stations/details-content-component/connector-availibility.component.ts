@@ -3,6 +3,11 @@ import { TableColumnDef, Connector } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
+@Component({
+  selector: 'app-chip',
+  styleUrls: ['../../../shared/component/chip/chip.component.scss'],
+  templateUrl: '../../../shared/component/chip/chip.component.html'
+})
 export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
   @Input() row: Connector;
 

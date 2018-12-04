@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
-import { CellContentTemplateDirective } from './cell-content-template.directive';
-import { CellContentTemplateComponent } from './cell-content-template.component';
-import { TableColumnDef } from '../../../common.types';
+import {CellContentTemplateDirective} from './cell-content-template.directive';
+import {CellContentTemplateComponent} from './cell-content-template.component';
+import {TableColumnDef} from '../../../common.types';
 
 @Component({
   selector: 'app-cell-component-container',

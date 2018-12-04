@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -32,7 +32,7 @@ const DEFAULT_POLLING = 10000;
     ])
   ]
 })
-export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
@@ -125,7 +125,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngAfterViewInit() {
+  ngOnChanges() {
     // Set Paginator
     this.dataSource.setPaginator(this.paginator);
     // Set Sort
@@ -139,6 +139,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     // Unregister
     this.dataSource.unregisterToDataChange();
+    this.dataSource.resetFilters();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -293,7 +294,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     const additionalProperties = [];
     if (columnDef.additionalIds) {
       columnDef.additionalIds.forEach(propertyName => {
-            additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
+          additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
         }
       );
     }

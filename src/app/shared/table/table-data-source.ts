@@ -22,32 +22,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private staticFilters = [];
   private pollingInterval: number;
 
-  private _checkInitialized(): any {
-    // Check
-    if (!this.tableDef) {
-      this.tableDef = this.getTableDef();
-    }
-    if (!this.filtersDef) {
-      this.filtersDef = this.getTableFiltersDef();
-    }
-    if (!this.actionsDef) {
-      this.actionsDef = this.getTableActionsDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsDef);
-    }
-    if (!this.actionsRightDef) {
-      // Get
-      this.actionsRightDef = this.getTableActionsRightDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsRightDef);
-    }
-    if (!this.rowActionsDef) {
-      this.rowActionsDef = this.getTableRowActions();
-      // Check known actions
-      this._checkKnownActions(this.rowActionsDef);
-    }
-  }
-
   public setPollingInterval(pollingInterval: number) {
     this.pollingInterval = pollingInterval;
   }
@@ -55,26 +29,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public isEmpty(): boolean {
     // Empty?
     return this.data.length === 0;
-  }
-
-  private _checkKnownActions(actionsDef: TableActionDef[]): any {
-    // Check
-    if (actionsDef) {
-      // Check
-      actionsDef.forEach((actionDef) => {
-        // Check known actions
-        switch (actionDef.id) {
-          // Auto Refresh
-          case 'auto-refresh':
-            // Check Change Listener
-            if (actionDef.currentValue) {
-              // Activate
-              this.registerToDataChange();
-            }
-            break;
-        }
-      });
-    }
   }
 
   public hasActions(): boolean {
@@ -271,6 +225,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.loadData();
   }
 
+  public resetFilters() {
+    if (this.filtersDef) {
+      this.filtersDef.forEach((filterDef: TableFilterDef) => {
+        filterDef.currentValue = '';
+      });
+    }
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     // Check common actions
     switch (actionDef.id) {
@@ -392,4 +354,50 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   abstract getTableColumnDefs(): TableColumnDef[];
 
   abstract loadData();
+
+  private _checkInitialized(): any {
+    // Check
+    if (!this.tableDef) {
+      this.tableDef = this.getTableDef();
+    }
+    if (!this.filtersDef) {
+      this.filtersDef = this.getTableFiltersDef();
+    }
+    if (!this.actionsDef) {
+      this.actionsDef = this.getTableActionsDef();
+      // Check known actions
+      this._checkKnownActions(this.actionsDef);
+    }
+    if (!this.actionsRightDef) {
+      // Get
+      this.actionsRightDef = this.getTableActionsRightDef();
+      // Check known actions
+      this._checkKnownActions(this.actionsRightDef);
+    }
+    if (!this.rowActionsDef) {
+      this.rowActionsDef = this.getTableRowActions();
+      // Check known actions
+      this._checkKnownActions(this.rowActionsDef);
+    }
+  }
+
+  private _checkKnownActions(actionsDef: TableActionDef[]): any {
+    // Check
+    if (actionsDef) {
+      // Check
+      actionsDef.forEach((actionDef) => {
+        // Check known actions
+        switch (actionDef.id) {
+          // Auto Refresh
+          case 'auto-refresh':
+            // Check Change Listener
+            if (actionDef.currentValue) {
+              // Activate
+              this.registerToDataChange();
+            }
+            break;
+        }
+      });
+    }
+  }
 }

@@ -139,6 +139,8 @@ export interface Charger {
   connectors: Connector[];
   siteArea: SiteArea;
   site: Site;
+  cannotChargeInParallel: boolean;
+  maximumPower: number;
 }
 
 export interface ChargerResult {

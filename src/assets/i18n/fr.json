@@ -403,6 +403,7 @@
     "google_map": "Google",
     "sky_map": "Vehiclete",
     "action_button": "Actions",
+    "get_configuration_button": "Paramètres",
     "reboot_title": "Redémarrer",
     "reboot_button": "Redémarrer",
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",

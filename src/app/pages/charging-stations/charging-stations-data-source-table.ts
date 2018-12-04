@@ -49,7 +49,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectLoggings();
+    return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
   public loadData() {

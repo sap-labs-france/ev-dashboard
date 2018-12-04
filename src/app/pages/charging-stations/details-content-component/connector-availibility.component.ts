@@ -1,54 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TableColumnDef, Connector } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
-export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent {
-  /**
-   * setData
-   */
-  setData(connector: Connector, columndef: TableColumnDef) {
-    this.text = connector.status;
-    switch (connector.status) {
+export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+  @Input() row: Connector;
+
+ngOnInit(): void {
+  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+  //Add 'implements OnInit' to the class.
+  this.text = this.row.status;
+  this.type = "chip-width-8em ";
+    switch (this.row.status) {
       case 'Available': {
-        this.type = TYPE_SUCCESS + " chip-width-8em";
+        this.type += TYPE_SUCCESS;
         break;
       }
       case 'Preparing': {
-        this.type = TYPE_WARNING + " chip-width-8em";
+        this.type += TYPE_WARNING;
         break;
       }
       case 'SuspendedEVSE': {
-        this.type = TYPE_INFO + " chip-width-8em"; //'charger-connector-suspended-evse';
+        this.type += TYPE_INFO;
         break;
       }
       case 'SuspendedEV': {
-        this.type = TYPE_INFO + " chip-width-8em";
+        this.type += TYPE_INFO;
         break;
       }
       case 'Finishing': {
-        this.type = TYPE_WARNING + " chip-width-8em";
+        this.type += TYPE_WARNING;
         break;
       }
       case 'Reserved': {
-        this.type = TYPE_INFO + " chip-width-8em";
+        this.type += TYPE_INFO;
         break;
       }
       case 'Charging':
       case 'Occupied': {
-        this.type = TYPE_INFO + " chip-width-8em";
+        this.type += TYPE_INFO;
         break;
       }
       case 'Unavailable': {
-        this.type = TYPE_DANGER + " chip-width-8em";
+        this.type += TYPE_DANGER;
         break;
       }
       case 'Faulted': {
-        this.type = TYPE_DANGER + " chip-width-8em";
+        this.type += TYPE_DANGER;
         break;
       }
       default: {
-        this.type = TYPE_WARNING + " chip-width-8em";
+        this.type += TYPE_WARNING;
         break;
       }
     }

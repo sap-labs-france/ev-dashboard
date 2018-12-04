@@ -49,8 +49,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         enabled: false
       },
       rowDetails: {
-        enabled: false,
-        detailsField: 'detailsComponent'
+        enabled: false
       }
     };
   }

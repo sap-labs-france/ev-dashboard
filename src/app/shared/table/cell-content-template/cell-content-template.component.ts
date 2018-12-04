@@ -1,4 +1,6 @@
 import { TableColumnDef } from '../../../common.types';
 export interface CellContentTemplateComponent {
-  setData(row: any, columnDef: TableColumnDef);
+  row: any;
+//  columnDef: TableColumnDef;
+//  setData(row: any, columnDef: TableColumnDef);
 }

@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
-import { TableColumnDef, Charger, Connector } from '../../../common.types';
+import { Component, Input } from '@angular/core';
+import { Charger } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
-import { ConnectorCellComponent } from "./connector-cell.component";
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
   <table><tr>
-    <ng-container *ngFor="let connector of charger.connectors">
+    <ng-container *ngFor="let connector of row.connectors">
     <td class="charger-connector">
-      <connector-id-cell [connectorInput]="connector"></connector-id-cell>
+      <connector-id-cell [row]="connector"></connector-id-cell>
     </td>
     </ng-container>
   </tr>
@@ -19,12 +18,6 @@ import { ConnectorCellComponent } from "./connector-cell.component";
 
 export class ConnectorsCellComponent implements CellContentTemplateComponent {
 
-  charger: Charger;
-  /**
-   * setData
-   */
-   setData(charger: Charger, columndef: TableColumnDef) {
-    this.charger = charger;
-  }
+  @Input() row: Charger;
 
 }

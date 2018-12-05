@@ -152,11 +152,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     if (this.isAdmin) {
       columns.push({
         id: 'price',
-        additionalIds: ['priceUnit'],
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price, row, priceUnit) => this.formatPrice(price, priceUnit)
+        formatter: (price, row) => this.formatPrice(price, row.priceUnit)
       })
     }
     return columns as TableColumnDef[];
@@ -171,7 +170,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
   }
 
-  formatPrice(price, priceUnit) {
+  formatPrice(price, priceUnit): string {
     return this.currencyPipe.transform(price, priceUnit);
   }
 

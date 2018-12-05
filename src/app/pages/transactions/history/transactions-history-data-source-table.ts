@@ -32,6 +32,7 @@ import {TableDataSource} from '../../../shared/table/table-data-source';
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
   private readonly tableActionsRow: TableActionDef[];
+  private isAdmin = false;
 
   constructor(
     private messageService: MessageService,
@@ -88,7 +89,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-    return [
+    const columns = [
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -146,16 +147,19 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         headerClass: 'col-10p',
         class: 'col-10p',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      },
-      {
+      }
+    ];
+    if (this.isAdmin) {
+      columns.push({
         id: 'price',
         additionalIds: ['priceUnit'],
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
         formatter: (price, row, priceUnit) => this.formatPrice(price, priceUnit)
-      }
-    ];
+      })
+    }
+    return columns as TableColumnDef[];
   }
 
   formatInactivity(totalInactivitySecs, row) {
@@ -219,6 +223,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     ];
   }
 
+  forAdmin(isAdmin: boolean) {
+    this.isAdmin = isAdmin
+  }
+
   protected _deleteTransactions(transactionIds: number[]) {
     from(transactionIds).pipe(
       map(transactionId => this.centralServerService.deleteTransaction(transactionId)),
@@ -234,5 +242,4 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           this.translateService.instant('transactions.notification.delete.error'));
       });
   }
-
 }

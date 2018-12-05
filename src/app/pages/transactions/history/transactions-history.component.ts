@@ -21,6 +21,7 @@ export class TransactionsHistoryComponent implements OnInit {
       this.messages = messages;
     });
     this.isAdmin = this.authorizationService.isAdmin();
+    this.transactionsHistoryDataSource.forAdmin(this.isAdmin);
   }
 
   ngOnInit() {

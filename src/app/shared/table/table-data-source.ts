@@ -237,6 +237,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Check common actions
     switch (actionDef.id) {
       case 'refresh':
+        this.clearSelectedRows();
         this.loadData();
         break;
       // Auto Refresh

@@ -59,8 +59,7 @@ export class CentralServerService {
       path: '/transactions',
       title: 'Transactions',
       type: 'link',
-      icontype: 'list',
-      admin: true
+      icontype: 'list'
     },
     {
       id: 'users',

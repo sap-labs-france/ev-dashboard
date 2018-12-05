@@ -162,17 +162,17 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
       },
       {
-        id: 'stateOfCharge',
+        id: 'currentStateOfCharge',
         name: 'transactions.state_of_charge',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (stateOfCharge, row) => {
-          if (!stateOfCharge) {
+        formatter: (currentStateOfCharge, row) => {
+          if (!currentStateOfCharge) {
             return '';
           }
-          return `${this.percentPipe.transform(stateOfCharge / 100, '2.0-0')} > ` +
-            `${this.percentPipe.transform(row.currentStateOfCharge / 100, '2.0-0')} ` +
-            `(${this.percentPipe.transform((row.currentStateOfCharge - stateOfCharge) / 100, '2.0-0')})`;
+          return `${this.percentPipe.transform(row.stateOfCharge / 100, '2.0-0')} > ` +
+            `${this.percentPipe.transform(currentStateOfCharge / 100, '2.0-0')} ` +
+            `(${this.percentPipe.transform((currentStateOfCharge - row.stateOfCharge) / 100, '2.0-0')})`;
         }
       }
     ];

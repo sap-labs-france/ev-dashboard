@@ -12,19 +12,19 @@ export class ChargerStatusTextDirective {
     this.statusDefault = false;
 
     switch (status) {
-      case "Reserved":
-      case "Available": {
+      case 'Reserved':
+      case 'Available': {
         this.statusDefault = true;
         break;
       }
-      case "Finishing":
-      case "Preparing":
-      case "SuspendedEVSE":
-      case "SuspendedEV":
-      case "Charging":
-      case "Occupied":
-      case "Unavailable":
-      case "Faulted":
+      case 'Finishing':
+      case 'Preparing':
+      case 'SuspendedEVSE':
+      case 'SuspendedEV':
+      case 'Charging':
+      case 'Occupied':
+      case 'Unavailable':
+      case 'Faulted':
       default: {
         this.statusActive = true;
       }

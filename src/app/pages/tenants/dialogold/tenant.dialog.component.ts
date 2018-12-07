@@ -18,9 +18,6 @@ export class TenantDialogComponent implements OnInit {
   public name: AbstractControl;
   public subdomain: AbstractControl;
   public email: AbstractControl;
-  public components: FormGroup;
-  public componentsActiveFlag = {};
-  public componentsList: any;
   private readonly currentTenant: any;
 
   constructor(
@@ -61,35 +58,13 @@ export class TenantDialogComponent implements OnInit {
           Validators.required,
           Validators.maxLength(20),
           Validators.pattern('^[a-z0-9]+$')
-        ])),
-      'components': new FormGroup({})
+        ]))
     });
 
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
     this.subdomain = this.formGroup.controls['subdomain'];
-
-    this.componentsList = Constants.COMPONENTS_LIST;
-
-    // add available components
-    let componentsGroup = <FormGroup>this.formGroup.controls['components'];
-    for (let componentIdentifier of Constants.COMPONENTS_LIST) {
-      // check if value is available
-      let activeFlag = false;
-      if (this.currentTenant.components && this.currentTenant.components[componentIdentifier] ) {
-        activeFlag = (this.currentTenant.components[componentIdentifier].active?true:false);
-      }
-
-      // build group
-      let componentActiveFlagControl = new FormControl(activeFlag);
-      let componentGroup = new FormGroup({
-        'active' : componentActiveFlagControl
-      })
-
-      componentsGroup.addControl(componentIdentifier, componentGroup);
-      this.componentsActiveFlag[componentIdentifier]= componentActiveFlagControl;
-    }
   }
 
   cancel() {
@@ -98,7 +73,7 @@ export class TenantDialogComponent implements OnInit {
 
   save(tenant) {
     // Show
-    this.spinnerService.show(); 
+    this.spinnerService.show();
 
     if (this.currentTenant.id) {
       // update existing tenant

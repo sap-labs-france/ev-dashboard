@@ -90,7 +90,8 @@
       "vehicles": "Vehicles",
       "logs": "Logs",
       "tenants": "Tenants",
-      "pricing": "Pricing"
+      "pricing": "Pricing",
+      "components": "Components"
     }
   },
   "vehicles": {
@@ -584,6 +585,9 @@
     "delete_title": "Delete Tenant",
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
+  },
+  "ocpi": {
+    "description": "Open Charge Point Interface"
   },
   "transactions": {
     "date_from": "Date",

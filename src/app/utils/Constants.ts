@@ -127,5 +127,5 @@ export class Constants {
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
 
   /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi','test'];
+  public static COMPONENTS_LIST = ['ocpi'];
 }

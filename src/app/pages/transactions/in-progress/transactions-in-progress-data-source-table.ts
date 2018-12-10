@@ -1,4 +1,4 @@
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
@@ -17,7 +17,6 @@ import {DialogService} from '../../../services/dialog.service';
 import {TableStopAction} from './actions/table-stop-action';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
-import {map, zipAll} from 'rxjs/operators';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
@@ -29,8 +28,6 @@ import {TableDataSource} from '../../../shared/table/table-data-source';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
-
-  private readonly tableActionsRow: TableActionDef[];
 
   constructor(
     private messageService: MessageService,
@@ -74,10 +71,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   public getTableDef(): TableDef {
     return {
       class: 'table-list-under-tabs',
-      rowSelection: {
-        enabled: true,
-        multiple: true
-      },
       search: {
         enabled: false
       }
@@ -178,32 +171,21 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableStopAction().getActionDef()
-    ];
-  }
-
-  actionTriggered(actionDef: TableActionDef) {
+  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'stop':
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
-            this.translateService.instant('transactions.dialog.soft_stop.title'),
-            this.translateService.instant('transactions.dialog.soft_stop.confirm', {count: this.getSelectedRows().length})
-          ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
-
-              this._stopTransactions(this.getSelectedRows());
-            }
-          });
-        }
+        this.dialogService.createAndShowYesNoDialog(
+          this.dialog,
+          this.translateService.instant('transactions.dialog.soft_stop.title'),
+          this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this._stopTransaction(transaction);
+          }
+        });
         break;
       default:
-        super.actionTriggered(actionDef);
+        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
@@ -216,7 +198,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [new TableStopAction().getActionDef()];
   }
 
   getTableActionsRightDef(): TableActionDef[] {
@@ -226,41 +208,34 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  private _stopTransactions(transactions: Transaction[]) {
-    const isActive = (status) => status === 'Available';
-    this._softStopTransactions(transactions.filter(transaction => isActive(transaction.status)));
-    this._stationStopTransactions(transactions.filter(transaction => !isActive(transaction.status)));
+  protected _stationStopTransaction(transaction: Transaction) {
+    this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+      this.messageService.showSuccessMessage(
+        this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      this.loadData();
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('transactions.notification.soft_stop.error'));
+    });
   }
 
-  private _stationStopTransactions(transactions: Transaction[]) {
-    from(transactions).pipe(
-      map((transaction: Transaction) => this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id)),
-      zipAll())
-      .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === 'Accepted').length;
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.soft_stop.success', {count: successCount}));
-        this.clearSelectedRows();
-        this.loadData();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('transactions.notification.soft_stop.error'));
-      });
+  protected _softStopTransaction(transaction: Transaction) {
+    this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
+      this.messageService.showSuccessMessage(
+        this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      this.loadData();
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('transactions.notification.soft_stop.error'));
+    });
   }
 
-  private _softStopTransactions(transactions: Transaction[]) {
-    from(transactions).pipe(
-      map((transaction: Transaction) => this.centralServerService.softStopTransaction(transaction.id)),
-      zipAll())
-      .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === 'Accepted').length;
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.soft_stop.success', {count: successCount}));
-        this.clearSelectedRows();
-        this.loadData();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('transactions.notification.soft_stop.error'));
-      });
+  private _stopTransaction(transaction: Transaction) {
+    if (transaction.status === 'Available') {
+      this._softStopTransaction(transaction);
+    } else {
+      this._stationStopTransaction(transaction);
+    }
   }
+
 }

@@ -645,22 +645,22 @@
     "dialog": {
       "delete": {
         "title": "Supprimer les Sessions",
-        "confirm": "Voulez-vous vraiment supprimer {{count}} session(s)?"
+        "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
       },
       "soft_stop": {
         "title": "Arréter les Sessions",
-        "confirm": "Voulez-vous vraiment arréter {{count}} session(s)?"
+        "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
       }
     },
     "notification": {
       "delete": {
-        "success": "{{count}} session(s) supprimées avec succès",
-        "error": "Une erreur est survenue pendant la suppression des session"
+        "success": "La session de {{user}} est supprimée avec succès",
+        "error": "Une erreur est survenue pendant la suppression de la session"
 
       },
       "soft_stop": {
-        "success": "{{count}} session(s) arrétées avec succès",
-        "error": "Une erreur est survenue pendant l'arret des session"
+        "success": "La session de {{user}} est arrétée avec succès",
+        "error": "Une erreur est survenue pendant l'arret de la session"
       }
     }
   }

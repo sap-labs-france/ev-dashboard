@@ -1,4 +1,4 @@
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
@@ -25,13 +25,11 @@ import {TableDeleteAction} from '../../../shared/table/actions/table-delete-acti
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
-import {map, zipAll} from 'rxjs/operators';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
-  private readonly tableActionsRow: TableActionDef[];
   private isAdmin = false;
 
   constructor(
@@ -77,10 +75,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public getTableDef(): TableDef {
     return {
       class: 'table-list-under-tabs',
-      rowSelection: {
-        enabled: true,
-        multiple: true
-      },
       search: {
         enabled: true
       }
@@ -183,35 +177,26 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     ];
   }
 
-  getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableDeleteAction().getActionDef()
-    ];
-  }
 
   getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [new TableDeleteAction().getActionDef()];
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.confirm', {count: this.getSelectedRows().length})
-          ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
-              this._deleteTransactions(this.getSelectedRows().map((row) => row.id));
-            }
-          });
-        }
+        this.dialogService.createAndShowYesNoDialog(
+          this.dialog,
+          this.translateService.instant('transactions.dialog.delete.title'),
+          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this._deleteTransaction(transaction);
+          }
+        });
         break;
       default:
-        super.actionTriggered(actionDef);
+        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
@@ -226,19 +211,14 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
-  protected _deleteTransactions(transactionIds: number[]) {
-    from(transactionIds).pipe(
-      map(transactionId => this.centralServerService.deleteTransaction(transactionId)),
-      zipAll())
-      .subscribe((responses: ActionResponse[]) => {
-        const successCount = responses.filter(response => response.status === Constants.REST_RESPONSE_SUCCESS).length;
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.delete.success', {count: successCount}));
-        this.clearSelectedRows();
-        this.loadData();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('transactions.notification.delete.error'));
-      });
+  protected _deleteTransaction(transaction: Transaction) {
+    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
+      this.messageService.showSuccessMessage(
+        this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      this.loadData();
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('transactions.notification.delete.error'));
+    });
   }
 }

@@ -674,21 +674,21 @@
     "dialog": {
       "delete": {
         "title": "Delete Sessions",
-        "confirm": "Do you really want to delete {{count}} session(s)?"
+        "confirm": "Do you really want to delete the session of {{user}} ?"
       },
       "soft_stop": {
         "title": "Stop Sessions",
-        "confirm": "Do you really want to stop {{count}} session(s)?"
+        "confirm": "Do you really want to stop the session of {{user}}?"
       }
     },
     "notification": {
       "delete": {
-        "success": "{{count}} session(s) deleted successfully",
+        "success": "Session of {{user}} deleted successfully",
         "error": "An error occurred during session deletion"
 
       },
       "soft_stop": {
-        "success": "{{count}} session(s) stopped successfully",
+        "success": "Session of {{user}} stopped successfully",
         "error": "An error occurred during session stop"
       }
     }

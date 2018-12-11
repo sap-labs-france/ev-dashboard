@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { Charger } from "../../../common.types";
 //import 'rxjs/add/operator/mergeMap';
 
 @Component({
@@ -7,14 +8,14 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
   templateUrl: 'charging-station.dialog.component.html'
 })
 export class ChargingStationDialogComponent {
-   chargeBoxID: string;
+   chargeBox: Charger;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
-      this.chargeBoxID = data;
+      this.chargeBox = data;
     }
   }
 }

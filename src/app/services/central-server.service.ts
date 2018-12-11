@@ -23,7 +23,9 @@ import {
   TenantResult,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  SiteAreaResult,
+  Charger
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -175,6 +177,25 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/Sites`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteAreas(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteAreaResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<SiteResult>(
+      `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -733,37 +754,13 @@ export class CentralServerService {
     return throwError(errMsg);
   }
 
-  getChargerConnectorTypes() {
-    // Return
-    return [
-      {key: 'T2', description: 'Type 2', image: 'assets/img/connectors/type2.gif'},
-      {key: 'CCS', description: 'Combo (CCS)', image: 'assets/img/connectors/combo_ccs.gif'},
-      {key: 'C', description: 'CHAdeMO', image: 'assets/img/connectors/chademo.gif'}
-    ];
-  }
-
-  getChargerConnectorTypeByKey(type) {
-    // Return the found key
-    const foundConnectorType = this.getChargerConnectorTypes().find(
-      (connectorType) => connectorType.key === type);
-    return (foundConnectorType ? foundConnectorType :
-        {
-          key: 'U',
-          description: this.translateService.instant('chargers.connector_unknown'),
-          image: 'assets/img/connectors/no-connector.gif'
-        }
-    );
-  }
-
-  updateChargingStationParams(chargingStation): Observable<ActionResponse> {
+  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
-    // Set the tenant
-    chargingStation['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ChargingStationUpdateParams`, chargingStation,
+    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
       })
       .pipe(
         catchError(this._handleHttpError)

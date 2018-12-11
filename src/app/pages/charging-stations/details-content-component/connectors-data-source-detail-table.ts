@@ -13,6 +13,7 @@ import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connec
 import { ConnectorCellComponent } from "../cell-content-components/connector-cell.component";
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
+import {InstantPowerProgressBarComponent} from "../cell-content-components/instant-power-progress-bar.component";
 
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
@@ -72,7 +73,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        headerClass: 'col-25p',
+        class: 'text-center',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent
@@ -81,7 +82,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         id: 'status',
         name: 'chargers.connector_status',
         headerClass: 'col-10em',
-        class: 'col-10em',
+        class: 'text-center col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -89,38 +90,42 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        class: 'col-5em',
-        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
+        class: 'col-9em',
+        headerClass: 'col-9em',
+        isAngularComponent: true,
+        angularComponentName: InstantPowerProgressBarComponent,
+//        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
       },
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
-        class: 'col-5em',
-        formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
+        class: 'text-center',
+
+        formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },
       {
         id: 'type',
         name: 'chargers.connector_type',
-        headerClass: 'col-100p',
+        headerClass: 'text-center col-4em',
+        class: 'text-center',
         formatter: (type) => {
           const imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector" src="${imageUrl}"/>`;
         },
         sortable: false
       },
-      {
+/*      {
         id: 'power',
         name: 'chargers.maximum_energy',
         class: 'col-5em',
         formatter: (value) => this.appUnitPipe.transform(value, 'W', 'kW'),
         sortable: false
-      },
+      },*/
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        headerClass: 'col-100p',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

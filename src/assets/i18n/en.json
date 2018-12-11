@@ -468,7 +468,9 @@
     "site_area": "Site - Site Area",
     "assign_site_area": "Assign Site Area to",
     "change_site_area": "Change",
-    "site": "Site"
+    "site": "Site",
+    "invalid_url": "Invalid URL",
+    "invalid_power_value": "Power value must be a positive whole number"
   },
   "logs": {
     "logging_number": "Log(s)",

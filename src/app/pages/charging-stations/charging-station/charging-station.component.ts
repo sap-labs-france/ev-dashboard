@@ -210,6 +210,7 @@ export class ChargingStationComponent implements OnInit {
             .afterClosed().subscribe((result) => {
       this.currentCharger.siteArea = <SiteArea>result[0];
       this.formGroup.controls.siteArea.setValue(`${(this.currentCharger.siteArea.site ? this.currentCharger.siteArea.site.name + ' - ' : '')}${this.currentCharger.siteArea.name}`);
+      this.formGroup.controls.siteArea.markAsDirty();
     });
   }
 
@@ -227,7 +228,7 @@ export class ChargingStationComponent implements OnInit {
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['chargers.change_config_error']);
+          this.messageService, this.messages['change_config_error']);
       }
     }, (error) => {
       // Hide
@@ -241,11 +242,11 @@ export class ChargingStationComponent implements OnInit {
           break;
         case 550:
           // Does not exist
-          this.messageService.showErrorMessage(this.messages['chargers.change_config_error']);
+          this.messageService.showErrorMessage(this.messages['change_config_error']);
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['chargers.change_config_error']);
+            this.messages['change_config_error']);
       }
     });
   }

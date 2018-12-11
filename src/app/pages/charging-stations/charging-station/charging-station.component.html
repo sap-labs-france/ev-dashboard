@@ -60,9 +60,10 @@
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <input matInput placeholder="{{'chargers.charger_url' | translate}}"
-                                                    [formControl]="chargingStationURL"
-                                                    required readonly='!isAdmin'/>
+                                                    [formControl]="chargingStationURL" pattern="(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?"
+                                                    required [readOnly]="!isAdmin"/>
                                                 </mat-form-field>
+                                                <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -70,9 +71,9 @@
                                         <!-- Dialog Table Filter -->
                                         <mat-form-field>
                                             <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}" class="form-field-popup"
-                                                [formControl]="siteArea" readonly='!isAdmin' required/>
+                                                [formControl]="siteArea" required/>
                                                 <button mat-button matSuffix mat-icon-button aria-label="Add"
-                                                        (click)="assignSiteArea(siteArea.value)" readOnly="!isAdmin">
+                                                        (click)="assignSiteArea()" [hidden]="!isAdmin">
                                                 <mat-icon>create</mat-icon>
                                                 </button>
                                             </mat-form-field>
@@ -85,7 +86,8 @@
                                                 <mat-form-field>
                                                     <input matInput placeholder="{{'chargers.maximum_energy' | translate}}"
                                                     [formControl]="maximumPower"
-                                                    required readOnly="!isAdmin"/>
+                                                    required [readOnly]="!isAdmin"/>
+                                                    <mat-error *ngIf="maximumPower.invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -93,7 +95,7 @@
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
-                                                                [formControl]="numberOfConnectedPhase" required readonly='!isAdmin'>
+                                                                [formControl]="numberOfConnectedPhase" required [disabled]='!isAdmin'>
                                                         <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
                                                             {{nbPhases.description | translate}}
                                                         </mat-option>
@@ -103,7 +105,7 @@
                                         </div>
                                         <div class="col-md-6 text-left"> 
                                             <div class="form-group">
-                                                <mat-checkbox [formControl]="cannotChargeInParallel" readOnly="!isAdmin">
+                                                <mat-checkbox [formControl]="cannotChargeInParallel" [disabled]="!isAdmin">
                                                     {{'chargers.cant_charge_in_parallel' | translate}} 
                                                 </mat-checkbox>
                                             </div>
@@ -130,12 +132,7 @@
                                                         <div class="row">
                                                             <mat-form-field>
                                                                 <mat-select placeholder="{{'chargers.connector_type' | translate}}"
-                                                                            [formControlName]="'connectorType' + connector.connectorId" required value=connect readOnly="!isAdmin">
-<!--                                                                    <mat-select-trigger>
-                                                                        <img with="16" height="16" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}"> 
-                                                                        {{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:false | translate}}
-                                                                    </mat-select-trigger>
-                                                                    -->
+                                                                            [formControlName]="'connectorType' + connector.connectorId" required value=connect [disabled]="!isAdmin">
                                                                     <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key">
                                                                         <img with="16" height="16" src="{{type.key | appConnectorType}}"> {{type.description | translate}}
                                                                     </mat-option>
@@ -146,7 +143,8 @@
                                                             <mat-form-field>
                                                                     <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
                                                                     [formControlName]="'connectorMaxPower' + connector.connectorId"
-                                                                    required readOnly="!isAdmin">
+                                                                    required [readOnly]="!isAdmin">
+                                                                    <mat-error *ngIf="formGroup.controls['connectorMaxPower' + connector.connectorId].invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
                                                             </mat-form-field>
                                                         </div>
                                                     </div>

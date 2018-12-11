@@ -468,7 +468,9 @@
     "site_area": "Site - Zone",
     "assign_site_area": "Assigner une zone à",
     "change_site_area": "Change",
-    "site": "Site"
+    "site": "Site",
+    "invalid_url": "URL Invalide",
+    "invalid_power_value": "La puissance doit être un nombre entier positif"
   },
   "logs": {
     "logging_number": "Log(s)",

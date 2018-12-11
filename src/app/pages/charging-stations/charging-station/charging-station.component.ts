@@ -15,7 +15,7 @@ import {Utils} from '../../../utils/Utils';
 import { Charger, SiteArea } from '../../../common.types';
 import { CONNECTOR_TYPE_MAP } from '../../../shared/formatters/app-connector-type.pipe';
 import { SiteAreaDialogComponent } from './site-area.dialog.component';
-
+ 
 export const CONNECTED_PHASE_MAP =
   [
     {key: 1, description: 'chargers.single_phase'},

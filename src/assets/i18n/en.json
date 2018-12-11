@@ -90,7 +90,8 @@
       "vehicles": "Vehicles",
       "logs": "Logs",
       "tenants": "Tenants",
-      "pricing": "Pricing"
+      "pricing": "Pricing",
+      "components": "Components"
     }
   },
   "vehicles": {
@@ -595,6 +596,9 @@
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
   },
+  "ocpi": {
+    "description": "Open Charge Point Interface"
+  },
   "transactions": {
     "date_from": "Date",
     "duration": "Duration",
@@ -655,21 +659,21 @@
     "dialog": {
       "delete": {
         "title": "Delete Sessions",
-        "confirm": "Do you really want to delete {{count}} session(s)?"
+        "confirm": "Do you really want to delete the session of {{user}} ?"
       },
       "soft_stop": {
         "title": "Stop Sessions",
-        "confirm": "Do you really want to stop {{count}} session(s)?"
+        "confirm": "Do you really want to stop the session of {{user}}?"
       }
     },
     "notification": {
       "delete": {
-        "success": "{{count}} session(s) deleted successfully",
+        "success": "Session of {{user}} deleted successfully",
         "error": "An error occurred during session deletion"
 
       },
       "soft_stop": {
-        "success": "{{count}} session(s) stopped successfully",
+        "success": "Session of {{user}} stopped successfully",
         "error": "An error occurred during session stop"
       }
     }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
@@ -32,7 +32,7 @@ const DEFAULT_POLLING = 10000;
     ])
   ]
 })
-export class TableComponent implements OnInit, OnChanges, OnDestroy {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   public columnDefs = [];
   public columns: string[];
@@ -125,7 +125,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
-  ngOnChanges() {
+  ngAfterViewInit() {
     // Set Paginator
     this.dataSource.setPaginator(this.paginator);
     // Set Sort
@@ -322,7 +322,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
     // Return the property
-    return `${propertyValue ? propertyValue : '' }`;
+    return `${propertyValue ? propertyValue : ''}`;
   }
 
   private findPropertyValue(columnDef, propertyName, source) {

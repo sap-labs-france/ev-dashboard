@@ -22,6 +22,8 @@ import { ConnectorCellComponent } from "./cell-content-components/connector-cell
 import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
 import { ChargingStationComponent} from "./charging-station/charging-station.component";
 import { ChargingStationsDataSource } from "./charging-stations-data-source-table";
+import { SiteAreaDialogComponent } from './charging-station/site-area.dialog.component';
+import { SiteAreaDataSource } from './charging-station/site-area-dialog-data-source-table';
 @NgModule({
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { ChargingStationsDataSource } from "./charging-stations-data-source-tabl
     ConnectorsCellComponent,
     ConnectorCellComponent,
     ChargingStationComponent,
-    ChargingStationDialogComponent
+    ChargingStationDialogComponent,
+    SiteAreaDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -56,14 +59,17 @@ import { ChargingStationsDataSource } from "./charging-stations-data-source-tabl
     ConnectorsCellComponent,
     ConnectorCellComponent,
     ChargingStationComponent,
-    ChargingStationDialogComponent
+    ChargingStationDialogComponent,
+    SiteAreaDialogComponent
   ],
   exports: [
-    ChargingStationDialogComponent
+    ChargingStationDialogComponent,
+    SiteAreaDialogComponent
   ],
   providers:[
     ChargingStationComponent,
-    ChargingStationsDataSource
+    ChargingStationsDataSource,
+    SiteAreaDataSource
   ]
 })
 export class ChargingStationsModule { }

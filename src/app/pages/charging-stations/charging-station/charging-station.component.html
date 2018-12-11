@@ -16,24 +16,24 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#connectors" data-toggle="tab">
-                                                <i class="material-icons">location_on</i> {{'general.address' |
+                                                <i class="material-icons">info</i> {{'chargers.properties_title' |
                                                 translate}}
                                                 <div class="ripple-container"></div>
                                             </a>
                                         </li>
                                         <li *ngIf="isAdmin" class="nav-item">
                                             <a class="nav-link" href="#sites" data-toggle="tab" (click)="loadSites()">
-                                                <i class="material-icons">business</i> {{'sites.site' | translate}}
+                                                <i class="material-icons">build</i> {{'chargers.ocpp_parameters_title' | translate}}
                                                 <div class="ripple-container"></div>
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
                                         <button class="btn btn-info mat-raised-button"
-                                                (click)="saveChargeBoxID(formGroup.value)"
-                                                [disabled]="!formGroup.valid || !formGroup.dirty">
+                                                (click)="saveChargeBox(formGroup.value)"
+                                                [disabled]="isAdmin && (!formGroup.valid || !formGroup.dirty)">
                                             <span class="mat-button-wrapper">
                                               <i class="material-icons mr-2">save</i>
-                                              <span class="btn-label">{{'users.save_profile' | translate}}</span>
+                                              <span class="btn-label">{{'chargers.save_charger' | translate}}</span>
                                             </span>
                                         </button>
                                         <button class="btn btn-info mat-raised-button" (click)="refresh()">
@@ -42,7 +42,7 @@
                                               <span class="btn-label">{{'general.refresh' | translate}}</span>
                                             </span>
                                         </button>
-                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button" mat-dialog-close>
+                                        <button class="btn btn-info mat-raised-button" mat-dialog-close>
                                             <span class="mat-button-wrapper">
                                               <i class="material-icons mr-2">close</i>
                                               <span class="btn-label">{{'general.close' | translate}}</span>
@@ -54,49 +54,110 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="profile">
+                                <div class="tab-pane active" id="charger">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput
-                                                           placeholder="{{'currentCharger.id' | translate}}" type="text"
-                                                           [formControl]="chargeBoxID"
-                                                           required>
+                                                    <input matInput placeholder="{{'chargers.charger_url' | translate}}"
+                                                    [formControl]="chargingStationURL"
+                                                    required readonly='!isAdmin'/>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
+                                                <div class="form-group">
+                                        <!-- Dialog Table Filter -->
+                                        <mat-form-field>
+                                            <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}" class="form-field-popup"
+                                                [formControl]="siteArea" readonly='!isAdmin' required/>
+                                                <button mat-button matSuffix mat-icon-button aria-label="Add"
+                                                        (click)="assignSiteArea(siteArea.value)" readOnly="!isAdmin">
+                                                <mat-icon>create</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="{{'currentCharger.chargingStationURL' | translate}}"
-                                                           type="text" [formControl]="inputURL"
-                                                           required>
+                                                    <input matInput placeholder="{{'chargers.maximum_energy' | translate}}"
+                                                    [formControl]="maximumPower"
+                                                    required readOnly="!isAdmin"/>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <div *ngIf="isAdmin" class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <mat-select placeholder="{{'currentCharger.numberOfConnectedPhase' | translate}}"
-                                                                [formControl]="status">
-                                                        <mat-option value="1">
-                                                            1
-                                                        </mat-option>
-                                                        <mat-option value="2">
-                                                            1
+                                                    <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
+                                                                [formControl]="numberOfConnectedPhase" required readonly='!isAdmin'>
+                                                        <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
+                                                            {{nbPhases.description | translate}}
                                                         </mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                    <div class="clearfix"></div>
+                                        <div class="col-md-6 text-left"> 
+                                            <div class="form-group">
+                                                <mat-checkbox [formControl]="cannotChargeInParallel" readOnly="!isAdmin">
+                                                    {{'chargers.cant_charge_in_parallel' | translate}} 
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <ng-container *ngFor="let connector of currentCharger.connectors">
+                                            <div class="col-md-3 charger-dialog-connector" >
+                                                <div class="card">
+                                                    <div class="card-header card-header-danger card-header-icon">
+                                                        <div class="card-icon">
+                                                            <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
+                                                                <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}">
+                                                            </ng-container>
+                                                            <ng-template #elseTemplate>
+                                                                    <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{'unknown' | appConnectorType}}">
+                                                            </ng-template>
+                                                        </div>
+                                                        <h4 class="card-title text-left">
+                                                                {{'chargers.connector' | translate}} {{connector.connectorId | appConnectorId}}
+                                                        </h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <mat-form-field>
+                                                                <mat-select placeholder="{{'chargers.connector_type' | translate}}"
+                                                                            [formControlName]="'connectorType' + connector.connectorId" required value=connect readOnly="!isAdmin">
+<!--                                                                    <mat-select-trigger>
+                                                                        <img with="16" height="16" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}"> 
+                                                                        {{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:false | translate}}
+                                                                    </mat-select-trigger>
+                                                                    -->
+                                                                    <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key">
+                                                                        <img with="16" height="16" src="{{type.key | appConnectorType}}"> {{type.description | translate}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="row">
+                                                            <mat-form-field>
+                                                                    <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
+                                                                    [formControlName]="'connectorMaxPower' + connector.connectorId"
+                                                                    required readOnly="!isAdmin">
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="card-footer">
-                        </div>
+                        <div class="card-footer"></div>
                     </div>
                 </form>
             </div>

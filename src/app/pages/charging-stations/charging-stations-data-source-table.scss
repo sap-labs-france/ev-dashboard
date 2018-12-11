@@ -155,3 +155,12 @@ $connectorStatusColor: ('available' : $brand-success,
   }
 
 }
+
+.charger-dialog-connector {
+  display: inline-block; 
+}
+.charger-dialog-connector-type-icon {
+  filter:invert(100%);
+  width: 25px;
+  height: 25px;
+}

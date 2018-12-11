@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, QueryList} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {AbstractControl, FormControl, FormArray, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../services/locale.service';
 import {CentralServerService} from '../../../services/central-server.service';
@@ -12,28 +12,36 @@ import {ParentErrorStateMatcher} from '../../../utils/ParentStateMatcher';
 import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Utils} from '../../../utils/Utils';
-import { Charger, Connector } from "../../../common.types";
+import { Charger, SiteArea } from '../../../common.types';
+import { CONNECTOR_TYPE_MAP } from '../../../shared/formatters/app-connector-type.pipe';
+import { SiteAreaDialogComponent } from './site-area.dialog.component';
 
+export const CONNECTED_PHASE_MAP =
+  [
+    {key: 1, description: 'chargers.single_phase'},
+    {key: 3, description: 'chargers.tri_phases'}
+  ]
 @Component({
   selector: 'app-charging-station-cmp',
-  templateUrl: 'charging-station.component.html'
+  templateUrl: 'charging-station.component.html',
+  styleUrls: ['../charging-stations-data-source-table.scss']
 })
 export class ChargingStationComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  public currentCharger: Charger;
-  @Input() currentChargeBoxID: string;
-  @Input() inDialog: boolean;
+  @Input() currentCharger: Charger;
   private messages;
   public userLocales;
   public isAdmin;
+  public connectorTypeMap = CONNECTOR_TYPE_MAP;
+  public connectedPhaseMap = CONNECTED_PHASE_MAP;
   
   public formGroup: FormGroup;
-  public chargeBoxID: AbstractControl;
-  public inputURL: AbstractControl;
+  public chargingStationURL: AbstractControl;
   public numberOfConnectedPhase: AbstractControl;
-  public canChargeInParallel: AbstractControl;
-  public connectors: FormGroup;
-  public connector: QueryList<AbstractControl>;
+  public cannotChargeInParallel: AbstractControl;
+  public maximumPower: AbstractControl;
+  public siteArea: AbstractControl;
+  public siteAreaID: AbstractControl;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -48,8 +56,7 @@ export class ChargingStationComponent implements OnInit {
     private router: Router) {
 
     // Check auth
-    if (this.activatedRoute.snapshot.params['currentChargeBoxID'] &&
-      !authorizationService.canUpdateChargingStation({'id': this.activatedRoute.snapshot.params['currentChargeBoxID']})) {
+    if (!authorizationService.canUpdateChargingStation({'id': 'currentCharger.id'})) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -66,8 +73,7 @@ export class ChargingStationComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'chargeBoxID': new FormControl(''),
-      'inputURL': new FormControl('',
+      'chargingStationURL': new FormControl('',
         Validators.compose([
           Validators.required
         ])),
@@ -75,35 +81,45 @@ export class ChargingStationComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'canChargeInParallel': new FormControl('',
+      'cannotChargeInParallel': new FormControl(''),
+      'maximumPower': new FormControl('',
         Validators.compose([
-          Validators.required
-        ]))
+          Validators.required,
+          Validators.min(0),
+          Validators.pattern('^[+]?[0-9]*$')
+        ])),
+        'siteArea': new FormControl(''),
+        'siteAreaID': new FormControl('')
     });
     // Form
-    this.chargeBoxID = this.formGroup.controls['chargeBoxID'];
-    this.inputURL = this.formGroup.controls['inputURL'];
+    this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.numberOfConnectedPhase = this.formGroup.controls['numberOfConnectedPhase'];
-    this.canChargeInParallel = this.formGroup.controls['canChargeInParallel'];
+    this.cannotChargeInParallel = this.formGroup.controls['cannotChargeInParallel'];
+    this.maximumPower = this.formGroup.controls['maximumPower'];
+    this.siteArea = this.formGroup.controls['siteArea'];
+    this.siteAreaID = this.formGroup.controls['siteAreaID'];
 
-    if (this.currentChargeBoxID) {
+    // add connectors formcontrol
+    for (const connector of this.currentCharger.connectors) {
+      const connectorTypeId = `connectorType${connector.connectorId}`;
+      const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
+      this.formGroup.addControl(connectorTypeId, new FormControl(''));
+      this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
+      Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern('^[+]?[0-9]*$')
+      ])));
+    }
+    if (this.currentCharger.id) {
       this.loadChargeBoxID();
-    } else if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentChargeBoxID = params['id'];
-        this.loadChargeBoxID();
-      });
     }
     // Scroll up
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
-  }
-
   public setCurrentChargeBoxID(currentChargeBoxID) {
-    this.currentChargeBoxID = currentChargeBoxID;
+    this.currentCharger.id = currentChargeBoxID;
   }
 
   public refresh() {
@@ -112,28 +128,42 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public loadChargeBoxID() {
-    if (!this.currentChargeBoxID) {
+    if (!this.currentCharger.id) {
       return;
     }
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getChargers({ChargeBoxID: this.currentChargeBoxID}).subscribe((chargerResult) => {
+    this.centralServerService.getChargers({ChargeBoxID: this.currentCharger.id, 'WithSite': true}).subscribe((chargerResult) => {
       this.currentCharger = chargerResult.result[0];
       this.formGroup.markAsPristine();
       // Init form
-      if (this.currentCharger.id) {
-        this.formGroup.controls.chargeBoxID.setValue(this.currentCharger.id);
-      }
       if (this.currentCharger.chargingStationURL) {
-        this.formGroup.controls.inputURL.setValue(this.currentCharger.chargingStationURL);
+        this.formGroup.controls.chargingStationURL.setValue(this.currentCharger.chargingStationURL);
       }
       if (this.currentCharger.numberOfConnectedPhase) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.currentCharger.numberOfConnectedPhase);
       }
-/*      if (this.currentCharger.canChargeInParallel) {
-        this.formGroup.controls.canChargeInParallel.setValue(this.currentCharger.canChargeInParallel);
-      }*/
+      if (this.currentCharger.cannotChargeInParallel) {
+        this.formGroup.controls.cannotChargeInParallel.setValue(this.currentCharger.cannotChargeInParallel);
+      }
+      if (this.currentCharger.maximumPower) {
+        this.formGroup.controls.maximumPower.setValue(this.currentCharger.maximumPower);
+      }
+      if (this.currentCharger.siteArea && this.currentCharger.siteArea.name) {
+        this.formGroup.controls.siteArea.setValue(`${(this.currentCharger.siteArea.site ? this.currentCharger.siteArea.site.name + ' - ' : '')}${this.currentCharger.siteArea.name}`);
+      } else {
+        this.formGroup.controls.siteAreaID.setValue(0);
+        this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
+      }
+      //update connectors formcontrol
+      for (const connector of this.currentCharger.connectors) {
+        const connectorTypeId = `connectorType${connector.connectorId}`;
+        const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
+        this.formGroup.controls[connectorTypeId].setValue(connector.type);
+        this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
+      }
+      
       this.spinnerService.hide();
     }, (error) => {
       // Hide
@@ -154,48 +184,68 @@ export class ChargingStationComponent implements OnInit {
     });
   }
 
-  public saveChargeBoxID(chargeBoxID) {
-    if (this.currentChargeBoxID) {
-      this._updateChargeBoxID(chargeBoxID);
+  public saveChargeBox(chargeBox) {
+    if (this.currentCharger.id) {
+// Map dialog inputs to object model
+      this.currentCharger.chargingStationURL = chargeBox.chargingStationURL;
+      this.currentCharger.maximumPower = chargeBox.maximumPower;
+      this.currentCharger.numberOfConnectedPhase = chargeBox.numberOfConnectedPhase;
+      this.currentCharger.cannotChargeInParallel = chargeBox.cannotChargeInParallel;
+      for (const connector of this.currentCharger.connectors) {
+        connector.type = chargeBox[`connectorType${connector.connectorId}`];
+        connector.power = chargeBox[`connectorMaxPower${connector.connectorId}`];
+      }
+      this._updateChargeBoxID(this.currentCharger);
     }
+  }
+
+  public assignSiteArea(){
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    if (this.currentCharger) {
+      dialogConfig.data = this.currentCharger;
+    }
+    // Open
+    this.dialog.open(SiteAreaDialogComponent, dialogConfig)
+            .afterClosed().subscribe((result) => {
+      this.currentCharger.siteArea = <SiteArea>result[0];
+      this.formGroup.controls.siteArea.setValue(`${(this.currentCharger.siteArea.site ? this.currentCharger.siteArea.site.name + ' - ' : '')}${this.currentCharger.siteArea.name}`);
+    });
   }
 
   private _updateChargeBoxID(chargeBoxID) {
     // Show
     this.spinnerService.show();
     // Yes: Update
-    this.centralServerService.updateChargingStationParams(this.currentChargeBoxID).subscribe(response => {
+    this.centralServerService.updateChargingStationParams(this.currentCharger).subscribe(response => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('chargers.update_success'));
+        this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.currentCharger.id}));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['update_error']);
+          this.messageService, this.messages['chargers.change_config_error']);
       }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
-        // Email already exists
-        case 510:
-          // Show error
+        case 560:
+          // Not Authorized
           this.messageService.showErrorMessage(
-            this.translateService.instant('authentication.email_already_exists'));
+            this.translateService.instant('chargers.change_config_error'));
           break;
-        // User deleted
         case 550:
-          // Show error
-          this.messageService.showErrorMessage(this.messages['user_do_not_exist']);
+          // Does not exist
+          this.messageService.showErrorMessage(this.messages['chargers.change_config_error']);
           break;
         default:
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['update_error']);
+            this.messages['chargers.change_config_error']);
       }
     });
   }

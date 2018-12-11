@@ -32,6 +32,7 @@ export const AppRoutes: Routes = [
       {path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule'},
       {path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule'},
       {path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule'},
+      {path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule'},
       {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
         data: {forAdminOnly: true, forSuperAdminOnly: true}

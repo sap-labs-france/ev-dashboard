@@ -10,6 +10,8 @@
     "no_record_found": "Aucun enregistrement n'a été trouvé",
     "error_max_length": "La Longueur maximale est {{length}}",
     "error_min_length": "La Longueur minimale est {{length}}",
+    "error_url_pattern": "URL Invalide",
+    "error_number_pattern": "Nombre invalide",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Annuler",
@@ -89,7 +91,8 @@
       "logs": "Logs",
       "tenants": "Tenants",
       "pricing": "Prix",
-      "components": "Composants"
+      "components": "Composants",
+      "settings" : "Configuration"
     }
   },
   "vehicles": {
@@ -582,8 +585,30 @@
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du tenant"
   },
+  "settings": {
+    "tabs": {
+      "ocpi": "OCPI"
+    }
+  },
   "ocpi": {
-    "description": "Open Charge Point Interface"
+    "description": "Open Charge Point Interface",
+    "cpo_details": "Identification du Point de Charge",
+    "cpo_country_code": "Code Pays",
+    "cpo_party_id": "Party ID",
+    "cpo_business_details": "Business Details",
+    "cpo_logo": "Logo",
+    "businessdetails": {
+      "name": "Nom de l'operateur",
+      "website": "Site web de l'operateur",
+      "logo": {
+        "url": "URL de l'image originale",
+        "thumbnail": "URL de l'image miniature",
+        "category": "Categorie de l'image",
+        "type": "Type de l'image (gif, jpeg, png, svg,...)",
+        "width": "Largeur de l'image originale",
+        "height": "Hauteur de l'image originale"
+      }
+    }
   },
   "transactions": {
     "date_from": "Date",

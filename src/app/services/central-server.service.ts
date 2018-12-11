@@ -71,6 +71,14 @@ export class CentralServerService {
       superAdmin: true
     },
     {
+      id: 'settings',
+      path: '/settings',
+      title: 'Settings',
+      type: 'link',
+      icontype: 'settings',
+      admin: true
+    },
+    {
       id: 'tenants',
       path: '/tenants',
       title: 'Tenants',

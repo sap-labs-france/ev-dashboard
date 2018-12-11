@@ -10,6 +10,8 @@
     "no_record_found": "No records have been found",
     "error_max_length": "Maximum length is {{length}}",
     "error_min_length": "Minimum length is {{length}}",
+    "error_url_pattern": "Incorrect URL pattern",
+    "error_number_pattern": "Invalid Number",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Cancel",
@@ -91,7 +93,8 @@
       "logs": "Logs",
       "tenants": "Tenants",
       "pricing": "Pricing",
-      "components": "Components"
+      "components": "Components",
+      "settings" : "Settings"
     }
   },
   "vehicles": {
@@ -586,8 +589,30 @@
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
   },
+  "settings": {
+    "tabs": {
+      "ocpi": "OCPI"
+    }
+  },
   "ocpi": {
-    "description": "Open Charge Point Interface"
+    "description": "Open Charge Point Interface",
+    "cpo_details": "Charge Point Operator Identifier",
+    "cpo_country_code": "Country code",
+    "cpo_party_id": "Party ID",
+    "cpo_business_details": "Business Details",
+    "cpo_logo": "Logo",
+    "businessdetails": {
+      "name": "Name of the operator",
+      "website": "Link to the operator website",
+      "logo": {
+        "url": "URL of the full scale image",
+        "thumbnail": "URL o the thumbnail image",
+        "category": "Category of the image",
+        "type": "Image type (gif, jpeg, png, svg,...)",
+        "width": "Width of the full scale image",
+        "height": "Height of the full scale image"
+      }
+    }
   },
   "transactions": {
     "date_from": "Date",

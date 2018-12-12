@@ -64,9 +64,6 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       this.setNumberOfRecords(chargers.count);
       // Update page length
       this.updatePaginator();
-      // Return logs
-      this.getDataSubjet().next(chargers.result);
-      // Keep the result
       this.setData(chargers.result);
     }, (error) => {
       // Show

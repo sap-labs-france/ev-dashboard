@@ -56,9 +56,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       this.setNumberOfRecords(tenants.count);
       // Update Paginator
       this.updatePaginator();
-      // Notify
-      this.getDataSubjet().next(tenants.result);
-      // Set the data
       this.setData(tenants.result);
     }, (error) => {
       // Hide

@@ -1,4 +1,4 @@
-  <div class="card">
+  <div class="mat-elevation-z2">
     <div class="card-header card-header-icon card-header-danger">
       <div class="card-icon">
         <i class="material-icons">call_split</i>
@@ -8,7 +8,7 @@
     </div>
 
     <div class="card-body">
-      <p>Endpoints table here....</p>
+        <app-table [dataSource]="endpointsDataSource"></app-table>
     </div>
     <div class="card-footer text-center">
     </div>

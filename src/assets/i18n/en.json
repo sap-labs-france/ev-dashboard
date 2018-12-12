@@ -594,6 +594,17 @@
       "ocpi": "OCPI"
     }
   },
+  "ocpiendpoints": {
+    "name": "Name",
+    "baseUrl": "URL",
+    "countryCode": "Country Code",
+    "partyId": "Party ID",
+    "status": "Status",
+    "version": "Version",
+    "localToken": "Local Token",
+    "token": "Remote Token",
+    "generateNewToken": "Generate new token"
+  },
   "ocpi": {
     "description": "Open Charge Point Interface",
     "cpo_details": "Charge Point Operator Identifier",

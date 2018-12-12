@@ -590,6 +590,17 @@
       "ocpi": "OCPI"
     }
   },
+  "ocpiendpoints": {
+    "name": "Nom",
+    "baseUrl": "URL",
+    "countryCode": "Code Pays",
+    "partyId": "Groupe ID",
+    "status": "Status",
+    "version": "Version",
+    "localToken": "Jeton Local",
+    "token": "Jeton Distant",
+    "generateNewToken": "Générer nouveau jeton"
+  },
   "ocpi": {
     "description": "Open Charge Point Interface",
     "cpo_details": "Identification du Point de Charge",

@@ -1,5 +1,5 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="card">
+  <div class="mat-elevation-z2">
     <div class="card-header card-header-icon card-header-danger">
       <div class="card-icon">
         <i class="material-icons">business</i>
@@ -42,7 +42,6 @@
 
       <!-- CPO identifier business details -->
       <legend>{{'ocpi.cpo_business_details' | translate}}</legend>
-      <!-- <mat-divider></mat-divider> -->
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
@@ -82,14 +81,9 @@
         <div class="col-md-4">
           <mat-form-field>
             <!-- <input appSetAutoFocus matInput type="text" [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}"> -->
-            <select [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}"
-              matNativeControl>
-              <option value=""></option>
-              <option value="JPG">JPEG</option>
-              <option value="GIF">GIF</option>
-              <option value="PNG">PNG</option>
-              <option value="SVG">SVG</option>
-            </select>
+            <mat-select [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}" >
+              <mat-option  *ngFor="let logoType of logoTypes" value="{{logoType.key}}">{{logoType.description}}</mat-option >
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="col-md-1">
@@ -120,22 +114,15 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <!-- <input appSetAutoFocus matInput type="text" [formControl]="logo_category" placeholder="{{'ocpi.businessdetails.logo.category' | translate}}"> -->
-            <select [formControl]="logo_category" placeholder="{{'ocpi.businessdetails.logo.category' | translate}}"
-              matNativeControl>
-              <option value="CHARGER">Charger</option>
-              <option value="ENTRANCE">Entrance</option>
-              <option value="LOCATION">Location</option>
-              <option value="NETWORK">Network</option>
-              <option value="OPERATOR">Operator</option>
-              <option value="OWNER">Owner</option>
-              <option value="OTHER">Other</option>
-            </select>
+              <mat-select placeholder="{{'ocpi.businessdetails.logo.category' | translate}}" [formControl]="logo_category">
+                  <mat-option *ngFor="let logoCategory of logoCategories" value="{{logoCategory.key}}">
+                      {{logoCategory.description}}
+                  </mat-option>
+                </mat-select>
           </mat-form-field>
         </div>
       </div>
     </div>
-
 
     <div class="card-footer text-center">
       <span class="toolbar-spacer"></span>

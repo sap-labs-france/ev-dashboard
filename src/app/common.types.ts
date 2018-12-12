@@ -213,6 +213,20 @@ export interface TenantResult {
   result: Tenant[]
 }
 
+export interface Endpoint {
+  id: string;
+  name: string;
+  countryCode: string;
+  partyID: string;
+  version: string;
+  status: string;
+}
+
+export interface EndpointResult {
+  count: number,
+  result: Endpoint[]
+}
+
 export interface TransactionResult {
   count: number,
   result: Transaction[]

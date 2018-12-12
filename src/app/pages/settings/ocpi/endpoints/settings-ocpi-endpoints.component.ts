@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from '../../../../services/authorization-service';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { EndpointsDataSource} from './settings-ocpi-endpoints-source-table';
 
 @Component({
   selector: 'app-settings-ocpi-endpoints',
@@ -17,6 +18,7 @@ export class SettingsOcpiEndpointsComponent implements OnInit {
   private readonly currentBusinessDetails: any;
 
   constructor(
+    public endpointsDataSource: EndpointsDataSource,
     private authorizationService: AuthorizationService,
     private translateService: TranslateService
   ) {

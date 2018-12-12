@@ -24,6 +24,24 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   public logo_width: AbstractControl;
   public logo_height: AbstractControl;
 
+  public logoTypes: any = [
+    { key: '', description: '' },
+    { key: 'jpg', description: 'JPG' },
+    { key: 'png', description: 'PNG' },
+    { key: 'svg', description: 'SVG' },
+    { key: 'gif', description: 'GIF' }
+  ];
+
+  public logoCategories: any = [
+    { key: 'CHARGER', description: 'Charger' },
+    { key: 'ENTRANCE', description: 'Entrance' },
+    { key: 'LOCATION', description: 'Location' },
+    { key: 'NETWORK', description: 'Network' },
+    { key: 'OPERATOR', description: 'Operator' },
+    { key: 'OWNER', description: 'Owner' },
+    { key: 'OTHER', description: 'Other' }
+  ]
+
   private urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
   private numberPattern = /^[0-9]*$/;
 

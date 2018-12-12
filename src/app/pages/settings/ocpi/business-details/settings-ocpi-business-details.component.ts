@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from '../../../../services/authorization-service';
+import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthorizationService } from '../../../../services/authorization-service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -50,8 +55,14 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private messageService: MessageService,
+    private centralServerService: CentralServerService,
+    private spinnerService: SpinnerService,
+    private router: Router
   ) {
+    // TODO: Check auth - check authorized to access OCPI configuration
+    // TODO: remove test data
     this.currentCPODetails = {
       'country_code': 'FR',
       'party_id': 'SLF',
@@ -68,12 +79,12 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
         "website": "http://example.com"
       }
     }
+
+
   }
 
   ngOnInit(): void {
-    // Scroll up
-    // jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
-
+    // build form
     this.formGroup = new FormGroup({
       'country_code': new FormControl(this.currentCPODetails.country_code,
         Validators.compose([
@@ -108,9 +119,8 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     // business details - CPO identifier
     this.country_code = this.formGroup.controls['country_code'];
     this.party_id = this.formGroup.controls['party_id'];
-  
 
-    // business details - logo
+    // business details - image
     this.name = (<FormGroup>this.formGroup.controls['businessDetails']).controls['name'];
     this.website = (<FormGroup>this.formGroup.controls['businessDetails']).controls['website'];
     this.logoGroup = <FormGroup>(<FormGroup>this.formGroup.controls['businessDetails']).controls['logo'];
@@ -120,5 +130,37 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.logo_type = this.logoGroup.controls['type'];
     this.logo_width = this.logoGroup.controls['width'];
     this.logo_height = this.logoGroup.controls['height'];
+
+    // load ocpi configuration
+    this.loadOCPIConfiguration();
+  }
+
+  public loadOCPIConfiguration() {
+    // Show spinner
+    this.spinnerService.show();
+    // Yes, get it
+    this.centralServerService.getSetting("ocpi").subscribe((ocpiSetting) => {
+
+      this.spinnerService.hide();
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Handle error
+      switch (error.status) {
+        // Not found
+        case 550:
+          // Transaction not found`
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.user_not_found');
+          break;
+        default:
+          // Unexpected error`
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'general.unexpected_error_backend');
+      }
+    });
+  }
+
+  public saveOCPIConfiguration() {
+
   }
 }

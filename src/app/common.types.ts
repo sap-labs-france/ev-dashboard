@@ -214,6 +214,12 @@ export interface TenantResult {
   result: Tenant[]
 }
 
+export interface Setting {
+  id: string;
+  identifier: string;
+  content: any;
+}
+
 export interface Endpoint {
   id: string;
   name: string;

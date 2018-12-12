@@ -602,6 +602,8 @@
     "generateNewToken": "Générer nouveau jeton"
   },
   "ocpi": {
+    "emsps": "Opérateurs de Services de Mobilité",
+    "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
     "cpo_details": "Identification du Point de Charge",
     "cpo_country_code": "Code Pays",
@@ -673,7 +675,6 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
-    "price": "Prix",
     "tabs": {
       "history": "Historique",
       "in_progress": "En cours"

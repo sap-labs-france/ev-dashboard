@@ -606,6 +606,8 @@
     "generateNewToken": "Generate new token"
   },
   "ocpi": {
+    "emsps": "e-Mobility Service Providers",
+    "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
     "cpo_details": "Charge Point Operator Identifier",
     "cpo_country_code": "Country code",

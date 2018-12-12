@@ -23,7 +23,8 @@ import {
   TenantResult,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  Setting
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -389,6 +390,19 @@ export class CentralServerService {
       .pipe(
         catchError(this._handleHttpError)
       );
+  }
+
+  public getSetting(identifier: string): Observable<Setting> {
+    // verify init
+    this._checkInit();
+    // Execute the REST Service
+    return this.httpClient.get<Setting>(`${this.centralRestServerServiceSecuredURL}/Setting?identifier=${identifier}`,
+    {
+      headers: this._buildHttpHeaders()
+    })
+    .pipe(
+      catchError(this._handleHttpError)
+    );
   }
 
   public getEndUserLicenseAgreement(language: string) {

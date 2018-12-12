@@ -70,14 +70,14 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
     //   // Show error
     //   Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     // });
-    let endpoints;
-    this.setNumberOfRecords(2);
-    this.updatePaginator();
-    endpoints = [{ id: "test", name: 'Gireve', countryCode: 'FR', partyId: '107', version: '2.1.1', status: 'NEW'},
-    { id: "test2", name: 'SAP Labs France', countryCode: 'FR', partyId: 'SLF', version: '2.1.1', status: 'NEW'}];
+    // let endpoints;
+    // this.setNumberOfRecords(2);
+    // this.updatePaginator();
+    // endpoints = [{ id: "test", name: 'Gireve', countryCode: 'FR', partyId: '107', version: '2.1.1', status: 'NEW'},
+    // { id: "test2", name: 'SAP Labs France', countryCode: 'FR', partyId: 'SLF', version: '2.1.1', status: 'NEW'}];
 
-    this.getDataSubjet().next(endpoints);
-    this.setData( endpoints ); 
+    // this.getDataSubjet().next(endpoints);
+    // this.setData( endpoints ); 
   }
 
   public getTableDef(): TableDef {

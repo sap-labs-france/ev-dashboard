@@ -228,7 +228,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public resetFilters() {
     if (this.filtersDef) {
       this.filtersDef.forEach((filterDef: TableFilterDef) => {
-        filterDef.currentValue = '';
+        filterDef.reset();
       });
     }
   }

@@ -23,9 +23,6 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       this.setNumberOfRecords(users.count);
       // Update page length (number of sites is in User)
       this.updatePaginator();
-      // Return sites
-      this.getDataSubjet().next(users.result);
-      // Keep it
       this.setData(users.result);
     }, (error) => {
       // No longer exists!

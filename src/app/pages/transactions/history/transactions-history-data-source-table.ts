@@ -63,7 +63,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
-        this.getDataSubjet().next(transactions.result);
         this.setData(transactions.result);
       }, (error) => {
         this.spinnerService.hide();
@@ -75,6 +74,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public getTableDef(): TableDef {
     return {
       class: 'table-list-under-tabs',
+      rowSelection: {
+        enabled: true,
+        multiple: true
+      },
       search: {
         enabled: true
       }

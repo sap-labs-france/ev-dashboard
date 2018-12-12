@@ -4,9 +4,12 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {Constants} from '../../utils/Constants';
+import {Utils} from '../../utils/Utils';
+
+import * as _ from 'lodash';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
-  private dataSubject = new BehaviorSubject<T[]>([]);
+  private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
   private paginator: MatPaginator;
   private sort: MatSort;
@@ -17,10 +20,13 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private rowActionsDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<T>;
-  private data: T[] = [];
+  private data: any[] = [];
+  private formattedData = [];
+  private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
   private pollingInterval: number;
+  private i = 0;
 
   public setPollingInterval(pollingInterval: number) {
     this.pollingInterval = pollingInterval;
@@ -183,10 +189,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public setData(data: T[]) {
-    this.data = data;
+    this.refreshData(data);
+    this.dataSubject.next(this.formattedData);
   }
 
-  public getData(): T[] {
+  public getData(): any[] {
     return this.data;
   }
 
@@ -356,6 +363,43 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   abstract loadData();
 
+  refreshData(freshData: any[]) {
+    const freshFormattedData = [];
+    freshData.forEach((freshRow) => {
+      const index = this.data.findIndex(row => row.id === freshRow.id);
+      if (index !== -1) {
+        if (_.isEqual(this.data[index], freshRow)) {
+          freshFormattedData.push(this.formattedData[index]);
+        } else {
+          freshFormattedData.push(this._formatRow(freshRow));
+        }
+      } else {
+        freshFormattedData.push(this._formatRow(freshRow));
+      }
+    });
+    this.formattedData = freshFormattedData;
+    this.data = freshData;
+  }
+
+  _formatRow(row): any[] {
+    const formattedRow = [];
+    this.getTableColumnDefs().forEach((columnDef) => {
+      formattedRow.push(this._buildCellValue(row, columnDef));
+    });
+    formattedRow['data'] = row;
+    return formattedRow;
+  }
+
+  changeLocaleTo(locale: string) {
+    if (this.locale !== locale) {
+      this.locale = locale;
+      this.formattedData = [];
+      const toRefresh = this.data;
+      this.data = [];
+      this.refreshData(toRefresh);
+    }
+  }
+
   private _checkInitialized(): any {
     // Check
     if (!this.tableDef) {
@@ -400,5 +444,69 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
       });
     }
+  }
+
+  private findPropertyValue(columnDef, propertyName, source) {
+    let propertyValue = null;
+    propertyValue = source[propertyName];
+    if (propertyName.indexOf('.') > 0) {
+      propertyValue = source;
+      propertyName.split('.').forEach((key) => {
+          if (propertyValue.hasOwnProperty(key)) {
+            propertyValue = propertyValue[key];
+          } else if (columnDef.defaultValue) {
+            propertyValue = columnDef.defaultValue;
+          } else {
+            switch (columnDef.type) {
+              case 'number':
+              case 'float':
+                propertyValue = 0;
+                break;
+              default:
+                propertyValue = '';
+                break;
+            }
+          }
+        }
+      );
+    }
+    return propertyValue;
+  }
+
+  private _buildCellValue(row: any, columnDef: TableColumnDef) {
+    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
+
+    const additionalProperties = [];
+    if (columnDef.additionalIds) {
+      columnDef.additionalIds.forEach(propertyName => {
+          additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
+        }
+      );
+    }
+    // Type?
+    switch (columnDef.type) {
+      // Date
+      case 'date':
+        propertyValue = Utils.convertToDate(propertyValue);
+        break;
+      // Integer
+      case 'integer':
+        propertyValue = Utils.convertToInteger(propertyValue);
+        break;
+      // Float
+      case 'float':
+        propertyValue = Utils.convertToFloat(propertyValue);
+        break;
+    }
+
+    if (columnDef.formatter) {
+      if (additionalProperties.length > 0) {
+        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
+      } else {
+        propertyValue = columnDef.formatter(propertyValue, row);
+      }
+    }
+    // Return the property
+    return `${propertyValue ? propertyValue : ''}`;
   }
 }

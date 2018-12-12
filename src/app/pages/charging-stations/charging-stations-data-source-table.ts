@@ -23,7 +23,7 @@ import {SitesTableFilter} from '../../shared/table/filters/site-filter';
 import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
-
+import {Constants} from '../../utils/Constants';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -225,6 +225,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
+      this._deleteChargingStation(rowItem)
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -249,5 +250,29 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     // Open
     const dialogRef = this.dialog.open(ChargingStationDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _deleteChargingStation(chargingStation: Charger) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('chargers.delete_title'),
+      this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.loadData();
+            this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'chargers.delete_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'chargers.delete_error');
+        });
+      }
+    });
   }
 }

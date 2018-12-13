@@ -20,6 +20,7 @@ export const CONNECTED_PHASE_MAP =
     {key: 3, description: 'chargers.tri_phases'}
   ]
 
+  const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/gm;
 @Component({
   selector: 'app-charging-station-parameters',
   styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
@@ -74,7 +75,8 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup = new FormGroup({ 
           'chargingStationURL': new FormControl('',
             Validators.compose([
-              Validators.required
+              Validators.required,
+              Validators.pattern(URL_PATTERN)
             ])),
           'numberOfConnectedPhase': new FormControl('',
             Validators.compose([

@@ -6,7 +6,7 @@
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput placeholder="{{'chargers.charger_url' | translate}}"
-                            [formControl]="chargingStationURL" pattern="^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$"
+                            [formControl]="chargingStationURL"
                             required [readOnly]="!isAdmin"/>
                         </mat-form-field>
                         <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>

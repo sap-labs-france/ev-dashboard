@@ -352,8 +352,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
    * getRowIndex
    row: T   */
   public getRowIndex(row: T) {
+    const rowString = JSON.stringify(row);
     for (let index = 0; index < this.data.length; index++) {
-      if (this.data[index] === row) {
+      if (JSON.stringify(this.data[index]) === rowString) {
         return index;
       }
     }

@@ -1,15 +1,14 @@
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {TableDataSource} from '../../../shared/table/table-data-source';
-import {SiteArea, TableActionDef, TableColumnDef, TableDef, Charger} from '../../../common.types';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Utils} from '../../../utils/Utils';
-import {TableAction} from '../../../shared/table/actions/table-action';
+import {TableDataSource} from '../../../../shared/table/table-data-source';
+import {SiteArea, TableActionDef, TableColumnDef, TableDef, Charger} from '../../../../common.types';
+import {CentralServerService} from '../../../../services/central-server.service';
+import {MessageService} from '../../../../services/message.service';
+import {Utils} from '../../../../utils/Utils';
+import {TableAction} from '../../../../shared/table/actions/table-action';
 import {MatDialogRef} from '@angular/material';
-import {DialogService} from '../../../services/dialog.service';
-import {Constants} from '../../../utils/Constants';
+import {DialogService} from '../../../../services/dialog.service';
 import {Injectable} from '@angular/core';
 import {SiteAreaDialogComponent} from './site-area.dialog.component';
 

@@ -17,13 +17,15 @@ import {InstantPowerProgressBarComponent} from './cell-content-components/instan
 import {ConnectorsDetailComponent} from './details-content-component/connectors-detail-component.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
-import {TableEditAction} from '../../shared/table/actions/table-edit-action';
+import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
+import {TableMoreAction} from '../../shared/table/actions/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
+import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
+import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -198,12 +200,13 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   public getTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableEditAction().getActionDef(),
+//        new TableMoreAction().getActionDef(),
+        new TableSettingsAction().getActionDef(),
         new TableDeleteAction().getActionDef()
       ];
     } else {
       return [
-        new TableEditAction().getActionDef()
+        new TableSettingsAction().getActionDef()
       ];
     }
   }
@@ -218,11 +221,14 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
-      case 'edit':
-      this._showChargingStationDialog(rowItem);
+      case 'settings':
+        this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
-      this._deleteChargingStation(rowItem)
+        this._deleteChargingStation(rowItem);
+        break;
+      case 'more':
+        this._moreActions(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -271,5 +277,18 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         });
       }
     });
+  }
+
+  private _moreActions(chargingStation?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (chargingStation) {
+      dialogConfig.data = chargingStation;
+    }
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationActionsDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

@@ -470,7 +470,13 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive whole number"
+    "invalid_power_value": "Power value must be a positive whole number",
+    "unsaved_title": "Unsaved changes",
+    "unsaved_confirmed": "Do you want to save changes?",
+    "changes_cancelled": "Changes have been cancelled",
+    "unsaved_changes": "You have unsaved changes. Save or cancel them.",
+    "button_get_configuration": "Get Configuration",
+    "created_on": "Creation date"
   },
   "logs": {
     "logging_number": "Log(s)",

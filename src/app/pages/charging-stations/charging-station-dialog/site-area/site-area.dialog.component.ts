@@ -5,7 +5,7 @@ import { Charger } from 'app/common.types';
 
 
 @Component({
-  styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
+  styleUrls: ['../../../../shared/dialogs/dialogs.component.scss'],
   templateUrl: 'site-area.dialog.component.html'
 })
 export class SiteAreaDialogComponent {

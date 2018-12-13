@@ -781,4 +781,59 @@ export class CentralServerService {
       );
   }
 
+  public getChargingStationConfiguration(id): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * updateChargingStationOCPPConfiguration
+   */
+  public updateChargingStationOCPPConfiguration(id, chargerParameter) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = `{
+      "chargeBoxID": "${id}",
+      "args": {
+        "key": "${chargerParameter.key}",
+        "value": "${chargerParameter.value}"
+      }
+    }`;
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+  
+  /**
+   * getChargingStationOCPPConfiguration
+   */
+  public getChargingStationOCPPConfiguration(id) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
 }

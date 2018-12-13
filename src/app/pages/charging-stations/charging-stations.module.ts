@@ -19,11 +19,15 @@ import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { ConnectorsCellComponent } from "./cell-content-components/connectors-cell.component";
 import { ConnectorCellComponent } from "./cell-content-components/connector-cell.component";
-import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
-import { ChargingStationComponent} from "./charging-station/charging-station.component";
+import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
+import { ChargingStationComponent} from "./charging-station-dialog/charging-station.component";
 import { ChargingStationsDataSource } from "./charging-stations-data-source-table";
-import { SiteAreaDialogComponent } from './charging-station/site-area.dialog.component';
-import { SiteAreaDataSource } from './charging-station/site-area-dialog-data-source-table';
+import { SiteAreaDialogComponent } from './charging-station-dialog/site-area/site-area.dialog.component';
+import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-area-dialog-data-source-table';
+import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
+import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
+import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -48,7 +52,11 @@ import { SiteAreaDataSource } from './charging-station/site-area-dialog-data-sou
     ConnectorCellComponent,
     ChargingStationComponent,
     ChargingStationDialogComponent,
-    SiteAreaDialogComponent
+    SiteAreaDialogComponent,
+    ChargingStationPropertiesComponent,
+    ChargingStationOCPPConfigurationComponent,
+    ChargingStationParametersComponent,
+    ChargingStationActionsDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -60,11 +68,16 @@ import { SiteAreaDataSource } from './charging-station/site-area-dialog-data-sou
     ConnectorCellComponent,
     ChargingStationComponent,
     ChargingStationDialogComponent,
-    SiteAreaDialogComponent
+    SiteAreaDialogComponent,
+    ChargingStationPropertiesComponent,
+    ChargingStationOCPPConfigurationComponent,
+    ChargingStationParametersComponent,
+    ChargingStationActionsDialogComponent
   ],
   exports: [
     ChargingStationDialogComponent,
-    SiteAreaDialogComponent
+    SiteAreaDialogComponent,
+    ChargingStationActionsDialogComponent
   ],
   providers:[
     ChargingStationComponent,

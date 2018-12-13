@@ -67,9 +67,6 @@ export class LogsDataSource extends TableDataSource<Log> {
         }
         return log;
       });
-      // Return logs
-      this.getDataSubjet().next(logs.result);
-      // Keep the result
       this.setData(logs.result);
     }, (error) => {
       // Show

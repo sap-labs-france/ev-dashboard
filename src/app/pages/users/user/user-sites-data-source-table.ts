@@ -35,11 +35,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         this.getPaging(), this.getOrdering()).subscribe((sites) => {
         // Set number of records
         this.setNumberOfRecords(sites.count);
-        // Update page length (number of sites is in User)
-        this.updatePaginator();
-        // Return sites
-        this.getDataSubjet().next(sites.result);
-        // Keep it
         this.setData(sites.result);
       }, (error) => {
         // No longer exists!
@@ -47,10 +42,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           this.translateService.instant('general.error_backend'));
       });
     } else {
-      // Update page length
       this.updatePaginator();
-      // Return sites
-      this.getDataSubjet().next([]);
+        this.setData([]);
     }
   }
 

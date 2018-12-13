@@ -45,7 +45,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
-  public buildCellValue: any;
   private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
@@ -67,10 +66,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     const locale = this.localService.getCurrentFullLocaleForJS();
-    this.buildCellValue = _.memoize(this._buildCellValue, (row: any, col: TableColumnDef) => {
-      return row.id + col.id + locale + this.findPropertyValue(col, col.id, row);
-    });
-
+    this.dataSource.changeLocaleTo(locale);
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
@@ -287,69 +283,4 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   /*  public isDetailedTableEnable(): Boolean {
       return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
     }*/
-
-  private _buildCellValue(row: any, columnDef: TableColumnDef) {
-    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-
-    const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => {
-          additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
-        }
-      );
-    }
-    // Type?
-    switch (columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
-    }
-
-    if (columnDef.formatter) {
-      if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
-      } else {
-        propertyValue = columnDef.formatter(propertyValue, row);
-      }
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
-  }
-
-  private findPropertyValue(columnDef, propertyName, source) {
-    let propertyValue = null;
-    propertyValue = source[propertyName];
-    if (propertyName.indexOf('.') > 0) {
-      propertyValue = source;
-      propertyName.split('.').forEach((key) => {
-          if (propertyValue.hasOwnProperty(key)) {
-            propertyValue = propertyValue[key];
-          } else if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
-          }
-        }
-      );
-    }
-    return propertyValue;
-  }
-
 }

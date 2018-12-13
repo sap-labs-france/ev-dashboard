@@ -17,17 +17,17 @@ import {InstantPowerProgressBarComponent} from './cell-content-components/instan
 import {ConnectorsDetailComponent} from './details-content-component/connectors-detail-component.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
-import {TableEditAction} from '../../shared/table/actions/table-edit-action';
+import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
-import { TableGetConfigurationAction } from "./actions/get-configuration-action";
-import {ChargerTableFilter} from '../../shared/table/filters/charger-filter';
+import {TableMoreAction} from '../../shared/table/actions/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from "./charging-station/charging-station.dialog.component";
+import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
 import { Injectable } from '@angular/core';
-
+import {AuthorizationService} from '../../services/authorization-service';
+import {Constants} from '../../utils/Constants';
+import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
-  private readonly tableActionsRow: TableActionDef[];
 
   constructor(
     private localeService: LocaleService,
@@ -37,14 +37,11 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
     super();
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
     this.setStaticFilters([{'WithSite': true}]);
   }
 
@@ -89,8 +86,8 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         enabled: true
       },
       rowSelection: {
-        enabled: true,
-        multiple: true
+        enabled: false,
+        multiple: false
       },
       rowDetails: {
         enabled: true,
@@ -107,7 +104,10 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         id: 'id',
         name: 'chargers.name',
         sortable: true,
-        headerClass: 'col-15p',
+        sorted: true,
+        direction: 'asc',
+/*        headerClass: 'col-10p',
+        class: 'col-10p',*/
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
         }
@@ -117,27 +117,28 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         name: 'chargers.heartbeat_title',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
-        headerClass: 'col-25p',
-        class: 'col-25p',
-        sortable: true
+        sortable: false
       },
       {
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
+        sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorsCellComponent
       },
       {
         id: 'connectorsConsumption',
         name: 'chargers.consumption_title',
-        class: 'charger-connector col-20p',
+        class: 'col-9em',
+        sortable: false,
         isAngularComponent: true,
-        angularComponentName: InstantPowerProgressBarComponent
+        angularComponentName: InstantPowerProgressBarComponent,
+        headerClass: 'col-9em'
       },
       {
         id: 'siteArea.site.name',
         name: 'sites.site',
-        sortable: false,
+        sortable: true,
         defaultValue: 'sites.unassigned',
         formatter: (value) => {
           if (value === 'sites.unassigned') {
@@ -153,7 +154,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        sortable: false,
+        sortable: true,
         defaultValue: 'site_areas.unassigned',
         formatter: (value) => {
           if (value === 'site_areas.unassigned') {
@@ -191,21 +192,28 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-      new TableDeleteAction().getActionDef(),
-      new TableGetConfigurationAction().getActionDef()
+/*      new TableDeleteAction().getActionDef(),
+      new TableGetConfigurationAction().getActionDef()*/
     ];
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.authorizationService.isAdmin()) {
+      return [
+//        new TableMoreAction().getActionDef(),
+        new TableSettingsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableSettingsAction().getActionDef()
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      // Delete
-      case 'delete':
-        break;
       default:
         super.actionTriggered(actionDef);
     }
@@ -213,10 +221,14 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
-      case 'edit':
-      this._showChargingStationDialog(rowItem);
+      case 'settings':
+        this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
+        this._deleteChargingStation(rowItem);
+        break;
+      case 'more':
+        this._moreActions(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -225,7 +237,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new ChargerTableFilter().getFilterDef(),
+//      new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef()
     ];
   }
@@ -236,10 +248,47 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     if (chargingStation) {
-      dialogConfig.data = chargingStation.id;
+      dialogConfig.data = chargingStation;
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _deleteChargingStation(chargingStation: Charger) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('chargers.delete_title'),
+      this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.loadData();
+            this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'chargers.delete_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'chargers.delete_error');
+        });
+      }
+    });
+  }
+
+  private _moreActions(chargingStation?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (chargingStation) {
+      dialogConfig.data = chargingStation;
+    }
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationActionsDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

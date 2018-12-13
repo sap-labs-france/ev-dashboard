@@ -1,0 +1,25 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr *ngFor="let item of displayedProperties">
+                                        <ng-container *ngIf="chargerFormatted[item.key]">
+                                            <td class="text-left col-25p">{{item.title | translate}}</td>
+                                            <td class="text-left col-75p">{{chargerFormatted[item.key]}}</td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

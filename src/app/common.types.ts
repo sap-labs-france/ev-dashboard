@@ -276,6 +276,11 @@ export interface SiteResult {
   result: Site[]
 }
 
+export interface SiteAreaResult {
+  count: number,
+  result: SiteArea[]
+}
+
 export interface SubjectInfo {
   action: string;
   data: {

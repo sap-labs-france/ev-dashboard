@@ -20,7 +20,7 @@ export const CONNECTED_PHASE_MAP =
     {key: 3, description: 'chargers.tri_phases'}
   ]
 
-  const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/gm;
+  const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
   styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
@@ -145,10 +145,11 @@ export class ChargingStationParametersComponent implements OnInit {
     // Yes, get it
     this.centralServerService.getChargers({ChargeBoxID: this.charger.id, 'WithSite': true}).subscribe((chargerResult) => {
       this.charger = chargerResult.result[0];
-      this.formGroup.markAsPristine();
+
       // Init form
       if (this.charger.chargingStationURL) {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
+        this.formGroup.controls.chargingStationURL.updateValueAndValidity();
       }
       if (this.charger.numberOfConnectedPhase) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
@@ -172,7 +173,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls[connectorTypeId].setValue(connector.type);
         this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
       }
-      
+      this.formGroup.markAsPristine();
       this.spinnerService.hide();
     }, (error) => {
       // Hide

@@ -10,7 +10,7 @@ import { ConnectorAvailibilityComponent } from './connector-availibility.compone
 import { AppConnectorIdPipe } from "../../../shared/formatters/app-connector-id.pipe";
 import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
 import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
-import { ConnectorCellComponent } from "../cell-content-components/connector-cell.component";
+import { ConnectorCellComponent } from "../../../shared/component/connector-cell.component";
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {InstantPowerProgressBarComponent} from "../cell-content-components/instant-power-progress-bar.component";

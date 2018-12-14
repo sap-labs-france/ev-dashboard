@@ -312,7 +312,6 @@ export interface TableDef {
 
 export interface TableColumnDef {
   id: string;
-  additionalIds?: string[];
   name: string;
   footerName?: string;
   type?: string;

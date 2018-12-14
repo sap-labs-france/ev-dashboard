@@ -1,5 +1,5 @@
-import {TableAction} from '../../../../shared/table/actions/table-action';
-import {TableActionDef} from '../../../../common.types';
+import {TableAction} from './table-action';
+import {TableActionDef} from '../../../common.types';
 
 export class TableStopAction implements TableAction {
   private action: TableActionDef = {

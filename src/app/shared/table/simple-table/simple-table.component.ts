@@ -99,9 +99,6 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public buildRowValue(row: any, columnDef: TableColumnDef) {
     let propertyValue = this.findPropertyValue(columnDef.id, row);
     const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => additionalProperties.push(this.findPropertyValue(propertyName, row)));
-    }
 
     // Type?
     switch (columnDef.type) {

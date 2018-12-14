@@ -54,6 +54,10 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
+    // Is there specific row actions ?
+    if (this.dataSource.hasRowActions()) {
+      this.columns = [...this.columns, 'rowActions'];
+    }
   }
 
   ngAfterViewInit() {
@@ -134,6 +138,11 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public loadData() {
     // Load data source
     this.dataSource.loadData();
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    // Get Actions def
+    this.dataSource.rowActionTriggered(actionDef, rowItem);
   }
 
   private findPropertyValue(propertyName, source) {

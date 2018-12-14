@@ -14,14 +14,17 @@ import { ConnectorCellComponent } from "../cell-content-components/connector-cel
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {InstantPowerProgressBarComponent} from "../cell-content-components/instant-power-progress-bar.component";
-
+import {AuthorizationService} from '../../../services/authorization-service';
+import {TableStartAction} from '../../../shared/table/actions/table-start-action';
+import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   constructor(private configService: ConfigService,
               private centralServerService: CentralServerService,
               private translateService: TranslateService,
               private localeService: LocaleService,
               private appUnitPipe: AppUnitPipe,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authorizationService: AuthorizationService) {
     super();
   }
 
@@ -146,4 +149,43 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
     ];
   }
 
+  public getTableRowActions(rowItem: Connector): TableActionDef[] {
+    if (!rowItem) {
+      return [
+        new TableStopAction().getActionDef(),
+        new TableStartAction().getActionDef()
+      ];
+    } else {
+      if (rowItem && rowItem.activeTransactionID) {
+        return [
+          new TableStopAction().getActionDef()
+        ];
+      }
+      if (rowItem && rowItem.status === 'Available') {
+        return [
+          new TableStartAction().getActionDef()
+        ];
+      }
+    }
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      default:
+        super.actionTriggered(actionDef);
+    }
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Connector) {
+    switch (actionDef.id) {
+      case 'settings':
+        break;
+      case 'delete':
+        break;
+      case 'more':
+        break;
+      default:
+    }
+  }
 }

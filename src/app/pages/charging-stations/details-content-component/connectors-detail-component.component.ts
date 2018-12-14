@@ -9,7 +9,7 @@ import {DetailComponent} from '../../../shared/table/detail-component/detail-com
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-
+import {AuthorizationService} from '../../../services/authorization-service';
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: '<app-simple-table [dataSource]="connectorsDataSource"></app-simple-table>'
@@ -27,13 +27,15 @@ export class ConnectorsDetailComponent implements DetailComponent {
               private translateService: TranslateService,
               private localeService: LocaleService,
               private appUnitPipe: AppUnitPipe,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authorizationService: AuthorizationService) {
     this.connectorsDataSource = new ConnectorsDataSource(this.configService,
       this.centralServerService,
       this.translateService,
       this.localeService,
       this.appUnitPipe,
-      this.dialog);
+      this.dialog,
+      this.authorizationService);
   }
 
   /**

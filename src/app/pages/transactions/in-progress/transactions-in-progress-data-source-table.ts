@@ -14,7 +14,7 @@ import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
 import {DialogService} from '../../../services/dialog.service';
-import {TableStopAction} from './actions/table-stop-action';
+import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';

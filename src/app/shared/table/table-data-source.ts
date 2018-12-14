@@ -476,14 +476,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   private _buildCellValue(row: any, columnDef: TableColumnDef) {
     let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-
-    const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => {
-          additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
-        }
-      );
-    }
     // Type?
     switch (columnDef.type) {
       // Date
@@ -501,11 +493,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
 
     if (columnDef.formatter) {
-      if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
-      } else {
-        propertyValue = columnDef.formatter(propertyValue, row);
-      }
+      propertyValue = columnDef.formatter(propertyValue, row);
     }
     // Return the property
     return `${propertyValue ? propertyValue : ''}`;

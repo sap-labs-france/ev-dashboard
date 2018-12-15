@@ -107,7 +107,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getSelectedRows(): T[] {
-    return this.getSelectionModel().selected;
+    return this.getSelectionModel().selected.map(element => element['data']);
   }
 
   public hasSelectedRows(): boolean {

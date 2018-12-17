@@ -661,7 +661,8 @@
     "price": "Prix",
     "tabs": {
       "history": "Historique",
-      "in_progress": "En cours"
+      "in_progress": "En cours",
+      "in_error": "En erreur"
     },
     "dialog": {
       "delete": {

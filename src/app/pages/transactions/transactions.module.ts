@@ -17,6 +17,8 @@ import {TransactionsHistoryDataSource} from './history/transactions-history-data
 import {TransactionsInProgressDataSource} from './in-progress/transactions-in-progress-data-source-table';
 import {ComponentModule} from '../../shared/component/component.module';
 import {ConnectorCellComponent} from '../../shared/component/connector-cell.component';
+import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
+import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 
 @NgModule({
   imports: [
@@ -35,12 +37,14 @@ import {ConnectorCellComponent} from '../../shared/component/connector-cell.comp
   declarations: [
     TransactionsComponent,
     TransactionsHistoryComponent,
+    TransactionsInErrorComponent,
     TransactionsInProgressComponent
   ],
   entryComponents: [
     TransactionsComponent,
     TransactionsHistoryComponent,
     TransactionsInProgressComponent,
+    TransactionsInErrorComponent,
     ConnectorCellComponent
   ],
   exports: [
@@ -50,6 +54,7 @@ import {ConnectorCellComponent} from '../../shared/component/connector-cell.comp
     CurrencyPipe,
     PercentPipe,
     TransactionsHistoryDataSource,
+    TransactionsInErrorDataSource,
     TransactionsInProgressDataSource
   ]
 })

@@ -677,6 +677,24 @@ export class CentralServerService {
       );
   }
 
+  stationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
+    this._checkInit();
+    const body = {
+      chargeBoxID: chargeBoxId,
+      args: {
+        tagID: tagID,
+        connectorID: connectorID
+      }
+    };
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStartTransaction`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -818,6 +836,32 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
+
+  /**
+   * 
+   */
+  public actionChargingStation(action, id, args) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = ( args ? 
+      `{
+        "chargeBoxID": "${id}",
+        "args": ${args}
+      }` :
+      `{
+        "chargeBoxID": "${id}"
+      }`
+      );
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
   
   /**
    * getChargingStationOCPPConfiguration
@@ -828,6 +872,36 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * getIsAuthorized
+   */
+  public getIsAuthorized(action, arg1, arg2?) {
+    // Verify init
+    this._checkInit();
+    // Build parameters
+    const filters = [];
+    let queryString;
+    // Set Action
+    filters.push(`Action=${action}`);
+    // Set Args
+    if (arg1) {
+      filters.push(`Arg1=${arg1}`);
+    }
+    if (arg2) {
+      filters.push(`Arg2=${arg2}`);
+    }
+    // Build the query string
+    queryString = filters.join('&');
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IsAuthorized?${queryString}`,
       {
         headers: this._buildHttpHeaders()
       })

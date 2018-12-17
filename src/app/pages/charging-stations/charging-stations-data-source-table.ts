@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from '../../shared/table/table-data-source';
-import {Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {DialogService} from '../../services/dialog.service';
 import {CentralServerNotificationService} from '../../services/central-server-notification.service';
@@ -19,7 +19,7 @@ import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.c
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
-import {TableMoreAction} from '../../shared/table/actions/table-more-action';
+import {TableMoreAction, ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_REBOOT, ACTION_SMART_CHARGING, ACTION_SOFT_RESET} from './other-actions-button/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
 import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
 import { Injectable } from '@angular/core';
@@ -198,9 +198,10 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getTableRowActions(): TableActionDef[] {
+console.log("getTableRowActions");
     if (this.authorizationService.isAdmin()) {
       return [
-//        new TableMoreAction().getActionDef(),
+        new TableMoreAction().getActionDef(),
         new TableSettingsAction().getActionDef(),
         new TableDeleteAction().getActionDef()
       ];
@@ -219,7 +220,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'settings':
         this._showChargingStationDialog(rowItem);
@@ -228,7 +229,35 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         this._deleteChargingStation(rowItem);
         break;
       case 'more':
-        this._moreActions(rowItem);
+        console.log(dropdownItem);
+        switch (dropdownItem.id) {
+          case ACTION_REBOOT:
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Hard"}),
+              this.translateService.instant('chargers.reboot_title'),
+              this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
+              this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
+              'chargers.reset_error'
+            );
+            break;
+          case ACTION_SOFT_RESET:
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Soft"}),
+                  this.translateService.instant('chargers.soft_reset_title'),
+                  this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
+                  this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
+                  'chargers.soft_reset_error'
+                );
+            break;
+          case ACTION_CLEAR_CACHE:
+            this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, "",
+                  this.translateService.instant('chargers.clear_cache_title'),
+                  this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
+                  this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
+                  'chargers.clear_cache_error'
+                );
+            break;
+          default:
+            break;
+        }
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -240,6 +269,33 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 //      new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef()
     ];
+  }
+
+  private _simpleActionChargingStation(action, id, args, title, message, success_message, error_message) {
+    //show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      title,
+      message
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        //call REST service
+        this.centralServerService.actionChargingStation(action, id, args).subscribe(response => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            //success + reload
+            this.messageService.showSuccessMessage(success_message);
+            this.loadData();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, error_message);
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            error_message);
+        });
+      }
+    });
   }
 
   private _showChargingStationDialog(chargingStation?: Charger) {

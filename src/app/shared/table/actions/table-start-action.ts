@@ -5,8 +5,8 @@ export class TableStartAction implements TableAction {
   private action: TableActionDef = {
     id: 'start',
     type: 'button',
-    icon: 'play_circle_outline',
-    class: 'btn-success',
+    icon: 'play_arrow',
+    class: 'btn-success action-icon-large',
     name: 'general.start'
   }
 

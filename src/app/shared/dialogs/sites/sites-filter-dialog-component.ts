@@ -38,7 +38,7 @@ export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach(row => {
-        items.push({key: row.id, value: row.name});
+        items.push({key: row.id, value: row.name, objectRef: row});
       });
     }
     return items;

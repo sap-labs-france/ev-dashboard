@@ -28,6 +28,17 @@
                 <app-transactions-in-progress></app-transactions-in-progress>
               </ng-template>
             </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons">warning</i>{{'transactions.tabs.in_error' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <app-transactions-in-error></app-transactions-in-error>
+              </ng-template>
+            </mat-tab>
           </mat-tab-group>
         </div>
 

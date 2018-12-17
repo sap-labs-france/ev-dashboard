@@ -397,7 +397,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.formattedData = [];
       const toRefresh = this.data;
       this.data = [];
-      this.refreshData(toRefresh);
+      this.setData(toRefresh);
     }
   }
 

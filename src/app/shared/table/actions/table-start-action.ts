@@ -1,13 +1,13 @@
 import {TableAction} from './table-action';
 import {TableActionDef} from '../../../common.types';
 
-export class TableStopAction implements TableAction {
+export class TableStartAction implements TableAction {
   private action: TableActionDef = {
-    id: 'stop',
+    id: 'start',
     type: 'button',
-    icon: 'stop',
-    class: 'btn-danger action-icon-large',
-    name: 'general.stop'
+    icon: 'play_arrow',
+    class: 'btn-success action-icon-large',
+    name: 'general.start'
   }
 
 

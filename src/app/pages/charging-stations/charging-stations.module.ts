@@ -18,7 +18,6 @@ import { ConnectorAvailibilityComponent } from './details-content-component/conn
 import { SimpleTableModule } from '../../shared/table/simple-table/simple-table.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { ConnectorsCellComponent } from './cell-content-components/connectors-cell.component';
-import { ConnectorCellComponent } from '../../shared/component/connector-cell.component';
 import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { ChargingStationComponent} from './charging-station-dialog/charging-station.component';
 import { ChargingStationsDataSource } from './charging-stations-data-source-table';
@@ -29,6 +28,7 @@ import { ChargingStationOCPPConfigurationComponent } from './charging-station-di
 import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
 import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
 import {ComponentModule} from '../../shared/component/component.module';
+import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
 @NgModule({
   imports: [
     CommonModule,
@@ -50,14 +50,15 @@ import {ComponentModule} from '../../shared/component/component.module';
     InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
     ConnectorAvailibilityComponent,
-    ConnectorsCellComponent,
     ChargingStationComponent,
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent
+    ChargingStationActionsDialogComponent,
+    ConnectorsCellComponent,
+    StartTransactionDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -65,19 +66,21 @@ import {ComponentModule} from '../../shared/component/component.module';
     InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
     ConnectorAvailibilityComponent,
-    ConnectorsCellComponent,
     ChargingStationComponent,
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent
+    ChargingStationActionsDialogComponent,
+    ConnectorsCellComponent,
+    StartTransactionDialogComponent
   ],
   exports: [
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
-    ChargingStationActionsDialogComponent
+    ChargingStationActionsDialogComponent,
+    StartTransactionDialogComponent
   ],
   providers: [
     ChargingStationComponent,

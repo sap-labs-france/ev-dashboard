@@ -2,7 +2,7 @@ import {BehaviorSubject, interval, Observable, of, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
-import {Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 
@@ -17,9 +17,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableDef: TableDef;
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
-  private rowActionsDef: TableActionDef[];
+  public rowActionsDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
-  private selectionModel: SelectionModel<T>;
+  private selectionModel: SelectionModel<any>;
   private data: any[] = [];
   private formattedData = [];
   private locale;
@@ -98,9 +98,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
   }
 
-  public getSelectionModel(): SelectionModel<T> {
+  public getSelectionModel(): SelectionModel<any> {
     if (!this.selectionModel) {
-      this.selectionModel = new SelectionModel<T>(
+      this.selectionModel = new SelectionModel<any>(
         this.isMultiSelectionEnabled(), []);
     }
     return this.selectionModel;
@@ -261,7 +261,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

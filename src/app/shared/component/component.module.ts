@@ -22,6 +22,9 @@ import {CommonDirectivesModule} from '../directives/common-directives.module';
   exports: [
     ChipComponent,
     ConnectorCellComponent
+  ],
+  entryComponents: [
+    ConnectorCellComponent
   ]
 })
 export class ComponentModule {

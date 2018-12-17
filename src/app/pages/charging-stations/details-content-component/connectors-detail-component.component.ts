@@ -4,12 +4,15 @@ import {MatDialog} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {ConfigService} from '../../../services/config.service';
 import {CentralServerService} from '../../../services/central-server.service';
-
+import {SpinnerService} from '../../../services/spinner.service';
+import {DialogService} from '../../../services/dialog.service';
 import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-
+import {AuthorizationService} from '../../../services/authorization-service';
+import {Router} from '@angular/router';
+import {MessageService} from '../../../services/message.service';
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: '<app-simple-table [dataSource]="connectorsDataSource"></app-simple-table>'
@@ -27,21 +30,32 @@ export class ConnectorsDetailComponent implements DetailComponent {
               private translateService: TranslateService,
               private localeService: LocaleService,
               private appUnitPipe: AppUnitPipe,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authorizationService: AuthorizationService,
+              private spinnerService: SpinnerService,
+              private messageService: MessageService,
+              private router: Router,
+              private dialogService: DialogService
+              ) {
     this.connectorsDataSource = new ConnectorsDataSource(this.configService,
       this.centralServerService,
       this.translateService,
       this.localeService,
       this.appUnitPipe,
-      this.dialog);
+      this.dialog,
+      this.authorizationService,
+      this.spinnerService,
+      this.messageService,
+      this.router,
+      this.dialogService);
   }
 
   /**
    * setData
    */
   setData(row: any, tabledef: TableDef) {
+    this.connectorsDataSource.setCharger(row);
     this.connectorsDataSource.setDetailedDataSource(row.connectors);
-    this.connectorsDataSource.loadData();
   }
 
 }

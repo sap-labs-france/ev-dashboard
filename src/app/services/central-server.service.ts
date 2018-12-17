@@ -695,80 +695,16 @@ export class CentralServerService {
       );
   }
 
-  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
-    // Verify init
+  stationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
     this._checkInit();
-    // Execute
-    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
-      {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public deleteChargingStation(id): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public getChargingStationConfiguration(id): Observable<any> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   * updateChargingStationOCPPConfiguration
-   */
-  public updateChargingStationOCPPConfiguration(id, chargerParameter) {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    const body = `{
-      "chargeBoxID": "${id}",
-      "args": {
-        "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
+    const body = {
+      chargeBoxID: chargeBoxId,
+      args: {
+        tagID: tagID,
+        connectorID: connectorID
       }
-    }`;
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   * getChargingStationOCPPConfiguration
-   */
-  public getChargingStationOCPPConfiguration(id) {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+    };
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStartTransaction`, body,
       {
         headers: this._buildHttpHeaders()
       })
@@ -852,6 +788,144 @@ export class CentralServerService {
       errMsg.details = error.error;
     }
     return throwError(errMsg);
+  }
+
+  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
+      {
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteChargingStation(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConfiguration(id): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * updateChargingStationOCPPConfiguration
+   */
+  public updateChargingStationOCPPConfiguration(id, chargerParameter) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = `{
+      "chargeBoxID": "${id}",
+      "args": {
+        "key": "${chargerParameter.key}",
+        "value": "${chargerParameter.value}"
+      }
+    }`;
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * 
+   */
+  public actionChargingStation(action, id, args) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = ( args ? 
+      `{
+        "chargeBoxID": "${id}",
+        "args": ${args}
+      }` :
+      `{
+        "chargeBoxID": "${id}"
+      }`
+      );
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+  
+  /**
+   * getChargingStationOCPPConfiguration
+   */
+  public getChargingStationOCPPConfiguration(id) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * getIsAuthorized
+   */
+  public getIsAuthorized(action, arg1, arg2?) {
+    // Verify init
+    this._checkInit();
+    // Build parameters
+    const filters = [];
+    let queryString;
+    // Set Action
+    filters.push(`Action=${action}`);
+    // Set Args
+    if (arg1) {
+      filters.push(`Arg1=${arg1}`);
+    }
+    if (arg2) {
+      filters.push(`Arg2=${arg2}`);
+    }
+    // Build the query string
+    queryString = filters.join('&');
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IsAuthorized?${queryString}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
 }

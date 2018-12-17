@@ -5,7 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
@@ -182,9 +182,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     // Get Actions def
-    this.dataSource.rowActionTriggered(actionDef, rowItem);
+    this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
   // Selects all rows if they are not all selected; otherwise clear selection.

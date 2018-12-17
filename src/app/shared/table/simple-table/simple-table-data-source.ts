@@ -13,6 +13,7 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
     private selectionModel: SelectionModel<T>;
     private data: T[] = [];
     private dataChangeSubscription: Subscription;
+    private rowActionsDef: TableActionDef[];
 
     private _checkInitialized(): any {
         // Check
@@ -29,6 +30,11 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
             this.actionsRightDef = this.getTableActionsRightDef();
             // Check known actions
             this._checkKnownActions(this.actionsRightDef);
+        }
+        if (!this.rowActionsDef) {
+            this.rowActionsDef = this.getTableRowActions();
+            // Check known actions
+            this._checkKnownActions(this.rowActionsDef);
         }
     }
 
@@ -55,6 +61,14 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
                 }
             });
         }
+    }
+
+    public getTableRowActions(rowItem?): TableActionDef[] {
+        // Return default
+        return [];
+    }
+
+    public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     }
 
     public hasActions(): boolean {
@@ -196,6 +210,13 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
             this.dataChangeSubscription = null;
         }
     }
+
+    public hasRowActions(): boolean {
+        // Check
+        this._checkInitialized();
+        // Return
+        return this.rowActionsDef && this.rowActionsDef.length > 0;
+      }
 
     abstract getTableColumnDefs(): TableColumnDef[];
 

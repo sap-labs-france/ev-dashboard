@@ -28,7 +28,7 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 
 @Injectable()
-export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
+export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
 
@@ -58,7 +58,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public loadData() {
     this.spinnerService.show();
-    this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
+    this.centralServerService.getTransactionsInError(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);

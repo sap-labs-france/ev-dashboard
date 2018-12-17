@@ -645,7 +645,8 @@
     "price": "Price",
     "tabs": {
       "history": "History",
-      "in_progress": "In Progress"
+      "in_progress": "In Progress",
+      "in_error": "In Error"
     },
     "dialog": {
       "delete": {

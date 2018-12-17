@@ -107,9 +107,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getSelectedRows(): T[] {
-     return this.getSelectionModel().selected.map(element => 
-      element.data
-      )
+    return this.getSelectionModel().selected.map(element => element['data']);
   }
 
   public hasSelectedRows(): boolean {
@@ -399,7 +397,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.formattedData = [];
       const toRefresh = this.data;
       this.data = [];
-      this.refreshData(toRefresh);
+      this.setData(toRefresh);
     }
   }
 

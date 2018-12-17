@@ -11,6 +11,7 @@ import {LocalStorageService} from './local-storage.service';
 import {CentralServerNotificationService} from './central-server-notification.service';
 import {
   ActionResponse,
+  Charger,
   ChargerResult,
   Image,
   Log,
@@ -18,14 +19,13 @@ import {
   Ordering,
   Paging,
   RouteInfo,
+  SiteAreaResult,
   SiteResult,
   Tenant,
   TenantResult,
   TransactionResult,
   User,
-  UserResult,
-  SiteAreaResult,
-  Charger
+  UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -268,6 +268,24 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
         headers: this._buildHttpHeaders(),
         params

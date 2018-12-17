@@ -220,6 +220,11 @@ export interface Setting {
   content: any;
 }
 
+export interface SettingResult {
+  count: number,
+  result: Setting[]
+}
+
 export interface Endpoint {
   id: string;
   name: string;

@@ -128,4 +128,8 @@ export class Constants {
 
   /* Tenant Components */
   public static COMPONENTS_LIST = ['ocpi'];
+
+  /* Settings */
+  public static SETTINGS_OCPI = 'ocpi';
+
 }

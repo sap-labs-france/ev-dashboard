@@ -592,6 +592,14 @@
   "settings": {
     "tabs": {
       "ocpi": "OCPI"
+    },
+    "ocpi": {
+      "setting_do_not_exist": "OCPI Settings not found",
+      "setting_not_found": "OCPI Settings not found",
+      "create_success": "OCPI settings have been created successfully",
+      "create_error":  "Error occured while creating the OCPI settings",
+      "update_success": "OCPI settings have been updated successfully",
+      "update_error": "Error occured while updating the OCPI settings"
     }
   },
   "ocpiendpoints": {
@@ -613,7 +621,7 @@
     "cpo_country_code": "Country code",
     "cpo_party_id": "Party ID",
     "cpo_business_details": "Business Details",
-    "cpo_logo": "Logo",
+    "cpo_logo": "Image",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",

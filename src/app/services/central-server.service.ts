@@ -24,7 +24,8 @@ import {
   TransactionResult,
   User,
   UserResult,
-  Setting
+  Setting,
+  SettingResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -392,11 +393,11 @@ export class CentralServerService {
       );
   }
 
-  public getSetting(identifier: string): Observable<Setting> {
+  public getSettings(identifier: string): Observable<SettingResult> {
     // verify init
     this._checkInit();
     // Execute the REST Service
-    return this.httpClient.get<Setting>(`${this.centralRestServerServiceSecuredURL}/Setting?identifier=${identifier}`,
+    return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}`,
     {
       headers: this._buildHttpHeaders()
     })
@@ -583,6 +584,32 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createSetting(setting): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingCreate`, setting,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSetting(setting): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingUpdate`, setting,
       {
         headers: this._buildHttpHeaders()
       })

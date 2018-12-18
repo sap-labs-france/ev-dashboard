@@ -584,6 +584,7 @@
       "ocpi": "OCPI"
     },
     "ocpi": {
+      "information": "Information",
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
       "setting_not_found": "La configuration OCPI n'est pas disponible",
       "create_success": "La configuration OCPI a été créé avec succès",
@@ -602,6 +603,7 @@
     "localToken": "Jeton Local",
     "token": "Jeton Distant",
     "generateNewToken": "Générer nouveau jeton",
+    "testConnection": "Test de connection",
     "create_success": "L'eMSP '{{name}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du eMSP",
     "update_error": "Une erreur est survenue pendant la mise à jour du eMSP",

@@ -77,6 +77,9 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     return {
       search: {
         enabled: false
+      },
+      design: {
+        flat: true
       }
     };
   }

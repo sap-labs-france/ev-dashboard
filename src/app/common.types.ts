@@ -336,6 +336,9 @@ export interface TableDef {
   search?: {
     enabled: boolean;
   },
+  design?: {
+    flat: boolean;
+  },
   rowDetails?: {
     enabled: boolean;
     detailsField?: string;
@@ -422,6 +425,7 @@ export interface User {
   auths: any;
   language: string;
   numberOfSites: number;
+  activeComponents?: Array<string>;
 }
 
 export interface UserResult {

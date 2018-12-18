@@ -189,6 +189,8 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
           }
         }
       }
+      
+      this.formGroup.markAsPristine();
 
     }, (error) => {
       // Hide

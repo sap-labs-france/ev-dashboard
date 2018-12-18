@@ -26,9 +26,7 @@ import {
   TransactionResult,
   User,
   UserResult,
-  Setting,
   SettingResult,
-  Ocpiendpoint,
   OcpiendpointResult
 } from '../common.types';
 import {WindowService} from './window.service';
@@ -593,6 +591,12 @@ export class CentralServerService {
     this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
+  }
+
+  public isComponentActive(componentName): boolean {
+    // get logged user
+    return this.getLoggedUser().activeComponents.includes(componentName);
+
   }
 
   public resetUserPassword(data) {

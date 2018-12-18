@@ -10,7 +10,7 @@ import { Constants } from '../../../../../utils/Constants';
 
 @Component({
   templateUrl: './endpoint.dialog.component.html',
-  styleUrls: ['../../../../../shared/dialogs/dialogs.component.scss'],
+  styleUrls: [ './endpoint.dialog.component.scss', '../../../../../shared/dialogs/dialogs.component.scss'  ]
 })
 export class EndpointDialogComponent implements OnInit {
   public formGroup: FormGroup;

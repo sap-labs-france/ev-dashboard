@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {UsersDataSource} from './users-data-source-table';
+import {UsersInErrorDataSource} from './users-in-error-data-source-table';
 
 @Component({
   selector: 'app-users-cmp',
@@ -11,6 +12,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     public usersDataSource: UsersDataSource,
+    public usersInErrorDataSource: UsersInErrorDataSource,
     private authorizationService: AuthorizationService) {
 
     this.isAdmin = this.authorizationService.isAdmin();

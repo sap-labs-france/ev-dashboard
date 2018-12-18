@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-transactions',
-  templateUrl: './transactions.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './transactions.component.html'
 })
 export class TransactionsComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

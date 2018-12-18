@@ -241,6 +241,24 @@ export class CentralServerService {
       );
   }
 
+  public getUsersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UsersInError`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TenantResult> {
     // Verify init
     this._checkInit();
@@ -854,15 +872,14 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
-
-  /**
-   * 
+/**
+   *
    */
   public actionChargingStation(action, id, args) {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    const body = ( args ? 
+    const body = ( args ?
       `{
         "chargeBoxID": "${id}",
         "args": ${args}
@@ -880,7 +897,7 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
-  
+
   /**
    * getChargingStationOCPPConfiguration
    */

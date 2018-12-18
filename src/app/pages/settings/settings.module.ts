@@ -14,6 +14,7 @@ import {SettingsOcpiBusinessDetailsComponent} from './ocpi/business-details/sett
 import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-endpoints.component';
 import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-endpoints-source-table';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
+import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 
 @NgModule({
   imports: [
@@ -31,12 +32,14 @@ import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.c
     SettingsOcpiComponent,
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
-    EndpointDialogComponent
+    EndpointDialogComponent,
+    OcpiendpointStatusComponent
   ],
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
-    EndpointDialogComponent
+    EndpointDialogComponent,
+    OcpiendpointStatusComponent
   ],
   providers: [
     EndpointsDataSource

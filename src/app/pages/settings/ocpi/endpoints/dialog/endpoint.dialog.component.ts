@@ -99,48 +99,48 @@ export class EndpointDialogComponent implements OnInit {
 
   save(endpoint) {
     // Show
-    // this.spinnerService.show(); 
+    this.spinnerService.show(); 
 
-    // if (this.currentTenant.id) {
-    //   // update existing tenant
-    //   this._updateTenant(tenant);
-    // } else {
-    //   // create new tenant
-    //   this._createTenant(tenant);
-    // }
+    if (this.currentEndpoint.id) {
+      // update existing Ocpi Endpoint
+      this._updateOcpiendpoint(endpoint);
+    } else {
+      // create new Ocpi Endpoint
+      this._createOcpiendpoint(endpoint);
+    }
   }
 
-  private _createEndpoint(tenant) {
-    // this.centralServerService.createTenant(tenant).subscribe(response => {
-    //   this.spinnerService.hide();
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     this.messageService.showSuccessMessage('tenants.create_success', {'name': tenant.name});
-    //     this.dialogRef.close();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'tenants.create_error');
-    //   }
-    // }, (error) => {
-    //   this.spinnerService.hide();
-    //   Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-    //     'tenants.create_error');
-    // });
+  private _createOcpiendpoint(ocpiendpoint) {
+    this.centralServerService.createOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage('ocpiendpoints.create_success', {'name': ocpiendpoint.name});
+        this.dialogRef.close();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'ocpiendpoints.create_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.create_error');
+    });
   }
 
-  private _updateEndpoint(endpoint) {
-    // this.centralServerService.updateTenant(tenant).subscribe(response => {
-    //   this.spinnerService.hide();
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     this.messageService.showSuccessMessage('tenants.update_success', {'name': tenant.name});
-    //     this.dialogRef.close();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'tenants.update_error');
-    //   }
-    // }, (error) => {
-    //   this.spinnerService.hide();
-    //   Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-    //     'tenants.update_error');
-    // });
+  private _updateOcpiendpoint(ocpiendpoint) {
+    this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage('ocpiendpoints.update_success', {'name': ocpiendpoint.name});
+        this.dialogRef.close();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'ocpiendpoints.update_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.update_error');
+    });
   }
 }

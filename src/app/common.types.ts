@@ -225,7 +225,7 @@ export interface SettingResult {
   result: Setting[]
 }
 
-export interface Endpoint {
+export interface Ocpiendpoint {
   id: string;
   name: string;
   countryCode: string;
@@ -234,9 +234,9 @@ export interface Endpoint {
   status: string;
 }
 
-export interface EndpointResult {
+export interface OcpiendpointResult {
   count: number,
-  result: Endpoint[]
+  result: Ocpiendpoint[]
 }
 
 export interface TransactionResult {

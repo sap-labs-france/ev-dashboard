@@ -611,7 +611,17 @@
     "version": "Version",
     "localToken": "Local Token",
     "token": "Remote Token",
-    "generateNewToken": "Generate new token"
+    "new": "New",
+    "registered": "Registered",
+    "generateNewToken": "Generate new token",
+    "create_success": "The eMSP '{{name}}' has been created successfully",
+    "create_error": "Error occurred while creating the eMSP",
+    "update_success": "The eMSP '{{name}}' has been updated successfully",
+    "update_error": "Error occurred while updating the eMSP",
+    "delete_confirm": "Do you really want to delete the eMSP '{{name}}'?",
+    "delete_title": "Delete eMSP",
+    "delete_success": "The eMSP '{{name}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the eMSP"
   },
   "ocpi": {
     "emsps": "e-Mobility Service Providers",

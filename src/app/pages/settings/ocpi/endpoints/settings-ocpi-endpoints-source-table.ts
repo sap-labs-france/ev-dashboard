@@ -1,29 +1,30 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
-import {TableDataSource} from '../../../../shared/table/table-data-source';
-import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Endpoint} from '../../../../common.types';
-import {CentralServerNotificationService} from '../../../../services/central-server-notification.service';
-import {TableAutoRefreshAction} from '../../../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../../../shared/table/actions/table-refresh-action';
-import {CentralServerService} from '../../../../services/central-server.service';
-import {LocaleService} from '../../../../services/locale.service';
-import {MessageService} from '../../../../services/message.service';
-import {SpinnerService} from '../../../../services/spinner.service';
-import {Utils} from '../../../../utils/Utils';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Ocpiendpoint } from '../../../../common.types';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { Utils } from '../../../../utils/Utils';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
-import {EndpointDialogComponent} from './dialog/endpoint.dialog.component';
-import {TableCreateAction} from '../../../../shared/table/actions/table-create-action';
-import {TableEditAction} from '../../../../shared/table/actions/table-edit-action';
-import {TableDeleteAction} from '../../../../shared/table/actions/table-delete-action';
-import {Constants} from '../../../../utils/Constants';
-import {DialogService} from '../../../../services/dialog.service';
+import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
+import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
+import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
+import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
+import { Constants } from '../../../../utils/Constants';
+import { DialogService } from '../../../../services/dialog.service';
+import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 
 @Injectable()
-export class EndpointsDataSource extends TableDataSource<Endpoint> {
+export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
@@ -45,39 +46,31 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectTenants();
+    return this.centralServerNotificationService.getSubjectOcpiendpoints();
   }
 
   public loadData() {
-    // // Show
-    // this.spinnerService.show();
-    // // Get the Tenants
-    // this.centralServerService.getTenants(this.getFilterValues(),
-    //   this.getPaging(), this.getOrdering()).subscribe((tenants) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Update nbr records
-    //   this.setNumberOfRecords(tenants.count);
-    //   // Update Paginator
-    //   this.updatePaginator();
-    //   // Notify
-    //   this.getDataSubjet().next(tenants.result);
-    //   // Set the data
-    //   this.setData(tenants.result);
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Show error
-    //   Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-    // });
-    // let endpoints;
-    // this.setNumberOfRecords(2);
-    // this.updatePaginator();
-    // endpoints = [{ id: "test", name: 'Gireve', countryCode: 'FR', partyId: '107', version: '2.1.1', status: 'NEW'},
-    // { id: "test2", name: 'SAP Labs France', countryCode: 'FR', partyId: 'SLF', version: '2.1.1', status: 'NEW'}];
-
-    // this.getDataSubjet().next(endpoints);
-    // this.setData( endpoints ); 
+    // Show
+    this.spinnerService.show();
+    // Get the OCPI Endpoints
+    this.centralServerService.getOcpiendpoints(this.getFilterValues(),
+      this.getPaging(), this.getOrdering()).subscribe((ocpiendpoints) => {
+        // Hide
+        this.spinnerService.hide();
+        // Update nbr records
+        this.setNumberOfRecords(ocpiendpoints.count);
+        // Update Paginator
+        this.updatePaginator();
+        // Notify
+        this.getDataSubjet().next(ocpiendpoints.result);
+        // Set the data
+        this.setData(ocpiendpoints.result);
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+      });
   }
 
   public getTableDef(): TableDef {
@@ -137,6 +130,8 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
       {
         id: 'status',
         name: 'ocpiendpoints.status',
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointStatusComponent,
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true
@@ -159,7 +154,7 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showEndpointDialog();
+        this._showOcpiendpointDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -169,13 +164,13 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showEndpointDialog(rowItem);
+        this._showOcpiendpointDialog(rowItem);
         break;
       case 'delete':
-    //     this._deleteTenant(rowItem);
+        this._deleteOcpiendpoint(rowItem);
         break;
-      // default:
-    //     super.rowActionTriggered(actionDef, rowItem);
+      default:
+        super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
@@ -190,7 +185,7 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
     return [];
   }
 
-  private _showEndpointDialog(endpoint?: any) {
+  private _showOcpiendpointDialog(endpoint?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -202,28 +197,28 @@ export class EndpointsDataSource extends TableDataSource<Endpoint> {
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  // private _deleteTenant(tenant) {
-  //   this.dialogService.createAndShowYesNoDialog(
-  //     this.dialog,
-  //     this.translateService.instant('tenants.delete_title'),
-  //     this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
-  //   ).subscribe((result) => {
-  //     if (result === Constants.BUTTON_TYPE_YES) {
-  //       this.spinnerService.show();
-  //       this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
-  //         this.spinnerService.hide();
-  //         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-  //           this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
-  //         } else {
-  //           Utils.handleError(JSON.stringify(response),
-  //             this.messageService, 'tenants.delete_error');
-  //         }
-  //       }, (error) => {
-  //         this.spinnerService.hide();
-  //         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-  //           'tenants.delete_error');
-  //       });
-  //     }
-  //   });
-  // }
+  private _deleteOcpiendpoint(ocpiendpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('ocpiendpoints.delete_title'),
+      this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.spinnerService.show();
+        this.centralServerService.deleteOcpiendpoint(ocpiendpoint.id).subscribe(response => {
+          this.spinnerService.hide();
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.delete_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.delete_error');
+        });
+      }
+    });
+  }
 }

@@ -26,6 +26,10 @@ export class CentralServerNotificationService {
   private subjectTransactions = new Subject<SubjectInfo>();
   private subjectTransaction = new Subject<SubjectInfo>();
   private subjectLoggings = new Subject<SubjectInfo>();
+  private subjectSettings = new Subject<SubjectInfo>();
+  private subjectSetting = new Subject<SubjectInfo>();
+  private subjectOcpiendpoints = new Subject<SubjectInfo>();
+  private subjectOcpiendpoint = new Subject<SubjectInfo>();
   private socket;
 
   constructor() {
@@ -109,6 +113,22 @@ export class CentralServerNotificationService {
 
   public getSubjectTenant(): Observable<SubjectInfo> {
     return this.subjectTenant.asObservable();
+  }
+
+  public getSubjectSettings(): Observable<SubjectInfo> {
+    return this.subjectSettings.asObservable();
+  }
+
+  public getSubjectSetting(): Observable<SubjectInfo> {
+    return this.subjectSetting.asObservable();
+  }
+
+  public getSubjectOcpiendpoints(): Observable<SubjectInfo> {
+    return this.subjectOcpiendpoints.asObservable();
+  }
+
+  public getSubjectOcpiendpoint(): Observable<SubjectInfo> {
+    return this.subjectOcpiendpoint.asObservable();
   }
 
   public initSocketIO(tenantID: String) {

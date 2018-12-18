@@ -14,14 +14,6 @@
                                                 <div class="ripple-container"></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item" *ngIf="id.value">
-                                            <a class="nav-link" href="#components" data-toggle="tab">
-                                                <i class="material-icons">settings_input_component</i>
-                                                {{'general.menu.components' |
-                                                translate}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
                                         <span class="toolbar-spacer"></span>
                                         <button class="btn btn-info mat-raised-button" (click)="save(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
@@ -81,7 +73,7 @@
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
-                                                        type="text" [formControl]="countryCode" required>
+                                                        type="text" [formControl]="countryCode">
                                                     <mat-error *ngIf="countryCode.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
                                                     <mat-error *ngIf="countryCode.hasError('maxlength')">
@@ -97,7 +89,7 @@
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
-                                                        type="text" [formControl]="partyId" required>
+                                                        type="text" [formControl]="partyId">
                                                     <mat-error *ngIf="partyId.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
                                                     <mat-error *ngIf="partyId.hasError('maxlength')">
@@ -146,12 +138,6 @@
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                </div>
-                                <div class="tab-pane" id="components">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

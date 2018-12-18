@@ -132,4 +132,8 @@ export class Constants {
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
 
+  /* Ocpi status */
+  public static OCPIENDPOINT_STATUS_NEW = 'new';
+  public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
+
 }

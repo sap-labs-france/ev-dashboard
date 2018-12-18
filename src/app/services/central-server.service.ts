@@ -25,7 +25,9 @@ import {
   User,
   UserResult,
   Setting,
-  SettingResult
+  SettingResult,
+  Ocpiendpoint,
+  OcpiendpointResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -221,6 +223,24 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Users`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getOcpiendpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -610,6 +630,46 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingUpdate`, setting,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointCreate`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointUpdate`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteOcpiendpoint(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })

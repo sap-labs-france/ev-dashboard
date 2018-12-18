@@ -483,6 +483,10 @@
     "no_logs": "Aucun log ne correspond aux filtres"
   },
   "users": {
+    "tabs": {
+      "list": "Utilisateurs",
+      "in_error": "En Erreur"
+    },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "CGU Acceptée Le",

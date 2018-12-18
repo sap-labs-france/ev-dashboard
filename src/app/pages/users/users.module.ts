@@ -20,6 +20,7 @@ import {UserDialogComponent} from './user/user.dialog.component';
 import {UserStatusComponent} from './formatters/user-status.component';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 import {UserSitesDataSource} from './user/user-sites-data-source-table';
+import {UsersInErrorDataSource} from './users-in-error-data-source-table';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import {UserSitesDataSource} from './user/user-sites-data-source-table';
     UserRolePipe,
     UserStatusPipe,
     UsersDataSource,
+    UsersInErrorDataSource,
     UserSitesDataSource,
     UserComponent
   ]

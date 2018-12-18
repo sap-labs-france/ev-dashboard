@@ -11,7 +11,6 @@ import {MessageService} from '../../services/message.service';
 import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
 import {DialogService} from '../../services/dialog.service';
 import {UserRolePipe} from './formatters/user-role.pipe';
 import {UserStatusPipe} from './formatters/user-status.pipe';
@@ -23,7 +22,6 @@ import {AppUserNamePipe} from '../../shared/formatters/app-user-name.pipe';
 import {Injectable} from '@angular/core';
 import {AppArrayToStringPipe} from '../../shared/formatters/app-array-to-string.pipe';
 import {UserRoleFilter} from './filters/user-role-filter';
-import {UserStatusFilter} from './filters/user-status-filter';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {UserStatusComponent} from './formatters/user-status.component';
@@ -31,7 +29,7 @@ import {TableEditLocationAction} from '../../shared/table/actions/table-edit-loc
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 
 @Injectable()
-export class UsersDataSource extends TableDataSource<User> {
+export class UsersInErrorDataSource extends TableDataSource<User> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
@@ -66,7 +64,7 @@ export class UsersDataSource extends TableDataSource<User> {
     // Show
     this.spinnerService.show();
     // Get the Tenants
-    this.centralServerService.getUsers(this.getFilterValues(),
+    this.centralServerService.getUsersInError(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((users) => {
       // Update nbr records
       this.setNumberOfRecords(users.count);
@@ -156,9 +154,7 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableCreateAction().getActionDef()
-    ];
+    return [];
   }
 
   public getTableRowActions(): TableActionDef[] {
@@ -201,8 +197,7 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-      new UserRoleFilter(this.centralServerService).getFilterDef(),
-      new UserStatusFilter().getFilterDef()
+      new UserRoleFilter(this.centralServerService).getFilterDef()
     ];
   }
 

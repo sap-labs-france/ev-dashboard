@@ -27,10 +27,8 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
-  private selection: SelectionModel<any>;
   private footer = false;
-  @ViewChild(MatSort) sort: MatSort;
-
+  
   constructor(private configService: ConfigService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
@@ -40,8 +38,6 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     // Get Table def
     this.tableDef = this.dataSource.getTableDef();
-    // Get Selection Model
-    this.selection = this.dataSource.getSelectionModel();
     // Get column defs
     this.columnDefs = this.dataSource.getTableColumnDefs();
     // Get columns
@@ -49,30 +45,27 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Find Sorted columns
     const columnDef = this.columnDefs.find((column) => column.sorted === true);
     // Found?
-    if (columnDef) {
+/*    if (columnDef) {
       // Yes: Set Sorting
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
+    }*/
+    // Is there specific row actions ?
+    if (this.dataSource.hasRowActions()) {
+      this.columns = [...this.columns, 'rowActions'];
     }
   }
 
   ngAfterViewInit() {
-    // Set Sort
+/*    // Set Sort
     this.dataSource.setSort(this.sort);
     // Load the data
-    this.loadData();
+    this.loadData();*/
   }
 
   ngOnDestroy() {
     // Unregister
     this.dataSource.unregisterToDataChange();
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  public isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.getData().length;
-    return numSelected === numRows;
   }
 
   public actionTriggered(actionDef: TableActionDef, event) {
@@ -85,19 +78,9 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.actionTriggered(actionDef);
   }
 
-  // Selects all rows if they are not all selected; otherwise clear selection.
-  public masterSelectToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.getData().forEach(row => this.selection.select(row));
-  }
-
   public buildRowValue(row: any, columnDef: TableColumnDef) {
     let propertyValue = this.findPropertyValue(columnDef.id, row);
     const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => additionalProperties.push(this.findPropertyValue(propertyName, row)));
-    }
 
     // Type?
     switch (columnDef.type) {
@@ -125,8 +108,6 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public handleSortChanged() {
-    // Clear Selection
-    this.selection.clear();
     // Load data
     this.loadData();
   }
@@ -134,6 +115,11 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public loadData() {
     // Load data source
     this.dataSource.loadData();
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    // Get Actions def
+    this.dataSource.rowActionTriggered(actionDef, rowItem);
   }
 
   private findPropertyValue(propertyName, source) {

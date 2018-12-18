@@ -15,7 +15,10 @@ import {CommonDirectivesModule} from '../../shared/directives/common-directives.
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
 import {TransactionsInProgressDataSource} from './in-progress/transactions-in-progress-data-source-table';
-import {ConnectorCellComponent} from './in-progress/components/connector-cell.component';
+import {ComponentModule} from '../../shared/component/component.module';
+import {ConnectorCellComponent} from '../../shared/component/connector-cell.component';
+import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
+import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 
 @NgModule({
   imports: [
@@ -28,18 +31,20 @@ import {ConnectorCellComponent} from './in-progress/components/connector-cell.co
     TableModule,
     CommonDirectivesModule,
     DialogsModule,
-    FormattersModule
+    FormattersModule,
+    ComponentModule
   ],
   declarations: [
     TransactionsComponent,
     TransactionsHistoryComponent,
-    TransactionsInProgressComponent,
-    ConnectorCellComponent
+    TransactionsInErrorComponent,
+    TransactionsInProgressComponent
   ],
   entryComponents: [
     TransactionsComponent,
     TransactionsHistoryComponent,
     TransactionsInProgressComponent,
+    TransactionsInErrorComponent,
     ConnectorCellComponent
   ],
   exports: [
@@ -49,8 +54,8 @@ import {ConnectorCellComponent} from './in-progress/components/connector-cell.co
     CurrencyPipe,
     PercentPipe,
     TransactionsHistoryDataSource,
-    TransactionsInProgressDataSource,
-    ConnectorCellComponent
+    TransactionsInErrorDataSource,
+    TransactionsInProgressDataSource
   ]
 })
 

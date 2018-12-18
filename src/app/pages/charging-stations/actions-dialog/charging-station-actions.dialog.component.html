@@ -1,0 +1,47 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="card card-profile card-testimonial">
+                            <div class="card-header card-header-tabs card-header-danger">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#actions" data-toggle="tab)">
+                                                    <i class="material-icons">ev_station</i> {{charger.id}}
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#smartCharging" data-toggle="tab">
+                                                    <i class="material-icons">info</i> {{'chargers.properties_title' |
+                                                    translate}}
+                                                    <div class="ripple-container"></div>
+                                                </a>
+                                            </li>
+                                            <span class="toolbar-spacer"></span>
+                                            <button class="btn btn-info mat-raised-button" mat-dialog-close>
+                                                <span class="mat-button-wrapper">
+                                                  <i class="material-icons mr-2">close</i>
+                                                  <span class="btn-label">{{'general.close' | translate}}</span>
+                                                </span>
+                                            </button>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="actions">
+                                    </div>
+                                    <div class="tab-pane" id="smartCharging">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>

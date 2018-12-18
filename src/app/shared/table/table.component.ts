@@ -5,7 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
@@ -45,7 +45,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
-  public buildCellValue: any;
   private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
@@ -67,10 +66,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     const locale = this.localService.getCurrentFullLocaleForJS();
-    this.buildCellValue = _.memoize(this._buildCellValue, (row: any, col: TableColumnDef) => {
-      return row.id + col.id + locale + this.findPropertyValue(col, col.id, row);
-    });
-
+    this.dataSource.changeLocaleTo(locale);
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
@@ -186,9 +182,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     // Get Actions def
-    this.dataSource.rowActionTriggered(actionDef, rowItem);
+    this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
   // Selects all rows if they are not all selected; otherwise clear selection.
@@ -287,69 +283,4 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   /*  public isDetailedTableEnable(): Boolean {
       return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
     }*/
-
-  private _buildCellValue(row: any, columnDef: TableColumnDef) {
-    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-
-    const additionalProperties = [];
-    if (columnDef.additionalIds) {
-      columnDef.additionalIds.forEach(propertyName => {
-          additionalProperties.push(this.findPropertyValue(columnDef, propertyName, row));
-        }
-      );
-    }
-    // Type?
-    switch (columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
-    }
-
-    if (columnDef.formatter) {
-      if (additionalProperties.length > 0) {
-        propertyValue = columnDef.formatter(propertyValue, row, ...additionalProperties);
-      } else {
-        propertyValue = columnDef.formatter(propertyValue, row);
-      }
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
-  }
-
-  private findPropertyValue(columnDef, propertyName, source) {
-    let propertyValue = null;
-    propertyValue = source[propertyName];
-    if (propertyName.indexOf('.') > 0) {
-      propertyValue = source;
-      propertyName.split('.').forEach((key) => {
-          if (propertyValue.hasOwnProperty(key)) {
-            propertyValue = propertyValue[key];
-          } else if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
-          }
-        }
-      );
-    }
-    return propertyValue;
-  }
-
 }

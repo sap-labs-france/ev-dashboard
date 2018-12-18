@@ -1,0 +1,104 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <form class="form" [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
+                            [formControl]="chargingStationURL"
+                            required [readOnly]="!isAdmin"/>
+                        </mat-form-field>
+                        <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                        <div class="form-group">
+                <!-- Dialog Table Filter -->
+                <mat-form-field>
+                    <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}" class="form-field-popup"
+                        [formControl]="siteArea" required/>
+                        <button mat-button matSuffix mat-icon-button aria-label="Add"
+                                (click)="assignSiteArea()" [hidden]="!isAdmin">
+                        <mat-icon>create</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput placeholder="{{'chargers.maximum_energy' | translate}}"
+                            [formControl]="maximumPower"
+                            required [readOnly]="!isAdmin"/>
+                            <mat-error *ngIf="maximumPower.invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
+                                        [formControl]="numberOfConnectedPhase" required>
+                                <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
+                                    {{nbPhases.description | translate}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-6 text-left"> 
+                    <div class="form-group">
+                        <mat-checkbox [formControl]="cannotChargeInParallel">
+                            {{'chargers.cant_charge_in_parallel' | translate}} 
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ng-container *ngFor="let connector of charger.connectors">
+                    <div class="col-md-3 charger-dialog-connector" >
+                        <div class="card">
+                            <div class="card-header card-header-danger card-header-icon">
+                                <div class="card-icon">
+                                    <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
+                                        <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}">
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                            <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{'unknown' | appConnectorType}}">
+                                    </ng-template>
+                                </div>
+                                <h4 class="card-title text-left">
+                                        {{'chargers.connector' | translate}} {{connector.connectorId | appConnectorId}}
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <mat-form-field>
+                                        <mat-select placeholder="{{'chargers.connector_type' | translate}}"
+                                                    [formControlName]="'connectorType' + connector.connectorId" required value=connect>
+                                            <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key">
+                                                <img with="16" height="16" src="{{type.key | appConnectorType}}"> {{type.description | translate}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field>
+                                            <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
+                                            [formControlName]="'connectorMaxPower' + connector.connectorId"
+                                            required [readOnly]="!isAdmin">
+                                            <mat-error *ngIf="formGroup.controls['connectorMaxPower' + connector.connectorId].invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+    </div>
+</div>
+    

@@ -142,16 +142,22 @@ $connectorStatusColor: ('available' : $brand-success,
   font-weight: bold;
   margin-right: 3px; 
   justify-content: center;
+  padding-top: .13rem;
 
   .charger-connector-active-text {
     color: $white;
-    vertical-align: middle;
-    text-align: center;
   }
   
   .charger-connector-text {
-    vertical-align: middle;
-    text-align: center;
   }
 
+}
+
+.charger-dialog-connector {
+  display: inline-block; 
+}
+.charger-dialog-connector-type-icon {
+  filter:invert(100%);
+  width: 25px;
+  height: 25px;
 }

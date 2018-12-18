@@ -74,9 +74,6 @@ export class UsersDataSource extends TableDataSource<User> {
       this.setNumberOfRecords(users.count);
       // Update Paginator
       this.updatePaginator();
-      // Notify
-      this.getDataSubjet().next(users.result);
-      // Set the data
       this.setData(users.result);
     }, (error) => {
       // Hide

@@ -24,9 +24,6 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
       this.setNumberOfRecords(chargers.count);
       // Update page length (number of sites is in User)
       this.updatePaginator();
-      // Return chargers
-      this.getDataSubjet().next(chargers.result);
-      // Keep it
       this.setData(chargers.result);
     }, (error) => {
       // No longer exists!

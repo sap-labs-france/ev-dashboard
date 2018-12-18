@@ -9,6 +9,7 @@ export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO';
 export interface KeyValue {
   key: string;
   value: string;
+  objectRef?: any;
 }
 
 export interface TableFilterDef {
@@ -24,6 +25,13 @@ export interface TableFilterDef {
   reset?: Function;
 }
 
+export interface DropdownItem {
+  id: string;
+  name: string;
+  icon?: string;
+  class?: string;
+  disabled?: boolean;
+}
 export interface TableActionDef {
   id: string;
   type: ActionType;
@@ -31,6 +39,8 @@ export interface TableActionDef {
   name: string;
   icon?: string;
   class?: string;
+  isDropdownMenu?: boolean;
+  dropdownItems?: DropdownItem[]
 }
 
 export interface RouteInfo {
@@ -301,6 +311,11 @@ export interface SiteResult {
   result: Site[]
 }
 
+export interface SiteAreaResult {
+  count: number,
+  result: SiteArea[]
+}
+
 export interface SubjectInfo {
   action: string;
   data: {
@@ -332,7 +347,6 @@ export interface TableDef {
 
 export interface TableColumnDef {
   id: string;
-  additionalIds?: string[];
   name: string;
   footerName?: string;
   type?: string;

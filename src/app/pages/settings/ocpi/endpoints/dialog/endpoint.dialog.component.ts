@@ -110,6 +110,14 @@ export class EndpointDialogComponent implements OnInit {
     }
   }
 
+  generateLocalToken(endpoint) {
+    this.localToken.setValue('eyJ0aWQiOiJzbGYiLCJrIjoxOX0=');
+  }
+
+  testConnection(endpoint) {
+    
+  }
+
   private _createOcpiendpoint(ocpiendpoint) {
     this.centralServerService.createOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();

@@ -145,7 +145,7 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <div align="right" pull-right>
-                                                    <button class="btn btn-danger btn-round mat-raised-button app-btn-min-width" (click)="testConnection(formGroup.value)"
+                                                    <button class="btn btn-danger btn-round mat-raised-button app-btn-min-width" (click)="generateLocalToken(formGroup.value)"
                                                         [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
                                                         <span class="mat-button-wrapper">
                                                             <i class="material-icons mr-2">touch_app</i>

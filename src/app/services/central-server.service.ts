@@ -985,22 +985,23 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
-/**
+
+  /**
    *
    */
   public actionChargingStation(action, id, args) {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    const body = ( args ?
-      `{
+    const body = (args ?
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
-      );
+    );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
       {

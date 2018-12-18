@@ -496,6 +496,10 @@
     "no_logs": "No logs matching the filters"
   },
   "users": {
+    "tabs": {
+      "list": "Users",
+      "in_error": "In Error"
+    },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "EULA Accepted On",

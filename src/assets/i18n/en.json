@@ -10,6 +10,8 @@
     "no_record_found": "No records have been found",
     "error_max_length": "Maximum length is {{length}}",
     "error_min_length": "Minimum length is {{length}}",
+    "error_url_pattern": "Incorrect URL pattern",
+    "error_number_pattern": "Invalid Number",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Cancel",
@@ -91,7 +93,8 @@
       "logs": "Logs",
       "tenants": "Tenants",
       "pricing": "Pricing",
-      "components": "Components"
+      "components": "Components",
+      "settings" : "Settings"
     }
   },
   "vehicles": {
@@ -591,8 +594,65 @@
     "delete_success": "The tenant '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the tenant"
   },
+  "settings": {
+    "tabs": {
+      "ocpi": "OCPI"
+    },
+    "ocpi": {
+      "information": "Information",
+      "setting_do_not_exist": "OCPI Settings not found",
+      "setting_not_found": "OCPI Settings not found",
+      "create_success": "OCPI settings have been created successfully",
+      "create_error":  "Error occured while creating the OCPI settings",
+      "update_success": "OCPI settings have been updated successfully",
+      "update_error": "Error occured while updating the OCPI settings",
+      "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
+    },
+    "activation_contact_msg": "Please contact your administrator for enabling this feature."
+  },
+  "ocpiendpoints": {
+    "name": "Name",
+    "baseUrl": "URL",
+    "countryCode": "Country Code",
+    "partyId": "Party ID",
+    "status": "Status",
+    "version": "Version",
+    "localToken": "Local Token",
+    "token": "Remote Token",
+    "new": "New",
+    "registered": "Registered",
+    "generateNewToken": "Generate new token",
+    "testConnection": "Connection Test",
+    "create_success": "The eMSP '{{name}}' has been created successfully",
+    "create_error": "Error occurred while creating the eMSP",
+    "update_success": "The eMSP '{{name}}' has been updated successfully",
+    "update_error": "Error occurred while updating the eMSP",
+    "delete_confirm": "Do you really want to delete the eMSP '{{name}}'?",
+    "delete_title": "Delete eMSP",
+    "delete_success": "The eMSP '{{name}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the eMSP"
+  },
   "ocpi": {
-    "description": "Open Charge Point Interface"
+    "emsps": "e-Mobility Service Providers",
+    "cpo": "Charging Point Operator Identification",
+    "description": "Open Charge Point Interface",
+    "cpo_details": "Charge Point Operator Identifier",
+    "cpo_country_code": "Country code",
+    "cpo_party_id": "Party ID",
+    "cpo_business_details": "Business Details",
+    "cpo_logo": "Image",
+    "businessdetails": {
+      "name": "Name of the operator",
+      "website": "Link to the operator website",
+      "logo": {
+        "url": "URL of the full scale image",
+        "thumbnail": "URL o the thumbnail image",
+        "category": "Category of the image",
+        "type": "Image type (gif, jpeg, png, svg,...)",
+        "width": "Width of the full scale image",
+        "height": "Height of the full scale image"
+      }
+    }
   },
   "transactions": {
     "date_from": "Date",

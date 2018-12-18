@@ -224,6 +224,31 @@ export interface TenantResult {
   result: Tenant[]
 }
 
+export interface Setting {
+  id: string;
+  identifier: string;
+  content: any;
+}
+
+export interface SettingResult {
+  count: number,
+  result: Setting[]
+}
+
+export interface Ocpiendpoint {
+  id: string;
+  name: string;
+  countryCode: string;
+  partyID: string;
+  version: string;
+  status: string;
+}
+
+export interface OcpiendpointResult {
+  count: number,
+  result: Ocpiendpoint[]
+}
+
 export interface TransactionResult {
   count: number,
   result: Transaction[]
@@ -311,6 +336,9 @@ export interface TableDef {
   search?: {
     enabled: boolean;
   },
+  design?: {
+    flat: boolean;
+  },
   rowDetails?: {
     enabled: boolean;
     detailsField?: string;
@@ -397,6 +425,7 @@ export interface User {
   auths: any;
   language: string;
   numberOfSites: number;
+  activeComponents?: Array<string>;
 }
 
 export interface UserResult {

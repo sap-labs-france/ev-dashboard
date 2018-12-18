@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div [class]="dataSource.isDesignFlat() ? 'mat-elevation-z0' : 'mat-elevation-z8'">
   <!-- Toolbar -->
   <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
     <!-- Actions Row -->

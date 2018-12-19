@@ -87,13 +87,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
-        sortable: true
-      },
-      {
         id: 'name',
         name: 'ocpiendpoints.name',
         headerClass: 'col-25p',

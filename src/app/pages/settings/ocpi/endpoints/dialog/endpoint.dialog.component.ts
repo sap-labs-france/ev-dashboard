@@ -22,7 +22,7 @@ export class EndpointDialogComponent implements OnInit {
   public localToken: AbstractControl;
   public token: AbstractControl;
 
-  private urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   private readonly currentEndpoint: any;
 
@@ -111,8 +111,11 @@ export class EndpointDialogComponent implements OnInit {
   }
 
   generateLocalToken(ocpiendpoint) {
-    // this.localToken.setValue('eyJ0aWQiOiJzbGYiLCJrIjoxOX0=');
+    // Show
+    this.spinnerService.show();
+    // Generate new local token
     this.centralServerService.generateLocalTokenOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.localToken.setValue(response.localToken);
         this.localToken.markAsDirty();
@@ -128,8 +131,11 @@ export class EndpointDialogComponent implements OnInit {
   }
 
   testConnection(ocpiendpoint) {
-    // this.localToken.setValue('eyJ0aWQiOiJzbGYiLCJrIjoxOX0=');
+    // Show
+    this.spinnerService.show();
+    // Ping
     this.centralServerService.pingOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { 'name': ocpiendpoint.name });
       } else {

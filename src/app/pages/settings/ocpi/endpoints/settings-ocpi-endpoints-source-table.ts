@@ -205,6 +205,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
+            this.loadData();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.delete_error');

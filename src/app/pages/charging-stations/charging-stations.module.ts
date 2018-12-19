@@ -26,9 +26,11 @@ import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-are
 import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
 import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
-import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
+import { SmartChargingSimpleLimitComponent} from './actions-dialog/smart-charging/simple-limit/smart-charging-simple-limit.component';
 import {ComponentModule} from '../../shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -56,9 +58,10 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    SmartChargingSimpleLimitComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -72,14 +75,15 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    SmartChargingSimpleLimitComponent
   ],
   exports: [
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     StartTransactionDialogComponent
   ],
   providers: [

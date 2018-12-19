@@ -272,6 +272,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._detailComponentId++;
   }
 
+  public onRowActionMenuOpen(action: TableActionDef, row) {
+    this.dataSource.onRowActionMenuOpen(action, row);
+  }
+
   /*  public setDetailedDataSource(row){
       this.detailDataSource.setDetailedDataSource(row);
     }*/

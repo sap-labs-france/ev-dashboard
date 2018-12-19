@@ -25,7 +25,7 @@ import { ChargingStationDialogComponent } from "./charging-station-dialog/chargi
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
-import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -198,7 +198,6 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-console.log("getTableRowActions");
     if (this.authorizationService.isAdmin()) {
       return [
         new TableMoreAction().getActionDef(),
@@ -229,7 +228,6 @@ console.log("getTableRowActions");
         this._deleteChargingStation(rowItem);
         break;
       case 'more':
-        console.log(dropdownItem);
         switch (dropdownItem.id) {
           case ACTION_REBOOT:
             this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Hard"}),
@@ -255,6 +253,9 @@ console.log("getTableRowActions");
                   'chargers.clear_cache_error'
                 );
             break;
+          case ACTION_SMART_CHARGING:
+            this._dialogSmartCharging(rowItem);
+          break;
           default:
             break;
         }
@@ -262,6 +263,19 @@ console.log("getTableRowActions");
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
+  }
+
+  public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
+      
+      action.dropdownItems.forEach(dropDownItem => {
+        if (dropDownItem.id === ACTION_SMART_CHARGING) {
+          // Check charging station version
+          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15 || row.inactive);
+        } else {
+          // Check active status of CS
+          dropDownItem.disabled = row.inactive;
+        }
+      });
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
@@ -335,7 +349,7 @@ console.log("getTableRowActions");
     });
   }
 
-  private _moreActions(chargingStation?: Charger) {
+  private _dialogSmartCharging(chargingStation?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -344,7 +358,7 @@ console.log("getTableRowActions");
       dialogConfig.data = chargingStation;
     }
     // Open
-    const dialogRef = this.dialog.open(ChargingStationActionsDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

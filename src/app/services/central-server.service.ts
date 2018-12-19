@@ -855,6 +855,72 @@ export class CentralServerService {
       );
   }
 
+  public getChargingStationCompositeSchedule(id, connectorId, duration, unit?) {
+    // Verify init
+    this._checkInit();
+    // build request
+
+    const body = (unit ?
+      `{
+        "chargeBoxID": "${id}",
+        "args": {
+          "connectorId": ${connectorId},
+          "duration": ${duration},
+          "chargingRateUnit": "${unit}"
+        }
+      }` :
+      `{
+        "chargeBoxID": "${id}",
+        "args": {
+          "connectorId": ${connectorId},
+          "duration": ${duration}
+        }
+      }`
+      );
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  
+  public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json    
+    const body = `{
+      "chargeBoxID": "${charger.id}",
+      "args": { 
+        "connectorId": 0,
+        "csChargingProfiles": {
+          "chargingProfileId": 1,
+          "stackLevel": 0,
+          "chargingProfilePurpose": "ChargePointMaxProfile",
+          "chargingProfileKind": "Absolute",
+          "chargingSchedule": {
+            "chargingRateUnit": "${unit}",
+            "chargingSchedulePeriod": [{
+              "startPeriod": 0,
+              "limit": ${powerValue}
+            }]
+          }
+        }
+      }
+    }`;
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   /**
    * 
    */

@@ -98,6 +98,13 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
   }
 
+  public isDesignFlat(): boolean {
+    // Check
+    this._checkInitialized();
+    // Return
+    return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
+  }
+
   public getSelectionModel(): SelectionModel<any> {
     if (!this.selectionModel) {
       this.selectionModel = new SelectionModel<any>(

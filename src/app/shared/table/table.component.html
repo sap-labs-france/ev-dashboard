@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div [class]="dataSource.isDesignFlat() ? 'mat-elevation-z0' : 'mat-elevation-z8'">
   <!-- Toolbar -->
   <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
     <!-- Actions Row -->
@@ -177,7 +177,7 @@
                       <mat-icon *ngIf="dropdownItem.icon" >{{dropdownItem.icon}}</mat-icon>
                       <span>
                           {{dropdownItem.name | translate}}
-                      </span>  
+                      </span>
                       </button>
                     </ng-container>
                   </ng-template>
@@ -188,7 +188,7 @@
             </ng-container>
             <ng-container *ngIf="!rowAction.isDropdownMenu">
                 <a [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
-                (click)="rowActionTriggered(rowAction, actionCell['data'])"><i class="material-icons">{{rowAction.icon}}</i></a>            
+                (click)="rowActionTriggered(rowAction, actionCell['data'])"><i class="material-icons">{{rowAction.icon}}</i></a>
             </ng-container>
           </ng-container>
         </td>

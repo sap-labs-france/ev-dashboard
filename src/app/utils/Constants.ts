@@ -134,4 +134,11 @@ export class Constants {
   public static OCPP_VERSION_15 = '1.5';
   public static OCPP_VERSION_16 = '1.6';
   public static OCPP_VERSION_20 = '2.0';
+  /* Settings */
+  public static SETTINGS_OCPI = 'ocpi';
+
+  /* Ocpi status */
+  public static OCPIENDPOINT_STATUS_NEW = 'new';
+  public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
+
 }

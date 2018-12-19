@@ -25,7 +25,9 @@ import {
   TenantResult,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  SettingResult,
+  OcpiendpointResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -71,6 +73,14 @@ export class CentralServerService {
       icontype: 'people',
       admin: true,
       superAdmin: true
+    },
+    {
+      id: 'settings',
+      path: '/settings',
+      title: 'Settings',
+      type: 'link',
+      icontype: 'settings',
+      admin: true
     },
     {
       id: 'tenants',
@@ -241,6 +251,24 @@ export class CentralServerService {
       );
   }
 
+  public getUsersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UsersInError`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TenantResult> {
     // Verify init
     this._checkInit();
@@ -304,6 +332,24 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getOcpiendpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -420,6 +466,19 @@ export class CentralServerService {
       .pipe(
         catchError(this._handleHttpError)
       );
+  }
+
+  public getSettings(identifier: string): Observable<SettingResult> {
+    // verify init
+    this._checkInit();
+    // Execute the REST Service
+    return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}`,
+    {
+      headers: this._buildHttpHeaders()
+    })
+    .pipe(
+      catchError(this._handleHttpError)
+    );
   }
 
   public getEndUserLicenseAgreement(language: string) {
@@ -552,6 +611,12 @@ export class CentralServerService {
     return this.currentUser;
   }
 
+  public isComponentActive(componentName): boolean {
+    // get logged user
+    return this.getLoggedUser().activeComponents.includes(componentName);
+
+  }
+
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();
@@ -600,6 +665,72 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createSetting(setting): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingCreate`, setting,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSetting(setting): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingUpdate`, setting,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointCreate`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointUpdate`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteOcpiendpoint(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })
@@ -922,21 +1053,21 @@ export class CentralServerService {
   }
 
   /**
-   * 
+   *
    */
   public actionChargingStation(action, id, args) {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    const body = ( args ? 
-      `{
+    const body = (args ?
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
-      );
+    );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
       {
@@ -946,7 +1077,7 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
-  
+
   /**
    * getChargingStationOCPPConfiguration
    */

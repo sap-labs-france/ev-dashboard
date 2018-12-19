@@ -10,6 +10,8 @@
     "no_record_found": "Aucun enregistrement n'a été trouvé",
     "error_max_length": "La Longueur maximale est {{length}}",
     "error_min_length": "La Longueur minimale est {{length}}",
+    "error_url_pattern": "URL Invalide",
+    "error_number_pattern": "Nombre invalide",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Annuler",
@@ -89,7 +91,8 @@
       "logs": "Logs",
       "tenants": "Tenants",
       "pricing": "Prix",
-      "components": "Composants"
+      "components": "Composants",
+      "settings" : "Configuration"
     }
   },
   "vehicles": {
@@ -483,6 +486,10 @@
     "no_logs": "Aucun log ne correspond aux filtres"
   },
   "users": {
+    "tabs": {
+      "list": "Utilisateurs",
+      "in_error": "En Erreur"
+    },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
     "eula_accepted_on": "CGU Acceptée Le",
@@ -576,8 +583,61 @@
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du tenant"
   },
+  "settings": {
+    "tabs": {
+      "ocpi": "OCPI"
+    },
+    "ocpi": {
+      "information": "Information",
+      "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
+      "setting_not_found": "La configuration OCPI n'est pas disponible",
+      "create_success": "La configuration OCPI a été créé avec succès",
+      "create_error":  "Une erreur est survenue pendant la creation de la configuration OCPI",
+      "update_success": "La configuration OCPI a été mis à jour avec succès",
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI"
+    }
+  },
+  "ocpiendpoints": {
+    "name": "Nom",
+    "baseUrl": "URL",
+    "countryCode": "Code Pays",
+    "partyId": "Groupe ID",
+    "status": "Status",
+    "version": "Version",
+    "localToken": "Jeton Local",
+    "token": "Jeton Distant",
+    "generateNewToken": "Générer nouveau jeton",
+    "testConnection": "Tester la connection",
+    "create_success": "L'eMSP '{{name}}' a été créé avec succès",
+    "create_error": "Une erreur est survenue pendant la création du eMSP",
+    "update_error": "Une erreur est survenue pendant la mise à jour du eMSP",
+    "update_success": "L'eMSP '{{name}}' a été mis à jour avec succès",
+    "delete_confirm": "Voulez-vous vraiment suprimer l'eMSP '{{name}}' ?",
+    "delete_title": "Supprimer l'eMSP'",
+    "delete_success": "L'eMSP {{name}}' a été supprimé avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du eMSP"
+  },
   "ocpi": {
-    "description": "Open Charge Point Interface"
+    "emsps": "Opérateurs de Services de Mobilité",
+    "cpo": "Identification Opérateur d’Infrastructure de Recharge",
+    "description": "Open Charge Point Interface",
+    "cpo_details": "Identification du Point de Charge",
+    "cpo_country_code": "Code Pays",
+    "cpo_party_id": "Party ID",
+    "cpo_business_details": "Business Details",
+    "cpo_logo": "Image",
+    "businessdetails": {
+      "name": "Nom de l'operateur",
+      "website": "Site web de l'operateur",
+      "logo": {
+        "url": "URL de l'image originale",
+        "thumbnail": "URL de l'image miniature",
+        "category": "Categorie de l'image",
+        "type": "Type de l'image (gif, jpeg, png, svg,...)",
+        "width": "Largeur de l'image originale",
+        "height": "Hauteur de l'image originale"
+      }
+    }
   },
   "transactions": {
     "date_from": "Date",
@@ -631,7 +691,6 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
-    "price": "Prix",
     "tabs": {
       "history": "Historique",
       "in_progress": "En cours",

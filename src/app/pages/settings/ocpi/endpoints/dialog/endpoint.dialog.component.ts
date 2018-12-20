@@ -24,7 +24,7 @@ export class EndpointDialogComponent implements OnInit {
 
   private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
-  private readonly currentEndpoint: any;
+  public currentEndpoint: any;
 
   constructor(
     private centralServerService: CentralServerService,

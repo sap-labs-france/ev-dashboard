@@ -607,7 +607,7 @@
     "localToken": "Jeton Local",
     "token": "Jeton Distant",
     "generateNewToken": "Générer nouveau jeton",
-    "testConnection": "Tester la connection",
+    "testConnection": "Tester la connexion",
     "create_success": "L'eMSP '{{name}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du eMSP",
     "update_error": "Une erreur est survenue pendant la mise à jour du eMSP",
@@ -615,7 +615,13 @@
     "delete_confirm": "Voulez-vous vraiment suprimer l'eMSP '{{name}}' ?",
     "delete_title": "Supprimer l'eMSP'",
     "delete_success": "L'eMSP {{name}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du eMSP"
+    "delete_error": "Une erreur est survenue pendant la suppression du eMSP",
+    "success_ping": "Serveur accessible",
+    "error_ping_401": "Serveur non accessible: Accès non autorisé",
+    "error_ping_404": "Serveur non accessible: Ressource non trouvée",
+    "error_ping_412": "Serveur non accessible: Reponse invalide",
+    "error_ping": "Serveur non accessible",
+    "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton"
   },
   "ocpi": {
     "emsps": "Opérateurs de Services de Mobilité",

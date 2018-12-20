@@ -87,13 +87,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
-        sortable: true
-      },
-      {
         id: 'name',
         name: 'ocpiendpoints.name',
         headerClass: 'col-25p',
@@ -212,6 +205,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
+            this.loadData();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.delete_error');

@@ -712,6 +712,32 @@ export class CentralServerService {
       );
   }
 
+  public pingOcpiendpoint(ocpiendpoint) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointPing`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public generateLocalTokenOcpiendpoint(ocpiendpoint) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointGenerateLocalToken`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public updateOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();

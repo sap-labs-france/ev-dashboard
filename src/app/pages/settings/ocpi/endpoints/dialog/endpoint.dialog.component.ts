@@ -10,7 +10,7 @@ import { Constants } from '../../../../../utils/Constants';
 
 @Component({
   templateUrl: './endpoint.dialog.component.html',
-  styleUrls: [ './endpoint.dialog.component.scss', '../../../../../shared/dialogs/dialogs.component.scss'  ]
+  styleUrls: ['./endpoint.dialog.component.scss', '../../../../../shared/dialogs/dialogs.component.scss']
 })
 export class EndpointDialogComponent implements OnInit {
   public formGroup: FormGroup;
@@ -22,9 +22,9 @@ export class EndpointDialogComponent implements OnInit {
   public localToken: AbstractControl;
   public token: AbstractControl;
 
-  private urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
-  private readonly currentEndpoint: any;
+  public currentEndpoint: any;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -99,7 +99,7 @@ export class EndpointDialogComponent implements OnInit {
 
   save(endpoint) {
     // Show
-    this.spinnerService.show(); 
+    this.spinnerService.show();
 
     if (this.currentEndpoint.id) {
       // update existing Ocpi Endpoint
@@ -110,19 +110,64 @@ export class EndpointDialogComponent implements OnInit {
     }
   }
 
-  generateLocalToken(endpoint) {
-    this.localToken.setValue('eyJ0aWQiOiJzbGYiLCJrIjoxOX0=');
+  generateLocalToken(ocpiendpoint) {
+    // Show
+    this.spinnerService.show();
+    // Generate new local token
+    this.centralServerService.generateLocalTokenOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.localToken.setValue(response.localToken);
+        this.localToken.markAsDirty();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'ocpiendpoints.error_generate_local_token');
+      }
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.error_generate_local_token');
+    });
+
   }
 
-  testConnection(endpoint) {
-    
+  testConnection(ocpiendpoint) {
+    // Show
+    this.spinnerService.show();
+    // Ping
+    this.centralServerService.pingOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { 'name': ocpiendpoint.name });
+      } else {
+        // switch message according status code recieved
+        let messageId = 'ocpiendpoints.error_ping';
+        switch (response.statusCode) {
+          case 401:
+            messageId = 'ocpiendpoints.error_ping_401';
+            break;
+          case 404:
+            messageId = 'ocpiendpoints.error_ping_404';
+            break;
+          case 412:
+            messageId = 'ocpiendpoints.error_ping_412';
+            break;
+          default:
+            messageId = 'ocpiendpoints.error_ping'
+        }
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, messageId);
+      }
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.error_ping');
+    });
   }
 
   private _createOcpiendpoint(ocpiendpoint) {
     this.centralServerService.createOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.create_success', {'name': ocpiendpoint.name});
+        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { 'name': ocpiendpoint.name });
         this.dialogRef.close();
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -139,7 +184,7 @@ export class EndpointDialogComponent implements OnInit {
     this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.update_success', {'name': ocpiendpoint.name});
+        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { 'name': ocpiendpoint.name });
         this.dialogRef.close();
       } else {
         Utils.handleError(JSON.stringify(response),

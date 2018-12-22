@@ -643,7 +643,13 @@
     "delete_confirm": "Do you really want to delete the eMSP '{{name}}'?",
     "delete_title": "Delete eMSP",
     "delete_success": "The eMSP '{{name}}' has been deleted successfully",
-    "delete_error": "Error occurred while deleting the eMSP"
+    "delete_error": "Error occurred while deleting the eMSP",
+    "success_ping": "Ping successfull",
+    "error_ping_401": "Ping failed: Unauthorized",
+    "error_ping_404": "Ping failed: Not Found",
+    "error_ping_412": "Ping failed: Invalid Response",
+    "error_ping": "Ping failure",
+    "error_generate_local_token": "Error occured while generating new local token"
   },
   "ocpi": {
     "emsps": "e-Mobility Service Providers",

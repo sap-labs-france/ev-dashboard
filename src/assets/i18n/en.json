@@ -405,6 +405,19 @@
       "smart_charging_item": "Smart Charging",
       "more_actions_item": "More actions"
     },
+    "smart_charging": {
+      "maximum_energy_limit": "Limit '{{chargeBoxID}}' power to",
+      "power_limit_title": "Limit power",
+      "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}' to {{power}}kW?",
+      "power_limit_success": "Charging station '{{chargeBoxID}}' power was limted successfully",
+      "power_limit_error": "Error occured while limiting charging station power",
+      "current_limit": "Actual limit planning",
+      "current_limit_title": "Actual limit",
+      "limit_title": "Limit",
+      "no_current_limit": "No limit planning found",
+      "from_date": "From",
+      "to_date": "To"
+    },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",
     "reboot_error": "Error occurred while rebooting the charging station",

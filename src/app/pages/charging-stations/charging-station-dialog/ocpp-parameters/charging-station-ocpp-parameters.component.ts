@@ -121,7 +121,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
         // Hide
         this.spinnerService.hide();
         // Ok?
-        if (response.status === 'Accepted') {
+        if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_params_success', {chargeBoxID: this.charger.id}));
           this.refresh();
@@ -195,7 +195,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === 'Accepted') {
+      if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
         this.refresh();

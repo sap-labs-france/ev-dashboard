@@ -152,6 +152,7 @@ export interface Charger {
   site: Site;
   cannotChargeInParallel: boolean;
   maximumPower: number;
+  powerLimitUnit: string;
 }
 
 export interface ChargerResult {

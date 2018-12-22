@@ -393,6 +393,26 @@
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
+    "more_actions_items": {
+      "reboot_item": "Redémarrer",
+      "soft_reset_item": "Soft reset",
+      "clear_cache_item": "Effacer le cache",
+      "smart_charging_item": "Smart Charging",
+      "more_actions_item": "Autres"
+    },
+    "smart_charging": {
+      "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",
+      "power_limit_title": "Limite de puissance",
+      "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
+      "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
+      "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
+      "current_limit": "Programme actuel de limite de charge",
+      "current_limit_title": "Limite actuelle",
+      "limit_title": "Limite",
+      "no_current_limit": "Aucun planning de charge trouvé",
+      "from_date": "De",
+      "to_date": "à"
+    },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
     "reboot_error": "Une erreur est survenue pendant le redémarrage de la borne",

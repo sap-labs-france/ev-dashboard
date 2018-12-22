@@ -355,6 +355,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.staticFilters;
   }
 
+  public onRowActionMenuOpen(action: TableActionDef, row: T) {
+    // Should be implemented in implementation
+  }
+
   /**
    * getRowIndex
    row: T   */

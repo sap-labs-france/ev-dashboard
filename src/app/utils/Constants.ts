@@ -129,6 +129,16 @@ export class Constants {
   /* Tenant Components */
   public static COMPONENTS_LIST = ['ocpi'];
 
+  /* OCPP Informations */
+  public static OCPP_VERSION_12 = '1.2';
+  public static OCPP_VERSION_15 = '1.5';
+  public static OCPP_VERSION_16 = '1.6';
+  public static OCPP_VERSION_20 = '2.0';
+
+  public static OCPP_RESPONSE_ACCEPTED = 'Accepted';
+  public static OCPP_RESPONSE_REJECTED = 'Rejected';
+  public static OCPP_UNIT_AMPER = 'A';
+  public static OCPP_UNIT_WATT = 'W';
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
 

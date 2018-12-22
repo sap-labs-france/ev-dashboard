@@ -270,10 +270,10 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       action.dropdownItems.forEach(dropDownItem => {
         if (dropDownItem.id === ACTION_SMART_CHARGING) {
           // Check charging station version
-          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15 || row.inactive);
+          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15);// || row.inactive);
         } else {
           // Check active status of CS
-          dropDownItem.disabled = row.inactive;
+//          dropDownItem.disabled = row.inactive;
         }
       });
   }
@@ -295,7 +295,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       if (result === Constants.BUTTON_TYPE_YES) {
         //call REST service
         this.centralServerService.actionChargingStation(action, id, args).subscribe(response => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             //success + reload
             this.messageService.showSuccessMessage(success_message);
             this.loadData();

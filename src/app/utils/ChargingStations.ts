@@ -149,4 +149,22 @@ export class ChargingStations {
         return connectorID;
     }
   }
+
+  public static convertAmpToW(numberOfConnectedPhase, maxIntensityInAmper) {
+    // Compute it
+    if (numberOfConnectedPhase > 1) {
+      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(numberOfConnectedPhase));
+    } else {
+      return Math.floor(230 * maxIntensityInAmper);
+    }
+  }
+
+  public static convertWToAmp(numberOfConnectedPhase, maxIntensityInW) {
+    // Compute it
+    if (numberOfConnectedPhase > 1) {
+      return Math.floor(maxIntensityInW / (400 * Math.sqrt(numberOfConnectedPhase)));
+    } else {
+      return Math.floor(maxIntensityInW / 230);
+    }
+  }
 }

@@ -56,7 +56,7 @@ export class CentralServerService {
       title: 'Charging Stations',
       type: 'link',
       icontype: 'ev_station',
-      admin: true
+      superAdmin: false
     },
     {
       id: 'transactions',
@@ -986,28 +986,21 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id, connectorId, duration, unit?) {
+  public getChargingStationCompositeSchedule(id, connectorId, duration, unit, loadAllConnectors) {
     // Verify init
     this._checkInit();
     // build request
 
-    const body = (unit ?
+    const body =
       `{
         "chargeBoxID": "${id}",
+        "loadAllConnectors": "${loadAllConnectors}",
         "args": {
           "connectorId": ${connectorId},
           "duration": ${duration},
           "chargingRateUnit": "${unit}"
         }
-      }` :
-      `{
-        "chargeBoxID": "${id}",
-        "args": {
-          "connectorId": ${connectorId},
-          "duration": ${duration}
-        }
-      }`
-      );
+      }`;
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
@@ -1019,29 +1012,70 @@ export class CentralServerService {
   }
 
   
-  public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number) {
+  public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number, stackLevel: number) {
     // Verify init
     this._checkInit();
-    // Build default charging profile json    
-    const body = `{
+    // Build default charging profile json
+    const date = new Date("01/01/2018").toISOString();
+    console.log(date);
+    let body: string;
+    if (stackLevel === 0) { 
+      body = `{
       "chargeBoxID": "${charger.id}",
       "args": { 
         "connectorId": 0,
         "csChargingProfiles": {
           "chargingProfileId": 1,
-          "stackLevel": 0,
-          "chargingProfilePurpose": "ChargePointMaxProfile",
-          "chargingProfileKind": "Absolute",
+          "stackLevel": ${stackLevel},
+          "chargingProfilePurpose": "TxDefaultProfile",
+          "chargingProfileKind": "Relative",
           "chargingSchedule": {
             "chargingRateUnit": "${unit}",
             "chargingSchedulePeriod": [{
               "startPeriod": 0,
               "limit": ${powerValue}
-            }]
+            }
+          ]
           }
         }
       }
     }`;
+  } else {
+    const date = new Date();
+    const date2 = new Date(date.getTime()+12000*1000);
+    const dateStr = date2.toISOString();
+    body = `{
+      "chargeBoxID": "${charger.id}",
+      "args": { 
+        "connectorId": 0,
+        "csChargingProfiles": {
+          "chargingProfileId": 2,
+          "stackLevel": ${stackLevel},
+          "chargingProfilePurpose": "TxDefaultProfile",
+          "chargingProfileKind": "Absolute",
+          "chargingSchedule": {
+            "duration": 1900,
+            "startSchedule": "${dateStr}",
+            "chargingRateUnit": "${unit}",
+            "chargingSchedulePeriod": [{
+              "startPeriod": 0,
+              "limit": ${powerValue-2}
+            },
+            {
+              "startPeriod": 600,
+              "limit": ${powerValue+5}
+            },
+            {
+              "startPeriod": 1200,
+              "limit": ${powerValue-5}
+            }
+          ]
+          }
+        }
+      }
+    }`;
+  }
+    console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {

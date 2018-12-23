@@ -415,8 +415,21 @@
       "current_limit_title": "Actual limit",
       "limit_title": "Limit",
       "no_current_limit": "No limit planning found",
+      "planning_energy_limit": "Power limit planner",
       "from_date": "From",
-      "to_date": "To"
+      "to_date": "To",
+      "profile_type": "Profile type",
+      "stack_level": "Stacklevel",
+      "profile_id": "Profile ID",
+      "duration": "Duration (seconds)",
+      "start_date": "Start",
+      "end_date": "End",
+      "profile_types": {
+        "relative": "Relative",
+        "absolute": "Absolute",
+        "recurring_daily": "Daily recurring",
+        "recurring_weekly": "Weekly recurring"
+      }
     },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",

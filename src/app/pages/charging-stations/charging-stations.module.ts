@@ -30,7 +30,9 @@ import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/sm
 import { SmartChargingSimpleLimitComponent} from './actions-dialog/smart-charging/simple-limit/smart-charging-simple-limit.component';
 import {ComponentModule} from '../../shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
-
+import {SmartChargingPowerSliderComponent} from './actions-dialog/smart-charging/smart-charging-power-slider.component';
+import {SmartChargingLimitPlanningComponent} from './actions-dialog/smart-charging/limit-planning/smart-charging-limit-planning.component'
+import {SmartChargingLimitPlannerComponent} from './actions-dialog/smart-charging/limit-planner/smart-charging-limit-planner.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -61,7 +63,10 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingSimpleLimitComponent
+    SmartChargingSimpleLimitComponent,
+    SmartChargingPowerSliderComponent,
+    SmartChargingLimitPlanningComponent,
+    SmartChargingLimitPlannerComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -78,7 +83,10 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingSimpleLimitComponent
+    SmartChargingSimpleLimitComponent,
+    SmartChargingPowerSliderComponent,
+    SmartChargingLimitPlanningComponent,
+    SmartChargingLimitPlannerComponent
   ],
   exports: [
     ChargingStationDialogComponent,

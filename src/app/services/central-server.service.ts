@@ -1112,6 +1112,31 @@ export class CentralServerService {
       );
   }
 
+  public chargingStationSetChargingProfile(charger: Charger, connectorId, chargingProfile) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date("01/01/2018").toISOString();
+    console.log(date);
+    let body: string;
+      body = `{
+      "chargeBoxID": "${charger.id}",
+      "args": { 
+        "connectorId": 0,
+        "csChargingProfiles": ${JSON.stringify(chargingProfile)}
+      }
+    }`;
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   /**
    *
    */

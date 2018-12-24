@@ -37,4 +37,10 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
       this.limitPlanning.refresh();
     }
   }
+
+  planningChanged2(event) {
+    if (this.limitPlanning) {
+      this.limitPlanning.refresh();
+    }
+  }
 }

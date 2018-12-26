@@ -34,7 +34,7 @@ export class ConsumptionChartComponent implements DetailComponent {
   data: any;
   options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
-  private colors = [[255, 99, 132], [54, 162, 235], [255, 206, 86]]
+  private colors = [[255, 99, 132], [54, 162, 235], [255, 206, 86]];
 
   constructor(private configService: ConfigService,
               private centralServerService: CentralServerService,

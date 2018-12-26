@@ -16,14 +16,14 @@ import {ChartComponent} from 'angular2-chartjs';
   template: `
     <div class="chart-container">
       <div class="chart">
-        <chart  #chart *ngIf="data"
+        <chart #chart *ngIf="data"
                type="line"
                [data]="data"
                [options]="options"></chart>
       </div>
       <div class="icon-left">
         <a
-          [class]="'btn btn-link btn-info btn-just-icon'"
+          [class]="'btn btn-link btn-just-icon'"
           (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
       </div>
     </div>
@@ -34,6 +34,7 @@ export class ConsumptionChartComponent implements DetailComponent {
   data: any;
   options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
+  private colors = [[255, 99, 132], [54, 162, 235], [255, 206, 86]]
 
   constructor(private configService: ConfigService,
               private centralServerService: CentralServerService,
@@ -55,25 +56,25 @@ export class ConsumptionChartComponent implements DetailComponent {
       this.options = this.createOptions(consumptions);
       let distanceBetween2points = Math.floor(consumptions.length / 200);
       // if (distanceBetween2points < 2) {
-        distanceBetween2points = 1;
+      distanceBetween2points = 1;
       // }
       const labels = [];
       const chargingPowerDataSet = {
         data: [],
         yAxisID: 'power',
-        ...this.formatLineColor([255, 99, 132]),
+        ...this.formatLineColor(this.colors[0]),
         label: this.translateService.instant('transactions.graph.power')
       };
       const cumulatedDataSet = {
         data: [],
         yAxisID: 'power',
-        ...this.formatLineColor([54, 162, 235]),
+        ...this.formatLineColor(this.colors[1]),
         label: this.translateService.instant('transactions.graph.energy')
       };
       const stateOfChargeDataSet = {
         data: [],
         yAxisID: 'percentage',
-        ...this.formatLineColor([255, 206, 86]),
+        ...this.formatLineColor(this.colors[2]),
         label: this.translateService.instant('transactions.graph.battery')
       };
 
@@ -111,19 +112,27 @@ export class ConsumptionChartComponent implements DetailComponent {
       responsive: true,
       aspectRatio: 4,
       tooltips: {
+        bodySpacing: 5,
         mode: 'index',
         position: 'nearest',
+        multiKeyBackground: 'rgba(0,0,0,0)',
         intersect: false,
         callbacks: {
+          labelColor: (tooltipItem, chart) => {
+            return {
+              borderColor: 'rgba(0,0,0,0)',
+              backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1)
+            }
+          },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
             switch (tooltipItem.datasetIndex) {
               case 0:
-                return this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
+                return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
               case 1:
-                return this.decimalPipe.transform(value / 1000, '2.2-2') + 'kWh';
+                return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kWh';
               case 2:
-                return `${value}%`;
+                return ` ${value}%`;
             }
           },
           title: (tooltipItems, data) => {

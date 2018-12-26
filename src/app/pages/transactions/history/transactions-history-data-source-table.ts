@@ -26,6 +26,8 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
+import {ConnectorsDetailComponent} from '../../charging-stations/details-content-component/connectors-detail-component.component';
+import {ConsumptionChartComponent} from '../components/consumption-chart.component';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -76,6 +78,11 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       class: 'table-list-under-tabs',
       search: {
         enabled: true
+      },
+      rowDetails: {
+        enabled: true,
+        isDetailComponent: true,
+        detailComponentName: ConsumptionChartComponent
       }
     };
   }

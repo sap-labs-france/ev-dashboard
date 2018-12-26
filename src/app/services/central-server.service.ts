@@ -23,6 +23,7 @@ import {
   SiteResult,
   Tenant,
   TenantResult,
+  Transaction,
   TransactionResult,
   User,
   UserResult,
@@ -305,7 +306,8 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -323,7 +325,8 @@ export class CentralServerService {
       );
   }
 
-  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -350,6 +353,23 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+    const params: any = [];
+    params['TransactionId'] = transactionId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionFromTransaction`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -1146,7 +1166,8 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+    return this.httpClient.get<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })

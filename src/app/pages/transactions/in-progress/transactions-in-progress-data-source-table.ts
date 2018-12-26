@@ -25,6 +25,7 @@ import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
+import {ConsumptionChartComponent} from '../components/consumption-chart.component';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
@@ -72,6 +73,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       class: 'table-list-under-tabs',
       search: {
         enabled: false
+      },
+      rowDetails: {
+        enabled: true,
+        isDetailComponent: true,
+        detailComponentName: ConsumptionChartComponent
       }
     };
   }

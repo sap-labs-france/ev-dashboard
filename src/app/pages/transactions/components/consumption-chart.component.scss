@@ -1,0 +1,19 @@
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+.chart {
+  position: relative;
+  width: 100%;
+  align-self: flex-end;
+  flex-grow: 1;
+}
+
+.icon-left {
+  align-self: flex-start;
+  text-align: center;
+  margin: 0 auto 0 auto !important
+}

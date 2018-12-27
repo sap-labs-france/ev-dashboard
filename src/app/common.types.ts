@@ -103,6 +103,9 @@ export interface ChargerConfiguration {
 export interface ConsumptionValue {
   date: Date;
   value: number;
+  cumulated: number;
+  price: number;
+  stateOfCharge: number;
 }
 
 export interface ChargerConsumption {
@@ -390,7 +393,7 @@ export interface Transaction {
     priceUnit: string;
   };
   dateTimestring: string;
-  consumptionstring: string;
+  values: ConsumptionValue[];
 }
 
 export interface User {

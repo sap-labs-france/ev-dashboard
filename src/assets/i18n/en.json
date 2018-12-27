@@ -731,6 +731,12 @@
       "in_progress": "In Progress",
       "in_error": "In Error"
     },
+    "graph":{
+      "battery": "Battery Level (%)",
+      "power": "Instant Power (kWatt)",
+      "energy": "Energy Delivered (kWatt.h)",
+      "reset_zoom": "Reset"
+    },
     "dialog": {
       "delete": {
         "title": "Delete Sessions",

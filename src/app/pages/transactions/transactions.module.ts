@@ -19,9 +19,8 @@ import {ComponentModule} from '../../shared/component/component.module';
 import {ConnectorCellComponent} from '../../shared/component/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
-import {ConsumptionChartComponent} from './components/consumption-chart.component';
-import {ChartsModule} from 'ng2-charts';
-import {ChartModule} from 'angular2-chartjs';
+import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
+import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
 
 @NgModule({
   imports: [
@@ -35,15 +34,14 @@ import {ChartModule} from 'angular2-chartjs';
     CommonDirectivesModule,
     DialogsModule,
     FormattersModule,
-    ComponentModule,
-    ChartModule
+    ComponentModule
   ],
   declarations: [
     TransactionsComponent,
     TransactionsHistoryComponent,
     TransactionsInErrorComponent,
     TransactionsInProgressComponent,
-    ConsumptionChartComponent
+    ConsumptionChartDetailComponent
   ],
   entryComponents: [
     TransactionsComponent,
@@ -51,6 +49,7 @@ import {ChartModule} from 'angular2-chartjs';
     TransactionsInProgressComponent,
     TransactionsInErrorComponent,
     ConnectorCellComponent,
+    ConsumptionChartDetailComponent,
     ConsumptionChartComponent
   ],
   exports: [

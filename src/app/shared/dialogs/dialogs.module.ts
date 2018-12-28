@@ -1,8 +1,10 @@
+import {SessionDialogComponent} from './session/session-dialog-component';
+
 export class FooterModule {
 }
 
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
@@ -11,7 +13,14 @@ import {ConfirmationDialogComponent} from './confirmation/confirmation-dialog-co
 import {TableModule} from '../table/table.module';
 import {UsersDialogComponent} from './users/users-dialog-component';
 import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
-import {SitesFilterDialogComponent} from "./sites/sites-filter-dialog-component";
+import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
+import {ComponentModule} from '../component/component.module';
+import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
+import {TransactionsHistoryDataSource} from '../../pages/transactions/history/transactions-history-data-source-table';
+import {TransactionsInErrorDataSource} from '../../pages/transactions/in-error/transactions-in-error-data-source-table';
+import {TransactionsInProgressDataSource} from '../../pages/transactions/in-progress/transactions-in-progress-data-source-table';
+import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
+import {FormattersModule} from '../formatters/formatters.module';
 
 @NgModule({
   imports: [
@@ -19,28 +28,40 @@ import {SitesFilterDialogComponent} from "./sites/sites-filter-dialog-component"
     CommonModule,
     MaterialModule,
     TableModule,
-    TranslateModule
+    TranslateModule,
+    ComponentModule,
+    FormattersModule,
   ],
   declarations: [
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent
+    SitesFilterDialogComponent,
+    SessionDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent
+    SitesFilterDialogComponent,
+    SessionDialogComponent,
+    ConsumptionChartComponent
   ],
   exports: [
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent
+    SitesFilterDialogComponent,
+    SessionDialogComponent
+  ],
+  providers: [
+    CurrencyPipe,
+    PercentPipe,
+    DecimalPipe,
+    AppConnectorIdPipe
   ]
 })
 export class DialogsModule {

@@ -4,7 +4,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
 
 @Component({
-  selector: 'app-chip',
+  selector: 'app-connector-availability',
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })

@@ -30,6 +30,7 @@ import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/sm
 import { SmartChargingSimpleLimitComponent} from './actions-dialog/smart-charging/simple-limit/smart-charging-simple-limit.component';
 import {ComponentModule} from '../../shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
+import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialog-component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingSimpleLimitComponent
+    SmartChargingSimpleLimitComponent,
+    SessionDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,

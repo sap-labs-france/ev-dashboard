@@ -1,12 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
-import {ConsumptionValue, TableDef, Transaction} from '../../../common.types';
-import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
-import {ConfigService} from '../../../services/config.service';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ConsumptionValue} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../services/locale.service';
 import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
+import {AppDatePipe} from '../../formatters/app-date.pipe';
 import * as moment from 'moment';
 import {ChartComponent} from 'angular2-chartjs';
 
@@ -30,14 +28,17 @@ import {ChartComponent} from 'angular2-chartjs';
   `
 })
 
-export class ConsumptionChartComponent implements DetailComponent {
+export class ConsumptionChartComponent implements OnInit {
+  @Input() transactionId: number;
+  @Input() consumptions: any[];
+
+  @Input() ratio: number;
   data: any;
   options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
   private colors = [[255, 99, 132], [54, 162, 235], [255, 206, 86]];
 
-  constructor(private configService: ConfigService,
-              private centralServerService: CentralServerService,
+  constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
               private localeService: LocaleService,
               private datePipe: AppDatePipe,
@@ -49,68 +50,72 @@ export class ConsumptionChartComponent implements DetailComponent {
     this.chartComponent.chart.resetZoom();
   }
 
-  setData(row: Transaction, tabledef: TableDef) {
+  ngOnInit(): void {
+    if (this.consumptions) {
+      this.createGraphData(this.consumptions);
+    } else {
+      this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
+        .subscribe(transaction => this.createGraphData(transaction.values));
+    }
+  }
 
-    this.centralServerService.getChargingStationConsumptionFromTransaction(row.id).subscribe(transaction => {
-      const consumptions = transaction.values;
-      this.options = this.createOptions(consumptions);
-      let distanceBetween2points = Math.floor(consumptions.length / 200);
-      // if (distanceBetween2points < 2) {
-      distanceBetween2points = 1;
-      // }
-      const labels = [];
-      const chargingPowerDataSet = {
-        data: [],
-        yAxisID: 'power',
-        ...this.formatLineColor(this.colors[0]),
-        label: this.translateService.instant('transactions.graph.power')
-      };
-      const cumulatedDataSet = {
-        data: [],
-        yAxisID: 'power',
-        ...this.formatLineColor(this.colors[1]),
-        label: this.translateService.instant('transactions.graph.energy')
-      };
-      const stateOfChargeDataSet = {
-        data: [],
-        yAxisID: 'percentage',
-        ...this.formatLineColor(this.colors[2]),
-        label: this.translateService.instant('transactions.graph.battery')
-      };
+  createGraphData(consumptions: any[]) {
+    this.options = this.createOptions(consumptions);
+    let distanceBetween2points = Math.floor(consumptions.length / 200);
+    // if (distanceBetween2points < 2) {
+    distanceBetween2points = 1;
+    // }
+    const labels = [];
+    const chargingPowerDataSet = {
+      data: [],
+      yAxisID: 'power',
+      ...this.formatLineColor(this.colors[0]),
+      label: this.translateService.instant('transactions.graph.power')
+    };
+    const cumulatedDataSet = {
+      data: [],
+      yAxisID: 'power',
+      ...this.formatLineColor(this.colors[1]),
+      label: this.translateService.instant('transactions.graph.energy')
+    };
+    const stateOfChargeDataSet = {
+      data: [],
+      yAxisID: 'percentage',
+      ...this.formatLineColor(this.colors[2]),
+      label: this.translateService.instant('transactions.graph.battery')
+    };
 
-      for (let i = 0; i < consumptions.length; i += distanceBetween2points) {
-        const consumption = consumptions[i];
-        labels.push(new Date(consumption.date).getTime());
-        chargingPowerDataSet.data.push(consumption.value);
-        cumulatedDataSet.data.push(consumption.cumulated);
-        if (consumption.stateOfCharge) {
-          stateOfChargeDataSet.data.push(consumption.stateOfCharge);
+    for (let i = 0; i < consumptions.length; i += distanceBetween2points) {
+      const consumption = consumptions[i];
+      labels.push(new Date(consumption.date).getTime());
+      chargingPowerDataSet.data.push(consumption.value);
+      cumulatedDataSet.data.push(consumption.cumulated);
+      if (consumption.stateOfCharge) {
+        stateOfChargeDataSet.data.push(consumption.stateOfCharge);
+      }
+    }
+    this.data = {
+      labels: labels,
+      datasets: [chargingPowerDataSet, cumulatedDataSet]
+    };
+    if (stateOfChargeDataSet.data.length > 0) {
+      this.data.datasets.push(stateOfChargeDataSet);
+      this.options.scales.yAxes.push({
+        id: 'percentage',
+        type: 'linear',
+        position: 'right',
+        ticks: {
+          callback: (value, index, values) => `${value}%`
         }
-      }
-      this.data = {
-        labels: labels,
-        datasets: [chargingPowerDataSet, cumulatedDataSet]
-      };
-      if (stateOfChargeDataSet.data.length > 0) {
-        this.data.datasets.push(stateOfChargeDataSet);
-        this.options.scales.yAxes.push({
-          id: 'percentage',
-          type: 'linear',
-          position: 'right',
-          ticks: {
-            callback: (value, index, values) => `${value}%`
-          }
-        });
-      }
-
-    });
+      });
+    }
   }
 
   createOptions(consumptions: ConsumptionValue[]) {
     const options: any = {
       legend: {position: 'bottom'},
       responsive: true,
-      aspectRatio: 4,
+      aspectRatio: this.ratio,
       tooltips: {
         bodySpacing: 5,
         mode: 'index',
@@ -172,10 +177,10 @@ export class ConsumptionChartComponent implements DetailComponent {
         enabled: true,
         mode: 'x',
         rangeMin: {
-          x: new Date(consumptions[0].date).getTime(),
+          x: consumptions.length > 0 ? new Date(consumptions[0].date).getTime() : 0,
         },
         rangeMax: {
-          x: new Date(consumptions[consumptions.length - 1].date).getTime()
+          x: consumptions.length > 0 ? new Date(consumptions[consumptions.length - 1].date).getTime() : 0
         },
       },
       zoom: {
@@ -212,4 +217,6 @@ export class ConsumptionChartComponent implements DetailComponent {
   rgba(colour: Array<number>, alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
+
+
 }

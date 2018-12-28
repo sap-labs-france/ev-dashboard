@@ -64,7 +64,7 @@
             <i class="material-icons">ev_station</i>
             <span class="ml-2">{{transaction.totalConsumption | appUnit:'Wh':'kWh'}}</span>
           </div>
-          <div *ngIf="stateOfCharge" class="d-flex align-items-center mb-2">
+          <div *ngIf="stateOfChargeIcon" class="d-flex align-items-center mb-2">
             <i [class]="'material-icons-new twotone-'+stateOfChargeIcon"></i>
             <span class="ml-2">{{stateOfCharge / 100| percent:'2.0-0' }}</span>
           </div>

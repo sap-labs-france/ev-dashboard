@@ -18,7 +18,9 @@ import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
   private readonly tableActionsRow: TableActionDef[];
 
@@ -145,7 +147,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }

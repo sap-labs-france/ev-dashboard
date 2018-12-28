@@ -20,7 +20,6 @@ import {ConnectorCellComponent} from '../../shared/component/connector-cell.comp
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 import {ConsumptionChartComponent} from './components/consumption-chart.component';
-import {ChartsModule} from 'ng2-charts';
 import {ChartModule} from 'angular2-chartjs';
 
 @NgModule({

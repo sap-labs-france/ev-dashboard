@@ -16,18 +16,19 @@ import {
   Image,
   Log,
   LogResult,
+  OcpiendpointResult,
   Ordering,
   Paging,
   RouteInfo,
+  SettingResult,
   SiteAreaResult,
   SiteResult,
   Tenant,
   TenantResult,
+  Transaction,
   TransactionResult,
   User,
-  UserResult,
-  SettingResult,
-  OcpiendpointResult
+  UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -215,6 +216,25 @@ export class CentralServerService {
       );
   }
 
+  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<Transaction> {
+    const params: any = [];
+    params['ID'] = siteAreaId;
+    params['WithChargeBoxes'] = withChargeBoxes;
+    params['WithSite'] = withSite;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(
+      `${this.centralRestServerServiceSecuredURL}/SiteArea`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
     // Verify init
     this._checkInit();
@@ -305,7 +325,8 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -323,7 +344,8 @@ export class CentralServerService {
       );
   }
 
-  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -350,6 +372,23 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+    const params: any = [];
+    params['TransactionId'] = transactionId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionFromTransaction`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -473,12 +512,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST Service
     return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}`,
-    {
-      headers: this._buildHttpHeaders()
-    })
-    .pipe(
-      catchError(this._handleHttpError)
-    );
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
   public getEndUserLicenseAgreement(language: string) {
@@ -870,83 +909,6 @@ export class CentralServerService {
       );
   }
 
-  private _checkInit() {
-    // initialized?
-    if (!this.initialized) {
-      // No: Process the init
-      // Get the server config
-      this.centralSystemServerConfig = this.configService.getCentralSystemServer();
-      // Central Service URL
-      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
-        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
-      // Set Web Socket URL
-      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
-      // Auth API
-      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
-      // Secured API
-      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
-      // Done
-      this.initialized = true;
-    }
-  }
-
-  private _buildHttpHeaders(tenant?: String) {
-    const header = {
-      'Content-Type': 'application/json'
-    };
-
-    if (tenant !== undefined) {
-      header['Tenant'] = tenant;
-    }
-
-    // Check token
-    if (this.getLoggedUserToken()) {
-      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
-    }
-    // Build Header
-    return new HttpHeaders(header);
-  }
-
-  private _buildOrdering(ordering: Ordering[], queryString: any) {
-    // Check
-    if (ordering && ordering.length) {
-      if (!queryString['SortFields']) {
-        queryString['SortFields'] = [];
-        queryString['SortDirs'] = [];
-      }
-      // Set
-      ordering.forEach((order) => {
-        queryString['SortFields'].push(order.field);
-        queryString['SortDirs'].push(order.direction);
-      });
-    }
-  }
-
-  private _buildPaging(paging: Paging, queryString: any) {
-    // Limit
-    if (paging.limit) {
-      queryString['Limit'] = paging.limit;
-    }
-    // Skip
-    if (paging.skip) {
-      queryString['Skip'] = paging.skip;
-    }
-  }
-
-  private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
-    // In a real world app, we might use a remote logging infrastructure
-    const errMsg = {status: 0, message: '', details: undefined};
-    if (error instanceof Response) {
-      errMsg.status = error.status;
-      errMsg.message = error.text();
-    } else {
-      errMsg.status = error.status;
-      errMsg.message = error.message ? error.message : error.toString();
-      errMsg.details = error.error;
-    }
-    return throwError(errMsg);
-  }
-
   updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
@@ -1037,15 +999,14 @@ export class CentralServerService {
       );
   }
 
-  
   public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number, stackLevel: number) {
     // Verify init
     this._checkInit();
     // Build default charging profile json
-    const date = new Date("01/01/2018").toISOString();
+    const date = new Date('01/01/2018').toISOString();
     console.log(date);
     let body: string;
-    if (stackLevel === 0) { 
+    if (stackLevel === 0) {
       body = `{
       "chargeBoxID": "${charger.id}",
       "args": { 
@@ -1066,11 +1027,11 @@ export class CentralServerService {
         }
       }
     }`;
-  } else {
-    const date = new Date();
-    const date2 = new Date(date.getTime()+12000*1000);
-    const dateStr = date2.toISOString();
-    body = `{
+    } else {
+      const date = new Date();
+      const date2 = new Date(date.getTime() + 12000 * 1000);
+      const dateStr = date2.toISOString();
+      body = `{
       "chargeBoxID": "${charger.id}",
       "args": { 
         "connectorId": 0,
@@ -1085,22 +1046,22 @@ export class CentralServerService {
             "chargingRateUnit": "${unit}",
             "chargingSchedulePeriod": [{
               "startPeriod": 0,
-              "limit": ${powerValue-2}
+              "limit": ${powerValue - 2}
             },
             {
               "startPeriod": 600,
-              "limit": ${powerValue+5}
+              "limit": ${powerValue + 5}
             },
             {
               "startPeriod": 1200,
-              "limit": ${powerValue-5}
+              "limit": ${powerValue - 5}
             }
           ]
           }
         }
       }
     }`;
-  }
+    }
     console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
@@ -1171,7 +1132,8 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+    return this.httpClient.get<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1208,6 +1170,83 @@ export class CentralServerService {
       .pipe(
         catchError(this._handleHttpError)
       );
+  }
+
+  private _checkInit() {
+    // initialized?
+    if (!this.initialized) {
+      // No: Process the init
+      // Get the server config
+      this.centralSystemServerConfig = this.configService.getCentralSystemServer();
+      // Central Service URL
+      this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
+        this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
+      // Set Web Socket URL
+      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
+      // Auth API
+      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
+      // Secured API
+      this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      // Done
+      this.initialized = true;
+    }
+  }
+
+  private _buildHttpHeaders(tenant?: String) {
+    const header = {
+      'Content-Type': 'application/json'
+    };
+
+    if (tenant !== undefined) {
+      header['Tenant'] = tenant;
+    }
+
+    // Check token
+    if (this.getLoggedUserToken()) {
+      header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
+    }
+    // Build Header
+    return new HttpHeaders(header);
+  }
+
+  private _buildOrdering(ordering: Ordering[], queryString: any) {
+    // Check
+    if (ordering && ordering.length) {
+      if (!queryString['SortFields']) {
+        queryString['SortFields'] = [];
+        queryString['SortDirs'] = [];
+      }
+      // Set
+      ordering.forEach((order) => {
+        queryString['SortFields'].push(order.field);
+        queryString['SortDirs'].push(order.direction);
+      });
+    }
+  }
+
+  private _buildPaging(paging: Paging, queryString: any) {
+    // Limit
+    if (paging.limit) {
+      queryString['Limit'] = paging.limit;
+    }
+    // Skip
+    if (paging.skip) {
+      queryString['Skip'] = paging.skip;
+    }
+  }
+
+  private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
+    // In a real world app, we might use a remote logging infrastructure
+    const errMsg = {status: 0, message: '', details: undefined};
+    if (error instanceof Response) {
+      errMsg.status = error.status;
+      errMsg.message = error.text();
+    } else {
+      errMsg.status = error.status;
+      errMsg.message = error.message ? error.message : error.toString();
+      errMsg.details = error.error;
+    }
+    return throwError(errMsg);
   }
 
 }

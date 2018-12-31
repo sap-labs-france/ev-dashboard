@@ -32,6 +32,7 @@ export interface DropdownItem {
   class?: string;
   disabled?: boolean;
 }
+
 export interface TableActionDef {
   id: string;
   type: ActionType;
@@ -103,6 +104,9 @@ export interface ChargerConfiguration {
 export interface ConsumptionValue {
   date: Date;
   value: number;
+  cumulated: number;
+  price: number;
+  stateOfCharge: number;
 }
 
 export interface ChargerConsumption {
@@ -377,6 +381,13 @@ export interface Transaction {
   chargeBoxID: string;
   connectorId: number;
   meterStart: number;
+  currentConsumption: number;
+  totalConsumption: number;
+  totalInactivitySecs: number;
+  totalDurationSecs: number;
+  stateOfCharge: number;
+  currentStateOfCharge: number;
+  isLoading: boolean;
   user: User;
   tagID: string;
   status: string;
@@ -386,11 +397,12 @@ export interface Transaction {
     timestamp: Date;
     meterStop: number;
     totalConsumption: number;
+    stateOfCharge: number;
     price: number;
     priceUnit: string;
   };
   dateTimestring: string;
-  consumptionstring: string;
+  values: ConsumptionValue[];
 }
 
 export interface User {

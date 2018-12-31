@@ -33,6 +33,8 @@ import {StartTransactionDialogComponent} from './details-content-component/start
 import {SmartChargingPowerSliderComponent} from './actions-dialog/smart-charging/smart-charging-power-slider.component';
 import {SmartChargingLimitPlanningComponent} from './actions-dialog/smart-charging/limit-planning/smart-charging-limit-planning.component'
 import {SmartChargingLimitPlannerComponent} from './actions-dialog/smart-charging/limit-planner/smart-charging-limit-planner.component';
+import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialog-component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ import {SmartChargingLimitPlannerComponent} from './actions-dialog/smart-chargin
     SmartChargingSimpleLimitComponent,
     SmartChargingPowerSliderComponent,
     SmartChargingLimitPlanningComponent,
-    SmartChargingLimitPlannerComponent
+    SmartChargingLimitPlannerComponent,
+    SessionDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,

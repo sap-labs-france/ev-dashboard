@@ -1,7 +1,7 @@
 @import "../../../assets/scss/core/variables";
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
-  font-size: 0.9rem !important;
+  font-size: $font-size-sm !important;
   width: 100%;
 }
 
@@ -15,7 +15,7 @@ th {
 }
 
 td {
-  font-size: 0.9rem;
+  font-size: $font-size-sm;
   padding: 5px 0 5px 0;
 }
 
@@ -24,7 +24,7 @@ td a {
 }
 
 th {
-  font-size: 1rem;
+  font-size: $font-size-base;
 }
 
 tr.mat-row {
@@ -173,5 +173,5 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .action-icon-large i {
-  font-size: 2rem;
+  font-size: $font-size-xl;
 }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {CommonModule, CurrencyPipe, PercentPipe} from '@angular/common';
+import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -19,6 +19,8 @@ import {ComponentModule} from '../../shared/component/component.module';
 import {ConnectorCellComponent} from '../../shared/component/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
+import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
+import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
 
 @NgModule({
   imports: [
@@ -38,14 +40,17 @@ import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-da
     TransactionsComponent,
     TransactionsHistoryComponent,
     TransactionsInErrorComponent,
-    TransactionsInProgressComponent
+    TransactionsInProgressComponent,
+    ConsumptionChartDetailComponent
   ],
   entryComponents: [
     TransactionsComponent,
     TransactionsHistoryComponent,
     TransactionsInProgressComponent,
     TransactionsInErrorComponent,
-    ConnectorCellComponent
+    ConnectorCellComponent,
+    ConsumptionChartDetailComponent,
+    ConsumptionChartComponent
   ],
   exports: [
     TransactionsComponent
@@ -53,6 +58,7 @@ import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-da
   providers: [
     CurrencyPipe,
     PercentPipe,
+    DecimalPipe,
     TransactionsHistoryDataSource,
     TransactionsInErrorDataSource,
     TransactionsInProgressDataSource

@@ -1,5 +1,5 @@
 import {TranslateService} from '@ngx-translate/core';
-import {ActionResponse, Connector, Charger, User, TableActionDef, TableColumnDef, TableDef} from '../../../common.types';
+import {ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User} from '../../../common.types';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../../services/central-server.service';
@@ -8,28 +8,32 @@ import {ConfigService} from '../../../services/config.service';
 import {Router} from '@angular/router';
 import {MessageService} from '../../../services/message.service';
 import {DialogService} from '../../../services/dialog.service';
-import { SimpleTableDataSource } from '../../../shared/table/simple-table/simple-table-data-source';
-import { ConnectorAvailibilityComponent } from './connector-availibility.component';
-import { AppConnectorTypePipe } from "../../../shared/formatters/app-connector-type.pipe";
-import { AppConnectorErrorCodePipe } from "../../../shared/formatters/app-connector-error-code.pipe";
-import { ConnectorCellComponent } from "../../../shared/component/connector-cell.component";
+import {SimpleTableDataSource} from '../../../shared/table/simple-table/simple-table-data-source';
+import {ConnectorAvailibilityComponent} from './connector-availibility.component';
+import {AppConnectorTypePipe} from '../../../shared/formatters/app-connector-type.pipe';
+import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
+import {ConnectorCellComponent} from '../../../shared/component/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {SpinnerService} from '../../../services/spinner.service';
-import {InstantPowerProgressBarComponent} from "../cell-content-components/instant-power-progress-bar.component";
+import {InstantPowerProgressBarComponent} from '../cell-content-components/instant-power-progress-bar.component';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {TableStartAction} from '../../../shared/table/actions/table-start-action';
 import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
 import {TableNoAction} from '../../../shared/table/actions/table-no-action';
 import {Utils} from '../../../utils/Utils';
 import {Constants} from '../../../utils/Constants';
-import {StartTransactionDialogComponent, BUTTON_FOR_MYSELF, BUTTON_SELECT_USER} from './start-transaction-dialog-component';
+import {BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent} from './start-transaction-dialog-component';
 import {UsersDialogComponent} from '../../../shared/dialogs/users/users-dialog-component';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
+
 export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
 
   public stopAction = new TableStopAction();
   public noAction = new TableNoAction();
   public startAction = new TableStartAction();
+  public openAction = new TableOpenAction();
 
   private charger: Charger;
   private connectorTransactionAuthorization;
@@ -159,8 +163,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-    ];
+    return [];
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
@@ -183,10 +186,11 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         ];
       }
       // Check active transaction and authorization to stop
-      if (rowItem && rowItem.activeTransactionID && 
-              this.connectorTransactionAuthorization && 
-              this.connectorTransactionAuthorization[rowItem.connectorId-1].IsAuthorized) {
+      if (rowItem && rowItem.activeTransactionID &&
+        this.connectorTransactionAuthorization &&
+        this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
         return [
+          this.openAction.getActionDef(),
           this.stopAction.getActionDef()
         ];
       }
@@ -216,6 +220,9 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         } else {
           this._startTransactionFor(rowItem, this.centralServerService.getLoggedUser());
         }
+        break;
+      case 'open':
+        this._openSession(rowItem);
         break;
       case 'stop':
         this.dialogService.createAndShowYesNoDialog(
@@ -269,13 +276,13 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
     const dialogConfig = new MatDialogConfig();
     // Set data
     dialogConfig.data = {
-      title: 'chargers.start_transaction_admin_title', 
+      title: 'chargers.start_transaction_admin_title',
       message: 'chargers.start_transaction_admin_message'
     }
     // Show
     const dialogRef = this.dialog.open(StartTransactionDialogComponent, dialogConfig);
     // Register
-    dialogRef.afterClosed().subscribe( (buttonId) => {
+    dialogRef.afterClosed().subscribe((buttonId) => {
       console.log(buttonId);
       switch (buttonId) {
         case BUTTON_FOR_MYSELF:
@@ -295,6 +302,24 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
           break;
       }
     })
-    
+
+  }
+
+  private _openSession(connector: Connector) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    dialogConfig.height = '80vh';
+    dialogConfig.width = '80vw';
+    console.log(this.charger);
+    dialogConfig.data = {
+      transactionId: connector.activeTransactionID,
+      siteArea: this.charger.siteArea,
+      connector: connector,
+    };
+    // Open
+    const dialogRef = this.dialog.open(SessionDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(() => this.loadData());
   }
 }

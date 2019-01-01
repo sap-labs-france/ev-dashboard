@@ -5,7 +5,7 @@ import * as moment from 'moment'
 export class AppDurationPipe implements PipeTransform {
 
   transform(durationInSecs: number): any {
-    return moment.duration(durationInSecs, 'seconds').format('HH[h] mm[m]', {
+    return moment.duration(durationInSecs, 'seconds').format('H[h]mm[m]', {
       trim: false
     });
   }

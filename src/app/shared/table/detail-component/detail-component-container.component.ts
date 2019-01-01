@@ -8,14 +8,15 @@ import { DetailComponent } from './detail-component.component';
 import { TableDef } from '../../../common.types';
 
 @Component({
-  selector: 'detail-component-container',
+  selector: 'app-detail-component-container',
   template: `
               <div>
-                <ng-template detail-component></ng-template>
+                <ng-template appDetailComponent></ng-template>
               </div>
             `,
 
 })
+// tslint:disable-next-line:component-class-suffix
 export class DetailComponentContainer implements OnInit, OnDestroy {
   @Input() containerId: number;
   @Input() tableDef: TableDef;

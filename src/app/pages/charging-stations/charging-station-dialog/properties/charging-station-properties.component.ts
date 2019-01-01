@@ -37,7 +37,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
       this.chargerFormatted[property.key] = property.formatter(this.charger[property.key]);
     } else {
         this.chargerFormatted[property.key] = this.charger[property.key];
-      }        
+      }
     }
   }
 

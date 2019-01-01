@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, ElementRef, OnDestroy, ViewEncapsulation} from '@angular/core';
-import { MatSort, MatDialog } from '@angular/material';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectionModel } from '@angular/cdk/collections';
 import { Subject } from 'rxjs';
 import { TableColumnDef, TableDef, TableActionDef } from '../../../common.types';
 import { ConfigService } from '../../../services/config.service';
@@ -28,7 +27,7 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public tableDef: TableDef;
   public autoRefeshChecked = true;
   private footer = false;
-  
+
   constructor(private configService: ConfigService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,

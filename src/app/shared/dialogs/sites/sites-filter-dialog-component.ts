@@ -15,7 +15,7 @@ import {KeyValue, Site} from '../../../common.types';
 export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
   constructor(
     private centralServerService: CentralServerService,
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private translateService: TranslateService,
     protected dialogRef: MatDialogRef<SitesFilterDialogComponent>,
     private router: Router,
@@ -28,10 +28,6 @@ export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
       this.translateService,
       this.router,
       this.centralServerService);
-/*    // Set static filter
-    this.dialogDataSource.setStaticFilters([
-      {'UserID': this.centralServerService.getLoggedUser().id}
-    ]);*/
   }
 
   getSelectedItems(selectedRows: Site[]): KeyValue[] {

@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import { Charger } from "../../../common.types";
-//import 'rxjs/add/operator/mergeMap';
+import { Charger } from '../../../common.types';
 
 @Component({
   selector: 'app-charging-station-dialog-cmp',

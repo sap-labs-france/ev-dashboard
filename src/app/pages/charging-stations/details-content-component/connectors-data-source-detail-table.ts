@@ -231,7 +231,9 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
           this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
-            this.centralServerService.stationStopTransaction(this.charger.id, rowItem.activeTransactionID).subscribe((response: ActionResponse) => {
+            this.centralServerService.stationStopTransaction(
+                // tslint:disable-next-line:no-shadowed-variable
+                this.charger.id, rowItem.activeTransactionID).subscribe((response: ActionResponse) => {
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
               this.loadData();
@@ -258,7 +260,9 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
-        this.centralServerService.stationStartTransaction(this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response: ActionResponse) => {
+        this.centralServerService.stationStartTransaction(
+            // tslint:disable-next-line:no-shadowed-variable
+            this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response: ActionResponse) => {
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
           this.loadData();
@@ -290,9 +294,9 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
           break;
         case BUTTON_SELECT_USER:
           // Show select user dialog
-          const dialogRef = this.dialog.open(UsersDialogComponent);
+          const dialogRef2 = this.dialog.open(UsersDialogComponent);
           // Add sites
-          dialogRef.afterClosed().subscribe(data => {
+          dialogRef2.afterClosed().subscribe(data => {
             if (data && data.length > 0) {
               this._startTransactionFor(connector, data[0].objectRef)
             }

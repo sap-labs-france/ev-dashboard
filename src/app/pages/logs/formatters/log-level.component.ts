@@ -20,14 +20,14 @@ export class LogLevelComponent extends ChipComponent implements CellContentTempl
   @Input() row: Log;
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
     for (const level of logLevels) {
       if (level.key === this.row.level) {
         this.text = level.value
       }
     }
-    this.type = "chip-width-5em ";
+    this.type = 'chip-width-5em ';
     switch (this.row.level) {
       case 'E':
         this.type += TYPE_DANGER;

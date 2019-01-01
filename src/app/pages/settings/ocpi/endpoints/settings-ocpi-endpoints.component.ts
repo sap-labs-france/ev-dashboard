@@ -14,7 +14,7 @@ export class SettingsOcpiEndpointsComponent implements OnInit {
   public name: AbstractControl;
   public country_code: AbstractControl;
   public party_id: AbstractControl;
-  
+
   private readonly currentBusinessDetails: any;
 
   constructor(
@@ -26,6 +26,5 @@ export class SettingsOcpiEndpointsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
   }
 }

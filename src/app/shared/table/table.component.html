@@ -156,7 +156,7 @@
               </div>
             </ng-container>
             <ng-container *ngIf="tableDef.rowDetails && tableDef.rowDetails.isDetailComponent">
-                <detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></detail-component-container>
+                <app-detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></app-detail-component-container>
             </ng-container>
           </div>
         </td>

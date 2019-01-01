@@ -363,7 +363,8 @@ export class CentralServerService {
       );
   }
 
-  public getOcpiendpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+  // tslint:disable-next-line:max-line-length
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1009,7 +1010,7 @@ export class CentralServerService {
     if (stackLevel === 0) {
       body = `{
       "chargeBoxID": "${charger.id}",
-      "args": { 
+      "args": {
         "connectorId": 0,
         "csChargingProfiles": {
           "chargingProfileId": 1,
@@ -1028,12 +1029,11 @@ export class CentralServerService {
       }
     }`;
     } else {
-      const date = new Date();
-      const date2 = new Date(date.getTime() + 12000 * 1000);
+      const date2 = new Date(new Date().getTime() + 12000 * 1000);
       const dateStr = date2.toISOString();
       body = `{
       "chargeBoxID": "${charger.id}",
-      "args": { 
+      "args": {
         "connectorId": 0,
         "csChargingProfiles": {
           "chargingProfileId": 2,

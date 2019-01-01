@@ -69,14 +69,14 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
       'business_details': {
         'name': '',
         'logo': {
-          "url": "",
-          "thumbnail": "",
-          "category": "",
-          "type": "",
-          "width": undefined,
-          "height": undefined
+          'url': '',
+          'thumbnail': '',
+          'category': '',
+          'type': '',
+          'width': undefined,
+          'height': undefined
         },
-        "website": ""
+        'website': ''
       }
     };
 
@@ -149,14 +149,14 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
         'business_details': {
           'name': '',
           'logo': {
-            "url": "",
-            "thumbnail": "",
-            "category": "",
-            "type": "",
-            "width": undefined,
-            "height": undefined
+            'url': '',
+            'thumbnail': '',
+            'category': '',
+            'type': '',
+            'width': undefined,
+            'height': undefined
           },
-          "website": ""
+          'website': ''
         }
       };
 
@@ -189,7 +189,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
           }
         }
       }
-      
       this.formGroup.markAsPristine();
 
     }, (error) => {
@@ -221,10 +220,10 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
   private _createOCPIConfiguration(content) {
     // build setting payload
-    let setting = {
-      "id": null,
-      "identifier": Constants.SETTINGS_OCPI,
-      "content": content
+    const setting = {
+      'id': null,
+      'identifier': Constants.SETTINGS_OCPI,
+      'content': content
     };
 
     // Show
@@ -262,10 +261,10 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
   private _updateOCPIConfiguration(content) {
     // build setting payload
-    let setting = {
-      "id": this.currentSettingID,
-      "identifier": Constants.SETTINGS_OCPI,
-      "content": content
+    const setting = {
+      'id': this.currentSettingID,
+      'identifier': Constants.SETTINGS_OCPI,
+      'content': content
     };
     // Show
     this.spinnerService.show();

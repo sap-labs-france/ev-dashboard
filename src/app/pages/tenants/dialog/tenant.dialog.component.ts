@@ -73,22 +73,22 @@ export class TenantDialogComponent implements OnInit {
     this.componentsList = Constants.COMPONENTS_LIST;
 
     // add available components
-    let componentsGroup = <FormGroup>this.formGroup.controls['components'];
-    for (let componentIdentifier of Constants.COMPONENTS_LIST) {
+    const componentsGroup = <FormGroup>this.formGroup.controls['components'];
+    for (const componentIdentifier of Constants.COMPONENTS_LIST) {
       // check if value is available
       let activeFlag = false;
       if (this.currentTenant.components && this.currentTenant.components[componentIdentifier] ) {
-        activeFlag = (this.currentTenant.components[componentIdentifier].active?true:false);
+        activeFlag = (this.currentTenant.components[componentIdentifier].active ? true : false);
       }
 
       // build group
-      let componentActiveFlagControl = new FormControl(activeFlag);
-      let componentGroup = new FormGroup({
+      const componentActiveFlagControl = new FormControl(activeFlag);
+      const componentGroup = new FormGroup({
         'active' : componentActiveFlagControl
       })
 
       componentsGroup.addControl(componentIdentifier, componentGroup);
-      this.componentsActiveFlag[componentIdentifier]= componentActiveFlagControl;
+      this.componentsActiveFlag[componentIdentifier] = componentActiveFlagControl;
     }
   }
 
@@ -98,7 +98,7 @@ export class TenantDialogComponent implements OnInit {
 
   save(tenant) {
     // Show
-    this.spinnerService.show(); 
+    this.spinnerService.show();
 
     if (this.currentTenant.id) {
       // update existing tenant

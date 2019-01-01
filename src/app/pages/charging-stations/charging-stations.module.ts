@@ -24,6 +24,7 @@ import { ChargingStationsDataSource } from './charging-stations-data-source-tabl
 import { SiteAreaDialogComponent } from './charging-station-dialog/site-area/site-area.dialog.component';
 import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-area-dialog-data-source-table';
 import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
+// tslint:disable-next-line:max-line-length
 import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
 import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';

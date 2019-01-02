@@ -19,8 +19,11 @@ export class AppUnitPipe implements PipeTransform {
     return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any}
   }
 
-  transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 2,
+  transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
             numberOfDecimal: number = 2): any {
+    if (value === 0) {
+      numberOfDecimal = 0;
+    }
     const src = this._parseMeasure(srcMeasure);
     const dest = this._parseMeasure(destMeasure);
     return this.decimalPipe.transform(value / (src.size * dest.size),

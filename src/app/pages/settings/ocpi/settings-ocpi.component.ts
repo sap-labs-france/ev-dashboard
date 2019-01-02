@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from '../../../services/authorization-service';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { CentralServerService } from '../../../services/central-server.service';
 import { Constants } from '../../../utils/Constants';
 
@@ -15,8 +15,8 @@ export class SettingsOcpiComponent implements OnInit {
   public name: AbstractControl;
   public country_code: AbstractControl;
   public party_id: AbstractControl;
-  public isOcpiActive: boolean = false;
-  
+  public isOcpiActive = false;
+
   private readonly currentBusinessDetails: any;
 
   constructor(
@@ -28,6 +28,5 @@ export class SettingsOcpiComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
   }
 }

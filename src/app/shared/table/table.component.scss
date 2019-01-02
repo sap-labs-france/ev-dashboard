@@ -19,8 +19,12 @@ td {
   padding: 5px 0 5px 0;
 }
 
-td a {
+td a, td button {
   margin: 0;
+}
+
+td a i {
+  font-size: 20px;
 }
 
 th {
@@ -175,3 +179,8 @@ tr.element-row:not(.expanded-row):active {
 .action-icon-large i {
   font-size: $font-size-xl;
 }
+
+.action-cell {
+  padding: 0 5px;
+}
+

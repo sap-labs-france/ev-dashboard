@@ -8,9 +8,6 @@ import {ConnectorCellComponent} from './connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
-import {TransactionsHistoryDataSource} from '../../pages/transactions/history/transactions-history-data-source-table';
-import {TransactionsInErrorDataSource} from '../../pages/transactions/in-error/transactions-in-error-data-source-table';
-import {TransactionsInProgressDataSource} from '../../pages/transactions/in-progress/transactions-in-progress-data-source-table';
 
 @NgModule({
   imports: [

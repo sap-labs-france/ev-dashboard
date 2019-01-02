@@ -16,18 +16,18 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
 
   @Input() row: any;
 
-  instantPowerW: number = 0;
-  maxPowerW: number = 0;
+  instantPowerW = 0;
+  maxPowerW = 0;
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
     if (<Charger>this.row.chargePointModel) {
       const charger = <Charger>this.row;
       // Extract the row information from a Charger
       let doNotConsiderConnectorPower = false;
       if (charger.maximumPower > 0) {
-        //max power is already assigned on charger level so take it
+        // Max power is already assigned on charger level so take it
         this.maxPowerW = charger.maximumPower;
         doNotConsiderConnectorPower = true;
       }
@@ -36,13 +36,13 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
           if (charger.cannotChargeInParallel) {
             if (this.maxPowerW === 0) {
             // In case connectors can't charge in parallel we only take one connecteur value
-              this.maxPowerW += new Number(connector.power).valueOf();
+              this.maxPowerW += Number(connector.power).valueOf();
             }
           } else {
-            this.maxPowerW += new Number(connector.power).valueOf();
+            this.maxPowerW += Number(connector.power).valueOf();
           }
         }
-        this.instantPowerW += new Number(connector.currentConsumption).valueOf();
+        this.instantPowerW += Number(connector.currentConsumption).valueOf();
       }
     } else if (<Connector>this.row.power) {
       // Extract the information from a connector
@@ -51,5 +51,4 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
       this.instantPowerW = connector.currentConsumption;
     }
   }
-  
 }

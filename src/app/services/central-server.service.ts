@@ -363,7 +363,8 @@ export class CentralServerService {
       );
   }
 
-  public getOcpiendpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+  // tslint:disable-next-line:max-line-length
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1008,7 +1009,7 @@ export class CentralServerService {
     let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
-      "args": { 
+      "args": {
         "connectorId": 0,
         "csChargingProfiles": {
           "chargingProfileId": 1,
@@ -1046,7 +1047,7 @@ export class CentralServerService {
     let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
-      "args": { 
+      "args": {
         "connectorId": 0,
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }

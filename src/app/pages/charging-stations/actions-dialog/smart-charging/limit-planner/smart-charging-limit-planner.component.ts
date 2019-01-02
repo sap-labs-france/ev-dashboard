@@ -11,7 +11,6 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { prepareProfile } from 'selenium-webdriver/firefox';
 
 interface DisplayedScheduleSlot {
   slot: ScheduleSlot,
@@ -69,18 +68,18 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   addSlot() {
     let slot: ScheduleSlot;
     if (this.slotsSchedule.length === 0) {
-      slot = {start: new Date(), end: new Date(), limit: 0};
+      slot = {start: new Date(), end: new Date(), limit: this.charger.maximumPower};
       slot.start.setSeconds(0);
       slot.start.setMilliseconds(0);
     } else {
-      const start = new Date( this.slotsSchedule[this.slotsSchedule.length-1].slot.end.getTime() +60000)
-      slot = {start: start, end: start, limit: 0};
+      const start = new Date( this.slotsSchedule[this.slotsSchedule.length-1].slot.start.getTime() +60000)
+      slot = {start: start, end: start, limit: this.charger.maximumPower};
     }
     const displayedSlot:DisplayedScheduleSlot = {
       slot: slot,
       id: this.slotsSchedule.length,
-      displayedStartValue: slot.start.toISOString().slice(0, 16),
-      displayedEndValue: slot.end.toISOString().slice(0, 16),
+      displayedStartValue: this._buildDisplayDateTimePickerValue(slot.start),
+      displayedEndValue: slot.end.toISOString().slice(0,16),
       duration: 0
     }; 
     this.slotsSchedule.push(displayedSlot);
@@ -93,20 +92,31 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   changeStartSlotDate(event, slot: DisplayedScheduleSlot) {
     let start = new Date(event.target.value);
     slot.slot.start = start;
-    slot.displayedStartValue = slot.slot.start.toISOString().slice(0, 16);
-    // Set end date of previours slot
+//    slot.displayedStartValue = slot.slot.start.toISOString().slice(0, 16);
+    // Set end date of previous slot
     if (slot.id > 0) {
       this.slotsSchedule[slot.id-1].slot.end = start;
-      slot.displayedEndValue = slot.slot.end.toISOString().slice(0, 16);
       this.slotsSchedule[slot.id-1].duration = (this.slotsSchedule[slot.id-1].slot.end.getTime() - this.slotsSchedule[slot.id-1].slot.start.getTime())/1000;
+    }
+    // update current slot end date
+    if (slot.slot.end) {
+      console.log(`edn ${slot.slot.end.getTime()} start ${slot.slot.start.getTime()}`);
+      if (slot.slot.end.getTime() < slot.slot.start.getTime()) {
+        slot.slot.end = slot.slot.start;
+        slot.displayedEndValue = slot.slot.end.toISOString().slice(0,16);
+      }
     }
   }
 
   changeEndSlotDate(event, slot: DisplayedScheduleSlot) {
-    let end = new Date(event.target.value);
-    slot.slot.end = end;
-    slot.displayedEndValue = slot.slot.end.toISOString().slice(0, 16);
-    slot.duration = (slot.slot.end.getTime() - slot.slot.start.getTime()) / 1000;
+    if (event.target.value !== "") {
+      let end = new Date(event.target.value);
+      slot.slot.end = end;
+//      slot.displayedEndValue = slot.slot.end.toISOString().slice(0, 16);
+      slot.duration = (slot.slot.end.getTime() - slot.slot.start.getTime()) / 1000;
+    } else {
+      slot.slot.end = null;
+    }
   }
 
   applyPowerLimit() {
@@ -124,10 +134,10 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
         const chargingProfile = this._buildProfile();
         console.log("Profile "+ JSON.stringify(chargingProfile, null, " "));
         //call REST service
-/*        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, this.powerSliderComponent.powerSliderComponent.value, 0).subscribe(response => {
+        this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               //success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_success'), {'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue()});
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_success'), {'chargeBoxID': this.charger.id, 'power': 'plan'});
               this.onApplyPlanning.emit();
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -138,7 +148,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
             this.dialog.closeAll();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.power_limit_error'));
-          });*/
+          });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),
                 this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
@@ -185,14 +195,21 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
     profile.chargingSchedule.chargingSchedulePeriod = [];
     for (const slot of this.slotsSchedule) {
       const period: any = {};
-      period.startPeriod = (slot.slot.start.getTime() - startOfSchedule) * 1000;
-      if (period.start >= 0) {
+      period.startPeriod = (slot.slot.start.getTime() - startOfSchedule) / 1000;
+      if (period.startPeriod >= 0) {
         period.limit = slot.slot.limit;
         profile.chargingSchedule.chargingSchedulePeriod.push(period);
       } else {
         throw "Invalid schedule";
       }
     }
-    return prepareProfile;
+    return profile;
   }
+
+  _buildDisplayDateTimePickerValue(date: Date) {
+    console.log(date.toISOString().slice(0,16));
+    console.log(`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}`);
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}`;
+  }
+
 }

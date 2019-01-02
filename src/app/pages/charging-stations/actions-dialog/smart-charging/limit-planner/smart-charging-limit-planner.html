@@ -61,7 +61,7 @@
                                             [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-smart-charging-power-slider>
               </div>
           </div>
-          <div *ngIf="slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
+          <div *ngIf="false && slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
             <div class="col-md-6">
                 <mat-form-field>
                     <input matInput type="datetime-local" (input)="changeEndSlotDate($event, slot)" [placeholder]="'chargers.smart_charging.end_date' | translate" [value]="slot.displayedEndValue">

@@ -16,6 +16,7 @@ import {DialogService} from '../../../../../services/dialog.service';
 import {AppUnitPipe} from '../../../../../shared/formatters/app-unit.pipe'
 import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.component';
 import {SmartChargingUtils} from '../smart-charging-utils';
+import { SmartChargingLimitChartComponent } from './smart-charging-limit-chart.component';
 
 const MIN_POWER = 3000; // Minimum power in W under which we can't go
 const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing teh step of the slider
@@ -28,7 +29,7 @@ const DISPLAY_UNIT = 'kW';
   templateUrl: './smart-charging-limit-planning.html'
 })
 @Injectable()
-export class SmartChargingLimitPlanningComponent implements OnInit {
+export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewInit {
   @Input() charger: Charger;
   @Output() onLimitChange: EventEmitter<number> = new EventEmitter<number>();;
   private messages;
@@ -46,6 +47,8 @@ export class SmartChargingLimitPlanningComponent implements OnInit {
   public currentDisplayedLimit: number;
   public limitPlanning: ConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
+
+  @ViewChild('limitChart') limitChartPlanningComponnent: SmartChargingLimitChartComponent;
 
   private powerDigitPrecision = 2;
   private powerFloatingPrecision = 0;
@@ -89,6 +92,10 @@ export class SmartChargingLimitPlanningComponent implements OnInit {
     this.getCompositeSchedule();
   }
 
+  ngAfterViewInit(): void {
+    this.limitChartPlanningComponnent.refresh(this.limitPlanning);
+  }
+
   /**
    * refresh
    */
@@ -112,6 +119,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit {
       // Inform that new limit value was calculated 
       this.onLimitChange.emit(this.internalFormatCurrentLimit);
       this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter);
+      this.limitChartPlanningComponnent.refresh(this.limitPlanning);
       this.spinnerService.hide();
     }, (error) => {
         // Hide

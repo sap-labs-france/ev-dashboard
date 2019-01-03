@@ -660,6 +660,7 @@
     "cpo_party_id": "Party ID",
     "cpo_business_details": "Business Details",
     "cpo_logo": "Image",
+    "title": "OCPI",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -672,6 +673,14 @@
         "height": "Height of the full scale image"
       }
     }
+  },
+  "chargeathome": {
+    "title": "Charge@Home",
+    "description": "Charge At Home Interface"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "description": "Pricing Interface"
   },
   "transactions": {
     "date_from": "Date",

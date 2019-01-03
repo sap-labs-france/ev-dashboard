@@ -6,7 +6,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   <table><tr>
     <ng-container *ngFor="let connector of row.connectors">
     <td class="charger-connector">
-      <connector-id-cell [row]="connector"></connector-id-cell>
+      <app-connector-id-cell [row]="connector"></app-connector-id-cell>
     </td>
     </ng-container>
   </tr>

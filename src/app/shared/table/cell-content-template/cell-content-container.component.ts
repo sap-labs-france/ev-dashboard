@@ -10,6 +10,7 @@ import {TableColumnDef} from '../../../common.types';
         <ng-template appCellContentTemplate></ng-template>
     `
 })
+// tslint:disable-next-line:component-class-suffix
 export class CellContentComponentContainer implements OnInit, OnDestroy, OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
@@ -36,8 +37,8 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
+    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // Add '${implements OnChanges}' to the class.
     this.loadComponent();
 /*    if(<CellContentTemplateComponent>this.componentRef && <CellContentTemplateComponent>this.componentRef.instance){
       (<CellContentTemplateComponent>this.componentRef.instance).row = this.row;

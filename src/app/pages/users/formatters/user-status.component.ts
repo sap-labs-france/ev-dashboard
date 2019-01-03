@@ -15,14 +15,14 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
   @Input() row: User;
 
    ngOnInit(): void {
-     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-     //Add 'implements OnInit' to the class.
+     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+     // Add 'implements OnInit' to the class.
     for (const userStatus of userStatuses) {
       if (userStatus.key === this.row.status) {
         this.text = userStatus.value
       }
     }
-    this.type = "chip-width-5em ";
+    this.type = 'chip-width-5em ';
     switch (this.row.status) {
       case Constants.USER_STATUS_ACTIVE:
         this.type += TYPE_SUCCESS;
@@ -41,6 +41,6 @@ export class UserStatusComponent extends ChipComponent implements CellContentTem
 
       default:
         this.type += TYPE_DEFAULT;
-    } 
+    }
   }
 }

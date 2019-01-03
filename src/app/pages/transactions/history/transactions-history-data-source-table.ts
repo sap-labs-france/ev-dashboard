@@ -26,8 +26,7 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConnectorsDetailComponent} from '../../charging-stations/details-content-component/connectors-detail-component.component';
-import {ConsumptionChartComponent} from '../components/consumption-chart.component';
+import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -50,7 +49,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private  currencyPipe: CurrencyPipe) {
+    private currencyPipe: CurrencyPipe) {
     super()
   }
 
@@ -82,7 +81,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: ConsumptionChartComponent
+        detailComponentName: ConsumptionChartDetailComponent
       }
     };
   }
@@ -115,14 +114,14 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       },
 
       {
-        id: 'totalDurationSecs',
+        id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
       },
       {
-        id: 'totalInactivitySecs',
+        id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
@@ -142,7 +141,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         class: 'text-left col-10p',
       },
       {
-        id: 'totalConsumption',
+        id: 'stop.totalConsumption',
         name: 'transactions.total_consumption',
         headerClass: 'col-10p',
         class: 'col-10p',
@@ -151,18 +150,18 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     ];
     if (this.isAdmin) {
       columns.push({
-        id: 'price',
+        id: 'stop.price',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price, row) => this.formatPrice(price, row.priceUnit)
+        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       })
     }
     return columns as TableColumnDef[];
   }
 
   formatInactivity(totalInactivitySecs, row) {
-    const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+    const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
     }
@@ -220,6 +219,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
+        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {

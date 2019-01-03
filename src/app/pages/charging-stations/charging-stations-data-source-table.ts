@@ -19,9 +19,15 @@ import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.c
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
-import {TableMoreAction, ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_REBOOT, ACTION_SMART_CHARGING, ACTION_SOFT_RESET} from './other-actions-button/table-more-action';
+import {
+  TableMoreAction,
+  ACTION_CLEAR_CACHE,
+  ACTION_REBOOT,
+  ACTION_SMART_CHARGING,
+  ACTION_SOFT_RESET
+} from './other-actions-button/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
+import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
@@ -230,7 +236,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       case 'more':
         switch (dropdownItem.id) {
           case ACTION_REBOOT:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Hard"}),
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Hard'}),
               this.translateService.instant('chargers.reboot_title'),
               this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
               this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
@@ -238,7 +244,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
             );
             break;
           case ACTION_SOFT_RESET:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Soft"}),
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Soft'}),
                   this.translateService.instant('chargers.soft_reset_title'),
                   this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
                   this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
@@ -246,7 +252,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
                 );
             break;
           case ACTION_CLEAR_CACHE:
-            this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, "",
+            this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, '',
                   this.translateService.instant('chargers.clear_cache_title'),
                   this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
                   this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
@@ -266,11 +272,11 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-      
       action.dropdownItems.forEach(dropDownItem => {
         if (dropDownItem.id === ACTION_SMART_CHARGING) {
           // Check charging station version
-          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15);// || row.inactive);
+          // tslint:disable-next-line:max-line-length
+          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15);
         } else {
           // Check active status of CS
 //          dropDownItem.disabled = row.inactive;
@@ -286,17 +292,17 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   private _simpleActionChargingStation(action, id, args, title, message, success_message, error_message) {
-    //show yes/no dialog
+    // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       title,
       message
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        //call REST service
+        // Call REST service
         this.centralServerService.actionChargingStation(action, id, args).subscribe(response => {
           if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-            //success + reload
+            // Success + reload
             this.messageService.showSuccessMessage(success_message);
             this.loadData();
           } else {

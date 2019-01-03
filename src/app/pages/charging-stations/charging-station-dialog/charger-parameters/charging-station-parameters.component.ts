@@ -35,7 +35,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = CONNECTED_PHASE_MAP;
-  
+
   public formGroup: FormGroup;
   public chargingStationURL: AbstractControl;
   public numberOfConnectedPhase: AbstractControl;
@@ -45,7 +45,7 @@ export class ChargingStationParametersComponent implements OnInit {
   public siteAreaID: AbstractControl;
 
   constructor(
-    private authorizationService: AuthorizationService, 
+    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -72,7 +72,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
   ngOnInit(): void {
         // Init the form
-        this.formGroup = new FormGroup({ 
+        this.formGroup = new FormGroup({
           'chargingStationURL': new FormControl('',
             Validators.compose([
               Validators.required,
@@ -99,7 +99,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.maximumPower = this.formGroup.controls['maximumPower'];
         this.siteArea = this.formGroup.controls['siteArea'];
         this.siteAreaID = this.formGroup.controls['siteAreaID'];
-    
+
         if (!this.isAdmin) {
           this.cannotChargeInParallel.disable();
           this.cannotChargeInParallel.disable();
@@ -107,7 +107,7 @@ export class ChargingStationParametersComponent implements OnInit {
           this.numberOfConnectedPhase.disable();
           this.maximumPower.disable();
         }
-    
+
         // add connectors formcontrol
         for (const connector of this.charger.connectors) {
           const connectorTypeId = `connectorType${connector.connectorId}`;
@@ -161,12 +161,13 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls.maximumPower.setValue(this.charger.maximumPower);
       }
       if (this.charger.siteArea && this.charger.siteArea.name) {
+        // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       } else {
         this.formGroup.controls.siteAreaID.setValue(0);
         this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
       }
-      //update connectors formcontrol
+      // Update connectors formcontrol
       for (const connector of this.charger.connectors) {
         const connectorTypeId = `connectorType${connector.connectorId}`;
         const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
@@ -209,7 +210,7 @@ export class ChargingStationParametersComponent implements OnInit {
     }
   }
 
-  public assignSiteArea(){
+  public assignSiteArea() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     if (this.charger) {
@@ -219,6 +220,7 @@ export class ChargingStationParametersComponent implements OnInit {
     this.dialog.open(SiteAreaDialogComponent, dialogConfig)
             .afterClosed().subscribe((result) => {
       this.charger.siteArea = <SiteArea>result[0];
+      // tslint:disable-next-line:max-line-length
       this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       this.formGroup.controls.siteArea.markAsDirty();
     });
@@ -234,6 +236,7 @@ export class ChargingStationParametersComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
+        // tslint:disable-next-line:max-line-length
         this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
         this.refresh();
       } else {

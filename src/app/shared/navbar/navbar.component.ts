@@ -1,10 +1,9 @@
-
 import {filter} from 'rxjs/operators';
-import {Component, ElementRef, OnInit, Renderer, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CentralServerService} from '../../services/central-server.service';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {ActivatedRoute, NavigationEnd, Route, Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {RouteGuardService} from '../../services/route-guard.service';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -26,16 +25,16 @@ export class NavbarComponent implements OnInit {
   private nativeElement: Node;
   private toggleButton: any;
   private sidebarVisible: boolean;
-  private _router: Subscription;
 
   @ViewChild('app-navbar-cmp') button: any;
 
   constructor(
     location: Location,
     private centralServerService: CentralServerService,
-    private renderer: Renderer,
     private element: ElementRef,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private guard: RouteGuardService) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -101,23 +100,23 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.centralServerService.getRoutes().subscribe((routes) => {
-      this.listTitles = routes.filter(listTitle => listTitle);
-      const navbar: HTMLElement = this.element.nativeElement;
-      const body = document.getElementsByTagName('body')[0];
-      this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-      if (body.classList.contains('sidebar-mini')) {
-        misc.sidebar_mini_active = true;
+    this.listTitles = this.activatedRoute.routeConfig.children.filter(route => {
+      return route.data && route.data.menu && this.guard.isRouteAllowed(route);
+    }).map(route => route.data.menu);
+    const navbar: HTMLElement = this.element.nativeElement;
+    const body = document.getElementsByTagName('body')[0];
+    this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+    if (body.classList.contains('sidebar-mini')) {
+      misc.sidebar_mini_active = true;
+    }
+    if (body.classList.contains('hide-sidebar')) {
+      misc.hide_sidebar_active = true;
+    }
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+      const $layer = document.getElementsByClassName('close-layer')[0];
+      if ($layer) {
+        $layer.remove();
       }
-      if (body.classList.contains('hide-sidebar')) {
-        misc.hide_sidebar_active = true;
-      }
-      this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-        const $layer = document.getElementsByClassName('close-layer')[0];
-        if ($layer) {
-          $layer.remove();
-        }
-      });
     });
   }
 

@@ -1,12 +1,12 @@
-
 import {debounceTime} from 'rxjs/operators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CentralServerService} from '../services/central-server.service';
 import {CentralServerNotificationService} from '../services/central-server-notification.service';
 import {AuthorizationService} from '../services/authorization-service';
 import {ConfigService} from '../services/config.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Constants} from '../utils/Constants';
+import {RouteGuardService} from '../services/route-guard.service';
 
 
 declare const $: any;
@@ -25,14 +25,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private configService: ConfigService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private guard: RouteGuardService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
     // Get the routes
-    this.centralServerService.getRoutes().subscribe((routes) => {
-      // Set
-      this.menuItems = routes.filter(menuItem => menuItem);
-    });
+    this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
+      return route.data && route.data.menu && this.guard.isRouteAllowed(route);
+    }).map(route => route.data.menu);
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user

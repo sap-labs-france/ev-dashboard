@@ -18,6 +18,8 @@ export class Constants {
   public static ENTITY_TENANTS = 'Tenants';
   public static ENTITY_COMPANY = 'Company';
   public static ENTITY_COMPANIES = 'Companies';
+  public static ENTITY_SETTING = 'Setting';
+  public static ENTITY_SETTINGS = 'Settings';
   public static ENTITY_SITE = 'Site';
   public static ENTITY_SITES = 'Sites';
   public static ENTITY_SITE_AREA = 'SiteArea';

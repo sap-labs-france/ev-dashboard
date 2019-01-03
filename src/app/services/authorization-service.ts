@@ -437,6 +437,13 @@ export class AuthorizationService {
       });
   }
 
+  public canAccess(entity: String, action: String): boolean {
+    return this._canPerformAction(entity,
+      {
+        'Action': action
+      });
+  }
+
   public isAdmin(): boolean {
     return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
   }

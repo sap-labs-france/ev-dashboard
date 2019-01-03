@@ -56,7 +56,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
     this.isSaveButtonHidden = !this.isAdmin;
   }
 

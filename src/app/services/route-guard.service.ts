@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Route, Router, RouterStateSnapshot} from '@angular/router';
 import {CentralServerService} from './central-server.service';
 import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
@@ -15,35 +15,20 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     private centralServerService: CentralServerService) {
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : boolean {
+  public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const queryParams = {};
-    const forAdminOnly = route.data['forAdminOnly'];
-    const forSuperAdminOnly = route.data['forSuperAdminOnly'];
 
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
-      let isAuthorized = false;
-
-      if (this.authorizationService.isSuperAdmin()) {
-        if (forSuperAdminOnly || !forAdminOnly) {
-          isAuthorized = true;
-        }
-      } else if (this.authorizationService.isAdmin()) {
-        if (forAdminOnly || !forSuperAdminOnly) {
-          isAuthorized = true;
-        }
-      } else if (!forSuperAdminOnly && !forAdminOnly) {
-        isAuthorized = true;
-      }
-      return isAuthorized;
+      return this.isRouteAllowed(activatedRoute.routeConfig);
     }
 
     // Add URL origin
-    queryParams['returnUrl'] = state.url;
+    queryParams['returnUrl'] = routerState.url;
 
     // Check user/pass in URL
-    const email = route.queryParams['email'];
-    const password = route.queryParams['password'];
+    const email = activatedRoute.queryParams['email'];
+    const password = activatedRoute.queryParams['password'];
     if (email && password) {
       // Login
       this.centralServerService.login({
@@ -69,7 +54,32 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     return false;
   }
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  public canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     return this.canActivate(childRoute, state);
+  }
+
+  public isRouteAllowed(route: Route): boolean {
+    const auth = route.data ? route.data['auth'] : undefined;
+    if (auth) {
+      return this.authorizationService.canAccess(auth.entity, auth.action);
+    }
+
+    let isAuthorized = false;
+    const forAdminOnly = route.data ? route.data['forAdminOnly'] : false;
+    const forSuperAdminOnly = route.data ? route.data['forSuperAdminOnly'] : false;
+
+    if (this.authorizationService.isSuperAdmin()) {
+      if (forSuperAdminOnly || !forAdminOnly) {
+        isAuthorized = true;
+      }
+    } else if (this.authorizationService.isAdmin()) {
+      if (forAdminOnly || !forSuperAdminOnly) {
+        isAuthorized = true;
+      }
+    } else if (!forSuperAdminOnly && !forAdminOnly) {
+      isAuthorized = true;
+    }
+
+    return isAuthorized;
   }
 }

@@ -1,13 +1,13 @@
 import {DateTableFilter} from '../../../shared/table/filters/date-filter';
 
 export class TransactionsDateUntilFilter extends DateTableFilter {
-  constructor() {
+  constructor(currentValue = null) {
     super();
     const filter = this.getFilterDef();
     filter.id = 'dateUntil';
     filter.httpId = 'EndDateTime';
     filter.name = 'general.search_date_until';
-    filter.currentValue = null;
+    filter.currentValue = currentValue;
     filter.reset = () => null;
   }
 }

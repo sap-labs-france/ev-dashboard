@@ -45,10 +45,10 @@
                                         <mat-dialog-content>
                                         <div *ngIf="charger.maximumPower" class="row">
                                             <div class="col-md-6">
-                                                <app-smart-charging-simple-limit #simpleLimit [charger]="charger" (onApplyPlanning)="planningChanged($event)"></app-smart-charging-simple-limit>
+                                                <app-smart-charging-limit-planning #limitPlanning [charger]="charger" (onLimitChange)="limitChange($event)"></app-smart-charging-limit-planning>
                                             </div>
                                             <div class="col-md-6">
-                                                <app-smart-charging-limit-planning #limitPlanning [charger]="charger" (onLimitChange)="limitChange($event)"></app-smart-charging-limit-planning>
+                                                <app-smart-charging-simple-limit #simpleLimit [charger]="charger" (onApplyPlanning)="planningChanged($event)"></app-smart-charging-simple-limit>
                                             </div>
                                             <div class="col-md-12">
                                                 <app-smart-charging-limit-planner #limitPlanner [charger]="charger" (onApplyPlanning)="planningChanged($event)"></app-smart-charging-limit-planner>

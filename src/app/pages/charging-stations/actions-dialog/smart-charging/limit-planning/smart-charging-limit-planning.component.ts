@@ -24,6 +24,10 @@ const SMALL_SLIDER_STEP = 500;
 const LARGE_SLIDER_STEP = 1000;
 const DISPLAY_UNIT = 'kW';
 
+interface LocalConnectorSchedule extends ConnectorSchedule{
+  isExpanded: boolean;
+}
+
 @Component({
   selector: 'app-smart-charging-limit-planning',
   templateUrl: './smart-charging-limit-planning.html'
@@ -45,7 +49,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
   public minChargingRate: number;
   public internalFormatCurrentLimit: number;
   public currentDisplayedLimit: number;
-  public limitPlanning: ConnectorSchedule[] = [];
+  public limitPlanning: LocalConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
   @ViewChild('limitChart') limitChartPlanningComponnent: SmartChargingLimitChartComponent;
@@ -82,7 +86,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_WATT)
     // For small charger increase display precision
     if (this.charger.maximumPower < 10000) {
       this.powerDigitPrecision = 1;
@@ -93,7 +97,6 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
   }
 
   ngAfterViewInit(): void {
-    this.limitChartPlanningComponnent.refresh(this.limitPlanning);
   }
 
   /**
@@ -119,7 +122,6 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
       // Inform that new limit value was calculated 
       this.onLimitChange.emit(this.internalFormatCurrentLimit);
       this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter);
-      this.limitChartPlanningComponnent.refresh(this.limitPlanning);
       this.spinnerService.hide();
     }, (error) => {
         // Hide
@@ -128,12 +130,12 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
         switch (error.status) {
           // Not found
           case 550:
-            // Transaction not found`
+            // not found
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               this.messages['charger_not_found']);
             break;
           default:
-            // Unexpected error`
+            // Unexpected error
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('general.unexpected_error_backend'));
         }
@@ -155,7 +157,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
       this.internalFormatCurrentLimit = 0;
       this.limitPlanning = [];
       for (const compositeSchedule of compositeScheduleAccepted) {
-        let connectorSchedule: ConnectorSchedule = {connectorId:0, slots:[]};
+        let connectorSchedule: LocalConnectorSchedule = {connectorId:0, slots:[], isExpanded:false};
         let notValidForCurrentLimit = false;
         connectorSchedule.connectorId = compositeSchedule.connectorId;
         const currentDate = new Date(compositeSchedule.centralSystemTime);
@@ -210,11 +212,27 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
               }
             }
           }
-          this.limitPlanning.push(connectorSchedule);
+          // Check if we have at least one slot
+          if (!connectorSchedule.slots || connectorSchedule.slots.length === 0) {
+            this.hasNoActivePlanning = true;
+            this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
+            this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower, 'W', this.charger.numberOfConnectedPhase);
+            this.limitPlanning = undefined;
+          } else {
+            this.limitPlanning.push(connectorSchedule);
+          }
         } else {
-          // Empty schedule what does it means => no planning
+          // Empty schedule => no planning
           this.hasNoActivePlanning = true;
+          this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
+          this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower, 'W', this.charger.numberOfConnectedPhase);
+          this.limitPlanning = undefined;
         }
       }
     }  
+
+    public showHideConnectorPlanning(connectorPlanning: ConnectorSchedule) {
+      const connectorPlanningDisplay = this.limitPlanning.find((value) => { return value.connectorId === connectorPlanning.connectorId});
+      connectorPlanningDisplay.isExpanded = !connectorPlanningDisplay.isExpanded;
+    }
 }

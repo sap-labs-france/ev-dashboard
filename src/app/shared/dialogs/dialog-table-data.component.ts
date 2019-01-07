@@ -6,10 +6,12 @@ import {KeyValue} from '../../common.types';
 export abstract class DialogTableDataComponent<T> {
   public dialogDataSource: DialogTableDataSource<T>;
   public title: string;
+  public buttonTitle: string;
   protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>
 
-  constructor(@Inject(MAT_DIALOG_DATA) data, title) {
-    this.title = title;
+  constructor(@Inject(MAT_DIALOG_DATA) data) {
+    this.title = (data.title ? data.title : '');
+    this.buttonTitle = (data.validateButtonTitle ? data.validateButtonTitle : "general.add");
   }
 
   validate() {

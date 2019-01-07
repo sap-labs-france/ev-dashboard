@@ -1,3 +1,4 @@
+// tslint:disable-next-line:max-line-length
 import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Charger, ConnectorSchedule, ScheduleSlot} from '../../../../../common.types';
 import {LocaleService} from '../../../../../services/locale.service';
@@ -18,7 +19,7 @@ import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.
 import {SmartChargingUtils} from '../smart-charging-utils';
 
 const MIN_POWER = 3000; // Minimum power in W under which we can't go
-const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing teh step of the slider
+const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing the step of the slider
 const SMALL_SLIDER_STEP = 500;
 const LARGE_SLIDER_STEP = 1000;
 const DISPLAY_UNIT = 'kW';
@@ -37,8 +38,8 @@ export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit 
 
   public powerUnit;
   public compositeSchedule;
-  public hasNoActivePlanning: boolean = true;
-  public hasNoCompositeResultAccepted: boolean = true;
+  public hasNoActivePlanning = true;
+  public hasNoCompositeResultAccepted = true;
   public startScheduleDate: Date;
   public endScheduleDate: Date;
   public minChargingRate: number;
@@ -50,10 +51,10 @@ export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit 
   private powerDigitPrecision = 2;
   private powerFloatingPrecision = 0;
 
-  @ViewChild('powerSlider') powerSliderComponent: SmartChargingPowerSliderComponent; //MatSlider;
+  @ViewChild('powerSlider') powerSliderComponent: SmartChargingPowerSliderComponent;
 
   constructor(
-    private authorizationService: AuthorizationService, 
+    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -81,7 +82,7 @@ export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit 
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_WATT)
     // For small charger increase display precision
     if (this.charger.maximumPower < 10000) {
       this.powerDigitPrecision = 1;
@@ -91,22 +92,26 @@ export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit 
 
   ngAfterViewInit(): void {
     // Initialize slider
-    this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
+//    this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
   }
 
   public applyPowerLimit() {
-    //show yes/no dialog
+    // show yes/no dialog
+    const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_confirm', {'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue()})//Math.round(this.powerSliderValue/1000)})
+      this.translateService.instant('chargers.smart_charging.power_limit_confirm',
+                                    {'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW')})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        //call REST service
-        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, this.powerSliderComponent.powerSliderComponent.value, 0).subscribe(response => {
+        // call REST service
+        // tslint:disable-next-line:max-line-length
+        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, this.powerSliderComponent.powerSliderValue, 0).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-              //success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_success'), {'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue()});
+              // success + reload
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_success'),
+                                          {'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW')});
               this.onApplyPlanning.emit();
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -124,6 +129,7 @@ export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit 
 
   public limitChanged(newValue) {
     this.internalFormatCurrentLimit = newValue;
+//    this.powerSliderComponent.powerSliderValue = newValue;
     this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
   }
 

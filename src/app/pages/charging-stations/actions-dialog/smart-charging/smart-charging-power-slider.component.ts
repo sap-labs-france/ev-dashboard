@@ -17,18 +17,28 @@ const LARGE_SLIDER_STEP = 1000;
   selector: 'app-smart-charging-power-slider',
   template: `
               <div *ngIf="(textPosition==='top')" class="row col-md-12 text-center">
-                <div [class]="(textClass ? textClass : '')">{{powerSliderValue}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}</div>
+                <div [class]="(textClass ? textClass : '')">
+                  {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
+                </div>
               </div>
             <div class="row col-md-12">
-              <div *ngIf="(textPosition==='left')" [class]="'col-md-4 ' + (textClass ? textClass : '')">{{powerSliderValue}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}</div>
-              <mat-slider #powerSlider thumbLabel [displayWith]="formatPowerPercent" [ngClass]="((textPosition==='left' || textPosition==='right') ? 'col-md-8' : 'col-md-12')"  
-                    (input)="sliderInput()" (change)="sliderChanged()" 
-                    [min]="minPowerSlider" [max]="maxPowerSlider" [step]="stepPowerSlider">
+              <div *ngIf="(textPosition==='left')" [class]="'col-md-4 ' + (textClass ? textClass : '')">
+                {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
+              </div>
+              <mat-slider #powerSlider thumbLabel
+                    [displayWith]="formatPowerPercent"
+                    [ngClass]="((textPosition==='left' || textPosition==='right') ? 'col-md-8' : 'col-md-12')"
+                    (input)="sliderInput()" (change)="sliderChanged()"
+                    [min]="minPowerSlider" [max]="maxPowerSlider" [step]="stepPowerSlider" [value]="powerSliderValue">
               </mat-slider>
-              <div *ngIf="(textPosition==='right')" [class]="'col-md-4 ' + (textClass ? textClass : '')">{{powerSliderValue}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}</div>
+              <div *ngIf="(textPosition==='right')" [class]="'col-md-4 ' + (textClass ? textClass : '')">
+                {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
+              </div>
               </div>
               <div *ngIf="(!textPosition || textPosition==='bottom')" class="row ">
-                <div [class]="(textClass ? textClass : '') +  ' col-md-12 text-center'">{{powerSliderValue}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}</div>
+                <div [class]="(textClass ? textClass : '') +  ' col-md-12 text-center'">
+                  {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
+                </div>
               </div>
             `
 })
@@ -45,10 +55,11 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   public maxPowerSlider: number;
   public minPowerSlider: number;
   public stepPowerSlider: number;
-  public powerSliderValue: number = 0;
-  public powerSliderPercent: number = 0;
+  public powerSliderValue = 0;
+  public powerSliderDisplayedValueInkW = 0;
+  public powerSliderPercent = 0;
   public currentDisplayedLimit: number;
-  public isNotValid: boolean = true;
+  public isNotValid = true;
 
   private powerDigitPrecision = 2;
   private powerFloatingPrecision = 0;
@@ -65,14 +76,14 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
     // Initialize slider values
     if (this.powerUnit === Constants.OCPP_UNIT_WATT) {
       // Value of slider will be expressed in WATT
-      this.minPowerSlider = MIN_POWER; 
+      this.minPowerSlider = MIN_POWER;
       this.maxPowerSlider = this.maximumPower;
       this.stepPowerSlider = (this.maxPowerSlider > LIMIT_FOR_STEP_CHANGE ? LARGE_SLIDER_STEP : SMALL_SLIDER_STEP);
-    } else if (this.powerUnit === Constants.OCPP_UNIT_AMPER){
+    } else if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
       // Value of slider will be expressed in Amper
       this.maxPowerSlider = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, this.maximumPower);
       this.minPowerSlider = 1;
-      // Search minimum amper value to be just above MIN_POWER 
+      // Search minimum amper value to be just above MIN_POWER
       for (let index = 1; index < this.maxPowerSlider; index++) {
         if (Math.round(ChargingStations.convertAmpToW(this.numberOfConnectedPhase, index)) >= MIN_POWER) {
           this.minPowerSlider = index;
@@ -85,66 +96,115 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
       this.powerDigitPrecision = 1;
       this.powerFloatingPrecision = 2;
     }
+    if (this.startValue) {
+      if (this.startValue.unit === this.powerUnit) {
+        this.powerSliderValue = this.startValue.value;
+      } else {
+        if (this.powerUnit === Constants.OCPP_UNIT_AMPER && this.startValue.unit === Constants.OCPP_UNIT_WATT) {
+          this.powerSliderValue = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, this.startValue.value);
+        }
+        if (this.powerUnit === Constants.OCPP_UNIT_WATT && this.startValue.unit === Constants.OCPP_UNIT_AMPER) {
+          this.powerSliderValue = ChargingStations.convertAmpToW(this.numberOfConnectedPhase, this.startValue.value);
+        }
+      }
+      this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderValue, this.powerUnit,
+                                                                                      'kW',
+                                                                                      this.powerDigitPrecision,
+                                                                                      this.powerFloatingPrecision,
+                                                                                      this.numberOfConnectedPhase,
+                                                                                      this.appUnitFormatter);
+    }
   }
 
   ngAfterViewInit(): void {
-    if (this.startValue) {
+/*    if (this.startValue) {
       this.setSliderValue(this.startValue.value, this.startValue.unit);
-    }    
+    }    */
   }
 
   public formatPowerPercent(value: number | null) {
     const self = <MatSlider><unknown>this; // To check why we have issue between compile and runtime. At runtime this is a MatSlider
     if (!value) {
-      return "0";
+      return '0';
     }
-    return `${Math.round(value/self.max*100)}`;
+    return `${Math.round(value / self.max * 100)}`;
   }
 
   public sliderChanged() {
-    this.powerSliderValue = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value, this.powerUnit, 'kW', this.powerDigitPrecision, this.powerFloatingPrecision, this.numberOfConnectedPhase, this.appUnitFormatter);
-    this.isNotValid = this.powerSliderValue < 3;
-    this.onSliderChange.emit(this.powerSliderComponent.value);
+    this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
+                                                                                    this.powerUnit,
+                                                                                    'kW',
+                                                                                    this.powerDigitPrecision,
+                                                                                    this.powerFloatingPrecision,
+                                                                                    this.numberOfConnectedPhase,
+                                                                                    this.appUnitFormatter);
+    this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
+    this.powerSliderValue = this.powerSliderComponent.value;
+    this.onSliderChange.emit(this.powerSliderValue);
   }
 
   public sliderInput() {
-    this.powerSliderValue = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value, this.powerUnit, 'kW', this.powerDigitPrecision, this.powerFloatingPrecision, this.numberOfConnectedPhase, this.appUnitFormatter);
-    this.isNotValid = this.powerSliderValue < 3;
-    this.onSliderChange.emit(this.powerSliderComponent.value);
+    this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
+                                                                                    this.powerUnit,
+                                                                                    'kW',
+                                                                                    this.powerDigitPrecision,
+                                                                                    this.powerFloatingPrecision,
+                                                                                    this.numberOfConnectedPhase,
+                                                                                    this.appUnitFormatter);
+    this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
+//    this.onSliderChange.emit(this.powerSliderValue);
   }
 
   public setSliderValue(value, valueUnit) {
     switch (valueUnit) {
       case 'W':
-        if (this.powerUnit === Constants.OCPP_UNIT_AMPER){
-          this.powerSliderComponent.value = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, value);
+        if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
+          this.powerSliderValue = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, value);
         } else {
-          this.powerSliderComponent.value = value;
+          this.powerSliderValue = value;
         }
-        this.powerSliderValue = SmartChargingUtils.getDisplayedFormatValue(value, 'W', 'kW', this.powerDigitPrecision, this.powerFloatingPrecision, this.numberOfConnectedPhase, this.appUnitFormatter);
+        this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(value,
+                                                                                        'W',
+                                                                                        'kW',
+                                                                                        this.powerDigitPrecision,
+                                                                                        this.powerFloatingPrecision,
+                                                                                        this.numberOfConnectedPhase,
+                                                                                        this.appUnitFormatter);
         break;
       case 'kW':
-        if (this.powerUnit === Constants.OCPP_UNIT_AMPER){
-          this.powerSliderComponent.value = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, value * 1000);
+        if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
+          this.powerSliderValue = ChargingStations.convertWToAmp(this.numberOfConnectedPhase, value * 1000);
         } else {
-          this.powerSliderComponent.value = value * 1000;
+          this.powerSliderValue = value * 1000;
         }
-        this.powerSliderValue = value;
+        this.powerSliderDisplayedValueInkW = value;
         break;
       case 'A':
-        if (this.powerUnit === Constants.OCPP_UNIT_AMPER){
-          this.powerSliderComponent.value = value;
+        if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
+          this.powerSliderValue = value;
         } else {
-          this.powerSliderComponent.value = ChargingStations.convertAmpToW(this.numberOfConnectedPhase, value);
+          this.powerSliderValue = ChargingStations.convertAmpToW(this.numberOfConnectedPhase, value);
         }
-        this.powerSliderValue = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value, 'A', 'kW', this.powerDigitPrecision, this.powerFloatingPrecision, this.numberOfConnectedPhase, this.appUnitFormatter);
+        this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
+                                                                                        'A',
+                                                                                        'kW',
+                                                                                        this.powerDigitPrecision,
+                                                                                        this.powerFloatingPrecision,
+                                                                                        this.numberOfConnectedPhase,
+                                                                                        this.appUnitFormatter);
         break;
       default:
         break;
     }
   }
 
-  public getDisplayedValue() {
-    return this.powerSliderValue;
-  }  
+  public getDisplayedValue(unit) {
+    if (unit === 'W') {
+      return this.powerSliderValue;
+    }
+    if (unit === 'kW') {
+      return this.powerSliderDisplayedValueInkW;
+    }
+
+  }
 }

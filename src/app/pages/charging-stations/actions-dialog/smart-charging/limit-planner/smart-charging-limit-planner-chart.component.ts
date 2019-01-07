@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ConsumptionValue, ConnectorSchedule} from '../../../../../common.types';
+import {ConsumptionValue} from '../../../../../common.types';
 import {CentralServerService} from '../../../../../services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../../../services/locale.service';
@@ -8,10 +8,11 @@ import {AppDatePipe} from '../../../../../shared/formatters/app-date.pipe';
 import {AppConnectorIdPipe} from '../../../../../shared/formatters/app-connector-id.pipe';
 import * as moment from 'moment';
 import {ChartComponent} from 'angular2-chartjs';
+import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
 
 @Component({
-  selector: 'app-limit-planning-chart',
-  styleUrls: ['smart-charging-limit-chart.component.scss'],
+  selector: 'app-limit-planner-chart',
+  styleUrls: ['smart-charging-limit-planner-chart.component.scss'],
   template: `
     <div class="chart-container">
       <div class="chart">
@@ -20,7 +21,7 @@ import {ChartComponent} from 'angular2-chartjs';
                [data]="data"
                [options]="options"></chart>
       </div>
-      <div *ngIf="limitPlanning && limitPlanning.length > 0" class="icon-left">
+      <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
         <a
           [class]="'btn btn-link btn-just-icon'"
           (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
@@ -29,16 +30,16 @@ import {ChartComponent} from 'angular2-chartjs';
   `
 })
 
-export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
-  @Input() limitPlanning: ConnectorSchedule[];
+export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterViewInit {
+  @Input() scheduleSlots: DisplayedScheduleSlot[];
 
   @Input() ratio: number;
   data: any;
   options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
   private colors = [
-    [255, 99, 132], 
-    [54, 162, 235], 
+    [255, 99, 132],
+    [54, 162, 235],
     [255, 206, 86]
   ];
 
@@ -55,65 +56,73 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    if (this.limitPlanning && this.limitPlanning.length > 0) {
-      this.createGraphData(this.limitPlanning);
+    if (this.scheduleSlots && this.scheduleSlots.length > 0) {
+      this.createGraphData(this.scheduleSlots);
+    }
+  }
+
+  setLimitPlannerData(scheduleSlots: DisplayedScheduleSlot[]) {
+    if (scheduleSlots && scheduleSlots.length > 0) {
+      this.scheduleSlots = scheduleSlots;
+      this.createGraphData(this.scheduleSlots);
     }
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    let test = true;
+    this.chartComponent.clickDataset.next((value) => {
+      console.log('ClickDataSet' + JSON.stringify(value));
+    });
+    this.chartComponent.clickElement.next((value) => {
+      console.log('ClickElement' + JSON.stringify(value));
+    });
+
   }
 
-  createGraphData(limitPlanning: ConnectorSchedule[]) {
-    this.options = this.createOptions(limitPlanning);
-    let distanceBetween2points = 1;
+  createGraphData(scheduleSlots: DisplayedScheduleSlot[]) {
+    this.options = this.createOptions(scheduleSlots);
     this.data = {
       labels: [],
       datasets: []
     }
-    //build for each connectors
-    for (let index = 0; index < limitPlanning.length; index++) {
-      const connectorPlanning = limitPlanning[index];
-      // calculate distance
-/*      let tempDistance = Math.floor(connectorPlanning.slots.length / 200);
-      if (tempDistance > distanceBetween2points) {
-        distanceBetween2points = tempDistance;
-      }*/
-      distanceBetween2points = 1;
-      // Build single connector data set
+    // Build single connector data set
       // Line label
-      const connectorLabel = (connectorPlanning.connectorId === 0 ?  this.translateService.instant('chargers.connector0') : this.translateService.instant('chargers.connector') + ' ' + this.connectorIdPipe.transform(connectorPlanning.connectorId)); 
-      const axisId = "power";
+      const connectorLabel = this.translateService.instant('chargers.connector0');
+      const axisId = 'power';
       const limitPowerDataSet = {
         data: [],
         yAxisID: axisId,
-        ...this.formatLineColor(this.colors[index]),
+        ...this.formatLineColor(this.colors[0]),
         label: connectorLabel
       };
-      // Add each slots
-      for (let i = 0; i < connectorPlanning.slots.length; i++) {
-        const limit = connectorPlanning.slots[i];
-        this.data.labels.push(limit.start.getTime());
-        limitPowerDataSet.data.push(limit.limit);
-        if (i ===  connectorPlanning.slots.length - 1) {
-          // Add last limit
-          if (limit.end) {
-            this.data.labels.push(limit.end.getTime());
-            limitPowerDataSet.data.push(limit.limit);
-          } else {
-            this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
-            limitPowerDataSet.data.push(limit.limit);
-          } 
-        }
-      }
       // Push in the graph
       this.data.datasets.push(limitPowerDataSet);
+    // build for each connectors
+    for (let index = 0; index < scheduleSlots.length; index++) {
+      const connectorPlanning = scheduleSlots[index];
+      // Add slot
+      const limit = connectorPlanning.slot;
+      this.data.labels.push(limit.start.getTime());
+      limitPowerDataSet.data.push({x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
+        this.chartEvent(element, null);
+      }});
+      if (index ===  scheduleSlots.length - 1) {
+        // Add last limit
+        if (limit.end && limit.end.getTime() !== limit.start.getTime()) {
+          this.data.labels.push(limit.end.getTime());
+          limitPowerDataSet.data.push({x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
+            this.chartEvent(element, null);
+          }});
+        } else {
+          this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
+          limitPowerDataSet.data.push({x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
+            this.chartEvent(element, null);
+          }});
+        }
+      }
     }
   }
 
-  createOptions(limitPlanning: ConnectorSchedule[]) {
+  createOptions(scheduleSlots: DisplayedScheduleSlot[]) {
     const options: any = {
       legend: {position: 'bottom'},
       responsive: true,
@@ -132,7 +141,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             }
           },
           label: (tooltipItem, values) => {
-            const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y;
             return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
           },
           title: (tooltipItems, data) => {
@@ -155,6 +164,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             distribution: 'linear',
             time: {
               tooltipFormat: 'h:mm',
+              unit: 'minute'
             }
           }
         ],
@@ -163,6 +173,8 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             id: 'power',
             type: 'linear',
             position: 'left',
+            min: 0,
+            stepSize: 1000,
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value)
             },
@@ -173,10 +185,10 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
         enabled: true,
         mode: 'x',
 /*        rangeMin: {
-          x: limitPlanning.length > 0 ? limitPlanning[0].slots[0].start.getTime() : 0,
+          x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
         },
         rangeMax: {
-          x: limitPlanning.length > 0 ? limitPlanning[0].slots[limitPlanning[0].slots.length - 1].start.getTime() : 0
+          x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0
         },*/
       },
       zoom: {
@@ -189,6 +201,9 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
         line: {
           stepped: true
         }
+      },
+      onClick: (event, array) => {
+        this.chartEvent(array, event);
       }
     };
     if (this.localeService.language === 'fr') {
@@ -219,5 +234,8 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 
-
+  chartEvent(element, event) {
+    console.log('Chart element ' + JSON.stringify(this.scheduleSlots[element[0]._index]));
+    console.log('Chart event ' + JSON.stringify(event));
+  }
 }

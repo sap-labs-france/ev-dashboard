@@ -39,7 +39,7 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
   }
 
   ngAfterViewInit(): void {
-    this.simpleLimitComponent.limitChanged(this.limitPlanning.internalFormatCurrentLimit);
+//    this.simpleLimitComponent.limitChanged(this.limitPlanning.internalFormatCurrentLimit);
   }
 
   limitChange(newValue) {

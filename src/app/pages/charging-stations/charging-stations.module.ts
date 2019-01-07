@@ -37,6 +37,7 @@ import {SmartChargingLimitPlannerComponent} from './actions-dialog/smart-chargin
 import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialog-component';
 import {SmartChargingLimitChartComponent} from './actions-dialog/smart-charging/limit-planning/smart-charging-limit-chart.component';
 import {ChartModule} from 'angular2-chartjs';
+import {SmartChargingLimitPlannerChartComponent} from './actions-dialog/smart-charging/limit-planner/smart-charging-limit-planner-chart.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -73,7 +74,8 @@ import {ChartModule} from 'angular2-chartjs';
     SmartChargingLimitPlanningComponent,
     SmartChargingLimitPlannerComponent,
     SessionDialogComponent,
-    SmartChargingLimitChartComponent
+    SmartChargingLimitChartComponent,
+    SmartChargingLimitPlannerChartComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -94,7 +96,8 @@ import {ChartModule} from 'angular2-chartjs';
     SmartChargingPowerSliderComponent,
     SmartChargingLimitPlanningComponent,
     SmartChargingLimitPlannerComponent,
-    SmartChargingLimitChartComponent
+    SmartChargingLimitChartComponent,
+    SmartChargingLimitPlannerChartComponent
   ],
   exports: [
     ChargingStationDialogComponent,

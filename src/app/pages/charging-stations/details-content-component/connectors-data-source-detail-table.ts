@@ -256,7 +256,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.start_transaction_title'),
-      this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id})
+      this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id, 'userName': user.name})
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
@@ -294,7 +294,11 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
           break;
         case BUTTON_SELECT_USER:
           // Show select user dialog
-          const dialogRef2 = this.dialog.open(UsersDialogComponent);
+          dialogConfig.data = {
+            title: 'chargers.start_transaction_user_select_title',
+            validateButtonTitle: 'chargers.start_transaction_user_select_button'
+          }
+          const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);
           // Add sites
           dialogRef2.afterClosed().subscribe(data => {
             if (data && data.length > 0) {

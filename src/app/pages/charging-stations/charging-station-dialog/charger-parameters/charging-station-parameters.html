@@ -49,7 +49,17 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-6 text-left"> 
+                <div class="col-md-3"> 
+                    <mat-form-field>
+                        <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}"
+                                    [formControl]="powerLimitUnit" required>
+                            <mat-option *ngFor="let powerUnit of powerUnitMap" [value]="powerUnit.key">
+                                {{powerUnit.description | translate}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 text-left"> 
                     <div class="form-group">
                         <mat-checkbox [formControl]="cannotChargeInParallel">
                             {{'chargers.cant_charge_in_parallel' | translate}} 

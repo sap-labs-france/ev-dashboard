@@ -137,7 +137,7 @@
         <th mat-header-cell class="col-3em details-column-header" *matHeaderCellDef><i
           class="material-icons">keyboard_arrow_right</i>
         </th>
-        <td mat-cell [class]="'' + 'col-3em details-column-row'" *matCellDef="let row">
+        <td mat-cell [class]="'col-3em details-column-row'" *matCellDef="let row">
           <i *ngIf="dataSource.hasRowDetailsHideShowField() ? row['data'][tableDef.rowDetails.hideShowField] : true"
              class="material-icons"
              (click)="showHideDetailsClicked(row['data'])">{{row['data'].isExpanded ? 'keyboard_arrow_down' :
@@ -167,7 +167,7 @@
         <th mat-header-cell class="table-header text-center col-5em"
             *matHeaderCellDef>{{'general.actions' | translate}}
         </th>
-        <td mat-cell *matCellDef="let actionCell" [class]="'' + 'action-cell text-center'">
+        <td mat-cell *matCellDef="let actionCell" [class]="'action-cell text-center'">
           <ng-container *ngFor="let rowAction of dataSource.rowActionsDef">
             <ng-container *ngIf="rowAction.isDropdownMenu">
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">

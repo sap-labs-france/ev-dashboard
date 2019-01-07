@@ -360,6 +360,7 @@
     "unassigned_chargers": "Bornes",
     "maximum_energy": "Energie Maximum",
     "connector": "Connector",
+    "connector0": "Borne",
     "connector_type": "Type",
     "charger_url": "URL",
     "title": "Borne",
@@ -406,12 +407,33 @@
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
       "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
+      "power_limit_plan_title": "Limite de puissance",
+      "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
+      "power_limit_plan_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
+      "power_limit_plan_error": "Erreur pendant la limitation de la puissance de la borne",
+      "clear_profile_title": "Effacer les profiles de charge",
+      "clear_profile_confirm": "Voulez-vous vraiment effacer tous les profiles de charges de la borne '{{chargeBoxID}}'?",
+      "clear_profile_success": "Les profiles de charge de la borne '{{chargeBoxID}}' ont été effacés correctement",
+      "clear_profile_error": "une erreur est sruvenue pendant l'effacement des profiles de charge",
+      "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
       "limit_title": "Limite",
       "no_current_limit": "Aucun planning de charge trouvé",
       "from_date": "De",
-      "to_date": "à"
+      "to_date": "à",
+      "profile_type": "type de profile",
+      "stack_level": "Niveau",
+      "profile_id": "Identifiant",
+      "duration": "Durée (secondes)",
+      "start_date": "Début",
+      "end_date": "Fin",
+      "profile_types": {
+        "relative": "Relatif",
+        "absolute": "Absolu",
+        "recurring_daily": "Recurrence journalière",
+        "recurring_weekly": "Recurrence hebdomadaire"
+      }
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
@@ -472,7 +494,7 @@
     "start_transaction_admin_title": "Démarrage de transaction en tant qu'Administrateur",
     "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
     "start_for_myself_button": "Moi même",
-    "select_user_button": "Un autre utilisateur"
+    "select_user_button": "Autre utilisateur"
   },
   "logs": {
     "logging_number": "Log(s)",

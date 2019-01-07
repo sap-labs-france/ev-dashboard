@@ -21,7 +21,7 @@ export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data, 'sites.select_sites');
+    super(data);
     // Create table data source
     this.dialogDataSource = new SitesFilterDataSource(
       this.messageService,

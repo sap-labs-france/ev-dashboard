@@ -1,9 +1,8 @@
 import {TableColumnDef, Ocpiendpoint, KeyValue} from '../../../../../common.types';
 import {CellContentTemplateComponent} from '../../../../../shared/table/cell-content-template/cell-content-template.component';
 import {Constants} from '../../../../../utils/Constants';
-import {
-  ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO
-} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent} from '../../../../../shared/component/chip/chip.component';
+import {TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input, OnInit} from '@angular/core';
 
 

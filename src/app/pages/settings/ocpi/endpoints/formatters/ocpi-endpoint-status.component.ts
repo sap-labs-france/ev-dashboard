@@ -1,7 +1,8 @@
 import {TableColumnDef, Ocpiendpoint, KeyValue} from '../../../../../common.types';
 import {CellContentTemplateComponent} from '../../../../../shared/table/cell-content-template/cell-content-template.component';
 import {Constants} from '../../../../../utils/Constants';
-import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent} from '../../../../../shared/component/chip/chip.component';
+import {TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input, OnInit} from '@angular/core';
 
 
@@ -16,14 +17,14 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
   @Input() row: Ocpiendpoint;
 
    ngOnInit(): void {
-     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-     //Add 'implements OnInit' to the class.
+     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+     // Add 'implements OnInit' to the class.
     for (const userStatus of userStatuses) {
       if (userStatus.key === this.row.status) {
         this.text = userStatus.value
       }
     }
-    this.type = "chip-width-10em ";
+    this.type = 'chip-width-10em ';
     switch (this.row.status) {
       case Constants.OCPIENDPOINT_STATUS_NEW:
         this.type += TYPE_INFO;
@@ -33,7 +34,7 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
         break;
       default:
         this.type += TYPE_DEFAULT;
-    } 
+    }
   }
 }
 

@@ -15,8 +15,7 @@ export class SettingsOcpiComponent implements OnInit {
   public name: AbstractControl;
   public country_code: AbstractControl;
   public party_id: AbstractControl;
-  public isOcpiActive: boolean = false;
-  
+  public isOcpiActive = false;
   private readonly currentBusinessDetails: any;
 
   constructor(
@@ -28,6 +27,5 @@ export class SettingsOcpiComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
   }
 }

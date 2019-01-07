@@ -169,6 +169,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         break;
       case 'register':
         this._registerOcpiendpoint(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }

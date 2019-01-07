@@ -1,0 +1,93 @@
+<div *ngIf="transaction" class="main-content">
+  <div class="container-fluid ">
+    <div class="card">
+      <!-- header -->
+      <div class="card-header card-header-tabs card-header-info">
+        <div class="nav-tabs-navigation">
+          <h4 class="nav-tabs-title text-uppercase">{{transaction.chargeBoxID}} - {{transaction.connectorId | appConnectorId}}  </h4>
+          <ul class="nav nav-tabs" data-tabs="tabs">
+            <span class="toolbar-spacer"></span>
+            <!--<button class="btn btn-info mat-raised-button">-->
+            <!--<span class="mat-button-wrapper">-->
+            <!--<i class="material-icons">refresh</i>-->
+            <!--</span>-->
+            <!--</button>-->
+            <button class="btn btn-info mat-raised-button" mat-dialog-close>
+                  <span class="mat-button-wrapper">
+                   <i class="material-icons">close</i>
+                  </span>
+            </button>
+          </ul>
+        </div>
+      </div>
+      <!-- card body -->
+      <div class="card-body d-flex flex-column justify-content-between mt-lg-3">
+        <!-- general section -->
+        <div class="d-flex justify-content-around mb-5">
+          <div class="d-flex flex-column align-items-center">
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-2"/>
+            <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
+            <div class="text-nowrap second-text">({{transaction.tagID}})</div>
+          </div>
+          <div *ngIf="connector" class="d-flex flex-column align-items-center">
+            <img [src]="connector.type | appConnectorType:true" class="rounded-circle icon mb-2"/>
+            <ng-container *ngIf="transaction.isLoading">
+              <div class="text-nowrap first-text">{{connector.status}}</div>
+              <div class="text-nowrap second-text">({{connector.type}})</div>
+            </ng-container>
+            <ng-container *ngIf="!transaction.isLoading">
+              <div class="text-nowrap first-text">{{connector.type}}</div>
+            </ng-container>
+          </div>
+          <div *ngIf="siteArea" class="d-flex flex-column align-items-center">
+            <i class="material-icons icon-font mb-2">location_on</i>
+            <div class="text-nowrap first-text">{{siteArea.site.name}}</div>
+            <div class="text-nowrap second-text">({{siteArea.name}})</div>
+          </div>
+          <div *ngIf="transaction.user.vehicule" class="d-flex flex-column align-items-center">
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-2"/>
+            <div class="text-nowrap first-text">Tesla S 90D</div>
+            <div class="text-nowrap second-text">(AA-543-BN)</div>
+          </div>
+        </div>
+        <!-- transaction details -->
+        <div class="d-flex justify-content-around mb-2">
+          <div *ngIf="transaction.stop" class="d-flex align-items-center mb-2">
+            <i class="material-icons">money</i>
+            <span class="ml-2">{{transaction.stop.price | currency: transaction.stop.priceUnit}}</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <mat-icon>flash_on</mat-icon>
+            <span class="ml-2">{{transaction.currentConsumption | appUnit:'W':'kW'}}</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-icons">ev_station</i>
+            <span class="ml-2">{{transaction.totalConsumption | appUnit:'Wh':'kWh'}}</span>
+          </div>
+          <div *ngIf="stateOfChargeIcon" class="d-flex align-items-center mb-2">
+            <i [class]="'material-icons-new twotone-'+stateOfChargeIcon"></i>
+            <span class="ml-2">{{stateOfCharge / 100| percent:'2.0-0' }}</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-icons">timer</i>
+            <span class="ml-2">{{transaction.totalDurationSecs | appDuration }}</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-icons">timer_off</i>
+            <span class="ml-2">{{transaction.totalInactivitySecs | appDuration }}</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-icons">timelapse</i>
+            <span class="ml-2">{{transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
+              > {{ transaction.stop ? (transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime') : '...'}} </span>
+          </div>
+        </div>
+        <!-- chart -->
+        <app-transaction-chart [consumptions]="transaction.values" [transactionId]="transaction.id" class="w-100"
+                               ratio="4"></app-transaction-chart>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+</div>

@@ -156,7 +156,7 @@
               </div>
             </ng-container>
             <ng-container *ngIf="tableDef.rowDetails && tableDef.rowDetails.isDetailComponent">
-                <detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></detail-component-container>
+                <app-detail-component-container [containerId]="getNextDetailComponentId()" [tableDef]="tableDef" ></app-detail-component-container>
             </ng-container>
           </div>
         </td>
@@ -167,10 +167,10 @@
         <th mat-header-cell class="table-header text-center col-5em"
             *matHeaderCellDef>{{'general.actions' | translate}}
         </th>
-        <td mat-cell *matCellDef="let actionCell" [class]="'' + 'text-center'">
+        <td mat-cell *matCellDef="let actionCell" [class]="'' + 'action-cell text-center'">
           <ng-container *ngFor="let rowAction of dataSource.rowActionsDef">
             <ng-container *ngIf="rowAction.isDropdownMenu">
-                <mat-menu #menu="matMenu" xPosition="before">
+                <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
                       <button mat-menu-item [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'" (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)" [disabled]="dropdownItem.disabled">
@@ -182,7 +182,7 @@
                     </ng-container>
                   </ng-template>
                 </mat-menu>
-                <button mat-icon-button [matMenuTriggerFor]="menu" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'">
+                <button mat-icon-button [matMenuTriggerFor]="rowActionMenu" (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
                 </button>
             </ng-container>

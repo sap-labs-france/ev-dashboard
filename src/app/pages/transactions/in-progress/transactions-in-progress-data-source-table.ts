@@ -25,6 +25,7 @@ import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
+import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
@@ -72,6 +73,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       class: 'table-list-under-tabs',
       search: {
         enabled: false
+      },
+      rowDetails: {
+        enabled: true,
+        isDetailComponent: true,
+        detailComponentName: ConsumptionChartDetailComponent
       }
     };
   }
@@ -91,6 +97,34 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      },
+      {
+        id: 'currentTotalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (currentTotalDurationSecs) => this.appDurationPipe.transform(currentTotalDurationSecs)
+      },
+      {
+        id: 'currentTotalInactivitySecs',
+        name: 'transactions.inactivity',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (currentTotalInactivitySecs, row) => {
+          const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
+          if (percentage === 0) {
+            return '';
+          }
+          return this.appDurationPipe.transform(currentTotalInactivitySecs) +
+            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+        }
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-10p',
@@ -104,35 +138,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent,
       },
-
-      {
-        id: 'totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      },
-      {
-        id: 'totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalInactivitySecs, row) => {
-          const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
-          if (percentage === 0) {
-            return '';
-          }
-          return this.appDurationPipe.transform(totalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
-        }
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
@@ -140,11 +145,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         class: 'text-left col-10p'
       },
       {
-        id: 'totalConsumption',
+        id: 'currentTotalConsumption',
         name: 'transactions.total_consumption',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh')
       },
       {
         id: 'currentConsumption',
@@ -210,6 +215,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   protected _stationStopTransaction(transaction: Transaction) {
     this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
+        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
@@ -221,6 +227,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
+        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {

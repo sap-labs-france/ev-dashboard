@@ -1,18 +1,16 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
+import {TableActionDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
-import {Utils} from '../../utils/Utils';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
-import * as _ from 'lodash';
 import {LocaleService} from '../../services/locale.service';
 
 const DEFAULT_POLLING = 10000;
@@ -270,6 +268,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       return this.dataSource.getData().length - 1;
     }
     return this._detailComponentId++;
+  }
+
+  public onRowActionMenuOpen(action: TableActionDef, row) {
+    this.dataSource.onRowActionMenuOpen(action, row);
   }
 
   /*  public setDetailedDataSource(row){

@@ -29,7 +29,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   @ViewChildren('parameter') parameterInput: QueryList<ElementRef>;
 
   constructor(
-    private authorizationService: AuthorizationService, 
+    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -117,13 +117,15 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       // Show
       this.spinnerService.show();
       // Yes: Update
-      this.centralServerService.updateChargingStationOCPPConfiguration(this.charger.id, {key: item.key, value: this.formGroup.controls[item.key].value}).subscribe(response => {
+      this.centralServerService.updateChargingStationOCPPConfiguration(
+          this.charger.id, {key: item.key, value: this.formGroup.controls[item.key].value}).subscribe(response => {
         // Hide
         this.spinnerService.hide();
         // Ok?
-        if (response.status === 'Accepted') {
+        if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
           // Ok
-          this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_params_success', {chargeBoxID: this.charger.id}));
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('chargers.change_params_success', {chargeBoxID: this.charger.id}));
           this.refresh();
         } else {
           this.refresh();
@@ -165,7 +167,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       }).nativeElement.focus();
     } else {
 // Save changes changes
-      this.saveConfiguration(item);      
+      this.saveConfiguration(item);
       this.formGroup.controls[item.key].disable();
       item.icon = 'edit';
     }
@@ -195,9 +197,10 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === 'Accepted') {
+      if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
         // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
         this.refresh();
       } else {
         this.refresh();
@@ -222,7 +225,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             this.messages['change_config_error']);
       }
-    });  
+    });
   }
 
 }

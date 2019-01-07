@@ -2,10 +2,12 @@ import {NgModule} from '@angular/core';
 import {ChipComponent} from './chip/chip.component';
 import {MatChipsModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormattersModule} from '../formatters/formatters.module';
 import {ConnectorCellComponent} from './connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
+import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
+import {ChartModule} from 'angular2-chartjs';
 
 @NgModule({
   imports: [
@@ -14,17 +16,25 @@ import {CommonDirectivesModule} from '../directives/common-directives.module';
     TranslateModule,
     CommonDirectivesModule,
     FormattersModule,
+    ChartModule
   ],
   declarations: [
     ChipComponent,
-    ConnectorCellComponent
+    ConnectorCellComponent,
+    ConsumptionChartComponent
   ],
   exports: [
     ChipComponent,
-    ConnectorCellComponent
+    ConnectorCellComponent,
+    ConsumptionChartComponent
   ],
   entryComponents: [
     ConnectorCellComponent
+  ],
+  providers: [
+    CurrencyPipe,
+    PercentPipe,
+    DecimalPipe
   ]
 })
 export class ComponentModule {

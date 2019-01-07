@@ -26,9 +26,9 @@ export class HeartbeatCellComponent implements CellContentTemplateComponent, OnC
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    this.row.chargePointVendor;
+    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // Add '${implements OnChanges}' to the class.
+    // this.row.chargePointVendor;
   }
 
 }

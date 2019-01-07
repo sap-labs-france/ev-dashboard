@@ -19,6 +19,28 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.8',
+      date: new Date('2019-01-01'),
+      componentChanges: [
+        {
+          name: 'Components',
+          changes: [
+            `Added Charging Station Details + Actions`,
+            `Added Transactions In Progress and In Error`,
+            `Added Transaction's Charging Curves`,
+            `Added OCPI Configuration`,
+          ]
+        },
+        {
+          name: 'Backend',
+          changes: [
+            `Transactions optimizations`,
+            `OCPI Alpha version`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.7',
       date: new Date('2018-12-01'),
       componentChanges: [
@@ -27,7 +49,7 @@ export class ReleaseNotesComponent {
           changes: [
             `Added User Management`,
             `Added Charging Station List`,
-            `Added Transaction History and Active`
+            `Added Transaction History`
           ]
         }
       ]

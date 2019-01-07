@@ -20,7 +20,8 @@ import {RouteGuardService} from './services/route-guard.service';
 import * as $ from 'jquery';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-
+import 'hammerjs';
+import 'chartjs-plugin-zoom';
 import {
   MAT_DATE_LOCALE,
   MatAutocompleteModule,
@@ -68,6 +69,7 @@ import {WINDOW_PROVIDERS} from './providers/window.provider';
 import {WindowService} from './services/window.service';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
+import {ChartModule} from 'angular2-chartjs';
 
 
 
@@ -150,6 +152,7 @@ export function localeFactory(
     FooterModule,
     RecaptchaModule.forRoot(),
     HttpClientModule,
+    ChartModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

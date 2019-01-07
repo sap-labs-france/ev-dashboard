@@ -1,21 +1,22 @@
-import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy } from '@angular/core';
-import { MatDialog } from "@angular/material";
+import {Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, ElementRef} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {ConfigService} from '../../../services/config.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import { DetailComponentDirective } from './detail-component.directive';
 import { DetailComponent } from './detail-component.component';
-import { TableDef } from "../../../common.types";
+import { TableDef } from '../../../common.types';
 
 @Component({
-  selector: 'detail-component-container',
+  selector: 'app-detail-component-container',
   template: `
               <div>
-                <ng-template detail-component></ng-template>
+                <ng-template appDetailComponent></ng-template>
               </div>
             `,
-          
+
 })
+// tslint:disable-next-line:component-class-suffix
 export class DetailComponentContainer implements OnInit, OnDestroy {
   @Input() containerId: number;
   @Input() tableDef: TableDef;
@@ -44,16 +45,17 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
   }
 
   loadComponent() {
-    
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.tableDef.rowDetails.detailComponentName);
 
-    let viewContainerRef = this.detailComponentDirective.viewContainerRef;
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.tableDef.rowDetails.detailComponentName);
+
+    const viewContainerRef = this.detailComponentDirective.viewContainerRef;
     viewContainerRef.clear();
 
-    let componentRef = viewContainerRef.createComponent(componentFactory);
-    if (this.parentRow)
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    if (this.parentRow) {
       (<DetailComponent>componentRef.instance).setData(this.parentRow, this.tableDef);
-    
+    }
+
   }
 
 }

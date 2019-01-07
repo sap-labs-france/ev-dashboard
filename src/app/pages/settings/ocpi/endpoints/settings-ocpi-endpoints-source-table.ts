@@ -55,7 +55,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     // Show
     this.spinnerService.show();
     // Get the OCPI Endpoints
-    this.centralServerService.getOcpiendpoints(this.getFilterValues(),
+    this.centralServerService.getOcpiEndpoints(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((ocpiendpoints) => {
         // Hide
         this.spinnerService.hide();

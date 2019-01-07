@@ -1,7 +1,7 @@
 {
   "general": {
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.7",
+    "last_update": "Version 2.0.8",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -406,6 +406,19 @@
       "smart_charging_item": "Smart Charging",
       "more_actions_item": "More actions"
     },
+    "smart_charging": {
+      "maximum_energy_limit": "Limit '{{chargeBoxID}}' power to",
+      "power_limit_title": "Limit power",
+      "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}' to {{power}}kW?",
+      "power_limit_success": "Charging station '{{chargeBoxID}}' power was limted successfully",
+      "power_limit_error": "Error occured while limiting charging station power",
+      "current_limit": "Actual limit planning",
+      "current_limit_title": "Actual limit",
+      "limit_title": "Limit",
+      "no_current_limit": "No limit planning found",
+      "from_date": "From",
+      "to_date": "To"
+    },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",
     "reboot_error": "Error occurred while rebooting the charging station",
@@ -652,6 +665,7 @@
     "cpo_party_id": "Party ID",
     "cpo_business_details": "Business Details",
     "cpo_logo": "Image",
+    "title": "OCPI",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -664,6 +678,14 @@
         "height": "Height of the full scale image"
       }
     }
+  },
+  "chargeathome": {
+    "title": "Charge@Home",
+    "description": "Charge At Home Interface"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "description": "Pricing Interface"
   },
   "transactions": {
     "date_from": "Date",
@@ -722,6 +744,12 @@
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "In Error"
+    },
+    "graph":{
+      "battery": "Battery Level (%)",
+      "power": "Instant Power (kWatt)",
+      "energy": "Energy Delivered (kWatt.h)",
+      "reset_zoom": "Reset"
     },
     "dialog": {
       "delete": {

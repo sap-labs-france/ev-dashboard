@@ -19,13 +19,19 @@ import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.c
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
-import {TableMoreAction, ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_REBOOT, ACTION_SMART_CHARGING, ACTION_SOFT_RESET} from './other-actions-button/table-more-action';
+import {
+  TableMoreAction,
+  ACTION_CLEAR_CACHE,
+  ACTION_REBOOT,
+  ACTION_SMART_CHARGING,
+  ACTION_SOFT_RESET
+} from './other-actions-button/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from "./charging-station-dialog/charging-station.dialog.component";
+import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
-import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -198,7 +204,6 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-console.log("getTableRowActions");
     if (this.authorizationService.isAdmin()) {
       return [
         new TableMoreAction().getActionDef(),
@@ -229,10 +234,9 @@ console.log("getTableRowActions");
         this._deleteChargingStation(rowItem);
         break;
       case 'more':
-        console.log(dropdownItem);
         switch (dropdownItem.id) {
           case ACTION_REBOOT:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Hard"}),
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Hard'}),
               this.translateService.instant('chargers.reboot_title'),
               this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
               this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
@@ -240,7 +244,7 @@ console.log("getTableRowActions");
             );
             break;
           case ACTION_SOFT_RESET:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: "Soft"}),
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Soft'}),
                   this.translateService.instant('chargers.soft_reset_title'),
                   this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
                   this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
@@ -248,13 +252,16 @@ console.log("getTableRowActions");
                 );
             break;
           case ACTION_CLEAR_CACHE:
-            this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, "",
+            this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, '',
                   this.translateService.instant('chargers.clear_cache_title'),
                   this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
                   this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
                   'chargers.clear_cache_error'
                 );
             break;
+          case ACTION_SMART_CHARGING:
+            this._dialogSmartCharging(rowItem);
+          break;
           default:
             break;
         }
@@ -262,6 +269,19 @@ console.log("getTableRowActions");
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
+  }
+
+  public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
+      action.dropdownItems.forEach(dropDownItem => {
+        if (dropDownItem.id === ACTION_SMART_CHARGING) {
+          // Check charging station version
+          // tslint:disable-next-line:max-line-length
+          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15);
+        } else {
+          // Check active status of CS
+//          dropDownItem.disabled = row.inactive;
+        }
+      });
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
@@ -272,17 +292,17 @@ console.log("getTableRowActions");
   }
 
   private _simpleActionChargingStation(action, id, args, title, message, success_message, error_message) {
-    //show yes/no dialog
+    // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       title,
       message
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        //call REST service
+        // Call REST service
         this.centralServerService.actionChargingStation(action, id, args).subscribe(response => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            //success + reload
+          if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            // Success + reload
             this.messageService.showSuccessMessage(success_message);
             this.loadData();
           } else {
@@ -335,7 +355,7 @@ console.log("getTableRowActions");
     });
   }
 
-  private _moreActions(chargingStation?: Charger) {
+  private _dialogSmartCharging(chargingStation?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -344,7 +364,7 @@ console.log("getTableRowActions");
       dialogConfig.data = chargingStation;
     }
     // Open
-    const dialogRef = this.dialog.open(ChargingStationActionsDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

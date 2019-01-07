@@ -94,11 +94,11 @@
                                 <div class="tab-pane" id="components">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <mat-list> 
-                                                <mat-list-item>
-                                                    <p mat-line align="left"><b>OCPI</b></p>
-                                                    <p mat-line align="left">{{"ocpi.description" | translate}}</p>
-                                                    <mat-slide-toggle mat-line-end [formControl]="componentsActiveFlag['ocpi']"></mat-slide-toggle>
+                                            <mat-list>
+                                                <mat-list-item *ngFor="let component of componentList">
+                                                    <p mat-line align="left"><b>{{component + ".title" | translate}}</b></p>
+                                                    <p mat-line align="left">{{component + ".description" | translate}}</p>
+                                                    <mat-slide-toggle mat-line-end [formControl]="components.get(component).get('active')"></mat-slide-toggle>
                                                 </mat-list-item>
                                             </mat-list>
                                         </div>

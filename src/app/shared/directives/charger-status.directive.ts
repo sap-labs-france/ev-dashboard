@@ -14,7 +14,6 @@ export class ChargerStatusDirective {
   @HostBinding('class.charger-connector-unavailable') statusUnavailable = false;
   @HostBinding('class.charger-connector-faulted') statusFaulted = false;
   @HostBinding('class.charger-connector-active-text') statusUnknown = false;
-  
 
   @Input() set appChargerStatus(status) {
     this.statusAvailable = false;

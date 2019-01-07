@@ -33,7 +33,7 @@
           *matHeaderCellDef>{{'general.actions' | translate}}
       </th>
       <!-- use [class] to avoid the automatic addition of mat-cell class-->
-      <td mat-cell *matCellDef="let actionCell" [class]="'' + 'text-center'">
+      <td mat-cell *matCellDef="let actionCell" [class]="'' + 'action-cell text-center'">
           <a *ngFor="let rowAction of dataSource.getTableRowActions(actionCell)" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
           (click)="rowActionTriggered(rowAction, actionCell)"><i class="material-icons" >{{rowAction.icon}}</i></a>
       </td>

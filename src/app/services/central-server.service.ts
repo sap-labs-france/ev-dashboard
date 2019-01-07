@@ -16,18 +16,18 @@ import {
   Image,
   Log,
   LogResult,
+  OcpiendpointResult,
   Ordering,
   Paging,
-  RouteInfo,
+  SettingResult,
   SiteAreaResult,
   SiteResult,
   Tenant,
   TenantResult,
+  Transaction,
   TransactionResult,
   User,
-  UserResult,
-  SettingResult,
-  OcpiendpointResult
+  UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -41,65 +41,6 @@ export class CentralServerService {
   private currentUserToken;
   private currentUser;
   private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
-  private routesTranslated: RouteInfo[];
-  private routes: RouteInfo[] = [
-    {
-      id: 'dashboard',
-      path: '/dashboard',
-      title: 'Dashboard',
-      type: 'link',
-      icontype: 'dashboard'
-    },
-    {
-      id: 'charging_stations',
-      path: '/charging-stations',
-      title: 'Charging Stations',
-      type: 'link',
-      icontype: 'ev_station',
-      admin: true
-    },
-    {
-      id: 'transactions',
-      path: '/transactions',
-      title: 'Transactions',
-      type: 'link',
-      icontype: 'list'
-    },
-    {
-      id: 'users',
-      path: '/users',
-      title: 'Users',
-      type: 'link',
-      icontype: 'people',
-      admin: true,
-      superAdmin: true
-    },
-    {
-      id: 'settings',
-      path: '/settings',
-      title: 'Settings',
-      type: 'link',
-      icontype: 'settings',
-      admin: true
-    },
-    {
-      id: 'tenants',
-      path: '/tenants',
-      title: 'Tenants',
-      type: 'link',
-      icontype: 'account_balance',
-      superAdmin: true
-    },
-    {
-      id: 'logs',
-      path: '/logs',
-      title: 'Logs',
-      type: 'link',
-      icontype: 'list',
-      admin: true,
-      superAdmin: true
-    }
-  ];
 
   constructor(
     private httpClient: HttpClient,
@@ -110,43 +51,6 @@ export class CentralServerService {
     private windowService: WindowService) {
     // Default
     this.initialized = false;
-  }
-
-  public getRoutes(): Observable<RouteInfo[]> {
-    // Already translated
-    if (!this.routesTranslated) {
-      // Filter
-      const filteredRoutes = this.routes.filter((route: RouteInfo) => {
-        switch (this.getLoggedUser().role) {
-          case Constants.ROLE_SUPER_ADMIN:
-            if (route.superAdmin || !route.admin) {
-              return true;
-            }
-            break;
-          case Constants.ROLE_ADMIN:
-            if (route.admin || !route.superAdmin) {
-              return true;
-            }
-            break;
-          case Constants.ROLE_BASIC:
-          case Constants.ROLE_DEMO:
-          default:
-            if (!route.admin && !route.superAdmin) {
-              return true;
-            }
-        }
-        return false;
-      });
-      // No: translate
-      this.routesTranslated = filteredRoutes.map((route) => {
-        // Translate
-        route.title = this.translateService.instant(`general.menu.${route.id}`);
-        // Return
-        return route;
-      });
-    }
-    // Menu Items
-    return of(this.routesTranslated);
   }
 
   public removeSitesFromUser(userID, siteIDs) {
@@ -206,6 +110,25 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<Transaction> {
+    const params: any = [];
+    params['ID'] = siteAreaId;
+    params['WithChargeBoxes'] = withChargeBoxes;
+    params['WithSite'] = withSite;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(
+      `${this.centralRestServerServiceSecuredURL}/SiteArea`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -305,7 +228,8 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -323,7 +247,8 @@ export class CentralServerService {
       );
   }
 
-  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    : Observable<TransactionResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -341,7 +266,8 @@ export class CentralServerService {
       );
   }
 
-  public getOcpiendpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+  // tslint:disable-next-line:max-line-length
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -350,6 +276,23 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+    const params: any = [];
+    params['TransactionId'] = transactionId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionFromTransaction`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -473,12 +416,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST Service
     return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}`,
-    {
-      headers: this._buildHttpHeaders()
-    })
-    .pipe(
-      catchError(this._handleHttpError)
-    );
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
   public getEndUserLicenseAgreement(language: string) {
@@ -596,7 +539,6 @@ export class CentralServerService {
     this._checkInit();
     // Keep it local (iFrame use case)
     this.clearLoggedUserToken();
-    this.routesTranslated = null;
     // Disconnect
     this.centralServerNotificationService.resetSocketIO();
   }
@@ -885,6 +827,243 @@ export class CentralServerService {
       );
   }
 
+  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
+      {
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteChargingStation(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConfiguration(id): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * updateChargingStationOCPPConfiguration
+   */
+  public updateChargingStationOCPPConfiguration(id, chargerParameter) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = `{
+      "chargeBoxID": "${id}",
+      "args": {
+        "key": "${chargerParameter.key}",
+        "value": "${chargerParameter.value}"
+      }
+    }`;
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationCompositeSchedule(id, connectorId, duration, unit, loadAllConnectors) {
+    // Verify init
+    this._checkInit();
+    // build request
+
+    const body =
+      `{
+        "chargeBoxID": "${id}",
+        "loadAllConnectors": "${loadAllConnectors}",
+        "args": {
+          "connectorId": ${connectorId},
+          "duration": ${duration},
+          "chargingRateUnit": "${unit}"
+        }
+      }`;
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number, stackLevel: number) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date('01/01/2018').toISOString();
+    console.log(date);
+    let body: string;
+    if (stackLevel === 0) {
+      body = `{
+      "chargeBoxID": "${charger.id}",
+      "args": {
+        "connectorId": 0,
+        "csChargingProfiles": {
+          "chargingProfileId": 1,
+          "stackLevel": ${stackLevel},
+          "chargingProfilePurpose": "TxDefaultProfile",
+          "chargingProfileKind": "Relative",
+          "chargingSchedule": {
+            "chargingRateUnit": "${unit}",
+            "chargingSchedulePeriod": [{
+              "startPeriod": 0,
+              "limit": ${powerValue}
+            }
+          ]
+          }
+        }
+      }
+    }`;
+    } else {
+      const date2 = new Date(new Date().getTime() + 12000 * 1000);
+      const dateStr = date2.toISOString();
+      body = `{
+      "chargeBoxID": "${charger.id}",
+      "args": {
+        "connectorId": 0,
+        "csChargingProfiles": {
+          "chargingProfileId": 2,
+          "stackLevel": ${stackLevel},
+          "chargingProfilePurpose": "TxDefaultProfile",
+          "chargingProfileKind": "Absolute",
+          "chargingSchedule": {
+            "duration": 1900,
+            "startSchedule": "${dateStr}",
+            "chargingRateUnit": "${unit}",
+            "chargingSchedulePeriod": [{
+              "startPeriod": 0,
+              "limit": ${powerValue - 2}
+            },
+            {
+              "startPeriod": 600,
+              "limit": ${powerValue + 5}
+            },
+            {
+              "startPeriod": 1200,
+              "limit": ${powerValue - 5}
+            }
+          ]
+          }
+        }
+      }
+    }`;
+    }
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   *
+   */
+  public actionChargingStation(action, id, args) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    const body = (args ?
+        `{
+        "chargeBoxID": "${id}",
+        "args": ${args}
+      }` :
+        `{
+        "chargeBoxID": "${id}"
+      }`
+    );
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * getChargingStationOCPPConfiguration
+   */
+  public getChargingStationOCPPConfiguration(id) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  /**
+   * getIsAuthorized
+   */
+  public getIsAuthorized(action, arg1, arg2?) {
+    // Verify init
+    this._checkInit();
+    // Build parameters
+    const filters = [];
+    let queryString;
+    // Set Action
+    filters.push(`Action=${action}`);
+    // Set Args
+    if (arg1) {
+      filters.push(`Arg1=${arg1}`);
+    }
+    if (arg2) {
+      filters.push(`Arg2=${arg2}`);
+    }
+    // Build the query string
+    queryString = filters.join('&');
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IsAuthorized?${queryString}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -960,144 +1139,6 @@ export class CentralServerService {
       errMsg.details = error.error;
     }
     return throwError(errMsg);
-  }
-
-  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
-      {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public deleteChargingStation(id): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public getChargingStationConfiguration(id): Observable<any> {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   * updateChargingStationOCPPConfiguration
-   */
-  public updateChargingStationOCPPConfiguration(id, chargerParameter) {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    const body = `{
-      "chargeBoxID": "${id}",
-      "args": {
-        "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
-      }
-    }`;
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   *
-   */
-  public actionChargingStation(action, id, args) {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    const body = (args ?
-        `{
-        "chargeBoxID": "${id}",
-        "args": ${args}
-      }` :
-        `{
-        "chargeBoxID": "${id}"
-      }`
-    );
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   * getChargingStationOCPPConfiguration
-   */
-  public getChargingStationOCPPConfiguration(id) {
-    // Verify init
-    this._checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  /**
-   * getIsAuthorized
-   */
-  public getIsAuthorized(action, arg1, arg2?) {
-    // Verify init
-    this._checkInit();
-    // Build parameters
-    const filters = [];
-    let queryString;
-    // Set Action
-    filters.push(`Action=${action}`);
-    // Set Args
-    if (arg1) {
-      filters.push(`Arg1=${arg1}`);
-    }
-    if (arg2) {
-      filters.push(`Arg2=${arg2}`);
-    }
-    // Build the query string
-    queryString = filters.join('&');
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IsAuthorized?${queryString}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
   }
 
 }

@@ -24,11 +24,15 @@ import { ChargingStationsDataSource } from './charging-stations-data-source-tabl
 import { SiteAreaDialogComponent } from './charging-station-dialog/site-area/site-area.dialog.component';
 import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-area-dialog-data-source-table';
 import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
+// tslint:disable-next-line:max-line-length
 import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
-import { ChargingStationActionsDialogComponent } from './actions-dialog/charging-station-actions.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
+import { SmartChargingSimpleLimitComponent} from './actions-dialog/smart-charging/simple-limit/smart-charging-simple-limit.component';
 import {ComponentModule} from '../../shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
+import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialog-component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -56,9 +60,11 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    SmartChargingSimpleLimitComponent,
+    SessionDialogComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -72,14 +78,15 @@ import {StartTransactionDialogComponent} from './details-content-component/start
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    SmartChargingSimpleLimitComponent
   ],
   exports: [
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
-    ChargingStationActionsDialogComponent,
+    ChargingStationSmartChargingDialogComponent,
     StartTransactionDialogComponent
   ],
   providers: [

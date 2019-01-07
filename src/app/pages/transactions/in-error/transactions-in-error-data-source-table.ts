@@ -94,6 +94,27 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      },
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
+      },
+      {
+        id: 'stop.totalInactivitySecs',
+        name: 'transactions.inactivity',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-10p',
@@ -106,28 +127,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         class: 'text-center col-5p',
         formatter: (value) => this.appConnectorIdPipe.transform(value)
       },
-
-      {
-        id: 'totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      },
-      {
-        id: 'totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
@@ -135,7 +134,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         class: 'text-left col-10p',
       },
       {
-        id: 'totalConsumption',
+        id: 'stop.totalConsumption',
         name: 'transactions.total_consumption',
         headerClass: 'col-10p',
         class: 'col-10p',
@@ -144,18 +143,18 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     ];
     if (this.isAdmin) {
       columns.push({
-        id: 'price',
+        id: 'stop.price',
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price, row) => this.formatPrice(price, row.priceUnit)
+        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       })
     }
     return columns as TableColumnDef[];
   }
 
   formatInactivity(totalInactivitySecs, row) {
-    const percentage = row.totalDurationSecs > 0 ? (totalInactivitySecs / row.totalDurationSecs) : 0;
+    const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
     }
@@ -213,6 +212,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
+        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {

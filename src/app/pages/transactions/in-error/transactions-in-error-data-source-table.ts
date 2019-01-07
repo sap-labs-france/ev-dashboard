@@ -94,19 +94,12 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (value) => this.appUserNamePipe.transform(value)
       },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
-      },
-
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
@@ -122,11 +115,17 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p'
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-5p',
+        class: 'text-center col-5p',
+        formatter: (value) => this.appConnectorIdPipe.transform(value)
       },
       {
         id: 'tagID',

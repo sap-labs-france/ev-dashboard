@@ -666,6 +666,7 @@
     "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton"
   },
   "ocpi": {
+    "title": "OCPI",
     "emsps": "Opérateurs de Services de Mobilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
@@ -686,6 +687,14 @@
         "height": "Hauteur de l'image originale"
       }
     }
+  },
+  "chargeathome": {
+    "title": "Charge@Home",
+    "description": "Charge At Home Interface"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "description": "Pricing Interface"
   },
   "transactions": {
     "date_from": "Date",

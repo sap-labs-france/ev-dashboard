@@ -19,7 +19,6 @@ import {
   OcpiendpointResult,
   Ordering,
   Paging,
-  RouteInfo,
   SettingResult,
   SiteAreaResult,
   SiteResult,
@@ -42,65 +41,6 @@ export class CentralServerService {
   private currentUserToken;
   private currentUser;
   private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
-  private routesTranslated: RouteInfo[];
-  private routes: RouteInfo[] = [
-    {
-      id: 'dashboard',
-      path: '/dashboard',
-      title: 'Dashboard',
-      type: 'link',
-      icontype: 'dashboard'
-    },
-    {
-      id: 'charging_stations',
-      path: '/charging-stations',
-      title: 'Charging Stations',
-      type: 'link',
-      icontype: 'ev_station',
-      superAdmin: false
-    },
-    {
-      id: 'transactions',
-      path: '/transactions',
-      title: 'Transactions',
-      type: 'link',
-      icontype: 'list'
-    },
-    {
-      id: 'users',
-      path: '/users',
-      title: 'Users',
-      type: 'link',
-      icontype: 'people',
-      admin: true,
-      superAdmin: true
-    },
-    {
-      id: 'settings',
-      path: '/settings',
-      title: 'Settings',
-      type: 'link',
-      icontype: 'settings',
-      admin: true
-    },
-    {
-      id: 'tenants',
-      path: '/tenants',
-      title: 'Tenants',
-      type: 'link',
-      icontype: 'account_balance',
-      superAdmin: true
-    },
-    {
-      id: 'logs',
-      path: '/logs',
-      title: 'Logs',
-      type: 'link',
-      icontype: 'list',
-      admin: true,
-      superAdmin: true
-    }
-  ];
 
   constructor(
     private httpClient: HttpClient,
@@ -111,43 +51,6 @@ export class CentralServerService {
     private windowService: WindowService) {
     // Default
     this.initialized = false;
-  }
-
-  public getRoutes(): Observable<RouteInfo[]> {
-    // Already translated
-    if (!this.routesTranslated) {
-      // Filter
-      const filteredRoutes = this.routes.filter((route: RouteInfo) => {
-        switch (this.getLoggedUser().role) {
-          case Constants.ROLE_SUPER_ADMIN:
-            if (route.superAdmin || !route.admin) {
-              return true;
-            }
-            break;
-          case Constants.ROLE_ADMIN:
-            if (route.admin || !route.superAdmin) {
-              return true;
-            }
-            break;
-          case Constants.ROLE_BASIC:
-          case Constants.ROLE_DEMO:
-          default:
-            if (!route.admin && !route.superAdmin) {
-              return true;
-            }
-        }
-        return false;
-      });
-      // No: translate
-      this.routesTranslated = filteredRoutes.map((route) => {
-        // Translate
-        route.title = this.translateService.instant(`general.menu.${route.id}`);
-        // Return
-        return route;
-      });
-    }
-    // Menu Items
-    return of(this.routesTranslated);
   }
 
   public removeSitesFromUser(userID, siteIDs) {
@@ -636,7 +539,6 @@ export class CentralServerService {
     this._checkInit();
     // Keep it local (iFrame use case)
     this.clearLoggedUserToken();
-    this.routesTranslated = null;
     // Disconnect
     this.centralServerNotificationService.resetSocketIO();
   }

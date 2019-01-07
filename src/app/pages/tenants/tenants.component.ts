@@ -10,43 +10,15 @@ import {MessageService} from '../../services/message.service';
 import {TenantsDataSource} from './tenants-data-source-table';
 import {MatDialog} from '@angular/material';
 import {DialogService} from '../../services/dialog.service';
+import {LogsDataSource} from '../logs/logs-data-source-table';
 
 @Component({
   selector: 'app-tenants-cmp',
   templateUrl: 'tenants.component.html'
 })
 export class TenantsComponent implements OnInit {
-  private messages;
-  public isSuperAdmin;
-  public tenantsDataSource: TenantsDataSource;
-
   constructor(
-    private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private router: Router) {
-    // Get translated messages
-    this.translateService.get('logs', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
-    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
-    // Create table data source
-    this.tenantsDataSource = new TenantsDataSource(
-      this.localeService,
-      this.messageService,
-      this.translateService,
-      this.spinnerService,
-      this.dialogService,
-      this.router,
-      this.dialog,
-      this.centralServerNotificationService,
-      this.centralServerService);
+    public tenantsDataSource: TenantsDataSource) {
   }
 
   ngOnInit() {

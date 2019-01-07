@@ -97,20 +97,12 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (value) => this.appUserNamePipe.transform(value)
       },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        isAngularComponent: true,
-        angularComponentName: ConnectorCellComponent,
-      },
-
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
@@ -133,11 +125,18 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         }
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p'
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-5p',
+        class: 'text-center col-5p',
+        isAngularComponent: true,
+        angularComponentName: ConnectorCellComponent,
       },
       {
         id: 'tagID',

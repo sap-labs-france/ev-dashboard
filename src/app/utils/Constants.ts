@@ -18,6 +18,8 @@ export class Constants {
   public static ENTITY_TENANTS = 'Tenants';
   public static ENTITY_COMPANY = 'Company';
   public static ENTITY_COMPANIES = 'Companies';
+  public static ENTITY_SETTING = 'Setting';
+  public static ENTITY_SETTINGS = 'Settings';
   public static ENTITY_SITE = 'Site';
   public static ENTITY_SITES = 'Sites';
   public static ENTITY_SITE_AREA = 'SiteArea';
@@ -127,7 +129,7 @@ export class Constants {
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
 
   /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi'];
+  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing'];
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
@@ -145,5 +147,4 @@ export class Constants {
   /* Ocpi status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';
   public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
-
 }

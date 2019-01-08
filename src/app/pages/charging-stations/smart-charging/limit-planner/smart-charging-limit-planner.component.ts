@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, Output, DoCheck, EventEmitter, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from '../../../../../services/authorization-service';
+import { AuthorizationService } from '../../../../services/authorization-service';
 import { Charger, ScheduleSlot, ConnectorSchedule } from 'app/common.types';
 import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.component';
 import { MatDialog } from '@angular/material';
@@ -110,6 +110,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
 
   resetSlots() {
     this.slotsSchedule = [];
+    this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
 
   public sliderChanged(slot, value) {
@@ -167,8 +168,8 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
         this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success'),
-                                                      {'chargeBoxID': self.charger.id, 'power': 'plan'});
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+                                                      {'chargeBoxID': self.charger.id, 'power': 'plan'}));
               this.onApplyPlanning.emit();
             } else {
               Utils.handleError(JSON.stringify(response),

@@ -174,17 +174,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   }
 
   public getTableRowActions(rowItem: Connector): TableActionDef[] {
-    if (!rowItem) {
-      return [
-        this.noAction.getActionDef()
-      ];
-    } else {
-      // Check if charger is assigned/active
-      if (!this.charger.siteArea || this.charger.inactive) {
-        return [
-          this.noAction.getActionDef()
-        ];
-      }
+    if (rowItem) {
       // Check active transaction and authorization to stop
       if (rowItem && rowItem.activeTransactionID &&
         this.connectorTransactionAuthorization &&
@@ -201,6 +191,10 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         ];
       }
     }
+    // By default no actions
+    return [
+      //        this.noAction.getActionDef()
+            ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -251,7 +245,8 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   }
 
   /**
-   * _startTransactionFor(connector: Connector, user: User)  */
+   * _startTransactionFor(connector: Connector, user: User)
+   * */
   public _startTransactionFor(connector: Connector, user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,

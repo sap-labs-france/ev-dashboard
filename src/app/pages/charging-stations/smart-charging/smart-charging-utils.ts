@@ -1,14 +1,14 @@
-import {ChargingStations} from '../../../../utils/ChargingStations';
+import {ChargingStations} from 'app/utils/ChargingStations';
 
 export class SmartChargingUtils {
     /**
     *
     * Return the value in th eexpected display format
     * All values are displayed in kW
-    * @param {*} value : value to convert 
+    * @param {*} value : value to convert
     * @param {*} valueUnit : unit (W, kW, A) of the value
-    * @memberof SmartChargingSimpleLimitComponent
     */
+   // tslint:disable-next-line:max-line-length
    static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision, powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter) {
      switch (valueUnit) {
        case 'W':
@@ -18,7 +18,8 @@ export class SmartChargingUtils {
          return appUnitFormatter.transform(value, valueUnit, displayUnit, false, powerDigitPrecision, powerFloatingPrecision);
          break;
        case 'A':
-         return appUnitFormatter.transform(ChargingStations.convertAmpToW(numberOfConnectedPhase, value), 'W', displayUnit, false, powerDigitPrecision, powerFloatingPrecision);;
+         // tslint:disable-next-line:max-line-length
+         return appUnitFormatter.transform(ChargingStations.convertAmpToW(numberOfConnectedPhase, value), 'W', displayUnit, false, powerDigitPrecision, powerFloatingPrecision);
          break;
      }
    }
@@ -29,7 +30,6 @@ export class SmartChargingUtils {
     * @param {*} value
     * @param {*} valueUnit
     * @returns
-    * @memberof SmartChargingSimpleLimitComponent
     */
    static getInternalFormatValue(value, valueUnit, numberOfConnectedPhase) {
      switch (valueUnit) {

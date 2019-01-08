@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, EventEmitter, ViewChild, Output, AfterViewInit} from '@angular/core';
-import {Charger} from '../../../../common.types';
-import {LocaleService} from '../../../../services/locale.service';
+import {Charger} from 'app/common.types';
+import {LocaleService} from 'app/services/locale.service';
 import {TranslateService} from '@ngx-translate/core';
-import {ChargingStations} from '../../../../utils/ChargingStations';
-import {Constants} from '../../../../utils/Constants';
+import {ChargingStations} from 'app/utils/ChargingStations';
+import {Constants} from 'app/utils/Constants';
 import {MatSlider} from '@angular/material/slider';
-import {AppUnitPipe} from '../../../../shared/formatters/app-unit.pipe'
+import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe'
 import {SmartChargingUtils} from './smart-charging-utils';
 
 const MIN_POWER = 3000; // Minimum power in W under which we can't go

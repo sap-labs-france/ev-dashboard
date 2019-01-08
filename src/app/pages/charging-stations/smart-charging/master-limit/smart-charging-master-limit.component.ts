@@ -1,20 +1,20 @@
 // tslint:disable-next-line:max-line-length
 import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
-import {Charger, ConnectorSchedule, ScheduleSlot} from '../../../../../common.types';
-import {LocaleService} from '../../../../../services/locale.service';
+import {Charger, ConnectorSchedule, ScheduleSlot} from 'app/common.types';
+import {LocaleService} from 'app/services/locale.service';
 import {Router} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {CentralServerService} from '../../../../../services/central-server.service';
-import {SpinnerService} from '../../../../../services/spinner.service';
-import {AuthorizationService} from '../../../../../services/authorization-service';
-import {MessageService} from '../../../../../services/message.service';
-import {Utils} from '../../../../../utils/Utils';
-import {ChargingStations} from '../../../../../utils/ChargingStations';
-import {Constants} from '../../../../../utils/Constants';
+import {CentralServerService} from 'app/services/central-server.service';
+import {SpinnerService} from 'app/services/spinner.service';
+import {AuthorizationService} from 'app/services/authorization-service';
+import {MessageService} from 'app/services/message.service';
+import {Utils} from 'app/utils/Utils';
+import {ChargingStations} from 'app/utils/ChargingStations';
+import {Constants} from 'app/utils/Constants';
 import {MatSlider} from '@angular/material/slider';
-import {DialogService} from '../../../../../services/dialog.service';
-import {AppUnitPipe} from '../../../../../shared/formatters/app-unit.pipe'
+import {DialogService} from 'app/services/dialog.service';
+import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe'
 import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.component';
 import {SmartChargingUtils} from '../smart-charging-utils';
 
@@ -25,11 +25,11 @@ const LARGE_SLIDER_STEP = 1000;
 const DISPLAY_UNIT = 'kW';
 
 @Component({
-  selector: 'app-smart-charging-simple-limit',
-  templateUrl: './smart-charging-simple-limit.html'
+  selector: 'app-smart-charging-master-limit',
+  templateUrl: './smart-charging-master-limit.html'
 })
 @Injectable()
-export class SmartChargingSimpleLimitComponent implements OnInit, AfterViewInit {
+export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit {
   @Input() charger: Charger;
   @Output() onApplyPlanning = new EventEmitter<any>();
   private messages;

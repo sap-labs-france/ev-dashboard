@@ -428,6 +428,7 @@
       "duration": "Durée (secondes)",
       "start_date": "Début",
       "end_date": "Fin",
+      "add_slot_button": "Ajouter un créneau",
       "profile_types": {
         "relative": "Relatif",
         "absolute": "Absolu",

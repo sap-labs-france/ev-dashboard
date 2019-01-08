@@ -435,6 +435,7 @@
       "duration": "Duration (seconds)",
       "start_date": "Start",
       "end_date": "End",
+      "add_slot_button": "Add slot",
       "profile_types": {
         "relative": "Relative",
         "absolute": "Absolute",

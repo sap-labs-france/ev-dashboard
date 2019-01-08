@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ConsumptionValue, ConnectorSchedule} from '../../../../../common.types';
-import {CentralServerService} from '../../../../../services/central-server.service';
+import {ConsumptionValue, ConnectorSchedule} from 'app/common.types';
+import {CentralServerService} from 'app/services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../../../services/locale.service';
+import {LocaleService} from 'app/services/locale.service';
 import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from '../../../../../shared/formatters/app-date.pipe';
-import {AppConnectorIdPipe} from '../../../../../shared/formatters/app-connector-id.pipe';
+import {AppDatePipe} from 'app/shared/formatters/app-date.pipe';
+import {AppConnectorIdPipe} from 'app/shared/formatters/app-connector-id.pipe';
 import * as moment from 'moment';
 import {ChartComponent} from 'angular2-chartjs';
 
@@ -37,8 +37,8 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
   private colors = [
-    [255, 99, 132], 
-    [54, 162, 235], 
+    [255, 99, 132],
+    [54, 162, 235],
     [255, 206, 86]
   ];
 
@@ -61,8 +61,8 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
     let test = true;
   }
 
@@ -73,7 +73,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
       labels: [],
       datasets: []
     }
-    //build for each connectors
+    // build for each connectors
     for (let index = 0; index < limitPlanning.length; index++) {
       const connectorPlanning = limitPlanning[index];
       // calculate distance
@@ -84,8 +84,10 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
       distanceBetween2points = 1;
       // Build single connector data set
       // Line label
-      const connectorLabel = (connectorPlanning.connectorId === 0 ?  this.translateService.instant('chargers.connector0') : this.translateService.instant('chargers.connector') + ' ' + this.connectorIdPipe.transform(connectorPlanning.connectorId)); 
-      const axisId = "power";
+      const connectorLabel = (connectorPlanning.connectorId === 0 ?
+                                this.translateService.instant('chargers.connector0') :
+                                this.translateService.instant('chargers.connector') + ' ' + this.connectorIdPipe.transform(connectorPlanning.connectorId));
+      const axisId = 'power';
       const limitPowerDataSet = {
         data: [],
         yAxisID: axisId,
@@ -105,7 +107,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
           } else {
             this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
             limitPowerDataSet.data.push(limit.limit);
-          } 
+          }
         }
       }
       // Push in the graph

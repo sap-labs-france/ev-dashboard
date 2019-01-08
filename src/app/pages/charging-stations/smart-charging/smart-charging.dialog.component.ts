@@ -1,7 +1,7 @@
 import {Component, Inject, ViewChild, AfterViewInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material';
-import { Charger } from "../../../../common.types";
-import { SmartChargingSimpleLimitComponent } from './simple-limit/smart-charging-simple-limit.component';
+import { Charger } from 'app/common.types';
+import { SmartChargingMasterLimitComponent } from './master-limit/smart-charging-master-limit.component';
 import { SmartChargingLimitPlanningComponent } from './limit-planning/smart-charging-limit-planning.component';
 import { SmartChargingLimitPlannerComponent } from './limit-planner/smart-charging-limit-planner.component';
 import { DialogService } from 'app/services/dialog.service';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class ChargingStationSmartChargingDialogComponent implements AfterViewInit {
    charger: Charger;
 
-  @ViewChild('simpleLimit') simpleLimitComponent: SmartChargingSimpleLimitComponent;
+  @ViewChild('masterLimit') masterLimitComponent: SmartChargingMasterLimitComponent;
   @ViewChild('limitPlanning') limitPlanning: SmartChargingLimitPlanningComponent;
   @ViewChild('limitPlanner') limitPlanner: SmartChargingLimitPlannerComponent;
   constructor(
@@ -39,12 +39,13 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
   }
 
   ngAfterViewInit(): void {
-//    this.simpleLimitComponent.limitChanged(this.limitPlanning.internalFormatCurrentLimit);
+//    this.masterLimitComponent.limitChanged(this.limitPlanning.internalFormatCurrentLimit);
   }
 
   limitChange(newValue) {
-    if (this.simpleLimitComponent)
-      this.simpleLimitComponent.limitChanged(newValue);
+    if (this.masterLimitComponent) {
+      this.masterLimitComponent.limitChanged(newValue);
+    }
   }
 
   planningChanged(event) {
@@ -54,18 +55,19 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
   }
 
   clearProfiles() {
-    //show yes/no dialog
+    // show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
-      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', {'chargeBoxID': this.charger.id})//Math.round(this.powerSliderValue/1000)})
+      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', {'chargeBoxID': this.charger.id})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        //call REST service
+        // call REST service
         this.centralServerService.chargingStationClearChargingProfile(this.charger).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-              //success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success'), {'chargeBoxID': this.charger.id});
+              // success + reload
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
+                                                                                    {'chargeBoxID': this.charger.id}));
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));

@@ -944,7 +944,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build default charging profile json
-    const date = new Date("01/01/2018").toISOString();
+    const date = new Date('01/01/2018').toISOString();
     console.log(date);
     let body: string;
       body = `{
@@ -969,12 +969,12 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build default charging profile json
-    const date = new Date("01/01/2018").toISOString();
+    const date = new Date('01/01/2018').toISOString();
     console.log(date);
     let body: string;
     body = `{
     "chargeBoxID": "${charger.id}", "args": {`;
-    if (profileId) { 
+    if (profileId) {
       body += `"id": ${profileId}`;
       if (connectorId || profilePurpose || stackLevel) {
         body += `,`;
@@ -994,10 +994,10 @@ export class CentralServerService {
     }
     if (stackLevel) {
       body += `"stackLevel": ${stackLevel}`;
-    } 
+    }
     body += `}
       }`;
-      
+
     console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,

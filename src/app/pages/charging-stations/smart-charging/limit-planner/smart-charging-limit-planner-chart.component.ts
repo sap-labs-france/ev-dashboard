@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ConsumptionValue} from '../../../../../common.types';
-import {CentralServerService} from '../../../../../services/central-server.service';
+import {ConsumptionValue} from 'app/common.types';
+import {CentralServerService} from 'app/services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../../../services/locale.service';
+import {LocaleService} from 'app/services/locale.service';
 import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from '../../../../../shared/formatters/app-date.pipe';
-import {AppConnectorIdPipe} from '../../../../../shared/formatters/app-connector-id.pipe';
+import {AppDatePipe} from 'app/shared/formatters/app-date.pipe';
+import {AppConnectorIdPipe} from 'app/shared/formatters/app-connector-id.pipe';
 import * as moment from 'moment';
 import {ChartComponent} from 'angular2-chartjs';
 import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';

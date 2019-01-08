@@ -31,7 +31,7 @@ import { ChargingStationDialogComponent } from './charging-station-dialog/chargi
 import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
-import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 

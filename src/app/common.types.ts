@@ -391,6 +391,10 @@ export interface Transaction {
   user: User;
   tagID: string;
   status: string;
+  refund: {
+    requestedAt: Date;
+    status: string;
+  };
   stop: {
     user: User;
     tagID: string;

@@ -28,6 +28,7 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import * as moment from 'moment';
+import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -184,7 +185,25 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
 
   getTableRowActions(): TableActionDef[] {
-    return [new TableDeleteAction().getActionDef()];
+    const rowActions = [];
+    if (this.centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME)) {
+      rowActions.push(new TableRefundAction().getActionDef());
+    }
+    rowActions.push(new TableDeleteAction().getActionDef());
+    return rowActions;
+  }
+
+  canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
+    switch (actionDef.id) {
+      case 'delete':
+      case 'refund':
+        if (transaction.hasOwnProperty('refund')) {
+          return false;
+        }
+        return true;
+      default:
+        return true;
+    }
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -197,6 +216,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this._deleteTransaction(transaction);
+          }
+        });
+        break;
+      case 'refund':
+        this.dialogService.createAndShowYesNoDialog(
+          this.dialog,
+          this.translateService.instant('transactions.dialog.refund.title'),
+          this.translateService.instant('transactions.dialog.refund.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this._refundTransaction(transaction);
           }
         });
         break;
@@ -225,6 +255,18 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
+    });
+  }
+
+  protected _refundTransaction(transaction: Transaction) {
+    this.centralServerService.refundTransaction(transaction.id).subscribe((response: ActionResponse) => {
+      this.messageService.showSuccessMessage(
+        // tslint:disable-next-line:max-line-length
+        this.translateService.instant('transactions.notification.refund.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      this.loadData();
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('transactions.notification.refund.error'));
     });
   }
 }

@@ -2,13 +2,14 @@ import {BehaviorSubject, interval, Observable, of, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
-import {Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
+import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 
 import * as _ from 'lodash';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
+  public rowActionsDef: TableActionDef[];
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
   private paginator: MatPaginator;
@@ -17,7 +18,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableDef: TableDef;
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
-  public rowActionsDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
@@ -410,6 +410,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.data = [];
       this.setData(toRefresh);
     }
+  }
+
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+    return true;
   }
 
   private _checkInitialized(): any {

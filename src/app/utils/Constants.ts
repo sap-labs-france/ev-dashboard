@@ -144,6 +144,7 @@ export class Constants {
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
   public static SETTINGS_CHARGE_AT_HOME = 'chargeathome';
+
   public static SETTINGS_PRICING = 'pricing';
 
   /* Ocpi status */

@@ -38,6 +38,7 @@
     "save": "Save",
     "delete": "Delete",
     "stop": "Stop",
+    "refund": "Refund",
     "register": "Register",
     "change": "Change",
     "reload": "Reload",
@@ -769,12 +770,16 @@
     },
     "dialog": {
       "delete": {
-        "title": "Delete Sessions",
+        "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
       },
       "soft_stop": {
-        "title": "Stop Sessions",
+        "title": "Stop Session",
         "confirm": "Do you really want to stop the session of {{user}}?"
+      },
+      "refund": {
+        "title": "Refund Session",
+        "confirm": "Do you really want to ask the refund of {{user}} session ?"
       }
     },
     "notification": {
@@ -786,6 +791,10 @@
       "soft_stop": {
         "success": "Session of {{user}} stopped successfully",
         "error": "An error occurred during session stop"
+      },
+      "refund": {
+        "success": "Session of {{user}} refund requested successfully",
+        "error": "An error occurred during refund request"
       }
     }
   }

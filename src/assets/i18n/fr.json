@@ -38,6 +38,8 @@
     "save": "Sauvegarder",
     "change": "Changer",
     "reload": "Recharger",
+    "stop": "Stop",
+    "refund": "Rembourser",
     "close": "Fermer",
     "back": "Retour",
     "next": "Suivant",
@@ -737,12 +739,16 @@
     },
     "dialog": {
       "delete": {
-        "title": "Supprimer les Sessions",
+        "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
       },
       "soft_stop": {
-        "title": "Arréter les Sessions",
+        "title": "Arréter la Session",
         "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
+      },
+      "refund": {
+        "title": "Rembourser la Session",
+        "confirm": "Voulez-vous vraiment demander le remboursement de la session de {{user}} ?"
       }
     },
     "notification": {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, ObservableInput, of, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -780,6 +780,18 @@ export class CentralServerService {
       );
   }
 
+  refundTransaction(id: number) {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionRefund?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   softStopTransaction(id: number) {
     this._checkInit();
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
@@ -1064,6 +1076,16 @@ export class CentralServerService {
       );
   }
 
+  createConnectorConnection(intergationId: string, payload: any) {
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/connectors/${intergationId}/connections`, payload,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -1140,5 +1162,4 @@ export class CentralServerService {
     }
     return throwError(errMsg);
   }
-
 }

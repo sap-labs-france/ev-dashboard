@@ -1,5 +1,5 @@
 import {mergeMap} from 'rxjs/operators';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
@@ -16,6 +16,7 @@ import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
 import {UserRoles, userStatuses} from '../users.model';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-user-cmp',
@@ -71,7 +72,8 @@ export class UserComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private router: Router) {
+    private router: Router,
+    @Inject(DOCUMENT) private document: any) {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -87,6 +89,17 @@ export class UserComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    console.log(this.activatedRoute.snapshot.queryParams);
+    if (this.activatedRoute.snapshot.params['integration'] === 'concur') {
+      if (this.activatedRoute.snapshot.params['code']) {
+        const payload = {
+          userId: this.activatedRoute.snapshot.params['state'].userId,
+          token: this.activatedRoute.snapshot.params['code']
+        };
+        this.centralServerService.createConnectorConnection('concur', payload)
+      } else if (this.activatedRoute.snapshot.params['error']) {
+      }
+    }
   }
 
   ngOnInit() {
@@ -387,6 +400,34 @@ export class UserComponent implements OnInit {
     }
   }
 
+  public imageChanged() {
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  public clearImage() {
+    // Clear
+    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  linkConcurAccount() {
+    this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+      // const setting = settingResult.result[0].content;
+      const setting: any = {};
+      setting.url = 'https://www.concursolutions.com/net2/oauth2/Login.aspx';
+      setting.clientId = '6fVhhu5nmaa9P6sWXEsHJT';
+      setting.scope = 'EXPRPT';
+      const state = {
+        integration: 'concur',
+        userId: this.currentUserID
+      };
+      const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
+      this.document.location.href = `${setting.url}?client_id=${setting.clientId}&scope=${setting.scope}&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    });
+  }
+
   private _createUser(user) {
     // Show
     this.spinnerService.show();
@@ -468,17 +509,5 @@ export class UserComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  public imageChanged() {
-    // Set form dirty
-    this.formGroup.markAsDirty();
-  }
-
-  public clearImage() {
-    // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
-    // Set form dirty
-    this.formGroup.markAsDirty();
   }
 }

@@ -5,7 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {TableActionDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
+import {DropdownItem, TableActionDef, TableDef, TableFilterDef} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
@@ -285,4 +285,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   /*  public isDetailedTableEnable(): Boolean {
       return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
     }*/
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
+    return this.dataSource.canDisplayRowAction(rowAction, rowItem);
+  }
 }

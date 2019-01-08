@@ -129,7 +129,7 @@ export class Constants {
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
 
   /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing'];
+  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'sitemanagement'];
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';

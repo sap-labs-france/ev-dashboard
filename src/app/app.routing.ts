@@ -123,6 +123,21 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'organizations', loadChildren: './pages/organizations/organizations.module#OrganizationsModule',
+        canActivate: [RouteGuardService], data: {
+          menu: {
+            title: 'organizations',
+            type: 'link',
+            icon: 'store_mall_directory',
+            path: '/organizations'
+          },
+          auth: {
+            entity: Constants.ENTITY_SETTINGS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
         data: {forAdminOnly: true, forSuperAdminOnly: true}
       },

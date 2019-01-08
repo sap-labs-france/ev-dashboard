@@ -679,6 +679,10 @@
       }
     }
   },
+  "sitemanagement": {
+    "title": "Site Management",
+    "description": "Manage Site Organization as Companies, Sites and Site Areas"
+  },
   "chargeathome": {
     "title": "Charge@Home",
     "description": "Charge At Home Interface"

@@ -670,6 +670,10 @@
       }
     }
   },
+  "sitemanagement": {
+    "title": "Organisation du Site",
+    "description": "Organisation du Site en Compagnies, Sites et Zones"
+  },
   "chargeathome": {
     "title": "Charge@Home",
     "description": "Charge At Home Interface"

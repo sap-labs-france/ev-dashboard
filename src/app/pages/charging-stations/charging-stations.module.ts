@@ -39,6 +39,8 @@ import {SmartChargingLimitChartComponent} from './smart-charging/limit-planning/
 import {ChartModule} from 'angular2-chartjs';
 // tslint:disable-next-line:max-line-length
 import {SmartChargingLimitPlannerChartComponent} from './smart-charging/limit-planner/smart-charging-limit-planner-chart.component';
+import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
+import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -76,7 +78,9 @@ import {SmartChargingLimitPlannerChartComponent} from './smart-charging/limit-pl
     SmartChargingLimitPlannerComponent,
     SessionDialogComponent,
     SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent
+    SmartChargingLimitPlannerChartComponent,
+    ChargingStationMoreActionsDialogComponent,
+    ChargingStationGetDiagnosticsComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -98,13 +102,16 @@ import {SmartChargingLimitPlannerChartComponent} from './smart-charging/limit-pl
     SmartChargingLimitPlanningComponent,
     SmartChargingLimitPlannerComponent,
     SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent
+    SmartChargingLimitPlannerChartComponent,
+    ChargingStationMoreActionsDialogComponent,
+    ChargingStationGetDiagnosticsComponent
   ],
   exports: [
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
     ChargingStationSmartChargingDialogComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    ChargingStationMoreActionsDialogComponent
   ],
   providers: [
     ChargingStationComponent,

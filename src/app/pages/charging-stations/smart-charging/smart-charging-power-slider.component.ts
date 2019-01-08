@@ -8,39 +8,15 @@ import {MatSlider} from '@angular/material/slider';
 import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe'
 import {SmartChargingUtils} from './smart-charging-utils';
 
-const MIN_POWER = 3000; // Minimum power in W under which we can't go
+const MIN_POWER = 4000; // Minimum power in W under which we can't go
 const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing teh step of the slider
 const SMALL_SLIDER_STEP = 500;
 const LARGE_SLIDER_STEP = 1000;
 
 @Component({
   selector: 'app-smart-charging-power-slider',
-  template: `
-              <div *ngIf="(textPosition==='top')" class="row col-md-12 text-center">
-                <div [class]="(textClass ? textClass : '')">
-                  {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
-                </div>
-              </div>
-            <div class="row col-md-12">
-              <div *ngIf="(textPosition==='left')" [class]="'col-md-4 ' + (textClass ? textClass : '')">
-                {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
-              </div>
-              <mat-slider #powerSlider thumbLabel
-                    [displayWith]="formatPowerPercent"
-                    [ngClass]="((textPosition==='left' || textPosition==='right') ? 'col-md-8' : 'col-md-12')"
-                    (input)="sliderInput()" (change)="sliderChanged()"
-                    [min]="minPowerSlider" [max]="maxPowerSlider" [step]="stepPowerSlider" [value]="powerSliderValue">
-              </mat-slider>
-              <div *ngIf="(textPosition==='right')" [class]="'col-md-4 ' + (textClass ? textClass : '')">
-                {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
-              </div>
-              </div>
-              <div *ngIf="(!textPosition || textPosition==='bottom')" class="row ">
-                <div [class]="(textClass ? textClass : '') +  ' col-md-12 text-center'">
-                  {{powerSliderDisplayedValueInkW}}/{{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
-                </div>
-              </div>
-            `
+  templateUrl: 'smart-charging-power-slider.component.html',
+  styleUrls: ['../../../shared/table/table.component.scss', './smart-charging-power-slider.component.scss']
 })
 @Injectable()
 export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit {
@@ -48,12 +24,13 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   @Input() powerUnit: string;
   @Input() numberOfConnectedPhase: number;
   @Input() textClass?: string;
-  @Input() textPosition?: number;
+  @Input() textPosition?: string;
   @Input() startValue?: any;
 
   @Output() onSliderChange = new EventEmitter<number>();
   public maxPowerSlider: number;
   public minPowerSlider: number;
+  public minPowerSliderDisplayed: number;
   public stepPowerSlider: number;
   public powerSliderValue = 0;
   public powerSliderDisplayedValueInkW = 0;
@@ -61,7 +38,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   public currentDisplayedLimit: number;
   public isNotValid = true;
 
-  private powerDigitPrecision = 2;
+  private powerDigitPrecision = 1;
   private powerFloatingPrecision = 0;
 
   @ViewChild('powerSlider') powerSliderComponent: MatSlider;
@@ -77,6 +54,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
     if (this.powerUnit === Constants.OCPP_UNIT_WATT) {
       // Value of slider will be expressed in WATT
       this.minPowerSlider = MIN_POWER;
+      this.minPowerSliderDisplayed = this.minPowerSlider;
       this.maxPowerSlider = this.maximumPower;
       this.stepPowerSlider = (this.maxPowerSlider > LIMIT_FOR_STEP_CHANGE ? LARGE_SLIDER_STEP : SMALL_SLIDER_STEP);
     } else if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
@@ -90,6 +68,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
           break;
         }
       }
+      this.minPowerSliderDisplayed = ChargingStations.convertAmpToW(this.numberOfConnectedPhase, this.minPowerSlider);
     }
     // For small charger increase display precision
     if (this.maximumPower < 10000) {
@@ -112,7 +91,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                       this.powerDigitPrecision,
                                                                                       this.powerFloatingPrecision,
                                                                                       this.numberOfConnectedPhase,
-                                                                                      this.appUnitFormatter);
+                                                                                      this.appUnitFormatter,
+                                                                                      true);
     }
   }
 
@@ -127,7 +107,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
     if (!value) {
       return '0';
     }
-    return `${Math.round(value / self.max * 100)}`;
+    return `${Math.round(value / self.max * 100)}%`;
   }
 
   public sliderChanged() {
@@ -137,7 +117,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                     this.powerDigitPrecision,
                                                                                     this.powerFloatingPrecision,
                                                                                     this.numberOfConnectedPhase,
-                                                                                    this.appUnitFormatter);
+                                                                                    this.appUnitFormatter,
+                                                                                    true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
     this.powerSliderValue = this.powerSliderComponent.value;
     this.onSliderChange.emit(this.powerSliderValue);
@@ -150,7 +131,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                     this.powerDigitPrecision,
                                                                                     this.powerFloatingPrecision,
                                                                                     this.numberOfConnectedPhase,
-                                                                                    this.appUnitFormatter);
+                                                                                    this.appUnitFormatter,
+                                                                                    true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
 //    this.onSliderChange.emit(this.powerSliderValue);
   }
@@ -169,7 +151,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                         this.powerDigitPrecision,
                                                                                         this.powerFloatingPrecision,
                                                                                         this.numberOfConnectedPhase,
-                                                                                        this.appUnitFormatter);
+                                                                                        this.appUnitFormatter,
+                                                                                        true);
         break;
       case 'kW':
         if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
@@ -191,7 +174,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                         this.powerDigitPrecision,
                                                                                         this.powerFloatingPrecision,
                                                                                         this.numberOfConnectedPhase,
-                                                                                        this.appUnitFormatter);
+                                                                                        this.appUnitFormatter,
+                                                                                        true);
         break;
       default:
         break;

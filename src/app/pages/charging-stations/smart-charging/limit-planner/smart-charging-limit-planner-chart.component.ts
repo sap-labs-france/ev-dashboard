@@ -1,13 +1,13 @@
-import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ConsumptionValue} from 'app/common.types';
-import {CentralServerService} from 'app/services/central-server.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from 'app/services/locale.service';
-import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from 'app/shared/formatters/app-date.pipe';
-import {AppConnectorIdPipe} from 'app/shared/formatters/app-connector-id.pipe';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ConsumptionValue } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { DecimalPipe } from '@angular/common';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import * as moment from 'moment';
-import {ChartComponent} from 'angular2-chartjs';
+import { ChartComponent } from 'angular2-chartjs';
 import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
 
 @Component({
@@ -44,11 +44,11 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
   ];
 
   constructor(private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private localeService: LocaleService,
-              private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe,
-              private connectorIdPipe: AppConnectorIdPipe) {
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: DecimalPipe,
+    private connectorIdPipe: AppConnectorIdPipe) {
   }
 
   resetZoom() {
@@ -62,20 +62,25 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
   }
 
   setLimitPlannerData(scheduleSlots: DisplayedScheduleSlot[]) {
+    this.scheduleSlots = scheduleSlots;
     if (scheduleSlots && scheduleSlots.length > 0) {
-      this.scheduleSlots = scheduleSlots;
       this.createGraphData(this.scheduleSlots);
+    } else {
+      // clear graph
+      this.options = null;
+      this.data = null;
     }
   }
 
   ngAfterViewInit(): void {
-    this.chartComponent.clickDataset.next((value) => {
-      console.log('ClickDataSet' + JSON.stringify(value));
-    });
-    this.chartComponent.clickElement.next((value) => {
-      console.log('ClickElement' + JSON.stringify(value));
-    });
-
+    /*
+        this.chartComponent.clickDataset.next((value) => {
+          console.log('ClickDataSet' + JSON.stringify(value));
+        });
+        this.chartComponent.clickElement.next((value) => {
+          console.log('ClickElement' + JSON.stringify(value));
+        });
+    */
   }
 
   createGraphData(scheduleSlots: DisplayedScheduleSlot[]) {
@@ -85,38 +90,44 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
       datasets: []
     }
     // Build single connector data set
-      // Line label
-      const connectorLabel = this.translateService.instant('chargers.connector0');
-      const axisId = 'power';
-      const limitPowerDataSet = {
-        data: [],
-        yAxisID: axisId,
-        ...this.formatLineColor(this.colors[0]),
-        label: connectorLabel
-      };
-      // Push in the graph
-      this.data.datasets.push(limitPowerDataSet);
+    // Line label
+    const connectorLabel = this.translateService.instant('chargers.connector0');
+    const axisId = 'power';
+    const limitPowerDataSet = {
+      data: [],
+      yAxisID: axisId,
+      ...this.formatLineColor(this.colors[0]),
+      label: connectorLabel
+    };
+    // Push in the graph
+    this.data.datasets.push(limitPowerDataSet);
     // build for each connectors
     for (let index = 0; index < scheduleSlots.length; index++) {
       const connectorPlanning = scheduleSlots[index];
       // Add slot
       const limit = connectorPlanning.slot;
       this.data.labels.push(limit.start.getTime());
-      limitPowerDataSet.data.push({x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-        this.chartEvent(element, null);
-      }});
-      if (index ===  scheduleSlots.length - 1) {
+      limitPowerDataSet.data.push({
+        x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
+          this.chartEvent(element, null);
+        }
+      });
+      if (index === scheduleSlots.length - 1) {
         // Add last limit
         if (limit.end && limit.end.getTime() !== limit.start.getTime()) {
           this.data.labels.push(limit.end.getTime());
-          limitPowerDataSet.data.push({x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-            this.chartEvent(element, null);
-          }});
+          limitPowerDataSet.data.push({
+            x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
+              this.chartEvent(element, null);
+            }
+          });
         } else {
           this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
-          limitPowerDataSet.data.push({x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
-            this.chartEvent(element, null);
-          }});
+          limitPowerDataSet.data.push({
+            x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
+              this.chartEvent(element, null);
+            }
+          });
         }
       }
     }
@@ -124,7 +135,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
 
   createOptions(scheduleSlots: DisplayedScheduleSlot[]) {
     const options: any = {
-      legend: {position: 'bottom'},
+      legend: { position: 'bottom' },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -149,7 +160,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', {trim: false});
+              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
           }
         }
       },
@@ -174,9 +185,9 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             type: 'linear',
             position: 'left',
             min: 0,
-            stepSize: 1000,
+            stepSize: 1,
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value)
+              callback: (value, index, values) => this.decimalPipe.transform(value / 1000, '1.0-0')
             },
           }
         ]
@@ -184,12 +195,12 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
       pan: {
         enabled: true,
         mode: 'x',
-/*        rangeMin: {
-          x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
-        },
-        rangeMax: {
-          x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0
-        },*/
+        /*        rangeMin: {
+                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
+                },
+                rangeMax: {
+                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0
+                },*/
       },
       zoom: {
         enabled: true,

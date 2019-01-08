@@ -24,7 +24,8 @@ import {
   ACTION_CLEAR_CACHE,
   ACTION_REBOOT,
   ACTION_SMART_CHARGING,
-  ACTION_SOFT_RESET
+  ACTION_SOFT_RESET,
+  ACTION_MORE_ACTIONS
 } from './other-actions-button/table-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
 import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
@@ -32,6 +33,7 @@ import { Injectable } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
 import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
+import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -262,6 +264,9 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
           case ACTION_SMART_CHARGING:
             this._dialogSmartCharging(rowItem);
           break;
+          case ACTION_MORE_ACTIONS:
+          this._dialogMoreActions(rowItem);
+          break;
           default:
             break;
         }
@@ -366,5 +371,18 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     // Open
     const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _dialogMoreActions(chargingStation?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (chargingStation) {
+      dialogConfig.data = chargingStation;
+    }
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
+//    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

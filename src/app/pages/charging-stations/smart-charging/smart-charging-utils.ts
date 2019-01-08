@@ -9,17 +9,17 @@ export class SmartChargingUtils {
     * @param {*} valueUnit : unit (W, kW, A) of the value
     */
    // tslint:disable-next-line:max-line-length
-   static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision, powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter) {
+   static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision, powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
      switch (valueUnit) {
        case 'W':
-         return appUnitFormatter.transform(value, valueUnit, displayUnit, false, powerDigitPrecision, powerFloatingPrecision);
+         return appUnitFormatter.transform(value, valueUnit, displayUnit, addUnit, powerDigitPrecision, powerFloatingPrecision);
          break;
        case 'kW':
-         return appUnitFormatter.transform(value, valueUnit, displayUnit, false, powerDigitPrecision, powerFloatingPrecision);
+         return appUnitFormatter.transform(value, valueUnit, displayUnit, addUnit, powerDigitPrecision, powerFloatingPrecision);
          break;
        case 'A':
          // tslint:disable-next-line:max-line-length
-         return appUnitFormatter.transform(ChargingStations.convertAmpToW(numberOfConnectedPhase, value), 'W', displayUnit, false, powerDigitPrecision, powerFloatingPrecision);
+         return appUnitFormatter.transform(ChargingStations.convertAmpToW(numberOfConnectedPhase, value), 'W', displayUnit, addUnit, powerDigitPrecision, powerFloatingPrecision);
          break;
      }
    }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChildren, QueryList, Output, DoCheck, Eve
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from '../../../../services/authorization-service';
 import { Charger, ScheduleSlot, ConnectorSchedule } from 'app/common.types';
-import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.component';
+import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { DialogService } from 'app/services/dialog.service';
@@ -13,6 +13,7 @@ import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { SmartChargingLimitPlannerChartComponent } from './smart-charging-limit-planner-chart.component';
 import { ChargingStations } from 'app/utils/ChargingStations';
+import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
 
 interface DisplayedSlot extends ScheduleSlot {
   displayedLimitInkW: number,
@@ -27,15 +28,16 @@ export interface DisplayedScheduleSlot {
 
 export const PROFILE_TYPE_MAP =
   [
-    {key: 'Relative', description: 'chargers.smart_charging.profile_types.relative'},
-    {key: 'Absolute', description: 'chargers.smart_charging.profile_types.absolute'},
-    {key: 'Daily', description: 'chargers.smart_charging.profile_types.recurring_daily'},
-    {key: 'Weekly', description: 'chargers.smart_charging.profile_types.recurring_weekly'}
+    { key: 'Relative', description: 'chargers.smart_charging.profile_types.relative', stackLevel: 4, id: 4 },
+    { key: 'Absolute', description: 'chargers.smart_charging.profile_types.absolute', stackLevel: 3, id: 3 },
+    { key: 'Daily', description: 'chargers.smart_charging.profile_types.recurring_daily', stackLevel: 2, id: 2 },
+    { key: 'Weekly', description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, id: 1 }
   ]
 
 @Component({
   selector: 'app-smart-charging-limit-planner',
-  templateUrl: 'smart-charging-limit-planner.html'
+  templateUrl: 'smart-charging-limit-planner.html',
+  styleUrls: ['smart-charging-limit-planner-chart.component.scss']
 })
 export class SmartChargingLimitPlannerComponent implements OnInit {
   @Input() charger: Charger;
@@ -45,13 +47,15 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   @ViewChild('limitChart') limitChartPlannerComponent: SmartChargingLimitPlannerChartComponent;
 
   public profileTypeMap = PROFILE_TYPE_MAP;
-  public profileTypeSelected: string;
-  public stackLevel: number;
-  public profileId: number;
-  public duration: number;
   public powerUnit: string;
 
   public slotsSchedule: DisplayedScheduleSlot[];
+
+  public formGroup: FormGroup;
+  public profileTypeControl: AbstractControl;
+  public stackLevelControl: AbstractControl;
+  public profileIdControl: AbstractControl;
+  public durationControl: AbstractControl;
 
   private _defaultLimit: number;
 
@@ -72,13 +76,43 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   ngOnInit(): void {
     this.slotsSchedule = [];
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_WATT)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
     // Calculate default slider value which is macimum Power of the charger
     if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
       this._defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
     } else {
       this._defaultLimit = this.charger.maximumPower;
     }
+    // Init the form
+    this.formGroup = new FormGroup({
+      'profileTypeControl': new FormControl('',
+        Validators.compose([
+          Validators.required
+        ])),
+      'stackLevelControl': new FormControl('',
+        Validators.compose([
+          Validators.required
+        ])),
+      'profileIdControl': new FormControl('',
+        Validators.compose([
+          Validators.required
+        ])),
+      'durationControl': new FormControl('')
+    });
+    // Form
+    this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
+    this.stackLevelControl = this.formGroup.controls['stackLevelControl'];
+    this.profileIdControl = this.formGroup.controls['profileIdControl'];
+    this.durationControl = this.formGroup.controls['durationControl'];
+
+    this.profileTypeControl.valueChanges.subscribe(() => {
+      this.resetSlots();
+      // Set default values
+      this.stackLevelControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel);
+      this.profileIdControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id);
+    });
+
+    this.profileTypeControl.setValue('Absolute');
   }
 
   addSlot() {
@@ -88,14 +122,19 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
       const date = new Date();
       date.setSeconds(0);
       date.setMilliseconds(0);
-      slot = {start: date, end: date , limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+      slot = { start: date, end: date, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
     } else {
-      const start = new Date( this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 60000)
-      slot = {start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit)};
       // change previous slot
       const previousSlot = this.slotsSchedule[this.slotsSchedule.length - 1];
-      previousSlot.slot.end = start;
-      previousSlot.duration = ((previousSlot.slot.end.getTime() - previousSlot.slot.start.getTime()) / 1000);
+      if (previousSlot.duration > 0) {
+        const start = new Date(previousSlot.slot.start.getTime() + previousSlot.duration * 1000);
+        slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+      } else {
+        const start = new Date(this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 60000)
+        slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+        previousSlot.slot.end = start;
+        previousSlot.duration = ((previousSlot.slot.end.getTime() - previousSlot.slot.start.getTime()) / 1000);
+      }
     }
     const displayedSlot: DisplayedScheduleSlot = {
       slot: slot,
@@ -151,25 +190,41 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
     this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
 
+  changeSlotDuration(event, slot: DisplayedScheduleSlot) {
+    // update current slot end date
+    slot.slot.end = new Date(slot.slot.start.getTime() + event.target.value * 1000);
+    slot.displayedEndValue = this._buildDisplayDateTimePickerValue(slot.slot.end);
+    slot.duration = event.target.value;
+    // update next slots start date
+    for (let index = slot.id + 1; index < this.slotsSchedule.length; index++) {
+      const slotSchedule = this.slotsSchedule[index];
+      slotSchedule.slot.start = this.slotsSchedule[index - 1].slot.end;
+      slotSchedule.slot.end = new Date(this.slotsSchedule[index - 1].slot.end.getTime() + slotSchedule.duration * 1000);
+      slotSchedule.displayedStartValue = this._buildDisplayDateTimePickerValue(slotSchedule.slot.start);
+      slotSchedule.displayedEndValue = this._buildDisplayDateTimePickerValue(slotSchedule.slot.end);
+    }
+    this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
+  }
+
   applyPowerLimit() {
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', {'chargeBoxID': this.charger.id})
+      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { 'chargeBoxID': this.charger.id })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
-        // Build OCPP planning
-        const chargingProfile = this._buildProfile();
-        console.log('Profile ' + JSON.stringify(chargingProfile, null, ' '));
-        // call REST service
-        this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
+          // Build OCPP planning
+          const chargingProfile = this._buildProfile();
+          console.log('Profile ' + JSON.stringify(chargingProfile, null, ' '));
+          // call REST service
+          this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                                                      {'chargeBoxID': self.charger.id, 'power': 'plan'}));
+                { 'chargeBoxID': self.charger.id, 'power': 'plan' }));
               this.onApplyPlanning.emit();
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -183,7 +238,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
           });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),
-                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
         }
       }
     });
@@ -191,32 +246,32 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
 
   public _buildProfile() {
     const profile: any = {};
-    if (this.profileId > 0 && this.profileId <= 10) {
-      profile.chargingProfileId = this.profileId;
+    if (this.profileIdControl.value > 0 && this.profileIdControl.value <= 10) {
+      profile.chargingProfileId = this.profileIdControl.value;
     } else {
       throw new Error('Invalid profile Id');
     }
-    if (this.stackLevel > 0 && this.stackLevel <= 10) {
-      profile.stackLevel = this.stackLevel;
+    if (this.stackLevelControl.value > 0 && this.stackLevelControl.value <= 10) {
+      profile.stackLevel = this.stackLevelControl.value;
     } else {
       throw new Error('Invalid stack level');
     }
     profile.chargingProfilePurpose = 'TxDefaultProfile';
     // set profile type
-    if (this.profileTypeSelected === PROFILE_TYPE_MAP[2].key || this.profileTypeSelected === PROFILE_TYPE_MAP[3].key) {
+    if (this.profileTypeControl.value === PROFILE_TYPE_MAP[2].key || this.profileTypeControl.value === PROFILE_TYPE_MAP[3].key) {
       profile.chargingProfileKind = 'Recurring';
-      profile.recurrencyKind = this.profileTypeSelected;
+      profile.recurrencyKind = this.profileTypeControl.value;
     } else {
-      if (this.profileTypeSelected) {
-        profile.chargingProfileKind = this.profileTypeSelected;
+      if (this.profileTypeControl.value) {
+        profile.chargingProfileKind = this.profileTypeControl.value;
       } else {
         throw new Error('Invalid profile type');
       }
     }
     // build charging schedule header
     profile.chargingSchedule = {};
-    if (this.duration > 0) {
-      profile.chargingSchedule.duration = this.duration;
+    if (this.durationControl.value > 0) {
+      profile.chargingSchedule.duration = this.durationControl.value;
     }
     if (profile.chargingProfileKind !== PROFILE_TYPE_MAP[0].key) {
       profile.chargingSchedule.startSchedule = this.slotsSchedule[0].slot.start.toISOString();
@@ -232,7 +287,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
       const period: any = {};
       period.startPeriod = (slot.slot.start.getTime() - startOfSchedule) / 1000;
       if (period.startPeriod >= 0) {
-        period.limit = slot.slot.limit;
+        period.limit = ChargingStations.provideLimit(this.charger, slot.slot.limit);
         profile.chargingSchedule.chargingSchedulePeriod.push(period);
       } else {
         throw new Error('Invalid schedule');

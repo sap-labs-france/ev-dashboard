@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Injectable, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Charger, ConnectorSchedule, ScheduleSlot} from 'app/common.types';
 import {LocaleService} from 'app/services/locale.service';
 import {Router} from '@angular/router';
@@ -86,7 +86,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_WATT)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
     // For small charger increase display precision
     if (this.charger.maximumPower < 10000) {
       this.powerDigitPrecision = 1;
@@ -121,7 +121,14 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
       this._parseCompositeSchedule();
       // Inform that new limit value was calculated
       this.onLimitChange.emit(this.internalFormatCurrentLimit);
-      this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter);
+      this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit,
+        'W',
+        DISPLAY_UNIT,
+        this.powerDigitPrecision,
+        this.powerFloatingPrecision,
+        this.charger.numberOfConnectedPhase,
+        this.appUnitFormatter,
+        true);
       this.spinnerService.hide();
     }, (error) => {
         // Hide
@@ -161,9 +168,15 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
         let notValidForCurrentLimit = false;
         connectorSchedule.connectorId = compositeSchedule.connectorId;
         const currentDate = new Date(compositeSchedule.centralSystemTime);
+        // Fix ms and s to avoid gap in time btewwen central serevr and charger
+/*        currentDate.setMilliseconds(0);
+        currentDate.setSeconds(0);*/
         let scheduleStartDate;
         if (compositeSchedule.scheduleStart) {
           scheduleStartDate = new Date(compositeSchedule.scheduleStart);
+/*          // Fix ms and s to avoid gap in time btewwen central serevr and charger
+          scheduleStartDate.setMilliseconds(0);
+          scheduleStartDate.setSeconds(0); */
           if (scheduleStartDate > currentDate) {
             // Ignore schedule which are in the future for current limit calculation
             notValidForCurrentLimit = true;
@@ -183,7 +196,14 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
           }
           // Calculate the minimum charging
           this.minChargingRate = (compositeSchedule.chargingSchedule.minChargingRate ?
-                  SmartChargingUtils.getDisplayedFormatValue(compositeSchedule.chargingSchedule.minChargingRate, compositeSchedule.chargingSchedule.chargingRateUnit, DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
+                  SmartChargingUtils.getDisplayedFormatValue(compositeSchedule.chargingSchedule.minChargingRate,
+                    compositeSchedule.chargingSchedule.chargingRateUnit,
+                    DISPLAY_UNIT,
+                    this.powerDigitPrecision,
+                    this.powerFloatingPrecision,
+                    this.charger.numberOfConnectedPhase,
+                    this.appUnitFormatter,
+                    false)
                    : 0);
           // find and add limit valid in current period
           for (let index = 0; index < compositeSchedule.chargingSchedule.chargingSchedulePeriod.length; index++) {
@@ -197,26 +217,52 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
               const nextChargingPeriod = compositeSchedule.chargingSchedule.chargingSchedulePeriod[index + 1]
               slot.end = new Date(this.startScheduleDate.getTime() + nextChargingPeriod.startPeriod * 1000);
             }
-            slot.limit = SmartChargingUtils.getDisplayedFormatValue(chargingPeriod.limit, compositeSchedule.chargingSchedule.chargingRateUnit, DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
+            slot.limit = SmartChargingUtils.getDisplayedFormatValue(chargingPeriod.limit,
+              compositeSchedule.chargingSchedule.chargingRateUnit,
+              DISPLAY_UNIT,
+              this.powerDigitPrecision,
+              this.powerFloatingPrecision,
+              this.charger.numberOfConnectedPhase,
+              this.appUnitFormatter,
+              false)
             if (!connectorSchedule.hasOwnProperty('slots')) {
               // Initialize
               connectorSchedule.slots = [];
             }
             connectorSchedule.slots.push(slot);
-            // Add limits in case schedule is in current time
+            if (index === 0) {
+              // The first slot correspond to current time so it is the actual limit
+              this.internalFormatCurrentLimit += SmartChargingUtils.getInternalFormatValue(chargingPeriod.limit,
+                compositeSchedule.chargingSchedule.chargingRateUnit,
+                this.charger.numberOfConnectedPhase);
+            }
+/*            // Add limits in case schedule is in current time
             if (!slot.end && slot.start <= currentDate && !notValidForCurrentLimit) {
-              this.internalFormatCurrentLimit += SmartChargingUtils.getInternalFormatValue(chargingPeriod.limit, compositeSchedule.chargingSchedule.chargingRateUnit, this.charger.numberOfConnectedPhase);
+              this.internalFormatCurrentLimit += SmartChargingUtils.getInternalFormatValue(chargingPeriod.limit,
+                compositeSchedule.chargingSchedule.chargingRateUnit,
+                this.charger.numberOfConnectedPhase);
             } else {
               if (slot.start <= currentDate && slot.end > currentDate && !notValidForCurrentLimit) {
-                this.internalFormatCurrentLimit += SmartChargingUtils.getInternalFormatValue(chargingPeriod.limit, compositeSchedule.chargingSchedule.chargingRateUnit, this.charger.numberOfConnectedPhase);
+                this.internalFormatCurrentLimit += SmartChargingUtils.getInternalFormatValue(chargingPeriod.limit,
+                    compositeSchedule.chargingSchedule.chargingRateUnit,
+                    this.charger.numberOfConnectedPhase);
               }
-            }
+            }*/
           }
           // Check if we have at least one slot
           if (!connectorSchedule.slots || connectorSchedule.slots.length === 0) {
             this.hasNoActivePlanning = true;
-            this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
-            this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower, 'W', this.charger.numberOfConnectedPhase);
+            this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower,
+              'W',
+              DISPLAY_UNIT,
+              this.powerDigitPrecision,
+              this.powerFloatingPrecision,
+              this.charger.numberOfConnectedPhase,
+              this.appUnitFormatter,
+              true)
+            this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower,
+              'W',
+              this.charger.numberOfConnectedPhase);
             this.limitPlanning = undefined;
           } else {
             this.limitPlanning.push(connectorSchedule);
@@ -224,8 +270,17 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
         } else {
           // Empty schedule => no planning
           this.hasNoActivePlanning = true;
-          this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower, 'W', DISPLAY_UNIT, this.powerDigitPrecision, this.powerFloatingPrecision, this.charger.numberOfConnectedPhase, this.appUnitFormatter)
-          this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower, 'W', this.charger.numberOfConnectedPhase);
+          this.currentDisplayedLimit = SmartChargingUtils.getDisplayedFormatValue(this.charger.maximumPower,
+            'W',
+            DISPLAY_UNIT,
+            this.powerDigitPrecision,
+            this.powerFloatingPrecision,
+            this.charger.numberOfConnectedPhase,
+            this.appUnitFormatter,
+            true)
+          this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower,
+            'W',
+            this.charger.numberOfConnectedPhase);
           this.limitPlanning = undefined;
         }
       }

@@ -1,22 +1,22 @@
 // tslint:disable-next-line:max-line-length
-import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
-import {Charger, ConnectorSchedule, ScheduleSlot} from 'app/common.types';
-import {LocaleService} from 'app/services/locale.service';
-import {Router} from '@angular/router';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {CentralServerService} from 'app/services/central-server.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {MessageService} from 'app/services/message.service';
-import {Utils} from 'app/utils/Utils';
-import {ChargingStations} from 'app/utils/ChargingStations';
-import {Constants} from 'app/utils/Constants';
-import {MatSlider} from '@angular/material/slider';
-import {DialogService} from 'app/services/dialog.service';
-import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe'
-import {SmartChargingPowerSliderComponent} from '../smart-charging-power-slider.component';
-import {SmartChargingUtils} from '../smart-charging-utils';
+import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
+import { LocaleService } from 'app/services/locale.service';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { MessageService } from 'app/services/message.service';
+import { Utils } from 'app/utils/Utils';
+import { ChargingStations } from 'app/utils/ChargingStations';
+import { Constants } from 'app/utils/Constants';
+import { MatSlider } from '@angular/material/slider';
+import { DialogService } from 'app/services/dialog.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
+import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
+import { SmartChargingUtils } from '../smart-charging-utils';
 
 const MIN_POWER = 3000; // Minimum power in W under which we can't go
 const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing the step of the slider
@@ -66,7 +66,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
     private appUnitFormatter: AppUnitPipe) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({'id': 'charger.id'})) {
+    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -82,7 +82,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_WATT)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
     // For small charger increase display precision
     if (this.charger.maximumPower < 10000) {
       this.powerDigitPrecision = 1;
@@ -92,7 +92,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
 
   ngAfterViewInit(): void {
     // Initialize slider
-//    this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
+    //    this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
   }
 
   public applyPowerLimit() {
@@ -102,34 +102,36 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
       this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm',
-                                    {'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW')})
+        { 'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // call REST service
         // tslint:disable-next-line:max-line-length
-        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, this.powerSliderComponent.powerSliderValue, 0).subscribe(response => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-              // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_success'),
-                                          {'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW')});
-              this.onApplyPlanning.emit();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
-            }
-          }, (error) => {
-            this.spinnerService.hide();
-            this.dialog.closeAll();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.smart_charging.power_limit_error'));
-          });
+        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, ChargingStations.provideLimit(this.charger, this.powerSliderComponent.powerSliderValue), 0).subscribe(response => {
+          if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            // success + reload
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('chargers.smart_charging.power_limit_success',
+              { 'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
+            );
+            this.onApplyPlanning.emit();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          this.dialog.closeAll();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('chargers.smart_charging.power_limit_error'));
+        });
       }
     });
   }
 
   public limitChanged(newValue) {
     this.internalFormatCurrentLimit = newValue;
-//    this.powerSliderComponent.powerSliderValue = newValue;
+    //    this.powerSliderComponent.powerSliderValue = newValue;
     this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
   }
 

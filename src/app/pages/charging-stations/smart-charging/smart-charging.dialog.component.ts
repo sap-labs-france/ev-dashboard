@@ -68,6 +68,7 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
                                                                                     {'chargeBoxID': this.charger.id}));
+              this.limitPlanning.refresh();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));

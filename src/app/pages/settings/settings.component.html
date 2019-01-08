@@ -21,16 +21,26 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <a>
-                  <i class="material-icons">money</i>{{'settings.tabs.cah' | translate}}
+                  <i class="material-icons">local_atm</i>{{'settings.tabs.chargeathome' | translate}}
                   <!--<div class="ripple-container"></div>-->
                 </a>
               </ng-template>
               <ng-template matTabContent>
-                <app-settings-ocpi></app-settings-ocpi>
+                <app-settings-charge-at-home></app-settings-charge-at-home>
               </ng-template>
             </mat-tab>
 
-
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons">money</i>{{'settings.tabs.pricing' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <app-settings-pricing></app-settings-pricing>
+              </ng-template>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </div>

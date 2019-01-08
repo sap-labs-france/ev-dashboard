@@ -707,6 +707,21 @@ export class CentralServerService {
       );
   }
 
+  public registerOcpiendpoint(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointRegister?ID=${id}`,
+      `{ "id": "${id}" }`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public deleteUser(id): Observable<ActionResponse> {
     // Verify init
     this._checkInit();

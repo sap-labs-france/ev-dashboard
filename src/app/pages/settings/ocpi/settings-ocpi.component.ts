@@ -16,7 +16,6 @@ export class SettingsOcpiComponent implements OnInit {
   public country_code: AbstractControl;
   public party_id: AbstractControl;
   public isOcpiActive = false;
-
   private readonly currentBusinessDetails: any;
 
   constructor(

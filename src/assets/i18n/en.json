@@ -609,7 +609,9 @@
   },
   "settings": {
     "tabs": {
-      "ocpi": "OCPI"
+      "ocpi": "OCPI",
+      "cah": "Charge@Home",
+      "pricing": "Pricing"
     },
     "ocpi": {
       "information": "Information",

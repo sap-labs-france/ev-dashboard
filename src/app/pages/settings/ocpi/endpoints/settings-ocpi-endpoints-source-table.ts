@@ -172,7 +172,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }

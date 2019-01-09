@@ -193,7 +193,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
     }
     // By default no actions
     return [
-      //        this.noAction.getActionDef()
+        this.noAction.getActionDef()
             ];
   }
 

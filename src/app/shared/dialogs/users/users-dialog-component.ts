@@ -20,8 +20,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     private router: Router,
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
-    // Super class
-    super(data, 'users.select_users');
+    super(data);
 
     // Create table data source
     this.dialogDataSource = new UsersDataSource(

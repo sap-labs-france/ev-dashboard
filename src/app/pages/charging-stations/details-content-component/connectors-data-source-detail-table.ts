@@ -174,17 +174,7 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   }
 
   public getTableRowActions(rowItem: Connector): TableActionDef[] {
-    if (!rowItem) {
-      return [
-        this.noAction.getActionDef()
-      ];
-    } else {
-      // Check if charger is assigned/active
-      if (!this.charger.siteArea || this.charger.inactive) {
-        return [
-          this.noAction.getActionDef()
-        ];
-      }
+    if (rowItem) {
       // Check active transaction and authorization to stop
       if (rowItem && rowItem.activeTransactionID &&
         this.connectorTransactionAuthorization &&
@@ -201,6 +191,10 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
         ];
       }
     }
+    // By default no actions
+    return [
+      //        this.noAction.getActionDef()
+            ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -251,12 +245,13 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
   }
 
   /**
-   * _startTransactionFor(connector: Connector, user: User)  */
+   * _startTransactionFor(connector: Connector, user: User)
+   * */
   public _startTransactionFor(connector: Connector, user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.start_transaction_title'),
-      this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id})
+      this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id, 'userName': user.name})
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
@@ -294,7 +289,11 @@ export class ConnectorsDataSource extends SimpleTableDataSource<Connector> {
           break;
         case BUTTON_SELECT_USER:
           // Show select user dialog
-          const dialogRef2 = this.dialog.open(UsersDialogComponent);
+          dialogConfig.data = {
+            title: 'chargers.start_transaction_user_select_title',
+            validateButtonTitle: 'chargers.start_transaction_user_select_button'
+          }
+          const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);
           // Add sites
           dialogRef2.afterClosed().subscribe(data => {
             if (data && data.length > 0) {

@@ -20,6 +20,12 @@ export const CONNECTED_PHASE_MAP =
     {key: 3, description: 'chargers.tri_phases'}
   ]
 
+export const POWER_UNIT_MAP =
+  [
+    {key: 'W', description: 'chargers.watt'},
+    {key: 'A', description: 'chargers.amper'}
+  ]
+
   const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
@@ -35,11 +41,13 @@ export class ChargingStationParametersComponent implements OnInit {
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = CONNECTED_PHASE_MAP;
+  public powerUnitMap = POWER_UNIT_MAP;
 
   public formGroup: FormGroup;
   public chargingStationURL: AbstractControl;
   public numberOfConnectedPhase: AbstractControl;
   public cannotChargeInParallel: AbstractControl;
+  public powerLimitUnit: AbstractControl;
   public maximumPower: AbstractControl;
   public siteArea: AbstractControl;
   public siteAreaID: AbstractControl;
@@ -82,6 +90,10 @@ export class ChargingStationParametersComponent implements OnInit {
             Validators.compose([
               Validators.required
             ])),
+          'powerLimitUnit': new FormControl('',
+            Validators.compose([
+              Validators.required
+            ])),
           'cannotChargeInParallel': new FormControl(''),
           'maximumPower': new FormControl('',
             Validators.compose([
@@ -99,6 +111,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.maximumPower = this.formGroup.controls['maximumPower'];
         this.siteArea = this.formGroup.controls['siteArea'];
         this.siteAreaID = this.formGroup.controls['siteAreaID'];
+        this.powerLimitUnit = this.formGroup.controls['powerLimitUnit'];
 
         if (!this.isAdmin) {
           this.cannotChargeInParallel.disable();
@@ -106,6 +119,7 @@ export class ChargingStationParametersComponent implements OnInit {
           this.chargingStationURL.disable();
           this.numberOfConnectedPhase.disable();
           this.maximumPower.disable();
+          this.powerLimitUnit.disable();
         }
 
         // add connectors formcontrol
@@ -157,6 +171,9 @@ export class ChargingStationParametersComponent implements OnInit {
       if (this.charger.cannotChargeInParallel) {
         this.formGroup.controls.cannotChargeInParallel.setValue(this.charger.cannotChargeInParallel);
       }
+      if (this.charger.powerLimitUnit) {
+        this.formGroup.controls.powerLimitUnit.setValue(this.charger.powerLimitUnit);
+      }
       if (this.charger.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(this.charger.maximumPower);
       }
@@ -202,6 +219,7 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.maximumPower = this.maximumPower.value;
       this.charger.numberOfConnectedPhase = this.numberOfConnectedPhase.value;
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
+      this.charger.powerLimitUnit = this.powerLimitUnit.value;
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;
         connector.power = this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].value;

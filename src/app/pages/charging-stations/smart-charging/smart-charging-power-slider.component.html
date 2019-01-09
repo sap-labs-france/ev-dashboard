@@ -1,0 +1,43 @@
+<table class="col-md-12">
+<ng-container *ngIf="textPosition==='top'">
+    <tr>
+        <td [class]="(textClass ? textClass : '') +  ' current-power-text text-center'" colspan="3">
+            {{powerSliderDisplayedValueInkW}}
+        </td>
+    </tr>
+</ng-container>
+<tr>
+  <ng-container *ngIf="textPosition==='left'">
+    <td [class]="'text-center current-power-text ' + (textClass ? textClass : '')">
+        {{powerSliderDisplayedValueInkW}}
+    </td>
+  </ng-container>
+  <td class="text-right col-2em">
+    {{minPowerSliderDisplayed | appUnit:'W':'kW':false:powerDigitPrecision:powerFloatingPrecision}}
+  </td>
+  <td>
+    <mat-slider #powerSlider thumbLabel
+          [displayWith]="formatPowerPercent"
+          [ngClass]="((textPosition==='left' || textPosition==='right') ? 'col-md-8' : 'col-md-12')"
+          (input)="sliderInput()" (change)="sliderChanged()"
+          [min]="minPowerSlider" [max]="maxPowerSlider" [step]="stepPowerSlider" [value]="powerSliderValue">
+    </mat-slider>
+  </td>
+  <ng-container *ngIf="textPosition==='right'">
+      <td [class]="'text-center current-power-text ' + (textClass ? textClass : '')">
+          {{powerSliderDisplayedValueInkW}}
+      </td>
+    </ng-container>
+  <td class="text-left col-5em">
+    {{maximumPower | appUnit:'W':'kW':true:powerDigitPrecision:powerFloatingPrecision}}
+  </td>
+  
+</tr>
+<ng-container *ngIf="textPosition==='bottom'">
+    <tr>
+        <td [class]="(textClass ? textClass : '') +  ' current-power-text text-center bottom-position'" colspan="3">
+            {{powerSliderDisplayedValueInkW}}
+        </td>
+    </tr>
+</ng-container>
+</table>

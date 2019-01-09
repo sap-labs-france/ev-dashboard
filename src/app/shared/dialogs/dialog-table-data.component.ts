@@ -10,8 +10,8 @@ export abstract class DialogTableDataComponent<T> {
   protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>
 
   constructor(@Inject(MAT_DIALOG_DATA) data) {
-    this.title = (data.title ? data.title : '');
-    this.buttonTitle = (data.validateButtonTitle ? data.validateButtonTitle : "general.add");
+    this.title = (data && data.title ? data.title : '');
+    this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.add');
   }
 
   validate() {

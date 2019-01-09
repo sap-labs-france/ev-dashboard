@@ -38,8 +38,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   public currentDisplayedLimit: number;
   public isNotValid = true;
 
-  private powerDigitPrecision = 1;
-  private powerFloatingPrecision = 0;
+  public powerDigitPrecision = 1;
+  public powerFloatingPrecision = 0;
 
   @ViewChild('powerSlider') powerSliderComponent: MatSlider;
 

@@ -1,12 +1,12 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {UsersDataSource} from './users-data-source-table';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {DialogTableDataComponent} from '../dialog-table-data.component';
-import {KeyValue, User} from '../../../common.types';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { UsersDataSource } from './users-data-source-table';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { DialogTableDataComponent } from '../dialog-table-data.component';
+import { KeyValue, User } from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
@@ -21,6 +21,10 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     super(data);
+    // Default title
+    if (this.title === '') {
+      this.title = 'users.select_users'
+    }
 
     // Create table data source
     this.dialogDataSource = new UsersDataSource(
@@ -34,7 +38,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach(row => {
-        items.push({key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}`, objectRef: row});
+        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}`, objectRef: row });
       });
     }
     return items;

@@ -22,6 +22,10 @@ export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
     super(data);
+    // Default title
+    if (this.title === '') {
+      this.title = 'sites.select_sites';
+    }
     // Create table data source
     this.dialogDataSource = new SitesFilterDataSource(
       this.messageService,

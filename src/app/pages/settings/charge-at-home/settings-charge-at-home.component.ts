@@ -21,6 +21,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   public concurUrl: AbstractControl;
   public concurClientId: AbstractControl;
   public concurClientSecret: AbstractControl;
+  public concurPaymentTypeId: AbstractControl;
+  public concurExpenseTypeCode: AbstractControl;
 
   private currentSettingID;
 
@@ -56,6 +58,18 @@ export class SettingsChargeAtHomeComponent implements OnInit {
             Validators.maxLength(100)
           ])
         ),
+        'paymentTypeId': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        ),
+        'expenseTypeCode': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        ),
       })
     });
 
@@ -63,6 +77,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     this.concurUrl = this.concur.controls['url'];
     this.concurClientId = this.concur.controls['clientId'];
     this.concurClientSecret = this.concur.controls['clientSecret'];
+    this.concurPaymentTypeId = this.concur.controls['paymentTypeId'];
+    this.concurExpenseTypeCode = this.concur.controls['expenseTypeCode'];
 
     this.loadConfiguration();
   }
@@ -80,6 +96,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
           this.concurUrl.setValue(config.concur.url ? config.concur.url : '');
           this.concurClientId.setValue(config.concur.clientId ? config.concur.clientId : '');
           this.concurClientSecret.setValue(config.concur.clientSecret ? config.concur.clientSecret : '');
+          this.concurPaymentTypeId.setValue(config.concur.paymentTypeId ? config.concur.paymentTypeId : '');
+          this.concurExpenseTypeCode.setValue(config.concur.expenseTypeCode ? config.concur.expenseTypeCode : '');
         }
       }
       this.formGroup.markAsPristine();

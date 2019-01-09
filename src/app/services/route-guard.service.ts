@@ -18,6 +18,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const queryParams = {};
 
+    if (activatedRoute.fragment) {
+      this.router.navigateByUrl(activatedRoute.fragment);
+      return false;
+    }
+
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
       return this.isRouteAllowed(activatedRoute.routeConfig);

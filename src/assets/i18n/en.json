@@ -634,8 +634,10 @@
       "concur": {
         "title": "Concur",
         "url": "Url",
-        "client_id": "client_id",
-        "client_secret": "client_secret"
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "payment_type_id": "Payment Type ID",
+        "expense_type_code": "Expense Type Code"
       }
     },
     "information": "Information",

@@ -59,6 +59,8 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <mat-form-field>
                             <input appSetAutoFocus matInput type="text" [formControl]="concurClientId"
@@ -85,6 +87,38 @@
                                 <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
                             </mat-error>
                             <mat-error *ngIf="concurClientSecret.hasError('minlength')">
+                                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <input appSetAutoFocus matInput type="text" [formControl]="concurPaymentTypeId"
+                                   placeholder="{{'settings.chargeathome.concur.payment_type_id' | translate}}"
+                                   required>
+                            <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
+                            | translate}}</mat-error>
+                            <mat-error *ngIf="concurPaymentTypeId.hasError('maxlength')">
+                                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                            </mat-error>
+                            <mat-error *ngIf="concurPaymentTypeId.hasError('minlength')">
+                                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <input appSetAutoFocus matInput type="text" [formControl]="concurExpenseTypeCode"
+                                   placeholder="{{'settings.chargeathome.concur.expense_type_code' | translate}}"
+                                   required>
+                            <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"
+                            | translate}}</mat-error>
+                            <mat-error *ngIf="concurExpenseTypeCode.hasError('maxlength')">
+                                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                            </mat-error>
+                            <mat-error *ngIf="concurExpenseTypeCode.hasError('minlength')">
                                 <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
                             </mat-error>
                         </mat-form-field>

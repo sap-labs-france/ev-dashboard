@@ -104,7 +104,7 @@
                                     </div>
                                     <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
                                         <app-smart-charging-power-slider #powerSliders [maximumPower]="charger.maximumPower"
-                                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
+                                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase" [displayMinSliderValue]='false' [displayMaxSliderValue]='false'
                                             (onSliderChange)="sliderChanged(slot, $event)" textPosition="right" [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-smart-charging-power-slider>
                                     </div>
                                 </div>

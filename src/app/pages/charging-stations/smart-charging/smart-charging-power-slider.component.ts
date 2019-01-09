@@ -26,6 +26,8 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   @Input() textClass?: string;
   @Input() textPosition?: string;
   @Input() startValue?: any;
+  @Input() displayMinSliderValue?: boolean;
+  @Input() displayMaxSliderValue?: boolean;
 
   @Output() onSliderChange = new EventEmitter<number>();
   public maxPowerSlider: number;
@@ -93,6 +95,16 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
                                                                                       this.numberOfConnectedPhase,
                                                                                       this.appUnitFormatter,
                                                                                       true);
+    }
+    // Default display
+    if (this.displayMaxSliderValue === undefined) {
+      this.displayMaxSliderValue = true;
+    }
+    if (this.displayMinSliderValue === undefined) {
+      this.displayMinSliderValue = true;
+    }
+    if (this.textPosition === undefined) {
+      this.textPosition = 'bottom';
     }
   }
 

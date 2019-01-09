@@ -95,7 +95,8 @@
       "tenants": "Tenants",
       "pricing": "Pricing",
       "components": "Components",
-      "settings" : "Settings"
+      "settings" : "Settings",
+      "organization": "Organization"
     }
   },
   "vehicles": {
@@ -679,9 +680,14 @@
       }
     }
   },
-  "sitemanagement": {
-    "title": "Site Management",
-    "description": "Manage Site Organization as Companies, Sites and Site Areas"
+  "organization": {
+    "title": "Organization Management",
+    "description": "Manage Organization as Companies, Sites and Site Areas",
+    "tabs": {
+      "companies": "Companies",
+      "sites": "Sites",
+      "siteareas": "Site Areas"
+    }
   },
   "chargeathome": {
     "title": "Charge@Home",

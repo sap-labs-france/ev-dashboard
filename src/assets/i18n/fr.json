@@ -92,7 +92,8 @@
       "tenants": "Tenants",
       "pricing": "Prix",
       "components": "Composants",
-      "settings" : "Configuration"
+      "settings" : "Configuration",
+      "organization": "Organisation"
     }
   },
   "vehicles": {
@@ -670,9 +671,14 @@
       }
     }
   },
-  "sitemanagement": {
-    "title": "Organisation du Site",
-    "description": "Organisation du Site en Compagnies, Sites et Zones"
+  "organization": {
+    "title": "Definition de l'Organisation",
+    "description": "Definition de l'Organisation en Compagnies, Sites et Zones",
+    "tabs": {
+      "companies": "Compagnies",
+      "sites": "Sites",
+      "siteareas": "Zones"
+    }
   },
   "chargeathome": {
     "title": "Charge@Home",

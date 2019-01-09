@@ -22,12 +22,14 @@ import {
   SettingResult,
   SiteAreaResult,
   SiteResult,
+  CompanyResult,
   Tenant,
   TenantResult,
   Transaction,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  Logo
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -73,6 +75,39 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
       {'userID': userID, 'siteIDs': siteIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompanies(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<CompanyResult>(
+      `${this.centralRestServerServiceSecuredURL}/Companies`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompanyLogos(): Observable<Logo[]> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Logo[]>(
+      `${this.centralRestServerServiceSecuredURL}/CompanyLogos`,
       {
         headers: this._buildHttpHeaders()
       })

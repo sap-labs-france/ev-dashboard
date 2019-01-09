@@ -310,6 +310,15 @@ export interface Site {
   lastChangedBy: string;
   lastChangedOn: Date;
 }
+export interface CompanyResult {
+  count: number,
+  result: Company[]
+}
+
+export interface CompanyLogoResult {
+  count: number,
+  result: Logo[]
+}
 
 export interface SiteResult {
   count: number,

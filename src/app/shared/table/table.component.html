@@ -124,7 +124,7 @@
         </ng-container>
         <ng-container *ngIf="!columnDef.isAngularComponent">
             <td mat-cell [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))" *matCellDef="let row"
-             >{{row[i] | translate}}
+             [innerHtml]='row[i]'>{{row[i] | translate}}
           </td>
         </ng-container>
         <td [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell *matFooterCellDef>

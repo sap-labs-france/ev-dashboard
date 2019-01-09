@@ -108,33 +108,27 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule',
+        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule',
         canActivate: [RouteGuardService], data: {
+          menu: {
+            title: 'organization',
+            type: 'link',
+            icon: 'store_mall_directory',
+            path: '/organization'
+          },
+          forAdminOnly: true
+        }
+      },
+      {
+        path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule',
+         data: {
           menu: {
             title: 'settings',
             type: 'link',
             icon: 'settings',
             path: '/settings'
           },
-          auth: {
-            entity: Constants.ENTITY_SETTINGS,
-            action: Constants.ACTION_LIST
-          }
-        }
-      },
-      {
-        path: 'organizations', loadChildren: './pages/organizations/organizations.module#OrganizationsModule',
-        canActivate: [RouteGuardService], data: {
-          menu: {
-            title: 'organizations',
-            type: 'link',
-            icon: 'store_mall_directory',
-            path: '/organizations'
-          },
-          auth: {
-            entity: Constants.ENTITY_SETTINGS,
-            action: Constants.ACTION_LIST
-          }
+          forAdminOnly: true
         }
       },
       {

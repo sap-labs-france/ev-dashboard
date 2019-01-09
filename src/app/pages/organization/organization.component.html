@@ -1,0 +1,46 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 ml-auto mr-auto">
+
+        <div class="card">
+          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons"></i>{{'organization.tabs.companies' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <app-organization-companies></app-organization-companies>
+              </ng-template>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons"></i>{{'organization.tabs.sites' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <!-- <app-organization-companies></app-organization-companies> -->
+              </ng-template>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons"></i>{{'organization.tabs.siteareas' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <!-- <app-organization-companies></app-organization-companies> -->
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

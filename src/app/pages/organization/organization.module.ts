@@ -5,15 +5,20 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 
+import {OrganizationCompaniesComponent} from './compagnies/organization-companies.component';
+import {CompaniesDataSource} from './compagnies/organization-companies-source-table';
+import {CompanyLogoComponent} from './formatters/company-logo.component';
+
+
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
-import {OrganizationsComponent} from './organizations.component';
-import {OrganizationsRoutes} from './organizations.routing';
+import {OrganizationComponent} from './organization.component';
+import {OrganizationRoutes} from './organization.routing';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(OrganizationsRoutes),
+    RouterModule.forChild(OrganizationRoutes),
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
@@ -22,14 +27,19 @@ import {OrganizationsRoutes} from './organizations.routing';
     DialogsModule
   ],
   declarations: [
-    OrganizationsComponent
+    OrganizationComponent,
+    OrganizationCompaniesComponent,
+    CompanyLogoComponent
   ],
   entryComponents: [
-    OrganizationsComponent
+    OrganizationComponent,
+    OrganizationCompaniesComponent,
+    CompanyLogoComponent
   ],
   providers: [
+    CompaniesDataSource
   ]
 })
 
-export class OrganizationsModule {
+export class OrganizationModule {
 }

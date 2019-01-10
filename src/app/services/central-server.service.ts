@@ -1076,8 +1076,8 @@ export class CentralServerService {
       );
   }
 
-  createConnectorConnection(intergationId: string, payload: any) {
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/connectors/${intergationId}/connections`, payload,
+  createConnectorConnection(payload: any) {
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, payload,
       {
         headers: this._buildHttpHeaders()
       })

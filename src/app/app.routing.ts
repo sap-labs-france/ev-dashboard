@@ -129,7 +129,7 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: '**', redirectTo: 'dashboard', pathMatch: 'full'
+    path: '*', redirectTo: 'dashboard', pathMatch: 'full'
   }
 ];
 

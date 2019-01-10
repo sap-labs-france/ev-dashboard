@@ -17,6 +17,7 @@ import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
 import {UserRoles, userStatuses} from '../users.model';
 import {DOCUMENT} from '@angular/common';
+import {ActionResponse} from '../../../common.types';
 
 @Component({
   selector: 'app-user-cmp',
@@ -90,14 +91,26 @@ export class UserComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     console.log(this.activatedRoute.snapshot.queryParams);
-    if (this.activatedRoute.snapshot.params['integration'] === 'concur') {
-      if (this.activatedRoute.snapshot.params['code']) {
-        const payload = {
-          userId: this.activatedRoute.snapshot.params['state'].userId,
-          token: this.activatedRoute.snapshot.params['code']
-        };
-        this.centralServerService.createConnectorConnection('concur', payload)
-      } else if (this.activatedRoute.snapshot.params['error']) {
+    if (this.activatedRoute.snapshot.queryParams['state']) {
+      const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
+      if (state.connector === 'concur') {
+        if (this.activatedRoute.snapshot.queryParams['code']) {
+          console.log('concurfound');
+          const payload = {
+            settingId: '5c37394b846c5c0ee7628232',
+            userId: state.userId,
+            connectorId: 'concur',
+            data: {
+              code: this.activatedRoute.snapshot.queryParams['code']
+            }
+          };
+          console.log('createConnectorConnection');
+          this.centralServerService.createConnectorConnection(payload).subscribe((value: ActionResponse) => {
+              console.log(value);
+            }
+          );
+        } else if (this.activatedRoute.snapshot.queryParams['error']) {
+        }
       }
     }
   }
@@ -420,7 +433,7 @@ export class UserComponent implements OnInit {
       setting.clientId = '6fVhhu5nmaa9P6sWXEsHJT';
       setting.scope = 'EXPRPT';
       const state = {
-        integration: 'concur',
+        connector: 'concur',
         userId: this.currentUserID
       };
       const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;

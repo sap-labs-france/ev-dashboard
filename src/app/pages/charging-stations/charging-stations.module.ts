@@ -27,12 +27,20 @@ import { ChargingStationPropertiesComponent } from './charging-station-dialog/pr
 // tslint:disable-next-line:max-line-length
 import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
-import { ChargingStationSmartChargingDialogComponent } from './actions-dialog/smart-charging/smart-charging.dialog.component';
-import { SmartChargingSimpleLimitComponent} from './actions-dialog/smart-charging/simple-limit/smart-charging-simple-limit.component';
+import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
+import { SmartChargingMasterLimitComponent} from './smart-charging/master-limit/smart-charging-master-limit.component';
 import {ComponentModule} from '../../shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
+import {SmartChargingPowerSliderComponent} from './smart-charging/smart-charging-power-slider.component';
+import {SmartChargingLimitPlanningComponent} from './smart-charging/limit-planning/smart-charging-limit-planning.component'
+import {SmartChargingLimitPlannerComponent} from './smart-charging/limit-planner/smart-charging-limit-planner.component';
 import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialog-component';
-
+import {SmartChargingLimitChartComponent} from './smart-charging/limit-planning/smart-charging-limit-chart.component';
+import {ChartModule} from 'angular2-chartjs';
+// tslint:disable-next-line:max-line-length
+import {SmartChargingLimitPlannerChartComponent} from './smart-charging/limit-planner/smart-charging-limit-planner-chart.component';
+import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
+import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -47,7 +55,8 @@ import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialo
     MatProgressBarModule,
     FormattersModule,
     SimpleTableModule,
-    ComponentModule
+    ComponentModule,
+    ChartModule
   ],
   entryComponents: [
     HeartbeatCellComponent,
@@ -63,8 +72,15 @@ import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialo
     ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingSimpleLimitComponent,
-    SessionDialogComponent
+    SmartChargingMasterLimitComponent,
+    SmartChargingPowerSliderComponent,
+    SmartChargingLimitPlanningComponent,
+    SmartChargingLimitPlannerComponent,
+    SessionDialogComponent,
+    SmartChargingLimitChartComponent,
+    SmartChargingLimitPlannerChartComponent,
+    ChargingStationMoreActionsDialogComponent,
+    ChargingStationGetDiagnosticsComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -81,13 +97,21 @@ import {SessionDialogComponent} from '../../shared/dialogs/session/session-dialo
     ChargingStationSmartChargingDialogComponent,
     ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingSimpleLimitComponent
+    SmartChargingMasterLimitComponent,
+    SmartChargingPowerSliderComponent,
+    SmartChargingLimitPlanningComponent,
+    SmartChargingLimitPlannerComponent,
+    SmartChargingLimitChartComponent,
+    SmartChargingLimitPlannerChartComponent,
+    ChargingStationMoreActionsDialogComponent,
+    ChargingStationGetDiagnosticsComponent
   ],
   exports: [
     ChargingStationDialogComponent,
     SiteAreaDialogComponent,
     ChargingStationSmartChargingDialogComponent,
-    StartTransactionDialogComponent
+    StartTransactionDialogComponent,
+    ChargingStationMoreActionsDialogComponent
   ],
   providers: [
     ChargingStationComponent,

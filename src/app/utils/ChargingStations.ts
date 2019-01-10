@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { Charger } from 'app/common.types';
 
 export class ChargingStations {
   // Compute
@@ -162,9 +163,18 @@ export class ChargingStations {
   public static convertWToAmp(numberOfConnectedPhase, maxIntensityInW) {
     // Compute it
     if (numberOfConnectedPhase > 1) {
-      return Math.floor(maxIntensityInW / (400 * Math.sqrt(numberOfConnectedPhase)));
+      return Math.round(maxIntensityInW / (400 * Math.sqrt(numberOfConnectedPhase)));
     } else {
-      return Math.floor(maxIntensityInW / 230);
+      return Math.round(maxIntensityInW / 230);
+    }
+  }
+
+  public static provideLimit(charger: Charger, value: number) {
+    // Test purpose as it seems that schneider needs to have the power value for each connector
+    if (charger.chargePointVendor === 'Schneider Electric' && charger.chargePointModel === 'MONOBLOCK') {
+      return Math.round(value / 2);
+    } else {
+      return value;
     }
   }
 }

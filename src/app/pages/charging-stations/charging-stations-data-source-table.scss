@@ -108,7 +108,7 @@ $connectorStatusColor: ('available' : $brand-success,
 }
 
 ::ng-deep .charger-connector-unavailable {
-  @include charge-connector-status('unavailable', true, false, true);
+  @include charge-connector-status('unavailable', true, false, false);
 }
 
 ::ng-deep .charger-connector-preparing{

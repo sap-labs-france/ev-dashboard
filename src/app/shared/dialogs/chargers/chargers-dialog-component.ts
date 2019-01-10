@@ -21,8 +21,11 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
     protected dialogRef: MatDialogRef<ChargersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data, 'chargers.select_chargers');
-
+    super(data);
+    // Default title
+    if (this.title === '') {
+      this.title = 'chargers.select_chargers';
+    }
     // Create table data source
     this.dialogDataSource = new ChargersDataSource(
       this.messageService,

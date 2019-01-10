@@ -5,9 +5,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {OrganizationCompaniesComponent} from './compagnies/organization-companies.component';
-import {CompaniesDataSource} from './compagnies/organization-companies-source-table';
+import {OrganizationCompaniesComponent} from './companies/organization-companies.component';
+import {CompaniesDataSource} from './companies/organization-companies-source-table';
+import {OrganizationSitesComponent} from './sites/organization-sites.component';
+import {SitesDataSource} from './sites/organization-sites-source-table';
+import {OrganizationSiteAreasComponent} from './site-areas/organization-site-areas.component';
+import {SiteAreasDataSource} from './site-areas/organization-site-areas-source-table';
 import {CompanyLogoComponent} from './formatters/company-logo.component';
+import {CompanyDialogComponent} from './companies/company/company.dialog.component';
+import {CompanyComponent} from './companies/company/company.component';
 
 
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
@@ -29,15 +35,24 @@ import {OrganizationRoutes} from './organization.routing';
   declarations: [
     OrganizationComponent,
     OrganizationCompaniesComponent,
+    OrganizationSitesComponent,
+    OrganizationSiteAreasComponent,
+    CompanyComponent,
+    CompanyDialogComponent,
     CompanyLogoComponent
   ],
   entryComponents: [
     OrganizationComponent,
     OrganizationCompaniesComponent,
+    OrganizationSitesComponent,
+    OrganizationSiteAreasComponent,
+    CompanyDialogComponent,
     CompanyLogoComponent
   ],
   providers: [
-    CompaniesDataSource
+    CompaniesDataSource,
+    SitesDataSource,
+    SiteAreasDataSource
   ]
 })
 

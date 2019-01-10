@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
@@ -22,6 +23,7 @@ import { TableRegisterAction } from 'app/shared/table/actions/table-register-act
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
+import { CompanyDialogComponent } from './company/company.dialog.component';
 
 @Injectable()
 export class CompaniesDataSource extends TableDataSource<Company> {
@@ -41,7 +43,6 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
-      new TableRegisterAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -51,15 +52,18 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   }
 
   public loadData() {
-    // Show
+    // show
     this.spinnerService.show();
-    // Get the Companies
-    // let companyLogos;
-    // this.centralServerService.getCompanyLogos().subscribe((foundCompanyLogos) => {
-    //   companyLogos = foundCompanyLogos;
-      // Get the Companies
-      this.centralServerService.getCompanies(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((companies) => {
+
+    // let company Logos;
+    const companyLogos = {};
+    this.centralServerService.getCompanyLogos().pipe(mergeMap(foundCompanyLogos => {
+      for (let i = 0; i < foundCompanyLogos.length; i++) {
+        companyLogos[foundCompanyLogos[i].id] = foundCompanyLogos[i].logo;
+      }
+
+      return this.centralServerService.getCompanies(this.getFilterValues(), this.getPaging(), this.getOrdering());
+    })).subscribe((companies) => {
         // Hide
         this.spinnerService.hide();
         // Update nbr records
@@ -68,6 +72,12 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         this.updatePaginator();
         // Notify
         this.getDataSubjet().next(companies.result);
+        // looku for logo
+        for (let i = 0; i < companies.result.length; i++) {
+          companies.result[i].logo = companyLogos[companies.result[i].id] ?
+            companyLogos[companies.result[i].id] : Constants.COMPANY_NO_LOGO;
+        }
+
         // Set the data
         this.setData(companies.result);
       }, (error) => {
@@ -92,15 +102,15 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         id: 'logo',
         name: 'companies.logo',
         headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        class: 'teext-center col-10p',
         isAngularComponent: true,
         angularComponentName: CompanyLogoComponent
       },
       {
         id: 'name',
         name: 'companies.name',
-        headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        // headerClass: 'col-30p',
+        // class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -137,7 +147,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showOcpiendpointDialog();
+        this._showCompanyDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -147,7 +157,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showOcpiendpointDialog(rowItem);
+        this._showCompanyDialog(rowItem);
         break;
       case 'delete':
         this._deleteOcpiendpoint(rowItem);
@@ -171,16 +181,17 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     return [];
   }
 
-  private _showOcpiendpointDialog(endpoint?: any) {
-    // // Create the dialog
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.minWidth = '50vw';
-    // if (endpoint) {
-    //   dialogConfig.data = endpoint;
-    // }
-    // // Open
-    // const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
-    // dialogRef.afterClosed().subscribe(result => this.loadData());
+  private _showCompanyDialog(company?: any) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (company) {
+      dialogConfig.data = company.id;
+    }
+    // Open
+    const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
   private _deleteOcpiendpoint(ocpiendpoint) {

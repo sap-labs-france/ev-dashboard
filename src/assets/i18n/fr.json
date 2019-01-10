@@ -675,7 +675,7 @@
     "title": "Definition de l'Organisation",
     "description": "Definition de l'Organisation en Compagnies, Sites et Zones",
     "tabs": {
-      "companies": "Compagnies",
+      "companies": "Entreprises",
       "sites": "Sites",
       "siteareas": "Zones"
     }

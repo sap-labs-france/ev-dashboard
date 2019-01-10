@@ -5,8 +5,8 @@ import {Company} from 'app/common.types';
   selector: 'app-company-logo',
   styleUrls: ['company-logo.component.scss'],
   template: `
-    <div class="chart-container">
-      <img *ngIf="logo" class="" [src]='logo'>
+    <div class="logo-container">
+      <img *ngIf="logo" class="companies-logo" [src]='logo'>
     </div>
   `
 })

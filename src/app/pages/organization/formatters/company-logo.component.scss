@@ -1,7 +1,8 @@
-::ng-deep mat-form-field.app-no-padding-bottom > div.mat-form-field-wrapper {
-  padding-bottom: 0em;
+.companies-logo {
+  max-width:  6em;
+  max-height: 3em;
 }
 
-::ng-deep .app-btn-min-width {
-  min-width: 16em !important;
+.logo-container {
+  padding: 0.2em;
 }

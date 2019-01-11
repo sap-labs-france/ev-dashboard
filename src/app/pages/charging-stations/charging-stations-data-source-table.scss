@@ -161,3 +161,7 @@ $connectorStatusColor: ('available' : $brand-success,
   width: 25px;
   height: 25px;
 }
+
+::ng-deep .fulldetails  { 
+  width: 100%;
+}

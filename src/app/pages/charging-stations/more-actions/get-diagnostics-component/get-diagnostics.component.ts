@@ -26,6 +26,7 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
   public isAdmin;
 
   public fileURL: string;
+  public fileName: 'No file';
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -70,9 +71,12 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
         // call REST service
+        const date = new Date();
+        date.setHours(0, 0, 0, 0);
         // tslint:disable-next-line:max-line-length
-        this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}"}`).subscribe(response => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+        this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe(response => {
+            if (response.fileName && response.fileName > 0) {
+              this.fileName = response.fileName;
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.more_actions.get_diagnostics_success',
                                                       {'chargeBoxID': self.charger.id}));

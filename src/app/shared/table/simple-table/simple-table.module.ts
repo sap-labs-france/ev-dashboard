@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../app.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { CellContentTemplateModule } from '../cell-content-template/cell-content-template.module';
+import { DetailComponentModule } from '../detail-component/detail-component.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { CellContentTemplateModule } from '../cell-content-template/cell-content
     CommonModule,
     MaterialModule,
     TranslateModule,
-    CellContentTemplateModule
+    CellContentTemplateModule,
+    DetailComponentModule
   ],
   declarations: [
     SimpleTableComponent

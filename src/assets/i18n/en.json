@@ -519,7 +519,8 @@
     "select_user_button": "Another user",
     "power_limit_unit": "Unit used for power limitation",
     "watt": "Watt",
-    "amper": "Amper"
+    "amper": "Ampere",
+    "session_details": "Session"
   },
   "logs": {
     "logging_number": "Log(s)",

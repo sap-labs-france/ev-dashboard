@@ -20,13 +20,13 @@ import {ConnectorsCellComponent} from './cell-content-components/connectors-cell
 import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {
-  TableMoreAction,
+  TableChargerMoreAction,
   ACTION_CLEAR_CACHE,
   ACTION_REBOOT,
   ACTION_SMART_CHARGING,
   ACTION_SOFT_RESET,
   ACTION_MORE_ACTIONS
-} from './other-actions-button/table-more-action';
+} from './other-actions-button/table-charger-more-action';
 import {SitesTableFilter} from '../../shared/table/filters/site-filter';
 import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { Injectable } from '@angular/core';
@@ -34,6 +34,8 @@ import {AuthorizationService} from '../../services/authorization-service';
 import {Constants} from '../../utils/Constants';
 import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
+
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -57,16 +59,26 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
+  public loadData(refreshAction: boolean) {
+    if (!refreshAction) {
+      // Show
+      this.spinnerService.show();
+    }
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
-      // Show
-      this.spinnerService.hide();
+        if (!refreshAction) {
+        // Show
+        this.spinnerService.hide();
+      }
       // Set number of records
       this.setNumberOfRecords(chargers.count);
+      // Update details status
+      chargers.result.forEach(charger => {
+        charger.connectors.forEach(connector => {
+          connector.hasDetails = connector.activeTransactionID > 0;
+        });
+      });
       // Update page length
       this.updatePaginator();
       this.setData(chargers.result);
@@ -193,7 +205,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
@@ -208,7 +220,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   public getTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableMoreAction().getActionDef(),
+        new TableChargerMoreAction().getActionDef(),
         new TableSettingsAction().getActionDef(),
         new TableDeleteAction().getActionDef()
       ];
@@ -309,7 +321,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
           if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // Success + reload
             this.messageService.showSuccessMessage(success_message);
-            this.loadData();
+            this.loadData(false);
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, error_message);
@@ -333,7 +345,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadData(false));
   }
 
   private _deleteChargingStation(chargingStation: Charger) {
@@ -345,7 +357,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.loadData();
+            this.loadData(false);
             this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -370,7 +382,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadData(false));
   }
 
   private _dialogMoreActions(chargingStation?: Charger) {
@@ -384,5 +396,9 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     // Open
     const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
 //    dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(POLL_INTERVAL);
   }
 }

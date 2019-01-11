@@ -1,5 +1,5 @@
-import {TableAction} from '../../../shared/table/actions/table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableAction} from 'app/shared/table/actions/table-action';
+import {TableActionDef} from 'app/common.types';
 
 export const ACTION_REBOOT = 'REBOOT';
 export const ACTION_SOFT_RESET = 'SOFT_RESET';
@@ -7,7 +7,7 @@ export const ACTION_CLEAR_CACHE = 'CLEAR_CACHE';
 export const ACTION_SMART_CHARGING = 'SMART_CHARGING';
 export const ACTION_MORE_ACTIONS = 'MORE_ACTIONS';
 
-export class TableMoreAction implements TableAction {
+export class TableChargerMoreAction implements TableAction {
   private action: TableActionDef = {
     id: 'more',
     type: 'button',

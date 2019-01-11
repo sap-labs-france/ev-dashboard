@@ -19,7 +19,7 @@ import {ChartComponent} from 'angular2-chartjs';
                [data]="data"
                [options]="options"></chart>
       </div>
-      <div class="icon-left">
+      <div class="icon-left" *ngIf="data">
         <a
           [class]="'btn btn-link btn-just-icon'"
           (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
@@ -52,15 +52,23 @@ export class ConsumptionChartComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.consumptions) {
-      this.createGraphData(this.consumptions);
+      this.createGraphData(this.consumptions, false);
     } else {
       this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
-        .subscribe(transaction => this.createGraphData(transaction.values));
+        .subscribe(transaction => this.createGraphData(transaction.values, false));
     }
   }
 
-  createGraphData(consumptions: any[]) {
+  refresh() {
+    this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
+        .subscribe(transaction => this.createGraphData(transaction.values, true));
+  }
+
+  createGraphData(consumptions: any[], onRefresh: boolean) {
     this.options = this.createOptions(consumptions);
+    if (onRefresh) {
+      this.options.animation = { duration: 0, easing: 'linear'};
+    }
     let distanceBetween2points = Math.floor(consumptions.length / 200);
     // if (distanceBetween2points < 2) {
     distanceBetween2points = 1;

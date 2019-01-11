@@ -41,6 +41,8 @@ import {ChartModule} from 'angular2-chartjs';
 import {SmartChargingLimitPlannerChartComponent} from './smart-charging/limit-planner/smart-charging-limit-planner-chart.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
+import { ConnectorConsumptionChartDetailComponent } from './details-content-component/consumption-chart-detail.component';
+import { SessionDetailComponent } from './cell-content-components/session-detail.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -80,7 +82,9 @@ import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagn
     SmartChargingLimitChartComponent,
     SmartChargingLimitPlannerChartComponent,
     ChargingStationMoreActionsDialogComponent,
-    ChargingStationGetDiagnosticsComponent
+    ChargingStationGetDiagnosticsComponent,
+    ConnectorConsumptionChartDetailComponent,
+    SessionDetailComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -104,7 +108,9 @@ import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagn
     SmartChargingLimitChartComponent,
     SmartChargingLimitPlannerChartComponent,
     ChargingStationMoreActionsDialogComponent,
-    ChargingStationGetDiagnosticsComponent
+    ChargingStationGetDiagnosticsComponent,
+    ConnectorConsumptionChartDetailComponent,
+    SessionDetailComponent
   ],
   exports: [
     ChargingStationDialogComponent,

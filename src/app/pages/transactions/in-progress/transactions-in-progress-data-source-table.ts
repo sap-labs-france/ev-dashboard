@@ -27,6 +27,7 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
 
@@ -53,11 +54,15 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
-    this.spinnerService.show();
+  public loadData(refreshAction: boolean) {
+    if (!refreshAction) {
+      this.spinnerService.show();
+    }
     this.centralServerService.getActiveTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
-        this.spinnerService.hide();
+        if (!refreshAction) {
+          this.spinnerService.hide();
+        }
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
@@ -207,7 +212,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
@@ -217,7 +222,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
+      this.loadData(false);
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -229,7 +234,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
+      this.loadData(false);
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -242,6 +247,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     } else {
       this._stationStopTransaction(transaction);
     }
+  }
+
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
 }

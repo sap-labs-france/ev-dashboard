@@ -73,14 +73,6 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
   }
 
   ngAfterViewInit(): void {
-    /*
-        this.chartComponent.clickDataset.next((value) => {
-          console.log('ClickDataSet' + JSON.stringify(value));
-        });
-        this.chartComponent.clickElement.next((value) => {
-          console.log('ClickElement' + JSON.stringify(value));
-        });
-    */
   }
 
   createGraphData(scheduleSlots: DisplayedScheduleSlot[]) {
@@ -109,7 +101,6 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
       this.data.labels.push(limit.start.getTime());
       limitPowerDataSet.data.push({
         x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-          this.chartEvent(element, null);
         }
       });
       if (index === scheduleSlots.length - 1) {
@@ -118,14 +109,12 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
           this.data.labels.push(limit.end.getTime());
           limitPowerDataSet.data.push({
             x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-              this.chartEvent(element, null);
             }
           });
         } else {
           this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
           limitPowerDataSet.data.push({
             x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
-              this.chartEvent(element, null);
             }
           });
         }
@@ -214,7 +203,6 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
         }
       },
       onClick: (event, array) => {
-        this.chartEvent(array, event);
       }
     };
     if (this.localeService.language === 'fr') {
@@ -245,8 +233,4 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 
-  chartEvent(element, event) {
-    console.log('Chart element ' + JSON.stringify(this.scheduleSlots[element[0]._index]));
-    console.log('Chart event ' + JSON.stringify(event));
-  }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChildren, QueryList} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -7,6 +8,7 @@ import { ConfigService } from '../../../services/config.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { SimpleTableDataSource } from './simple-table-data-source';
 import { Utils } from '../../../utils/Utils';
+import { DetailComponentContainer } from '../detail-component/detail-component-container.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -15,7 +17,13 @@ import { Utils } from '../../../utils/Utils';
   selector: 'app-simple-table',
   styleUrls: ['../table.component.scss'],
   templateUrl: 'simple-table.component.html',
-
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: SimpleTableDataSource<any>;
@@ -27,11 +35,15 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public tableDef: TableDef;
   public autoRefeshChecked = true;
   private footer = false;
+  private _detailComponentId: number;
+
+  @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
 
   constructor(private configService: ConfigService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private dialog: MatDialog) {
+    this._detailComponentId = 0;
   }
 
   ngOnInit() {
@@ -53,6 +65,27 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.hasRowActions()) {
       this.columns = [...this.columns, 'rowActions'];
     }
+    // Row Detailed enabled?
+    if (this.dataSource.isRowDetailsEnabled()) {
+      // Yes: Add Details column
+      this.columns = ['details', ...this.columns];
+    }
+    // Check if detail display columns must be displayed
+    this.dataSource.displayRowDetails.subscribe((displayDetails) => {
+      if (!displayDetails) {
+        // Remove details column
+        const indexDetails = this.columns.findIndex((element) => element === 'details');
+        if (indexDetails >= 0) {
+          this.columns.splice(indexDetails, 1);
+        }
+      } else {
+        // Add details column
+        const indexDetails = this.columns.findIndex((element) => element === 'details');
+        if (indexDetails === -1) {
+          this.columns = ['details', ...this.columns];
+        }
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -132,4 +165,50 @@ export class SimpleTableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return propertyValue;
   }
+
+  public showHideDetailsClicked(row) {
+    // Already Expanded
+    if (!row.isExpanded) {
+      // Already loaded?
+      if (this.tableDef.rowDetails.enabled && !this.tableDef.rowDetails.detailsField) {
+        if (!this.tableDef.rowDetails.isDetailComponent) {
+          // No: Load details from data source
+          this.dataSource.getRowDetails(row).subscribe((details) => {
+            // Set details
+            this.tableDef.rowDetails.detailsField = details;
+            // No: Expand it!
+            row.isExpanded = true;
+          });
+        } else {
+          // find the container related to the row
+//          const index = this.dataSource.getRowIndex(row);
+          this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
+            if (detailComponentContainer.parentRow === row) {
+              detailComponentContainer.loadComponent();
+            }
+          });
+          row.isExpanded = true;
+        }
+      } else {
+        // No: Expand it!
+        row.isExpanded = true;
+      }
+    } else {
+      // Fold it
+      row.isExpanded = false;
+    }
+  }
+
+  /**
+   * get
+   */
+  public getNextDetailComponentId() {
+    if (this._detailComponentId === this.dataSource.getData().length - 1) {
+// We are dealing with last entry so we should reset the Id in case we start another loop
+      this._detailComponentId = 0;
+      return this.dataSource.getData().length - 1;
+    }
+    return this._detailComponentId++;
+  }
+
 }

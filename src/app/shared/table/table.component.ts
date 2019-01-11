@@ -1,17 +1,17 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatPaginator, MatSort} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {SelectionModel} from '@angular/cdk/collections';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {TableActionDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
-import {ConfigService} from '../../services/config.service';
-import {CentralServerService} from '../../services/central-server.service';
-import {TableDataSource} from './table-data-source';
-import {TableFilter} from './filters/table-filter';
-import {DetailComponentContainer} from './detail-component/detail-component-container.component';
-import {LocaleService} from '../../services/locale.service';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog, MatPaginator, MatSort } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { TableActionDef, TableDef, TableFilterDef, DropdownItem } from '../../common.types';
+import { ConfigService } from '../../services/config.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { TableDataSource } from './table-data-source';
+import { TableFilter } from './filters/table-filter';
+import { DetailComponentContainer } from './detail-component/detail-component-container.component';
+import { LocaleService } from '../../services/locale.service';
 
 const DEFAULT_POLLING = 10000;
 
@@ -24,8 +24,8 @@ const DEFAULT_POLLING = 10000;
   templateUrl: 'table.component.html',
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ]
@@ -39,11 +39,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
+  public ongoingRefresh = false;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
-  private _detailComponentId: number;
+  //  private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsDef: TableActionDef[] = [];
@@ -59,7 +60,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-    this._detailComponentId = 0;
+    //    this._detailComponentId = 0;
   }
 
   ngOnInit() {
@@ -116,7 +117,26 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // Load data
         this.loadData();
       }
-    );
+      );
+    if (this.dataSource.displayDetailsColumns.isStopped) {
+      this.dataSource.displayDetailsColumns = new BehaviorSubject<boolean>(true);
+    }
+    // Check if detail display columns must be displayed
+    this.dataSource.displayDetailsColumns.subscribe((displayDetails) => {
+      if (!displayDetails) {
+        // Remove details column
+        const indexDetails = this.columns.findIndex((element) => element === 'details');
+        if (indexDetails >= 0) {
+          this.columns.splice(indexDetails, 1);
+        }
+      } else {
+        // Add details column
+        const indexDetails = this.columns.findIndex((element) => element === 'details');
+        if (indexDetails === -1) {
+          this.columns = ['details', ...this.columns];
+        }
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -128,12 +148,28 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
     this.loadData();
+    // subscribe to auto-refresh
+    if (this.dataSource.ongoingRefresh.isStopped) {
+      this.dataSource.ongoingRefresh = new Subject();
+    }
+    this.dataSource.ongoingRefresh.subscribe(value =>
+      this.ongoingRefresh = value
+    );
+    if (this.dataSource.rowRefresh.isStopped) {
+      this.dataSource.rowRefresh = new Subject();
+    }
+    this.dataSource.rowRefresh.subscribe(row => {
+      this._rowRefresh(row);
+    });
   }
 
   ngOnDestroy() {
     // Unregister
     this.dataSource.unregisterToDataChange();
     this.dataSource.resetFilters();
+    this.dataSource.ongoingRefresh.unsubscribe();
+    this.dataSource.rowRefresh.unsubscribe();
+    this.dataSource.displayDetailsColumns.unsubscribe()
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -214,7 +250,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public loadData() {
     // Load data source
-    this.dataSource.loadData();
+    this.dataSource.loadData(false);
   }
 
   public showHideDetailsClicked(row) {
@@ -232,10 +268,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         } else {
           // find the container related to the row
-          const index = this.dataSource.getRowIndex(row);
+          //          const index = this.dataSource.getRowIndex(row);
           this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
-            if (detailComponentContainer.containerId === index) {
-              detailComponentContainer.setReferenceRow(row, this);
+            if (detailComponentContainer.parentRow === row) {
+              detailComponentContainer.loadComponent();
             }
           });
           row.isExpanded = true;
@@ -250,6 +286,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private _rowRefresh(compositeValue) {
+    if (compositeValue) {
+      const data = compositeValue.newValue['data'];
+      if (data.isExpanded) {
+        if (data[this.tableDef.rowDetails.detailsField]) {
+          // Simple fields
+          this.dataSource.getRowDetails(data).subscribe((details) => {
+            // Set details
+            data[this.tableDef.rowDetails.detailsField] = details;
+          });
+        } else {
+          this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
+            const identifierFieldname = (this.tableDef.rowFieldNameIdentifier ? this.tableDef.rowFieldNameIdentifier : 'id');
+            if (detailComponentContainer.parentRow[identifierFieldname] === data[identifierFieldname]) {
+              detailComponentContainer.parentRow = data;
+              detailComponentContainer.refresh(data);
+            }
+          });
+        }
+      }
+    }
+  }
+
+
   /**
    * set*ReferenceRow
    *row, */
@@ -258,31 +318,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return true;
   }
 
-  /**
-   * get
-   */
-  public getNextDetailComponentId() {
-    if (this._detailComponentId === this.dataSource.getData().length - 1) {
-// We are dealing with last entry so we should reset the Id in case we start another loop
-      this._detailComponentId = 0;
-      return this.dataSource.getData().length - 1;
-    }
-    return this._detailComponentId++;
-  }
-
   public onRowActionMenuOpen(action: TableActionDef, row) {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  /*  public setDetailedDataSource(row){
-      this.detailDataSource.setDetailedDataSource(row);
-    }*/
-
-  /**
-   * isDetailedTableEnable
-   */
-
-  /*  public isDetailedTableEnable(): Boolean {
-      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
-    }*/
 }

@@ -15,6 +15,8 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
     private dataChangeSubscription: Subscription;
     private rowActionsDef: TableActionDef[];
 
+    public displayRowDetails = new BehaviorSubject<boolean>(true);
+
     private _checkInitialized(): any {
         // Check
         if (!this.tableDef) {
@@ -90,6 +92,13 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
         this._checkInitialized();
         // Return
         return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
+    }
+
+    public isRowDetailsEnabled(): boolean {
+        // Check
+        this._checkInitialized();
+        // Return
+        return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
     }
 
     public getSelectionModel(): SelectionModel<T> {
@@ -216,11 +225,34 @@ export abstract class SimpleTableDataSource<T> implements DataSource<T> {
         this._checkInitialized();
         // Return
         return this.rowActionsDef && this.rowActionsDef.length > 0;
-      }
+    }
 
     abstract getTableColumnDefs(): TableColumnDef[];
 
     abstract loadData();
 
     abstract setDetailedDataSource(row);
+
+    abstract rowHasDetails(row);
+
+    public getRowIndex(row: T) {
+        const rowString = JSON.stringify(row);
+        for (let index = 0; index < this.data.length; index++) {
+            if (JSON.stringify(this.data[index]) === rowString) {
+                return index;
+            }
+        }
+    }
+
+    public getRowDetails(row: T): Observable<string> {
+        return of('getRowDetails() not implemented in your data source!');
+    }
+
+    public hasRowDetailsHideShowField(): boolean {
+        // Check
+        this._checkInitialized();
+        // Return
+        return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('hideShowField');
+    }
+
 }

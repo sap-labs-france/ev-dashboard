@@ -60,9 +60,11 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
+  public loadData(refreshAction: boolean = false) {
+    if (!refreshAction) {
+      // Show
+      this.spinnerService.show();
+    }
     // Get the Tenants
     this.centralServerService.getUsersInError(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((users) => {
@@ -71,8 +73,10 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       // Update Paginator
       this.updatePaginator();
       this.setData(users.result);
-      // Hide
-      this.spinnerService.hide();
+      if (!refreshAction) {
+        // Hide
+        this.spinnerService.hide();
+      }
     }, (error) => {
       // Hide
       this.spinnerService.hide();

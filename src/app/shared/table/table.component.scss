@@ -1,4 +1,12 @@
 @import "../../../assets/scss/core/variables";
+@import "../../../assets/scss/core/mixins/colored-shadows";
+@import "../../../assets/scss/core/mixins/vendor-prefixes";
+@import "../../../assets/scss/core/mixins/animations";
+@import "../../../assets/scss/core/misc";
+
+$medium-spinner:       $blue !default;
+$inner-spinner:       $yellow !default;
+$outer-spinner:        $red !default;
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: $font-size-sm !important;
@@ -72,6 +80,12 @@ th:nth-child(n+2), td:nth-child(n+2) {
     width: 100%;
     margin: 0;
   }
+}
+
+.col-hidden {
+  width: 0px;
+  min-width: 0px;
+  max-width: 0px;
 }
 
 .table-detailed-list {
@@ -184,3 +198,54 @@ tr.element-row:not(.expanded-row):active {
   padding: 0 5px;
 }
 
+
+.spinner-autorefresh {
+  position: relative;
+  top: 0;
+  left: 30%;
+  width: 100%;
+  height: 100%;
+  z-index: 1003;
+  background:inherit;
+  & > div {
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin: 0 0 0 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: $outer-spinner;
+    transform: translate3d(0, 0, 0);
+    animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    &:before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: $medium-spinner;
+      -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 1.8s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: $inner-spinner;
+      animation: spin 1.2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    }
+  }
+}
+
+.refresh-box {
+  width: 90px;
+}

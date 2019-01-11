@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
 import {MessageService} from '../../../services/message.service';
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
-  template: '<app-simple-table [dataSource]="connectorsDataSource"></app-simple-table>'
+  template: '<app-table [dataSource]="connectorsDataSource"></app-table>'
 })
 
 export class ConnectorsDetailComponent implements DetailComponent {
@@ -56,6 +56,15 @@ export class ConnectorsDetailComponent implements DetailComponent {
   setData(row: any, tabledef: TableDef) {
     this.connectorsDataSource.setCharger(row);
     this.connectorsDataSource.setDetailedDataSource(row.connectors);
+  }
+
+  refresh(row: any) {
+    this.connectorsDataSource.setCharger(row);
+    this.connectorsDataSource.setDetailedDataSource(row.connectors);
+  }
+
+  getParentClass() {
+    return 'col-md-8';
   }
 
 }

@@ -21,6 +21,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
+import { SiteDialogComponent } from './site/site.dialog.component';
 
 @Injectable()
 export class SitesDataSource extends TableDataSource<Site> {
@@ -131,7 +132,7 @@ export class SitesDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        // this._showOcpiendpointDialog();
+        this._showSiteDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -141,10 +142,10 @@ export class SitesDataSource extends TableDataSource<Site> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        // this._showOcpiendpointDialog(rowItem);
+        this._showSiteDialog(rowItem);
         break;
       case 'delete':
-        // this._deleteOcpiendpoint(rowItem);
+        // this._deleteSite(rowItem);
         break;
       default:
         // super.rowActionTriggered(actionDef, rowItem);
@@ -160,5 +161,18 @@ export class SitesDataSource extends TableDataSource<Site> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
+  }
+
+  private _showSiteDialog(site?: any) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (site) {
+      dialogConfig.data = site.id;
+    }
+    // Open
+    const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

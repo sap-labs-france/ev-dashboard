@@ -21,6 +21,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
+import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
 
 @Injectable()
 export class SiteAreasDataSource extends TableDataSource<SiteArea> {
@@ -131,7 +132,7 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        // this._showOcpiendpointDialog();
+        this._showSiteAreaDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -141,10 +142,10 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        // this._showOcpiendpointDialog(rowItem);
+        this._showSiteAreaDialog(rowItem);
         break;
       case 'delete':
-        // this._deleteOcpiendpoint(rowItem);
+        // this._deleteSiteArea(rowItem);
         break;
       default:
         // super.rowActionTriggered(actionDef, rowItem);
@@ -160,5 +161,18 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
+  }
+
+  private _showSiteAreaDialog(siteArea?: any) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    if (siteArea) {
+      dialogConfig.data = siteArea.id;
+    }
+    // Open
+    const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 }

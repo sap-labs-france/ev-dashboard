@@ -7,6 +7,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {OrganizationCompaniesComponent} from './companies/organization-companies.component';
 import {CompaniesDataSource} from './companies/organization-companies-source-table';
+import {AddressModule} from '../../shared/address/address.module';
 import {OrganizationSitesComponent} from './sites/organization-sites.component';
 import {SitesDataSource} from './sites/organization-sites-source-table';
 import {OrganizationSiteAreasComponent} from './site-areas/organization-site-areas.component';
@@ -14,6 +15,10 @@ import {SiteAreasDataSource} from './site-areas/organization-site-areas-source-t
 import {CompanyLogoComponent} from './formatters/company-logo.component';
 import {CompanyDialogComponent} from './companies/company/company.dialog.component';
 import {CompanyComponent} from './companies/company/company.component';
+import {SiteDialogComponent} from './sites/site/site.dialog.component';
+import {SiteComponent} from './sites/site/site.component';
+import {SiteAreaDialogComponent} from './site-areas/site-area/site-area.dialog.component';
+import {SiteAreaComponent} from './site-areas/site-area/site-area.component';
 
 
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
@@ -26,6 +31,7 @@ import {OrganizationRoutes} from './organization.routing';
     CommonModule,
     RouterModule.forChild(OrganizationRoutes),
     FormsModule,
+    AddressModule,
     ReactiveFormsModule,
     TranslateModule,
     MaterialModule,
@@ -39,7 +45,11 @@ import {OrganizationRoutes} from './organization.routing';
     OrganizationSiteAreasComponent,
     CompanyComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent
+    CompanyLogoComponent,
+    SiteDialogComponent,
+    SiteComponent,
+    SiteAreaDialogComponent,
+    SiteAreaComponent
   ],
   entryComponents: [
     OrganizationComponent,
@@ -47,7 +57,11 @@ import {OrganizationRoutes} from './organization.routing';
     OrganizationSitesComponent,
     OrganizationSiteAreasComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent
+    CompanyLogoComponent,
+    SiteDialogComponent,
+    SiteComponent,
+    SiteAreaDialogComponent,
+    SiteAreaComponent
   ],
   providers: [
     CompaniesDataSource,

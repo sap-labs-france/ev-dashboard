@@ -160,10 +160,10 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         this._showCompanyDialog(rowItem);
         break;
       case 'delete':
-        this._deleteOcpiendpoint(rowItem);
+        this._deleteCompany(rowItem);
         break;
       case 'register':
-        this._registerOcpiendpoint(rowItem);
+        this._registerCompany(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -194,7 +194,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  private _deleteOcpiendpoint(ocpiendpoint) {
+  private _deleteCompany(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('ocpiendpoints.delete_title'),
@@ -220,7 +220,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     });
   }
 
-  private _registerOcpiendpoint(ocpiendpoint) {
+  private _registerCompany(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('ocpiendpoints.register_title'),

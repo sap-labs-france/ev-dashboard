@@ -67,7 +67,7 @@
   </div>
   <div class="col-md-6 text-left">
     <button class="btn btn-info mat-raised-button" (click)="showPlace()" type="button"
-            [disabled]="latitude.errors || longitude.errors">
+            [disabled]="latitude.errors || longitude.errors || !latitude.value || !longitude.value">
       <span class="mat-button-wrapper">
         <i class="material-icons">location_on</i>
         <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.show_place' | translate}}</span>

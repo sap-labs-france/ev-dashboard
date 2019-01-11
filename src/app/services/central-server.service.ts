@@ -23,6 +23,7 @@ import {
   SiteAreaResult,
   SiteResult,
   CompanyResult,
+  Company,
   Tenant,
   TenantResult,
   Transaction,
@@ -102,6 +103,24 @@ export class CentralServerService {
       );
   }
 
+  public getCompany(companyId: string, withLogo: boolean = false): Observable<Company> {
+    const params: any = [];
+    params['ID'] = companyId;
+    params['WithLogo'] = withLogo;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Company>(
+      `${this.centralRestServerServiceSecuredURL}/Company`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getCompanyLogos(): Observable<Logo[]> {
     // Verify init
     this._checkInit();
@@ -110,6 +129,23 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/CompanyLogos`,
       {
         headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompanyLogo(companyId: String): Observable<Logo> {
+    const params: any = [];
+    params['ID'] = companyId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Company>(
+      `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this._handleHttpError)
@@ -642,6 +678,46 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createCompany(company): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyCreate`, company,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateCompany(company): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyUpdate`, company,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteCompany(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })

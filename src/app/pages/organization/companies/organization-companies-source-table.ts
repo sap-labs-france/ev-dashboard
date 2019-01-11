@@ -19,7 +19,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
@@ -91,7 +90,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   public getTableDef(): TableDef {
     return {
       search: {
-        enabled: false
+        enabled: true
       }
     };
   }
@@ -102,7 +101,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         id: 'logo',
         name: 'companies.logo',
         headerClass: 'col-10p',
-        class: 'teext-center col-10p',
+        class: 'col-10p',
         isAngularComponent: true,
         angularComponentName: CompanyLogoComponent
       },
@@ -110,7 +109,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         id: 'name',
         name: 'companies.name',
         // headerClass: 'col-30p',
-        // class: 'text-left col-30p',
+        class: 'text-left',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -162,9 +161,6 @@ export class CompaniesDataSource extends TableDataSource<Company> {
       case 'delete':
         this._deleteCompany(rowItem);
         break;
-      case 'register':
-        this._registerCompany(rowItem);
-        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -194,27 +190,27 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  private _deleteCompany(ocpiendpoint) {
+  private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
-      this.translateService.instant('ocpiendpoints.delete_title'),
-      this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
+      this.translateService.instant('companies.delete_title'),
+      this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.spinnerService.show();
-        this.centralServerService.deleteOcpiendpoint(ocpiendpoint.id).subscribe(response => {
+        this.centralServerService.deleteCompany(company.id).subscribe(response => {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
+            this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
             this.loadData();
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.delete_error');
+              this.messageService, 'companies.delete_error');
           }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.delete_error');
+            'companies.delete_error');
         });
       }
     });

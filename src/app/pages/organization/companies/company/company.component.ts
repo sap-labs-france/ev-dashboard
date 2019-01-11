@@ -13,40 +13,24 @@ import {MessageService} from 'app/services/message.service';
 import {ParentErrorStateMatcher} from 'app/utils/ParentStateMatcher';
 import {DialogService} from 'app/services/dialog.service';
 import {Constants} from 'app/utils/Constants';
-import {Users} from 'app/utils/Users';
 import {Utils} from 'app/utils/Utils';
-import {UserRoles, userStatuses} from 'app/pages/users/users.model';
 
 @Component({
   selector: 'app-company-cmp',
-  templateUrl: 'company.component.html'
+  templateUrl: 'company.component.html',
+  styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentCompanyID: string;
   @Input() inDialog: boolean;
-  public userStatuses;
-  public userRoles;
-  public userLocales;
+
   public isAdmin;
-  public originalEmail;
-  public image = Constants.COMPANY_NO_LOGO;
-  public hideRepeatPassword = true;
-  public hidePassword = true;
+  public logo = Constants.COMPANY_NO_LOGO;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
-  public firstName: AbstractControl;
-  public email: AbstractControl;
-  public phone: AbstractControl;
-  public mobile: AbstractControl;
-  public iNumber: AbstractControl;
-  public tagIDs: AbstractControl;
-  public costCenter: AbstractControl;
-  public status: AbstractControl;
-  public role: AbstractControl;
-  public locale: AbstractControl;
   public address: FormGroup;
   public address1: AbstractControl;
   public address2: AbstractControl;
@@ -57,10 +41,6 @@ export class CompanyComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
-
-  public passwords: FormGroup;
-  public password: AbstractControl;
-  public repeatPassword: AbstractControl;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -79,14 +59,6 @@ export class CompanyComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Get statuses
-    // this.userStatuses = userStatuses;
-    // Get Roles
-    this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
-    // Get Locales
-    this.userLocales = this.localeService.getLocales();
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   ngOnInit() {
@@ -94,47 +66,6 @@ export class CompanyComponent implements OnInit {
     this.formGroup = new FormGroup({
       'id': new FormControl(''),
       'name': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'firstName': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'email': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email
-        ])),
-      'phone': new FormControl('',
-        Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
-        ])),
-      'mobile': new FormControl('',
-        Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
-        ])),
-      'iNumber': new FormControl('',
-        Validators.compose([
-          Validators.pattern('^[A-Z]{1}[0-9]{6}$')
-        ])),
-      'tagIDs': new FormControl('',
-        Validators.compose([
-          Validators.pattern('^[a-zA-Z0-9,]*$')
-        ])),
-      'costCenter': new FormControl('',
-        Validators.compose([
-          Validators.pattern('^[0-9]*$')
-        ])),
-      'status': new FormControl(Constants.USER_STATUS_ACTIVE,
-        Validators.compose([
-          Validators.required
-        ])),
-      'role': new FormControl(Constants.USER_ROLE_BASIC,
-        Validators.compose([
-          Validators.required
-        ])),
-      'locale': new FormControl(this.localeService.getCurrentFullLocale(),
         Validators.compose([
           Validators.required
         ])),
@@ -158,37 +89,11 @@ export class CompanyComponent implements OnInit {
             Validators.min(-180),
             Validators.pattern('^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$')
           ]))
-      }),
-      'passwords': new FormGroup({
-        'password': new FormControl('',
-          Validators.compose([
-            Users.passwordWithNoSpace,
-            Users.validatePassword
-          ])),
-        'repeatPassword': new FormControl('',
-          Validators.compose([
-            Users.validatePassword
-          ])),
-      }, (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       })
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.firstName = this.formGroup.controls['firstName'];
-    this.email = this.formGroup.controls['email'];
-    this.phone = this.formGroup.controls['phone'];
-    this.mobile = this.formGroup.controls['mobile'];
-    this.iNumber = this.formGroup.controls['iNumber'];
-    this.tagIDs = this.formGroup.controls['tagIDs'];
-    this.costCenter = this.formGroup.controls['costCenter'];
-    this.status = this.formGroup.controls['status'];
-    this.role = this.formGroup.controls['role'];
-    this.locale = this.formGroup.controls['locale'];
-    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
-    this.password = this.passwords.controls['password'];
-    this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
@@ -206,7 +111,7 @@ export class CompanyComponent implements OnInit {
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentCompanyID = params['id'];
-        // this.loadCompany();
+        this.loadCompany();
       });
     }
     // Scroll up
@@ -265,114 +170,84 @@ export class CompanyComponent implements OnInit {
   }
 
   public loadCompany() {
-    // if (!this.currentCompanyID) {
-    //   return;
-    // }
-    // // Show spinner
-    // this.spinnerService.show();
-    // // Yes, get it
-    // this.centralServerService.getUser(this.currentCompanyID).pipe(mergeMap((company) => {
-    //   this.formGroup.markAsPristine();
-    //   // Init form
-    //   if (company.id) {
-    //     this.formGroup.controls.id.setValue(company.id);
-    //   }
-    //   if (company.name) {
-    //     this.formGroup.controls.name.setValue(company.name);
-    //   }
-      // if (user.firstName) {
-      //   this.formGroup.controls.firstName.setValue(user.firstName);
-      // }
-      // if (user.email) {
-      //   this.formGroup.controls.email.setValue(user.email);
-      //   this.originalEmail = user.email;
-      // }
-      // if (user.phone) {
-      //   this.formGroup.controls.phone.setValue(user.phone);
-      // }
-      // if (user.mobile) {
-      //   this.formGroup.controls.mobile.setValue(user.mobile);
-      // }
-      // if (user.iNumber) {
-      //   this.formGroup.controls.iNumber.setValue(user.iNumber);
-      // }
-      // if (user.costCenter) {
-      //   this.formGroup.controls.costCenter.setValue(user.costCenter);
-      // }
-      // if (user.status) {
-      //   this.formGroup.controls.status.setValue(user.status);
-      // }
-      // if (user.role) {
-      //   this.formGroup.controls.role.setValue(user.role);
-      // }
-      // if (user.locale) {
-      //   this.formGroup.controls.locale.setValue(user.locale);
-      // }
-      // if (user.tagIDs) {
-      //   this.formGroup.controls.tagIDs.setValue(user.tagIDs);
-      // }
-      // if (user.address && user.address.address1) {
-      //   this.address.controls.address1.setValue(user.address.address1);
-      // }
-      // if (user.address && user.address.address2) {
-      //   this.address.controls.address2.setValue(user.address.address2);
-      // }
-      // if (user.address && user.address.postalCode) {
-      //   this.address.controls.postalCode.setValue(user.address.postalCode);
-      // }
-      // if (user.address && user.address.city) {
-      //   this.address.controls.city.setValue(user.address.city);
-      // }
-      // if (user.address && user.address.department) {
-      //   this.address.controls.department.setValue(user.address.department);
-      // }
-      // if (user.address && user.address.region) {
-      //   this.address.controls.region.setValue(user.address.region);
-      // }
-      // if (user.address && user.address.country) {
-      //   this.address.controls.country.setValue(user.address.country);
-      // }
-      // if (user.address && user.address.latitude) {
-      //   this.address.controls.latitude.setValue(user.address.latitude);
-      // }
-      // if (user.address && user.address.longitude) {
-      //   this.address.controls.longitude.setValue(user.address.longitude);
-      // }
-      // Yes, get image
-      // TODO: return this.centralServerService.getUserImage(this.currentUserID);
-    // })).subscribe((userImage) => {
-    //   if (userImage && userImage.image) {
-    //     this.image = userImage.image.toString();
-    //   }
-    //   this.spinnerService.hide();
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Handle error
-    //   switch (error.status) {
-    //     // Not found
-    //     case 550:
-    //       // Transaction not found`
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.user_not_found');
-    //       break;
-    //     default:
-    //       // Unexpected error`
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-    //         'general.unexpected_error_backend');
-    //   }
-    // });
+    if (!this.currentCompanyID) {
+      return;
+    }
+
+    // Show spinner
+    this.spinnerService.show();
+    // Yes, get it
+    this.centralServerService.getCompany(this.currentCompanyID).pipe(mergeMap((company) => {
+      this.formGroup.markAsPristine();
+      // Init form
+      if (company.id) {
+        this.formGroup.controls.id.setValue(company.id);
+      }
+      if (company.name) {
+        this.formGroup.controls.name.setValue(company.name);
+      }
+      if (company.address && company.address.address1) {
+        this.address.controls.address1.setValue(company.address.address1);
+      }
+      if (company.address && company.address.address2) {
+        this.address.controls.address2.setValue(company.address.address2);
+      }
+      if (company.address && company.address.postalCode) {
+        this.address.controls.postalCode.setValue(company.address.postalCode);
+      }
+      if (company.address && company.address.city) {
+        this.address.controls.city.setValue(company.address.city);
+      }
+      if (company.address && company.address.department) {
+        this.address.controls.department.setValue(company.address.department);
+      }
+      if (company.address && company.address.region) {
+        this.address.controls.region.setValue(company.address.region);
+      }
+      if (company.address && company.address.country) {
+        this.address.controls.country.setValue(company.address.country);
+      }
+      if (company.address && company.address.latitude) {
+        this.address.controls.latitude.setValue(company.address.latitude);
+      }
+      if (company.address && company.address.longitude) {
+        this.address.controls.longitude.setValue(company.address.longitude);
+      }
+      // Yes, get logo
+      return this.centralServerService.getCompanyLogo(this.currentCompanyID);
+    })).subscribe((companyLogo) => {
+      if (companyLogo && companyLogo.logo) {
+        this.logo = companyLogo.logo.toString();
+      }
+      this.spinnerService.hide();
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Handle error
+      switch (error.status) {
+        // Not found
+        case 550:
+          // Transaction not found`
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.company_not_found');
+          break;
+        default:
+          // Unexpected error`
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'general.unexpected_error_backend');
+      }
+    });
   }
 
-  public updateUserImage(user) {
-    // Set the image
-    this.image = jQuery('.fileinput-preview img')[0]['src'];
-    // Check no user?
-    if (!this.image.endsWith(Constants.USER_NO_PICTURE)) {
-      // Set to user
-      user.image = this.image;
+  public updateCompanyLogo(company) {
+    // Set the logo
+    this.logo = jQuery('.fileinput-preview img')[0]['src'];
+    // Check no company?
+    if (!this.logo.endsWith(Constants.COMPANY_NO_LOGO)) {
+      // Set to company
+      company.logo = this.logo;
     } else {
-      // No image
-      user.image = null;
+      // No logo
+      company.logo = null;
     }
   }
 
@@ -385,94 +260,84 @@ export class CompanyComponent implements OnInit {
   }
 
   private _createCompany(company) {
-    // // Show
-    // this.spinnerService.show();
-    // // Set the image
-    // this.updateCompanyImage(company);
-    // // Yes: Update
-    // this.centralServerService.createUser(user).subscribe(response => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Ok?
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     // Ok
-    //     this.messageService.showSuccessMessage('users.create_success',
-    //       {'userFullName': user.firstName + ' ' + user.name});
-    //     // Refresh
-    //     this.currentUserID = user.id;
-    //     this.refresh();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'users.create_error');
-    //   }
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Check status
-    //   switch (error.status) {
-    //     // Email already exists
-    //     case 510:
-    //       // Show error
-    //       this.messageService.showErrorMessage('authentication.email_already_exists');
-    //       break;
-    //     // User deleted
-    //     case 550:
-    //       // Show error
-    //       this.messageService.showErrorMessage('users.user_do_not_exist');
-    //       break;
-    //     default:
-    //       // No longer exists!
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-    //   }
-    // });
+    // Show
+    this.spinnerService.show();
+    // Set the logo
+    this.updateCompanyLogo(company);
+    // Yes: Update
+    this.centralServerService.createCompany(company).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('companies.create_success',
+          {'companyName': company.name});
+        // Refresh
+        this.currentCompanyID = company.id;
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'companies.create_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Company deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('companies.company_not_found');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.create_error');
+      }
+    });
   }
 
   private _updateCompany(company) {
-    // // Show
-    // this.spinnerService.show();
-    // // Set the image
-    // this.updateUserImage(user);
-    // // Yes: Update
-    // this.centralServerService.updateUser(user).subscribe(response => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Ok?
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     // Ok
-    //     this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
-    //     this.refresh();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'users.update_error');
-    //   }
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Check status
-    //   switch (error.status) {
-    //     // Email already exists
-    //     case 510:
-    //       // Show error
-    //       this.messageService.showErrorMessage('authentication.email_already_exists');
-    //       break;
-    //     // User deleted
-    //     case 550:
-    //       // Show error
-    //       this.messageService.showErrorMessage('users.user_do_not_exist');
-    //       break;
-    //     default:
-    //       // No longer exists!
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-    //   }
-    // });
+    // Show
+    this.spinnerService.show();
+    // Set the logo
+    this.updateCompanyLogo(company);
+    // Yes: Update
+    this.centralServerService.updateCompany(company).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('companies.update_success', {'companyName': company.name});
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'companies.update_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Company deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('companies.company_not_found');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'company.update_error');
+      }
+    });
   }
 
-  public imageChanged() {
+  public logoChanged() {
     // Set form dirty
     this.formGroup.markAsDirty();
   }
 
-  public clearImage() {
+  public clearLogo() {
     // Clear
     jQuery('.fileinput-preview img')[0]['src'] = Constants.COMPANY_NO_LOGO;
     // Set form dirty

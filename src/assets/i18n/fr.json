@@ -180,7 +180,8 @@
     "company_not_found": "Entreprise inconnue",
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
-    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "save_company": ""
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",

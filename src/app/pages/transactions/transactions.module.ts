@@ -21,6 +21,8 @@ import {TransactionsInErrorComponent} from './in-error/transactions-in-error.com
 import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
 import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
+import {TransactionsRefundComponent} from './chargeathome/transactions-refund.component';
+import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-data-source-table';
 
 @NgModule({
   imports: [
@@ -41,6 +43,7 @@ import {ConsumptionChartComponent} from '../../shared/component/transactionChart
     TransactionsHistoryComponent,
     TransactionsInErrorComponent,
     TransactionsInProgressComponent,
+    TransactionsRefundComponent,
     ConsumptionChartDetailComponent
   ],
   entryComponents: [
@@ -48,6 +51,7 @@ import {ConsumptionChartComponent} from '../../shared/component/transactionChart
     TransactionsHistoryComponent,
     TransactionsInProgressComponent,
     TransactionsInErrorComponent,
+    TransactionsRefundComponent,
     ConnectorCellComponent,
     ConsumptionChartDetailComponent,
     ConsumptionChartComponent
@@ -61,7 +65,8 @@ import {ConsumptionChartComponent} from '../../shared/component/transactionChart
     DecimalPipe,
     TransactionsHistoryDataSource,
     TransactionsInErrorDataSource,
-    TransactionsInProgressDataSource
+    TransactionsInProgressDataSource,
+    TransactionsRefundDataSource
   ]
 })
 

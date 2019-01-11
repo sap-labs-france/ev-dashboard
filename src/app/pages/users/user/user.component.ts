@@ -239,10 +239,6 @@ export class UserComponent implements OnInit {
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
-  }
-
   public setCurrentUserId(currentUserId) {
     this.currentUserID = currentUserId;
   }

@@ -6,7 +6,6 @@ export class TableRefundAction implements TableAction {
     id: 'refund',
     type: 'button',
     icon: 'local_atm',
-    class: 'btn-warning action-icon-large',
     name: 'general.refund'
   };
 

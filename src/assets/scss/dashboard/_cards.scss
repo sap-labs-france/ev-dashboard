@@ -27,7 +27,15 @@
   .card-body {
     padding: $padding-card-body-y 20px;
     position: relative;
+  }
 
+  .card-logo {
+    max-width: 5em;
+  }
+
+  .card-disabled {
+    background:rgba(255,255,255,0.8);
+    padding: 0.25rem !important;
   }
 
   .card-header {

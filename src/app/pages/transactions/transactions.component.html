@@ -39,6 +39,17 @@
                 <app-transactions-in-error></app-transactions-in-error>
               </ng-template>
             </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <a>
+                  <i class="material-icons">money</i>{{'transactions.tabs.charge_at_home' | translate}}
+                  <!--<div class="ripple-container"></div>-->
+                </a>
+              </ng-template>
+              <ng-template matTabContent>
+                <app-transactions-refund></app-transactions-refund>
+              </ng-template>
+            </mat-tab>
           </mat-tab-group>
         </div>
 

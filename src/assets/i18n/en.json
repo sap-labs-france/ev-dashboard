@@ -1,5 +1,6 @@
 {
   "general": {
+    "applications": "applications",
     "app_name": "e-Mobility",
     "last_update": "Version 2.0.8",
     "version": "Version",
@@ -37,6 +38,7 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "connect": "Connect",
     "stop": "Stop",
     "refund": "Refund",
     "register": "Register",
@@ -562,6 +564,7 @@
     "changed_on": "Changed On",
     "changed_by": "Changed By",
     "save_profile": "Save Profile",
+    "save_profile": "Save Profile",
     "save_address": "Save Address",
     "save_password": "Save Password",
     "save_miscs": "Save Miscs",
@@ -762,7 +765,8 @@
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "In Error"
+      "in_error": "In Error",
+      "charge_at_home": "Charge At Home"
     },
     "graph":{
       "battery": "Battery Level (%)",

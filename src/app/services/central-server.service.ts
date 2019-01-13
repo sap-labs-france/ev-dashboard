@@ -20,17 +20,19 @@ import {
   Ordering,
   Paging,
   SettingResult,
-  SiteAreaResult,
-  SiteResult,
   CompanyResult,
   Company,
+  SiteAreaResult,
+  SiteResult,
+  Site,
   Tenant,
   TenantResult,
   Transaction,
   TransactionResult,
   User,
   UserResult,
-  Logo
+  Logo,
+  SiteArea
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -141,7 +143,7 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get<Company>(
+    return this.httpClient.get<Logo>(
       `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
       {
         headers: this._buildHttpHeaders(),
@@ -171,6 +173,41 @@ export class CentralServerService {
       );
   }
 
+  public getSite(siteId: string, withImage: boolean = false): Observable<Site> {
+    const params: any = [];
+    params['ID'] = siteId;
+    params['WithImage'] = withImage;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Site>(
+      `${this.centralRestServerServiceSecuredURL}/Site`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteImage(siteId: String): Observable<Image> {
+    const params: any = [];
+    params['ID'] = siteId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(
+      `${this.centralRestServerServiceSecuredURL}/SiteImage`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getSiteAreas(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteAreaResult> {
     // Verify init
     this._checkInit();
@@ -190,7 +227,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<Transaction> {
+  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<SiteArea> {
     const params: any = [];
     params['ID'] = siteAreaId;
     params['WithChargeBoxes'] = withChargeBoxes;
@@ -198,8 +235,25 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get<Transaction>(
+    return this.httpClient.get<SiteArea>(
       `${this.centralRestServerServiceSecuredURL}/SiteArea`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteAreaImage(siteAreaId: String): Observable<Image> {
+    const params: any = [];
+    params['ID'] = siteAreaId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(
+      `${this.centralRestServerServiceSecuredURL}/SiteAreaImage`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -718,6 +772,46 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createSite(site): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteCreate`, site,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSite(site): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUpdate`, site,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteSite(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })

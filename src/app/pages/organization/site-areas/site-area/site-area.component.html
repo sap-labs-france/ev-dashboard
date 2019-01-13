@@ -15,14 +15,15 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button" (click)="saveUser(formGroup.value)"
+                                        <button class="btn btn-info mat-raised-button" (click)="saveSiteArea(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">save</i>
-                                                <span class="btn-label">{{'users.save_profile' | translate}}</span>
+                                                <span class="btn-label">{{'general.save' | translate}}</span>
                                             </span>
                                         </button>
-                                        <button *ngIf="currentUserID" class="btn btn-info mat-raised-button" (click)="refresh()">
+                                        <button *ngIf="currentSiteAreaID" class="btn btn-info mat-raised-button"
+                                            (click)="refresh()">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">refresh</i>
                                                 <span class="btn-label">{{'general.refresh' | translate}}</span>
@@ -42,113 +43,40 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="profile">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3 app-div-logo">
+                                            <div class="fileinput fileinput-exists text-center" data-provides="fileinput">
+                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                                                    <img [src]="image" alt="...">
+                                                </div>
+                                                <div style="display:none">
+                                                    <input type="file" name="..." (change)="imageChanged()">
+                                                </div>
+                                            </div>
+                                            <button href="javascript:void(0)" (click)="clearImage()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
+                                        </div>
+                                        <div class="col-md-9">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'users.name' | translate}}"
-                                                        type="text" [formControl]="name" required>
+                                                    <input appSetAutoFocus matInput placeholder="{{'site_areas.name' | translate}}"
+                                                        class="app-site-area-name-bold" type="text" [formControl]="name"
+                                                        required>
                                                     <mat-error *ngIf="name.hasError('required')">
                                                         {{"general.mandatory_field" | translate}}
                                                     </mat-error>
                                                 </mat-form-field>
+                                                <mat-form-field>
+                                                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}">
+                                                        <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <mat-form-field>
-                                                        <input appSetAutoFocus matInput placeholder="{{'sites.site' | translate}}"
-                                                            type="text" [formControl]="name" required>
-                                                        <mat-error *ngIf="name.hasError('required')">
-                                                            {{"general.mandatory_field" | translate}}
-                                                        </mat-error>
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                </div>
-                                <div class="tab-pane" id="address">
-                                    <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
-                                </div>
-                                <div class="tab-pane" id="password">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput type="password" placeholder="{{'authentication.password' | translate}}"
-                                                        [type]="hidePassword ? 'password' : 'text'" [formControl]="password">
-                                                    <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword
-                                                        ?
-                                                        'visibility' :
-                                                        'visibility_off'}}
-                                                    </mat-icon>
-                                                    <mat-error *ngIf="password.hasError('noSpace')">
-                                                        {{"authentication.no_space_in_password" | translate}}
-                                                    </mat-error>
-                                                    <mat-error *ngIf="password.hasError('invalidPassword')">
-                                                        {{"authentication.password_rule" | translate}}
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput type="password" placeholder="{{'authentication.repeat_password' | translate}}"
-                                                        [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
-                                                        [errorStateMatcher]="parentErrorStateMatcher">
-                                                    <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">
-                                                        {{hideRepeatPassword
-                                                        ? 'visibility' : 'visibility_off'}}
-                                                    </mat-icon>
-                                                    <mat-error *ngIf="passwords.hasError('notEqual')">
-                                                        {{"authentication.password_not_equal" | translate}}
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="miscs">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="{{'users.inumber' | translate}}" type="text"
-                                                        [formControl]="iNumber">
-                                                    <mat-error *ngIf="iNumber.hasError('pattern')">
-                                                        {{"general.invalid_value" | translate}}
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="{{'users.cost_center' | translate}}"
-                                                        type="text" [formControl]="costCenter">
-                                                    <mat-error *ngIf="costCenter.hasError('pattern')">
-                                                        {{"general.invalid_value" | translate}}
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <div class="card-avatar">
-                                <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
-                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                                        <img [src]="image" class="" alt="...">
-                                    </div>
-                                    <div style="display:none">
-                                        <input type="file" name="..." (change)="imageChanged()">
-                                    </div>
-                                </div>
-                                <button href="javascript:void(0)" (click)="clearImage()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
-                            </div>
                         </div>
                     </div>
                 </form>

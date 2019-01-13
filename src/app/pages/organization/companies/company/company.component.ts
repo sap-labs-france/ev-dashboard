@@ -126,39 +126,39 @@ export class CompanyComponent implements OnInit {
     this.currentCompanyID = currentCompanyId;
   }
 
-  public setAddress(address: Address) {
-    // Set data
-    address.address_components.forEach(((address_component) => {
-      switch (address_component.types[0]) {
-        // Postal Code
-        case 'postal_code':
-          this.address.controls.postalCode.setValue(address_component.long_name);
-          break;
-        // Town
-        case 'locality':
-          this.address.controls.city.setValue(address_component.long_name);
-          break;
-        // Department
-        case 'administrative_area_level_2':
-          this.address.controls.department.setValue(address_component.long_name);
-          break;
-        // Region
-        case 'administrative_area_level_1':
-          this.address.controls.region.setValue(address_component.long_name);
-          break;
-        // Country
-        case 'country':
-          this.address.controls.country.setValue(address_component.long_name);
-          break;
-      }
-    }));
-    // Address
-    this.address.controls.address1.setValue(address.name);
-    // Latitude
-    this.address.controls.latitude.setValue(address.geometry.location.lat());
-    // Longitude
-    this.address.controls.longitude.setValue(address.geometry.location.lng());
-  }
+  // public setAddress(address: Address) {
+  //   // Set data
+  //   address.address_components.forEach(((address_component) => {
+  //     switch (address_component.types[0]) {
+  //       // Postal Code
+  //       case 'postal_code':
+  //         this.address.controls.postalCode.setValue(address_component.long_name);
+  //         break;
+  //       // Town
+  //       case 'locality':
+  //         this.address.controls.city.setValue(address_component.long_name);
+  //         break;
+  //       // Department
+  //       case 'administrative_area_level_2':
+  //         this.address.controls.department.setValue(address_component.long_name);
+  //         break;
+  //       // Region
+  //       case 'administrative_area_level_1':
+  //         this.address.controls.region.setValue(address_component.long_name);
+  //         break;
+  //       // Country
+  //       case 'country':
+  //         this.address.controls.country.setValue(address_component.long_name);
+  //         break;
+  //     }
+  //   }));
+  //   // Address
+  //   this.address.controls.address1.setValue(address.name);
+  //   // Latitude
+  //   this.address.controls.latitude.setValue(address.geometry.location.lat());
+  //   // Longitude
+  //   this.address.controls.longitude.setValue(address.geometry.location.lng());
+  // }
 
   public showPlace() {
     window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);

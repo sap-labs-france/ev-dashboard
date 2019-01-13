@@ -215,30 +215,4 @@ export class CompaniesDataSource extends TableDataSource<Company> {
       }
     });
   }
-
-  private _registerCompany(ocpiendpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
-      this.translateService.instant('ocpiendpoints.register_title'),
-      this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-        this.centralServerService.registerOcpiendpoint(ocpiendpoint.id).subscribe(response => {
-          this.spinnerService.hide();
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
-            this.loadData();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.register_error');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.register_error');
-        });
-      }
-    });
-  }
 }

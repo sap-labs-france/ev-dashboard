@@ -10,11 +10,12 @@ export class CompanyDialogComponent {
   companyID: string;
 
   constructor(
-    private dialogRef: MatDialogRef<CompanyDialogComponent>,
+    public dialogRef: MatDialogRef<CompanyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
       this.companyID = data;
     }
+
   }
 }

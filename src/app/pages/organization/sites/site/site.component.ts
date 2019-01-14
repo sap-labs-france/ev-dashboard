@@ -1,19 +1,19 @@
-import {mergeMap} from 'rxjs/operators';
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import { mergeMap } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
-import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import {LocaleService} from 'app/services/locale.service';
-import {CentralServerService} from 'app/services/central-server.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {MessageService} from 'app/services/message.service';
-import {ParentErrorStateMatcher} from 'app/utils/ParentStateMatcher';
-import {DialogService} from 'app/services/dialog.service';
-import {Constants} from 'app/utils/Constants';
-import {Utils} from 'app/utils/Utils';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { LocaleService } from 'app/services/locale.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { MessageService } from 'app/services/message.service';
+import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { DialogService } from 'app/services/dialog.service';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-cmp',
@@ -24,6 +24,7 @@ export class SiteComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteID: string;
   @Input() inDialog: boolean;
+  @Input() dialogRef: MatDialogRef<any>;
   public image = Constants.SITE_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -56,13 +57,13 @@ export class SiteComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSite({'id': this.activatedRoute.snapshot.params['id']})) {
+      !authorizationService.canUpdateSite({ 'id': this.activatedRoute.snapshot.params['id'] })) {
       // Not authorized
       this.router.navigate(['/']);
     }
 
-    // TODO: test
-    this.companies = [{ 'id': '5abeba344bae1457eb565e27' , 'name': 'Test'}];
+    // refresh comapnies
+    this.refreshAvailableCompanies();
   }
 
   ngOnInit() {
@@ -74,9 +75,9 @@ export class SiteComponent implements OnInit {
           Validators.required
         ])),
       'companyID': new FormControl('',
-      Validators.compose([
-        Validators.required
-      ])),
+        Validators.compose([
+          Validators.required
+        ])),
       'address': new FormGroup({
         'address1': new FormControl(''),
         'address2': new FormControl(''),
@@ -124,7 +125,7 @@ export class SiteComponent implements OnInit {
       });
     }
     // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+    jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
   }
 
   public isOpenInDialog(): boolean {
@@ -144,7 +145,22 @@ export class SiteComponent implements OnInit {
     this.loadSite();
   }
 
+  public refreshAvailableCompanies() {
+    this.centralServerService.getCompanies({}).subscribe((availableCompanies) => {
+      // clear current entries
+      this.companies = [];
+
+      // add available companies to dropdown
+      for (let i = 0; i < availableCompanies.count; i++) {
+        this.companies.push({ 'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name })
+      }
+    });
+  }
+
   public loadSite() {
+    // refresh available companies
+    this.refreshAvailableCompanies();
+
     if (!this.currentSiteID) {
       return;
     }
@@ -191,6 +207,8 @@ export class SiteComponent implements OnInit {
         this.address.controls.longitude.setValue(site.address.longitude);
       }
       // Yes, get image
+      // return this.centralServerService.getSiteImage(this.currentSiteID);
+      // return this.centralServerService.getCompanies({});
       return this.centralServerService.getSiteImage(this.currentSiteID);
     })).subscribe((siteImage) => {
       if (siteImage && siteImage.image) {
@@ -249,10 +267,10 @@ export class SiteComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.create_success',
-          {'siteName': site.name});
-        // Refresh
+          { 'siteName': site.name });
+        // close
         this.currentSiteID = site.id;
-        this.refresh();
+        this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'sites.create_error');
@@ -286,8 +304,8 @@ export class SiteComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('sites.update_success', {'siteName': site.name});
-        this.refresh();
+        this.messageService.showSuccessMessage('sites.update_success', { 'siteName': site.name });
+        this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'sites.update_error');
@@ -319,5 +337,11 @@ export class SiteComponent implements OnInit {
     jQuery('.fileinput-preview img')[0]['src'] = Constants.SITE_NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
+  }
+
+  public closeDialog() {
+    if (this.inDialog) {
+      this.dialogRef.close();
+    }
   }
 }

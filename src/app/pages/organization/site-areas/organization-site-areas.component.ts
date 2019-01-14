@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SiteAreasDataSource } from './organization-site-areas-source-table';
 
 @Component({
@@ -12,8 +9,6 @@ export class OrganizationSiteAreasComponent implements OnInit {
 
   constructor(
     public siteAreasDataSource: SiteAreasDataSource,
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService
   ) {
 
   }

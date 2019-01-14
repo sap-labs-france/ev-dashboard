@@ -39,6 +39,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
+    this.setStaticFilters([{'WithLogo': true}]);
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
@@ -54,15 +55,8 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     // show
     this.spinnerService.show();
 
-    // let company Logos;
-    const companyLogos = {};
-    this.centralServerService.getCompanyLogos().pipe(mergeMap(foundCompanyLogos => {
-      for (let i = 0; i < foundCompanyLogos.length; i++) {
-        companyLogos[foundCompanyLogos[i].id] = foundCompanyLogos[i].logo;
-      }
-
-      return this.centralServerService.getCompanies(this.getFilterValues(), this.getPaging(), this.getOrdering());
-    })).subscribe((companies) => {
+    // get companies
+    this.centralServerService.getCompanies(this.getFilterValues(), this.getPaging(), this.getOrdering()).subscribe((companies) => {
         // Hide
         this.spinnerService.hide();
         // Update nbr records
@@ -71,10 +65,11 @@ export class CompaniesDataSource extends TableDataSource<Company> {
         this.updatePaginator();
         // Notify
         this.getDataSubjet().next(companies.result);
-        // looku for logo
+        // lookup for logo otherwise assign default
         for (let i = 0; i < companies.result.length; i++) {
-          companies.result[i].logo = companyLogos[companies.result[i].id] ?
-            companyLogos[companies.result[i].id] : Constants.COMPANY_NO_LOGO;
+          if (!companies.result[i].logo) {
+            companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+          }
         }
 
         // Set the data
@@ -89,6 +84,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   public getTableDef(): TableDef {
     return {
+      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }

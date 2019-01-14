@@ -113,7 +113,7 @@ export const AppRoutes: Routes = [
           menu: {
             title: 'organization',
             type: 'link',
-            icon: 'store_mall_directory',
+            icon: 'business',
             path: '/organization'
           },
           forAdminOnly: true

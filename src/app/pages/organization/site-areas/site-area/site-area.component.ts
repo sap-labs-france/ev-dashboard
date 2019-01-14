@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { mergeMap } from 'rxjs/operators';
 
 import { LocaleService } from 'app/services/locale.service';
@@ -22,6 +22,7 @@ export class SiteAreaComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
+  @Input() dialogRef: MatDialogRef<any>;
   public image = Constants.SITE_AREA_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -49,8 +50,8 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    // TODO: test
-    this.sites = [{ 'id': '5abeba8d4bae1457eb565e5b', 'name': 'Test' }];
+    // refresh available sites
+    this.refreshAvailableSites();
   }
 
   ngOnInit() {
@@ -91,13 +92,21 @@ export class SiteAreaComponent implements OnInit {
     this.currentSiteAreaID = currentSiteAreaId;
   }
 
-  public showPlace() {
-    window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
-  }
-
   public refresh() {
     // Load SiteArea
     this.loadSiteArea();
+  }
+
+  public refreshAvailableSites() {
+    this.centralServerService.getSites({}).subscribe((availableSites) => {
+      // clear current entries
+      this.sites = [];
+
+      // add available companies to dropdown
+      for (let i = 0; i < availableSites.count; i++) {
+        this.sites.push({ 'id': availableSites.result[i].id, 'name': availableSites.result[i].name })
+      }
+    });
   }
 
   public loadSiteArea() {
@@ -144,16 +153,16 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public updateUserImage(user) {
+  public updateSiteAreaImage(siteArea) {
     // Set the image
     this.image = jQuery('.fileinput-preview img')[0]['src'];
     // Check no user?
-    if (!this.image.endsWith(Constants.USER_NO_PICTURE)) {
+    if (!this.image.endsWith(Constants.SITE_AREA_NO_IMAGE)) {
       // Set to user
-      user.image = this.image;
+      siteArea.image = this.image;
     } else {
       // No image
-      user.image = null;
+      siteArea.image = null;
     }
   }
 
@@ -166,86 +175,76 @@ export class SiteAreaComponent implements OnInit {
   }
 
   private _createSiteArea(siteArea) {
-    // // Show
-    // this.spinnerService.show();
-    // // Set the image
+    // Show
+    this.spinnerService.show();
+    // Set the image
     // this.updateSiteAreaImage(siteArea);
-    // // Yes: Update
-    // this.centralServerService.createUser(user).subscribe(response => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Ok?
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     // Ok
-    //     this.messageService.showSuccessMessage('users.create_success',
-    //       {'userFullName': user.firstName + ' ' + user.name});
-    //     // Refresh
-    //     this.currentUserID = user.id;
-    //     this.refresh();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'users.create_error');
-    //   }
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Check status
-    //   switch (error.status) {
-    //     // Email already exists
-    //     case 510:
-    //       // Show error
-    //       this.messageService.showErrorMessage('authentication.email_already_exists');
-    //       break;
-    //     // User deleted
-    //     case 550:
-    //       // Show error
-    //       this.messageService.showErrorMessage('users.user_do_not_exist');
-    //       break;
-    //     default:
-    //       // No longer exists!
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-    //   }
-    // });
+    // Yes: Update
+    this.centralServerService.createSiteArea(siteArea).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('site_areas.create_success',
+          {'siteAreaName': siteArea.name});
+        // Close
+        this.currentSiteAreaID = siteArea.id;
+        this.closeDialog();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'site_areas.create_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Site Area deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.create_error');
+      }
+    });
   }
 
   private _updateSiteArea(siteArea) {
-    // // Show
-    // this.spinnerService.show();
-    // // Set the image
-    // this.updateUserImage(user);
-    // // Yes: Update
-    // this.centralServerService.updateUser(user).subscribe(response => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Ok?
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     // Ok
-    //     this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
-    //     this.refresh();
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, 'users.update_error');
-    //   }
-    // }, (error) => {
-    //   // Hide
-    //   this.spinnerService.hide();
-    //   // Check status
-    //   switch (error.status) {
-    //     // Email already exists
-    //     case 510:
-    //       // Show error
-    //       this.messageService.showErrorMessage('authentication.email_already_exists');
-    //       break;
-    //     // User deleted
-    //     case 550:
-    //       // Show error
-    //       this.messageService.showErrorMessage('users.user_do_not_exist');
-    //       break;
-    //     default:
-    //       // No longer exists!
-    //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-    //   }
-    // });
+    // Show
+    this.spinnerService.show();
+    // Set the image
+    this.updateSiteAreaImage(siteArea);
+    // Yes: Update
+    this.centralServerService.updateSiteArea(siteArea).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('site_areas.update_success', {'siteAreaName': siteArea.name});
+        this.closeDialog();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'site_areas.update_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Site Area deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('site_areas.user_do_not_exist');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+      }
+    });
   }
 
   public imageChanged() {
@@ -258,5 +257,11 @@ export class SiteAreaComponent implements OnInit {
     jQuery('.fileinput-preview img')[0]['src'] = Constants.SITE_AREA_NO_IMAGE
     // Set form dirty
     this.formGroup.markAsDirty();
+  }
+
+  public closeDialog() {
+    if (this.inDialog) {
+      this.dialogRef.close();
+    }
   }
 }

@@ -2,10 +2,8 @@ import {mergeMap} from 'rxjs/operators';
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
-import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import {LocaleService} from 'app/services/locale.service';
 import {CentralServerService} from 'app/services/central-server.service';
 import {SpinnerService} from 'app/services/spinner.service';
 import {AuthorizationService} from 'app/services/authorization-service';
@@ -24,6 +22,7 @@ export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentCompanyID: string;
   @Input() inDialog: boolean;
+  @Input() dialogRef: MatDialogRef<any>;
 
   public isAdmin;
   public logo = Constants.COMPANY_NO_LOGO;
@@ -47,7 +46,6 @@ export class CompanyComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private localeService: LocaleService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -125,40 +123,6 @@ export class CompanyComponent implements OnInit {
   public setCurrentCompanyId(currentCompanyId) {
     this.currentCompanyID = currentCompanyId;
   }
-
-  // public setAddress(address: Address) {
-  //   // Set data
-  //   address.address_components.forEach(((address_component) => {
-  //     switch (address_component.types[0]) {
-  //       // Postal Code
-  //       case 'postal_code':
-  //         this.address.controls.postalCode.setValue(address_component.long_name);
-  //         break;
-  //       // Town
-  //       case 'locality':
-  //         this.address.controls.city.setValue(address_component.long_name);
-  //         break;
-  //       // Department
-  //       case 'administrative_area_level_2':
-  //         this.address.controls.department.setValue(address_component.long_name);
-  //         break;
-  //       // Region
-  //       case 'administrative_area_level_1':
-  //         this.address.controls.region.setValue(address_component.long_name);
-  //         break;
-  //       // Country
-  //       case 'country':
-  //         this.address.controls.country.setValue(address_component.long_name);
-  //         break;
-  //     }
-  //   }));
-  //   // Address
-  //   this.address.controls.address1.setValue(address.name);
-  //   // Latitude
-  //   this.address.controls.latitude.setValue(address.geometry.location.lat());
-  //   // Longitude
-  //   this.address.controls.longitude.setValue(address.geometry.location.lng());
-  // }
 
   public showPlace() {
     window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
@@ -275,7 +239,7 @@ export class CompanyComponent implements OnInit {
           {'companyName': company.name});
         // Refresh
         this.currentCompanyID = company.id;
-        this.refresh();
+        this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'companies.create_error');
@@ -310,7 +274,7 @@ export class CompanyComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.update_success', {'companyName': company.name});
-        this.refresh();
+        this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'companies.update_error');
@@ -342,5 +306,11 @@ export class CompanyComponent implements OnInit {
     jQuery('.fileinput-preview img')[0]['src'] = Constants.COMPANY_NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
+  }
+
+  public closeDialog() {
+    if (this.inDialog) {
+      this.dialogRef.close();
+    }
   }
 }

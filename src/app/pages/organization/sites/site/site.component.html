@@ -42,16 +42,34 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="profile">
                                     <div class="row">
-                                        <div class="col-md-3 app-div-logo">
-                                            <div class="fileinput fileinput-exists text-center" data-provides="fileinput">
-                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                                                    <img [src]="image" alt="...">
-                                                </div>
-                                                <div style="display:none">
-                                                    <input type="file" name="..." (change)="imageChanged()">
+                                        <div class="col-md-3">
+                                            <div class="rotating-card-container">
+                                                <div class="card card-rotate card-background">
+                                                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                                        <div class="card-body">
+                                                        </div>
+                                                    </div>
+                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                {{'general.change_picture' | translate}}
+                                                            </h5>
+                                                            <div class="footer justify-content-center">
+                                                                <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
+                                                                    <i class="material-icons" (click)="file.click()">mode_edit</i>
+                                                                    <div style="display:none">
+                                                                        <input type="file" name="..." (change)="imageChanged($event)"
+                                                                            #file>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
+                                                                    <i class="material-icons" (click)="clearImage()">delete</i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <button href="javascript:void(0)" (click)="clearImage()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="form-group">

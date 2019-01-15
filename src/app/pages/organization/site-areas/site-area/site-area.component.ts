@@ -254,7 +254,6 @@ export class SiteAreaComponent implements OnInit {
     let reader = new FileReader(); // tslint:disable-line
     const file = event.target.files[0];
     reader.onload = () => {
-      console.log('read');
       this.image = reader.result;
     };
     reader.readAsDataURL(file);

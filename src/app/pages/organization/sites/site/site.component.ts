@@ -25,7 +25,7 @@ export class SiteComponent implements OnInit {
   @Input() currentSiteID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
-  public image = Constants.SITE_NO_IMAGE;
+  public image: any = Constants.SITE_NO_IMAGE;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -234,8 +234,6 @@ export class SiteComponent implements OnInit {
   }
 
   public updateSiteImage(site) {
-    // Set the image
-    this.image = jQuery('.fileinput-preview img')[0]['src'];
     // Check no image?
     if (!this.image.endsWith(Constants.SITE_NO_IMAGE)) {
       // Set to site
@@ -327,14 +325,20 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  public imageChanged() {
-    // Set form dirty
+  public imageChanged(event) {
+    // load picture
+    let reader = new FileReader(); // tslint:disable-line
+    const file = event.target.files[0];
+    reader.onload = () => {
+      this.image = reader.result;
+    };
+    reader.readAsDataURL(file);
     this.formGroup.markAsDirty();
   }
 
   public clearImage() {
     // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.SITE_NO_IMAGE;
+    this.image = Constants.SITE_NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

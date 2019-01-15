@@ -41,24 +41,39 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="company">
-                                    <div class="row app-align-center">
-                                        <div class="col-md-2 app-div-logo">
-                                            <div class="fileinput fileinput-exists text-center" data-provides="fileinput">
-                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                                                    <img [src]="logo" alt="...">
-                                                </div>
-                                                <div style="display:none">
-                                                    <input type="file" name="..." (change)="logoChanged()">
+                                    <div class="row  app-align-center">
+                                        <div class="col-md-2">
+                                            <div class="rotating-card-container">
+                                                <div class="card card-rotate card-background" style="height: 100px">
+                                                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')'}">
+                                                        <div class="card-body">
+                                                        </div>
+                                                    </div>
+                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')'}">
+                                                        <div class="card-body">
+                                                            <div class="footer justify-content-center">
+                                                                <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
+                                                                    <i class="material-icons" (click)="file.click()">mode_edit</i>
+                                                                    <div style="display:none">
+                                                                        <input type="file" name="..." (change)="logoChanged($event)"
+                                                                            #file>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
+                                                                    <i class="material-icons" (click)="clearLogo()">delete</i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <button href="javascript:void(0)" (click)="clearLogo()" class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"></button>
                                         </div>
                                         <div class="col-md-10">
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <input appSetAutoFocus matInput placeholder="{{'companies.name' | translate}}"
-                                                        class="app-company-name-bold"
-                                                        type="text" [formControl]="name" required>
+                                                        class="app-company-name-bold" type="text" [formControl]="name"
+                                                        required>
                                                     <mat-error *ngIf="name.hasError('required')">
                                                         {{"general.mandatory_field" | translate}}
                                                     </mat-error>

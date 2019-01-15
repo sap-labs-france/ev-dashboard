@@ -25,7 +25,7 @@ export class CompanyComponent implements OnInit {
   @Input() dialogRef: MatDialogRef<any>;
 
   public isAdmin;
-  public logo = Constants.COMPANY_NO_LOGO;
+  public logo: any = Constants.COMPANY_NO_LOGO;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -203,8 +203,6 @@ export class CompanyComponent implements OnInit {
   }
 
   public updateCompanyLogo(company) {
-    // Set the logo
-    this.logo = jQuery('.fileinput-preview img')[0]['src'];
     // Check no company?
     if (!this.logo.endsWith(Constants.COMPANY_NO_LOGO)) {
       // Set to company
@@ -296,14 +294,20 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  public logoChanged() {
-    // Set form dirty
+  public logoChanged(event) {
+    // load picture
+    let reader = new FileReader(); // tslint:disable-line
+    const file = event.target.files[0];
+    reader.onload = () => {
+      this.logo = reader.result;
+    };
+    reader.readAsDataURL(file);
     this.formGroup.markAsDirty();
   }
 
   public clearLogo() {
     // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.COMPANY_NO_LOGO;
+    this.logo = Constants.COMPANY_NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

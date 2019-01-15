@@ -18,3 +18,12 @@
 ::ng-deep div.fileinput .thumbnail {
   max-width: 300px !important;
 }
+
+::ng-deep .app-card-front-background {
+  background-color: rgba(255,0,0,0.56) !important;
+}
+
+::ng-deep .card .front-background {
+  background-color: none !important;
+}
+

@@ -13,17 +13,21 @@ import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { DialogService } from 'app/services/dialog.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+import { ReadVarExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-site-area-cmp',
-  templateUrl: 'site-area.component.html'
+  templateUrl: 'site-area.component.html',
+  styleUrls: ['./site-area.component.scss']
 })
 export class SiteAreaComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
-  public image = Constants.SITE_AREA_NO_IMAGE;
+  public image: any = Constants.SITE_AREA_NO_IMAGE;
+  public image2 = 'background-image:url(\'assets/img/theme/no-logo.jpg\')';
+  public image3 = 'assets/img/theme/no-logo.jpg';
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -143,7 +147,7 @@ export class SiteAreaComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.user_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site-areas.site-areas_not_found');
           break;
         default:
           // Unexpected error`
@@ -155,10 +159,8 @@ export class SiteAreaComponent implements OnInit {
 
   public updateSiteAreaImage(siteArea) {
     // Set the image
-    this.image = jQuery('.fileinput-preview img')[0]['src'];
-    // Check no user?
     if (!this.image.endsWith(Constants.SITE_AREA_NO_IMAGE)) {
-      // Set to user
+      // Set to current image
       siteArea.image = this.image;
     } else {
       // No image
@@ -178,7 +180,7 @@ export class SiteAreaComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Set the image
-    // this.updateSiteAreaImage(siteArea);
+    this.updateSiteAreaImage(siteArea);
     // Yes: Update
     this.centralServerService.createSiteArea(siteArea).subscribe(response => {
       // Hide
@@ -238,7 +240,7 @@ export class SiteAreaComponent implements OnInit {
         // Site Area deleted
         case 550:
           // Show error
-          this.messageService.showErrorMessage('site_areas.user_do_not_exist');
+          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
           break;
         default:
           // No longer exists!
@@ -247,14 +249,21 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public imageChanged() {
-    // Set form dirty
+  public imageChanged(event) {
+    // load picture
+    let reader = new FileReader(); // tslint:disable-line
+    const file = event.target.files[0];
+    reader.onload = () => {
+      console.log('read');
+      this.image = reader.result;
+    };
+    reader.readAsDataURL(file);
     this.formGroup.markAsDirty();
   }
 
   public clearImage() {
     // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.SITE_AREA_NO_IMAGE
+    this.image = Constants.SITE_AREA_NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

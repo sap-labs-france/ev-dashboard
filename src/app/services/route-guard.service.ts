@@ -4,6 +4,7 @@ import {CentralServerService} from './central-server.service';
 import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
+import {WindowService} from './window.service';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild {
@@ -12,14 +13,14 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     private messageService: MessageService,
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private windowService: WindowService) {
   }
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const queryParams = {};
 
-    if (activatedRoute.fragment) {
-      this.router.navigateByUrl(activatedRoute.fragment);
+    if (this.windowService.rewriteHashUrl()) {
       return false;
     }
 

@@ -640,7 +640,9 @@
         "client_id": "Client ID",
         "client_secret": "Client Secret",
         "payment_type_id": "Payment Type ID",
-        "expense_type_code": "Expense Type Code"
+        "expense_type_code": "Expense Type Code",
+        "link_success": "Your account has been successfully linked with Concur",
+        "link_error": "Error occurred while linking your account with Concur"
       }
     },
     "information": "Information",

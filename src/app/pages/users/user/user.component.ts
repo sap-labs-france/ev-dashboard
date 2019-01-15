@@ -59,6 +59,7 @@ export class UserComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
+  public chargeAtHomeSetting: any;
 
   public passwords: FormGroup;
   public password: AbstractControl;
@@ -94,23 +95,7 @@ export class UserComponent implements OnInit {
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
       if (state.connector === 'concur') {
-        if (this.activatedRoute.snapshot.queryParams['code']) {
-          console.log('concurfound');
-          const payload = {
-            settingId: '5c37394b846c5c0ee7628232',
-            userId: state.userId,
-            connectorId: 'concur',
-            data: {
-              code: this.activatedRoute.snapshot.queryParams['code']
-            }
-          };
-          console.log('createConnectorConnection');
-          this.centralServerService.createConnectorConnection(payload).subscribe((value: ActionResponse) => {
-              console.log(value);
-            }
-          );
-        } else if (this.activatedRoute.snapshot.queryParams['error']) {
-        }
+        this._createConcurConnection(state);
       }
     }
   }
@@ -226,7 +211,6 @@ export class UserComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -235,6 +219,8 @@ export class UserComponent implements OnInit {
         this.loadUser();
       });
     }
+
+    this.loadApplicationSettings();
     // Scroll up
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
@@ -421,20 +407,58 @@ export class UserComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  linkConcurAccount() {
+  private loadApplicationSettings() {
     this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
-      // const setting = settingResult.result[0].content;
-      const setting: any = {};
-      setting.url = 'https://www.concursolutions.com/net2/oauth2/Login.aspx';
-      setting.clientId = '6fVhhu5nmaa9P6sWXEsHJT';
-      setting.scope = 'EXPRPT';
+      if (settingResult && settingResult.result && settingResult.result.length > 0) {
+        this.chargeAtHomeSetting = settingResult.result[0];
+      }
+    });
+  }
+
+  linkConcurAccount() {
+    if (this.chargeAtHomeSetting && this.chargeAtHomeSetting.content && this.chargeAtHomeSetting.content.concur) {
+      const concurSetting = this.chargeAtHomeSetting.content.concur;
+      const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
       const state = {
         connector: 'concur',
+        appId: this.chargeAtHomeSetting.id,
         userId: this.currentUserID
       };
-      const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
-      this.document.location.href = `${setting.url}?client_id=${setting.clientId}&scope=${setting.scope}&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
-    });
+      this.document.location.href = `${concurSetting.url}?client_id=${concurSetting.clientId}&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
+  }
+
+  private _createConcurConnection(state) {
+    if (this.activatedRoute.snapshot.queryParams['code']) {
+      const payload = {
+          settingId: state.appId,
+          userId: state.userId,
+          connectorId: 'concur',
+          data:
+            {
+              code: this.activatedRoute.snapshot.queryParams['code']
+            }
+        }
+      ;
+      console.log('createConnectorConnection');
+      this.centralServerService.createConnectorConnection(payload).subscribe((response: ActionResponse) => {
+          console.log(response);
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            // Ok
+            this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'settings.chargeathome.concur.link_error');
+          }
+        }, (error) => {
+          Utils.handleError(JSON.stringify(error),
+            this.messageService, 'settings.chargeathome.concur.link_error');
+        }
+      );
+    } else if (this.activatedRoute.snapshot.queryParams['error']) {
+      Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
+        this.messageService, 'settings.chargeathome.concur.link_error');
+    }
   }
 
   private _createUser(user) {

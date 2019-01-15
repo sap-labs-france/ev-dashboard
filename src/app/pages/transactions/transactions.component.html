@@ -1,16 +1,15 @@
-<div  class="transactions main-content">
+<div class="transactions main-content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 ml-auto mr-auto">
 
         <div class="card">
-          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+          <mat-tab-group [(selectedIndex)]="activeTabIndex" animationDuration="0ms" disableRipple="true"
+                         class="mat-tab-info">
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">history</i>{{'transactions.tabs.history' | translate}}
-                  <!--<div class="ripple-container"></div>-->
-                </a>
+                <mat-icon>history</mat-icon>
+                {{'transactions.tabs.history' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-transactions-history></app-transactions-history>
@@ -19,10 +18,8 @@
 
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">flash_on</i>{{'transactions.tabs.in_progress' | translate}}
-                  <!--<div class="ripple-container"></div>-->
-                </a>
+                <mat-icon>flash_on</mat-icon>
+                {{'transactions.tabs.in_progress' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-transactions-in-progress></app-transactions-in-progress>
@@ -30,10 +27,8 @@
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">warning</i>{{'transactions.tabs.in_error' | translate}}
-                  <!--<div class="ripple-container"></div>-->
-                </a>
+                <mat-icon>warning</mat-icon>
+                {{'transactions.tabs.in_error' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-transactions-in-error></app-transactions-in-error>
@@ -41,10 +36,8 @@
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">money</i>{{'transactions.tabs.charge_at_home' | translate}}
-                  <!--<div class="ripple-container"></div>-->
-                </a>
+                <mat-icon>money</mat-icon>
+                {{'transactions.tabs.charge_at_home' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-transactions-refund></app-transactions-refund>

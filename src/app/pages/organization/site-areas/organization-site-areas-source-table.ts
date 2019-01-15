@@ -146,10 +146,10 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
         this._showSiteAreaDialog(rowItem);
         break;
       case 'delete':
-        // this._deleteSiteArea(rowItem);
+        this._deleteSiteArea(rowItem);
         break;
       default:
-        // super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
@@ -175,5 +175,31 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _deleteSiteArea(siteArea) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('site_areas.delete_title'),
+      this.translateService.instant('site_areas.delete_confirm', { 'siteAreaName': siteArea.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.spinnerService.show();
+        this.centralServerService.deleteSiteArea(siteArea.id).subscribe(response => {
+          this.spinnerService.hide();
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
+            this.loadData();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'site_areas.delete_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'site_areas.delete_error');
+        });
+      }
+    });
   }
 }

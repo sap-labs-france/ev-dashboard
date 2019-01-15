@@ -235,6 +235,7 @@
     "name": "Nom",
     "title": "Zone",
     "site_invalid": "Zone invalide",
+    "site_area_do_not_exist": "Site Area n'existe plus",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",

@@ -147,7 +147,7 @@ export class SiteAreaComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site-areas.site-areas_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.site_invalid');
           break;
         default:
           // Unexpected error`

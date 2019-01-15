@@ -146,10 +146,10 @@ export class SitesDataSource extends TableDataSource<Site> {
         this._showSiteDialog(rowItem);
         break;
       case 'delete':
-        // this._deleteSite(rowItem);
+        this._deleteSite(rowItem);
         break;
       default:
-        // super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
@@ -175,5 +175,31 @@ export class SitesDataSource extends TableDataSource<Site> {
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _deleteSite(site) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('sites.delete_title'),
+      this.translateService.instant('sites.delete_confirm', { 'siteName': site.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.spinnerService.show();
+        this.centralServerService.deleteSite(site.id).subscribe(response => {
+          this.spinnerService.hide();
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
+            this.loadData();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'sites.delete_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'sites.delete_error');
+        });
+      }
+    });
   }
 }

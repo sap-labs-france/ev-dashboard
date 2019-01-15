@@ -237,6 +237,7 @@
     "name": "Name",
     "title": "Site Area",
     "site_invalid": "Site Area invalid",
+    "site_area_do_not_exist": "Site Area does not exist anymore",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",

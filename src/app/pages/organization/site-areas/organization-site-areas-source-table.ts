@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, SiteArea } from 'app/common.types';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, SiteArea, Charger } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -18,10 +18,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
+import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
+import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 
 @Injectable()
 export class SiteAreasDataSource extends TableDataSource<SiteArea> {
@@ -38,10 +39,11 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
-    this.setStaticFilters([{'WithSite': true}]);
+    this.setStaticFilters([{ 'WithSite': true }]);
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
+      new TableEditChargersAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -145,6 +147,9 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
       case 'edit':
         this._showSiteAreaDialog(rowItem);
         break;
+      case 'edit_chargers':
+        this._showChargersDialog(rowItem);
+        break;
       case 'delete':
         this._deleteSiteArea(rowItem);
         break;
@@ -175,6 +180,16 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _showChargersDialog(charger?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    if (charger) {
+      dialogConfig.data = charger;
+    }
+    // Open
+    this.dialog.open(SiteAreaChargersDialogComponent, dialogConfig);
   }
 
   private _deleteSiteArea(siteArea) {

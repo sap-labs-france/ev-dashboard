@@ -19,6 +19,10 @@ import {SiteDialogComponent} from './sites/site/site.dialog.component';
 import {SiteComponent} from './sites/site/site.component';
 import {SiteAreaDialogComponent} from './site-areas/site-area/site-area.dialog.component';
 import {SiteAreaComponent} from './site-areas/site-area/site-area.component';
+import {SiteUsersDialogComponent} from './sites/site/site-users/site-users.dialog.component';
+import {SiteUsersDataSource} from './sites/site/site-users/site-users-data-source-table';
+import {SiteAreaChargersDialogComponent} from './site-areas/site-area/site-area-chargers/site-area-chargers.dialog.component';
+import {SiteAreaChargersDataSource} from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
 
 
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
@@ -49,7 +53,9 @@ import {OrganizationRoutes} from './organization.routing';
     SiteDialogComponent,
     SiteComponent,
     SiteAreaDialogComponent,
-    SiteAreaComponent
+    SiteAreaComponent,
+    SiteUsersDialogComponent,
+    SiteAreaChargersDialogComponent
   ],
   entryComponents: [
     OrganizationComponent,
@@ -61,12 +67,16 @@ import {OrganizationRoutes} from './organization.routing';
     SiteDialogComponent,
     SiteComponent,
     SiteAreaDialogComponent,
-    SiteAreaComponent
+    SiteAreaComponent,
+    SiteUsersDialogComponent,
+    SiteAreaChargersDialogComponent
   ],
   providers: [
     CompaniesDataSource,
     SitesDataSource,
-    SiteAreasDataSource
+    SiteAreasDataSource,
+    SiteUsersDataSource,
+    SiteAreaChargersDataSource
   ]
 })
 

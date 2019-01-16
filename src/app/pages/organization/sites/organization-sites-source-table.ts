@@ -18,10 +18,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
+import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteDialogComponent } from './site/site.dialog.component';
+import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
 
 @Injectable()
 export class SitesDataSource extends TableDataSource<Site> {
@@ -38,10 +39,11 @@ export class SitesDataSource extends TableDataSource<Site> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService) {
     super();
-    this.setStaticFilters([{'WithCompany': true}]);
+    this.setStaticFilters([{ 'WithCompany': true }]);
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
+      new TableEditUsersAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -145,6 +147,9 @@ export class SitesDataSource extends TableDataSource<Site> {
       case 'edit':
         this._showSiteDialog(rowItem);
         break;
+      case 'edit_users':
+        this._showUsersDialog(rowItem);
+        break;
       case 'delete':
         this._deleteSite(rowItem);
         break;
@@ -175,6 +180,16 @@ export class SitesDataSource extends TableDataSource<Site> {
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _showUsersDialog(site?: Site) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    if (site) {
+      dialogConfig.data = site;
+    }
+    // Open
+    this.dialog.open(SiteUsersDialogComponent, dialogConfig);
   }
 
   private _deleteSite(site) {

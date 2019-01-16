@@ -37,4 +37,8 @@ export class WindowService {
     }
     return false;
   }
+
+  setHash(hash): void {
+    this.window.location.hash = hash;
+  }
 }

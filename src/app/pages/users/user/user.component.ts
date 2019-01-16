@@ -60,6 +60,7 @@ export class UserComponent implements OnInit {
   public latitude: AbstractControl;
   public longitude: AbstractControl;
   public chargeAtHomeSetting: any;
+  public integrationConnections: any;
 
   public passwords: FormGroup;
   public password: AbstractControl;
@@ -413,6 +414,11 @@ export class UserComponent implements OnInit {
         this.chargeAtHomeSetting = settingResult.result[0];
       }
     });
+    this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+      if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+        this.integrationConnections = connectionResult.result;
+      }
+    });
   }
 
   linkConcurAccount() {
@@ -443,7 +449,7 @@ export class UserComponent implements OnInit {
         }
       ;
       console.log('createConnectorConnection');
-      this.centralServerService.createConnectorConnection(payload).subscribe((response: ActionResponse) => {
+      this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
           console.log(response);
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             // Ok

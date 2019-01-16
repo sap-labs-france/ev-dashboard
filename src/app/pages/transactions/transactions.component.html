@@ -4,7 +4,8 @@
       <div class="col-md-12 ml-auto mr-auto">
 
         <div class="card">
-          <mat-tab-group [(selectedIndex)]="activeTabIndex" animationDuration="0ms" disableRipple="true"
+          <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="updateRoute($event)"
+                         animationDuration="0ms" disableRipple="true"
                          class="mat-tab-info">
             <mat-tab>
               <ng-template mat-tab-label>

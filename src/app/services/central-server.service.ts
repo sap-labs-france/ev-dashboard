@@ -1076,7 +1076,19 @@ export class CentralServerService {
       );
   }
 
-  createConnectorConnection(payload: any) {
+  public getIntegrationConnections(userId: string) {
+    this._checkInit();
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnections?userId=${userId}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createIntegrationConnection(payload: any) {
+    this._checkInit();
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, payload,
       {
         headers: this._buildHttpHeaders()

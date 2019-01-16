@@ -8,6 +8,7 @@ import {ConnectorCellComponent} from './connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
+import {AbstractTabComponent} from './tab/AbstractTab.component';
 
 @NgModule({
   imports: [

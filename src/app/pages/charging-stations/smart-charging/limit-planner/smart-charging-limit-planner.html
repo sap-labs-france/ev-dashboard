@@ -27,54 +27,54 @@
                 <div class="row col-md-12 text-left">
                     <div class="form-group col-md-4">
                         <mat-form-field>
-                        <mat-select [formControl]="profileTypeControl" placeholder="{{'chargers.smart_charging.profile_type' | translate}}"
-                            required>
-                            <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
-                                {{type.description | translate}}
-                            </mat-option>
-                        </mat-select>
+                            <mat-select [formControl]="profileTypeControl" placeholder="{{'chargers.smart_charging.profile_type' | translate}}"
+                                required>
+                                <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
+                                    {{type.description | translate}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                        <input matInput [formControl]="stackLevelControl" type="number" min=0 max=10
-                            placeholder="{{'chargers.smart_charging.stack_level' | translate}}" required />
+                            <input matInput [formControl]="stackLevelControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.stack_level' | translate}}"
+                                required />
                         </mat-form-field>
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                        <input matInput [formControl]="profileIdControl" type="number" min=0 max=10
-                            placeholder="{{'chargers.smart_charging.profile_id' | translate}}" required />
+                            <input matInput [formControl]="profileIdControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.profile_id' | translate}}"
+                                required />
                         </mat-form-field>
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                        <input matInput [formControl]="durationControl" type="number" min=0 placeholder="{{'chargers.smart_charging.duration' | translate}}" />
+                            <input matInput [formControl]="durationControl" type="number" min=0 placeholder="{{'chargers.smart_charging.duration' | translate}}" />
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row col-md-12 align-items-center">
                     <div class="row col-md-12">
-                        <div class="col-md-8"> 
+                        <div class="col-md-8">
                             <!-- Header of slots chedule -->
                             <ng-container *ngIf="slotsSchedule && slotsSchedule.length > 0">
-                            <div class="row col-md-12 text-left">
-                                <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-3' : 'col-md-2')">
-                                    <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlotHeader">
-                                        <!-- Date selector -->
-                                        {{'chargers.smart_charging.slot_start_header' | translate}}
-                                    </ng-container>
-                                    <ng-template #elseSlotHeader>
-                                        {{'chargers.smart_charging.slot_index_header' | translate}}
-                                    </ng-template>
+                                <div class="row col-md-12 text-left">
+                                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-3' : 'col-md-2')">
+                                        <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlotHeader">
+                                            <!-- Date selector -->
+                                            {{'chargers.smart_charging.slot_start_header' | translate}}
+                                        </ng-container>
+                                        <ng-template #elseSlotHeader>
+                                            {{'chargers.smart_charging.slot_index_header' | translate}}
+                                        </ng-template>
+                                    </div>
+                                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-2' : 'col-md-3')">
+                                        {{'chargers.smart_charging.slot_duration_header' | translate}}
+                                    </div>
+                                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
+                                        {{'chargers.smart_charging.slot_limit_header' | translate}}
+                                    </div>
                                 </div>
-                                <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-2' : 'col-md-3')">
-                                    {{'chargers.smart_charging.slot_duration_header' | translate}}
-                                </div>
-                                <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
-                                    {{'chargers.smart_charging.slot_limit_header' | translate}}
-                                </div>
-                            </div>
                             </ng-container>
                             <!-- Slots schedule definition -->
                             <ng-container *ngFor="let slot of slotsSchedule">
@@ -84,7 +84,8 @@
                                             <!-- Date selector -->
                                             <mat-form-field>
                                                 <input matInput type="datetime-local" (input)="changeStartSlotDate($event, slot)"
-                                                    [placeholder]="'chargers.smart_charging.start_date' | translate" [value]="slot.displayedStartValue">
+                                                    [placeholder]="'chargers.smart_charging.start_date' | translate"
+                                                    [value]="slot.displayedStartValue">
                                             </mat-form-field>
                                         </ng-container>
                                         <ng-template #elseSlot>
@@ -98,14 +99,17 @@
                                         <ng-template #elseDuration>
                                             <mat-form-field>
                                                 <input matInput type="number" (input)="changeSlotDuration($event, slot)"
-                                                    [placeholder]="'chargers.smart_charging.duration' | translate" [value]="slot.duration">
+                                                    [placeholder]="'chargers.smart_charging.duration' | translate"
+                                                    [value]="slot.duration">
                                             </mat-form-field>
                                         </ng-template>
                                     </div>
                                     <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
                                         <app-smart-charging-power-slider #powerSliders [maximumPower]="charger.maximumPower"
-                                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase" [displayMinSliderValue]='false' [displayMaxSliderValue]='false'
-                                            (onSliderChange)="sliderChanged(slot, $event)" textPosition="right" [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-smart-charging-power-slider>
+                                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
+                                            [displayMinSliderValue]='false' [displayMaxSliderValue]='false'
+                                            (onSliderChange)="sliderChanged(slot, $event)" textPosition="right"
+                                            [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-smart-charging-power-slider>
                                     </div>
                                 </div>
                                 <div *ngIf="false && slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
@@ -121,7 +125,8 @@
                                 <button class="btn btn-info mat-raised-button" (click)="addSlot()">
                                     <span class="mat-button-wrapper">
                                         <i class="material-icons mr-2">add</i>
-                                        <span class="btn-label">{{'chargers.smart_charging.add_slot_button' | translate}}</span>
+                                        <span class="btn-label">{{'chargers.smart_charging.add_slot_button' |
+                                            translate}}</span>
                                     </span>
                                 </button>
                             </div>

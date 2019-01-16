@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../services/locale.service';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {MessageService} from '../../../services/message.service';
-import {ParentErrorStateMatcher} from '../../../utils/ParentStateMatcher';
-import {DialogService} from '../../../services/dialog.service';
-import {Charger} from '../../../common.types';
-import {ChargingStationOCPPConfigurationComponent} from './ocpp-parameters/charging-station-ocpp-parameters.component';
-import {ChargingStationParametersComponent} from './charger-parameters/charging-station-parameters.component';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from '../../../services/locale.service';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { MessageService } from '../../../services/message.service';
+import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
+import { DialogService } from '../../../services/dialog.service';
+import { Charger } from '../../../common.types';
+import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';
 
 const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
@@ -48,8 +48,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
     // Check auth
     if (!authorizationService.canUpdateChargingStation({
-        'id': 'currentCharger.id'
-      })) {
+      'id': 'currentCharger.id'
+    })) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -65,8 +65,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     jQuery('html, body').animate({
       scrollTop: 0
     }, {
-      duration: 500
-    });
+        duration: 500
+      });
   }
 
   ngAfterViewInit(): void {

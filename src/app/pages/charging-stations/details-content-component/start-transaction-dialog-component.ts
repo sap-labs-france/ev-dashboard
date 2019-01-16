@@ -1,7 +1,7 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Constants} from '../../../utils/Constants';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Constants } from '../../../utils/Constants';
+import { TranslateService } from '@ngx-translate/core';
 
 export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
 export const BUTTON_SELECT_USER = 'SELECT_USER';

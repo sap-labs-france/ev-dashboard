@@ -1,12 +1,11 @@
-import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, EventEmitter, ViewChild, Output, AfterViewInit} from '@angular/core';
-import {Charger} from 'app/common.types';
-import {LocaleService} from 'app/services/locale.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ChargingStations} from 'app/utils/ChargingStations';
-import {Constants} from 'app/utils/Constants';
-import {MatSlider} from '@angular/material/slider';
-import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe'
-import {SmartChargingUtils} from './smart-charging-utils';
+import { Component, Input, OnInit, Injectable, EventEmitter, ViewChild, Output, AfterViewInit } from '@angular/core';
+import { LocaleService } from 'app/services/locale.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ChargingStations } from 'app/utils/ChargingStations';
+import { Constants } from 'app/utils/Constants';
+import { MatSlider } from '@angular/material/slider';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
+import { SmartChargingUtils } from './smart-charging-utils';
 
 const MIN_POWER = 4000; // Minimum power in W under which we can't go
 const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing teh step of the slider
@@ -89,12 +88,12 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
         }
       }
       this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderValue, this.powerUnit,
-                                                                                      'kW',
-                                                                                      this.powerDigitPrecision,
-                                                                                      this.powerFloatingPrecision,
-                                                                                      this.numberOfConnectedPhase,
-                                                                                      this.appUnitFormatter,
-                                                                                      true);
+        'kW',
+        this.powerDigitPrecision,
+        this.powerFloatingPrecision,
+        this.numberOfConnectedPhase,
+        this.appUnitFormatter,
+        true);
     }
     // Default display
     if (this.displayMaxSliderValue === undefined) {
@@ -109,9 +108,9 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-/*    if (this.startValue) {
-      this.setSliderValue(this.startValue.value, this.startValue.unit);
-    }    */
+    /*    if (this.startValue) {
+          this.setSliderValue(this.startValue.value, this.startValue.unit);
+        }    */
   }
 
   public formatPowerPercent(value: number | null) {
@@ -124,13 +123,13 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
 
   public sliderChanged() {
     this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
-                                                                                    this.powerUnit,
-                                                                                    'kW',
-                                                                                    this.powerDigitPrecision,
-                                                                                    this.powerFloatingPrecision,
-                                                                                    this.numberOfConnectedPhase,
-                                                                                    this.appUnitFormatter,
-                                                                                    true);
+      this.powerUnit,
+      'kW',
+      this.powerDigitPrecision,
+      this.powerFloatingPrecision,
+      this.numberOfConnectedPhase,
+      this.appUnitFormatter,
+      true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
     this.powerSliderValue = this.powerSliderComponent.value;
     this.onSliderChange.emit(this.powerSliderValue);
@@ -138,15 +137,15 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
 
   public sliderInput() {
     this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
-                                                                                    this.powerUnit,
-                                                                                    'kW',
-                                                                                    this.powerDigitPrecision,
-                                                                                    this.powerFloatingPrecision,
-                                                                                    this.numberOfConnectedPhase,
-                                                                                    this.appUnitFormatter,
-                                                                                    true);
+      this.powerUnit,
+      'kW',
+      this.powerDigitPrecision,
+      this.powerFloatingPrecision,
+      this.numberOfConnectedPhase,
+      this.appUnitFormatter,
+      true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
-//    this.onSliderChange.emit(this.powerSliderValue);
+    //    this.onSliderChange.emit(this.powerSliderValue);
   }
 
   public setSliderValue(value, valueUnit) {
@@ -158,13 +157,13 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
           this.powerSliderValue = value;
         }
         this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(value,
-                                                                                        'W',
-                                                                                        'kW',
-                                                                                        this.powerDigitPrecision,
-                                                                                        this.powerFloatingPrecision,
-                                                                                        this.numberOfConnectedPhase,
-                                                                                        this.appUnitFormatter,
-                                                                                        true);
+          'W',
+          'kW',
+          this.powerDigitPrecision,
+          this.powerFloatingPrecision,
+          this.numberOfConnectedPhase,
+          this.appUnitFormatter,
+          true);
         break;
       case 'kW':
         if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
@@ -181,13 +180,13 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
           this.powerSliderValue = ChargingStations.convertAmpToW(this.numberOfConnectedPhase, value);
         }
         this.powerSliderDisplayedValueInkW = SmartChargingUtils.getDisplayedFormatValue(this.powerSliderComponent.value,
-                                                                                        'A',
-                                                                                        'kW',
-                                                                                        this.powerDigitPrecision,
-                                                                                        this.powerFloatingPrecision,
-                                                                                        this.numberOfConnectedPhase,
-                                                                                        this.appUnitFormatter,
-                                                                                        true);
+          'A',
+          'kW',
+          this.powerDigitPrecision,
+          this.powerFloatingPrecision,
+          this.numberOfConnectedPhase,
+          this.appUnitFormatter,
+          true);
         break;
       default:
         break;

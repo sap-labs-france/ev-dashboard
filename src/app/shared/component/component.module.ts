@@ -4,7 +4,7 @@ import {MatChipsModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormattersModule} from '../formatters/formatters.module';
-import {ConnectorCellComponent} from './connector-cell.component';
+import {ConnectorCellComponent} from './connector/connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';

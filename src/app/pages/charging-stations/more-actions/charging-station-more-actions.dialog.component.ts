@@ -1,5 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Charger } from 'app/common.types';
 
 @Component({
@@ -7,7 +7,7 @@ import { Charger } from 'app/common.types';
   templateUrl: 'charging-station-more-actions.dialog.component.html'
 })
 export class ChargingStationMoreActionsDialogComponent {
-   charger: Charger;
+  charger: Charger;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationMoreActionsDialogComponent>,

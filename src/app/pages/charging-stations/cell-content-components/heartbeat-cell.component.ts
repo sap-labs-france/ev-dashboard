@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Charger} from '../../../common.types';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
-import {LocaleService} from '../../../services/locale.service';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Charger } from '../../../common.types';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { LocaleService } from '../../../services/locale.service';
 
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
@@ -16,7 +16,7 @@ import {LocaleService} from '../../../services/locale.service';
   `
 })
 export class HeartbeatCellComponent implements CellContentTemplateComponent, OnChanges {
-//  row: any = {};
+  //  row: any = {};
   locale: string;
 
   @Input() row: Charger;

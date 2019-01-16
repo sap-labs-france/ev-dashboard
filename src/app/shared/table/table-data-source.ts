@@ -1,13 +1,12 @@
-import {BehaviorSubject, interval, Observable, of, Subscription} from 'rxjs';
-import {ElementRef} from '@angular/core';
-import {MatPaginator, MatSort} from '@angular/material';
-import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
-import {Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
-import {Constants} from '../../utils/Constants';
-import {Utils} from '../../utils/Utils';
+import { BehaviorSubject, interval, Observable, of, Subscription, Subject, Subscriber } from 'rxjs';
+import { ElementRef } from '@angular/core';
+import { MatPaginator, MatSort } from '@angular/material';
+import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
+import { Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem } from '../../common.types';
+import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
 
 import * as _ from 'lodash';
-
 export abstract class TableDataSource<T> implements DataSource<T> {
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
@@ -21,12 +20,16 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
-  private formattedData = [];
+  protected formattedData = [];
   private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
   private pollingInterval: number;
   private i = 0;
+  private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
+  private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
+  private _rowRefresh = new Subject<any>();
+  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
 
   public setPollingInterval(pollingInterval: number) {
     this.pollingInterval = pollingInterval;
@@ -183,7 +186,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getOrdering(): Ordering[] {
     return [
-      {field: this.getSort().active, direction: this.getSort().direction}
+      { field: this.getSort().active, direction: this.getSort().direction }
     ]
   }
 
@@ -214,7 +217,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public getTableRowActions(item?: T): TableActionDef[] {
     // Return default
     return [];
   }
@@ -225,7 +228,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getTableDef(): TableDef {
-    return {};
+    return { rowFieldNameIdentifier: '' };
   }
 
   public filterChanged(filter: TableFilterDef) {
@@ -236,7 +239,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Update value
     foundFilter.currentValue = filter.currentValue;
     // Reload data
-    this.loadData();
+    this.loadData(false);
   }
 
   public resetFilters() {
@@ -252,7 +255,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     switch (actionDef.id) {
       case 'refresh':
         this.clearSelectedRows();
-        this.loadData();
+        this._manualRefreshReload();
         break;
       // Auto Refresh
       case 'auto-refresh':
@@ -276,16 +279,104 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
+  public subscribeAutoRefresh(fn): Subscription {
+    if (this._ongoingAutoRefresh.isStopped) {
+      // restart observable
+      this._ongoingAutoRefresh = new BehaviorSubject(false);
+    }
+    return this._ongoingAutoRefresh.subscribe(fn);
+  }
+
+  public subscribeManualRefresh(fn): Subscription {
+    if (this._ongoingManualRefresh.isStopped) {
+      // restart observable
+      this._ongoingManualRefresh = new BehaviorSubject(false);
+    }
+    return this._ongoingManualRefresh.subscribe(fn);
+  }
+
+  public subscribeRowRefresh(fn): Subscription {
+    if (this._rowRefresh.isStopped) {
+      // restart observable
+      this._rowRefresh = new Subject();
+    }
+    return this._rowRefresh.subscribe(fn);
+  }
+
+  public subscribeDisplayDetailsColumn(fn): Subscription {
+    if (this._displayDetailsColumns.isStopped) {
+      this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
+    }
+    return this._displayDetailsColumns.subscribe(fn);
+  }
+
   public registerToDataChange() {
     // Listen for changes
     if (!this.dataChangeSubscription) {
+      this.definePollingIntervalStrategy();
       if (this.pollingInterval > 0) {
-        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => this.loadData());
+        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
+          this._refreshReload();
+        });
       } else {
-        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => this.loadData());
+        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
+          this._ongoingAutoRefresh.next(true);
+          this.loadData(true);
+          this._ongoingAutoRefresh.next(false);
+        });
       }
     }
   }
+
+  public triggerRefreshFromComponent() {
+    this._refreshReload();
+  }
+
+  private _refreshReload() {
+    // check if there is not already an ongoing refresh
+    let refreshStatus;
+    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    if (refreshStatus) {
+      return;
+    }
+    this._ongoingAutoRefresh.next(true);
+    const startDate = new Date().getTime();
+    this.loadData(true);
+    const endDate = new Date().getTime();
+    // display the spinner at min 1,5s
+    if (endDate - startDate > 1500) {
+      this._ongoingAutoRefresh.next(false);
+    } else {
+      setTimeout(() => {
+        this._ongoingAutoRefresh.next(false);
+      }, 1500 - (endDate - startDate));
+    }
+  }
+
+  private _manualRefreshReload() {
+    // check if there is not already an ongoing refresh
+    let refreshStatus;
+    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    if (refreshStatus) {
+      return;
+    }
+    // Start manual refresh
+    this._ongoingManualRefresh.next(true);
+    const startDate = new Date().getTime();
+    this.loadData(true);
+    const endDate = new Date().getTime();
+    // display the spinner for min 1s
+    if (endDate - startDate > 1000) {
+      this._ongoingManualRefresh.next(false);
+    } else {
+      setTimeout(() => {
+        this._ongoingManualRefresh.next(false);
+      }, 1000 - (endDate - startDate));
+    }
+  }
+
 
   public unregisterToDataChange() {
     // Exist?
@@ -359,34 +450,40 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Should be implemented in implementation
   }
 
-  /**
-   * getRowIndex
-   row: T   */
-  public getRowIndex(row: T) {
-    const rowString = JSON.stringify(row);
-    for (let index = 0; index < this.data.length; index++) {
-      if (JSON.stringify(this.data[index]) === rowString) {
-        return index;
-      }
-    }
-  }
-
   abstract getTableColumnDefs(): TableColumnDef[];
 
-  abstract loadData();
+  abstract loadData(refreshAction?: boolean);
 
   refreshData(freshData: any[]) {
     const freshFormattedData = [];
     freshData.forEach((freshRow) => {
-      const index = this.data.findIndex(row => row.id === freshRow.id);
+      const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
+      const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
       if (index !== -1) {
         if (_.isEqual(this.data[index], freshRow)) {
           freshFormattedData.push(this.formattedData[index]);
         } else {
-          freshFormattedData.push(this._formatRow(freshRow));
+          const formattedRow = this._formatRow(freshRow);
+          // Check if row is expanded
+          if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
+            formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+          }
+          // Update specific row actions
+          const specificRowActions = this.specificRowActions(formattedRow['data']);
+          if (specificRowActions.length > 0) {
+            formattedRow['specificRowActions'] = specificRowActions;
+          }
+          freshFormattedData.push(formattedRow);
+          this._rowRefresh.next({ newValue: formattedRow, previousValue: this.formattedData[index]['data'] });
         }
       } else {
-        freshFormattedData.push(this._formatRow(freshRow));
+        const formattedRow = this._formatRow(freshRow);
+        // Update specific row actions
+        const specificRowActions = this.specificRowActions(formattedRow['data']);
+        if (specificRowActions.length > 0) {
+          formattedRow['specificRowActions'] = specificRowActions;
+        }
+        freshFormattedData.push(formattedRow);
       }
     });
     this.formattedData = freshFormattedData;
@@ -464,22 +561,22 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     if (propertyName.indexOf('.') > 0) {
       propertyValue = source;
       propertyName.split('.').forEach((key) => {
-          if (propertyValue.hasOwnProperty(key)) {
-            propertyValue = propertyValue[key];
-          } else if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
+        if (propertyValue.hasOwnProperty(key)) {
+          propertyValue = propertyValue[key];
+        } else if (columnDef.defaultValue) {
+          propertyValue = columnDef.defaultValue;
+        } else {
+          switch (columnDef.type) {
+            case 'number':
+            case 'float':
+              propertyValue = 0;
+              break;
+            default:
+              propertyValue = '';
+              break;
           }
         }
+      }
       );
     }
     return propertyValue;
@@ -509,4 +606,25 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Return the property
     return `${propertyValue ? propertyValue : ''}`;
   }
+
+  /**
+   * Default implementation to define polling strategy
+   * If pollinginterval attribute is set to a value > 0, polling will occur every pollingInterval milliseconds
+   *
+   * Default implementation does not do anything so the initialized value of pollingInterval is used
+   * @memberof TableDataSource
+   */
+  definePollingIntervalStrategy() {
+  }
+
+  /**
+   * Used to retrieve individual line actions instead of general action table
+   *
+   * @param {*} row
+   * @memberof TableDataSource
+   */
+  specificRowActions(row: T): TableActionDef[] {
+    return [];
+  }
+
 }

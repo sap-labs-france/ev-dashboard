@@ -1,17 +1,17 @@
 // tslint:disable-next-line:max-line-length
-import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
-import {Charger, ConnectorSchedule, ScheduleSlot} from 'app/common.types';
-import {LocaleService} from 'app/services/locale.service';
-import {Router} from '@angular/router';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {CentralServerService} from 'app/services/central-server.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {MessageService} from 'app/services/message.service';
-import {Utils} from 'app/utils/Utils';
-import {Constants} from 'app/utils/Constants';
-import {DialogService} from 'app/services/dialog.service';
+import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
+import { LocaleService } from 'app/services/locale.service';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { MessageService } from 'app/services/message.service';
+import { Utils } from 'app/utils/Utils';
+import { Constants } from 'app/utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
 
 
 @Component({
@@ -25,7 +25,8 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
   public userLocales;
   public isAdmin;
 
-  public fileURL: string;
+  public fileURL = '';
+  public fileName: 'No file';
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -39,7 +40,7 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
     private dialogService: DialogService) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({'id': 'charger.id'})) {
+    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -59,23 +60,30 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
   ngAfterViewInit(): void {
   }
 
+  changeURL(event) {
+    this.fileURL = event.target.value;
+  }
+
   triggerAction() {
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_title'),
-      this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_confirm', {'chargeBoxID': this.charger.id})
+      this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_confirm', { 'chargeBoxID': this.charger.id })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
-        // call REST service
-        // tslint:disable-next-line:max-line-length
-        this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}"}`).subscribe(response => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+          // call REST service
+          const date = new Date();
+          date.setHours(0, 0, 0, 0);
+          // tslint:disable-next-line:max-line-length
+          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe(response => {
+            if (response.fileName && response.fileName.length > 0) {
+              this.fileName = response.fileName;
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.more_actions.get_diagnostics_success',
-                                                      {'chargeBoxID': self.charger.id}));
+                { 'chargeBoxID': self.charger.id }));
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.more_actions.get_diagnostics_error'));
@@ -88,7 +96,7 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
           });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),
-                this.messageService, this.translateService.instant('chargers.more_actions.get_diagnostics_error'));
+            this.messageService, this.translateService.instant('chargers.more_actions.get_diagnostics_error'));
         }
       }
     });

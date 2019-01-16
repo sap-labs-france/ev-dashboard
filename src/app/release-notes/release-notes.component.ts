@@ -19,6 +19,19 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.9',
+      date: new Date('2019-01-14'),
+      componentChanges: [
+        {
+          name: 'Backend',
+          changes: [
+            `All admins receive a notification in case of errors on chargers`,
+            `OCPI Beta version`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.8',
       date: new Date('2019-01-01'),
       componentChanges: [

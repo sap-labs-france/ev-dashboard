@@ -11,7 +11,8 @@ export class Formatters {
       // Format
       value = this._formatTextToHTML(value);
     }
-    return value;
+    // Hack: Replace <anonymous> tag which is part of some Stack Trace to avoi hiding of the end of the detailed message!!!
+    return value.replace('<anonymous>', 'anonymous');
   }
 
   private static _formatTextToHTML(value) {

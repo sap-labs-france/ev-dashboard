@@ -89,6 +89,11 @@ export interface ActionResponse {
   error: string;
 }
 
+export interface ActionsResponse extends ActionResponse{
+  inSuccess: number;
+  inError: number;
+}
+
 export interface ChargerConfiguration {
   chargeBoxID: string;
   timestamp: Date;

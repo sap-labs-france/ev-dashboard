@@ -219,17 +219,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           }
         });
         break;
-      case 'refund':
-        this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
-          this.translateService.instant('transactions.dialog.refund.title'),
-          this.translateService.instant('transactions.dialog.refund.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
-        ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
-            this._refundTransaction(transaction);
-          }
-        });
-        break;
       default:
         super.rowActionTriggered(actionDef, transaction);
     }
@@ -258,15 +247,4 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     });
   }
 
-  protected _refundTransaction(transaction: Transaction) {
-    this.centralServerService.refundTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.refund.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.refund.error'));
-    });
-  }
 }

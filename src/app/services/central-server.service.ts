@@ -780,10 +780,10 @@ export class CentralServerService {
       );
   }
 
-  refundTransaction(id: number) {
+  refundTransactions(ids: number[]) {
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionRefund?ID=${id}`,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, {transactionIds: ids},
       {
         headers: this._buildHttpHeaders()
       })

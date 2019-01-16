@@ -786,8 +786,8 @@
         "confirm": "Do you really want to stop the session of {{user}}?"
       },
       "refund": {
-        "title": "Refund Session",
-        "confirm": "Do you really want to ask the refund of {{user}} session ?"
+        "title": "Refund Sessions",
+        "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
       }
     },
     "notification": {
@@ -801,7 +801,8 @@
         "error": "An error occurred during session stop"
       },
       "refund": {
-        "success": "Session of {{user}} refund requested successfully",
+        "success": "{{inSuccess}} refund requested successfully",
+        "partial": "{{inError}} of {{total}} refund requested failed",
         "error": "An error occurred during refund request"
       }
     }

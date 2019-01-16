@@ -418,13 +418,14 @@ export class UserComponent implements OnInit {
   linkConcurAccount() {
     if (this.chargeAtHomeSetting && this.chargeAtHomeSetting.content && this.chargeAtHomeSetting.content.concur) {
       const concurSetting = this.chargeAtHomeSetting.content.concur;
-      const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
+      // const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
+      const returnedUrl = 'https://slfcah.cfapps.eu10.hana.ondemand.com';
       const state = {
         connector: 'concur',
         appId: this.chargeAtHomeSetting.id,
         userId: this.currentUserID
       };
-      this.document.location.href = `${concurSetting.url}?client_id=${concurSetting.clientId}&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+      this.document.location.href = `${concurSetting.url}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 
@@ -436,7 +437,8 @@ export class UserComponent implements OnInit {
           connectorId: 'concur',
           data:
             {
-              code: this.activatedRoute.snapshot.queryParams['code']
+              code: this.activatedRoute.snapshot.queryParams['code'],
+              redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
             }
         }
       ;

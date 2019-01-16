@@ -1,7 +1,16 @@
 import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
+import {
+  ActionResponse,
+  ActionsResponse,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -20,7 +29,6 @@ import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pi
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {LocaleService} from '../../../services/locale.service';
-import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
@@ -212,19 +220,30 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
           }
         });
         break;
-      case 'refund':
-        this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
-          this.translateService.instant('transactions.dialog.refund.title'),
-          this.translateService.instant('transactions.dialog.refund.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
-        ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
-            this._refundTransaction(transaction);
-          }
-        });
-        break;
       default:
         super.rowActionTriggered(actionDef, transaction);
+    }
+  }
+
+  actionTriggered(actionDef: TableActionDef) {
+    switch (actionDef.id) {
+      case 'refund':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.dialog,
+            this.translateService.instant('transactions.dialog.refund.title'),
+            this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._refundTransactions(this.getSelectedRows());
+            }
+          });
+        }
+        break;
+      default:
+        super.actionTriggered(actionDef);
     }
   }
 
@@ -251,11 +270,21 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     });
   }
 
-  protected _refundTransaction(transaction: Transaction) {
-    this.centralServerService.refundTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.refund.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+  protected _refundTransactions(transactions: Transaction[]) {
+    this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
+      if (response.inError > 0) {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.refund.partial',
+            {
+              inError: response.inError,
+              total: response.inError + response.inSuccess
+            }
+          ));
+      } else {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.refund.success',
+            {inSuccess: response.inSuccess}));
+      }
       this.loadData();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

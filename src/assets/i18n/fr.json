@@ -747,8 +747,8 @@
         "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
       },
       "refund": {
-        "title": "Rembourser la Session",
-        "confirm": "Voulez-vous vraiment demander le remboursement de la session de {{user}} ?"
+        "title": "Rembourser des Sessions",
+        "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
       }
     },
     "notification": {
@@ -760,6 +760,11 @@
       "soft_stop": {
         "success": "La session de {{user}} est arrétée avec succès",
         "error": "Une erreur est survenue pendant l'arret de la session"
+      },
+      "refund": {
+        "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
+        "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
+        "error": "Une erreur est survenue pendant la demande de remboursement"
       }
     }
   }

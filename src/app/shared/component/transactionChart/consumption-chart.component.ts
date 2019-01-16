@@ -1,32 +1,36 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ConsumptionValue} from '../../../common.types';
-import {CentralServerService} from '../../../services/central-server.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../services/locale.service';
-import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from '../../formatters/app-date.pipe';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ConsumptionValue } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from '../../../services/locale.service';
+import { DecimalPipe } from '@angular/common';
+import { AppDatePipe } from '../../formatters/app-date.pipe';
 import * as moment from 'moment';
-import {ChartComponent} from 'angular2-chartjs';
+import { ChartComponent } from 'angular2-chartjs';
 
 @Component({
   selector: 'app-transaction-chart',
   styleUrls: ['consumption-chart.component.scss'],
   template: `
-    <div class="chart-container">
+    <div #chart *ngIf="data && data.datasets && data.datasets.length > 0; else noData" class="chart-container">
       <div class="chart">
-        <chart #chart *ngIf="data"
-               type="line"
+        <chart type="line"
                [data]="data"
                [options]="options"></chart>
       </div>
-      <div class="icon-left" *ngIf="data">
+      <div class="icon-left">
         <a
           [class]="'btn btn-link btn-just-icon'"
           (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
       </div>
     </div>
+    <ng-template #noData>
+      {{'transactions.graph.no_consumption' | translate}}
+    </ng-template>
   `
 })
+
+
 
 export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;
@@ -39,10 +43,10 @@ export class ConsumptionChartComponent implements OnInit {
   private colors = [[255, 99, 132], [54, 162, 235], [255, 206, 86]];
 
   constructor(private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private localeService: LocaleService,
-              private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe) {
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: DecimalPipe) {
 
   }
 
@@ -61,13 +65,13 @@ export class ConsumptionChartComponent implements OnInit {
 
   refresh() {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
-        .subscribe(transaction => this.createGraphData(transaction.values, true));
+      .subscribe(transaction => this.createGraphData(transaction.values, true));
   }
 
   createGraphData(consumptions: any[], onRefresh: boolean) {
     this.options = this.createOptions(consumptions);
     if (onRefresh) {
-      this.options.animation = { duration: 0, easing: 'linear'};
+      this.options.animation = { duration: 0, easing: 'linear' };
     }
     let distanceBetween2points = Math.floor(consumptions.length / 200);
     // if (distanceBetween2points < 2) {
@@ -121,7 +125,7 @@ export class ConsumptionChartComponent implements OnInit {
 
   createOptions(consumptions: ConsumptionValue[]) {
     const options: any = {
-      legend: {position: 'bottom'},
+      legend: { position: 'bottom' },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -153,7 +157,7 @@ export class ConsumptionChartComponent implements OnInit {
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', {trim: false});
+              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
           }
         }
       },

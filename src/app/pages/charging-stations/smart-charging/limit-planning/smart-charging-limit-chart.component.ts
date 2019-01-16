@@ -1,13 +1,13 @@
-import {Component, Input, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {ConsumptionValue, ConnectorSchedule} from 'app/common.types';
-import {CentralServerService} from 'app/services/central-server.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from 'app/services/locale.service';
-import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from 'app/shared/formatters/app-date.pipe';
-import {AppConnectorIdPipe} from 'app/shared/formatters/app-connector-id.pipe';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ConsumptionValue, ConnectorSchedule } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { DecimalPipe } from '@angular/common';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import * as moment from 'moment';
-import {ChartComponent} from 'angular2-chartjs';
+import { ChartComponent } from 'angular2-chartjs';
 
 @Component({
   selector: 'app-limit-planning-chart',
@@ -43,11 +43,11 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private localeService: LocaleService,
-              private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe,
-              private connectorIdPipe: AppConnectorIdPipe) {
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: DecimalPipe,
+    private connectorIdPipe: AppConnectorIdPipe) {
   }
 
   resetZoom() {
@@ -61,9 +61,6 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    // Add 'implements AfterViewInit' to the class.
-    let test = true;
   }
 
   createGraphData(limitPlanning: ConnectorSchedule[]) {
@@ -77,16 +74,13 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < limitPlanning.length; index++) {
       const connectorPlanning = limitPlanning[index];
       // calculate distance
-/*      let tempDistance = Math.floor(connectorPlanning.slots.length / 200);
-      if (tempDistance > distanceBetween2points) {
-        distanceBetween2points = tempDistance;
-      }*/
       distanceBetween2points = 1;
       // Build single connector data set
       // Line label
       const connectorLabel = (connectorPlanning.connectorId === 0 ?
-                                this.translateService.instant('chargers.connector0') :
-                                this.translateService.instant('chargers.connector') + ' ' + this.connectorIdPipe.transform(connectorPlanning.connectorId));
+        this.translateService.instant('chargers.connector0') :
+        this.translateService.instant('chargers.connector') + ' ' +
+        this.connectorIdPipe.transform(connectorPlanning.connectorId));
       const axisId = 'power';
       const limitPowerDataSet = {
         data: [],
@@ -99,7 +93,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
         const limit = connectorPlanning.slots[i];
         this.data.labels.push(limit.start.getTime());
         limitPowerDataSet.data.push(limit.limit);
-        if (i ===  connectorPlanning.slots.length - 1) {
+        if (i === connectorPlanning.slots.length - 1) {
           // Add last limit
           if (limit.end) {
             this.data.labels.push(limit.end.getTime());
@@ -117,7 +111,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
 
   createOptions(limitPlanning: ConnectorSchedule[]) {
     const options: any = {
-      legend: {position: 'bottom'},
+      legend: { position: 'bottom' },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -142,7 +136,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', {trim: false});
+              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
           }
         }
       },
@@ -174,12 +168,12 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
       pan: {
         enabled: true,
         mode: 'x',
-/*        rangeMin: {
-          x: limitPlanning.length > 0 ? limitPlanning[0].slots[0].start.getTime() : 0,
-        },
-        rangeMax: {
-          x: limitPlanning.length > 0 ? limitPlanning[0].slots[limitPlanning[0].slots.length - 1].start.getTime() : 0
-        },*/
+        /*        rangeMin: {
+                  x: limitPlanning.length > 0 ? limitPlanning[0].slots[0].start.getTime() : 0,
+                },
+                rangeMax: {
+                  x: limitPlanning.length > 0 ? limitPlanning[0].slots[limitPlanning[0].slots.length - 1].start.getTime() : 0
+                },*/
       },
       zoom: {
         enabled: true,

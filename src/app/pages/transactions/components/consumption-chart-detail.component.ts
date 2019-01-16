@@ -9,7 +9,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transactionChart
   `
 })
 
-export class ConsumptionChartDetailComponent implements DetailComponent {
+export class ConsumptionChartDetailComponent extends DetailComponent {
   transactionId: number;
 
   @ViewChild('consumptionChart') consumptionChartComponent: ConsumptionChartComponent;

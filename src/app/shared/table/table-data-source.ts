@@ -1,4 +1,4 @@
-import { BehaviorSubject, interval, Observable, of, Subscription, Subject } from 'rxjs';
+import { BehaviorSubject, interval, Observable, of, Subscription, Subject, Subscriber } from 'rxjs';
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
@@ -26,9 +26,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private staticFilters = [];
   private pollingInterval: number;
   private i = 0;
-  public ongoingRefresh = new Subject<boolean>();
-  public rowRefresh = new Subject<any>();
-  public displayDetailsColumns = new BehaviorSubject<boolean>(true);
+  private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
+  private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
+  private _rowRefresh = new Subject<any>();
+  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
 
   public setPollingInterval(pollingInterval: number) {
     this.pollingInterval = pollingInterval;
@@ -254,7 +255,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     switch (actionDef.id) {
       case 'refresh':
         this.clearSelectedRows();
-        this._refreshReload();
+        this._manualRefreshReload();
         break;
       // Auto Refresh
       case 'auto-refresh':
@@ -278,6 +279,37 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
+  public subscribeAutoRefresh(fn): Subscription {
+    if (this._ongoingAutoRefresh.isStopped) {
+      // restart observable
+      this._ongoingAutoRefresh = new BehaviorSubject(false);
+    }
+    return this._ongoingAutoRefresh.subscribe(fn);
+  }
+
+  public subscribeManualRefresh(fn): Subscription {
+    if (this._ongoingManualRefresh.isStopped) {
+      // restart observable
+      this._ongoingManualRefresh = new BehaviorSubject(false);
+    }
+    return this._ongoingManualRefresh.subscribe(fn);
+  }
+
+  public subscribeRowRefresh(fn): Subscription {
+    if (this._rowRefresh.isStopped) {
+      // restart observable
+      this._rowRefresh = new Subject();
+    }
+    return this._rowRefresh.subscribe(fn);
+  }
+
+  public subscribeDisplayDetailsColumn(fn): Subscription {
+    if (this._displayDetailsColumns.isStopped) {
+      this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
+    }
+    return this._displayDetailsColumns.subscribe(fn);
+  }
+
   public registerToDataChange() {
     // Listen for changes
     if (!this.dataChangeSubscription) {
@@ -288,28 +320,63 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         });
       } else {
         this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
-          this.ongoingRefresh.next(true);
+          this._ongoingAutoRefresh.next(true);
           this.loadData(true);
-          this.ongoingRefresh.next(false);
+          this._ongoingAutoRefresh.next(false);
         });
       }
     }
   }
 
+  public triggerRefreshFromComponent() {
+    this._refreshReload();
+  }
+
   private _refreshReload() {
-    this.ongoingRefresh.next(true);
+    // check if there is not already an ongoing refresh
+    let refreshStatus;
+    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    if (refreshStatus) {
+      return;
+    }
+    this._ongoingAutoRefresh.next(true);
     const startDate = new Date().getTime();
     this.loadData(true);
     const endDate = new Date().getTime();
     // display the spinner at min 1,5s
     if (endDate - startDate > 1500) {
-      this.ongoingRefresh.next(false);
+      this._ongoingAutoRefresh.next(false);
     } else {
       setTimeout(() => {
-        this.ongoingRefresh.next(false);
+        this._ongoingAutoRefresh.next(false);
       }, 1500 - (endDate - startDate));
     }
   }
+
+  private _manualRefreshReload() {
+    // check if there is not already an ongoing refresh
+    let refreshStatus;
+    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    if (refreshStatus) {
+      return;
+    }
+    // Start manual refresh
+    this._ongoingManualRefresh.next(true);
+    const startDate = new Date().getTime();
+    this.loadData(true);
+    const endDate = new Date().getTime();
+    // display the spinner for min 1s
+    if (endDate - startDate > 1000) {
+      this._ongoingManualRefresh.next(false);
+    } else {
+      setTimeout(() => {
+        this._ongoingManualRefresh.next(false);
+      }, 1000 - (endDate - startDate));
+    }
+  }
+
 
   public unregisterToDataChange() {
     // Exist?
@@ -407,7 +474,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             formattedRow['specificRowActions'] = specificRowActions;
           }
           freshFormattedData.push(formattedRow);
-          this.rowRefresh.next({ newValue: formattedRow, previousValue: this.formattedData[index]['data'] });
+          this._rowRefresh.next({ newValue: formattedRow, previousValue: this.formattedData[index]['data'] });
         }
       } else {
         const formattedRow = this._formatRow(freshRow);
@@ -556,7 +623,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
    * @param {*} row
    * @memberof TableDataSource
    */
-  specificRowActions(row): TableActionDef[] {
+  specificRowActions(row: T): TableActionDef[] {
     return [];
   }
 

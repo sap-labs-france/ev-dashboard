@@ -1,24 +1,24 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from '../../shared/table/table-data-source';
-import {Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem} from '../../common.types';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {DialogService} from '../../services/dialog.service';
-import {CentralServerNotificationService} from '../../services/central-server-notification.service';
-import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
-import {CentralServerService} from '../../services/central-server.service';
-import {LocaleService} from '../../services/locale.service';
-import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
-import {Utils} from '../../utils/Utils';
-import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
-import {ConnectorsDetailComponent} from './details-content-component/connectors-detail-component.component';
-import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
-import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
-import {TableSettingsAction} from '../../shared/table/actions/table-settings-action';
-import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
+import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { TableDataSource } from '../../shared/table/table-data-source';
+import { Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem } from 'app/common.types';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DialogService } from '../../services/dialog.service';
+import { CentralServerNotificationService } from '../../services/central-server-notification.service';
+import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
+import { CentralServerService } from '../../services/central-server.service';
+import { LocaleService } from '../../services/locale.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { Utils } from '../../utils/Utils';
+import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
+import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
+import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
+import { ConnectorsCellComponent } from './cell-content-components/connectors-cell.component';
+import { TableSettingsAction } from '../../shared/table/actions/table-settings-action';
+import { TableDeleteAction } from '../../shared/table/actions/table-delete-action';
 import {
   TableChargerMoreAction,
   ACTION_CLEAR_CACHE,
@@ -27,15 +27,31 @@ import {
   ACTION_SOFT_RESET,
   ACTION_MORE_ACTIONS
 } from './other-actions-button/table-charger-more-action';
-import {SitesTableFilter} from '../../shared/table/filters/site-filter';
+import { SitesTableFilter } from '../../shared/table/filters/site-filter';
 import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { Injectable } from '@angular/core';
-import {AuthorizationService} from '../../services/authorization-service';
-import {Constants} from '../../utils/Constants';
+import { AuthorizationService } from '../../services/authorization-service';
+import { Constants } from '../../utils/Constants';
 import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 
 const POLL_INTERVAL = 10000;
+const DEFAULT_ADMIN_ROW_ACTIONS = [
+  new TableChargerMoreAction().getActionDef(),
+  new TableSettingsAction().getActionDef(),
+  new TableDeleteAction().getActionDef()
+];
+
+const DEFAULT_BASIC_ROW_ACTIONS = [
+  new TableSettingsAction().getActionDef()
+]
+
+const NODELETE_ADMIN_ROW_ACTIONS = [
+  new TableChargerMoreAction().getActionDef(),
+  new TableSettingsAction().getActionDef(),
+  new TableDeleteAction().getActionDef()
+]
+
 @Injectable()
 export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
@@ -52,7 +68,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     private dialogService: DialogService
   ) {
     super();
-    this.setStaticFilters([{'WithSite': true}]);
+    this.setStaticFilters([{ 'WithSite': true }]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -60,35 +76,37 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public loadData(refreshAction: boolean) {
+    let spinnerStyle = null;
     if (!refreshAction) {
       // Show
-      this.spinnerService.show();
+      spinnerStyle = (this.getData().length > 0);
+      this.spinnerService.show(spinnerStyle);
     }
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
         if (!refreshAction) {
-        // Show
-        this.spinnerService.hide();
-      }
-      // Set number of records
-      this.setNumberOfRecords(chargers.count);
-      // Update details status
-      chargers.result.forEach(charger => {
-        charger.connectors.forEach(connector => {
-          connector.hasDetails = connector.activeTransactionID > 0;
+          // Show
+          this.spinnerService.hide(spinnerStyle);
+        }
+        // Set number of records
+        this.setNumberOfRecords(chargers.count);
+        // Update details status
+        chargers.result.forEach(charger => {
+          charger.connectors.forEach(connector => {
+            connector.hasDetails = connector.activeTransactionID > 0;
+          });
         });
+        // Update page length
+        this.updatePaginator();
+        this.setData(chargers.result);
+      }, (error) => {
+        // Show
+        this.spinnerService.hide(spinnerStyle);
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('general.error_backend'));
       });
-      // Update page length
-      this.updatePaginator();
-      this.setData(chargers.result);
-    }, (error) => {
-      // Show
-      this.spinnerService.hide();
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
-    });
   }
 
   public getConnectors(id): Observable<Connector> {
@@ -126,8 +144,8 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         sortable: true,
         sorted: true,
         direction: 'asc',
-/*        headerClass: 'col-10p',
-        class: 'col-10p',*/
+        /*        headerClass: 'col-10p',
+                class: 'col-10p',*/
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
         }
@@ -212,8 +230,8 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsDef(): TableActionDef[] {
     return [
-/*      new TableDeleteAction().getActionDef(),
-      new TableGetConfigurationAction().getActionDef()*/
+      /*      new TableDeleteAction().getActionDef(),
+            new TableGetConfigurationAction().getActionDef()*/
     ];
   }
 
@@ -250,35 +268,35 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       case 'more':
         switch (dropdownItem.id) {
           case ACTION_REBOOT:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Hard'}),
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({ type: 'Hard' }),
               this.translateService.instant('chargers.reboot_title'),
-              this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
-              this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
+              this.translateService.instant('chargers.reboot_confirm', { 'chargeBoxID': rowItem.id }),
+              this.translateService.instant('chargers.reboot_success', { 'chargeBoxID': rowItem.id }),
               'chargers.reset_error'
             );
             break;
           case ACTION_SOFT_RESET:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({type: 'Soft'}),
-                  this.translateService.instant('chargers.soft_reset_title'),
-                  this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
-                  this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
-                  'chargers.soft_reset_error'
-                );
+            this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({ type: 'Soft' }),
+              this.translateService.instant('chargers.soft_reset_title'),
+              this.translateService.instant('chargers.soft_reset_confirm', { 'chargeBoxID': rowItem.id }),
+              this.translateService.instant('chargers.soft_reset_success', { 'chargeBoxID': rowItem.id }),
+              'chargers.soft_reset_error'
+            );
             break;
           case ACTION_CLEAR_CACHE:
             this._simpleActionChargingStation('ChargingStationClearCache', rowItem.id, '',
-                  this.translateService.instant('chargers.clear_cache_title'),
-                  this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
-                  this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
-                  'chargers.clear_cache_error'
-                );
+              this.translateService.instant('chargers.clear_cache_title'),
+              this.translateService.instant('chargers.clear_cache_confirm', { 'chargeBoxID': rowItem.id }),
+              this.translateService.instant('chargers.clear_cache_success', { 'chargeBoxID': rowItem.id }),
+              'chargers.clear_cache_error'
+            );
             break;
           case ACTION_SMART_CHARGING:
             this._dialogSmartCharging(rowItem);
-          break;
+            break;
           case ACTION_MORE_ACTIONS:
-          this._dialogMoreActions(rowItem);
-          break;
+            this._dialogMoreActions(rowItem);
+            break;
           default:
             break;
         }
@@ -289,21 +307,22 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-      action.dropdownItems.forEach(dropDownItem => {
-        if (dropDownItem.id === ACTION_SMART_CHARGING) {
-          // Check charging station version
-          // tslint:disable-next-line:max-line-length
-          dropDownItem.disabled = (row.ocppVersion === Constants.OCPP_VERSION_12 || row.ocppVersion === Constants.OCPP_VERSION_15);
-        } else {
-          // Check active status of CS
-//          dropDownItem.disabled = row.inactive;
-        }
-      });
+    action.dropdownItems.forEach(dropDownItem => {
+      if (dropDownItem.id === ACTION_SMART_CHARGING) {
+        // Check charging station version
+        dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
+          row.ocppVersion === Constants.OCPP_VERSION_15 ||
+          row.inactive;
+      } else {
+        // Check active status of CS
+        dropDownItem.disabled = row.inactive;
+      }
+    });
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [
-//      new ChargerTableFilter().getFilterDef(),
+      //      new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef()
     ];
   }
@@ -352,13 +371,13 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     this.dialogService.createAndShowYesNoDialog(
       this.dialog,
       this.translateService.instant('chargers.delete_title'),
-      this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
+      this.translateService.instant('chargers.delete_confirm', { 'chargeBoxID': chargingStation.id })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.loadData(false);
-            this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
+            this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'chargers.delete_error');
@@ -395,10 +414,34 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
-//    dialogRef.afterClosed().subscribe(result => this.loadData());
+    //    dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
   definePollingIntervalStrategy() {
     this.setPollingInterval(POLL_INTERVAL);
+  }
+
+  specificRowActions(charger: Charger) {
+    if (this.authorizationService.isAdmin()) {
+      if (charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
+        const inactiveDelete = new TableDeleteAction().getActionDef();
+        inactiveDelete.disabled = true;
+        return [
+          new TableChargerMoreAction().getActionDef(),
+          new TableSettingsAction().getActionDef(),
+          inactiveDelete
+        ];
+      } else {
+        return [
+          new TableChargerMoreAction().getActionDef(),
+          new TableSettingsAction().getActionDef(),
+          new TableDeleteAction().getActionDef()
+        ];
+      }
+    } else {
+      return [
+        new TableSettingsAction().getActionDef()
+      ];
+    }
   }
 }

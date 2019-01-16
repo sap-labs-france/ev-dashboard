@@ -1,24 +1,27 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Charger, Connector} from '../../../common.types';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
-import {LocaleService} from '../../../services/locale.service';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Charger, Connector } from '../../../common.types';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { LocaleService } from '../../../services/locale.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
 
 @Component({
   template: `
-      <a *ngIf="row.activeTransactionID > 0" class="'btn-group btn btn-link btn-info btn-just-icon'"
-          (click)="showSessionDialog()"><i class="material-icons">open_in_new</i></a>
-  `
+      <button *ngIf="row.activeTransactionID > 0"
+        class="btn-info action-icon-large btn-group btn btn-link btn-info btn-just-icon no-margin"
+        (click)="showSessionDialog()"><i class="material-icons">open_in_new</i></button>
+  `,
+  styles: [`.no-margin {margin: 0}`]
+
 })
 export class SessionDetailComponent implements CellContentTemplateComponent {
-//  row: any = {};
+  //  row: any = {};
   locale: string;
 
   @Input() row: Connector;
 
   constructor(localeService: LocaleService,
-              private dialog: MatDialog) {
+    private dialog: MatDialog) {
     this.locale = localeService.getCurrentFullLocaleForJS()
   }
 
@@ -36,7 +39,6 @@ export class SessionDetailComponent implements CellContentTemplateComponent {
     };
     // Open
     const dialogRef = this.dialog.open(SessionDialogComponent, dialogConfig);
-//    dialogRef.afterClosed().subscribe(() => this.loadData());
   }
 
 }

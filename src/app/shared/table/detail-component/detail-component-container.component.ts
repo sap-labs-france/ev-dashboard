@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, ElementRef, ComponentRef} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {ConfigService} from '../../../services/config.service';
@@ -6,11 +6,11 @@ import {CentralServerService} from '../../../services/central-server.service';
 import { DetailComponentDirective } from './detail-component.directive';
 import { DetailComponent } from './detail-component.component';
 import { TableDef } from '../../../common.types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail-component-container',
   template: `<ng-template appDetailComponent></ng-template>`,
-
 })
 // tslint:disable-next-line:component-class-suffix
 export class DetailComponentContainer implements OnInit, OnDestroy {
@@ -32,11 +32,6 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
   ngOnInit() {
 //    this.loadComponent();
   }
-
-/*  setReferenceRow(row, refTableComponent) {
-    this.parentRow = row;
-    this.loadComponent();
-  }*/
 
   ngOnDestroy() {
   }

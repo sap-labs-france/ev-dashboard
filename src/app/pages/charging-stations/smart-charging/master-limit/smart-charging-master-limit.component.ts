@@ -112,7 +112,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
             // success + reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_success',
-              { 'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
+                { 'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
             );
             this.onApplyPlanning.emit();
           } else {

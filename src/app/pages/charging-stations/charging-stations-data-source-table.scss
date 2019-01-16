@@ -10,39 +10,6 @@
   animation: status-blinking 2s ease-in-out infinite;
 }
 
-@keyframes status-glowing {
-  50% {
-    box-shadow: 0 0 30px;
-  }
-}
-
-@mixin anim-status-glowing {
-  animation: status-glowing 4s ease-in-out infinite;
-}
-
-$connectorStatusColor: ('available' : $brand-success, 
-                        'charging' : $brand-info, 
-                        'preparing': $brand-warning, 
-                        'suspended-evse': $brand-info, 
-                        'suspended-ev': $brand-info, 
-                        'finishing': $brand-warning, 
-                        'reserved': $brand-info, 
-                        'unavailable': $brand-danger, 
-                        'faulted': $brand-danger);
-
-@mixin charge-connector-status($status, $bgColor, $glowing, $blinking) {
-    color:map-get($connectorStatusColor, $status);
-    @if $bgColor {
-      background-color:map-get($connectorStatusColor, $status);
-    }
-    @if $glowing {
-      @include anim-status-glowing;
-    }
-    @if $blinking {
-      @include anim-status-blinking;
-    }
-}
-
 ::ng-deep .charger-not-assigned {
   color: $state-danger-bg;
 }
@@ -70,12 +37,12 @@ $connectorStatusColor: ('available' : $brand-success,
   .charger-heartbeat-ok {
     color: $state-success-bg;
   }
-  
+
   .charger-heartbeat-error {
     color: $state-danger-bg;
     @include anim-status-blinking();
   }
-  
+
   .charger-heartbeat-date-error {
     color: $state-danger-bg;
   }
@@ -90,78 +57,31 @@ $connectorStatusColor: ('available' : $brand-success,
 
 }
 
-::ng-deep .charger-connector-background {
-  border-radius: 30px;
-  border: 2px solid;
-}
-
-::ng-deep .charger-connector-available {
-  @include charge-connector-status('available', false, false, false);
-}
-
-::ng-deep .charger-connector-charging {
-  @include charge-connector-status('charging', true, true, false);
-}
-
-::ng-deep .charger-connector-faulted {
-  @include charge-connector-status('faulted', true, false, true);
-}
-
-::ng-deep .charger-connector-unavailable {
-  @include charge-connector-status('unavailable', true, false, false);
-}
-
-::ng-deep .charger-connector-preparing{
-  @include charge-connector-status('preparing', true, true, false);
-}
-
-::ng-deep .charger-connector-suspended-evse {
-  @include charge-connector-status('suspended-evse', true, false, false);
-}
-::ng-deep .charger-connector-suspended-ev {
-  @include charge-connector-status('suspended-ev', true, false, false);
-}
-
-::ng-deep .charger-connector-finishing {
-  @include charge-connector-status('finishing', true, true, false);
-}
-
-::ng-deep .charger-connector-reserved {
-  @include charge-connector-status('reserved', false, false, false);
-}
-
-::ng-deep .charger-connector-reserved {
-  @include charge-connector-status('reserved', false, false, false);
-}
-
-::ng-deep .charger-connector {
+::ng-deep .charger-connector-type {
   text-align: center;
   width: 30px;
   height: 30px;
   font-size: 1rem;
   font-weight: bold;
-  margin-right: 3px; 
+  margin-right: 3px;
   justify-content: center;
   padding-top: .13rem;
 
-  .charger-connector-active-text {
+  .charger-connector-type-active-text {
     color: $white;
   }
-  
-  .charger-connector-text {
-  }
-
 }
 
 .charger-dialog-connector {
-  display: inline-block; 
+  display: inline-block;
 }
+
 .charger-dialog-connector-type-icon {
-  filter:invert(100%);
+  filter: invert(100%);
   width: 25px;
   height: 25px;
 }
 
-::ng-deep .fulldetails  { 
+::ng-deep .fulldetails {
   width: 100%;
 }

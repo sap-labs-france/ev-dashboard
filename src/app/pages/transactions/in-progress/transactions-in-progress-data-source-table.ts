@@ -20,7 +20,7 @@ import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {ConnectorCellComponent} from '../../../shared/component/connector-cell.component';
+import {ConnectorCellComponent} from '../../../shared/component/connector/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';

@@ -793,7 +793,8 @@
       "battery": "Battery Level (%)",
       "power": "Instant Power (kWatt)",
       "energy": "Energy Delivered (kWatt.h)",
-      "reset_zoom": "Reset"
+      "reset_zoom": "Reset",
+      "no_consumption": "No consumption data available"
     },
     "dialog": {
       "delete": {

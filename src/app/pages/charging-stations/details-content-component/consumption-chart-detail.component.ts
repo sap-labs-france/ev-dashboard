@@ -1,15 +1,15 @@
-import {Component, ViewChild} from '@angular/core';
-import {TableDef, Transaction} from '../../../common.types';
-import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
+import { Component, ViewChild } from '@angular/core';
+import { TableDef, Transaction } from '../../../common.types';
+import { DetailComponent } from '../../../shared/table/detail-component/detail-component.component';
 import { ConsumptionChartComponent } from 'app/shared/component/transactionChart/consumption-chart.component';
 
 @Component({
   template: `
-    <app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="2"></app-transaction-chart>
+    <app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="6"></app-transaction-chart>
   `
 })
 
-export class ConnectorConsumptionChartDetailComponent implements DetailComponent {
+export class ConnectorConsumptionChartDetailComponent extends DetailComponent {
   transactionId: number;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;

@@ -4,7 +4,7 @@ import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { TableActionDef, TableDef, TableFilterDef, DropdownItem } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { CentralServerService } from '../../services/central-server.service';
@@ -39,7 +39,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchSourceSubject: Subject<string> = new Subject();
   public tableDef: TableDef;
   public autoRefeshChecked = true;
-  public ongoingRefresh = false;
+  public ongoingAutoRefresh = false;
+  private autoRefreshObserver: Subscription;
+  private manualRefreshObserver: Subscription;
+  private rowRefreshObserver: Subscription;
+  private displayDetailObserver: Subscription;
+  public ongoingManualRefresh = false;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
@@ -60,7 +65,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-    //    this._detailComponentId = 0;
   }
 
   ngOnInit() {
@@ -93,6 +97,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.isRowDetailsEnabled()) {
       // Yes: Add Details column
       this.columns = ['details', ...this.columns];
+      // Check if detail display columns must be displayed
+      this.displayDetailObserver = this.dataSource.subscribeDisplayDetailsColumn((displayDetails) => {
+        if (!displayDetails) {
+          // Remove details column
+          const indexDetails = this.columns.findIndex((element) => element === 'details');
+          if (indexDetails >= 0) {
+            this.columns.splice(indexDetails, 1);
+          }
+        } else {
+          // Add details column
+          const indexDetails = this.columns.findIndex((element) => element === 'details');
+          if (indexDetails === -1) {
+            this.columns = ['details', ...this.columns];
+          }
+        }
+      });
     }
     // Is there specific row actions ?
     if (this.dataSource.hasRowActions()) {
@@ -108,35 +128,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
-    // Listen to Search change
-    this.searchSourceSubject.pipe(
-      debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-      distinctUntilChanged()).subscribe(() => {
-        // Reset paginator
-        this.paginator.pageIndex = 0;
-        // Load data
-        this.loadData();
-      }
-      );
-    if (this.dataSource.displayDetailsColumns.isStopped) {
-      this.dataSource.displayDetailsColumns = new BehaviorSubject<boolean>(true);
+    if (this.tableDef.search) {
+      // Listen to Search change
+      this.searchSourceSubject.pipe(
+        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+        distinctUntilChanged()).subscribe(() => {
+          // Reset paginator
+          this.paginator.pageIndex = 0;
+          // Load data
+          this.loadData();
+        }
+        );
     }
-    // Check if detail display columns must be displayed
-    this.dataSource.displayDetailsColumns.subscribe((displayDetails) => {
-      if (!displayDetails) {
-        // Remove details column
-        const indexDetails = this.columns.findIndex((element) => element === 'details');
-        if (indexDetails >= 0) {
-          this.columns.splice(indexDetails, 1);
-        }
-      } else {
-        // Add details column
-        const indexDetails = this.columns.findIndex((element) => element === 'details');
-        if (indexDetails === -1) {
-          this.columns = ['details', ...this.columns];
-        }
-      }
-    })
   }
 
   ngAfterViewInit() {
@@ -148,17 +151,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSearchInput(this.searchInput);
     // Load the data
     this.loadData();
-    // subscribe to auto-refresh
-    if (this.dataSource.ongoingRefresh.isStopped) {
-      this.dataSource.ongoingRefresh = new Subject();
+    if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
+      // subscribe to auto-refresh
+      this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
+        this.ongoingManualRefresh = value
+      );
     }
-    this.dataSource.ongoingRefresh.subscribe(value =>
-      this.ongoingRefresh = value
-    );
-    if (this.dataSource.rowRefresh.isStopped) {
-      this.dataSource.rowRefresh = new Subject();
+    if (this.actionsRightDef.findIndex(action => action.id === 'refresh') >= 0) {
+      // subscribe to manual-refresh
+      this.manualRefreshObserver = this.dataSource.subscribeManualRefresh(value =>
+        this.ongoingManualRefresh = value
+      );
     }
-    this.dataSource.rowRefresh.subscribe(row => {
+    // subscribe to row-refresh
+    this.rowRefreshObserver = this.dataSource.subscribeRowRefresh(row => {
       this._rowRefresh(row);
     });
   }
@@ -167,9 +173,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Unregister
     this.dataSource.unregisterToDataChange();
     this.dataSource.resetFilters();
-    this.dataSource.ongoingRefresh.unsubscribe();
-    this.dataSource.rowRefresh.unsubscribe();
-    this.dataSource.displayDetailsColumns.unsubscribe()
+    if (this.manualRefreshObserver) {
+      this.manualRefreshObserver.unsubscribe();
+    }
+    if (this.autoRefreshObserver) {
+      this.autoRefreshObserver.unsubscribe();
+    }
+    if (this.rowRefreshObserver) {
+      this.rowRefreshObserver.unsubscribe();
+    }
+    if (this.displayDetailObserver) {
+      this.displayDetailObserver.unsubscribe();
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -268,7 +283,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         } else {
           // find the container related to the row
-          //          const index = this.dataSource.getRowIndex(row);
           this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
             if (detailComponentContainer.parentRow === row) {
               detailComponentContainer.loadComponent();

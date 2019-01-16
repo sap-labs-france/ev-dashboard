@@ -2,60 +2,63 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                    <div class="card card-profile card-testimonial">
-                        <div class="card-header card-header-tabs card-header-danger">
-                            <div class="nav-tabs-navigation">
-                                <div class="nav-tabs-wrapper">
-                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                <div class="card card-profile card-testimonial">
+                    <div class="card-header card-header-tabs card-header-danger">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" [attr.href]="(isChargerPaneDisabled ? null : '#charger')"
+                                            [attr.data-toggle]="(isChargerPaneDisabled ? null : 'tab')" (click)="changeActivePane('chargers', isChargerPaneDisabled)">
+                                            <i class="material-icons">ev_station</i> {{currentCharger.id}}
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" [attr.href]="(isPropertiesPaneDisabled ? null : '#properties')"
+                                            [attr.data-toggle]="(isPropertiesPaneDisabled ? null : 'tab')" (click)="changeActivePane('properties', isPropertiesPaneDisabled)">
+                                            <i class="material-icons">info</i> {{'chargers.properties_title' |
+                                            translate}}
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <ng-container *ngIf="isAdmin">
                                         <li class="nav-item">
-                                            <a class="nav-link active" [attr.href]="(isChargerPaneDisabled ? null : '#charger')" [attr.data-toggle]="(isChargerPaneDisabled ? null : 'tab')" (click)="changeActivePane('chargers', isChargerPaneDisabled)">
-                                                <i class="material-icons">ev_station</i> {{currentCharger.id}}
+                                            <a class="nav-link" [attr.href]="(isOCPPParametersPaneDisabled ? null : '#ocppparameters')"
+                                                [attr.data-toggle]="(isOCPPParametersPaneDisabled ? null : 'tab')"
+                                                (click)="changeActivePane('ocppParameters', isOCPPParametersPaneDisabled)">
+                                                <i class="material-icons">build</i> {{'chargers.ocpp_parameters_title'
+                                                | translate}}
                                                 <div class="ripple-container"></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" [attr.href]="(isPropertiesPaneDisabled ? null : '#properties')" [attr.data-toggle]="(isPropertiesPaneDisabled ? null : 'tab')" (click)="changeActivePane('properties', isPropertiesPaneDisabled)">
-                                                <i class="material-icons">info</i> {{'chargers.properties_title' |
-                                                translate}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
-                                        <ng-container *ngIf="isAdmin">
-                                            <li class="nav-item">
-                                                <a class="nav-link" [attr.href]="(isOCPPParametersPaneDisabled ? null : '#ocppparameters')" [attr.data-toggle]="(isOCPPParametersPaneDisabled ? null : 'tab')" (click)="changeActivePane('ocppParameters', isOCPPParametersPaneDisabled)">
-                                                    <i class="material-icons">build</i> {{'chargers.ocpp_parameters_title' | translate}}
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
-                                        </ng-container>
-                                        <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button"
-                                                (click)="save()"
-                                                [disabled]="isSaveButtonDisabled"
-                                                [hidden]="isSaveButtonHidden">
-                                            <span class="mat-button-wrapper">
-                                              <i class="material-icons mr-2">save</i>
-                                              <span class="btn-label">{{'chargers.save_charger' | translate}}</span>
-                                            </span>
-                                        </button>
-                                        <button class="btn btn-info mat-raised-button" (click)="refresh()">
-                                            <span class="mat-button-wrapper">
-                                              <i class="material-icons mr-2">refresh</i>
-                                              <span class="btn-label">{{'general.refresh' | translate}}</span>
-                                            </span>
-                                        </button>
-                                        <button class="btn btn-info mat-raised-button" mat-dialog-close>
-                                            <span class="mat-button-wrapper">
-                                              <i class="material-icons mr-2">close</i>
-                                              <span class="btn-label">{{'general.close' | translate}}</span>
-                                            </span>
-                                        </button>
-                                    </ul>
-                                </div>
+                                    </ng-container>
+                                    <span class="toolbar-spacer"></span>
+                                    <button class="btn btn-info mat-raised-button" (click)="save()" [disabled]="isSaveButtonDisabled"
+                                        [hidden]="isSaveButtonHidden">
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons mr-2">save</i>
+                                            <span class="btn-label">{{'chargers.save_charger' | translate}}</span>
+                                        </span>
+                                    </button>
+                                    <button class="btn btn-info mat-raised-button" (click)="refresh()">
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons mr-2">refresh</i>
+                                            <span class="btn-label">{{'general.refresh' | translate}}</span>
+                                        </span>
+                                    </button>
+                                    <button class="btn btn-info mat-raised-button" mat-dialog-close>
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons mr-2">close</i>
+                                            <span class="btn-label">{{'general.close' | translate}}</span>
+                                        </span>
+                                    </button>
+                                </ul>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <mat-dialog-content>
+                    </div>
+                    <div class="card-body">
+                        <mat-dialog-content>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="charger">
                                     <app-charging-station-parameters #chargerParameters [charger]='currentCharger'></app-charging-station-parameters>
@@ -69,10 +72,10 @@
                                     </div>
                                 </ng-container>
                             </div>
-                            </mat-dialog-content>
-                        </div>
-                        <div class="card-footer"></div>
+                        </mat-dialog-content>
                     </div>
+                    <div class="card-footer"></div>
+                </div>
             </div>
         </div>
     </div>

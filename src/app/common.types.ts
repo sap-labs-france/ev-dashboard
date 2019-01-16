@@ -40,6 +40,7 @@ export interface TableActionDef {
   name: string;
   icon?: string;
   class?: string;
+  disabled?: boolean;
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[]
 }

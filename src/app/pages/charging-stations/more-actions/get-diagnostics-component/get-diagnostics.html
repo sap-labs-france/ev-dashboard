@@ -7,30 +7,30 @@
                         <i class="material-icons">list</i>
                     </div>
                     <h3 class="card-title text-left">
-                            {{'chargers.more_actions.get_diagnostics_title' | translate: {chargeBoxID: charger.id} }}
+                        {{'chargers.more_actions.get_diagnostics_title' | translate: {chargeBoxID: charger.id} }}
                     </h3>
                 </div>
                 <div class="card-body">
                     <div class="row col-md-12">
                         <mat-form-field>
-                            <input matInput [placeholder]="'chargers.more_actions.get_diagnostics_url' | translate" [value]="fileURL">
+                            <input matInput type="url" [placeholder]="'chargers.more_actions.get_diagnostics_url' | translate"
+                                (input)="changeURL($event)" [value]="fileURL">
                         </mat-form-field>
-                    </div>                    
+                    </div>
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-info mat-raised-button"
-                            (click)="triggerAction()">
-                        <span class="mat-button-wrapper">
-                            <i class="material-icons mr-2">save</i>
-                            <span class="btn-label">{{'chargers.more_actions.get_diagnostics_download_button' | translate}}</span>
-                        </span>
+                        <button class="btn btn-info mat-raised-button" (click)="triggerAction()">
+                            <span class="mat-button-wrapper">
+                                <i class="material-icons mr-2">save</i>
+                                <span class="btn-label">{{'chargers.more_actions.get_diagnostics_download_button' |
+                                    translate}}</span>
+                            </span>
                         </button>
                     </div>
                     <div class="row col-md-12">
-                        {{fileURL}} {{fileName}} 
-                    </div>                    
+                        Check for file: {{fileName}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    

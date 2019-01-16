@@ -6,6 +6,7 @@ export const TYPE_INFO = 'chip-info';
 export const TYPE_SUCCESS = 'chip-success';
 export const TYPE_DANGER = 'chip-danger';
 export const TYPE_WARNING = 'chip-warning';
+export const TYPE_GREY = 'chip-grey';
 
 @Component({
   selector: 'app-chip',

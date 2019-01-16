@@ -55,7 +55,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         multiple: true
       },
       search: {
-        enabled: false
+        enabled: true
       }
     };
   }
@@ -117,7 +117,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           this.dialogService.createAndShowYesNoDialog(
             this.dialog,
             this.translateService.instant('sites.remove_users_title'),
-            this.translateService.instant('users.remove_users_confirm')
+            this.translateService.instant('sites.remove_users_confirm')
           ).subscribe((response) => {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
@@ -143,25 +143,25 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   }
 
   private _removeUsers(userIDs) {
-    // // Yes: Update
-    // this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe(response => {
-    //   // Ok?
-    //   if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //     // Ok
-    //     this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
-    //     // Refresh
-    //     this.loadData();
-    //     // Clear selection
-    //     this.clearSelectedRows()
-    //   } else {
-    //     Utils.handleError(JSON.stringify(response),
-    //       this.messageService, this.translateService.instant('sites.remove_users_error'));
-    //   }
-    // }, (error) => {
-    //   // No longer exists!
-    //   Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-    //     this.translateService.instant('sites.remove_users_error'));
-    // });
+    // Yes: Update
+    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe(response => {
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
+        // Refresh
+        this.loadData();
+        // Clear selection
+        this.clearSelectedRows()
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.translateService.instant('sites.remove_users_error'));
+      }
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('sites.remove_users_error'));
+    });
   }
 
   private _addUsers(users) {
@@ -181,12 +181,12 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           this.clearSelectedRows()
         } else {
           Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('sites.update_error'));
+            this.messageService, this.translateService.instant('sites.update_users_error'));
         }
       }, (error) => {
         // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('sites.update_error'));
+          this.translateService.instant('sites.update_users_error'));
       });
     }
   }

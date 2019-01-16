@@ -1195,7 +1195,6 @@ export class CentralServerService {
     this._checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
-    console.log(date);
     let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
@@ -1233,7 +1232,6 @@ export class CentralServerService {
     this._checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
-    console.log(date);
     let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
@@ -1258,7 +1256,6 @@ export class CentralServerService {
     this._checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
-    console.log(date);
     let body: string;
     body = `{
     "chargeBoxID": "${charger.id}", "args": {`;

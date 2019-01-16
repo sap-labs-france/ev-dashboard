@@ -3,8 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row text-right">
-                        <button class="btn btn-info mat-raised-button"
-                            (click)="getConfiguration()">
+                    <button class="btn btn-info mat-raised-button" (click)="getConfiguration()">
                         <span class="mat-button-wrapper">
                             <i class="material-icons mr-2">get_app</i>
                             <span class="btn-label">{{'chargers.button_get_configuration' | translate}}</span>
@@ -22,17 +21,18 @@
                                                 {{item.key | translate}}
                                             </td>
                                             <td class="text-left">
-                                                <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput [formControlName]="item.key" [value]="item.value"> 
+                                                <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
+                                                    [formControlName]="item.key" [value]="item.value">
                                                 <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
                                             </td>
                                             <td *ngIf="!item.readonly" class="text-right">
                                                 <a class="btn-group btn btn-link btn-info btn-just-icon col-2em"
                                                     (click)="clearParameter(item)" [hidden]="item.icon === 'edit'">
-                                                <i class="material-icons">clear</i>
+                                                    <i class="material-icons">clear</i>
                                                 </a>
                                                 <a class="btn-group btn btn-link btn-info btn-just-icon col-2em"
                                                     (click)="changeParameter(item)">
-                                                <i class="material-icons">{{item.icon}}</i>
+                                                    <i class="material-icons">{{item.icon}}</i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -46,4 +46,3 @@
         </div>
     </div>
 </div>
-    

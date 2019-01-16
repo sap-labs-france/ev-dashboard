@@ -56,16 +56,22 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
-    this.spinnerService.show();
+  public loadData(refreshAction = false) {
+    if (!refreshAction ) {
+      this.spinnerService.show();
+    }
     this.centralServerService.getTransactionsInError(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
-        this.spinnerService.hide();
+        if (!refreshAction ) {
+          this.spinnerService.hide();
+        }
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
       }, (error) => {
-        this.spinnerService.hide();
+        if (!refreshAction ) {
+          this.spinnerService.hide();
+        }
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
@@ -219,5 +225,9 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
+  }
+
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(30000);
   }
 }

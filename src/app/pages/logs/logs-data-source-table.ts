@@ -21,6 +21,7 @@ import {LogLevelComponent} from './formatters/log-level.component';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
@@ -38,14 +39,18 @@ export class LogsDataSource extends TableDataSource<Log> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
+  public loadData(refreshAction: boolean) {
+    if (!refreshAction) {
+      // Show
+      this.spinnerService.show();
+    }
     // Get data
     this.centralServerService.getLogs(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((logs) => {
-      // Show
-      this.spinnerService.hide();
+      if (!refreshAction) {
+        // Show
+        this.spinnerService.hide();
+      }
       // Set number of records
       this.setNumberOfRecords(logs.count);
       // Update page length
@@ -166,5 +171,9 @@ export class LogsDataSource extends TableDataSource<Log> {
       new UserTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef()
     ];
+  }
+
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(POLL_INTERVAL);
   }
 }

@@ -40,6 +40,7 @@ export interface TableActionDef {
   name: string;
   icon?: string;
   class?: string;
+  disabled?: boolean;
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[]
 }
@@ -130,6 +131,7 @@ export interface Connector {
   activeForUser: boolean;
   activeTransactionID: number;
   type: string;
+  hasDetails: boolean;
 }
 
 export interface Charger {
@@ -353,7 +355,9 @@ export interface TableDef {
     isDetailComponent?: boolean;
     detailComponentName?: any;
     hideShowField?: string;
-  }
+  },
+  rowFieldNameIdentifier?: string,
+  isSimpleTable?: boolean;
 }
 
 export interface TableColumnDef {

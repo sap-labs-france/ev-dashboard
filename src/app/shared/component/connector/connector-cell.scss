@@ -1,0 +1,110 @@
+@import "../../../../assets/scss/core/variables";
+
+@keyframes status-blinking {
+    50% {
+        opacity: 0;
+    }
+}
+
+@mixin anim-status-blinking {
+    animation: status-blinking 2s ease-in-out infinite;
+}
+
+@keyframes status-glowing {
+    50% {
+        box-shadow: 0 0 30px;
+    }
+}
+
+@mixin anim-status-glowing {
+    animation: status-glowing 4s ease-in-out infinite;
+}
+
+$connectorStatusColor: ('available' : $brand-success,
+'charging' : $brand-info,
+'preparing': $brand-warning,
+'suspended-evse': $brand-info,
+'suspended-ev': $brand-info,
+'finishing': $brand-warning,
+'reserved': $brand-info,
+'unavailable': $grey-600,
+'faulted': $brand-danger);
+
+@mixin charge-connector-status($status, $bgColor, $glowing, $blinking) {
+    color: map-get($connectorStatusColor, $status);
+
+    @if $bgColor {
+        background-color: map-get($connectorStatusColor, $status);
+    }
+
+    @if $glowing {
+        @include anim-status-glowing;
+    }
+
+    @if $blinking {
+        @include anim-status-blinking;
+    }
+}
+
+.charger-connector-background {
+    border-radius: 30px;
+    border: 2px solid;
+}
+
+.charger-connector-available {
+    @include charge-connector-status('available', false, false, false);
+}
+
+.charger-connector-charging {
+    @include charge-connector-status('charging', true, true, false);
+}
+
+.charger-connector-faulted {
+    @include charge-connector-status('faulted', true, false, true);
+}
+
+.charger-connector-unavailable {
+    @include charge-connector-status('unavailable', true, false, false);
+}
+
+.charger-connector-preparing {
+    @include charge-connector-status('preparing', true, true, false);
+}
+
+.charger-connector-suspended-evse {
+    @include charge-connector-status('suspended-evse', true, false, false);
+}
+
+.charger-connector-suspended-ev {
+    @include charge-connector-status('suspended-ev', true, false, false);
+}
+
+.charger-connector-finishing {
+    @include charge-connector-status('finishing', true, false, false);
+}
+
+.charger-connector-reserved {
+    @include charge-connector-status('reserved', false, false, false);
+}
+
+.charger-connector-reserved {
+    @include charge-connector-status('reserved', false, false, false);
+}
+
+.charger-connector {
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 3px;
+    justify-content: center;
+    padding-top: .13rem;
+
+    .charger-connector-active-text {
+        color: $white;
+    }
+
+    .charger-connector-text {}
+
+}

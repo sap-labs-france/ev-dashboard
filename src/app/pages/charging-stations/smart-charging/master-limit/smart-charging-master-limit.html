@@ -7,25 +7,22 @@
                         <i class="material-icons">settings_power</i>
                     </div>
                     <h3 class="card-title text-left">
-                            {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
+                        {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
                     </h3>
                 </div>
                 <div class="card-body">
                     <div class="row col-md-12">
-                        <app-smart-charging-power-slider class="col-md-12" #powerSlider 
-                                [maximumPower]="charger.maximumPower" 
-                                [powerUnit]="powerUnit"
-                                [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
-                                textPosition="bottom"></app-smart-charging-power-slider>
-                    </div>                    
+                        <app-smart-charging-power-slider class="col-md-12" #powerSlider [maximumPower]="charger.maximumPower"
+                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
+                            textPosition="bottom"></app-smart-charging-power-slider>
+                    </div>
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-info mat-raised-button"
-                            [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
+                        <button class="btn btn-info mat-raised-button" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
                             (click)="applyPowerLimit()">
-                        <span class="mat-button-wrapper">
-                            <i class="material-icons mr-2">save</i>
-                            <span class="btn-label">{{'general.apply' | translate}}</span>
-                        </span>
+                            <span class="mat-button-wrapper">
+                                <i class="material-icons mr-2">save</i>
+                                <span class="btn-label">{{'general.apply' | translate}}</span>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -33,4 +30,3 @@
         </div>
     </div>
 </div>
-    

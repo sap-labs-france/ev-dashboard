@@ -170,7 +170,6 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
     }
     // update current slot end date
     if (slot.slot.end) {
-      console.log(`end ${slot.slot.end.getTime()} start ${slot.slot.start.getTime()}`);
       if (slot.slot.end.getTime() < slot.slot.start.getTime()) {
         slot.slot.end = slot.slot.start;
         slot.displayedEndValue = this._buildDisplayDateTimePickerValue(slot.slot.end);

@@ -165,29 +165,29 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   }
 
   private _addUsers(users) {
-    // // Check
-    // if (users && users.length > 0) {
-    //   // Get the IDs
-    //   const userIDs = users.map((user) => user.key);
-    //   // Yes: Update
-    //   this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe(response => {
-    //     // Ok?
-    //     if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-    //       // Ok
-    //       this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
-    //       // Refresh
-    //       this.loadData();
-    //       // Clear selection
-    //       this.clearSelectedRows()
-    //     } else {
-    //       Utils.handleError(JSON.stringify(response),
-    //         this.messageService, this.translateService.instant('sites.update_error'));
-    //     }
-    //   }, (error) => {
-    //     // No longer exists!
-    //     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-    //       this.translateService.instant('sites.update_error'));
-    //   });
-    // }
+    // Check
+    if (users && users.length > 0) {
+      // Get the IDs
+      const userIDs = users.map((user) => user.key);
+      // Yes: Update
+      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe(response => {
+        // Ok?
+        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          // Ok
+          this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
+          // Refresh
+          this.loadData();
+          // Clear selection
+          this.clearSelectedRows()
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('sites.update_error'));
+        }
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('sites.update_error'));
+      });
+    }
   }
 }

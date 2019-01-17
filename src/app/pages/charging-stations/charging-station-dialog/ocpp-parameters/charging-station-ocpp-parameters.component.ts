@@ -1,16 +1,16 @@
-import {Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef} from '@angular/core';
-import {Charger} from '../../../../common.types';
-import {LocaleService} from '../../../../services/locale.service';
-import {Router} from '@angular/router';
-import {FormGroup, FormControl} from '@angular/forms';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {CentralServerService} from '../../../../services/central-server.service';
-import {SpinnerService} from '../../../../services/spinner.service';
-import {AuthorizationService} from '../../../../services/authorization-service';
-import {MessageService} from '../../../../services/message.service';
-import {Utils} from '../../../../utils/Utils';
-import {Constants} from '../../../../utils/Constants';
+import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Charger } from '../../../../common.types';
+import { LocaleService } from '../../../../services/locale.service';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AuthorizationService } from '../../../../services/authorization-service';
+import { MessageService } from '../../../../services/message.service';
+import { Utils } from '../../../../utils/Utils';
+import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-charger-ocpp-configuration',
@@ -39,7 +39,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
     private router: Router) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({'id': 'currentCharger.id'})) {
+    if (!authorizationService.canUpdateChargingStation({ 'id': 'currentCharger.id' })) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -114,18 +114,18 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
    * saveConfiguration
    */
   public saveConfiguration(item) {
-      // Show
-      this.spinnerService.show();
-      // Yes: Update
-      this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, {key: item.key, value: this.formGroup.controls[item.key].value}).subscribe(response => {
+    // Show
+    this.spinnerService.show();
+    // Yes: Update
+    this.centralServerService.updateChargingStationOCPPConfiguration(
+      this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe(response => {
         // Hide
         this.spinnerService.hide();
         // Ok?
         if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
           // Ok
           this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.change_params_success', {chargeBoxID: this.charger.id}));
+            this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
           this.refresh();
         } else {
           this.refresh();
@@ -159,14 +159,14 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
    */
   public changeParameter(item) {
     if (item.icon === 'edit') {
-// Change input to enable and give him focus
+      // Change input to enable and give him focus
       item.icon = 'save';
       this.formGroup.controls[item.key].enable();
       this.parameterInput.find((element: ElementRef) => {
         return element.nativeElement.id === item.key;
       }).nativeElement.focus();
     } else {
-// Save changes changes
+      // Save changes changes
       this.saveConfiguration(item);
       this.formGroup.controls[item.key].disable();
       item.icon = 'edit';
@@ -200,7 +200,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
         // Ok
         this.messageService.showSuccessMessage(
-          this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
+          this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
         this.refresh();
       } else {
         this.refresh();

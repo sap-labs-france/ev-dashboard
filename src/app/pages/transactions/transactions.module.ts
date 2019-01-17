@@ -16,7 +16,7 @@ import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
 import {TransactionsInProgressDataSource} from './in-progress/transactions-in-progress-data-source-table';
 import {ComponentModule} from '../../shared/component/component.module';
-import {ConnectorCellComponent} from '../../shared/component/connector-cell.component';
+import {ConnectorCellComponent} from '../../shared/component/connector/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';

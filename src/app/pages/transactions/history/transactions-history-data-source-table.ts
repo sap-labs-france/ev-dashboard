@@ -28,7 +28,6 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import * as moment from 'moment';
-import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -59,16 +58,22 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
-    this.spinnerService.show();
+  public loadData(refreshAction = false) {
+    if (!refreshAction ) {
+      this.spinnerService.show();
+    }
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
-        this.spinnerService.hide();
+        if (!refreshAction) {
+          this.spinnerService.hide();
+        }
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
       }, (error) => {
-        this.spinnerService.hide();
+        if (!refreshAction) {
+          this.spinnerService.hide();
+        }
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
@@ -247,4 +252,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     });
   }
 
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(30000);
+  }
 }

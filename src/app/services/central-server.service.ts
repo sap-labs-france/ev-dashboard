@@ -934,9 +934,7 @@ export class CentralServerService {
     this._checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
-    console.log(date);
     let body: string;
-    if (stackLevel === 0) {
       body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
@@ -957,43 +955,76 @@ export class CentralServerService {
         }
       }
     }`;
-    } else {
-      const date2 = new Date(new Date().getTime() + 12000 * 1000);
-      const dateStr = date2.toISOString();
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public chargingStationSetChargingProfile(charger: Charger, connectorId, chargingProfile) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date('01/01/2018').toISOString();
+    let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
-        "csChargingProfiles": {
-          "chargingProfileId": 2,
-          "stackLevel": ${stackLevel},
-          "chargingProfilePurpose": "TxDefaultProfile",
-          "chargingProfileKind": "Absolute",
-          "chargingSchedule": {
-            "duration": 1900,
-            "startSchedule": "${dateStr}",
-            "chargingRateUnit": "${unit}",
-            "chargingSchedulePeriod": [{
-              "startPeriod": 0,
-              "limit": ${powerValue - 2}
-            },
-            {
-              "startPeriod": 600,
-              "limit": ${powerValue + 5}
-            },
-            {
-              "startPeriod": 1200,
-              "limit": ${powerValue - 5}
-            }
-          ]
-          }
-        }
+        "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    }
     console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public chargingStationClearChargingProfile(charger: Charger, profileId?, connectorId?, profilePurpose?, stackLevel?) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date('01/01/2018').toISOString();
+    let body: string;
+    body = `{
+    "chargeBoxID": "${charger.id}", "args": {`;
+    if (profileId) {
+      body += `"id": ${profileId}`;
+      if (connectorId || profilePurpose || stackLevel) {
+        body += `,`;
+      }
+    }
+    if (connectorId) {
+      body += `"connectorId": ${connectorId}`;
+      if (profilePurpose || stackLevel) {
+        body += `,`;
+      }
+    }
+    if (profilePurpose) {
+      body += `"chargingProfilePurpose": "${profilePurpose}"`;
+      if (stackLevel) {
+        body += `,`;
+      }
+    }
+    if (stackLevel) {
+      body += `"stackLevel": ${stackLevel}`;
+    }
+    body += `}
+      }`;
+
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
         headers: this._buildHttpHeaders()
       })

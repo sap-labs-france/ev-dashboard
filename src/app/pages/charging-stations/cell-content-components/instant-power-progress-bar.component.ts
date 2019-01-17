@@ -4,14 +4,23 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-    <div class="power-bar-text" [class.power-bar-text-error]="maxPowerW==0">{{instantPowerW | appUnit:'W':'kW':false:0:0}}
-      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:2:0}}</ng-container></div>
+    <div class="power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
+      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10; else elseTemplate">
+        {{instantPowerW | appUnit:'W':'kW':false:0:0}}
+      </ng-container>
+      <ng-template #elseTemplate>
+        {{instantPowerW | appUnit:'W':'kW':false:0:2}}
+      </ng-template>
+      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:2:0}}</ng-container>
+    </div>
     <mat-progress-bar [hidden]="maxPowerW===0"
       value="{{instantPowerW/maxPowerW*100}}"
       mode="determinate">
     </mat-progress-bar>
   `
 })
+
+
 export class InstantPowerProgressBarComponent implements CellContentTemplateComponent, OnInit {
 
   @Input() row: any;
@@ -35,7 +44,7 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
         if (!doNotConsiderConnectorPower) {
           if (charger.cannotChargeInParallel) {
             if (this.maxPowerW === 0) {
-            // In case connectors can't charge in parallel we only take one connecteur value
+              // In case connectors can't charge in parallel we only take one connecteur value
               this.maxPowerW += Number(connector.power).valueOf();
             }
           } else {

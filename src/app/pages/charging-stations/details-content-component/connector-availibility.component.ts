@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Connector } from '../../../common.types';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
-import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
+import { Connector } from 'app/common.types';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING, TYPE_GREY } from 'app/shared/component/chip/chip.component';
 
 @Component({
   selector: 'app-connector-availability',
@@ -11,11 +11,11 @@ import {ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from 
 export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
   @Input() row: Connector;
 
-ngOnInit(): void {
-  // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-  // Add 'implements OnInit' to the class.
-  this.text = this.row.status;
-  this.type = 'chip-width-8em ';
+  ngOnInit(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    this.text = this.row.status;
+    this.type = 'chip-width-8em ';
     switch (this.row.status) {
       case 'Available': {
         this.type += TYPE_SUCCESS;
@@ -47,7 +47,7 @@ ngOnInit(): void {
         break;
       }
       case 'Unavailable': {
-        this.type += TYPE_DANGER;
+        this.type += TYPE_GREY;
         break;
       }
       case 'Faulted': {

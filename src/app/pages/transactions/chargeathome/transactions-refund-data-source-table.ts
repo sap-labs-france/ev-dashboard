@@ -254,6 +254,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     ];
   }
 
+  isSelectable(row: Transaction) {
+    return !row.refundId;
+  }
+
   forAdmin(isAdmin: boolean) {
     this.isAdmin = isAdmin
   }
@@ -271,6 +275,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   protected _refundTransactions(transactions: Transaction[]) {
+    this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
       if (response.inError > 0) {
         this.messageService.showErrorMessage(
@@ -285,6 +290,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
           this.translateService.instant('transactions.notification.refund.success',
             {inSuccess: response.inSuccess}));
       }
+      this.spinnerService.hide();
       this.loadData();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

@@ -288,4 +288,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
     return this.dataSource.canDisplayRowAction(rowAction, rowItem);
   }
+
+  isSelectable(row: any) {
+    return this.dataSource.isSelectable(row);
+  }
 }

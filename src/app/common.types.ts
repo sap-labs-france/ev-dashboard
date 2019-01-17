@@ -89,7 +89,7 @@ export interface ActionResponse {
   error: string;
 }
 
-export interface ActionsResponse extends ActionResponse{
+export interface ActionsResponse extends ActionResponse {
   inSuccess: number;
   inError: number;
 }
@@ -396,10 +396,7 @@ export interface Transaction {
   user: User;
   tagID: string;
   status: string;
-  refund: {
-    requestedAt: Date;
-    status: string;
-  };
+  refundId: string;
   stop: {
     user: User;
     tagID: string;

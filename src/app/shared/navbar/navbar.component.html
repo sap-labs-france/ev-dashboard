@@ -7,7 +7,7 @@
           <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
         </button>
       </div>
-      <a class="navbar-brand" href="{{getPath()}}"> {{getTitle()}}</a>
+      <a class="navbar-brand" href="{{getPath()}}"> {{'general.menu.' + getTitle() | translate}}</a>
     </div>
     <button mat-button class="navbar-toggler btn-no-ripple" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>

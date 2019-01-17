@@ -5,7 +5,7 @@ import {MatTabChangeEvent} from '@angular/material';
 export class AbstractTabComponent {
   public activeTabIndex = 0;
 
-  constructor(private activatedRoute: ActivatedRoute, private windowService: WindowService, private hashArray: string[]) {
+  constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService, protected hashArray: string[]) {
     activatedRoute.fragment.subscribe(fragment => {
       const indexOf = this.hashArray.indexOf(fragment);
       if (indexOf >= 0) {

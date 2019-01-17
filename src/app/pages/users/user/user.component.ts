@@ -2,7 +2,7 @@ import {mergeMap} from 'rxjs/operators';
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatTabChangeEvent} from '@angular/material';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -18,12 +18,14 @@ import {Utils} from '../../../utils/Utils';
 import {UserRoles, userStatuses} from '../users.model';
 import {DOCUMENT} from '@angular/common';
 import {ActionResponse} from '../../../common.types';
+import {WindowService} from '../../../services/window.service';
+import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 
 @Component({
   selector: 'app-user-cmp',
   templateUrl: 'user.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentUserID: string;
   @Input() inDialog: boolean;
@@ -72,11 +74,13 @@ export class UserComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
-    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router,
-    @Inject(DOCUMENT) private document: any) {
+    @Inject(DOCUMENT) private document: any,
+    activatedRoute: ActivatedRoute,
+    windowService: WindowService) {
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications']);
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -98,6 +102,12 @@ export class UserComponent implements OnInit {
       if (state.connector === 'concur') {
         this._createConcurConnection(state);
       }
+    }
+  }
+
+  updateRoute(event: MatTabChangeEvent) {
+    if (!this.inDialog) {
+      super.updateRoute(event);
     }
   }
 
@@ -438,16 +448,15 @@ export class UserComponent implements OnInit {
   private _createConcurConnection(state) {
     if (this.activatedRoute.snapshot.queryParams['code']) {
       const payload = {
-          settingId: state.appId,
-          userId: state.userId,
-          connectorId: 'concur',
-          data:
-            {
-              code: this.activatedRoute.snapshot.queryParams['code'],
-              redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
-            }
-        }
-      ;
+        settingId: state.appId,
+        userId: state.userId,
+        connectorId: 'concur',
+        data:
+          {
+            code: this.activatedRoute.snapshot.queryParams['code'],
+            redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
+          }
+      };
       console.log('createConnectorConnection');
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
           console.log(response);

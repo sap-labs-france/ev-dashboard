@@ -7,9 +7,8 @@
                          animationDuration="0ms" disableRipple="true" class="mat-tab-info">
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">people</i>{{'users.tabs.list' | translate}}
-                </a>
+                <mat-icon class="mr-2">people</mat-icon>
+                {{'users.tabs.list' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-table [dataSource]="usersDataSource"></app-table>
@@ -17,9 +16,8 @@
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">warning</i>{{'users.tabs.in_error' | translate}}
-                </a>
+                <mat-icon class="mr-2">warning</mat-icon>
+                {{'users.tabs.in_error' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-table [dataSource]="usersInErrorDataSource"></app-table>

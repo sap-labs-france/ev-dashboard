@@ -2,6 +2,9 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {CentralServerService} from '../../services/central-server.service';
 import {Constants} from '../../utils/Constants';
+import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
+import {ActivatedRoute} from '@angular/router';
+import {WindowService} from '../../services/window.service';
 
 declare const $: any;
 
@@ -10,15 +13,18 @@ declare const $: any;
   templateUrl: './settings.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class SettingsComponent {
+export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;
   public isChargeAtHomeActive = false;
   public isPricingActive = false;
 
   constructor(
     private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService
+    private centralServerService: CentralServerService,
+    activatedRoute: ActivatedRoute,
+    windowService: WindowService
   ) {
+    super(activatedRoute, windowService, ['ocpi', 'chargeathome', 'pricing']);
     this.isOCPIActive = centralServerService.isComponentActive(Constants.SETTINGS_OCPI);
     this.isChargeAtHomeActive = centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
     this.isPricingActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);

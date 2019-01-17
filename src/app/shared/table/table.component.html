@@ -8,7 +8,8 @@
         <!-- Action Button -->
         <button
           (click)="actionTriggered(actionDef)"
-          *ngIf="actionDef.type === 'button'" [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')">
+          *ngIf="actionDef.type === 'button'"
+          [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')">
           <span class="mat-button-wrapper">
             <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
             <span class="btn-label">{{actionDef.name | translate}}</span>
@@ -22,7 +23,8 @@
         <!-- Action Button -->
         <button
           (click)="actionTriggered(actionRightDef)"
-          *ngIf="actionRightDef.type === 'button'" [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')">
+          *ngIf="actionRightDef.type === 'button'"
+          [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')">
           <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
             <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
             <span class="btn-label">{{actionRightDef.name| translate}}</span>
@@ -55,7 +57,9 @@
 
         <!-- Dialog Table Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-          <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
+          <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                 [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                 class="form-field-popup" matInput
                  readonly=true
                  type="text"/>
           <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button
@@ -95,9 +99,15 @@
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
-          <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
-                        [checked]="selection.isSelected(row)">
-          </mat-checkbox>
+          <ng-container *ngIf="isSelectable(row.data)">
+            <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </ng-container>
+          <ng-container *ngIf="!isSelectable(row.data)">
+            <mat-checkbox ngModel="" disabled="true">
+            </mat-checkbox>
+          </ng-container>
         </td>
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell></td>
       </ng-container>
@@ -118,13 +128,15 @@
         </ng-template>
 
         <ng-container *ngIf="columnDef.isAngularComponent">
-          <td *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+          <td *matCellDef="let row"
+              [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
               mat-cell>
             <app-cell-component-container [columnDef]="columnDef" [row]="row['data']"></app-cell-component-container>
           </td>
         </ng-container>
         <ng-container *ngIf="!columnDef.isAngularComponent">
-          <td *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+          <td *matCellDef="let row"
+              [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
               mat-cell
           >{{row[i] | translate}}
           </td>
@@ -178,7 +190,8 @@
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
-                      <button (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)" [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
+                      <button (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)"
+                              [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
                               [disabled]="dropdownItem.disabled" mat-menu-item>
                         <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                         <span>
@@ -188,7 +201,8 @@
                     </ng-container>
                   </ng-template>
                 </mat-menu>
-                <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
+                <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
+                        [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
                         [matMenuTriggerFor]="rowActionMenu"
                         mat-icon-button>
                   <mat-icon>{{rowAction.icon}}</mat-icon>
@@ -196,7 +210,8 @@
               </ng-container>
               <ng-container *ngIf="!rowAction.isDropdownMenu">
                 <a (click)="rowActionTriggered(rowAction, actionCell['data'])"
-                   [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"><i class="material-icons">{{rowAction.icon}}</i></a>
+                   [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"><i
+                  class="material-icons">{{rowAction.icon}}</i></a>
               </ng-container>
             </ng-container>
           </ng-container>

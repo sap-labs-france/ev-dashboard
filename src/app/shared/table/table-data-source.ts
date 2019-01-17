@@ -513,4 +513,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Return the property
     return `${propertyValue ? propertyValue : ''}`;
   }
+
+  isSelectable(row: T) {
+    return true;
+  }
 }

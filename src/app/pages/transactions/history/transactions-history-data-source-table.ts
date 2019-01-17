@@ -191,9 +191,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   getTableRowActions(): TableActionDef[] {
     const rowActions = [];
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME)) {
-      rowActions.push(new TableRefundAction().getActionDef());
-    }
     rowActions.push(new TableDeleteAction().getActionDef());
     return rowActions;
   }

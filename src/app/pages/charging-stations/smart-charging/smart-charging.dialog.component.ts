@@ -23,6 +23,7 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
   @ViewChild('masterLimit') masterLimitComponent: SmartChargingMasterLimitComponent;
   @ViewChild('limitPlanning') limitPlanning: SmartChargingLimitPlanningComponent;
   @ViewChild('limitPlanner') limitPlanner: SmartChargingLimitPlannerComponent;
+
   constructor(
     private dialogRef: MatDialogRef<ChargingStationSmartChargingDialogComponent>,
     private dialogService: DialogService,

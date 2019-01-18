@@ -22,6 +22,7 @@ import {TransactionsInProgressDataSource} from '../../pages/transactions/in-prog
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
 import {UsersDataSource} from './users/users-data-source-table';
+import {ChargersDataSource} from './chargers/chargers-data-source-table';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import {UsersDataSource} from './users/users-data-source-table';
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    UsersDataSource
+    UsersDataSource,
+    ChargersDataSource
   ]
 })
 export class DialogsModule {

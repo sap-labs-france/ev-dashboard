@@ -134,7 +134,17 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     const dialogConfig = new MatDialogConfig();
     // Set data
     dialogConfig.data = {
-      siteAreaID: this.siteArea.id
+      withNoSiteArea: true,
+      tableDef: {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: true,
+          multiple: true
+        },
+        search: {
+          enabled: true
+        }
+      }
     }
     // Show
     const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);

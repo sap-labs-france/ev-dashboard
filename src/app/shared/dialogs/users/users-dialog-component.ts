@@ -26,7 +26,6 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     if (this.title === '') {
       this.title = 'users.select_users'
     }
-
     // Set static filter
     if (data.excludeUsersOfSiteID) {
       this.dialogDataSource.setStaticFilters([

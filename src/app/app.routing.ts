@@ -108,14 +108,14 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule',
-        canActivate: [RouteGuardService], data: {
+        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
           menu: {
             title: 'organization',
             type: 'link',
             icon: 'business',
             path: '/organization'
           },
+          component: Constants.SETTINGS_ORGANIZATION,
           forAdminOnly: true
         }
       },

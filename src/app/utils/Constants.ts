@@ -131,6 +131,10 @@ export class Constants {
   /* Tenant Components */
   public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization'];
 
+  /* Settings */
+  public static SETTINGS_OCPI = 'ocpi';
+  public static SETTINGS_ORGANIZATION = 'organization';
+
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
   public static OCPP_VERSION_15 = '1.5';
@@ -141,8 +145,6 @@ export class Constants {
   public static OCPP_RESPONSE_REJECTED = 'Rejected';
   public static OCPP_UNIT_AMPER = 'A';
   public static OCPP_UNIT_WATT = 'W';
-  /* Settings */
-  public static SETTINGS_OCPI = 'ocpi';
 
   /* Ocpi status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';

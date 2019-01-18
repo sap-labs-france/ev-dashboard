@@ -173,7 +173,7 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '60vw';
-    dialogConfig.minHeight = '60vh';
+    dialogConfig.minHeight = '40vh';
     if (siteArea) {
       dialogConfig.data = siteArea.id;
     }

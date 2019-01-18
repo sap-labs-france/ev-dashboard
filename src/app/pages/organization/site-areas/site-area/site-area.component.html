@@ -91,6 +91,17 @@
                                                         {{"general.mandatory_field" | translate}}
                                                     </mat-error>
                                                 </mat-form-field>
+                                                <mat-form-field>
+                                                    <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
+                                                        type="text" [formControl]="maximumPower">
+                                                    <button mat-button matSuffix mat-icon-button aria-label="Reset"
+                                                        (click)="clearMaximumPower()" [hidden]="maximumPower.value === null || maximumPower.value === ''">
+                                                        <mat-icon>clear</mat-icon>
+                                                    </button>
+                                                    <mat-error *ngIf="maximumPower.hasError('pattern')">
+                                                        {{"chargers.invalid_power_value" | translate}}
+                                                    </mat-error>
+                                                </mat-form-field>
                                                 <div class="form-check" style="text-align: left">
                                                     <label class="form-check-label">
                                                         <input class="form-check-input" type="checkbox" [formControl]="accessControl">
@@ -100,7 +111,7 @@
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <div id="sliderRegular" class="slider"></div>
+
                                             </div>
                                         </div>
                                     </div>

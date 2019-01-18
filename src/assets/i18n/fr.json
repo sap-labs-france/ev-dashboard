@@ -260,7 +260,8 @@
     "update_error": "Une erreur est survenue pendant la mise à jour de la zone",
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
-    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "maximum_energy": "Limite de puissance"
   },
   "authentication": {
     "accept": "J'accepte les",

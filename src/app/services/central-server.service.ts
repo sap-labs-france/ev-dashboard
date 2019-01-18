@@ -736,8 +736,12 @@ export class CentralServerService {
 
   public isComponentActive(componentName): boolean {
     // get logged user
-    return this.getLoggedUser().activeComponents.includes(componentName);
-
+    const activeComponents = this.getLoggedUser().activeComponents;
+    if (activeComponents) {
+      return this.getLoggedUser().activeComponents.includes(componentName);
+    } else {
+      return false;
+    }
   }
 
   public resetUserPassword(data) {

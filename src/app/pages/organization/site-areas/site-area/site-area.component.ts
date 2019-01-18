@@ -33,6 +33,7 @@ export class SiteAreaComponent implements OnInit {
   public id: AbstractControl;
   public name: AbstractControl;
   public siteID: AbstractControl;
+  public maximumPower: AbstractControl;
   public accessControl: AbstractControl;
 
   public sites: any;
@@ -71,12 +72,17 @@ export class SiteAreaComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
+      'maximumPower': new FormControl('',
+      Validators.compose([
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+      ])),
       'accessControl': new FormControl(true)
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.siteID = this.formGroup.controls['siteID'];
+    this.maximumPower = this.formGroup.controls['maximumPower']
     this.accessControl = this.formGroup.controls['accessControl'];
 
     if (this.currentSiteAreaID) {
@@ -116,6 +122,11 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
+  public clearMaximumPower() {
+    this.maximumPower.setValue(null);
+    this.formGroup.markAsDirty();
+  }
+
   public loadSiteArea() {
     if (!this.currentSiteAreaID) {
       return;
@@ -134,6 +145,9 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.siteID) {
         this.formGroup.controls.siteID.setValue(siteArea.siteID);
+      }
+      if (siteArea.maximumPower) {
+        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);

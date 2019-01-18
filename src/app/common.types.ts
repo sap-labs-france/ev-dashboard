@@ -391,10 +391,9 @@ export interface Transaction {
   connectorId: number;
   meterStart: number;
   currentConsumption: number;
-  totalConsumption: number;
-  totalInactivitySecs: number;
-  totalDurationSecs: number;
-  stateOfCharge: number;
+  currentTotalConsumption: number;
+  currentTotalInactivitySecs: number;
+  currentTotalDurationSecs: number;
   currentStateOfCharge: number;
   isLoading: boolean;
   user: User;
@@ -408,6 +407,8 @@ export interface Transaction {
     meterStop: number;
     totalConsumption: number;
     stateOfCharge: number;
+    totalInactivitySecs: number;
+    totalDurationSecs: number;
     price: number;
     priceUnit: string;
   };

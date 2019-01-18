@@ -31,6 +31,7 @@ export class SiteComponent implements OnInit {
   public id: AbstractControl;
   public name: AbstractControl;
   public companyID: AbstractControl;
+  public allowAllUsersToStopTransactions: AbstractControl;
 
   public address: FormGroup;
   public address1: AbstractControl;
@@ -78,6 +79,7 @@ export class SiteComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
+      'allowAllUsersToStopTransactions': new FormControl(false),
       'address': new FormGroup({
         'address1': new FormControl(''),
         'address2': new FormControl(''),
@@ -104,6 +106,7 @@ export class SiteComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
+    this.allowAllUsersToStopTransactions = this.formGroup.controls['allowAllUsersToStopTransactions'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
@@ -178,6 +181,11 @@ export class SiteComponent implements OnInit {
       }
       if (site.companyID) {
         this.formGroup.controls.companyID.setValue(site.companyID);
+      }
+      if (site.allowAllUsersToStopTransactions) {
+        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(site.allowAllUsersToStopTransactions);
+      } else {
+        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(false);
       }
       if (site.address && site.address.address1) {
         this.address.controls.address1.setValue(site.address.address1);

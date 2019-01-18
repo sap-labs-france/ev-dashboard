@@ -26,13 +26,14 @@ export class SiteAreaComponent implements OnInit {
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
   public image: any = Constants.SITE_AREA_NO_IMAGE;
-  public image2 = 'background-image:url(\'assets/img/theme/no-logo.jpg\')';
-  public image3 = 'assets/img/theme/no-logo.jpg';
+  // public image2 = 'background-image:url(\'assets/img/theme/no-logo.jpg\')';
+  // public image3 = 'assets/img/theme/no-logo.jpg';
 
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
   public siteID: AbstractControl;
+  public accessControl: AbstractControl;
 
   public sites: any;
 
@@ -70,11 +71,13 @@ export class SiteAreaComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
+      'accessControl': new FormControl(true)
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.siteID = this.formGroup.controls['siteID'];
+    this.accessControl = this.formGroup.controls['accessControl'];
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
@@ -131,6 +134,11 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.siteID) {
         this.formGroup.controls.siteID.setValue(siteArea.siteID);
+      }
+      if (siteArea.accessControl) {
+        this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
+      } else {
+        this.formGroup.controls.accessControl.setValue(false);
       }
       // Yes, get image
       return this.centralServerService.getSiteAreaImage(this.currentSiteAreaID);

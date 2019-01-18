@@ -32,6 +32,16 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
       this.translateService,
       this.router,
       this.centralServerService);
+    // Set static filter
+    if (data.excludeUsersOfSiteID) {
+      this.dialogDataSource.setStaticFilters([
+        { 'ExcludeSiteID': data.excludeUsersOfSiteID }
+      ]);
+    }
+    // Set table definition if provided
+    if (data.tableDef) {
+      this.dialogDataSource.setTableDef(data.tableDef);
+    }
   }
 
   getSelectedItems(selectedRows: User[]): KeyValue[] {

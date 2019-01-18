@@ -231,6 +231,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return { rowFieldNameIdentifier: '' };
   }
 
+  public setTableDef(tableDef: TableDef) {
+    this.tableDef = tableDef;
+  }
+
   public filterChanged(filter: TableFilterDef) {
     // Update Filter
     const foundFilter = this.filtersDef.find((filterDef) => {

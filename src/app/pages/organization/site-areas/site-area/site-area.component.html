@@ -59,7 +59,8 @@
                                                                 <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
                                                                     <i class="material-icons" (click)="file.click()">mode_edit</i>
                                                                     <div style="display:none">
-                                                                        <input type="file" name="..." (change)="imageChanged($event)" #file>
+                                                                        <input type="file" name="..." (change)="imageChanged($event)"
+                                                                            #file>
                                                                     </div>
                                                                 </a>
                                                                 <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
@@ -90,6 +91,16 @@
                                                         {{"general.mandatory_field" | translate}}
                                                     </mat-error>
                                                 </mat-form-field>
+                                                <div class="form-check" style="text-align: left">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" [formControl]="accessControl">
+                                                        {{'site_areas.enable_access_control' | translate}}
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div id="sliderRegular" class="slider"></div>
                                             </div>
                                         </div>
                                     </div>

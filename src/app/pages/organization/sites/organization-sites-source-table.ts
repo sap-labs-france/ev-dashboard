@@ -172,8 +172,8 @@ export class SitesDataSource extends TableDataSource<Site> {
   private _showSiteDialog(site?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
+    dialogConfig.minWidth = '70vw';
+    dialogConfig.minHeight = '70vh';
     if (site) {
       dialogConfig.data = site.id;
     }

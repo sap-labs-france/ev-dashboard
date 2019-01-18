@@ -298,6 +298,7 @@ export interface Site {
   name: string;
   companyID: string;
   company: Company;
+  allowAllUsersToStopTransactions: boolean;
   siteAreas: SiteArea[];
   address: Address;
   image: string;

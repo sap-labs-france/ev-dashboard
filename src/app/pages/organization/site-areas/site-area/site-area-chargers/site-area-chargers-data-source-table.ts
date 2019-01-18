@@ -80,19 +80,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         direction: 'asc',
         sortable: true
       }
-      // ,
-      // {
-      //   id: 'address.city',
-      //   name: 'general.city',
-      //   headerClass: 'col-25p',
-      //   class: 'text-left'
-      // },
-      // {
-      //   id: 'address.country',
-      //   name: 'general.country',
-      //   headerClass: 'col-20p',
-      //   class: 'text-left'
-      // }
     ];
   }
 

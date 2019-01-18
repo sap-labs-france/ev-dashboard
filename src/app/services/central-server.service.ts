@@ -58,6 +58,34 @@ export class CentralServerService {
     this.initialized = false;
   }
 
+  public removeChargersFromSiteArea(siteAreaID, chargerIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
+      {'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public addChargersToSiteArea(siteAreaID, chargerIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
+      {'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public removeUsersFromSite(siteID, userIDs) {
     // Verify init
     this._checkInit();

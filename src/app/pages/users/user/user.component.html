@@ -230,7 +230,7 @@
                   </div>
                 </div>
               </mat-tab>
-              <mat-tab>
+              <mat-tab *ngIf="chargeAtHomeSetting">
                 <ng-template mat-tab-label>
                   <mat-icon class="mr-2">link</mat-icon>
                   {{'general.applications' | translate}}
@@ -247,33 +247,15 @@
                       </div>
                       <div class="card-footer">
                         <div class="d-flex flex-row align-items-center justify-content-between">
-                          <div>created 4
-                            minutes ago
+                          <div *ngIf="concurConnection && concurConnection.createdAt">{{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
                           </div>
                           <a href="https://www.concursolutions.com" target="_blank">
-                            <i class="material-icons mr-2">launch</i>
+                            <i class="material-icons">launch</i>
                           </a>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="d-flex flex-row align-items-center">
-                          <img src="/assets/img/integrations/concur-logo.png"
-                               class="card-logo img-thumbnail mr-3"/>
-                          <h2 class="card-title">Concur</h2>
-                        </div>
-                      </div>
 
-                      <div class="card-footer">
-                        <div class="d-flex flex-row align-items-center justify-content-between">
-                          <div>not connected</div>
-                        </div>
-                      </div>
-
-                      <div class="card-img-overlay card-disabled d-inline-flex justify-content-end">
+                      <div *ngIf="!alreadyLinkedToConcur()" class="card-img-overlay card-disabled d-inline-flex justify-content-end">
                         <button (click)="linkConcurAccount()" class="btn btn-info align-self-end">
                           <i class="material-icons mr-2">launch</i>Connect
                         </button>

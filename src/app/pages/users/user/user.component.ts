@@ -63,6 +63,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public longitude: AbstractControl;
   public chargeAtHomeSetting: any;
   public integrationConnections: any;
+  public concurConnection: any;
 
   public passwords: FormGroup;
   public password: AbstractControl;
@@ -426,6 +427,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
       if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+        for (const connection of connectionResult.result) {
+          if (connection.connectorId === 'concur') {
+            this.concurConnection = connection;
+          }
+        }
         this.integrationConnections = connectionResult.result;
       }
     });
@@ -559,5 +565,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
+  }
+
+  alreadyLinkedToConcur() {
+    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
   }
 }

@@ -16,9 +16,6 @@ import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
 import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
-import {TransactionsHistoryDataSource} from '../../pages/transactions/history/transactions-history-data-source-table';
-import {TransactionsInErrorDataSource} from '../../pages/transactions/in-error/transactions-in-error-data-source-table';
-import {TransactionsInProgressDataSource} from '../../pages/transactions/in-progress/transactions-in-progress-data-source-table';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
 

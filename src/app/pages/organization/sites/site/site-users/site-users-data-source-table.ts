@@ -29,13 +29,18 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   }
 
   public loadData() {
-    // User provided?
+    // Site provided?
     if (this.site) {
       // Yes: Get data
       this.centralServerService.getUsers(this.getFilterValues(),
         this.getPaging(), this.getOrdering()).subscribe((users) => {
         // Set number of records
         this.setNumberOfRecords(users.count);
+        // Update Paginator
+        this.updatePaginator();
+        // Notify
+        this.getDataSubjet().next(users.result);
+        // Set the data
         this.setData(users.result);
       }, (error) => {
         // No longer exists!

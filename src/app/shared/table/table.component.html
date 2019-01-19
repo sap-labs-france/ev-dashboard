@@ -3,9 +3,9 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
       <!-- Actions Row -->
-      <div *ngIf="dataSource.hasActions()" class="row mat-toolbar-row">
+      <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row">
         <!-- Create Left Actions -->
-        <div class="filter-row" *ngFor="let actionDef of actionsDef; let i=index">
+        <div class="d-flex filter-row" *ngFor="let actionDef of actionsDef; let i=index">
           <!-- Action Button -->
           <button [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
             *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
@@ -15,61 +15,103 @@
             </span>
           </button>
         </div>
-        <span class="toolbar-spacer"></span>
+        <span *ngIf="actionsDef.length > 0" class="toolbar-spacer"></span>
+        <ng-container *ngIf="actionsDef.length === 0">
+          <!-- Filters Row as there is no left actions -->
+          <div class="d-flex flex-wrap w-100" *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()">
+            <!-- Create Filters -->
+            <div [class]="(filterDef.class ? filterDef.class + ' d-flex filter-row': 'd-flex col filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
+              <!-- Dropdown Filter -->
+              <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+                <mat-select [placeholder]="filterDef.name | translate" [(value)]="filterDef.currentValue"
+                  (selectionChange)="filterChanged(filterDef)">
+                  <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
+              <!-- Dialog Table Filter -->
+              <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+                <input matInput type="text" readonly=true [placeholder]="filterDef.name | translate" class="form-field-popup"
+                  [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                  (click)="showDialogTableFilter(filterDef)" />
+                <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="resetDialogTableFilter(filterDef)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
+
+              <!-- Date Filter -->
+              <mat-form-field *ngIf="filterDef.type === 'date'">
+                <input matInput [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
+                  autocomplete="off" (dateChange)="filterChanged(filterDef, $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <!-- Search -->
+            <div class="d-flex col">
+              <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
+                <input #searchInput matInput [placeholder]="searchPlaceholder | translate" (keyup)="searchSourceSubject.next(searchInput.value)">
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
         <!-- Create Right Actions -->
-        <div class="filter-row" *ngFor="let actionRightDef of actionsRightDef; let i=index">
-          <!-- Refresh Action Button -->
-          <button *ngIf="actionRightDef.id === 'refresh'" [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-            (click)="actionTriggered(actionRightDef)">
-            <div *ngIf="ongoingManualRefresh" id="spinnerManualRefresh" class="spinner-refresh-button">
-              <div class="loader">
+        <div class="d-flex ml-auto align-items-center justify-content-md-end align-self-md-start">
+          <div class="d-flex filter-row" *ngFor="let actionRightDef of actionsRightDef; let i=index">
+            <!-- Refresh Action Button -->
+            <button *ngIf="actionRightDef.id === 'refresh'" [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+              (click)="actionTriggered(actionRightDef)">
+              <div *ngIf="ongoingManualRefresh" id="spinnerManualRefresh" class="spinner-refresh-button">
+                <div class="loader">
+                </div>
               </div>
-            </div>
-            <div *ngIf="!ongoingManualRefresh">
-              <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
-                <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
-              </span>
-            </div>
-          </button>
-          <!-- Action Button -->
-          <ng-container *ngIf="actionRightDef.id !== 'refresh'">
-            <button [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-              *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
-              <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
-                <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
-                <span class="btn-label">{{actionRightDef.name| translate}}</span>
-              </span>
-              <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
-                <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
-              </span>
+              <div *ngIf="!ongoingManualRefresh">
+                <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
+                  <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
+                </span>
+              </div>
             </button>
-          </ng-container>
-          <!-- Special handling of auto refresh -->
-          <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
-            <mat-slide-toggle [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
-              <div class="refresh-box">
-                <div *ngIf="ongoingAutoRefresh " id="spinnerRefresh" class="spinner-autorefresh">
-                  <div class="loader">
+            <!-- Action Button -->
+            <ng-container *ngIf="actionRightDef.id !== 'refresh'">
+              <button [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+                *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
+                <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
+                  <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
+                  <span class="btn-label">{{actionRightDef.name| translate}}</span>
+                </span>
+                <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
+                  <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
+                </span>
+              </button>
+            </ng-container>
+            <!-- Special handling of auto refresh -->
+            <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
+              <mat-slide-toggle [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
+                <div class="refresh-box">
+                  <div *ngIf="ongoingAutoRefresh " id="spinnerRefresh" class="spinner-autorefresh">
+                    <div class="loader">
+                    </div>
+                  </div>
+                  <div *ngIf="!ongoingAutoRefresh " id="refreshText">
+                    {{actionRightDef.name| translate}}
                   </div>
                 </div>
-                <div *ngIf="!ongoingAutoRefresh " id="refreshText">
-                  {{actionRightDef.name| translate}}
-                </div>
-              </div>
-            </mat-slide-toggle>
-          </ng-container>
-          <!-- Action Slide -->
-          <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
-            <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
-              {{actionRightDef.name| translate}}
-            </mat-slide-toggle>
-          </ng-container>
+              </mat-slide-toggle>
+            </ng-container>
+            <!-- Action Slide -->
+            <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
+              <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue"
+                (change)="actionTriggered(actionRightDef, $event)">
+                {{actionRightDef.name| translate}}
+              </mat-slide-toggle>
+            </ng-container>
+          </div>
         </div>
       </div>
 
       <!-- Filters Row -->
-      <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="row">
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (actionsDef.length > 0) " class="row">
         <!-- Create Filters -->
         <div [class]="(filterDef.class ? filterDef.class : 'filter-row')" *ngFor="let filterDef of filtersDef; let i=index">
           <!-- Dropdown Filter -->
@@ -104,6 +146,8 @@
         </mat-form-field>
       </div>
     </div>
+
+
   </ng-container>
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list')">

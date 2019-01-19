@@ -520,7 +520,11 @@
     "power_limit_unit": "Unit used for power limitation",
     "watt": "Watt",
     "amper": "Ampere",
-    "session_details": "Session"
+    "session_details": "Session",
+    "tabs": {
+      "list": "Charging Stations",
+      "in_error": "Faulty"
+    }
   },
   "logs": {
     "logging_number": "Log(s)",

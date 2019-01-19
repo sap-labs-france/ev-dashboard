@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {ConfigService} from '../../../services/config.service';
@@ -6,21 +6,18 @@ import {CentralServerService} from '../../../services/central-server.service';
 import { DetailComponentDirective } from './detail-component.directive';
 import { DetailComponent } from './detail-component.component';
 import { TableDef } from '../../../common.types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail-component-container',
-  template: `
-              <div>
-                <ng-template appDetailComponent></ng-template>
-              </div>
-            `,
-
+  template: `<ng-template appDetailComponent></ng-template>`,
 })
 // tslint:disable-next-line:component-class-suffix
 export class DetailComponentContainer implements OnInit, OnDestroy {
-  @Input() containerId: number;
   @Input() tableDef: TableDef;
-  parentRow: any;
+  @Input() parentRow: any;
+  detailComponentClass: string;
+  detailComponent: DetailComponent;
 
   @ViewChild(DetailComponentDirective) detailComponentDirective: DetailComponentDirective;
 
@@ -33,12 +30,7 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
      }
 
   ngOnInit() {
-    this.loadComponent();
-  }
-
-  setReferenceRow(row, refTableComponent) {
-    this.parentRow = row;
-    this.loadComponent();
+//    this.loadComponent();
   }
 
   ngOnDestroy() {
@@ -52,10 +44,18 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
     viewContainerRef.clear();
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
+    this.detailComponent = <DetailComponent>componentRef.instance;
     if (this.parentRow) {
-      (<DetailComponent>componentRef.instance).setData(this.parentRow, this.tableDef);
+      this.detailComponent.setData(this.parentRow, this.tableDef);
+      this.detailComponentClass = this.detailComponent.getParentClass();
     }
 
+  }
+
+  refresh(row: any) {
+    if (this.detailComponent) {
+      this.detailComponent.refresh(row);
+    }
   }
 
 }

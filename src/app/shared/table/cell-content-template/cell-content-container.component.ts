@@ -22,7 +22,7 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    this.loadComponent();
+//    this.loadComponent();
   }
 
   ngOnDestroy() {

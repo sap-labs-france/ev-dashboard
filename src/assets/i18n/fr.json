@@ -1,7 +1,7 @@
 {
   "general": {
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.8",
+    "last_update": "Version 2.0.9",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -52,6 +52,7 @@
     "error": "Erreur",
     "drag_drop": "Glisser & Déposer",
     "picture": "Image",
+    "change_picture": "Changer Image",
     "search": "Rechercher",
     "search_place": "Rechercher Adresse",
     "use_place": "Use",
@@ -92,7 +93,8 @@
       "tenants": "Tenants",
       "pricing": "Prix",
       "components": "Composants",
-      "settings" : "Configuration"
+      "settings" : "Configuration",
+      "organization": "Organisation"
     }
   },
   "vehicles": {
@@ -179,7 +181,8 @@
     "company_not_found": "Entreprise inconnue",
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
-    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "save_company": ""
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
@@ -209,6 +212,11 @@
     "delete_confirm": "Voulez-vous vraiment supprimer le site '{{siteName}}'?",
     "delete_success": "Le site '{{siteName}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de le site",
+    "remove_users_title": "Retirer Utilisateur(s)",
+    "remove_users_confirm": "Voulez-vous vraiment retirer le(s) utilisateur(s) de ce site?",
+    "remove_users_success": "Le(s) utilisateur(s) ont été retiré(s) avec succès",
+    "remove_users_error": "Une erreur est survenue pendant le retrait des utilisateurs",
+    "update_users_success": "Le(s) utilisateur(s) ont été ajouté(s) avec succès",
     "changed_by_other_user": "Le site '{{siteName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_success": "Le site '{{siteName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du site",
@@ -232,6 +240,7 @@
     "name": "Nom",
     "title": "Zone",
     "site_invalid": "Zone invalide",
+    "site_area_do_not_exist": "Site Area n'existe plus",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -241,12 +250,18 @@
     "delete_confirm": "Voulez-vous vraiment supprimer la zone '{{siteAreaName}}'?",
     "delete_success": "La zone '{{siteAreaName}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de la zone",
+    "remove_chargers_title": "Retirer Borne(s)",
+    "remove_chargers_confirm": "Voulez-vous vraiment retirer la(les) borne(s) de cette zone?",
+    "remove_chargers_success": "La(les) borne(s) ont été retirée(s) avec succès",
+    "remove_chargers_error": "Une erreur est survenue pendant le retrait des bornes",
+    "update_chargers_success": "La(les) borne(s) ont été ajoutée(s) avec succès",
     "changed_by_other_user": "La zone '{{siteAreaName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "Le zone '{{siteAreaName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la zone",
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
-    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "maximum_energy": "Limite de puissance"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -360,6 +375,7 @@
     "unassigned_chargers": "Bornes",
     "maximum_energy": "Energie Maximum",
     "connector": "Connector",
+    "connector0": "Borne",
     "connector_type": "Type",
     "charger_url": "URL",
     "title": "Borne",
@@ -406,12 +422,34 @@
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
       "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
+      "power_limit_plan_title": "Limite de puissance",
+      "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
+      "power_limit_plan_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
+      "power_limit_plan_error": "Erreur pendant la limitation de la puissance de la borne",
+      "clear_profile_title": "Effacer les profiles de charge",
+      "clear_profile_confirm": "Voulez-vous vraiment effacer tous les profiles de charges de la borne '{{chargeBoxID}}'?",
+      "clear_profile_success": "Les profiles de charge de la borne '{{chargeBoxID}}' ont été effacés correctement",
+      "clear_profile_error": "une erreur est sruvenue pendant l'effacement des profiles de charge",
+      "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
       "limit_title": "Limite",
       "no_current_limit": "Aucun planning de charge trouvé",
       "from_date": "De",
-      "to_date": "à"
+      "to_date": "à",
+      "profile_type": "type de profile",
+      "stack_level": "Niveau",
+      "profile_id": "Identifiant",
+      "duration": "Durée (secondes)",
+      "start_date": "Début",
+      "end_date": "Fin",
+      "add_slot_button": "Ajouter un créneau",
+      "profile_types": {
+        "relative": "Relatif",
+        "absolute": "Absolu",
+        "recurring_daily": "Recurrence journalière",
+        "recurring_weekly": "Recurrence hebdomadaire"
+      }
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
@@ -472,7 +510,11 @@
     "start_transaction_admin_title": "Démarrage de transaction en tant qu'Administrateur",
     "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
     "start_for_myself_button": "Moi même",
-    "select_user_button": "Un autre utilisateur"
+    "select_user_button": "Autre utilisateur",
+    "tabs": {
+      "list": "Bornes",
+      "in_error": "Défectueuse"
+    }
   },
   "logs": {
     "logging_number": "Log(s)",
@@ -668,6 +710,15 @@
         "width": "Largeur de l'image originale",
         "height": "Hauteur de l'image originale"
       }
+    }
+  },
+  "organization": {
+    "title": "Definition de l'Organisation",
+    "description": "Definition de l'Organisation en Compagnies, Sites et Zones",
+    "tabs": {
+      "companies": "Entreprises",
+      "sites": "Sites",
+      "siteareas": "Zones"
     }
   },
   "chargeathome": {

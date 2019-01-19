@@ -47,3 +47,7 @@
 .chip-danger {
   @include chip($brand-danger);
 }
+
+.chip-grey {
+  @include chip($grey-700);
+}

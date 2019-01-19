@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 const connectorIdMap = {
+  0: '0',
   1: 'A',
   2: 'B',
   3: 'C',

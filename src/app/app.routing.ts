@@ -108,18 +108,27 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
+          menu: {
+            title: 'organization',
+            type: 'link',
+            icon: 'business',
+            path: '/organization'
+          },
+          component: Constants.SETTINGS_ORGANIZATION,
+          forAdminOnly: true
+        }
+      },
+      {
         path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule',
-        canActivate: [RouteGuardService], data: {
+         data: {
           menu: {
             title: 'settings',
             type: 'link',
             icon: 'settings',
             path: '/settings'
           },
-          auth: {
-            entity: Constants.ENTITY_SETTINGS,
-            action: Constants.ACTION_LIST
-          }
+          forAdminOnly: true
         }
       },
       {

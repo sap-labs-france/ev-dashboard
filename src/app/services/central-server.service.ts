@@ -20,14 +20,19 @@ import {
   Ordering,
   Paging,
   SettingResult,
+  CompanyResult,
+  Company,
   SiteAreaResult,
   SiteResult,
+  Site,
   Tenant,
   TenantResult,
   Transaction,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  Logo,
+  SiteArea
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -51,6 +56,62 @@ export class CentralServerService {
     private windowService: WindowService) {
     // Default
     this.initialized = false;
+  }
+
+  public removeChargersFromSiteArea(siteAreaID, chargerIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
+      {'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public addChargersToSiteArea(siteAreaID, chargerIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
+      {'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public removeUsersFromSite(siteID, userIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromSite`,
+      {'siteID': siteID, 'userIDs': userIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public addUsersToSite(siteID, userIDs) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
+      {'siteID': siteID, 'userIDs': userIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
   public removeSitesFromUser(userID, siteIDs) {
@@ -81,6 +142,74 @@ export class CentralServerService {
       );
   }
 
+  public getCompanies(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<CompanyResult>(
+      `${this.centralRestServerServiceSecuredURL}/Companies`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompany(companyId: string, withLogo: boolean = false): Observable<Company> {
+    const params: any = [];
+    params['ID'] = companyId;
+    params['WithLogo'] = withLogo;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Company>(
+      `${this.centralRestServerServiceSecuredURL}/Company`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompanyLogos(): Observable<Logo[]> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Logo[]>(
+      `${this.centralRestServerServiceSecuredURL}/CompanyLogos`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCompanyLogo(companyId: String): Observable<Logo> {
+    const params: any = [];
+    params['ID'] = companyId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Logo>(
+      `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
     // Verify init
     this._checkInit();
@@ -91,6 +220,41 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/Sites`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSite(siteId: string, withImage: boolean = false): Observable<Site> {
+    const params: any = [];
+    params['ID'] = siteId;
+    params['WithImage'] = withImage;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Site>(
+      `${this.centralRestServerServiceSecuredURL}/Site`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteImage(siteId: String): Observable<Image> {
+    const params: any = [];
+    params['ID'] = siteId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(
+      `${this.centralRestServerServiceSecuredURL}/SiteImage`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -119,7 +283,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<Transaction> {
+  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<SiteArea> {
     const params: any = [];
     params['ID'] = siteAreaId;
     params['WithChargeBoxes'] = withChargeBoxes;
@@ -127,8 +291,25 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get<Transaction>(
+    return this.httpClient.get<SiteArea>(
       `${this.centralRestServerServiceSecuredURL}/SiteArea`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getSiteAreaImage(siteAreaId: String): Observable<Image> {
+    const params: any = [];
+    params['ID'] = siteAreaId;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(
+      `${this.centralRestServerServiceSecuredURL}/SiteAreaImage`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -555,8 +736,12 @@ export class CentralServerService {
 
   public isComponentActive(componentName): boolean {
     // get logged user
-    return this.getLoggedUser().activeComponents.includes(componentName);
-
+    const activeComponents = this.getLoggedUser().activeComponents;
+    if (activeComponents) {
+      return this.getLoggedUser().activeComponents.includes(componentName);
+    } else {
+      return false;
+    }
   }
 
   public resetUserPassword(data) {
@@ -607,6 +792,126 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createCompany(company): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyCreate`, company,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateCompany(company): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyUpdate`, company,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteCompany(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createSite(site): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteCreate`, site,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSite(site): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUpdate`, site,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteSite(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createSiteArea(siteArea): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaCreate`, siteArea,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSiteArea(siteArea): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaUpdate`, siteArea,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteSiteArea(id): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })
@@ -922,9 +1227,7 @@ export class CentralServerService {
     this._checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
-    console.log(date);
     let body: string;
-    if (stackLevel === 0) {
       body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
@@ -945,43 +1248,76 @@ export class CentralServerService {
         }
       }
     }`;
-    } else {
-      const date2 = new Date(new Date().getTime() + 12000 * 1000);
-      const dateStr = date2.toISOString();
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public chargingStationSetChargingProfile(charger: Charger, connectorId, chargingProfile) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date('01/01/2018').toISOString();
+    let body: string;
       body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
-        "csChargingProfiles": {
-          "chargingProfileId": 2,
-          "stackLevel": ${stackLevel},
-          "chargingProfilePurpose": "TxDefaultProfile",
-          "chargingProfileKind": "Absolute",
-          "chargingSchedule": {
-            "duration": 1900,
-            "startSchedule": "${dateStr}",
-            "chargingRateUnit": "${unit}",
-            "chargingSchedulePeriod": [{
-              "startPeriod": 0,
-              "limit": ${powerValue - 2}
-            },
-            {
-              "startPeriod": 600,
-              "limit": ${powerValue + 5}
-            },
-            {
-              "startPeriod": 1200,
-              "limit": ${powerValue - 5}
-            }
-          ]
-          }
-        }
+        "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    }
     console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public chargingStationClearChargingProfile(charger: Charger, profileId?, connectorId?, profilePurpose?, stackLevel?) {
+    // Verify init
+    this._checkInit();
+    // Build default charging profile json
+    const date = new Date('01/01/2018').toISOString();
+    let body: string;
+    body = `{
+    "chargeBoxID": "${charger.id}", "args": {`;
+    if (profileId) {
+      body += `"id": ${profileId}`;
+      if (connectorId || profilePurpose || stackLevel) {
+        body += `,`;
+      }
+    }
+    if (connectorId) {
+      body += `"connectorId": ${connectorId}`;
+      if (profilePurpose || stackLevel) {
+        body += `,`;
+      }
+    }
+    if (profilePurpose) {
+      body += `"chargingProfilePurpose": "${profilePurpose}"`;
+      if (stackLevel) {
+        body += `,`;
+      }
+    }
+    if (stackLevel) {
+      body += `"stackLevel": ${stackLevel}`;
+    }
+    body += `}
+      }`;
+
+    console.log(body);
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
         headers: this._buildHttpHeaders()
       })

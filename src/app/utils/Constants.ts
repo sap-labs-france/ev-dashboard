@@ -129,7 +129,11 @@ export class Constants {
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
 
   /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing'];
+  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization'];
+
+  /* Settings */
+  public static SETTINGS_OCPI = 'ocpi';
+  public static SETTINGS_ORGANIZATION = 'organization';
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
@@ -141,8 +145,6 @@ export class Constants {
   public static OCPP_RESPONSE_REJECTED = 'Rejected';
   public static OCPP_UNIT_AMPER = 'A';
   public static OCPP_UNIT_WATT = 'W';
-  /* Settings */
-  public static SETTINGS_OCPI = 'ocpi';
 
   /* Ocpi status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';

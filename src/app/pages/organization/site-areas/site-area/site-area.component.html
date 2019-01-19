@@ -1,0 +1,129 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form" [formGroup]="formGroup">
+                    <div class="card card-profile card-testimonial">
+                        <div class="card-header card-header-tabs card-header-danger">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#profile" data-toggle="tab">
+                                                <i class="material-icons">portrait</i> {{name.value}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <span class="toolbar-spacer"></span>
+                                        <button class="btn btn-info mat-raised-button" (click)="saveSiteArea(formGroup.value)"
+                                            [disabled]="!formGroup.valid || !formGroup.dirty">
+                                            <span class="mat-button-wrapper">
+                                                <i class="material-icons mr-2">save</i>
+                                                <span class="btn-label">{{'general.save' | translate}}</span>
+                                            </span>
+                                        </button>
+                                        <button *ngIf="currentSiteAreaID" class="btn btn-info mat-raised-button"
+                                            (click)="refresh()">
+                                            <span class="mat-button-wrapper">
+                                                <i class="material-icons mr-2">refresh</i>
+                                                <span class="btn-label">{{'general.refresh' | translate}}</span>
+                                            </span>
+                                        </button>
+                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button"
+                                            mat-dialog-close>
+                                            <span class="mat-button-wrapper">
+                                                <i class="material-icons">close</i>
+                                            </span>
+                                        </button>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="profile">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="rotating-card-container">
+                                                <div class="card card-rotate card-background" style="margin-top: 0px;">
+                                                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                                        <div class="card-body">
+                                                        </div>
+                                                    </div>
+                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                {{'general.change_picture' | translate}}
+                                                            </h5>
+                                                            <div class="footer justify-content-center">
+                                                                <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
+                                                                    <i class="material-icons" (click)="file.click()">mode_edit</i>
+                                                                    <div style="display:none">
+                                                                        <input type="file" name="..." (change)="imageChanged($event)"
+                                                                            #file>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
+                                                                    <i class="material-icons" (click)="clearImage()">delete</i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input appSetAutoFocus matInput placeholder="{{'site_areas.name' | translate}}"
+                                                        class="app-site-area-name-bold" type="text" [formControl]="name"
+                                                        required>
+                                                    <mat-error *ngIf="name.hasError('required')">
+                                                        {{"general.mandatory_field" | translate}}
+                                                    </mat-error>
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}"
+                                                        required>
+                                                        <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="siteID.hasError('required')">
+                                                        {{"general.mandatory_field" | translate}}
+                                                    </mat-error>
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
+                                                        type="text" [formControl]="maximumPower">
+                                                    <button mat-button matSuffix mat-icon-button aria-label="Reset"
+                                                        (click)="clearMaximumPower()" [hidden]="maximumPower.value === null || maximumPower.value === ''">
+                                                        <mat-icon>clear</mat-icon>
+                                                    </button>
+                                                    <mat-error *ngIf="maximumPower.hasError('pattern')">
+                                                        {{"chargers.invalid_power_value" | translate}}
+                                                    </mat-error>
+                                                </mat-form-field>
+                                                <div class="form-check" style="text-align: left">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" [formControl]="accessControl">
+                                                        {{'site_areas.enable_access_control' | translate}}
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -55,6 +55,7 @@
     "error": "Error",
     "drag_drop": "Drag & Drop",
     "picture": "Picture",
+    "change_picture": "Change Picture",
     "search": "Search",
     "search_place": "Search Address",
     "use_place": "Use",
@@ -95,7 +96,8 @@
       "tenants": "Tenants",
       "pricing": "Pricing",
       "components": "Components",
-      "settings" : "Settings"
+      "settings" : "Settings",
+      "organization": "Organization"
     }
   },
   "vehicles": {
@@ -212,6 +214,11 @@
     "delete_confirm": "Do you really want to delete the site '{{siteName}}'?",
     "delete_success": "The site '{{siteName}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the site",
+    "remove_users_title": "Remove User(s)",
+    "remove_users_confirm": "Are you sure to remove the selected user(s) from this site?",
+    "remove_users_success": "The user(s) have been removed successfully",
+    "remove_users_error": "Error occurred while removing the user(s) from the site",
+    "update_users_success": "The users have been added successfully",
     "changed_by_other_user": "The site '{{siteName}}' has been changed by another user and will be reloaded",
     "update_success": "The site '{{siteName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site",
@@ -235,6 +242,7 @@
     "name": "Name",
     "title": "Site Area",
     "site_invalid": "Site Area invalid",
+    "site_area_do_not_exist": "Site Area does not exist anymore",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -244,12 +252,18 @@
     "delete_confirm": "Do you really want to delete the site area '{{siteAreaName}}'?",
     "delete_success": "The site area '{{siteAreaName}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the site area",
+    "remove_chargers_title": "Remove Charging Station(s)",
+    "remove_chargers_confirm": "Are you sure to remove the selected charging station(s) from this site area?",
+    "remove_chargers_success": "The charging station(s) have been removed successfully",
+    "remove_chargers_error": "Error occurred while removing the charging station(s) from the site area",
+    "update_chargers_success": "The charging station(s) have been added successfully",
     "changed_by_other_user": "The site area '{{siteAreaName}}' has been changed by another user and will be reloaded",
     "update_success": "The site area '{{siteAreaName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site area",
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
-    "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb"
+    "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "maximum_energy": "Maximum Power"
   },
   "authentication": {
     "accept": "I accept the",
@@ -725,6 +739,15 @@
         "width": "Width of the full scale image",
         "height": "Height of the full scale image"
       }
+    }
+  },
+  "organization": {
+    "title": "Organization Management",
+    "description": "Manage Organization as Companies, Sites and Site Areas",
+    "tabs": {
+      "companies": "Companies",
+      "sites": "Sites",
+      "siteareas": "Site Areas"
     }
   },
   "chargeathome": {

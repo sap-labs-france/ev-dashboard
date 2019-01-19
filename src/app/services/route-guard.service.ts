@@ -4,6 +4,7 @@ import {CentralServerService} from './central-server.service';
 import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
+import {Constants} from 'app/utils/Constants';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild {
@@ -62,6 +63,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     const auth = route.data ? route.data['auth'] : undefined;
     if (auth) {
       return this.authorizationService.canAccess(auth.entity, auth.action);
+    }
+
+    const component = route.data ? route.data['component'] : undefined;
+    if (component && !this.centralServerService.isComponentActive(component)) {
+      return false;
     }
 
     let isAuthorized = false;

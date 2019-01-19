@@ -5,6 +5,6 @@ import {RouteGuardService} from '../../services/route-guard.service';
 
 export const SettingsRoutes: Routes = [
   {
-    path: '', component: SettingsComponent, canActivate: [RouteGuardService]
+    path: '', component: SettingsComponent, canActivate: [RouteGuardService], data: { forAdminOnly: true }
   }
 ];

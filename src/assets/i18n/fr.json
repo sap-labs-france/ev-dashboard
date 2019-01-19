@@ -510,7 +510,11 @@
     "start_transaction_admin_title": "Démarrage de transaction en tant qu'Administrateur",
     "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
     "start_for_myself_button": "Moi même",
-    "select_user_button": "Autre utilisateur"
+    "select_user_button": "Autre utilisateur",
+    "tabs": {
+      "list": "Bornes",
+      "in_error": "Défectueuse"
+    }
   },
   "logs": {
     "logging_number": "Log(s)",

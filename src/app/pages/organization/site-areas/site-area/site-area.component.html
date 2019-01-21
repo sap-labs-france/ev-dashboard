@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form class="form" [formGroup]="formGroup">
+                <form class="form" [formGroup]="formGroup" (keydown.enter)="$event.preventDefault()">
                     <div class="card card-profile card-testimonial">
                         <div class="card-header card-header-tabs card-header-danger">
                             <div class="nav-tabs-navigation">

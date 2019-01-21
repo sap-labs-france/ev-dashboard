@@ -200,6 +200,7 @@
     "number_of_site_areas": "Nb Site Areas",
     "number_of_users": "Nb Users",
     "users": "Users",
+    "assigned_users_to_site": "Users assigned to {{siteName}}",
     "image": "Image",
     "name": "Name",
     "title": "Site",
@@ -239,6 +240,7 @@
     "unassigned": "Unassigned",
     "image": "Image",
     "assigned_chargers": "Charging Stations",
+    "assigned_chargers_to_site_area": "Charging Stations assigned to {{siteAreaName}}",
     "name": "Name",
     "title": "Site Area",
     "site_invalid": "Site Area invalid",
@@ -263,7 +265,7 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power"
+    "maximum_energy": "Maximum Power (Watts)"
   },
   "authentication": {
     "accept": "I accept the",

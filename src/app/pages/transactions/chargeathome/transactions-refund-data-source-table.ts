@@ -307,6 +307,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       this.loadData();
     }, (error) => {
       this.spinnerService.hide();
+      this.clearSelectedRows();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.refund.error'));
     });

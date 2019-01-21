@@ -66,6 +66,18 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
+          menu: {
+            title: 'organization',
+            type: 'link',
+            icon: 'business',
+            path: '/organization'
+          },
+          component: Constants.SETTINGS_ORGANIZATION,
+          forAdminOnly: true
+        }
+      },
+      {
         path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
           menu: {
             title: 'logs',
@@ -105,18 +117,6 @@ export const AppRoutes: Routes = [
             entity: Constants.ENTITY_TRANSACTIONS,
             action: Constants.ACTION_LIST
           }
-        }
-      },
-      {
-        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
-          menu: {
-            title: 'organization',
-            type: 'link',
-            icon: 'business',
-            path: '/organization'
-          },
-          component: Constants.SETTINGS_ORGANIZATION,
-          forAdminOnly: true
         }
       },
       {

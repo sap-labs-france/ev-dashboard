@@ -82,19 +82,14 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <mat-form-field>
-                                                    <!-- <input appSetAutoFocus matInput type="text" [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}"> -->
                                                     <mat-select [formControl]="companyID" placeholder="{{'companies.company' | translate}}">
                                                         <mat-option *ngFor="let company of companies" value="{{company.id}}">{{company.name}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
-                                                <div class="form-check" style="text-align: left">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" [formControl]="allowAllUsersToStopTransactions">
+                                                <div style="text-align: left">
+                                                    <mat-checkbox [formControl]="allowAllUsersToStopTransactions">
                                                         {{'sites.allow_all_users' | translate}}
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
+                                                    </mat-checkbox>
                                                 </div>
                                             </div>
                                         </div>

@@ -287,6 +287,7 @@ export interface SiteArea {
   id: string;
   name: string;
   image: string;
+  address: Address;
   maximumPower: number;
   accessControl: boolean;
   siteID: string;

@@ -215,8 +215,6 @@ export class SiteComponent implements OnInit {
         this.address.controls.longitude.setValue(site.address.longitude);
       }
       // Yes, get image
-      // return this.centralServerService.getSiteImage(this.currentSiteID);
-      // return this.centralServerService.getCompanies({});
       return this.centralServerService.getSiteImage(this.currentSiteID);
     })).subscribe((siteImage) => {
       if (siteImage && siteImage.image) {

@@ -399,7 +399,10 @@ export interface Transaction {
   user: User;
   tagID: string;
   status: string;
-  refundId: string;
+  refundData: {
+    refundId: string;
+    refundedAt: Date;
+  };
   stop: {
     user: User;
     tagID: string;
@@ -495,6 +498,7 @@ export interface ScheduleSlot {
   end: Date;
   limit: number;
 }
+
 export interface ConnectorSchedule {
   connectorId: number;
   slots: ScheduleSlot[];

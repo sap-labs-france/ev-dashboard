@@ -207,6 +207,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.data;
   }
 
+  public getFormattedData(): any[] {
+    return this.formattedData;
+  }
+
   public getTableActionsDef(): TableActionDef[] {
     // Return default
     return [];

@@ -149,6 +149,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSort(this.sort);
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
+    this.selection.clear();
     // Load the data
     this.loadData();
     if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
@@ -240,7 +241,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public masterSelectToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.dataSource.getData().forEach(row => this.selection.select(row));
+      this.dataSource.getFormattedData().forEach(row => this.selection.select(row));
   }
 
   public handleSortChanged() {

@@ -807,6 +807,7 @@
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
     "price": "Price",
+    "refundDate": "Refunded At",
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",

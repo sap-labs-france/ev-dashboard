@@ -155,12 +155,19 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     ];
     if (this.isAdmin) {
       columns.push({
+        id: 'refundData.refundedAt',
+        name: 'transactions.refundDate',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+      });
+      columns.push({
         id: 'stop.price',
         name: 'transactions.price',
         headerClass: 'col-15p',
         class: 'col-15p',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
-      })
+      });
     }
     return columns as TableColumnDef[];
   }
@@ -255,7 +262,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundId;
+    return !row.refundData;
   }
 
   forAdmin(isAdmin: boolean) {

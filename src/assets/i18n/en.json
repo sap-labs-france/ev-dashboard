@@ -98,7 +98,7 @@
       "tenants": "Tenants",
       "pricing": "Pricing",
       "components": "Components",
-      "settings" : "Settings"
+      "settings": "Settings"
     }
   },
   "vehicles": {
@@ -452,7 +452,7 @@
       }
     },
     "more_actions": {
-      "get_diagnostics_title" : "Charger '{{chargeBoxID}}' diagnostics",
+      "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
       "get_diagnostics_url": "Upload file URL",
       "get_diagnostics_download_button": "Download",
       "get_diagnostics_dialog_title": "Retrieve diagnostics",
@@ -480,7 +480,7 @@
     "delete_error": "Error occurred while deleting the charging station",
     "properties_title": "Properties",
     "ocpp_parameters_title": "OCPP Parameters",
-    "save_charger" : "Save",
+    "save_charger": "Save",
     "stop_transaction_title": "Stop",
     "stop_transaction_confirm": "Do you really want to stop the session of the charging station '{{chargeBoxID}}'?",
     "stop_transaction_success": "The session of the charging station '{{chargeBoxID}}' has been stopped successfully",
@@ -665,7 +665,7 @@
       "setting_do_not_exist": "OCPI Settings not found",
       "setting_not_found": "OCPI Settings not found",
       "create_success": "OCPI settings have been created successfully",
-      "create_error":  "Error occurred while creating the OCPI settings",
+      "create_error": "Error occurred while creating the OCPI settings",
       "update_success": "OCPI settings have been updated successfully",
       "update_error": "Error occurred while updating the OCPI settings",
       "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
@@ -674,7 +674,7 @@
       "description": "The Charge At Home interface allows users to be refunded for the transactions made at home.",
       "not_found": "Charge At Home settings not found",
       "create_success": "Charge At Home settings have been created successfully",
-      "create_error":  "Error occurred while creating the Charge At Home settings",
+      "create_error": "Error occurred while creating the Charge At Home settings",
       "update_success": "Charge At Home settings have been updated successfully",
       "update_error": "Error occurred while updating the Charge At Home settings",
       "concur": {
@@ -808,13 +808,20 @@
     "no_history": "No history during this period",
     "price": "Price",
     "refundDate": "Refunded At",
+    "filter": {
+      "type": {
+        "name": "Type",
+        "refunded": "Refunded",
+        "not_refunded": "Not Refunded"
+      }
+    },
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "In Error",
       "charge_at_home": "Charge At Home"
     },
-    "graph":{
+    "graph": {
       "battery": "Battery Level (%)",
       "power": "Instant Power (kWatt)",
       "energy": "Energy Delivered (kWatt.h)",
@@ -839,7 +846,6 @@
       "delete": {
         "success": "Session of {{user}} deleted successfully",
         "error": "An error occurred during session deletion"
-
       },
       "soft_stop": {
         "success": "Session of {{user}} stopped successfully",

@@ -36,6 +36,7 @@ import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
+import {TransactionsTypeFilter} from './transactions-type-filter';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -101,62 +102,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-    const columns = [
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-      },
-      {
-        id: 'stop.totalDurationSecs',
-        name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      },
-      {
-        id: 'stop.totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'stop.totalConsumption',
-        name: 'transactions.total_consumption',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      }
-    ];
+
+    const columns = [];
+    columns.push({
+      id: 'timestamp',
+      name: 'transactions.started_at',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+      direction: 'desc',
+      formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+    });
     if (this.isAdmin) {
       columns.push({
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
+        sorted: true,
+        sortable: true,
         headerClass: 'col-15p',
         class: 'col-15p',
         formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
@@ -169,6 +131,49 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       });
     }
+    columns.push({
+      id: 'tagID',
+      name: 'transactions.badge_id',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+    });
+    columns.push({
+      id: 'stop.totalConsumption',
+      name: 'transactions.total_consumption',
+      headerClass: 'col-10p',
+      class: 'col-10p',
+      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+    });
+    columns.push(
+      {
+        id: 'stop.totalDurationSecs',
+        name: 'transactions.duration',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
+      });
+    columns.push({
+      id: 'stop.totalInactivitySecs',
+      name: 'transactions.inactivity',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
+    });
+    columns.push({
+      id: 'chargeBoxID',
+      name: 'transactions.charging_station',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p'
+    });
+    columns.push({
+      id: 'connectorId',
+      name: 'transactions.connector',
+      headerClass: 'text-center col-5p',
+      class: 'text-center col-5p',
+      formatter: (value) => this.appConnectorIdPipe.transform(value)
+    });
+
+
     return columns as TableColumnDef[];
   }
 
@@ -189,6 +194,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
+      new TransactionsTypeFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef()
     ];
   }

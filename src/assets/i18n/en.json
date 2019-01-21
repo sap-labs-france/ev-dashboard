@@ -608,7 +608,6 @@
     "changed_on": "Changed On",
     "changed_by": "Changed By",
     "save_profile": "Save Profile",
-    "save_profile": "Save Profile",
     "save_address": "Save Address",
     "save_password": "Save Password",
     "save_miscs": "Save Miscs",
@@ -725,6 +724,7 @@
     "error_generate_local_token": "Error occured while generating new local token"
   },
   "ocpi": {
+    "title": "OCPI",
     "emsps": "e-Mobility Service Providers",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
@@ -733,7 +733,6 @@
     "cpo_party_id": "Party ID",
     "cpo_business_details": "Business Details",
     "cpo_logo": "Image",
-    "title": "OCPI",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",

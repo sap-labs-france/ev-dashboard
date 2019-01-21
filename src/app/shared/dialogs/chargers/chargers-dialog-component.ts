@@ -28,7 +28,7 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
       this.title = 'chargers.select_chargers';
     }
     // Set static filter
-    if (data.hasOwnProperty('withNoSiteArea')) {
+    if (data && data.hasOwnProperty('withNoSiteArea')) {
       this.dialogDataSource.setStaticFilters([
         { 'WithNoSiteArea': data.withNoSiteArea }
       ]);

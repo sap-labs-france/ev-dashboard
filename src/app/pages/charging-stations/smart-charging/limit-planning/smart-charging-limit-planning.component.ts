@@ -82,6 +82,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.internalFormatCurrentLimit = 0;
   }
 
   ngOnInit(): void {

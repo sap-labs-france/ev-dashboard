@@ -5,7 +5,8 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
-
+import { Injectable } from '@angular/core';
+@Injectable()
 export class ChargersDataSource extends DialogTableDataSource<Charger> {
   constructor(
     private messageService: MessageService,

@@ -19,19 +19,20 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
     private translateService: TranslateService,
     private router: Router,
     protected dialogRef: MatDialogRef<ChargersDialogComponent>,
+    private chargersDataSource: ChargersDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data);
+    super(data, chargersDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'chargers.select_chargers';
     }
-    // Create table data source
-    this.dialogDataSource = new ChargersDataSource(
-      this.messageService,
-      this.translateService,
-      this.router,
-      this.centralServerService);
+    // Set static filter
+    if (data && data.hasOwnProperty('withNoSiteArea')) {
+      this.dialogDataSource.setStaticFilters([
+        { 'WithNoSiteArea': data.withNoSiteArea }
+      ]);
+    }
   }
 
   getSelectedItems(selectedRows: Charger[]): KeyValue[] {

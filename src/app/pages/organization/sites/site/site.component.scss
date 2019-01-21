@@ -1,0 +1,12 @@
+::ng-deep div.app-div-logo {
+  max-width: 300px;
+  max-height: 200px;
+}
+
+::ng-deep input.app-site-name-bold {
+  font-size: 2em  !important;
+}
+
+::ng-deep div.app-align-center {
+  align-items: center;
+}

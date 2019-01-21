@@ -292,6 +292,7 @@ export interface SiteArea {
   id: string;
   name: string;
   image: string;
+  maximumPower: number;
   accessControl: boolean;
   siteID: string;
   site: Site;
@@ -303,6 +304,7 @@ export interface Site {
   name: string;
   companyID: string;
   company: Company;
+  allowAllUsersToStopTransactions: boolean;
   siteAreas: SiteArea[];
   address: Address;
   image: string;
@@ -317,7 +319,10 @@ export interface Site {
   lastChangedBy: string;
   lastChangedOn: Date;
 }
-
+export interface CompanyResult {
+  count: number,
+  result: Company[]
+}
 export interface SiteResult {
   count: number,
   result: Site[]

@@ -19,19 +19,19 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     private translateService: TranslateService,
     private router: Router,
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
+    private usersDataSource: UsersDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
-    super(data);
+    super(data, usersDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'users.select_users'
     }
-
-    // Create table data source
-    this.dialogDataSource = new UsersDataSource(
-      this.messageService,
-      this.translateService,
-      this.router,
-      this.centralServerService);
+    // Set static filter
+    if (data && data.excludeUsersOfSiteID) {
+      this.dialogDataSource.setStaticFilters([
+        { 'ExcludeSiteID': data.excludeUsersOfSiteID }
+      ]);
+    }
   }
 
   getSelectedItems(selectedRows: User[]): KeyValue[] {

@@ -19,6 +19,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
@@ -43,6 +44,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
+      new TableOpenInMapsAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -157,6 +159,9 @@ export class CompaniesDataSource extends TableDataSource<Company> {
       case 'delete':
         this._deleteCompany(rowItem);
         break;
+      case 'open_in_maps':
+        this._showPlace(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -171,6 +176,12 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
+  }
+
+  private _showPlace(rowItem) {
+    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
+      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+    }
   }
 
   private _showCompanyDialog(company?: any) {

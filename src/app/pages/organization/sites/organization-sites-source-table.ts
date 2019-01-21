@@ -19,6 +19,7 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteDialogComponent } from './site/site.dialog.component';
@@ -44,6 +45,7 @@ export class SitesDataSource extends TableDataSource<Site> {
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableEditUsersAction().getActionDef(),
+      new TableOpenInMapsAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -153,6 +155,9 @@ export class SitesDataSource extends TableDataSource<Site> {
       case 'delete':
         this._deleteSite(rowItem);
         break;
+      case 'open_in_maps':
+        this._showPlace(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -167,6 +172,12 @@ export class SitesDataSource extends TableDataSource<Site> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
+  }
+
+  private _showPlace(rowItem) {
+    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
+      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+    }
   }
 
   private _showSiteDialog(site?: any) {

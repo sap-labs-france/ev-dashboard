@@ -15,7 +15,7 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button" (click)="saveSite(formGroup.value)"
+                                        <button *ngIf="this.isAdmin" class="btn btn-info mat-raised-button" (click)="saveSite(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">save</i>

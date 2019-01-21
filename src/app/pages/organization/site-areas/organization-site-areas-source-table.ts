@@ -14,12 +14,14 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
@@ -28,6 +30,7 @@ import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/
 @Injectable()
 export class SiteAreasDataSource extends TableDataSource<SiteArea> {
   private readonly tableActionsRow: TableActionDef[];
+  public isAdmin = false;
 
   constructor(
     private localeService: LocaleService,
@@ -38,16 +41,26 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super();
     this.setStaticFilters([{ 'WithSite': true }]);
 
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableEditChargersAction().getActionDef(),
-      new TableOpenInMapsAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+
+    if (this.isAdmin) {
+      this.tableActionsRow = [
+        new TableEditAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      this.tableActionsRow = [
+        new TableViewAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -123,9 +136,13 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableCreateAction().getActionDef()
-    ];
+    if (this.isAdmin) {
+      return [
+        new TableCreateAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   public getTableRowActions(): TableActionDef[] {
@@ -147,6 +164,7 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
+      case 'view':
         this._showSiteAreaDialog(rowItem);
         break;
       case 'edit_chargers':

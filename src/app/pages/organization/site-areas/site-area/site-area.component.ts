@@ -24,6 +24,8 @@ export class SiteAreaComponent implements OnInit {
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
+
+  public isAdmin = false;
   public image: any = Constants.SITE_AREA_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -63,6 +65,9 @@ export class SiteAreaComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
+
+    // get admin flag
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     // refresh available sites
     this.refreshAvailableSites();
@@ -123,6 +128,11 @@ export class SiteAreaComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
+
+    // if not admin switch in readonly mode
+    if (!this.isAdmin) {
+      this.formGroup.disable();
+    }
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();

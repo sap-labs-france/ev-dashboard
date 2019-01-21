@@ -101,8 +101,7 @@ export const AppRoutes: Routes = [
             icon: 'business',
             path: '/organization'
           },
-          component: Constants.SETTINGS_ORGANIZATION,
-          forAdminOnly: true
+          component: Constants.SETTINGS_ORGANIZATION
         }
       },
       {

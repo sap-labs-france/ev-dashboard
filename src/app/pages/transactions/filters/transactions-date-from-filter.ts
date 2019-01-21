@@ -8,5 +8,7 @@ export class TransactionsDateFromFilter extends DateTableFilter {
     filter.httpId = 'StartDateTime';
     filter.name = 'general.search_date_from';
     filter.currentValue = currentValue;
+    filter.reset = () => filter.currentValue = currentValue
+
   }
 }

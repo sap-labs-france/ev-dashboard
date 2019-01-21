@@ -1,8 +1,8 @@
 import {mergeMap} from 'rxjs/operators';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatTabChangeEvent} from '@angular/material';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -16,12 +16,16 @@ import {Constants} from '../../../utils/Constants';
 import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
 import {UserRoles, userStatuses} from '../users.model';
+import {DOCUMENT} from '@angular/common';
+import {ActionResponse} from '../../../common.types';
+import {WindowService} from '../../../services/window.service';
+import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 
 @Component({
   selector: 'app-user-cmp',
   templateUrl: 'user.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentUserID: string;
   @Input() inDialog: boolean;
@@ -57,6 +61,9 @@ export class UserComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
+  public chargeAtHomeSetting: any;
+  public integrationConnections: any;
+  public concurConnection: any;
 
   public passwords: FormGroup;
   public password: AbstractControl;
@@ -68,10 +75,13 @@ export class UserComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
-    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private router: Router) {
+    private router: Router,
+    @Inject(DOCUMENT) private document: any,
+    activatedRoute: ActivatedRoute,
+    windowService: WindowService) {
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications']);
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -87,6 +97,19 @@ export class UserComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    console.log(this.activatedRoute.snapshot.queryParams);
+    if (this.activatedRoute.snapshot.queryParams['state']) {
+      const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
+      if (state.connector === 'concur') {
+        this._createConcurConnection(state);
+      }
+    }
+  }
+
+  updateRoute(event: MatTabChangeEvent) {
+    if (!this.inDialog) {
+      super.updateRoute(event);
+    }
   }
 
   ngOnInit() {
@@ -200,7 +223,6 @@ export class UserComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -209,12 +231,10 @@ export class UserComponent implements OnInit {
         this.loadUser();
       });
     }
+
+    this.loadApplicationSettings();
     // Scroll up
     jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
-  }
-
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
   }
 
   public setCurrentUserId(currentUserId) {
@@ -387,6 +407,83 @@ export class UserComponent implements OnInit {
     }
   }
 
+  public imageChanged() {
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  public clearImage() {
+    // Clear
+    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  private loadApplicationSettings() {
+    this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+      if (settingResult && settingResult.result && settingResult.result.length > 0) {
+        this.chargeAtHomeSetting = settingResult.result[0];
+      }
+    });
+    this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+      if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+        for (const connection of connectionResult.result) {
+          if (connection.connectorId === 'concur') {
+            this.concurConnection = connection;
+          }
+        }
+        this.integrationConnections = connectionResult.result;
+      }
+    });
+  }
+
+  linkConcurAccount() {
+    if (this.chargeAtHomeSetting && this.chargeAtHomeSetting.content && this.chargeAtHomeSetting.content.concur) {
+      const concurSetting = this.chargeAtHomeSetting.content.concur;
+      // const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
+      const returnedUrl = 'https://slfcah.cfapps.eu10.hana.ondemand.com';
+      const state = {
+        connector: 'concur',
+        appId: this.chargeAtHomeSetting.id,
+        userId: this.currentUserID
+      };
+      this.document.location.href = `${concurSetting.url}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
+  }
+
+  private _createConcurConnection(state) {
+    if (this.activatedRoute.snapshot.queryParams['code']) {
+      const payload = {
+        settingId: state.appId,
+        userId: state.userId,
+        connectorId: 'concur',
+        data:
+          {
+            code: this.activatedRoute.snapshot.queryParams['code'],
+            redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
+          }
+      };
+      console.log('createConnectorConnection');
+      this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
+          console.log(response);
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            // Ok
+            this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'settings.chargeathome.concur.link_error');
+          }
+        }, (error) => {
+          Utils.handleError(JSON.stringify(error),
+            this.messageService, 'settings.chargeathome.concur.link_error');
+        }
+      );
+    } else if (this.activatedRoute.snapshot.queryParams['error']) {
+      Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
+        this.messageService, 'settings.chargeathome.concur.link_error');
+    }
+  }
+
   private _createUser(user) {
     // Show
     this.spinnerService.show();
@@ -470,15 +567,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  public imageChanged() {
-    // Set form dirty
-    this.formGroup.markAsDirty();
-  }
-
-  public clearImage() {
-    // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
-    // Set form dirty
-    this.formGroup.markAsDirty();
+  alreadyLinkedToConcur() {
+    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
   }
 }

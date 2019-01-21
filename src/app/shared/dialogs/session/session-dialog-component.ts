@@ -20,6 +20,9 @@ export class SessionDialogComponent implements OnInit {
   private transactionId: number;
   private siteArea: SiteArea;
   private connector: Connector;
+  private totalConsumption: number;
+  private totalDurationSecs: number;
+  private totalInactivitySecs: number;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -39,8 +42,18 @@ export class SessionDialogComponent implements OnInit {
   ngOnInit(): void {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
+      if (transaction.stop) {
+        this.totalConsumption = transaction.stop.totalConsumption;
+        this.stateOfCharge = transaction.stop.stateOfCharge;
+        this.totalDurationSecs = transaction.stop.totalDurationSecs;
+        this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
+      } else {
+        this.totalConsumption = transaction.currentTotalConsumption;
+        this.stateOfCharge = transaction.currentStateOfCharge;
+        this.totalDurationSecs = transaction.currentTotalDurationSecs;
+        this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
+      }
       if (transaction.hasOwnProperty('stateOfCharge')) {
-        this.stateOfCharge = transaction.stop ? transaction.stop.stateOfCharge : transaction.currentStateOfCharge;
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';
         } else if (this.stateOfCharge >= 90) {

@@ -52,6 +52,20 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule', data: {
+          menu: {
+            title: 'transactions',
+            type: 'link',
+            icon: 'list',
+            path: '/transactions'
+          },
+          auth: {
+            entity: Constants.ENTITY_TRANSACTIONS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
           menu: {
             title: 'users',
@@ -61,32 +75,6 @@ export const AppRoutes: Routes = [
           },
           auth: {
             entity: Constants.ENTITY_USERS,
-            action: Constants.ACTION_LIST
-          }
-        }
-      },
-      {
-        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
-          menu: {
-            title: 'organization',
-            type: 'link',
-            icon: 'business',
-            path: '/organization'
-          },
-          component: Constants.SETTINGS_ORGANIZATION,
-          forAdminOnly: true
-        }
-      },
-      {
-        path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
-          menu: {
-            title: 'logs',
-            type: 'link',
-            icon: 'list',
-            path: '/logs'
-          },
-          auth: {
-            entity: Constants.ENTITY_LOGGINGS,
             action: Constants.ACTION_LIST
           }
         }
@@ -106,17 +94,15 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule', data: {
+        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
           menu: {
-            title: 'transactions',
+            title: 'organization',
             type: 'link',
-            icon: 'list',
-            path: '/transactions'
+            icon: 'business',
+            path: '/organization'
           },
-          auth: {
-            entity: Constants.ENTITY_TRANSACTIONS,
-            action: Constants.ACTION_LIST
-          }
+          component: Constants.SETTINGS_ORGANIZATION,
+          forAdminOnly: true
         }
       },
       {
@@ -132,14 +118,32 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
+          menu: {
+            title: 'logs',
+            type: 'link',
+            icon: 'list',
+            path: '/logs'
+          },
+          auth: {
+            entity: Constants.ENTITY_LOGGINGS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
         data: {forAdminOnly: true, forSuperAdminOnly: true}
       },
     ]
   },
   {
-    path: '**', redirectTo: 'dashboard', pathMatch: 'full'
+    path: '*', redirectTo: 'dashboard', pathMatch: 'full'
   }
 ];
 
-export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {useHash: true});
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {
+  useHash: false,
+  anchorScrolling: 'enabled',
+  scrollPositionRestoration: 'enabled'
+});

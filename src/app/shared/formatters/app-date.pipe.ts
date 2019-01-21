@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
 
-  transform(value: any, locale = 'en_US', format = 'date'): any {
+  transform(value: any, locale = 'en-US', format = 'date'): any {
     let options;
     switch (format) {
       case 'datetime':

@@ -15,6 +15,8 @@ import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-end
 import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-endpoints-source-table';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
+import {SettingsChargeAtHomeComponent} from './charge-at-home/settings-charge-at-home.component';
+import {SettingsPricingComponent} from './pricing/settings-pricing.component';
 
 @NgModule({
   imports: [
@@ -30,6 +32,8 @@ import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endp
   declarations: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsChargeAtHomeComponent,
+    SettingsPricingComponent,
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
@@ -38,6 +42,8 @@ import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endp
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsChargeAtHomeComponent,
+    SettingsPricingComponent,
     EndpointDialogComponent,
     OcpiendpointStatusComponent
   ],

@@ -4,20 +4,34 @@
       <div class="col-md-12 ml-auto mr-auto">
 
         <div class="card">
-          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+          <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="updateRoute($event)" animationDuration="0ms" disableRipple="true" class="mat-tab-info">
 
             <mat-tab>
               <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">cloud</i>{{'settings.tabs.ocpi' | translate}}
-                  <!--<div class="ripple-container"></div>-->
-                </a>
+                <mat-icon class="mr-2">cloud</mat-icon>{{'settings.tabs.ocpi' | translate}}
               </ng-template>
               <ng-template matTabContent>
                 <app-settings-ocpi></app-settings-ocpi>
               </ng-template>
             </mat-tab>
-            
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="mr-2">local_atm</mat-icon>{{'settings.tabs.chargeathome' | translate}}
+              </ng-template>
+              <ng-template matTabContent>
+                <app-settings-charge-at-home></app-settings-charge-at-home>
+              </ng-template>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="mr-2">money</mat-icon>{{'settings.tabs.pricing' | translate}}
+              </ng-template>
+              <ng-template matTabContent>
+                <app-settings-pricing></app-settings-pricing>
+              </ng-template>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </div>

@@ -1,5 +1,6 @@
 {
   "general": {
+    "applications": "applications",
     "app_name": "e-Mobility",
     "last_update": "Version 2.0.9",
     "version": "Version",
@@ -37,7 +38,9 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "connect": "Connect",
     "stop": "Stop",
+    "refund": "Refund",
     "register": "Register",
     "change": "Change",
     "reload": "Reload",
@@ -96,7 +99,7 @@
       "tenants": "Tenants",
       "pricing": "Pricing",
       "components": "Components",
-      "settings" : "Settings",
+      "settings": "Settings",
       "organization": "Organization"
     }
   },
@@ -465,7 +468,7 @@
       }
     },
     "more_actions": {
-      "get_diagnostics_title" : "Charger '{{chargeBoxID}}' diagnostics",
+      "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
       "get_diagnostics_url": "Upload file URL",
       "get_diagnostics_download_button": "Download",
       "get_diagnostics_dialog_title": "Retrieve diagnostics",
@@ -493,7 +496,7 @@
     "delete_error": "Error occurred while deleting the charging station",
     "properties_title": "Properties",
     "ocpp_parameters_title": "OCPP Parameters",
-    "save_charger" : "Save",
+    "save_charger": "Save",
     "stop_transaction_title": "Stop",
     "stop_transaction_confirm": "Do you really want to stop the session of the charging station '{{chargeBoxID}}'?",
     "stop_transaction_success": "The session of the charging station '{{chargeBoxID}}' has been stopped successfully",
@@ -674,18 +677,38 @@
   },
   "settings": {
     "tabs": {
-      "ocpi": "OCPI"
+      "ocpi": "OCPI",
+      "chargeathome": "Charge@Home",
+      "pricing": "Pricing"
     },
     "ocpi": {
-      "information": "Information",
       "setting_do_not_exist": "OCPI Settings not found",
       "setting_not_found": "OCPI Settings not found",
       "create_success": "OCPI settings have been created successfully",
-      "create_error":  "Error occured while creating the OCPI settings",
+      "create_error": "Error occurred while creating the OCPI settings",
       "update_success": "OCPI settings have been updated successfully",
-      "update_error": "Error occured while updating the OCPI settings",
+      "update_error": "Error occurred while updating the OCPI settings",
       "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
     },
+    "chargeathome": {
+      "description": "The Charge At Home interface allows users to be refunded for the transactions made at home.",
+      "not_found": "Charge At Home settings not found",
+      "create_success": "Charge At Home settings have been created successfully",
+      "create_error": "Error occurred while creating the Charge At Home settings",
+      "update_success": "Charge At Home settings have been updated successfully",
+      "update_error": "Error occurred while updating the Charge At Home settings",
+      "concur": {
+        "title": "Concur",
+        "url": "Url",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "payment_type_id": "Payment Type ID",
+        "expense_type_code": "Expense Type Code",
+        "link_success": "Your account has been successfully linked with Concur",
+        "link_error": "Error occurred while linking your account with Concur"
+      }
+    },
+    "information": "Information",
     "activation_contact_msg": "Please contact your administrator for enabling this feature."
   },
   "ocpiendpoints": {
@@ -721,6 +744,7 @@
     "error_generate_local_token": "Error occured while generating new local token"
   },
   "ocpi": {
+    "title": "OCPI",
     "emsps": "e-Mobility Service Providers",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
@@ -729,7 +753,6 @@
     "cpo_party_id": "Party ID",
     "cpo_business_details": "Business Details",
     "cpo_logo": "Image",
-    "title": "OCPI",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -813,12 +836,21 @@
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
     "price": "Price",
+    "refundDate": "Refunded At",
+    "filter": {
+      "type": {
+        "name": "Type",
+        "refunded": "Refunded",
+        "not_refunded": "Not Refunded"
+      }
+    },
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "In Error"
+      "in_error": "In Error",
+      "charge_at_home": "Charge At Home"
     },
-    "graph":{
+    "graph": {
       "battery": "Battery Level (%)",
       "power": "Instant Power (kWatt)",
       "energy": "Energy Delivered (kWatt.h)",
@@ -827,23 +859,31 @@
     },
     "dialog": {
       "delete": {
-        "title": "Delete Sessions",
+        "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
       },
       "soft_stop": {
-        "title": "Stop Sessions",
+        "title": "Stop Session",
         "confirm": "Do you really want to stop the session of {{user}}?"
+      },
+      "refund": {
+        "title": "Refund Sessions",
+        "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
       }
     },
     "notification": {
       "delete": {
         "success": "Session of {{user}} deleted successfully",
         "error": "An error occurred during session deletion"
-
       },
       "soft_stop": {
         "success": "Session of {{user}} stopped successfully",
         "error": "An error occurred during session stop"
+      },
+      "refund": {
+        "success": "{{inSuccess}} refund requested successfully",
+        "partial": "{{inError}} of {{total}} refund requested failed",
+        "error": "An error occurred during refund request"
       }
     }
   }

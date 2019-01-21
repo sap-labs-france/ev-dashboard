@@ -1,14 +1,22 @@
 import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
+import {
+  ActionResponse,
+  ActionsResponse,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog} from '@angular/material';
-import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
@@ -21,16 +29,17 @@ import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pi
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {LocaleService} from '../../../services/locale.service';
-import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import * as moment from 'moment';
+import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
+import {TransactionsTypeFilter} from './transactions-type-filter';
 
 @Injectable()
-export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
+export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
 
@@ -58,22 +67,16 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction = false) {
-    if (!refreshAction ) {
-      this.spinnerService.show();
-    }
+  public loadData() {
+    this.spinnerService.show();
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
+        this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
       }, (error) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
+        this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
@@ -85,8 +88,12 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       search: {
         enabled: true
       },
-      rowDetails: {
+      rowSelection: {
         enabled: true,
+        multiple: true
+      },
+      rowDetails: {
+        enabled: false,
         isDetailComponent: true,
         detailComponentName: ConsumptionChartDetailComponent
       }
@@ -95,74 +102,78 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-    const columns = [
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+
+    const columns = [];
+    columns.push({
+      id: 'timestamp',
+      name: 'transactions.started_at',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+      direction: 'desc',
+      formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+    });
+    if (this.isAdmin) {
+      columns.push({
+        id: 'refundData.refundedAt',
+        name: 'transactions.refundDate',
         sorted: true,
         sortable: true,
-        direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+      });
+      columns.push({
+        id: 'stop.price',
+        name: 'transactions.price',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+      });
+    }
+    columns.push({
+      id: 'tagID',
+      name: 'transactions.badge_id',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+    });
+    columns.push({
+      id: 'stop.totalConsumption',
+      name: 'transactions.total_consumption',
+      headerClass: 'col-10p',
+      class: 'col-10p',
+      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+    });
+    columns.push(
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      },
-      {
-        id: 'stop.totalInactivitySecs',
-        name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-      },
-      {
-        id: 'stop.totalConsumption',
-        name: 'transactions.total_consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      }
-    ];
-    if (this.isAdmin) {
-      columns.push({
-        id: 'stop.price',
-        name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
-      })
-    }
+      });
+    columns.push({
+      id: 'stop.totalInactivitySecs',
+      name: 'transactions.inactivity',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
+    });
+    columns.push({
+      id: 'chargeBoxID',
+      name: 'transactions.charging_station',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p'
+    });
+    columns.push({
+      id: 'connectorId',
+      name: 'transactions.connector',
+      headerClass: 'text-center col-5p',
+      class: 'text-center col-5p',
+      formatter: (value) => this.appConnectorIdPipe.transform(value)
+    });
+
+
     return columns as TableColumnDef[];
   }
 
@@ -183,16 +194,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef()
+      new TransactionsTypeFilter().getFilterDef(),
+      new TransactionsChargerFilter().getFilterDef()
     ];
   }
 
-
   getTableRowActions(): TableActionDef[] {
-    const rowActions = [];
-    rowActions.push(new TableDeleteAction().getActionDef());
-    return rowActions;
+    return [];
+  }
+
+  getTableActionsDef(): TableActionDef[] {
+    return [new TableRefundAction().getActionDef()]
   }
 
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
@@ -226,11 +238,37 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }
   }
 
+  actionTriggered(actionDef: TableActionDef) {
+    switch (actionDef.id) {
+      case 'refund':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.dialog,
+            this.translateService.instant('transactions.dialog.refund.title'),
+            this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._refundTransactions(this.getSelectedRows());
+            }
+          });
+        }
+        break;
+      default:
+        super.actionTriggered(actionDef);
+    }
+  }
+
   getTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
+  }
+
+  isSelectable(row: Transaction) {
+    return !row.refundData;
   }
 
   forAdmin(isAdmin: boolean) {
@@ -249,7 +287,29 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     });
   }
 
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
+  protected _refundTransactions(transactions: Transaction[]) {
+    this.spinnerService.show();
+    this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
+      if (response.inError > 0) {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.refund.partial',
+            {
+              inError: response.inError,
+              total: response.inError + response.inSuccess
+            }
+          ));
+      } else {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.refund.success',
+            {inSuccess: response.inSuccess}));
+      }
+      this.spinnerService.hide();
+      this.loadData();
+    }, (error) => {
+      this.spinnerService.hide();
+      this.clearSelectedRows();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        this.translateService.instant('transactions.notification.refund.error'));
+    });
   }
 }

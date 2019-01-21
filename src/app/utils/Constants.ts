@@ -134,6 +134,8 @@ export class Constants {
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
   public static SETTINGS_ORGANIZATION = 'organization';
+  public static SETTINGS_CHARGE_AT_HOME = 'chargeathome';
+  public static SETTINGS_PRICING = 'pricing';
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
@@ -145,6 +147,7 @@ export class Constants {
   public static OCPP_RESPONSE_REJECTED = 'Rejected';
   public static OCPP_UNIT_AMPER = 'A';
   public static OCPP_UNIT_WATT = 'W';
+  /* Settings */
 
   /* Ocpi status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';

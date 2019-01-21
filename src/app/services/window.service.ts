@@ -12,6 +12,14 @@ export class WindowService {
     return this.window.location.hostname;
   }
 
+  getPath(): string {
+    return this.window.location.pathname;
+  }
+
+  getHash(): string {
+    return this.window.location.hash;
+  }
+
   getSubdomain(): string {
     const subdomain = this.getHostname().split(this.configService.getFrontEnd().host)[0];
     return subdomain.split('.')[0];
@@ -19,5 +27,18 @@ export class WindowService {
 
   getLocalStorage(): Storage {
     return this.window.localStorage;
+  }
+
+  rewriteHashUrl(): boolean {
+    if (this.window.location.href.includes('/#/')) {
+      const rewrittenUrl = this.window.location.href.replace('/#/', '/');
+      this.window.location.replace(rewrittenUrl);
+      return true;
+    }
+    return false;
+  }
+
+  setHash(hash): void {
+    this.window.location.hash = hash;
   }
 }

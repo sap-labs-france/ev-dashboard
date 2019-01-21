@@ -2,18 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {UsersDataSource} from './users-data-source-table';
 import {UsersInErrorDataSource} from './users-in-error-data-source-table';
+import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
+import {ActivatedRoute} from '@angular/router';
+import {WindowService} from '../../services/window.service';
 
 @Component({
   selector: 'app-users-cmp',
   templateUrl: 'users.component.html'
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent extends AbstractTabComponent implements OnInit {
   public isAdmin;
 
   constructor(
     public usersDataSource: UsersDataSource,
     public usersInErrorDataSource: UsersInErrorDataSource,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    activatedRoute: ActivatedRoute,
+    windowService: WindowService) {
+    super(activatedRoute, windowService, ['all', 'inerror']);
 
     this.isAdmin = this.authorizationService.isAdmin();
   }

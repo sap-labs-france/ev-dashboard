@@ -58,6 +58,7 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     } else {
       this.tableActionsRow = [
         new TableViewAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
         new TableOpenInMapsAction().getActionDef()
       ];
     }

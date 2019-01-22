@@ -1,24 +1,25 @@
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Charger, Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem } from 'app/common.types';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Charger, 
+  Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, ChargerInError } from 'app/common.types';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { DialogService } from '../../services/dialog.service';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../services/central-server.service';
-import { LocaleService } from '../../services/locale.service';
-import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
-import { Utils } from '../../utils/Utils';
-import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
-import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
-import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
-import { ConnectorsCellComponent } from './cell-content-components/connectors-cell.component';
-import { TableSettingsAction } from '../../shared/table/actions/table-settings-action';
-import { TableDeleteAction } from '../../shared/table/actions/table-delete-action';
+import { DialogService } from 'app/services/dialog.service';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { CentralServerService } from 'app/services/central-server.service';
+import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Utils } from 'app/utils/Utils';
+import { InstantPowerProgressBarComponent } from '../cell-content-components/instant-power-progress-bar.component';
+import { ConnectorsDetailComponent } from '../details-content-component/connectors-detail-component.component';
+import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
+import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
+import { TableSettingsAction } from 'app/shared/table/actions/table-settings-action';
+import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import {
   TableChargerMoreAction,
   ACTION_CLEAR_CACHE,
@@ -26,14 +27,14 @@ import {
   ACTION_SMART_CHARGING,
   ACTION_SOFT_RESET,
   ACTION_MORE_ACTIONS
-} from './other-actions-button/table-charger-more-action';
-import { SitesTableFilter } from '../../shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
+} from '../other-actions-button/table-charger-more-action';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { ChargingStationDialogComponent } from '../charging-station-dialog/charging-station.dialog.component';
 import { Injectable } from '@angular/core';
-import { AuthorizationService } from '../../services/authorization-service';
-import { Constants } from '../../utils/Constants';
-import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
-import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { Constants } from 'app/utils/Constants';
+import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
+import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
 
 const POLL_INTERVAL = 10000;
 const DEFAULT_ADMIN_ROW_ACTIONS = [
@@ -53,7 +54,7 @@ const NODELETE_ADMIN_ROW_ACTIONS = [
 ]
 
 @Injectable()
-export class ChargingStationsDataSource extends TableDataSource<Charger> {
+export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
 
   constructor(
     private localeService: LocaleService,
@@ -83,7 +84,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
       this.spinnerService.show(spinnerStyle);
     }
     // Get data
-    this.centralServerService.getChargers(this.getFilterValues(),
+    this.centralServerService.getChargersInError(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
         if (!refreshAction) {
           // Show
@@ -149,6 +150,13 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
         dynamicClass: (row: Charger) => {
           return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
         }
+      },
+      {
+        id: 'errorCode',
+        name: 'chargers.errorCode',
+        sortable: true,
+        /*        headerClass: 'col-10p',
+                class: 'col-10p',*/
       },
       {
         id: 'inactive',
@@ -223,7 +231,7 @@ export class ChargingStationsDataSource extends TableDataSource<Charger> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(true).getActionDef(),
+      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }

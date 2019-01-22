@@ -437,7 +437,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       // Update
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
-    console.log(filterJson);
     return filterJson;
   }
 

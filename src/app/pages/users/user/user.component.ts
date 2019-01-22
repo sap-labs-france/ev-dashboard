@@ -97,7 +97,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    console.log(this.activatedRoute.snapshot.queryParams);
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
       if (state.connector === 'concur') {
@@ -463,9 +462,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
           }
       };
-      console.log('createConnectorConnection');
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-          console.log(response);
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             // Ok
             this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');

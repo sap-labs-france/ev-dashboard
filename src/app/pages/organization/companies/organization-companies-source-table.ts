@@ -28,7 +28,6 @@ import { CompanyDialogComponent } from './company/company.dialog.component';
 
 @Injectable()
 export class CompaniesDataSource extends TableDataSource<Company> {
-  private readonly tableActionsRow: TableActionDef[];
   public isAdmin = false;
 
   constructor(
@@ -45,22 +44,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     ) {
     super();
     this.setStaticFilters([{'WithLogo': true}]);
-
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
-    if (this.isAdmin) {
-      this.tableActionsRow = [
-        new TableEditAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      this.tableActionsRow = [
-        new TableViewAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
-
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -154,7 +138,18 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

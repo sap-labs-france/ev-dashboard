@@ -29,7 +29,6 @@ import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/
 
 @Injectable()
 export class SiteAreasDataSource extends TableDataSource<SiteArea> {
-  private readonly tableActionsRow: TableActionDef[];
   public isAdmin = false;
 
   constructor(
@@ -45,23 +44,7 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     private authorizationService: AuthorizationService) {
     super();
     this.setStaticFilters([{ 'WithSite': true }]);
-
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
-    if (this.isAdmin) {
-      this.tableActionsRow = [
-        new TableEditAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      this.tableActionsRow = [
-        new TableViewAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -147,7 +130,20 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

@@ -29,7 +29,6 @@ import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.co
 
 @Injectable()
 export class SitesDataSource extends TableDataSource<Site> {
-  private readonly tableActionsRow: TableActionDef[];
   public isAdmin = false;
 
   constructor(
@@ -45,22 +44,7 @@ export class SitesDataSource extends TableDataSource<Site> {
     private authorizationService: AuthorizationService) {
     super();
     this.setStaticFilters([{ 'WithCompany': true }]);
-
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
-    if (this.isAdmin) {
-      this.tableActionsRow = [
-        new TableEditAction().getActionDef(),
-        new TableEditUsersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      this.tableActionsRow = [
-        new TableViewAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -146,7 +130,19 @@ export class SitesDataSource extends TableDataSource<Site> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditUsersAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

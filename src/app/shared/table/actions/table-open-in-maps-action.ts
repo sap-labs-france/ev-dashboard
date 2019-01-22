@@ -5,7 +5,7 @@ export class TableOpenInMapsAction implements TableAction {
   private action: TableActionDef = {
     id: 'open_in_maps',
     type: 'button',
-    icon: 'my_location',
+    icon: 'location_on',
     class: 'btn-info',
     name: 'general.edit'
   };

@@ -146,6 +146,28 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
     }
   }
 
+  specificRowActions(siteArea: SiteArea) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+
+    // check if GPs are available
+    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude ) ? false : true;
+
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
+        openInMaps,
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableEditChargersAction().getActionDef(),
+        openInMaps
+      ];
+    }
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {

@@ -152,6 +152,26 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
+  specificRowActions(company: Company) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+
+    // check if GPs are available
+    openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
+
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        openInMaps,
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        openInMaps
+      ];
+    }
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {

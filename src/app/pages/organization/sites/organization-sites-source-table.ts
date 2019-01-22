@@ -145,6 +145,27 @@ export class SitesDataSource extends TableDataSource<Site> {
     }
   }
 
+  specificRowActions(site: Site) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+
+    // check if GPs are available
+    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude ) ? false : true;
+
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditUsersAction().getActionDef(),
+        openInMaps,
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        openInMaps
+      ];
+    }
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {

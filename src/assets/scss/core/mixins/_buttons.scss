@@ -219,6 +219,9 @@
   &.btn-info {
     @include bmd-raised-button-variant($btn-info-color, $btn-info-bg, $btn-info-border-color);
   }
+  &.btn-icon-white {
+    @include bmd-raised-button-variant($btn-icon-white-color, $btn-icon-white-bg, $btn-icon-white-border-color);
+  }
   &.btn-success {
     @include bmd-raised-button-variant($btn-success-color, $btn-success-bg, $btn-success-border-color);
   }

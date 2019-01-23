@@ -2,7 +2,7 @@
   "general": {
     "applications": "applications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.9",
+    "last_update": "Version 2.0.10",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -353,12 +353,6 @@
     "others": "Others",
     "category_label": "Category"
   },
-  "pricing": {
-    "price_kw_h_label": "Price kW.h",
-    "price_unit_label": "Currency",
-    "update_success": "The price has been updated successfully",
-    "update_error": "Error occurred while updating the price"
-  },
   "chargers": {
     "chargers": "Chargers",
     "vendor": "Vendor",
@@ -708,6 +702,20 @@
         "link_error": "Error occurred while linking your account with Concur"
       }
     },
+    "pricing": {
+      "description": "The Pricing interface enables pricing capabilities for charging stations providers.",
+      "not_found": "Pricing settings not found",
+      "create_success": "Pricing settings have been created successfully",
+      "create_error": "Error occurred while creating the Pricing settings",
+      "update_success": "Pricing settings have been updated successfully",
+      "update_error": "Error occurred while updating the Pricing settings",
+      "convergentcharging": {
+        "title": "Convergent Charging",
+        "url": "Url",
+        "user": "User",
+        "password": "Password"
+      }
+    },
     "information": "Information",
     "activation_contact_msg": "Please contact your administrator for enabling this feature."
   },
@@ -781,7 +789,11 @@
   },
   "pricing": {
     "title": "Pricing",
-    "description": "Pricing Interface"
+    "description": "Pricing Interface",
+    "price_kw_h_label": "Price kW.h",
+    "price_unit_label": "Currency",
+    "update_success": "The price has been updated successfully",
+    "update_error": "Error occurred while updating the price"
   },
   "transactions": {
     "date_from": "Date",

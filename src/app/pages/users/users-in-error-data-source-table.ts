@@ -48,12 +48,6 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     private arrayToStringPipe: AppArrayToStringPipe,
     private datePipe: AppDatePipe) {
     super();
-
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableEditLocationAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -162,7 +156,11 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [
+      new TableEditAction().getActionDef(),
+      new TableEditLocationAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

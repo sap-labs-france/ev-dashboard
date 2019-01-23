@@ -19,6 +19,21 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.10',
+      date: new Date('2019-01-22'),
+      componentChanges: [
+        {
+          name: 'Front-end / Backend',
+          changes: [
+            `Concur Authentication`,
+            `Smart Charging implementation`,
+            `OCPI finalization`,
+            `Site Management`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.9',
       date: new Date('2019-01-14'),
       componentChanges: [

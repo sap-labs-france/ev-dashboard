@@ -14,11 +14,14 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteDialogComponent } from './site/site.dialog.component';
@@ -26,7 +29,7 @@ import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.co
 
 @Injectable()
 export class SitesDataSource extends TableDataSource<Site> {
-  private readonly tableActionsRow: TableActionDef[];
+  public isAdmin = false;
 
   constructor(
     private localeService: LocaleService,
@@ -37,15 +40,11 @@ export class SitesDataSource extends TableDataSource<Site> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super();
     this.setStaticFilters([{ 'WithCompany': true }]);
-
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableEditUsersAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -121,13 +120,50 @@ export class SitesDataSource extends TableDataSource<Site> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableCreateAction().getActionDef()
-    ];
+    if (this.isAdmin) {
+      return [
+        new TableCreateAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditUsersAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
+  }
+
+  specificRowActions(site: Site) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+
+    // check if GPs are available
+    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude ) ? false : true;
+
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableEditUsersAction().getActionDef(),
+        openInMaps,
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        openInMaps
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -145,6 +181,7 @@ export class SitesDataSource extends TableDataSource<Site> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
+      case 'view':
         this._showSiteDialog(rowItem);
         break;
       case 'edit_users':
@@ -152,6 +189,9 @@ export class SitesDataSource extends TableDataSource<Site> {
         break;
       case 'delete':
         this._deleteSite(rowItem);
+        break;
+      case 'open_in_maps':
+        this._showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -167,6 +207,12 @@ export class SitesDataSource extends TableDataSource<Site> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     return [];
+  }
+
+  private _showPlace(rowItem) {
+    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
+      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+    }
   }
 
   private _showSiteDialog(site?: any) {

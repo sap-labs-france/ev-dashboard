@@ -1,4 +1,6 @@
 import { TableColumnDef } from '../../../common.types';
-export interface CellContentTemplateComponent {
-  row: any;
+import { Input } from '@angular/core';
+export class CellContentTemplateComponent {
+  @Input() row: any;
+
 }

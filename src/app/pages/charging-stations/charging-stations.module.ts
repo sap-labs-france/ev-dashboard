@@ -18,7 +18,10 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { ConnectorsCellComponent } from './cell-content-components/connectors-cell.component';
 import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
 import { ChargingStationComponent } from './charging-station-dialog/charging-station.component';
-import { ChargingStationsDataSource } from './charging-stations-data-source-table';
+import { ChargingStationsListDataSource } from './charging-stations-list/charging-stations-list-data-source-table';
+import { ChargingStationsListComponent } from './charging-stations-list/charging-stations-list.component';
+import { ChargingStationsFaultyDataSource } from './charging-stations-faulty/charging-stations-faulty-data-source-table';
+import { ChargingStationsFaultyComponent } from './charging-stations-faulty/charging-stations-faulty.component';
 import { SiteAreaDialogComponent } from './charging-station-dialog/site-area/site-area.dialog.component';
 import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-area-dialog-data-source-table';
 import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
@@ -81,7 +84,9 @@ import { SessionDetailComponent } from './cell-content-components/session-detail
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
-    SessionDetailComponent
+    SessionDetailComponent,
+    ChargingStationsListComponent,
+    ChargingStationsFaultyComponent
   ],
   declarations: [
     ChargingStationsComponent,
@@ -107,7 +112,9 @@ import { SessionDetailComponent } from './cell-content-components/session-detail
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
-    SessionDetailComponent
+    SessionDetailComponent,
+    ChargingStationsListComponent,
+    ChargingStationsFaultyComponent
   ],
   exports: [
     ChargingStationDialogComponent,
@@ -118,7 +125,8 @@ import { SessionDetailComponent } from './cell-content-components/session-detail
   ],
   providers: [
     ChargingStationComponent,
-    ChargingStationsDataSource,
+    ChargingStationsListDataSource,
+    ChargingStationsFaultyDataSource,
     SiteAreaDataSource
   ]
 })

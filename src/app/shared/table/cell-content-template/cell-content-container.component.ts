@@ -14,6 +14,7 @@ import {TableColumnDef} from '../../../common.types';
 export class CellContentComponentContainer implements OnInit, OnDestroy, OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
+  private cellComponent: CellContentTemplateComponent;
 
   @ViewChild(CellContentTemplateDirective) angularCellContentDirective: CellContentTemplateDirective;
 
@@ -33,7 +34,8 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
     const viewContainerRef = this.angularCellContentDirective.viewContainerRef;
     viewContainerRef.clear();
     this.componentRef = viewContainerRef.createComponent(componentFactory);
-    (<CellContentTemplateComponent>this.componentRef.instance).row = this.row;
+    this.cellComponent = <CellContentTemplateComponent>this.componentRef.instance;
+    this.cellComponent.row = this.row;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,4 +46,5 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
       (<CellContentTemplateComponent>this.componentRef.instance).row = this.row;
     }*/
   }
+
 }

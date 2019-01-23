@@ -15,7 +15,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 })
 
 
-export class ConnectorsCellComponent implements CellContentTemplateComponent {
+export class ConnectorsCellComponent extends CellContentTemplateComponent {
 
   @Input() row: Charger;
 

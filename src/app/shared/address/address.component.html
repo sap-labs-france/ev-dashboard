@@ -3,7 +3,7 @@
     <div class="form-group">
       <mat-form-field>
         <input matInput ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="setAddress($event)"
-               placeholder="{{'general.address1' | translate}}" type="text" [formControl]="address1">
+          placeholder="{{'general.address1' | translate}}" type="text" [formControl]="address1">
       </mat-form-field>
     </div>
   </div>
@@ -65,13 +65,13 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-3 text-left">
-    <button class="btn btn-info mat-raised-button" (click)="showPlace()" type="button"
-            [disabled]="latitude.errors || longitude.errors || !latitude.value || !longitude.value">
-      <span class="mat-button-wrapper">
-        <i class="material-icons">location_on</i>
-        <span class="btn-label">&nbsp;&nbsp;&nbsp;{{'general.show_place' | translate}}</span>
-      </span>
-    </button>
+  <div class="col-md-2" align="left">
+      <button class="btn btn-info btn-round mat-raised-button app-btn-min-width" (click)="showPlace()">
+        <span class="mat-button-wrapper">
+          <i class="material-icons mr-2">location_on</i>
+          <span class="btn-label">{{'general.show_place'
+            | translate}}</span>
+        </span>
+      </button>
   </div>
 </div>

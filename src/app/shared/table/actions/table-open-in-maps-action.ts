@@ -1,11 +1,11 @@
 import {TableAction} from './table-action';
 import {TableActionDef} from '../../../common.types';
 
-export class TableEditLocationAction implements TableAction {
+export class TableOpenInMapsAction implements TableAction {
   private action: TableActionDef = {
-    id: 'edit_location',
+    id: 'open_in_maps',
     type: 'button',
-    icon: 'store_mall_directory',
+    icon: 'location_on',
     class: 'btn-info',
     name: 'general.edit'
   };

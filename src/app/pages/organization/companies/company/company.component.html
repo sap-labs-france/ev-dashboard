@@ -15,7 +15,7 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button" (click)="saveCompany(formGroup.value)"
+                                        <button *ngIf="this.isAdmin" class="btn btn-info mat-raised-button" (click)="saveCompany(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">save</i>
@@ -49,8 +49,8 @@
                                                         <div class="card-body">
                                                         </div>
                                                     </div>
-                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'none'}">
-                                                        <div class="card-body">
+                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                                                        <div *ngIf="this.isAdmin" class="card-body">
                                                             <div class="footer justify-content-center">
                                                                 <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
                                                                     <i class="material-icons" (click)="file.click()">mode_edit</i>

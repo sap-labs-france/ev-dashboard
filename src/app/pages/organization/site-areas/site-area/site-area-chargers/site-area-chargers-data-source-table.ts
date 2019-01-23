@@ -1,21 +1,23 @@
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from 'app/shared/table/table-data-source';
-import {Charger, TableActionDef, TableColumnDef, TableDef, User, SiteArea} from 'app/common.types';
-import {CentralServerService} from 'app/services/central-server.service';
-import {ChargersDialogComponent} from 'app/shared/dialogs/chargers/chargers-dialog-component';
-import {MessageService} from 'app/services/message.service';
-import {Utils} from 'app/utils/Utils';
-import {TableAddAction} from 'app/shared/table/actions/table-add-action';
-import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
-import {DialogService} from 'app/services/dialog.service';
-import {Constants} from 'app/utils/Constants';
-import {Injectable} from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Charger, TableActionDef, TableColumnDef, TableDef, User, SiteArea } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import { MessageService } from 'app/services/message.service';
+import { Utils } from 'app/utils/Utils';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { DialogService } from 'app/services/dialog.service';
+import { Constants } from 'app/utils/Constants';
+import { Injectable } from '@angular/core';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   private siteArea: SiteArea;
+  public isAdmin = false;
 
   constructor(
     private messageService: MessageService,
@@ -23,8 +25,10 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   public loadData() {
@@ -33,36 +37,49 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       // Yes: Get data
       this.centralServerService.getChargers(this.getFilterValues(),
         this.getPaging(), this.getOrdering()).subscribe((chargers) => {
-        // Set number of records
-        this.setNumberOfRecords(chargers.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(chargers.result);
-        // Set the data
-        this.setData(chargers.result);
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
-      });
+          // Set number of records
+          this.setNumberOfRecords(chargers.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(chargers.result);
+          // Set the data
+          this.setData(chargers.result);
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('general.error_backend'));
+        });
     } else {
       this.updatePaginator();
-        this.setData([]);
+      this.setData([]);
     }
   }
 
   public getTableDef(): TableDef {
-    return {
-      class: 'table-dialog-list',
-      rowSelection: {
-        enabled: true,
-        multiple: true
-      },
-      search: {
-        enabled: false
-      }
-    };
+    if (this.isAdmin) {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: true,
+          multiple: true
+        },
+        search: {
+          enabled: true
+        }
+      };
+    } else {
+      return {
+        class: 'table-dialog-list',
+        rowSelection: {
+          enabled: false,
+          multiple: false
+        },
+        search: {
+          enabled: false
+        }
+      };
+    }
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
@@ -91,17 +108,21 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      {'SiteAreaID': siteArea.id}
+      { 'SiteAreaID': siteArea.id }
     ]);
     // Set user
     this.siteArea = siteArea;
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableAddAction().getActionDef(),
-      new TableRemoveAction().getActionDef()
-    ];
+    if (this.isAdmin) {
+      return [
+        new TableAddAction().getActionDef(),
+        new TableRemoveAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

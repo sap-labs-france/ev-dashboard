@@ -24,7 +24,7 @@ export class CompanyComponent implements OnInit {
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
 
-  public isAdmin;
+  public isAdmin = false;
   public logo: any = Constants.COMPANY_NO_LOGO;
 
   public formGroup: FormGroup;
@@ -57,6 +57,9 @@ export class CompanyComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
+
+    // get admin flag
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   ngOnInit() {
@@ -103,6 +106,10 @@ export class CompanyComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
+    // if not admin switch in readonly mode
+    if (!this.isAdmin) {
+      this.formGroup.disable();
+    }
 
     if (this.currentCompanyID) {
       this.loadCompany();

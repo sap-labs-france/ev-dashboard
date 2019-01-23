@@ -137,6 +137,7 @@ export interface Connector {
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;
+  isStopAuthorized: boolean;
 }
 
 export interface Charger {

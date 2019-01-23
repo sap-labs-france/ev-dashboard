@@ -178,16 +178,49 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getPaging(): Paging {
-    return {
-      skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-      limit: this.getPaginator().pageSize
-    };
+    if (this.getPaginator()) {
+      return {
+        skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
+        limit: this.getPaginator().pageSize
+      };
+    } else {
+      return {
+        skip: 0,
+        limit: this.getPaginatorPageSizes()[0]
+      };
+    }
   }
 
   public getOrdering(): Ordering[] {
-    return [
-      { field: this.getSort().active, direction: this.getSort().direction }
-    ]
+    if (this.getSort()) {
+      return [
+        { field: this.getSort().active, direction: this.getSort().direction }
+      ]
+    } else {
+      // Find Sorted columns
+      const columnDef = this.getTableColumnDefs().find((column) => column.sorted === true);
+      // Found?
+      if (columnDef) {
+        // Yes: Set Sorting
+        return [
+          { field: columnDef.id, direction: columnDef.direction }
+        ]
+      } else {
+        return [
+          //        { field: 'id', direction: 'asc' }
+        ]
+      }
+    }
+  }
+
+  /**
+   * Called by table component on ngOnDestroy
+   *
+   * @memberof TableDataSource
+   */
+  public destroy() {
+    this.paginator = null;
+    this.sort = null;
   }
 
   public setNumberOfRecords(numberOfRecords: number) {
@@ -437,7 +470,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       // Update
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
-    console.log(filterJson);
     return filterJson;
   }
 

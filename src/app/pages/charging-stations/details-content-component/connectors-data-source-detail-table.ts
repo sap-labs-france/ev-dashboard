@@ -62,32 +62,38 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     // Set number of records
     this.setNumberOfRecords(this.getData().length);
     // Return connector
-    if (this.charger && !this.connectorTransactionAuthorization) {
+    if (this.charger) {
       // Check authorizations
       this.centralServerService.getIsAuthorized('StopTransaction', this.charger.id).subscribe((result) => {
         this.connectorTransactionAuthorization = result;
+        // Update authorization on individual connectors
+        for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
+          this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].IsAuthorized;
+        }
+        this.setData(this.charger.connectors);
         // Update specific row actions
         if (this.formattedData) {
           this.formattedData.forEach(row => {
             row.specificRowActions = this.specificRowActions(row['data']);
           });
         }
+        let hasSomeDetails = false;
+        // Check connectors details status
+        this.getData().forEach((connector: Connector) => {
+          // If user can stop transaction he can also see details
+          connector.hasDetails = connector.activeTransactionID > 0 && this.charger.connectors[connector.connectorId - 1].isStopAuthorized;
+          if (connector.hasDetails) {
+            hasSomeDetails = true;
+          }
+        });
+        this._displayDetailsColumns.next(hasSomeDetails);
+        this.isInitialized = true;
       }, (error) => {
         // Authorization issue!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
     }
-    this.isInitialized = true;
-    let hasSomeDetails = false;
-    // Check connectors details status
-    this.getData().forEach((connector: Connector) => {
-      connector.hasDetails = connector.activeTransactionID > 0;
-      if (connector.hasDetails) {
-        hasSomeDetails = true;
-      }
-    });
-    this._displayDetailsColumns.next(hasSomeDetails);
   }
 
   public setCharger(charger: Charger) {
@@ -95,15 +101,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   setDetailedDataSource(row) {
-    if (!this.isInitialized || row !== this.getData()) {
-      // check that we have a ConnectorData and not a Connector
-      // Load data
-      this.setData(row);
-      this.loadData();
-    } else {
-      // Only set data
-      this.setData(row);
-    }
+    this.loadData();
   }
 
   public getTableDef(): TableDef {

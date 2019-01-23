@@ -15,20 +15,15 @@ import { LocaleService } from '../../../services/locale.service';
     </span>
   `
 })
-export class HeartbeatCellComponent implements CellContentTemplateComponent, OnChanges {
+export class HeartbeatCellComponent extends CellContentTemplateComponent {
   //  row: any = {};
   locale: string;
 
   @Input() row: Charger;
 
   constructor(localeService: LocaleService) {
+    super();
     this.locale = localeService.getCurrentFullLocaleForJS()
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
-    // this.row.chargePointVendor;
   }
 
 }

@@ -31,7 +31,7 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
   ngOnInit(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
-    if (<Charger>this.row.chargePointModel) {
+    if (Array.isArray(<Charger>this.row.connectors)) {
       const charger = <Charger>this.row;
       // Extract the row information from a Charger
       let doNotConsiderConnectorPower = false;
@@ -53,7 +53,7 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
         }
         this.instantPowerW += Number(connector.currentConsumption).valueOf();
       }
-    } else if (<Connector>this.row.power) {
+    } else if (<Connector>this.row) {
       // Extract the information from a connector
       const connector = <Connector>this.row;
       this.maxPowerW = connector.power;

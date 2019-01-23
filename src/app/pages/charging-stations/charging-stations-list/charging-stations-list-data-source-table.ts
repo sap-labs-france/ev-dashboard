@@ -55,6 +55,8 @@ const NODELETE_ADMIN_ROW_ACTIONS = [
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
+    isAdmin: boolean;
+
   constructor(
     private localeService: LocaleService,
     private messageService: MessageService,
@@ -69,6 +71,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   ) {
     super();
     this.setStaticFilters([{ 'WithSite': true }]);
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -137,6 +140,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+    if (this.isAdmin) {
     return [
       {
         id: 'id',
@@ -146,9 +150,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         direction: 'asc',
         /*        headerClass: 'col-10p',
                 class: 'col-10p',*/
-        dynamicClass: (row: Charger) => {
+/*        dynamicClass: (row: Charger) => {
           return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
-        }
+        }*/
       },
       {
         id: 'inactive',
@@ -215,6 +219,40 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         sortable: true
       }
     ];
+    } else {
+      return [
+        {
+          id: 'id',
+          name: 'chargers.name',
+          sortable: true,
+          sorted: true,
+          direction: 'asc',
+        },
+        {
+          id: 'inactive',
+          name: 'chargers.heartbeat_title',
+          isAngularComponent: true,
+          angularComponentName: HeartbeatCellComponent,
+          sortable: false
+        },
+        {
+          id: 'connectorsStatus',
+          name: 'chargers.connectors_title',
+          sortable: false,
+          isAngularComponent: true,
+          angularComponentName: ConnectorsCellComponent
+        },
+        {
+          id: 'connectorsConsumption',
+          name: 'chargers.consumption_title',
+          class: 'col-12em',
+          sortable: false,
+          isAngularComponent: true,
+          angularComponentName: InstantPowerProgressBarComponent,
+          headerClass: 'col-12em'
+        }
+      ];
+    }
   }
 
   public getPaginatorPageSizes() {
@@ -244,7 +282,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       ];
     } else {
       return [
-        new TableSettingsAction().getActionDef()
+//        new TableSettingsAction().getActionDef()
       ];
     }
   }

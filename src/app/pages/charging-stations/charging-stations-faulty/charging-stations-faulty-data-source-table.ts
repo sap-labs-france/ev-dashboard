@@ -2,8 +2,15 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Charger, 
-  Connector, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, ChargerInError } from 'app/common.types';
+import { Charger,
+  Connector,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  DropdownItem,
+  ChargerInError } from 'app/common.types';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogService } from 'app/services/dialog.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';

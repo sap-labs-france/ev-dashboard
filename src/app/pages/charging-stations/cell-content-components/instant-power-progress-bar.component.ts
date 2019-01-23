@@ -5,13 +5,13 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
     <div class="power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
-      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10; else elseTemplate">
+      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
         {{instantPowerW | appUnit:'W':'kW':false:0:0}}
       </ng-container>
       <ng-template #elseTemplate>
-        {{instantPowerW | appUnit:'W':'kW':false:0:2}}
+        {{instantPowerW | appUnit:'W':'kW':false:0:1}}
       </ng-template>
-      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:2:0}}</ng-container>
+      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
     </div>
     <mat-progress-bar [hidden]="maxPowerW===0"
       value="{{instantPowerW/maxPowerW*100}}"

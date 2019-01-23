@@ -5,7 +5,7 @@ export class TableEditLocationAction implements TableAction {
   private action: TableActionDef = {
     id: 'edit_location',
     type: 'button',
-    icon: 'edit_location',
+    icon: 'store_mall_directory',
     class: 'btn-info',
     name: 'general.edit'
   };

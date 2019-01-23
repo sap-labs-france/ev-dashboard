@@ -51,7 +51,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
-                                                        <div class="card-body">
+                                                        <div *ngIf="this.isAdmin" class="card-body">
                                                             <h5 class="card-title">
                                                                 {{'general.change_picture' | translate}}
                                                             </h5>

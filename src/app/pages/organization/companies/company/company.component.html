@@ -50,7 +50,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                                                        <div class="card-body">
+                                                        <div *ngIf="this.isAdmin" class="card-body">
                                                             <div class="footer justify-content-center">
                                                                 <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
                                                                     <i class="material-icons" (click)="file.click()">mode_edit</i>

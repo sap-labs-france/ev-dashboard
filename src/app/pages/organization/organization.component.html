@@ -1,40 +1,32 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 ml-auto mr-auto">
-        <div class="card">
-          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
-            <mat-tab>
-              <ng-template mat-tab-label>
-                  <!-- <mat-icon class="mr-2">location_city</mat-icon> -->
-                  <i class="fa fa-lg fa-building"></i>
-                  &nbsp;&nbsp;{{'organization.tabs.companies' | translate}}
-              </ng-template>
-              <ng-template matTabContent>
-                <app-organization-companies></app-organization-companies>
-              </ng-template>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="mr-2">store_mall_directory</mat-icon>
-                {{'organization.tabs.sites' | translate}}
-              </ng-template>
-              <ng-template matTabContent>
-                <app-organization-sites></app-organization-sites>
-              </ng-template>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="mr-2">view_week</mat-icon>
-                {{'organization.tabs.siteareas' | translate}}
-              </ng-template>
-              <ng-template matTabContent>
-                <app-organization-site-areas></app-organization-site-areas>
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      </div>
-    </div>
-  </div>
+  <mat-tab-group animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <!-- <mat-icon class="mr-2">location_city</mat-icon> -->
+        <i class="fa fa-lg fa-building"></i>
+        &nbsp;&nbsp;{{'organization.tabs.companies' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-organization-companies></app-organization-companies>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">store_mall_directory</mat-icon>
+        {{'organization.tabs.sites' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-organization-sites></app-organization-sites>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">view_week</mat-icon>
+        {{'organization.tabs.siteareas' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-organization-site-areas></app-organization-site-areas>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </div>

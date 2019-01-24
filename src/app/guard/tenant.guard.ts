@@ -17,6 +17,7 @@ export class TenantGuard implements CanActivate, CanActivateChild {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
     // Check the Tenant
     if (!this.status) {
       this.centralServerService.verifyTenant().subscribe(() => {

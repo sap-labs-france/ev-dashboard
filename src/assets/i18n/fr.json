@@ -721,7 +721,10 @@
     "error_ping_404": "Serveur non accessible: Ressource non trouvée",
     "error_ping_412": "Serveur non accessible: Reponse invalide",
     "error_ping": "Serveur non accessible",
-    "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton"
+    "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton",
+    "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès",
+    "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
+    "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails"
   },
   "ocpi": {
     "title": "OCPI",

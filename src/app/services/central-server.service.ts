@@ -959,6 +959,19 @@ export class CentralServerService {
       );
   }
 
+  public sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointSendEVSEStatuses`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public pingOcpiendpoint(ocpiendpoint) {
     // Verify init
     this._checkInit();

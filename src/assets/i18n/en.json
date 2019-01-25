@@ -822,6 +822,7 @@
     "tab_current": "Current",
     "tab_history": "History",
     "stopped_by": "Stopped By",
+    "error_code": "Error Code",
     "soft_stop": "Stop",
     "soft_stop_transaction_title": "Stop Session (Soft)",
     "soft_stop_transaction_confirm": "Do you really want to stop the session (soft) that belongs to '{{userFullName}}' on '{{chargeBoxID}}'?",
@@ -859,7 +860,7 @@
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "In Error",
+      "in_error": "Faulty",
       "charge_at_home": "Charge At Home"
     },
     "graph": {

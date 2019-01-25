@@ -128,7 +128,8 @@
       "settings": "Settings",
       "start": "Start",
       "stop": "Stop",
-      "view": "View"
+      "view": "View",
+      "send": "Send"
     }
   },
   "vehicles": {

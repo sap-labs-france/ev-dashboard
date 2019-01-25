@@ -125,7 +125,8 @@
       "settings": "Paramètres",
       "start": "Démarrer",
       "stop": "Arrêter",
-      "view": "Voir"
+      "view": "Voir",
+      "send": "Send"
     }
   },
   "vehicles": {

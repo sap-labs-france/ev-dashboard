@@ -137,6 +137,7 @@ export interface Connector {
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;
+  isStopAuthorized: boolean;
 }
 
 export interface Charger {
@@ -166,9 +167,19 @@ export interface Charger {
   powerLimitUnit: string;
 }
 
+export interface ChargerInError extends Charger {
+  errorCode: string;
+  uniqueId: string;
+}
+
 export interface ChargerResult {
   count: number,
   result: Charger[]
+}
+
+export interface ChargerInErrorResult {
+  count: number,
+  result: ChargerInError[]
 }
 
 export interface Address {

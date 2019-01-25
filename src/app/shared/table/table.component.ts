@@ -12,6 +12,7 @@ import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
+import { CellContentComponentContainer } from './cell-content-template/cell-content-container.component';
 
 const DEFAULT_POLLING = 10000;
 
@@ -140,6 +141,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
     }
+    // Load the data
+    this.loadData();
   }
 
   ngAfterViewInit() {
@@ -150,8 +153,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
     this.selection.clear();
-    // Load the data
-    this.loadData();
+
     if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
       // subscribe to auto-refresh
       this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
@@ -186,6 +188,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.displayDetailObserver) {
       this.displayDetailObserver.unsubscribe();
     }
+    this.dataSource.destroy();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -339,6 +342,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private _rowRefresh(compositeValue) {
     if (compositeValue) {
       const data = compositeValue.newValue['data'];
+      // Refresh details component
       if (data.isExpanded) {
         if (data[this.tableDef.rowDetails.detailsField]) {
           // Simple fields

@@ -1,10 +1,8 @@
-
 import {filter} from 'rxjs/operators';
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {SpinnerService} from './services/spinner.service';
-import * as moment from 'moment'
 import 'moment-duration-format';
 
 @Component({
@@ -27,6 +25,21 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (body.classList.contains('modal-open')) {
         body.classList.remove('modal-open');
         modalBackdrop.remove();
+      }
+    });
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe((event: NavigationStart) => {
+      let url = event.url;
+      let modified = false;
+      if (url.startsWith('/#/')) {
+        url = url.substr(2);
+        modified = true;
+      }
+      if (url.includes('%23')) {
+        url = url.replace('%23', '#');
+        modified = true;
+      }
+      if (modified) {
+        this.router.navigateByUrl(url);
       }
     });
   }

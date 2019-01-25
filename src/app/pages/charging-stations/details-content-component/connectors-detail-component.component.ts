@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableDef } from '../../../common.types';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +18,7 @@ import { MessageService } from '../../../services/message.service';
   template: '<app-table [dataSource]="connectorsDataSource"></app-table>'
 })
 
-export class ConnectorsDetailComponent extends DetailComponent {
+export class ConnectorsDetailComponent extends DetailComponent implements OnInit {
   connectorId: string;
   chargerInactive: boolean;
   classDateError: string;
@@ -51,6 +51,10 @@ export class ConnectorsDetailComponent extends DetailComponent {
       this.dialogService);
   }
 
+  ngOnInit(): void {
+    this.connectorsDataSource.loadData();
+  }
+
   /**
    * setData
    */
@@ -62,10 +66,6 @@ export class ConnectorsDetailComponent extends DetailComponent {
   refresh(row: any) {
     this.connectorsDataSource.setCharger(row);
     this.connectorsDataSource.setDetailedDataSource(row.connectors);
-  }
-
-  getParentClass() {
-    return 'col-md-12';
   }
 
 }

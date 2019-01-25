@@ -31,6 +31,7 @@ export interface DropdownItem {
   icon?: string;
   class?: string;
   disabled?: boolean;
+  tooltip: string;
 }
 
 export interface TableActionDef {
@@ -42,7 +43,8 @@ export interface TableActionDef {
   class?: string;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[]
+  dropdownItems?: DropdownItem[],
+  tooltip: string;
 }
 
 export interface RouteInfo {

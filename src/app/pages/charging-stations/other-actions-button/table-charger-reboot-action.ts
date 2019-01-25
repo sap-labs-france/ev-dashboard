@@ -8,6 +8,7 @@ export class TableChargerRebootAction implements TableAction {
     icon: 'repeat',
     class: 'btn-info',
     name: 'general.edit',
+    tooltip: 'general.tooltips.reboot'
   };
 
   public getActionDef(): TableActionDef {

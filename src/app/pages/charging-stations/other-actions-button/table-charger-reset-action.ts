@@ -8,6 +8,7 @@ export class TableChargerResetAction implements TableAction {
     icon: 'refresh',
     class: 'btn-info',
     name: 'general.edit',
+    tooltip: 'general.tooltips.soft_reset'
   };
 
   public getActionDef(): TableActionDef {

@@ -7,7 +7,8 @@ export class TableEditLocationAction implements TableAction {
     type: 'button',
     icon: 'store_mall_directory',
     class: 'btn-info',
-    name: 'general.edit'
+    name: 'general.edit',
+    tooltip: 'general.tooltips.edit_location'
   };
 
   public getActionDef(): TableActionDef {

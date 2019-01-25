@@ -6,7 +6,8 @@ export class TableAddAction implements TableAction {
     id: 'add',
     type: 'button',
     icon: 'add',
-    name: 'general.add'
+    name: 'general.add',
+    tooltip: 'general.tooltips.add'
   }
 
   // Return an action

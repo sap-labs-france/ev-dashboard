@@ -7,43 +7,27 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialModule } from '../../app.module';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
-import { TableModule } from '../../shared/table/table.module';
-import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
-import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { HeartbeatCellComponent } from './cell-content-components/heartbeat-cell.component';
-import { InstantPowerProgressBarComponent } from './cell-content-components/instant-power-progress-bar.component';
+import { TableModule } from 'app/shared/table/table.module';
+import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
+import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
 import { ConnectorsDetailComponent } from './details-content-component/connectors-detail-component.component';
-import { ConnectorAvailibilityComponent } from './details-content-component/connector-availibility.component';
-import { FormattersModule } from '../../shared/formatters/formatters.module';
-import { ConnectorsCellComponent } from './cell-content-components/connectors-cell.component';
-import { ChargingStationDialogComponent } from './charging-station-dialog/charging-station.dialog.component';
-import { ChargingStationComponent } from './charging-station-dialog/charging-station.component';
+import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { ChargingStationsListDataSource } from './charging-stations-list/charging-stations-list-data-source-table';
 import { ChargingStationsListComponent } from './charging-stations-list/charging-stations-list.component';
 import { ChargingStationsFaultyDataSource } from './charging-stations-faulty/charging-stations-faulty-data-source-table';
 import { ChargingStationsFaultyComponent } from './charging-stations-faulty/charging-stations-faulty.component';
-import { SiteAreaDialogComponent } from './charging-station-dialog/site-area/site-area.dialog.component';
-import { SiteAreaDataSource } from './charging-station-dialog/site-area/site-area-dialog-data-source-table';
-import { ChargingStationPropertiesComponent } from './charging-station-dialog/properties/charging-station-properties.component';
-// tslint:disable-next-line:max-line-length
-import { ChargingStationOCPPConfigurationComponent } from './charging-station-dialog/ocpp-parameters/charging-station-ocpp-parameters.component';
-import { ChargingStationParametersComponent } from './charging-station-dialog/charger-parameters/charging-station-parameters.component';
-import { ChargingStationSmartChargingDialogComponent } from './smart-charging/smart-charging.dialog.component';
-import { SmartChargingMasterLimitComponent } from './smart-charging/master-limit/smart-charging-master-limit.component';
-import { ComponentModule } from '../../shared/component/component.module';
+import { ComponentModule } from 'app/shared/component/component.module';
 import { StartTransactionDialogComponent } from './details-content-component/start-transaction-dialog-component';
-import { SmartChargingPowerSliderComponent } from './smart-charging/smart-charging-power-slider.component';
-import { SmartChargingLimitPlanningComponent } from './smart-charging/limit-planning/smart-charging-limit-planning.component'
-import { SmartChargingLimitPlannerComponent } from './smart-charging/limit-planner/smart-charging-limit-planner.component';
-import { SessionDialogComponent } from '../../shared/dialogs/session/session-dialog-component';
-import { SmartChargingLimitChartComponent } from './smart-charging/limit-planning/smart-charging-limit-chart.component';
+import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
 import { ChartModule } from 'angular2-chartjs';
 // tslint:disable-next-line:max-line-length
-import { SmartChargingLimitPlannerChartComponent } from './smart-charging/limit-planner/smart-charging-limit-planner-chart.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
 import { ConnectorConsumptionChartDetailComponent } from './details-content-component/consumption-chart-detail.component';
-import { SessionDetailComponent } from './cell-content-components/session-detail.component';
+import { ConnectorsErrorDetailComponent } from './charging-stations-faulty/detail-component/connectors-error-detail-component.component';
+import { ChargingStationCellComponentsModule } from './cell-content-components/charging-station-cell-content.module';
+import { ChargingStationsSettingsModule } from './charging-station-settings/charging-stations-settings.module';
+import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -58,76 +42,40 @@ import { SessionDetailComponent } from './cell-content-components/session-detail
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,
-    ChartModule
+    ChartModule,
+    ChargingStationCellComponentsModule,
+    ChargingStationsSettingsModule,
+    ChargingStationSmartChargingModule
   ],
   entryComponents: [
-    HeartbeatCellComponent,
-    InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
-    ConnectorAvailibilityComponent,
-    ChargingStationComponent,
-    ChargingStationDialogComponent,
-    SiteAreaDialogComponent,
-    ChargingStationPropertiesComponent,
-    ChargingStationOCPPConfigurationComponent,
-    ChargingStationParametersComponent,
-    ChargingStationSmartChargingDialogComponent,
-    ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingMasterLimitComponent,
-    SmartChargingPowerSliderComponent,
-    SmartChargingLimitPlanningComponent,
-    SmartChargingLimitPlannerComponent,
     SessionDialogComponent,
-    SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
-    SessionDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsFaultyComponent,
+    ConnectorsErrorDetailComponent
   ],
   declarations: [
     ChargingStationsComponent,
-    HeartbeatCellComponent,
-    InstantPowerProgressBarComponent,
     ConnectorsDetailComponent,
-    ConnectorAvailibilityComponent,
-    ChargingStationComponent,
-    ChargingStationDialogComponent,
-    SiteAreaDialogComponent,
-    ChargingStationPropertiesComponent,
-    ChargingStationOCPPConfigurationComponent,
-    ChargingStationParametersComponent,
-    ChargingStationSmartChargingDialogComponent,
-    ConnectorsCellComponent,
     StartTransactionDialogComponent,
-    SmartChargingMasterLimitComponent,
-    SmartChargingPowerSliderComponent,
-    SmartChargingLimitPlanningComponent,
-    SmartChargingLimitPlannerComponent,
-    SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
-    SessionDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsFaultyComponent,
+    ConnectorsErrorDetailComponent
   ],
   exports: [
-    ChargingStationDialogComponent,
-    SiteAreaDialogComponent,
-    ChargingStationSmartChargingDialogComponent,
     StartTransactionDialogComponent,
     ChargingStationMoreActionsDialogComponent
   ],
   providers: [
-    ChargingStationComponent,
     ChargingStationsListDataSource,
-    ChargingStationsFaultyDataSource,
-    SiteAreaDataSource
+    ChargingStationsFaultyDataSource
   ]
 })
 export class ChargingStationsModule { }

@@ -12,7 +12,7 @@ import { ChartComponent } from 'angular2-chartjs';
   selector: 'app-transaction-chart',
   styleUrls: ['consumption-chart.component.scss'],
   template: `
-    <div #chart *ngIf="data && data.datasets && data.datasets.length > 0; else noData" class="chart-container">
+    <div #chart *ngIf="data && data.datasets && hasMoreThanTwoValues; else noData" class="chart-container">
       <div class="chart">
         <chart type="line"
                [data]="data"
@@ -35,6 +35,7 @@ import { ChartComponent } from 'angular2-chartjs';
 export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;
   @Input() consumptions: any[];
+  hasMoreThanTwoValues = false;
 
   @Input() ratio: number;
   data: any;
@@ -69,6 +70,7 @@ export class ConsumptionChartComponent implements OnInit {
   }
 
   createGraphData(consumptions: any[], onRefresh: boolean) {
+    this.hasMoreThanTwoValues = consumptions.length > 1;
     this.options = this.createOptions(consumptions);
     if (onRefresh) {
       this.options.animation = { duration: 0, easing: 'linear' };

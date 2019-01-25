@@ -8,7 +8,7 @@ import { ConfigService } from '../../../services/config.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../services/message.service';
 import { DialogService } from '../../../services/dialog.service';
-import { ConnectorAvailibilityComponent } from './connector-availibility.component';
+import { ConnectorAvailibilityComponent } from '../cell-content-components/connector-availibility.component';
 import { AppConnectorTypePipe } from '../../../shared/formatters/app-connector-type.pipe';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { ConnectorCellComponent } from '../../../shared/component/connector/connector-cell.component';
@@ -135,8 +135,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        headerClass: 'col-4em',
-        class: 'text-center col-4em',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent
@@ -144,8 +142,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'status',
         name: 'chargers.connector_status',
-        headerClass: 'col-10em',
-        class: 'text-center col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -153,8 +149,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        class: 'col-9em',
-        headerClass: 'col-9em',
         isAngularComponent: true,
         angularComponentName: InstantPowerProgressBarComponent,
         sortable: false
@@ -162,8 +156,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'sessionDetails',
         name: 'chargers.session_details',
-        class: 'col-4em text-center',
-        headerClass: 'col-4em',
         isAngularComponent: true,
         angularComponentName: SessionDetailComponent,
         sortable: false
@@ -171,16 +163,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
-        class: 'text-center col-4em',
-        headerClass: 'text-center col-4em',
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },
       {
         id: 'type',
         name: 'chargers.connector_type',
-        headerClass: 'text-center col-4em',
-        class: 'text-center col-4em',
         formatter: (type) => {
           const imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector-type" src="${imageUrl}"/>`;
@@ -190,8 +178,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        headerClass: 'col-6em',
-        class: 'col-6em',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

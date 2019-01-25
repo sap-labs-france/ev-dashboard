@@ -169,6 +169,7 @@ export interface Charger {
 
 export interface ChargerInError extends Charger {
   errorCode: string;
+  uniqueId: string;
 }
 
 export interface ChargerResult {

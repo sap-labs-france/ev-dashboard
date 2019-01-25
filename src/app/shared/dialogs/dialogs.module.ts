@@ -20,6 +20,7 @@ import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
 import {UsersDataSource} from './users/users-data-source-table';
 import {ChargersDataSource} from './chargers/chargers-data-source-table';
+import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error-code-details-dialog-component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
-    SessionDialogComponent
+    SessionDialogComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -46,7 +48,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ChargersDialogComponent,
     SitesFilterDialogComponent,
     SessionDialogComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   exports: [
     SitesDialogComponent,
@@ -54,7 +57,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
-    SessionDialogComponent
+    SessionDialogComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   providers: [
     CurrencyPipe,

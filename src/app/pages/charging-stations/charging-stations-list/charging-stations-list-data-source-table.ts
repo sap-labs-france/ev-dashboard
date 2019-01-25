@@ -28,7 +28,7 @@ import {
   ACTION_MORE_ACTIONS
 } from '../other-actions-button/table-charger-more-action';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
-import { ChargingStationDialogComponent } from '../charging-station-dialog/charging-station.dialog.component';
+import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { Constants } from 'app/utils/Constants';
@@ -401,7 +401,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       dialogConfig.data = chargingStation;
     }
     // Open
-    const dialogRef = this.dialog.open(ChargingStationDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData(false));
   }
 

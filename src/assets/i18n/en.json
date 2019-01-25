@@ -378,6 +378,8 @@
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Error code",
+    "connector_info_title": "Error info",
+    "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power in Watts",
     "charger_url": "URL",
     "charger_param_key": "Key",
@@ -537,6 +539,32 @@
     "tabs": {
       "list": "Charging Stations",
       "in_error": "Faulty"
+    },
+    "errors": {
+      "title": "Error",
+      "details_title": "Details",
+      "description_title": "Description",
+      "action_title": "Recommended action",
+      "missingSettings": {
+        "title": "Missing settings",
+        "description": "Required settings are missing",
+        "action": "Maintain missing required settings within the charging station settings.<br>See corresponding actions in 'Actions' column"
+      },
+      "connectionBroken": {
+        "title": "Connection lost",
+        "description": "The server can't reach the charging station",
+        "action": "Manual intervention is required.<br>Check your network and/or the charging station configuration"
+      },
+      "missingSiteArea": {
+        "title": "Charging station is not assigned",
+        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
+        "action": "Maintain the site area within the charging station settings.<br>See corresponding actions in 'Actions' column"
+      },
+      "connectorError": {
+        "title": "Connector error",
+        "description": "The charging station sent an error code for one of its connectors.",
+        "action": "Check the error code details, you may reset or restart the charger from the 'Action' columns"
+      }
     }
   },
   "logs": {

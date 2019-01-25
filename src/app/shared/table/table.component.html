@@ -8,7 +8,7 @@
         <div class="d-flex filter-row" *ngFor="let actionDef of actionsDef; let i=index">
         <!-- Action Button -->
           <button [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-            *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)">
+            *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)" [matTooltip]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <span class="mat-button-wrapper">
               <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
               <span class="btn-label">{{actionDef.name | translate}}</span>
@@ -61,7 +61,7 @@
           <div class="d-flex filter-row" *ngFor="let actionRightDef of actionsRightDef; let i=index">
             <!-- Refresh Action Button -->
             <button *ngIf="actionRightDef.id === 'refresh'" [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-              (click)="actionTriggered(actionRightDef)">
+              (click)="actionTriggered(actionRightDef)" [matTooltip]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" id="spinnerManualRefresh" class="spinner-refresh-button">
                 <div class="loader">
                 </div>
@@ -75,7 +75,7 @@
             <!-- Action Button -->
             <ng-container *ngIf="actionRightDef.id !== 'refresh'">
               <button [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)">
+                *ngIf="actionRightDef.type === 'button'" (click)="actionTriggered(actionRightDef)" [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
                   <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
                   <span class="btn-label">{{actionRightDef.name| translate}}</span>
@@ -87,7 +87,7 @@
             </ng-container>
             <!-- Special handling of auto refresh -->
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
-              <mat-slide-toggle [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)">
+              <mat-slide-toggle [checked]="actionRightDef.currentValue" (change)="actionTriggered(actionRightDef, $event)" [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <div class="refresh-box">
                   <div *ngIf="ongoingAutoRefresh " id="spinnerRefresh" class="spinner-autorefresh">
                     <div class="loader">
@@ -102,7 +102,7 @@
             <!-- Action Slide -->
             <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
               <mat-slide-toggle *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue"
-                (change)="actionTriggered(actionRightDef, $event)">
+                (change)="actionTriggered(actionRightDef, $event)" >
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
@@ -245,7 +245,7 @@
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
-                    <button mat-menu-item [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
+                    <button mat-menu-item [matTooltip]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)" [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
                       (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)" [disabled]="dropdownItem.disabled">
                         <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                         <span>
@@ -255,13 +255,13 @@
                   </ng-container>
                 </ng-template>
               </mat-menu>
-              <button mat-icon-button [matMenuTriggerFor]="rowActionMenu" (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
+              <button mat-icon-button [matMenuTriggerFor]="rowActionMenu" [matTooltip]="rowAction.tooltip | translate" (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
                 [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'">
                 <mat-icon>{{rowAction.icon}}</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!rowAction.isDropdownMenu">
-              <button [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
+              <button [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'" [matTooltip]="rowAction.tooltip | translate"
                 (click)="rowActionTriggered(rowAction, actionCell['data'])" [disabled]="rowAction.disabled"><i class="material-icons">{{rowAction.icon}}</i></button>
             </ng-container>
           </ng-container>

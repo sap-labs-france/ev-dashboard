@@ -7,7 +7,8 @@ export class TableOpenAction implements TableAction {
     type: 'button',
     icon: 'open_in_new',
     class: 'btn-info',
-    name: 'general.open'
+    name: 'general.open',
+    tooltip: 'general.tooltips.open'
   }
 
 

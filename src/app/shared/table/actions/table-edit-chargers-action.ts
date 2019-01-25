@@ -7,7 +7,8 @@ export class TableEditChargersAction implements TableAction {
     type: 'button',
     icon: 'ev_station',
     class: 'btn-info',
-    name: 'general.edit'
+    name: 'general.edit',
+    tooltip: 'general.tooltips.edit_chargers'
   };
 
   public getActionDef(): TableActionDef {

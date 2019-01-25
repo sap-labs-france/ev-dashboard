@@ -7,7 +7,8 @@ export class TableNoAction implements TableAction {
     type: 'button',
     icon: 'block',
     class: '',
-    name: 'general.no_action'
+    name: 'general.no_action',
+    tooltip: 'general.tooltips.no_action'
   }
 
 

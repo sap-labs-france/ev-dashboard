@@ -280,5 +280,7 @@
     </div>
   </div>
   <!-- Paginator: can show showFirstLastButtons -->
-  <mat-paginator *ngIf="!tableDef.isSimpleTable" #paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()"></mat-paginator>
+  <ng-container *ngIf="!tableDef.isSimpleTable">
+    <mat-paginator [hidden]="isPaginatorUseless()" #paginator [pageSizeOptions]="pageSizes" (page)="handlePageChanged()"></mat-paginator>
+  </ng-container>
 </div>

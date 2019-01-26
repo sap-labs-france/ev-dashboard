@@ -339,6 +339,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.dataSource.isSelectable(row);
   }
 
+  isPaginatorUseless() {
+    return Array.isArray(this.pageSizes) && this.dataSource.getNumberOfRecords() < this.pageSizes[0];
+  }
+
   private _rowRefresh(compositeValue) {
     if (compositeValue) {
       const data = compositeValue.newValue['data'];

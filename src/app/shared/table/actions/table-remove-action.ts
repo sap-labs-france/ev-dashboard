@@ -7,7 +7,8 @@ export class TableRemoveAction implements TableAction {
     type: 'button',
     icon: 'remove',
     class: 'btn-danger',
-    name: 'general.remove'
+    name: 'general.remove',
+    tooltip: 'general.tooltips.remove'
   }
 
 

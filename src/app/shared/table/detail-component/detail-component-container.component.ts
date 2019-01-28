@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs';
 export class DetailComponentContainer implements OnInit, OnDestroy {
   @Input() tableDef: TableDef;
   @Input() parentRow: any;
-  detailComponentClass: string;
   detailComponent: DetailComponent;
 
   @ViewChild(DetailComponentDirective) detailComponentDirective: DetailComponentDirective;
@@ -47,7 +46,6 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
     this.detailComponent = <DetailComponent>componentRef.instance;
     if (this.parentRow) {
       this.detailComponent.setData(this.parentRow, this.tableDef);
-      this.detailComponentClass = this.detailComponent.getParentClass();
     }
 
   }

@@ -31,6 +31,7 @@ export interface DropdownItem {
   icon?: string;
   class?: string;
   disabled?: boolean;
+  tooltip: string;
 }
 
 export interface TableActionDef {
@@ -42,7 +43,8 @@ export interface TableActionDef {
   class?: string;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[]
+  dropdownItems?: DropdownItem[],
+  tooltip: string;
 }
 
 export interface RouteInfo {
@@ -137,6 +139,7 @@ export interface Connector {
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;
+  isStopAuthorized: boolean;
 }
 
 export interface Charger {
@@ -166,9 +169,19 @@ export interface Charger {
   powerLimitUnit: string;
 }
 
+export interface ChargerInError extends Charger {
+  errorCode: string;
+  uniqueId: string;
+}
+
 export interface ChargerResult {
   count: number,
   result: Charger[]
+}
+
+export interface ChargerInErrorResult {
+  count: number,
+  result: ChargerInError[]
 }
 
 export interface Address {

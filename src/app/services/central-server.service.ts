@@ -13,6 +13,7 @@ import {
   ActionResponse,
   Charger,
   ChargerResult,
+  ChargerInErrorResult,
   Image,
   Log,
   LogResult,
@@ -328,6 +329,25 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  // tslint:disable-next-line:max-line-length
+  public getChargersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerInErrorResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -951,6 +971,19 @@ export class CentralServerService {
     this._checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointCreate`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointSendEVSEStatuses`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })

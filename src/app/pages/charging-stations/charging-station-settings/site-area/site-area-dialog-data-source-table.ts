@@ -17,7 +17,8 @@ export class TableAssignAction implements TableAction {
     id: 'add',
     type: 'button',
     icon: 'add',
-    name: 'chargers.change_site_area'
+    name: 'chargers.change_site_area',
+    tooltip: 'general.tooltips.assign_site_area'
   }
 
   // Return an action

@@ -7,7 +7,8 @@ export class TableStartAction implements TableAction {
     type: 'button',
     icon: 'play_arrow',
     class: 'btn-success action-icon-large',
-    name: 'general.start'
+    name: 'general.start',
+    tooltip: 'general.tooltips.start'
   }
 
 

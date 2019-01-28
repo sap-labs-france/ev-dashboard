@@ -7,7 +7,8 @@ export class TableOpenInMapsAction implements TableAction {
     type: 'button',
     icon: 'location_on',
     class: 'btn-info',
-    name: 'general.edit'
+    name: 'general.edit',
+    tooltip: 'general.tooltips.open_in_maps'
   };
 
   public getActionDef(): TableActionDef {

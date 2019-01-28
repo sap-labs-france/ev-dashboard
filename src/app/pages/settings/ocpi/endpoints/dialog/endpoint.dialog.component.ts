@@ -127,7 +127,6 @@ export class EndpointDialogComponent implements OnInit {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_generate_local_token');
     });
-
   }
 
   testConnection(ocpiendpoint) {

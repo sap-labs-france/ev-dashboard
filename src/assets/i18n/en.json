@@ -2,7 +2,7 @@
   "general": {
     "applications": "applications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.10",
+    "last_update": "Version 2.0.11",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -101,6 +101,35 @@
       "components": "Components",
       "settings": "Settings",
       "organization": "Organization"
+    },
+    "tooltips": {
+      "assign_site_area": "Assign site",
+      "more": "More actions",
+      "smart_charging": "Smart charging",
+      "clear_cache": "Clear cache",
+      "soft_reset": "Reset",
+      "reboot": "Reboot",
+      "more_actions": "More actions",
+      "add": "Add",
+      "auto_refresh": "Automatic refresh",
+      "create": "Create",
+      "delete": "Delete",
+      "edit": "Edit",
+      "edit_chargers": "Edit charging station",
+      "edit_location": "Edit location",
+      "edit_users": "Edit user",
+      "no_action": "No possible actions",
+      "open": "Open",
+      "open_in_maps": "Open in google maps",
+      "refresh": "Refresh",
+      "refund": "Refund",
+      "register": "Register",
+      "remove": "Remove",
+      "settings": "Settings",
+      "start": "Start",
+      "stop": "Stop",
+      "view": "View",
+      "send": "Send"
     }
   },
   "vehicles": {
@@ -378,6 +407,8 @@
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Error code",
+    "connector_info_title": "Error info",
+    "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power in Watts",
     "charger_url": "URL",
     "charger_param_key": "Key",
@@ -466,7 +497,7 @@
       "get_diagnostics_url": "Upload file URL",
       "get_diagnostics_download_button": "Download",
       "get_diagnostics_dialog_title": "Retrieve diagnostics",
-      "get_diagnostics_dialog_confirm": "Do you really want to dowanload the charging station '{{chargeBoxID}}' diagnostics file?",
+      "get_diagnostics_dialog_confirm": "Do you really want to download the charging station '{{chargeBoxID}}' diagnostics file?",
       "get_diagnostics_success": "Diagnostics download started successfully",
       "get_diagnostics_error": "Error when starting diagnostics download"
     },
@@ -537,6 +568,32 @@
     "tabs": {
       "list": "Charging Stations",
       "in_error": "Faulty"
+    },
+    "errors": {
+      "title": "Error",
+      "details_title": "Details",
+      "description_title": "Description",
+      "action_title": "Recommended action",
+      "missingSettings": {
+        "title": "Missing settings",
+        "description": "Required settings are missing",
+        "action": "Maintain missing required settings within the charging station settings.<br>See corresponding actions in 'Actions' column"
+      },
+      "connectionBroken": {
+        "title": "Connection lost",
+        "description": "The server can't reach the charging station",
+        "action": "Manual intervention is required.<br>Check your network and/or the charging station configuration"
+      },
+      "missingSiteArea": {
+        "title": "Charging station is not assigned",
+        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
+        "action": "Maintain the site area within the charging station settings.<br>See corresponding actions in 'Actions' column"
+      },
+      "connectorError": {
+        "title": "Connector error",
+        "description": "The charging station sent an error code for one of its connectors.",
+        "action": "Check the error code details, you may reset or restart the charger from the 'Action' columns"
+      }
     }
   },
   "logs": {
@@ -749,7 +806,10 @@
     "error_ping_404": "Ping failed: Not Found",
     "error_ping_412": "Ping failed: Invalid Response",
     "error_ping": "Ping failure",
-    "error_generate_local_token": "Error occured while generating new local token"
+    "error_generate_local_token": "Error occured while generating new local token",
+    "success_send_evse_statuses": "Successfully updated {{success}} EVSE statuses",
+    "partial_send_evse_statuses": "{{success}} EVSE(s) updated - {{error}} EVSE(s) not updated - see logs for more details",
+    "error_send_evse_statuses": "Error occured while updating EVSE statuses - see logs for more details"
   },
   "ocpi": {
     "title": "OCPI",
@@ -822,6 +882,7 @@
     "tab_current": "Current",
     "tab_history": "History",
     "stopped_by": "Stopped By",
+    "error_code": "Error Code",
     "soft_stop": "Stop",
     "soft_stop_transaction_title": "Stop Session (Soft)",
     "soft_stop_transaction_confirm": "Do you really want to stop the session (soft) that belongs to '{{userFullName}}' on '{{chargeBoxID}}'?",
@@ -859,7 +920,7 @@
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "In Error",
+      "in_error": "Faulty",
       "charge_at_home": "Charge At Home"
     },
     "graph": {

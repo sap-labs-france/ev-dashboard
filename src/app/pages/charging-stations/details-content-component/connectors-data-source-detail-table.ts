@@ -8,7 +8,7 @@ import { ConfigService } from '../../../services/config.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../services/message.service';
 import { DialogService } from '../../../services/dialog.service';
-import { ConnectorAvailibilityComponent } from './connector-availibility.component';
+import { ConnectorAvailibilityComponent } from '../cell-content-components/connector-availibility.component';
 import { AppConnectorTypePipe } from '../../../shared/formatters/app-connector-type.pipe';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { ConnectorCellComponent } from '../../../shared/component/connector/connector-cell.component';
@@ -62,32 +62,38 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     // Set number of records
     this.setNumberOfRecords(this.getData().length);
     // Return connector
-    if (this.charger && !this.connectorTransactionAuthorization) {
+    if (this.charger) {
       // Check authorizations
       this.centralServerService.getIsAuthorized('StopTransaction', this.charger.id).subscribe((result) => {
         this.connectorTransactionAuthorization = result;
+        // Update authorization on individual connectors
+        for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
+          this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].IsAuthorized;
+        }
+        this.setData(this.charger.connectors);
         // Update specific row actions
         if (this.formattedData) {
           this.formattedData.forEach(row => {
             row.specificRowActions = this.specificRowActions(row['data']);
           });
         }
+        let hasSomeDetails = false;
+        // Check connectors details status
+        this.getData().forEach((connector: Connector) => {
+          // If user can stop transaction he can also see details
+          connector.hasDetails = connector.activeTransactionID > 0 && this.charger.connectors[connector.connectorId - 1].isStopAuthorized;
+          if (connector.hasDetails) {
+            hasSomeDetails = true;
+          }
+        });
+        this._displayDetailsColumns.next(hasSomeDetails);
+        this.isInitialized = true;
       }, (error) => {
         // Authorization issue!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
     }
-    this.isInitialized = true;
-    let hasSomeDetails = false;
-    // Check connectors details status
-    this.getData().forEach((connector: Connector) => {
-      connector.hasDetails = connector.activeTransactionID > 0;
-      if (connector.hasDetails) {
-        hasSomeDetails = true;
-      }
-    });
-    this._displayDetailsColumns.next(hasSomeDetails);
   }
 
   public setCharger(charger: Charger) {
@@ -95,15 +101,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   setDetailedDataSource(row) {
-    if (!this.isInitialized || row !== this.getData()) {
-      // check that we have a ConnectorData and not a Connector
-      // Load data
-      this.setData(row);
-      this.loadData();
-    } else {
-      // Only set data
-      this.setData(row);
-    }
+    this.loadData();
   }
 
   public getTableDef(): TableDef {
@@ -137,8 +135,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
-        headerClass: 'col-4em',
-        class: 'text-center col-4em',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent
@@ -146,8 +142,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'status',
         name: 'chargers.connector_status',
-        headerClass: 'col-10em',
-        class: 'text-center col-10em',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
@@ -155,8 +149,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        class: 'col-9em',
-        headerClass: 'col-9em',
         isAngularComponent: true,
         angularComponentName: InstantPowerProgressBarComponent,
         sortable: false
@@ -164,8 +156,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'sessionDetails',
         name: 'chargers.session_details',
-        class: 'col-4em text-center',
-        headerClass: 'col-4em',
         isAngularComponent: true,
         angularComponentName: SessionDetailComponent,
         sortable: false
@@ -173,16 +163,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
-        class: 'text-center col-4em',
-        headerClass: 'text-center col-4em',
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },
       {
         id: 'type',
         name: 'chargers.connector_type',
-        headerClass: 'text-center col-4em',
-        class: 'text-center col-4em',
         formatter: (type) => {
           const imageUrl = new AppConnectorTypePipe().transform(type, true);
           return `<img class="charger-connector-type" src="${imageUrl}"/>`;
@@ -192,8 +178,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        headerClass: 'col-6em',
-        class: 'col-6em',
         formatter: (errorCode) => {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },

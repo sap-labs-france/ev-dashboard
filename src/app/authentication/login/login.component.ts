@@ -18,16 +18,16 @@ declare var $: any;
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private toggleButton: any;
-  private sidebarVisible: boolean;
-  private nativeElement: Node;
   public returnUrl: String;
   public formGroup: FormGroup;
   public email: AbstractControl;
   public password: AbstractControl;
   public acceptEula: AbstractControl;
-  private messages: Object;
   public hidePassword = true;
+  private toggleButton: any;
+  private sidebarVisible: boolean;
+  private nativeElement: Node;
+  private messages: Object;
 
   constructor(
     private element: ElementRef,
@@ -88,6 +88,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }, 700);
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    if (this.route.snapshot.fragment) {
+      this.returnUrl += `#${this.route.snapshot.fragment}`;
+    }
   }
 
   sidebarToggle() {
@@ -123,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       // Success
       this.centralServerService.loggingSucceeded(result.token);
       // login successful so redirect to return url
-      this.router.navigate([this.returnUrl]);
+      this.router.navigateByUrl(this.returnUrl as string);
     }, (error) => {
       // Hide
       this.spinnerService.hide();

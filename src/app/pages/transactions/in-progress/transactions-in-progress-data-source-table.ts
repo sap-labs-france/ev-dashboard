@@ -75,7 +75,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: false
       },

@@ -84,7 +84,6 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }

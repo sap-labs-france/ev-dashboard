@@ -1,32 +1,23 @@
-<div class="fulldetails main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 ml-auto mr-auto">
-        <div class="card">
-          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">ev_station</i>{{'chargers.tabs.list' | translate}}
-                </a>
-              </ng-template>
-              <ng-template matTabContent>
-                <app-charging-stations-list></app-charging-stations-list>
-              </ng-template>
-            </mat-tab>
-            <mat-tab *ngIf="isAdmin">
-              <ng-template mat-tab-label>
-                <a>
-                  <i class="material-icons">warning</i>{{'chargers.tabs.in_error' | translate}}
-                </a>
-              </ng-template>
-              <ng-template matTabContent>
-                <app-charging-stations-faulty></app-charging-stations-faulty>
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="main-content flex-grow-1">
+  <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="updateRoute($event)"
+                 animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">ev_station</mat-icon>
+        {{'chargers.tabs.list' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-charging-stations-list></app-charging-stations-list>
+      </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="isAdmin">
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">warning</mat-icon>
+        {{'chargers.tabs.in_error' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-charging-stations-faulty></app-charging-stations-faulty>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </div>

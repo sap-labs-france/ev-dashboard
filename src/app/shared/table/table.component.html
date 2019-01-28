@@ -1,4 +1,4 @@
-<div [class]="(dataSource.isDesignFlat() ? 'mat-elevation-z0' : 'mat-elevation-z8') + ' h-100 d-flex flex-column'">
+<div class="h-100 d-flex flex-column">
   <ng-container *ngIf="!tableDef.isSimpleTable">
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">

@@ -97,8 +97,8 @@ th:nth-child(n+2), td:nth-child(n+2) {
 .table-list {
   overflow: auto;
   white-space: nowrap;
-  height: calc(100vh - 300px);
-  min-height: 250px;
+  height: 200px;
+  min-height: 100px;
   background-color: white;
 }
 
@@ -108,14 +108,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
   min-width: 50vw;
   width: 50vh;
   height: calc(100vh - (0.7 * 100vh));
-  background-color: white;
-  white-space: nowrap;
-}
-
-.table-list-under-tabs {
-  overflow: auto;
-  height: calc(100vh - 400px);
-  min-height: 250px;
   background-color: white;
   white-space: nowrap;
 }

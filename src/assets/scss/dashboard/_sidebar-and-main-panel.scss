@@ -219,23 +219,25 @@
     display: block;
     position: relative;
     z-index: 4;
-    a.logo-mini,
+    .logo-mini,
     a.logo-normal {
       @extend .animation-transition-general;
     }
-    a.logo-mini {
+    div.logo-mini {
       opacity: 1;
       float: left;
-      width: 30px;
+      // width: 30px;
       text-align: center;
-      margin-left: 23px;
-      margin-right: 15px;
+      margin-left: 15px;
+      // margin-right: 15px;
     }
     a.logo-normal {
-      display: inline-block;
+      display: block;
       opacity: 1;
-      padding-left: 15px;
-      margin-top: -5px;
+      //display: inline-block;
+      //opacity: 1;
+      //padding-left: 15px;
+      //margin-top: -5px;
       @include transform-translate-x(0px);
     }
     &:after {
@@ -256,7 +258,7 @@
     }
     .simple-text {
       text-transform: uppercase;
-      padding: $padding-small-vertical $padding-zero $padding-small-vertical $padding-large-vertical;
+      padding: $padding-small-vertical $padding-zero;
       display: inline-block;
       font-size: 18px;
       color: $black-color;
@@ -468,7 +470,7 @@
       z-index: 9999;
       .logo {
         a.logo-normal {
-          display: block;
+          //display: block;
           opacity: 0;
           @include transform-translate-x(-25px);
         }
@@ -480,26 +482,6 @@
         > .nav li > a p {
           @include transform-translate-x(-25px);
           opacity: 0;
-        }
-      }
-    }
-    .sidebar:hover {
-      width: 260px;
-      .logo {
-        a.logo-normal {
-          display: inline-block;
-          opacity: 1;
-          @include transform-translate-x(0px);
-        }
-      }
-      .sidebar-wrapper {
-        width: 260px;
-        > .nav li > a p,
-        > .nav [data-toggle="collapse"] ~ div > ul > li > a .sidebar-normal,
-        .user .user-info [data-toggle="collapse"] ~ div > ul > li > a .sidebar-normal,
-        .user .user-info > a > span {
-          @include transform-translate-x(0px);
-          opacity: 1;
         }
       }
     }

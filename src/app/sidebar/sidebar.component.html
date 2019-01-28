@@ -1,11 +1,20 @@
 <div class="logo">
   <div class="simple-text logo-mini">
-    <div class="logo-img">
-      <img src="/assets/img/logo-low.png"/>
-    </div>
+    <button id="toggler" mat-raised-button class="btn btn-just-icon btn-link btn-icon-white"
+            (click)="minimizeSidebar()">
+      <i class="material-icons">menu</i>
+    </button>
   </div>
-  <a class="simple-text logo-normal">
+  <a class="simple-text logo-normal" href="javascript:void(0)">
     {{'general.app_name' | translate}}
+    <div>
+      <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
+        {{'general.last_update' | translate}}
+      </a>
+      <span *ngIf="!isAdmin" class="app-version">
+          {{'general.last_update' | translate}}
+      </span>
+    </div>
   </a>
 </div>
 <div class="sidebar-wrapper">
@@ -72,12 +81,12 @@
     </li>
   </ul>
   <!--<a *ngIf="isAdmin" routerLink="/release-notes" class="nav-link">-->
-    <!--<i class="material-icons">info</i>-->
-    <!--{{'general.last_update' | translate}}-->
+  <!--<i class="material-icons">info</i>-->
+  <!--{{'general.last_update' | translate}}-->
   <!--</a>-->
 
   <!--<span *ngIf="!isAdmin" class="nav-link">-->
-    <!--<i class="material-icons">info</i>-->
-    <!--{{'general.last_update' | translate}}-->
+  <!--<i class="material-icons">info</i>-->
+  <!--{{'general.last_update' | translate}}-->
   <!--</span>-->
 </div>

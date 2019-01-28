@@ -84,7 +84,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       },

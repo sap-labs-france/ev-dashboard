@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {UsersDataSource} from './users-data-source-table';
 import {UsersInErrorDataSource} from './users-in-error-data-source-table';

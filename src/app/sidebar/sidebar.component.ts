@@ -74,10 +74,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   isMobileMenu() {
-    if ($(window).width() > 991) {
-      return false;
-    }
-    return true;
+    // if ($(window).width() > 991) {
+    //   return false;
+    // }
+    // return true;
+    return false;
   };
 
   updatePS(): void {

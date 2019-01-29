@@ -577,17 +577,17 @@
       "missingSettings": {
         "title": "Missing settings",
         "description": "Required settings are missing",
-        "action": "Maintain missing required settings within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain missing required settings within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectionBroken": {
         "title": "Connection lost",
         "description": "The server can't reach the charging station",
-        "action": "Manual intervention is required.<br>Check your network and/or the charging station configuration"
+        "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
         "title": "Charging station is not assigned",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectorError": {
         "title": "Connector error",

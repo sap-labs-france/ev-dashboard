@@ -7,7 +7,8 @@ export class TableStopAction implements TableAction {
     type: 'button',
     icon: 'stop',
     class: 'btn-danger action-icon-large',
-    name: 'general.stop'
+    name: 'general.stop',
+    tooltip: 'general.tooltips.stop'
   }
 
 

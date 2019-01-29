@@ -19,6 +19,26 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.11',
+      date: new Date('2019-01-26'),
+      componentChanges: [
+        {
+          name: 'Front-end',
+          changes: [
+            `Added Transactions to be refunded with Concur`,
+            `Numerous Bug + CSS fixes`
+          ]
+        },
+        {
+          name: 'Backend',
+          changes: [
+            `OData prototype for integrating live data connection with SAP Analytics`,
+            `Minor bug fixes`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.10',
       date: new Date('2019-01-22'),
       componentChanges: [

@@ -7,7 +7,8 @@ export class TableRegisterAction implements TableAction {
     type: 'button',
     icon: 'swap_horiz',
     class: 'btn-info action-icon-large',
-    name: 'general.register'
+    name: 'general.register',
+    tooltip: 'general.tooltips.register'
   }
 
 

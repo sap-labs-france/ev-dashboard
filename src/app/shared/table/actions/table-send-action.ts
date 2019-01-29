@@ -7,7 +7,8 @@ export class TableSendAction implements TableAction {
     type: 'button',
     icon: 'cast',
     class: 'btn-info',
-    name: 'general.send_evses_update'
+    name: 'general.send_evses_update',
+    tooltip: 'general.tooltips.send'
   }
 
 

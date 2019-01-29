@@ -7,7 +7,8 @@ export class TableMoreAction implements TableAction {
     type: 'button',
     icon: 'more_horiz',
     class: 'btn-info',
-    name: 'general.edit'
+    name: 'general.edit',
+    tooltip: 'general.tooltips.more'
   };
 
   public getActionDef(): TableActionDef {

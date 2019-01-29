@@ -71,8 +71,8 @@
 .mat-tab-labels {
   border-radius: $border-radius-base;
   /* margin-top: -20px; */
-  padding: 15px 15px 10px 15px;
-  margin: 0px 15px 15px;
+  padding: 10px;
+  //margin: 0px 15px 15px;
   color: $white-color !important;
 }
 .mat-tab-info .mat-tab-labels {
@@ -90,7 +90,7 @@
 }
 
 .mat-tab-header {
-  margin-top: -20px;
+  //margin-top: -20px;
   border-bottom: none;
 }
 
@@ -134,6 +134,10 @@
   transition: 0.3s background-color 0.2s;
 }
 
+.mat-tab-body-wrapper {
+  flex-grow: 1;
+}
+
 .mat-tab-body-content {
-  padding: 0 20px 20px 20px;
+  //padding: 0 20px 20px 20px;
 }

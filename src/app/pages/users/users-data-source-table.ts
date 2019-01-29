@@ -83,7 +83,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }

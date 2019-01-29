@@ -80,8 +80,9 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         let hasSomeDetails = false;
         // Check connectors details status
         this.getData().forEach((connector: Connector) => {
-          // If user can stop transaction he can also see details
-          connector.hasDetails = connector.activeTransactionID > 0 && this.charger.connectors[connector.connectorId - 1].isStopAuthorized;
+          // If user can stop transaction he can also see details except user demo that can also see details
+          connector.hasDetails = connector.activeTransactionID > 0 &&
+            (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
           if (connector.hasDetails) {
             hasSomeDetails = true;
           }

@@ -130,7 +130,7 @@
                   <img [src]="image" alt="..." class="">
                 </div>
                 <div style="display:none">
-                  <input (change)="imageChanged()" name="..." type="file">
+                  <input (change)="imageChanged($event)" name="..." type="file" accept=".jpg, .jpeg, .png">
                 </div>
               </div>
               <button (click)="clearImage()"

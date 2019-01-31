@@ -222,6 +222,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (company) {
       dialogConfig.data = company.id;
     }

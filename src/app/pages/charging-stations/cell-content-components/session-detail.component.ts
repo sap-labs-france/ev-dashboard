@@ -36,6 +36,7 @@ export class SessionDetailComponent implements CellContentTemplateComponent, OnI
     dialogConfig.minHeight = '80vh';
     dialogConfig.height = '80vh';
     dialogConfig.width = '80vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       transactionId: this.row.activeTransactionID,
       siteArea: '',

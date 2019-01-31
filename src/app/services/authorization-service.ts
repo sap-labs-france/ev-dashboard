@@ -263,6 +263,12 @@ export class AuthorizationService {
       {'Action': Constants.ACTION_LIST});
   }
 
+  public canListSettings(): boolean {
+    // Check
+    return this._canPerformAction(Constants.ENTITY_SETTINGS,
+      {'Action': Constants.ACTION_LIST});
+  }
+
   public canListTransactions(): boolean {
     // Check
     return this._canPerformAction(Constants.ENTITY_TRANSACTIONS,
@@ -315,6 +321,11 @@ export class AuthorizationService {
       return false;
     }
     return true;
+  }
+
+  canRefundTransaction() {
+    return this._canPerformAction(Constants.ENTITY_TRANSACTION,
+      {'Action': Constants.ACTION_REFUND_TRANSACTION});
   }
 
   public canReadUser(user): boolean {

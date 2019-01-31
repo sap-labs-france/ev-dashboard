@@ -947,6 +947,8 @@
       "refund": {
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
         "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
+        "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
+        "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
         "error": "Une erreur est survenue pendant la demande de remboursement"
       }
     }

@@ -59,7 +59,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public loadData(refreshAction = false) {
-    if (!refreshAction ) {
+    if (!refreshAction) {
       this.spinnerService.show();
     }
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
@@ -197,6 +197,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
+        return this.isAdmin;
       case 'refund':
         if (transaction.hasOwnProperty('refund')) {
           return false;
@@ -236,6 +237,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(30000);
+  }
+
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -246,9 +251,5 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
   }
 }

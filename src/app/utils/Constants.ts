@@ -40,6 +40,7 @@ export class Constants {
   public static ACTION_CLEAR_CACHE = 'ClearCache';
   public static ACTION_START_TRANSACTION = 'StartTransaction';
   public static ACTION_STOP_TRANSACTION = 'StopTransaction';
+  public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';
 

@@ -5,7 +5,6 @@ import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
 import {WindowService} from './window.service';
-import {Constants} from 'app/utils/Constants';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild {
@@ -23,7 +22,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
 
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
-      return this.isRouteAllowed(activatedRoute.routeConfig);
+      if (this.isRouteAllowed(activatedRoute.routeConfig)) {
+        return true;
+      }
+      this.router.navigate(['/']);
+      return false;
     }
 
     // Add URL origin

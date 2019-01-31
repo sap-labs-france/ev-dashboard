@@ -422,24 +422,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  private loadApplicationSettings() {
-    this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
-      if (settingResult && settingResult.result && settingResult.result.length > 0) {
-        this.chargeAtHomeSetting = settingResult.result[0];
-      }
-    });
-    this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
-      if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
-        for (const connection of connectionResult.result) {
-          if (connection.connectorId === 'concur') {
-            this.concurConnection = connection;
-          }
-        }
-        this.integrationConnections = connectionResult.result;
-      }
-    });
-  }
-
   linkConcurAccount() {
     if (this.chargeAtHomeSetting && this.chargeAtHomeSetting.content && this.chargeAtHomeSetting.content.concur) {
       const concurSetting = this.chargeAtHomeSetting.content.concur;
@@ -451,6 +433,30 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href = `${concurSetting.url}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
+  }
+
+  alreadyLinkedToConcur() {
+    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
+  }
+
+  private loadApplicationSettings() {
+    if (this.authorizationService.canListSettings()) {
+      this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+        if (settingResult && settingResult.result && settingResult.result.length > 0) {
+          this.chargeAtHomeSetting = settingResult.result[0];
+        }
+      });
+      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+        if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+          for (const connection of connectionResult.result) {
+            if (connection.connectorId === 'concur') {
+              this.concurConnection = connection;
+            }
+          }
+          this.integrationConnections = connectionResult.result;
+        }
+      });
     }
   }
 
@@ -470,6 +476,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             // Ok
             this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
+            this.loadApplicationSettings();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'settings.chargeathome.concur.link_error');
@@ -566,9 +573,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  alreadyLinkedToConcur() {
-    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
   }
 }

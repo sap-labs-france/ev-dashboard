@@ -53,11 +53,12 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
         }
         this.instantPowerW += Number(connector.currentConsumption).valueOf();
       }
+      this.instantPowerW = (this.instantPowerW > this.maxPowerW ? this.maxPowerW : this.instantPowerW);
     } else if (<Connector>this.row) {
       // Extract the information from a connector
       const connector = <Connector>this.row;
       this.maxPowerW = connector.power;
-      this.instantPowerW = connector.currentConsumption;
+      this.instantPowerW = (connector.currentConsumption > this.maxPowerW ? this.maxPowerW : connector.currentConsumption);
     }
   }
 }

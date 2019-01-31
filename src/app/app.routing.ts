@@ -24,7 +24,7 @@ export const AppRoutes: Routes = [
     path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard, RouteGuardService],
+    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {

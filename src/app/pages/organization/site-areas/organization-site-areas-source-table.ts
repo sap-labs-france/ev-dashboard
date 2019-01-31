@@ -77,7 +77,6 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }

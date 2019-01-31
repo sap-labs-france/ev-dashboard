@@ -11,11 +11,20 @@ import {RouteGuardService} from '../services/route-guard.service';
 
 declare const $: any;
 
+const misc: any = {
+  navbar_menu_visible: 0,
+  active_collapse: true,
+  disabled_collapse_init: 0,
+};
+
 @Component({
   selector: 'app-sidebar-cmp',
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  mobile_menu_visible: any = 0;
+  private toggleButton: any;
+  private sidebarVisible: boolean;
   public menuItems: any[];
   public loggedUser;
   public loggedUserImage = Constants.USER_NO_PICTURE;
@@ -58,6 +67,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.toggleButton = document.getElementById('toggler');
   }
 
   ngOnDestroy() {
@@ -74,10 +84,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   isMobileMenu() {
-    if ($(window).width() > 991) {
-      return false;
-    }
-    return true;
+    // if ($(window).width() > 991) {
+    //   return false;
+    // }
+    // return true;
+    return false;
   };
 
   updatePS(): void {
@@ -92,6 +103,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
       bool = true;
     }
     return bool;
+  }
+
+  minimizeSidebar() {
+    const body = document.getElementsByTagName('body')[0];
+
+    if (misc.sidebar_mini_active === true) {
+      body.classList.remove('sidebar-mini');
+      misc.sidebar_mini_active = false;
+
+    } else {
+      setTimeout(function () {
+        body.classList.add('sidebar-mini');
+
+        misc.sidebar_mini_active = true;
+      }, 300);
+    }
+
+    // we simulate the window Resize so the charts will get updated in realtime.
+    // const simulateWindowResize = setInterval(function () {
+    //   window.dispatchEvent(new Event('resize'));
+    // }, 180);
+    //
+    // // we stop the simulation of Window Resize after the animations are completed
+    // setTimeout(() => {
+    //   clearInterval(simulateWindowResize);
+    // }, 1000);
   }
 
   logout() {

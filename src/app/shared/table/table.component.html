@@ -1,4 +1,4 @@
-<div [class]="dataSource.isDesignFlat() ? 'mat-elevation-z0' : 'mat-elevation-z8'">
+<div class="h-100 d-flex flex-column">
   <ng-container *ngIf="!tableDef.isSimpleTable">
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
@@ -150,7 +150,7 @@
 
   </ng-container>
   <!-- Table -->
-  <div [class]="(tableDef.class ? tableDef.class : 'table-list')">
+  <div [class]="(tableDef.class ? tableDef.class : 'table-list') + ' flex-grow-1'">
     <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort matSortDisableClear (matSortChange)="handleSortChanged()"
       [trackBy]="trackByObjectId">
       <!-- Checkbox Select Column -->

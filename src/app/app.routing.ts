@@ -66,6 +66,9 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'user', loadChildren: './pages/users/users.module#UsersModule'
+      },
+      {
         path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
           menu: {
             title: 'users',

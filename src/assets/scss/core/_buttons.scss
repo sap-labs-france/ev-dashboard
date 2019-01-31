@@ -13,7 +13,7 @@
   cursor: pointer;
   background-color: transparent;
   border: 0;
-  border-radius: $border-radius-sm;
+  border-radius: $border-radius-base;
   outline: 0;
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: box-shadow, transform;
@@ -74,11 +74,11 @@
   // Size variations
   &.btn-lg,
   .btn-group-lg & {
-    @include button-size($input-btn-padding-y-lg, $input-btn-padding-x-lg, $bmd-btn-font-size, $btn-lg-line-height, $border-radius-sm);
+    @include button-size($input-btn-padding-y-lg, $input-btn-padding-x-lg, $bmd-btn-font-size, $btn-lg-line-height, $border-radius-base);
   }
   &.btn-sm,
   .btn-group-sm & {
-    @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $bmd-btn-font-size-sm, $line-height-sm, $border-radius-sm);
+    @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $bmd-btn-font-size-sm, $line-height-sm, $border-radius-base);
   }
 
   &.btn-round {

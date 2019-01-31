@@ -195,6 +195,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (endpoint) {
       dialogConfig.data = endpoint;
     }

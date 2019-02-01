@@ -787,6 +787,7 @@
     "token": "Remote Token",
     "new": "New",
     "registered": "Registered",
+    "unregistered": "Unregistered",
     "generateNewToken": "Generate new token",
     "testConnection": "Connection Test",
     "create_success": "The eMSP '{{name}}' has been created successfully",

@@ -386,10 +386,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public updateUserImage(user) {
-    // Set the image
-    this.image = jQuery('.fileinput-preview img')[0]['src'];
-    // Check no user?
-    if (!this.image.endsWith(Constants.USER_NO_PICTURE)) {
+    if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
       // Set to user
       user.image = this.image;
     } else {
@@ -406,34 +403,23 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public imageChanged() {
-    // Set form dirty
-    this.formGroup.markAsDirty();
+  public imageChanged(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.image = reader.result as string;
+        this.formGroup.markAsDirty();
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
   public clearImage() {
     // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    // jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    this.image = Constants.USER_NO_PICTURE;
     // Set form dirty
     this.formGroup.markAsDirty();
-  }
-
-  private loadApplicationSettings() {
-    this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
-      if (settingResult && settingResult.result && settingResult.result.length > 0) {
-        this.chargeAtHomeSetting = settingResult.result[0];
-      }
-    });
-    this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
-      if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
-        for (const connection of connectionResult.result) {
-          if (connection.connectorId === 'concur') {
-            this.concurConnection = connection;
-          }
-        }
-        this.integrationConnections = connectionResult.result;
-      }
-    });
   }
 
   linkConcurAccount() {
@@ -447,6 +433,30 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href = `${concurSetting.url}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
+  }
+
+  alreadyLinkedToConcur() {
+    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
+  }
+
+  private loadApplicationSettings() {
+    if (this.authorizationService.canListSettings()) {
+      this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+        if (settingResult && settingResult.result && settingResult.result.length > 0) {
+          this.chargeAtHomeSetting = settingResult.result[0];
+        }
+      });
+      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+        if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+          for (const connection of connectionResult.result) {
+            if (connection.connectorId === 'concur') {
+              this.concurConnection = connection;
+            }
+          }
+          this.integrationConnections = connectionResult.result;
+        }
+      });
     }
   }
 
@@ -466,6 +476,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             // Ok
             this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
+            this.loadApplicationSettings();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'settings.chargeathome.concur.link_error');
@@ -562,9 +573,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  alreadyLinkedToConcur() {
-    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
   }
 }

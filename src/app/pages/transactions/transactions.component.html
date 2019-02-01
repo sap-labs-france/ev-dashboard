@@ -1,7 +1,7 @@
 <div class="transactions main-content">
-  <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="updateRoute($event)"
-                 animationDuration="0ms" disableRipple="true"
-                 class="h-100 mat-tab-info">
+  <mat-tab-group (selectedTabChange)="updateRoute($event)" [(selectedIndex)]="activeTabIndex"
+                 animationDuration="0ms" class="h-100 mat-tab-info"
+                 disableRipple="true">
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon class="mr-2">history</mat-icon>
@@ -30,14 +30,16 @@
         <app-transactions-in-error></app-transactions-in-error>
       </ng-template>
     </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon class="mr-2">money</mat-icon>
-        {{'transactions.tabs.charge_at_home' | translate}}
-      </ng-template>
-      <ng-template matTabContent>
-        <app-transactions-refund></app-transactions-refund>
-      </ng-template>
-    </mat-tab>
+    <ng-container *ngIf="canAccessChargeAtHome()">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-2">money</mat-icon>
+          {{'transactions.tabs.charge_at_home' | translate}}
+        </ng-template>
+        <ng-template matTabContent>
+          <app-transactions-refund></app-transactions-refund>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
   </mat-tab-group>
 </div>

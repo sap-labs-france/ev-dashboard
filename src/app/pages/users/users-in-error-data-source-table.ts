@@ -207,6 +207,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (user) {
       dialogConfig.data = user.id;
     }

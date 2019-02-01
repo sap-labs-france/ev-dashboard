@@ -219,24 +219,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     }
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
-    switch (actionDef.id) {
-      case 'delete':
-        this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
-          this.translateService.instant('transactions.dialog.delete.title'),
-          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
-        ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
-            this._deleteTransaction(transaction);
-          }
-        });
-        break;
-      default:
-        super.rowActionTriggered(actionDef, transaction);
-    }
-  }
-
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case 'refund':
@@ -307,8 +289,21 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.refund.error'));
+
+      switch (error.status) {
+        case 560: // not authorized
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('transactions.notification.refund.not_authorized'));
+          break;
+        case 551: // cannot refund another user transactions
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('transactions.notification.refund.forbidden_refund_another_user'));
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            this.translateService.instant('transactions.notification.refund.error'));
+          break;
+      }
     });
   }
 }

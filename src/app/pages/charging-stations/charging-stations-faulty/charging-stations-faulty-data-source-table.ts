@@ -324,6 +324,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }

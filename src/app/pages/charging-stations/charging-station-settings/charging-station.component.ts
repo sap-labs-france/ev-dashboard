@@ -27,7 +27,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   private activePane: string = CHARGERS_PANE_NAME; // Default active pane is charging station pane
 
-  @ViewChild('occpParameters') occpParametersComponent: ChargingStationOCPPConfigurationComponent;
+  @ViewChild('ocppParameters') ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
   @ViewChild('chargerParameters') chargerParametersComponent: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
@@ -90,20 +90,20 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
         this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
-    this.occpParametersComponent.formGroup.statusChanges.subscribe(() => {
+    this.ocppParametersComponent.formGroup.statusChanges.subscribe(() => {
       if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
         // When we have changes to save we can't navigate to other panes
-        this.isPropertiesPaneDisabled = this.occpParametersComponent.formGroup.dirty;
+        this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
         // When we have changes to save we can't navigate to other panes
-        this.isChargerPaneDisabled = this.occpParametersComponent.formGroup.dirty;
+        this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
       }
     });
-    this.occpParametersComponent.formGroup.valueChanges.subscribe(() => {
+    this.ocppParametersComponent.formGroup.valueChanges.subscribe(() => {
       if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
         // When we have changes to save we can't navigate to other panes
-        this.isPropertiesPaneDisabled = this.occpParametersComponent.formGroup.dirty;
+        this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
         // When we have changes to save we can't navigate to other panes
-        this.isChargerPaneDisabled = this.occpParametersComponent.formGroup.dirty;
+        this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
       }
     });
   }
@@ -112,7 +112,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     if (this.activePane === CHARGERS_PANE_NAME) {
       this.chargerParametersComponent.refresh();
     } else if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
-      this.occpParametersComponent.refresh();
+      this.ocppParametersComponent.refresh();
     }
   }
 

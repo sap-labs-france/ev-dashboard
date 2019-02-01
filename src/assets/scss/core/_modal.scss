@@ -21,6 +21,7 @@
       }
     }
   }
+
   // Modal header
   // Top section of the modal w/ title and dismiss
   .modal-header {
@@ -42,6 +43,7 @@
       line-height: inherit;
     }
   }
+
   // Modal body
   // Where all modal content resides (sibling of .modal-header and .modal-footer)
   .modal-body {
@@ -50,6 +52,7 @@
     padding-bottom: 16px;
     padding-left: 24px;
   }
+
   // Footer (for actions)
   .modal-footer {
     border-top: none;
@@ -64,6 +67,7 @@
       padding-left: 16px;
       padding-right: 16px;
       width: auto;
+
       &.pull-left {
         padding-left: 5px;
         padding-right: 5px;
@@ -72,6 +76,7 @@
       }
     }
   }
+
   .modal-body + .modal-footer {
     padding-top: 0;
   }
@@ -146,6 +151,7 @@
       }
     }
   }
+
   .modal-header .close {
     color: $gray-light;
 
@@ -164,6 +170,7 @@
   .instruction {
     margin-bottom: 25px;
   }
+
   .picture {
     max-width: 150px;
   }
@@ -182,4 +189,23 @@
   .modal-body {
     margin-top: 20px;
   }
+}
+
+.transparent-dialog-container {
+  .mat-dialog-container {
+    background: none;
+    box-shadow: none;
+  }
+
+  .mat-dialog-content {
+    margin: 0;
+  }
+
+  .card {
+    margin: 0;
+  }
+}
+
+.mat-dialog-container {
+  border-radius: 0 !important;
 }

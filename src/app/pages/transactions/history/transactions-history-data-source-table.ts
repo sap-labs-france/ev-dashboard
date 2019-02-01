@@ -190,7 +190,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   getTableRowActions(): TableActionDef[] {
     const rowActions = [];
-    rowActions.push(new TableDeleteAction().getActionDef());
+    if (this.isAdmin) {
+      rowActions.push(new TableDeleteAction().getActionDef());
+    }
     return rowActions;
   }
 

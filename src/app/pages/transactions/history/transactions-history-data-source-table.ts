@@ -130,20 +130,14 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
+        class: 'text-left col-10p',
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'col-10p d-none d-xl-table-cell',
+        class: 'text-left col-10p d-none d-xl-table-cell',
       },
       {
         id: 'stop.totalConsumption',
@@ -157,8 +151,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
+        headerClass: 'col-10p d-none d-xl-table-cell',
+        class: 'col-10p d-none d-xl-table-cell',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       })
     }
@@ -172,6 +166,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+  }
+
+  formatChargingStation(chargingStation, row) {
+    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   formatPrice(price, priceUnit): string {

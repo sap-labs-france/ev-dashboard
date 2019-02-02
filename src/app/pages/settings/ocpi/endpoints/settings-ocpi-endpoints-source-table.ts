@@ -20,6 +20,7 @@ import { TableCreateAction } from '../../../../shared/table/actions/table-create
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
 import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { TableRegisterAction } from '../../../../shared/table/actions/table-register-action';
+import { TableSendAction } from '../../../../shared/table/actions/table-send-action';
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from '../../../../services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
@@ -43,6 +44,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableRegisterAction().getActionDef(),
+      new TableSendAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -170,6 +172,9 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       case 'register':
         this._registerOcpiendpoint(rowItem);
         break;
+      case 'send':
+        this._sendEVSEStatusesOcpiendpoint(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -190,12 +195,35 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (endpoint) {
       dialogConfig.data = endpoint;
     }
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+    // Show
+    this.spinnerService.show();
+    // Ping
+    this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.failure === 0 && response.success > 0) {
+        this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
+      } else if (response.failure > 0 && response.success > 0) {
+        this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
+          { success: response.success, error: response.failure });
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.error_send_evse_statuses');
+    });
   }
 
   private _deleteOcpiendpoint(ocpiendpoint) {

@@ -13,7 +13,6 @@ import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { DialogService } from 'app/services/dialog.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { ReadVarExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-site-area-cmp',
@@ -25,9 +24,9 @@ export class SiteAreaComponent implements OnInit {
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
+
+  public isAdmin = false;
   public image: any = Constants.SITE_AREA_NO_IMAGE;
-  // public image2 = 'background-image:url(\'assets/img/theme/no-logo.jpg\')';
-  // public image3 = 'assets/img/theme/no-logo.jpg';
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -35,6 +34,17 @@ export class SiteAreaComponent implements OnInit {
   public siteID: AbstractControl;
   public maximumPower: AbstractControl;
   public accessControl: AbstractControl;
+
+  public address: FormGroup;
+  public address1: AbstractControl;
+  public address2: AbstractControl;
+  public postalCode: AbstractControl;
+  public city: AbstractControl;
+  public department: AbstractControl;
+  public region: AbstractControl;
+  public country: AbstractControl;
+  public latitude: AbstractControl;
+  public longitude: AbstractControl;
 
   public sites: any;
 
@@ -56,6 +66,9 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
+    // get admin flag
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+
     // refresh available sites
     this.refreshAvailableSites();
   }
@@ -73,10 +86,31 @@ export class SiteAreaComponent implements OnInit {
           Validators.required
         ])),
       'maximumPower': new FormControl('',
-      Validators.compose([
-        Validators.pattern(/^-?(0|[1-9]\d*)?$/)
-      ])),
-      'accessControl': new FormControl(true)
+        Validators.compose([
+          Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+        ])),
+      'accessControl': new FormControl(true),
+      'address': new FormGroup({
+        'address1': new FormControl(''),
+        'address2': new FormControl(''),
+        'postalCode': new FormControl(''),
+        'city': new FormControl(''),
+        'department': new FormControl(''),
+        'region': new FormControl(''),
+        'country': new FormControl(''),
+        'latitude': new FormControl('',
+          Validators.compose([
+            Validators.max(90),
+            Validators.min(-90),
+            Validators.pattern('^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$')
+          ])),
+        'longitude': new FormControl('',
+          Validators.compose([
+            Validators.max(180),
+            Validators.min(-180),
+            Validators.pattern('^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$')
+          ]))
+      })
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -84,6 +118,21 @@ export class SiteAreaComponent implements OnInit {
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower']
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address1 = this.address.controls['address1'];
+    this.address2 = this.address.controls['address2'];
+    this.postalCode = this.address.controls['postalCode'];
+    this.city = this.address.controls['city'];
+    this.department = this.address.controls['department'];
+    this.region = this.address.controls['region'];
+    this.country = this.address.controls['country'];
+    this.latitude = this.address.controls['latitude'];
+    this.longitude = this.address.controls['longitude'];
+
+    // if not admin switch in readonly mode
+    if (!this.isAdmin) {
+      this.formGroup.disable();
+    }
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
@@ -154,6 +203,33 @@ export class SiteAreaComponent implements OnInit {
       } else {
         this.formGroup.controls.accessControl.setValue(false);
       }
+      if (siteArea.address && siteArea.address.address1) {
+        this.address.controls.address1.setValue(siteArea.address.address1);
+      }
+      if (siteArea.address && siteArea.address.address2) {
+        this.address.controls.address2.setValue(siteArea.address.address2);
+      }
+      if (siteArea.address && siteArea.address.postalCode) {
+        this.address.controls.postalCode.setValue(siteArea.address.postalCode);
+      }
+      if (siteArea.address && siteArea.address.city) {
+        this.address.controls.city.setValue(siteArea.address.city);
+      }
+      if (siteArea.address && siteArea.address.department) {
+        this.address.controls.department.setValue(siteArea.address.department);
+      }
+      if (siteArea.address && siteArea.address.region) {
+        this.address.controls.region.setValue(siteArea.address.region);
+      }
+      if (siteArea.address && siteArea.address.country) {
+        this.address.controls.country.setValue(siteArea.address.country);
+      }
+      if (siteArea.address && siteArea.address.latitude) {
+        this.address.controls.latitude.setValue(siteArea.address.latitude);
+      }
+      if (siteArea.address && siteArea.address.longitude) {
+        this.address.controls.longitude.setValue(siteArea.address.longitude);
+      }
       // Yes, get image
       return this.centralServerService.getSiteAreaImage(this.currentSiteAreaID);
     })).subscribe((siteAreaImage) => {
@@ -211,7 +287,7 @@ export class SiteAreaComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
-          {'siteAreaName': siteArea.name});
+          { 'siteAreaName': siteArea.name });
         // Close
         this.currentSiteAreaID = siteArea.id;
         this.closeDialog();
@@ -248,7 +324,7 @@ export class SiteAreaComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('site_areas.update_success', {'siteAreaName': siteArea.name});
+        this.messageService.showSuccessMessage('site_areas.update_success', { 'siteAreaName': siteArea.name });
         this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),

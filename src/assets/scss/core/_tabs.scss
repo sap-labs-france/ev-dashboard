@@ -69,10 +69,10 @@
 }
 
 .mat-tab-labels {
-  border-radius: $border-radius-base;
+  // border-radius: $border-radius-base;
   /* margin-top: -20px; */
-  padding: 15px 15px 10px 15px;
-  margin: 0px 15px 15px;
+  padding: 10px;
+  //margin: 0px 15px 15px;
   color: $white-color !important;
 }
 .mat-tab-info .mat-tab-labels {
@@ -90,7 +90,7 @@
 }
 
 .mat-tab-header {
-  margin-top: -20px;
+  //margin-top: -20px;
   border-bottom: none;
 }
 
@@ -99,10 +99,11 @@
   color: $white-color !important;
   border: 0;
   margin: 0;
+  min-width: 9em !important;
   border-radius: $border-radius-base;
   line-height: $mdb-btn-font-size-base * 2;
   font-size: $mdb-btn-font-size-base;
-  padding: 8px 15px;
+  padding: 0 1em !important;
   background-color: transparent;
   transition: 0.3s background-color 0s;
   text-transform: uppercase;
@@ -114,9 +115,11 @@
   disabled .mat-tab-label:hover {
     color: rgba(255, 255, 255, 0.5);
   }
-  .material-icons {
-    margin: -1px 5px 0 0;
-  }
+}
+
+.mat-tab-disabled {
+  margin-left: auto !important;
+  padding: 0 !important;
 }
 
 .mat-tab-label-active {
@@ -131,6 +134,10 @@
   transition: 0.3s background-color 0.2s;
 }
 
+.mat-tab-body-wrapper {
+  flex-grow: 1;
+}
+
 .mat-tab-body-content {
-  padding: 0 20px 20px 20px;
+  //padding: 0 20px 20px 20px;
 }

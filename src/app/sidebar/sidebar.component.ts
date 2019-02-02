@@ -11,11 +11,20 @@ import {RouteGuardService} from '../services/route-guard.service';
 
 declare const $: any;
 
+const misc: any = {
+  navbar_menu_visible: 0,
+  active_collapse: true,
+  disabled_collapse_init: 0,
+};
+
 @Component({
   selector: 'app-sidebar-cmp',
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  mobile_menu_visible: any = 0;
+  private toggleButton: any;
+  private sidebarVisible: boolean;
   public menuItems: any[];
   public loggedUser;
   public loggedUserImage = Constants.USER_NO_PICTURE;
@@ -30,6 +39,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
+    this.toggleSidebar();
     // Get the routes
     this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
       return route.data && route.data.menu && this.guard.isRouteAllowed(route);
@@ -58,6 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.toggleButton = document.getElementById('toggler');
   }
 
   ngOnDestroy() {
@@ -74,10 +85,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   isMobileMenu() {
-    if ($(window).width() > 991) {
-      return false;
-    }
-    return true;
+    // if ($(window).width() > 991) {
+    //   return false;
+    // }
+    // return true;
+    return false;
   };
 
   updatePS(): void {
@@ -92,6 +104,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
       bool = true;
     }
     return bool;
+  }
+
+  toggleSidebar() {
+    const body = document.getElementsByTagName('body')[0];
+
+    if (misc.sidebar_mini_active === true) {
+      body.classList.remove('sidebar-mini');
+      misc.sidebar_mini_active = false;
+    } else {
+      body.classList.add('sidebar-mini');
+      misc.sidebar_mini_active = true;
+    }
   }
 
   logout() {

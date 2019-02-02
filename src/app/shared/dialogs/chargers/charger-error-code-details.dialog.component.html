@@ -1,0 +1,23 @@
+<h2 class="dialog-title" mat-dialog-title>{{errorCodeTitle | translate}}</h2>
+<mat-dialog-content style="box-sizing:content-box">
+  <div class="row">
+    <div class="col-md-3">
+      <strong>{{'chargers.errors.description_title' | translate}}</strong>
+    </div>
+    <div class="col ">
+      {{errorCodeDescription | translate}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <strong>{{'chargers.errors.action_title' | translate}}</strong>
+    </div>
+    <div class="col">
+      {{errorCodeAction | translate}}
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button" (click)="cancel()">{{"general.close" | translate}}</button>
+</mat-dialog-actions>

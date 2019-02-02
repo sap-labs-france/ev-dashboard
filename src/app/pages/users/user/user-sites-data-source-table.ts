@@ -35,6 +35,11 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         this.getPaging(), this.getOrdering()).subscribe((sites) => {
         // Set number of records
         this.setNumberOfRecords(sites.count);
+        // Update Paginator
+        this.updatePaginator();
+        // Notify
+        this.getDataSubjet().next(sites.result);
+        // Set the data
         this.setData(sites.result);
       }, (error) => {
         // No longer exists!

@@ -31,6 +31,7 @@ export interface DropdownItem {
   icon?: string;
   class?: string;
   disabled?: boolean;
+  tooltip: string;
 }
 
 export interface TableActionDef {
@@ -42,7 +43,8 @@ export interface TableActionDef {
   class?: string;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[]
+  dropdownItems?: DropdownItem[],
+  tooltip: string;
 }
 
 export interface RouteInfo {
@@ -90,6 +92,11 @@ export interface ActionResponse {
   error: string;
 }
 
+export interface ActionsResponse extends ActionResponse {
+  inSuccess: number;
+  inError: number;
+}
+
 export interface ChargerConfiguration {
   chargeBoxID: string;
   timestamp: Date;
@@ -132,6 +139,7 @@ export interface Connector {
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;
+  isStopAuthorized: boolean;
 }
 
 export interface Charger {
@@ -161,9 +169,19 @@ export interface Charger {
   powerLimitUnit: string;
 }
 
+export interface ChargerInError extends Charger {
+  errorCode: string;
+  uniqueId: string;
+}
+
 export interface ChargerResult {
   count: number,
   result: Charger[]
+}
+
+export interface ChargerInErrorResult {
+  count: number,
+  result: ChargerInError[]
 }
 
 export interface Address {
@@ -287,6 +305,7 @@ export interface SiteArea {
   id: string;
   name: string;
   image: string;
+  address: Address;
   maximumPower: number;
   accessControl: boolean;
   siteID: string;
@@ -391,15 +410,18 @@ export interface Transaction {
   connectorId: number;
   meterStart: number;
   currentConsumption: number;
-  totalConsumption: number;
-  totalInactivitySecs: number;
-  totalDurationSecs: number;
-  stateOfCharge: number;
+  currentTotalConsumption: number;
+  currentTotalInactivitySecs: number;
+  currentTotalDurationSecs: number;
   currentStateOfCharge: number;
   isLoading: boolean;
   user: User;
   tagID: string;
   status: string;
+  refundData: {
+    refundId: string;
+    refundedAt: Date;
+  };
   stop: {
     user: User;
     tagID: string;
@@ -407,6 +429,8 @@ export interface Transaction {
     meterStop: number;
     totalConsumption: number;
     stateOfCharge: number;
+    totalInactivitySecs: number;
+    totalDurationSecs: number;
     price: number;
     priceUnit: string;
   };
@@ -493,6 +517,7 @@ export interface ScheduleSlot {
   end: Date;
   limit: number;
 }
+
 export interface ConnectorSchedule {
   connectorId: number;
   slots: ScheduleSlot[];

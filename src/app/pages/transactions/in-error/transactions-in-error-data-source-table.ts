@@ -57,19 +57,19 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   public loadData(refreshAction = false) {
-    if (!refreshAction ) {
+    if (!refreshAction) {
       this.spinnerService.show();
     }
     this.centralServerService.getTransactionsInError(this.getFilterValues(), this.getPaging(), this.getOrdering())
       .subscribe((transactions) => {
-        if (!refreshAction ) {
+        if (!refreshAction) {
           this.spinnerService.hide();
         }
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
       }, (error) => {
-        if (!refreshAction ) {
+        if (!refreshAction) {
           this.spinnerService.hide();
         }
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -79,7 +79,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }
@@ -98,6 +97,13 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sortable: true,
         direction: 'desc',
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+      },
+      {
+        id: 'errorCode',
+        name: 'transactions.error_code',
+        sortable: true,
+        headerClass: 'col-10p',
+        class: 'col-10p',
       },
       {
         id: 'user',
@@ -215,6 +221,10 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(30000);
+  }
+
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -225,9 +235,5 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
   }
 }

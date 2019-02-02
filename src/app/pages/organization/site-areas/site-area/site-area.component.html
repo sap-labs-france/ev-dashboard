@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form class="form" [formGroup]="formGroup">
+                <form class="form" [formGroup]="formGroup" (keydown.enter)="$event.preventDefault()">
                     <div class="card card-profile card-testimonial">
                         <div class="card-header card-header-tabs card-header-danger">
                             <div class="nav-tabs-navigation">
@@ -15,7 +15,7 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button" (click)="saveSiteArea(formGroup.value)"
+                                        <button *ngIf="this.isAdmin" class="btn btn-info mat-raised-button" (click)="saveSiteArea(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">save</i>
@@ -43,7 +43,7 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="profile">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-5" style="display: block; margin-top: auto">
                                             <div class="rotating-card-container">
                                                 <div class="card card-rotate card-background" style="margin-top: 0px;">
                                                     <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
@@ -51,7 +51,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
-                                                        <div class="card-body">
+                                                        <div *ngIf="this.isAdmin" class="card-body">
                                                             <h5 class="card-title">
                                                                 {{'general.change_picture' | translate}}
                                                             </h5>
@@ -102,24 +102,22 @@
                                                         {{"chargers.invalid_power_value" | translate}}
                                                     </mat-error>
                                                 </mat-form-field>
-                                                <div class="form-check" style="text-align: left">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" [formControl]="accessControl">
+                                                <div style="text-align: left">
+                                                    <mat-checkbox [formControl]="accessControl">
                                                         {{'site_areas.enable_access_control' | translate}}
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
+                                                    </mat-checkbox>
                                                 </div>
-
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
                         </div>
                     </div>
                 </form>

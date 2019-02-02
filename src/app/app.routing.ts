@@ -24,7 +24,7 @@ export const AppRoutes: Routes = [
     path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard, RouteGuardService],
+    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {
@@ -52,6 +52,20 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule', data: {
+          menu: {
+            title: 'transactions',
+            type: 'link',
+            icon: 'list',
+            path: '/transactions'
+          },
+          auth: {
+            entity: Constants.ENTITY_TRANSACTIONS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
           menu: {
             title: 'users',
@@ -61,20 +75,6 @@ export const AppRoutes: Routes = [
           },
           auth: {
             entity: Constants.ENTITY_USERS,
-            action: Constants.ACTION_LIST
-          }
-        }
-      },
-      {
-        path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
-          menu: {
-            title: 'logs',
-            type: 'link',
-            icon: 'list',
-            path: '/logs'
-          },
-          auth: {
-            entity: Constants.ENTITY_LOGGINGS,
             action: Constants.ACTION_LIST
           }
         }
@@ -94,20 +94,6 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule', data: {
-          menu: {
-            title: 'transactions',
-            type: 'link',
-            icon: 'list',
-            path: '/transactions'
-          },
-          auth: {
-            entity: Constants.ENTITY_TRANSACTIONS,
-            action: Constants.ACTION_LIST
-          }
-        }
-      },
-      {
         path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
           menu: {
             title: 'organization',
@@ -115,8 +101,7 @@ export const AppRoutes: Routes = [
             icon: 'business',
             path: '/organization'
           },
-          component: Constants.SETTINGS_ORGANIZATION,
-          forAdminOnly: true
+          component: Constants.SETTINGS_ORGANIZATION
         }
       },
       {
@@ -132,6 +117,20 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
+          menu: {
+            title: 'logs',
+            type: 'link',
+            icon: 'list',
+            path: '/logs'
+          },
+          auth: {
+            entity: Constants.ENTITY_LOGGINGS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
         data: {forAdminOnly: true, forSuperAdminOnly: true}
       },
@@ -142,4 +141,8 @@ export const AppRoutes: Routes = [
   }
 ];
 
-export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {useHash: true});
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {
+  useHash: false,
+  anchorScrolling: 'enabled',
+  scrollPositionRestoration: 'enabled'
+});

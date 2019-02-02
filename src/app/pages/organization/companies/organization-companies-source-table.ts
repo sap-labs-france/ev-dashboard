@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
@@ -15,10 +14,13 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
@@ -26,7 +28,7 @@ import { CompanyDialogComponent } from './company/company.dialog.component';
 
 @Injectable()
 export class CompaniesDataSource extends TableDataSource<Company> {
-  private readonly tableActionsRow: TableActionDef[];
+  public isAdmin = false;
 
   constructor(
     private localeService: LocaleService,
@@ -37,14 +39,12 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService
+    ) {
     super();
     this.setStaticFilters([{'WithLogo': true}]);
-
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -84,7 +84,6 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }
@@ -128,13 +127,48 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [
-      new TableCreateAction().getActionDef()
-    ];
+    if (this.isAdmin) {
+      return [
+        new TableCreateAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        new TableOpenInMapsAction().getActionDef()
+      ];
+    }
+  }
+
+  specificRowActions(company: Company) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+
+    // check if GPs are available
+    openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
+
+    if (this.isAdmin) {
+      return [
+        new TableEditAction().getActionDef(),
+        openInMaps,
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableViewAction().getActionDef(),
+        openInMaps
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -152,10 +186,14 @@ export class CompaniesDataSource extends TableDataSource<Company> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
+      case 'view':
         this._showCompanyDialog(rowItem);
         break;
       case 'delete':
         this._deleteCompany(rowItem);
+        break;
+      case 'open_in_maps':
+        this._showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -173,11 +211,18 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     return [];
   }
 
+  private _showPlace(rowItem) {
+    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
+      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+    }
+  }
+
   private _showCompanyDialog(company?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (company) {
       dialogConfig.data = company.id;
     }

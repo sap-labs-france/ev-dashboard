@@ -59,7 +59,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public loadData(refreshAction = false) {
-    if (!refreshAction ) {
+    if (!refreshAction) {
       this.spinnerService.show();
     }
     this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
@@ -81,7 +81,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       },
@@ -131,20 +130,14 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
+        class: 'text-left col-10p',
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'col-10p d-none d-xl-table-cell',
+        class: 'text-left col-10p d-none d-xl-table-cell',
       },
       {
         id: 'stop.totalConsumption',
@@ -158,8 +151,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
+        headerClass: 'col-10p d-none d-xl-table-cell',
+        class: 'col-10p d-none d-xl-table-cell',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       })
     }
@@ -173,6 +166,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+  }
+
+  formatChargingStation(chargingStation, row) {
+    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   formatPrice(price, priceUnit): string {
@@ -190,7 +187,25 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
 
   getTableRowActions(): TableActionDef[] {
-    return [new TableDeleteAction().getActionDef()];
+    const rowActions = [];
+    if (this.isAdmin) {
+      rowActions.push(new TableDeleteAction().getActionDef());
+    }
+    return rowActions;
+  }
+
+  canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
+    switch (actionDef.id) {
+      case 'delete':
+        return this.isAdmin;
+      case 'refund':
+        if (transaction.hasOwnProperty('refund')) {
+          return false;
+        }
+        return true;
+      default:
+        return true;
+    }
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -222,6 +237,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(30000);
+  }
+
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -232,9 +251,5 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
   }
 }

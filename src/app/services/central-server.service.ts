@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, ObservableInput, of, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import {
   ActionResponse,
   Charger,
   ChargerResult,
+  ChargerInErrorResult,
   Image,
   Log,
   LogResult,
@@ -328,6 +329,25 @@ export class CentralServerService {
     this._buildOrdering(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  // tslint:disable-next-line:max-line-length
+  public getChargersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerInErrorResult> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._buildPaging(paging, params);
+    // Build Ordering
+    this._buildOrdering(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -959,6 +979,19 @@ export class CentralServerService {
       );
   }
 
+  public sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointSendEVSEStatuses`, ocpiendpoint,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public pingOcpiendpoint(ocpiendpoint) {
     // Verify init
     this._checkInit();
@@ -1077,6 +1110,18 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  refundTransactions(ids: number[]) {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, {transactionIds: ids},
       {
         headers: this._buildHttpHeaders()
       })
@@ -1400,6 +1445,28 @@ export class CentralServerService {
       );
   }
 
+  public getIntegrationConnections(userId: string) {
+    this._checkInit();
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnections?userId=${userId}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createIntegrationConnection(payload: any) {
+    this._checkInit();
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, payload,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   private _checkInit() {
     // initialized?
     if (!this.initialized) {
@@ -1476,5 +1543,4 @@ export class CentralServerService {
     }
     return throwError(errMsg);
   }
-
 }

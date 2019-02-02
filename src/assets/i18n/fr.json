@@ -1,7 +1,8 @@
 {
   "general": {
+    "applications": "applications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.9",
+    "last_update": "Version 2.0.11",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -38,6 +39,8 @@
     "save": "Sauvegarder",
     "change": "Changer",
     "reload": "Recharger",
+    "stop": "Stop",
+    "refund": "Rembourser",
     "close": "Fermer",
     "back": "Retour",
     "next": "Suivant",
@@ -93,8 +96,37 @@
       "tenants": "Tenants",
       "pricing": "Prix",
       "components": "Composants",
-      "settings" : "Configuration",
+      "settings": "Configuration",
       "organization": "Organisation"
+    },
+    "tooltips": {
+      "assign_site_area": "Assigner un site",
+      "more": "Actions supplémentaires",
+      "smart_charging": "Smart charging",
+      "clear_cache": "Effacer le cache",
+      "soft_reset": "Reset",
+      "reboot": "Redémarrer",
+      "more_actions": "Actions supplémentaires",
+      "add": "Ajouter",
+      "auto_refresh": "Rafraichissement automatique",
+      "create": "Créer",
+      "delete": "Effacer",
+      "edit": "Editer",
+      "edit_chargers": "Editer une borne",
+      "edit_location": "Editer une localisation",
+      "edit_users": "Editer un utilisateur",
+      "no_action": "Aucunes actions supplémentaires",
+      "open": "Ouvrir",
+      "open_in_maps": "Ouvrir dans google maps",
+      "refresh": "Rafraichir",
+      "refund": "Rembourser",
+      "register": "Enregistrer",
+      "remove": "Supprimer",
+      "settings": "Paramètres",
+      "start": "Démarrer",
+      "stop": "Arrêter",
+      "view": "Voir",
+      "send": "Envoyer"
     }
   },
   "vehicles": {
@@ -192,6 +224,7 @@
     "no_sites": "Aucun site n'a été trouvé",
     "select_sites": "Selection Sites",
     "site": "Site",
+    "assigned_users_to_site": "Utilisateurs assignés à {{siteName}}",
     "unassigned": "Non assigné",
     "no_connected_chargers": "Vous n'êtes pas connecté à une borne",
     "site_number": "Site(s)",
@@ -237,6 +270,7 @@
     "unassigned": "Non assigné",
     "image": "Image",
     "assigned_chargers": "Bornes",
+    "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
     "name": "Nom",
     "title": "Zone",
     "site_invalid": "Zone invalide",
@@ -261,7 +295,7 @@
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "maximum_energy": "Limite de puissance"
+    "maximum_energy": "Limite de puissance (Watts)"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -346,12 +380,6 @@
     "others": "Autres",
     "category_label": "Catégorie"
   },
-  "pricing": {
-    "price_kw_h_label": "Prix kW.h",
-    "price_unit_label": "Monnaie",
-    "update_success": "Le prix a été mis à jour avec succès",
-    "update_error": "Une erreur est survenue pendant la mise à jour du prix"
-  },
   "chargers": {
     "chargers": "Bornes",
     "vendor": "Vendeur",
@@ -362,10 +390,9 @@
     "consumption_title": "Puissance",
     "firmware_version": "Version Firmware",
     "connector_status": "Status",
-    "connector_error_title": "Error code",
     "ocpp_version": "Version OCPP",
     "nb_connected_phase": "Nombre de Phase Connectée",
-    "cant_charge_in_parallel": "Ce charger ne peut utiliser les connecteurs en parallele",
+    "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
     "private_url": "URL Privée",
     "public_url": "URL Publique",
     "select_chargers": "Selection Bornes",
@@ -374,10 +401,14 @@
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
     "maximum_energy": "Energie Maximum",
-    "connector": "Connector",
+    "connector": "Connecteur",
     "connector0": "Borne",
     "connector_type": "Type",
+    "connector_error_title": "Code erreur",
+    "connector_max_power": "Puissance Maximum en Watts",
     "charger_url": "URL",
+    "charger_param_key": "Clé",
+    "charger_param_value": "Valeur",
     "title": "Borne",
     "status_occupied": "Occupé",
     "status_available": "Disponible",
@@ -417,6 +448,7 @@
       "more_actions_item": "Autres"
     },
     "smart_charging": {
+      "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
@@ -435,6 +467,7 @@
       "current_limit_title": "Limite actuelle",
       "limit_title": "Limite",
       "no_current_limit": "Aucun planning de charge trouvé",
+      "planning_energy_limit": "Planification de limite de puissance",
       "from_date": "De",
       "to_date": "à",
       "profile_type": "type de profile",
@@ -444,6 +477,10 @@
       "start_date": "Début",
       "end_date": "Fin",
       "add_slot_button": "Ajouter un créneau",
+      "slot_start_header": "Date de début du créneau",
+      "slot_index_header": "Numéro du créneau",
+      "slot_duration_header": "Durée du créneau (s)",
+      "slot_limit_header": "Limite de puissance du créneau",
       "profile_types": {
         "relative": "Relatif",
         "absolute": "Absolu",
@@ -451,9 +488,21 @@
         "recurring_weekly": "Recurrence hebdomadaire"
       }
     },
+    "more_actions": {
+      "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",
+      "get_diagnostics_url": "URL du serveur pour le téléchargement",
+      "get_diagnostics_download_button": "Télécharger",
+      "get_diagnostics_dialog_title": "Lecture du diagnostique",
+      "get_diagnostics_dialog_confirm": "Voulez-vous vraiment télécharger le diagnostique de la borne '{{chargeBoxID}}'?",
+      "get_diagnostics_success": "Le téléchargement du diagnostique a été effectué avec succès",
+      "get_diagnostics_error": "une erreur est survenue pendant le téléchargement du diagnostique"
+    },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
     "reboot_error": "Une erreur est survenue pendant le redémarrage de la borne",
+    "soft_reset_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
+    "soft_reset_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
+    "soft_reset_error": "Une erreur est survenue pendant le redémarrage de la borne",
     "clear_cache_title": "Effacer le Cache",
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
@@ -463,18 +512,13 @@
     "change_params_success": "Les paramètres de la borne '{{chargeBoxID}}' ont été changés avec succès",
     "change_params_error": "Une erreur est survenue pendant le changement des paramètres",
     "delete_title": "Supprimer",
-    "delete_button": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer la borne '{{chargeBoxID}}'?",
     "delete_success": "La borne '{{chargeBoxID}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de la borne",
     "properties_title": "Propriété",
     "ocpp_parameters_title": "Paramètres OCPP",
-    "save_charger" : "Sauvegarder",
-    "charger_graph_title": "{{chargeBoxID}} - {{connectorId}}",
-    "charger_config_title": "{{chargeBoxID}} - Configuration",
-    "charger_properties_title": "{{chargeBoxID}} - Propriétés",
+    "save_charger": "Sauvegarder",
     "stop_transaction_title": "Stopper",
-    "stop_transaction_button": "Stopper",
     "stop_transaction_confirm": "Voulez-vous vraiment stopper la session de la borne '{{chargeBoxID}}'?",
     "stop_transaction_success": "La session de la borne '{{chargeBoxID}}' a été stoppée avec succès",
     "stop_transaction_error": "Une erreur est survenue pendant la tentative d'arrêt de la session",
@@ -509,11 +553,43 @@
     "created_on": "Date de création",
     "start_transaction_admin_title": "Démarrage de transaction en tant qu'Administrateur",
     "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
+    "start_transaction_user_select_title": "Sélectionner un utilisateur",
+    "start_transaction_user_select_button": "Sélectionner",
     "start_for_myself_button": "Moi même",
     "select_user_button": "Autre utilisateur",
+    "power_limit_unit": "Unité utilisé pour la limitation de puissance",
+    "watt": "Watt",
+    "amper": "Ampere",
+    "session_details": "Session",
     "tabs": {
       "list": "Bornes",
       "in_error": "Défectueuse"
+    },
+    "errors": {
+      "title": "Erreur",
+      "details_title": "Détails",
+      "description_title": "Description",
+      "action_title": "Action recommendée",
+      "missingSettings": {
+        "title": "Paramètres manquants",
+        "description": "Des paramètres obligatoires sont manquants",
+        "action": "Renseigner les paramètres requis manquant dans la page des paramètres de la borne.<br>Voir l'action correspondante dans la colonne 'Actions'"
+      },
+      "connectionBroken": {
+        "title": "Connexion perdue",
+        "description": "Le serveur n'arrive plus à communiquer avec la borne",
+        "action": "Une intervention manuelle est à prévoir.<br>Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
+      },
+      "missingSiteArea": {
+        "title": "La born n'est pas assignée",
+        "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
+        "action": "Renseigner la zone dans la page des paramètres de la borne.<br>Voir l'action correspondante dans la colonne 'Actions'"
+      },
+      "connectorError": {
+        "title": "Erreur d'un connecteur",
+        "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
+        "action": "Vérifier le code d'erreur, vous pouvez redémarrer ou faire un reset de la borne via les actions dans la colonne 'Action'"
+      }
     }
   },
   "logs": {
@@ -631,8 +707,8 @@
     "name": "Nom",
     "tenant_management": "Gestion des Tenants",
     "tenant_not_found": "Ce tenant n'existe pas ! Vous ne pouvez pas vous connecter !",
-    "subdomain": "Sous Domaine",
     "email": "Email",
+    "subdomain": "Sous Domaine",
     "create_success": "Le tenant '{{name}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du tenant",
     "name_already_used": "Le tenant '{{name}}' est déjà utilisé",
@@ -647,17 +723,52 @@
   },
   "settings": {
     "tabs": {
-      "ocpi": "OCPI"
+      "ocpi": "OCPI",
+      "chargeathome": "Charge@Home",
+      "pricing": "Pricing"
     },
     "ocpi": {
-      "information": "Information",
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
       "setting_not_found": "La configuration OCPI n'est pas disponible",
       "create_success": "La configuration OCPI a été créé avec succès",
-      "create_error":  "Une erreur est survenue pendant la creation de la configuration OCPI",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI"
-    }
+    },
+    "chargeathome": {
+      "description": "L'application Charge At Home permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
+      "not_found": "La configuration Charge At Home n'est pas disponible",
+      "create_success": "La configuration Charge At Home a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration Charge At Home",
+      "update_success": "Charge At Home settings have been updated successfully",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Charge At Home",
+      "concur": {
+        "title": "Concur",
+        "url": "Url",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "payment_type_id": "Payment Type ID",
+        "expense_type_code": "Expense Type Code",
+        "link_success": "Votre compte a été lié avec succès à Concur",
+        "link_error": "Une erreur est survenue durant la connexion avec Concur"
+      }
+    },
+    "pricing": {
+      "description": "L'interface de Pricing permet aux fournisseurs de bornes de valoriser leurs services.",
+      "not_found": "La configuration Pricing n'est pas disponible",
+      "create_success": "La configuration Pricing a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration Pricing",
+      "update_success": "Pricing settings have been updated successfully",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
+      "convergentcharging": {
+        "title": "Convergent Charging",
+        "url": "Url",
+        "user": "Utilisateur",
+        "password": "Mot de passe"
+      }
+    },
+    "information": "Information",
+    "activation_contact_msg": "Please contact your administrator for enabling this feature."
   },
   "ocpiendpoints": {
     "name": "Nom",
@@ -687,7 +798,10 @@
     "error_ping_404": "Serveur non accessible: Ressource non trouvée",
     "error_ping_412": "Serveur non accessible: Reponse invalide",
     "error_ping": "Serveur non accessible",
-    "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton"
+    "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton",
+    "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès",
+    "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
+    "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails"
   },
   "ocpi": {
     "title": "OCPI",
@@ -727,7 +841,11 @@
   },
   "pricing": {
     "title": "Pricing",
-    "description": "Pricing Interface"
+    "description": "Pricing Interface",
+    "price_kw_h_label": "Prix kW.h",
+    "price_unit_label": "Monnaie",
+    "update_success": "Le prix a été mis à jour avec succès",
+    "update_error": "Une erreur est survenue pendant la mise à jour du prix"
   },
   "transactions": {
     "date_from": "Date",
@@ -762,6 +880,7 @@
     "soft_stop_transaction_success": "La session a été stoppée avec succès, vous pouvez débrancher le connecteur",
     "soft_stop_transaction_error": "Une erreur est survenue pendant la tentative d'arrêt de la session",
     "delete": "Supprimer",
+    "error_code": "Code érreur",
     "delete_transaction_title": "Supprimer Session",
     "delete_transaction_confirm": "Voulez-vous vraiment supprimer la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
     "delete_transaction_success": "La session a été supprimée avec succès",
@@ -781,30 +900,56 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
+    "refundDate": "Remboursé le",
+    "filter": {
+      "type": {
+        "name": "Type",
+        "refunded": "Remboursée",
+        "not_refunded": "Non remboursée"
+      }
+    },
     "tabs": {
       "history": "Historique",
       "in_progress": "En cours",
-      "in_error": "En erreur"
+      "in_error": "Défectueuse",
+      "charge_at_home": "Charge At Home"
+    },
+    "graph": {
+      "battery": "Niveau de Batterie (%)",
+      "power": "Puissance Instantannée (kWatt)",
+      "energy": "Energie délivrée (kWatt.h)",
+      "reset_zoom": "Remise à Zéro",
+      "no_consumption": "Aucune donnée disponible"
     },
     "dialog": {
       "delete": {
-        "title": "Supprimer les Sessions",
+        "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
       },
       "soft_stop": {
-        "title": "Arréter les Sessions",
+        "title": "Arréter la Session",
         "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
+      },
+      "refund": {
+        "title": "Rembourser des Sessions",
+        "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
       }
     },
     "notification": {
       "delete": {
         "success": "La session de {{user}} est supprimée avec succès",
         "error": "Une erreur est survenue pendant la suppression de la session"
-
       },
       "soft_stop": {
         "success": "La session de {{user}} est arrétée avec succès",
         "error": "Une erreur est survenue pendant l'arret de la session"
+      },
+      "refund": {
+        "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
+        "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
+        "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
+        "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
+        "error": "Une erreur est survenue pendant la demande de remboursement"
       }
     }
   }

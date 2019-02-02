@@ -8,6 +8,6 @@ export class TransactionsDateUntilFilter extends DateTableFilter {
     filter.httpId = 'EndDateTime';
     filter.name = 'general.search_date_until';
     filter.currentValue = currentValue;
-    filter.reset = () => null;
+    filter.reset = () => filter.currentValue = currentValue
   }
 }

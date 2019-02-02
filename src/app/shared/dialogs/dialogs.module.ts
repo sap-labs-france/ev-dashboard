@@ -16,13 +16,11 @@ import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
 import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
-import {TransactionsHistoryDataSource} from '../../pages/transactions/history/transactions-history-data-source-table';
-import {TransactionsInErrorDataSource} from '../../pages/transactions/in-error/transactions-in-error-data-source-table';
-import {TransactionsInProgressDataSource} from '../../pages/transactions/in-progress/transactions-in-progress-data-source-table';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
 import {UsersDataSource} from './users/users-data-source-table';
 import {ChargersDataSource} from './chargers/chargers-data-source-table';
+import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error-code-details-dialog-component';
 
 @NgModule({
   imports: [
@@ -40,7 +38,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
-    SessionDialogComponent
+    SessionDialogComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -49,7 +48,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ChargersDialogComponent,
     SitesFilterDialogComponent,
     SessionDialogComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   exports: [
     SitesDialogComponent,
@@ -57,7 +57,8 @@ import {ChargersDataSource} from './chargers/chargers-data-source-table';
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
-    SessionDialogComponent
+    SessionDialogComponent,
+    ChargerErrorCodeDetailsDialogComponent
   ],
   providers: [
     CurrencyPipe,

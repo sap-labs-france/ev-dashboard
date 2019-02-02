@@ -50,12 +50,6 @@ export class UsersDataSource extends TableDataSource<User> {
     private arrayToStringPipe: AppArrayToStringPipe,
     private datePipe: AppDatePipe) {
     super();
-
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableEditLocationAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -89,7 +83,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public getTableDef(): TableDef {
     return {
-      class: 'table-list-under-tabs',
       search: {
         enabled: true
       }
@@ -166,7 +159,11 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [
+      new TableEditAction().getActionDef(),
+      new TableEditLocationAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -215,6 +212,7 @@ export class UsersDataSource extends TableDataSource<User> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (user) {
       dialogConfig.data = user.id;
     }

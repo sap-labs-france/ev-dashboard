@@ -1,17 +1,18 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatDialog, MatPaginator, MatSort } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { SelectionModel } from '@angular/cdk/collections';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject, BehaviorSubject, Subscription } from 'rxjs';
-import { TableActionDef, TableDef, TableFilterDef, DropdownItem } from '../../common.types';
-import { ConfigService } from '../../services/config.service';
-import { CentralServerService } from '../../services/central-server.service';
-import { TableDataSource } from './table-data-source';
-import { TableFilter } from './filters/table-filter';
-import { DetailComponentContainer } from './detail-component/detail-component-container.component';
-import { LocaleService } from '../../services/locale.service';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {SelectionModel} from '@angular/cdk/collections';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Subject, Subscription} from 'rxjs';
+import {DropdownItem, TableActionDef, TableDef, TableFilterDef} from '../../common.types';
+import {ConfigService} from '../../services/config.service';
+import {CentralServerService} from '../../services/central-server.service';
+import {TableDataSource} from './table-data-source';
+import {TableFilter} from './filters/table-filter';
+import {DetailComponentContainer} from './detail-component/detail-component-container.component';
+import {LocaleService} from '../../services/locale.service';
+import { CellContentComponentContainer } from './cell-content-template/cell-content-container.component';
 
 const DEFAULT_POLLING = 10000;
 
@@ -24,8 +25,8 @@ const DEFAULT_POLLING = 10000;
   templateUrl: 'table.component.html',
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-      state('expanded', style({ height: '*' })),
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ]
@@ -40,15 +41,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public tableDef: TableDef;
   public autoRefeshChecked = true;
   public ongoingAutoRefresh = false;
-  private autoRefreshObserver: Subscription;
-  private manualRefreshObserver: Subscription;
-  private rowRefreshObserver: Subscription;
-  private displayDetailObserver: Subscription;
   public ongoingManualRefresh = false;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
+  private autoRefreshObserver: Subscription;
+  private manualRefreshObserver: Subscription;
+  private rowRefreshObserver: Subscription;
+  private displayDetailObserver: Subscription;
   //  private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
@@ -138,8 +139,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           // Load data
           this.loadData();
         }
-        );
+      );
     }
+    // Load the data
+    this.loadData();
   }
 
   ngAfterViewInit() {
@@ -149,8 +152,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSort(this.sort);
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
-    // Load the data
-    this.loadData();
+    this.selection.clear();
+
     if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
       // subscribe to auto-refresh
       this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
@@ -185,6 +188,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.displayDetailObserver) {
       this.displayDetailObserver.unsubscribe();
     }
+    this.dataSource.destroy();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -240,7 +244,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public masterSelectToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.dataSource.getData().forEach(row => this.selection.select(row));
+      this.dataSource.getFormattedData().forEach(row => {
+        if (this.dataSource.isSelectable(row['data'])) {
+          this.selection.select(row);
+        }
+      });
   }
 
   public handleSortChanged() {
@@ -300,9 +308,45 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * set*ReferenceRow
+   *row, */
+  public setReferenceRow(row, rowDetails) {
+    rowDetails.parentRow = row;
+    return true;
+  }
+
+  public onRowActionMenuOpen(action: TableActionDef, row) {
+    this.dataSource.onRowActionMenuOpen(action, row);
+  }
+
+  /*  public isDetailedTableEnable(): Boolean {
+      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
+    }*/
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
+    return this.dataSource.canDisplayRowAction(rowAction, rowItem);
+  }
+
+  /*  public setDetailedDataSource(row){
+      this.detailDataSource.setDetailedDataSource(row);
+    }*/
+
+  /**
+   * isDetailedTableEnable
+   */
+
+  isSelectable(row: any) {
+    return this.dataSource.isSelectable(row);
+  }
+
+  isPaginatorUseless() {
+    return Array.isArray(this.pageSizes) && this.dataSource.getNumberOfRecords() < this.pageSizes[0];
+  }
+
   private _rowRefresh(compositeValue) {
     if (compositeValue) {
       const data = compositeValue.newValue['data'];
+      // Refresh details component
       if (data.isExpanded) {
         if (data[this.tableDef.rowDetails.detailsField]) {
           // Simple fields
@@ -322,18 +366,4 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-
-
-  /**
-   * set*ReferenceRow
-   *row, */
-  public setReferenceRow(row, rowDetails) {
-    rowDetails.parentRow = row;
-    return true;
-  }
-
-  public onRowActionMenuOpen(action: TableActionDef, row) {
-    this.dataSource.onRowActionMenuOpen(action, row);
-  }
-
 }

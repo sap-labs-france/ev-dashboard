@@ -1995,7 +1995,7 @@ svg {
 
 .mat-dialog-container {
   background: white;
-  border-radius: 2px;
+  border-radius: 0 !important;
 }
 
 .mat-dialog-container {

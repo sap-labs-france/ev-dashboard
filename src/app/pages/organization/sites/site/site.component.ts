@@ -25,6 +25,8 @@ export class SiteComponent implements OnInit {
   @Input() currentSiteID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
+
+  public isAdmin = false;
   public image: any = Constants.SITE_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -62,6 +64,9 @@ export class SiteComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
+
+    // get admin flag
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     // refresh comapnies
     this.refreshAvailableCompanies();
@@ -118,6 +123,10 @@ export class SiteComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
+    // if not admin switch in readonly mode
+    if (!this.isAdmin) {
+      this.formGroup.disable();
+    }
 
     if (this.currentSiteID) {
       this.loadSite();
@@ -215,8 +224,6 @@ export class SiteComponent implements OnInit {
         this.address.controls.longitude.setValue(site.address.longitude);
       }
       // Yes, get image
-      // return this.centralServerService.getSiteImage(this.currentSiteID);
-      // return this.centralServerService.getCompanies({});
       return this.centralServerService.getSiteImage(this.currentSiteID);
     })).subscribe((siteImage) => {
       if (siteImage && siteImage.image) {

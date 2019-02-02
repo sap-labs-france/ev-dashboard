@@ -1,5 +1,5 @@
 <div class="main-content">
-    <div class="container-fluid">
+    <!--<div class="container-fluid">-->
         <form class="form" [formGroup]="formGroup">
             <div class="row">
                 <div class="col-md-6">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
@@ -35,7 +35,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <mat-form-field>
                             <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase"
@@ -47,7 +47,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <mat-form-field>
                         <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}" [formControl]="powerLimitUnit"
                             required>
@@ -57,7 +57,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-md-3 text-left">
+                <div class="col text-left">
                     <div class="form-group">
                         <mat-checkbox [formControl]="cannotChargeInParallel">
                             {{'chargers.cant_charge_in_parallel' | translate}}
@@ -65,17 +65,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-2">
                 <ng-container *ngFor="let connector of charger.connectors">
                     <div class="col-md-3 charger-dialog-connector">
                         <div class="card">
                             <div class="card-header card-header-danger card-header-icon">
                                 <div class="card-icon">
                                     <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
-                                        <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}">
+                                        <img width="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}">
                                     </ng-container>
                                     <ng-template #elseTemplate>
-                                        <img with="25" height="25" class="charger-dialog-connector-type-icon" src="{{'unknown' | appConnectorType}}">
+                                        <img width="25" height="25" class="charger-dialog-connector-type-icon" src="{{'unknown' | appConnectorType}}">
                                     </ng-template>
                                 </div>
                                 <h4 class="card-title text-left">
@@ -109,5 +109,5 @@
                 </ng-container>
             </div>
         </form>
-    </div>
+    <!--</div>-->
 </div>

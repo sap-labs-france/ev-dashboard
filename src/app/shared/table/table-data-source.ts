@@ -2,12 +2,13 @@ import { BehaviorSubject, interval, Observable, of, Subscription, Subject, Subsc
 import { ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
-import { Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem } from '../../common.types';
+import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 import * as _ from 'lodash';
 export abstract class TableDataSource<T> implements DataSource<T> {
+  public rowActionsDef: TableActionDef[];
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
   private paginator: MatPaginator;
@@ -16,7 +17,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableDef: TableDef;
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
-  public rowActionsDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
@@ -178,16 +178,49 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getPaging(): Paging {
-    return {
-      skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-      limit: this.getPaginator().pageSize
-    };
+    if (this.getPaginator()) {
+      return {
+        skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
+        limit: this.getPaginator().pageSize
+      };
+    } else {
+      return {
+        skip: 0,
+        limit: this.getPaginatorPageSizes()[0]
+      };
+    }
   }
 
   public getOrdering(): Ordering[] {
-    return [
-      { field: this.getSort().active, direction: this.getSort().direction }
-    ]
+    if (this.getSort()) {
+      return [
+        { field: this.getSort().active, direction: this.getSort().direction }
+      ]
+    } else {
+      // Find Sorted columns
+      const columnDef = this.getTableColumnDefs().find((column) => column.sorted === true);
+      // Found?
+      if (columnDef) {
+        // Yes: Set Sorting
+        return [
+          { field: columnDef.id, direction: columnDef.direction }
+        ]
+      } else {
+        return [
+          //        { field: 'id', direction: 'asc' }
+        ]
+      }
+    }
+  }
+
+  /**
+   * Called by table component on ngOnDestroy
+   *
+   * @memberof TableDataSource
+   */
+  public destroy() {
+    this.paginator = null;
+    this.sort = null;
   }
 
   public setNumberOfRecords(numberOfRecords: number) {
@@ -205,6 +238,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getData(): any[] {
     return this.data;
+  }
+
+  public getFormattedData(): any[] {
+    return this.formattedData;
   }
 
   public getTableActionsDef(): TableActionDef[] {
@@ -513,6 +550,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+    return true;
+  }
+
   private _checkInitialized(): any {
     // Check
     if (!this.tableDef) {
@@ -631,4 +672,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [];
   }
 
+
+  isSelectable(row: T) {
+    return true;
+  }
 }

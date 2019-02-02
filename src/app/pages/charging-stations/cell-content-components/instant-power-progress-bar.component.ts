@@ -5,13 +5,13 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
     <div class="power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
-      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10; else elseTemplate">
+      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
         {{instantPowerW | appUnit:'W':'kW':false:0:0}}
       </ng-container>
       <ng-template #elseTemplate>
-        {{instantPowerW | appUnit:'W':'kW':false:0:2}}
+        {{instantPowerW | appUnit:'W':'kW':false:0:1}}
       </ng-template>
-      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:2:0}}</ng-container>
+      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
     </div>
     <mat-progress-bar [hidden]="maxPowerW===0"
       value="{{instantPowerW/maxPowerW*100}}"
@@ -31,7 +31,7 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
   ngOnInit(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
-    if (<Charger>this.row.chargePointModel) {
+    if (Array.isArray(<Charger>this.row.connectors)) {
       const charger = <Charger>this.row;
       // Extract the row information from a Charger
       let doNotConsiderConnectorPower = false;
@@ -53,11 +53,12 @@ export class InstantPowerProgressBarComponent implements CellContentTemplateComp
         }
         this.instantPowerW += Number(connector.currentConsumption).valueOf();
       }
-    } else if (<Connector>this.row.power) {
+      this.instantPowerW = (this.instantPowerW > this.maxPowerW ? this.maxPowerW : this.instantPowerW);
+    } else if (<Connector>this.row) {
       // Extract the information from a connector
       const connector = <Connector>this.row;
       this.maxPowerW = connector.power;
-      this.instantPowerW = connector.currentConsumption;
+      this.instantPowerW = (connector.currentConsumption > this.maxPowerW ? this.maxPowerW : connector.currentConsumption);
     }
   }
 }

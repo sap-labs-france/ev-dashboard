@@ -23,6 +23,10 @@
       border-radius: $border-radius-large;
       top: 0;
       left: 0;
+
+      width: 100%;
+      height: 100%;
+
       justify-content: center;
       align-content: center;
       display: -webkit-flex;
@@ -63,15 +67,10 @@
       z-index: 5;
       text-align: center;
 
-      width: 100%;
-      height: 100%;
-
       &.back-background {
         &:after {
           position: absolute;
           z-index: 1;
-          width: 100%;
-          height: 100%;
           display: block;
           left: 0;
           top: 0;

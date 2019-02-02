@@ -40,13 +40,14 @@ export class Constants {
   public static ACTION_CLEAR_CACHE = 'ClearCache';
   public static ACTION_START_TRANSACTION = 'StartTransaction';
   public static ACTION_STOP_TRANSACTION = 'StopTransaction';
+  public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';
 
   /* Company */
   public static COMPANY_WITH_LOGO = true;
   public static COMPANY_WITH_NO_LOGO = false;
-  public static COMPANY_NO_LOGO = 'assets/img/theme/no-logo.jpg';
+  public static COMPANY_NO_LOGO = 'assets/img/theme/no-logo.png';
 
   /* Site */
   public static SITE_WITH_COMPANY = true;
@@ -59,12 +60,12 @@ export class Constants {
   public static SITE_WITH_NO_CHARGERS = false;
   public static SITE_WITH_USERS = true;
   public static SITE_WITH_NO_USERS = false;
-  public static SITE_NO_IMAGE = 'assets/img/theme/no-logo.jpg';
+  public static SITE_NO_IMAGE = 'assets/img/theme/no-logo.png';
 
   /* Site Area */
   public static SITE_AREA_WITH_IMAGE = true;
   public static SITE_AREA_WITH_NO_IMAGE = false;
-  public static SITE_AREA_NO_IMAGE = 'assets/img/theme/no-logo.jpg';
+  public static SITE_AREA_NO_IMAGE = 'assets/img/theme/no-logo.png';
 
   /* Data Service */
   public static DEFAULT_LIMIT = 100;
@@ -134,6 +135,8 @@ export class Constants {
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
   public static SETTINGS_ORGANIZATION = 'organization';
+  public static SETTINGS_CHARGE_AT_HOME = 'chargeathome';
+  public static SETTINGS_PRICING = 'pricing';
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
@@ -145,6 +148,7 @@ export class Constants {
   public static OCPP_RESPONSE_REJECTED = 'Rejected';
   public static OCPP_UNIT_AMPER = 'A';
   public static OCPP_UNIT_WATT = 'W';
+  /* Settings */
 
   /* Ocpi status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';

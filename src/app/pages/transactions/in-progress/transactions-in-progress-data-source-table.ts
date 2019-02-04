@@ -93,8 +93,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        class: 'text-left',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -103,22 +102,20 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'user',
         name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value)
       },
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        class: 'text-left',
         formatter: (currentTotalDurationSecs) => this.appDurationPipe.transform(currentTotalDurationSecs)
       },
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'd-none d-lg-table-cell',
+        class: 'text-left d-none d-lg-table-cell',
         formatter: (currentTotalInactivitySecs, row) => {
           const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
           if (percentage === 0) {
@@ -131,42 +128,33 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        class: 'text-left'
       },
       {
         id: 'connectorId',
         name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent,
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'text-left d-none d-xl-table-cell',
       },
       {
         id: 'currentTotalConsumption',
         name: 'transactions.total_consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
         formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh')
       },
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
         formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
       },
       {
         id: 'currentStateOfCharge',
         name: 'transactions.state_of_charge',
-        headerClass: 'col-10p',
-        class: 'col-10p',
         formatter: (currentStateOfCharge, row) => {
           if (!currentStateOfCharge) {
             return '';

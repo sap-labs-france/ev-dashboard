@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   private userSubscription;
   public isAdmin = false;
+  public canEditProfile = false;
 
   constructor(
     private configService: ConfigService,
@@ -44,10 +45,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
       return route.data && route.data.menu && this.guard.isRouteAllowed(route);
     }).map(route => route.data.menu);
+
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
     this.loggedUser = this.centralServerService.getLoggedUser();
+
+    if (authorizationService.canUpdateUser({'id': this.loggedUser.id})) {
+      this.canEditProfile = true;
+    }
     // Read user
     this.updateUserImage();
   }

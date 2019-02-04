@@ -1,9 +1,9 @@
-import {TableColumnDef, Ocpiendpoint, KeyValue} from '../../../../../common.types';
-import {CellContentTemplateComponent} from '../../../../../shared/table/cell-content-template/cell-content-template.component';
-import {Constants} from '../../../../../utils/Constants';
-import {ChipComponent} from '../../../../../shared/component/chip/chip.component';
-import {TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input, OnInit} from '@angular/core';
+import { TableColumnDef, Ocpiendpoint, KeyValue } from '../../../../../common.types';
+import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';
+import { Constants } from '../../../../../utils/Constants';
+import { ChipComponent } from '../../../../../shared/component/chip/chip.component';
+import { TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO } from '../../../../../shared/component/chip/chip.component';
+import { Component, Input, OnInit } from '@angular/core';
 
 
 
@@ -16,12 +16,12 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
 
   @Input() row: Ocpiendpoint;
 
-   ngOnInit(): void {
-     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-     // Add 'implements OnInit' to the class.
-    for (const userStatus of userStatuses) {
-      if (userStatus.key === this.row.status) {
-        this.text = userStatus.value
+  ngOnInit(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    for (const ocpiStatus of ocpiStatuses) {
+      if (ocpiStatus.key === this.row.status) {
+        this.text = ocpiStatus.value
       }
     }
     this.type = 'chip-width-10em ';
@@ -32,6 +32,9 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
       case Constants.OCPIENDPOINT_STATUS_REGISTERED:
         this.type += TYPE_SUCCESS;
         break;
+      case Constants.OCPIENDPOINT_STATUS_UNREGISTERED:
+        this.type += TYPE_WARNING;
+        break;
       default:
         this.type += TYPE_DEFAULT;
     }
@@ -39,7 +42,8 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
 }
 
 
-export const userStatuses: KeyValue[] = [
-  {key: 'new', value: 'ocpiendpoints.new'},
-  {key: 'registered', value: 'ocpiendpoints.registered'}
+export const ocpiStatuses: KeyValue[] = [
+  { key: 'new', value: 'ocpiendpoints.new' },
+  { key: 'registered', value: 'ocpiendpoints.registered' },
+  { key: 'unregistered', value: 'ocpiendpoints.unregistered'}
 ];

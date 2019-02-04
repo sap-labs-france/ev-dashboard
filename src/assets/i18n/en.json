@@ -728,7 +728,7 @@
   },
   "settings": {
     "tabs": {
-      "ocpi": "OCPI",
+      "ocpi": "Roaming",
       "chargeathome": "Charge@Home",
       "pricing": "Pricing"
     },
@@ -787,6 +787,7 @@
     "token": "Remote Token",
     "new": "New",
     "registered": "Registered",
+    "unregistered": "Unregistered",
     "generateNewToken": "Generate new token",
     "testConnection": "Connection Test",
     "create_success": "The eMSP '{{name}}' has been created successfully",
@@ -812,7 +813,7 @@
     "error_send_evse_statuses": "Error occured while updating EVSE statuses - see logs for more details"
   },
   "ocpi": {
-    "title": "OCPI",
+    "title": "Roaming",
     "emsps": "e-Mobility Service Providers",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",

@@ -4,7 +4,7 @@
   border: 0;
   margin-bottom: 30px;
   margin-top: 30px;
-  border-radius: $border-radius-large;
+  border-radius: $border-radius-base;
   color: $gray-dark;
   background: $white-color;
   width: 100%;
@@ -56,7 +56,7 @@
     & + .card-footer {
       padding-top: 0rem;
       border: 0;
-      border-radius: $border-radius-large;
+      border-radius: $border-radius-base;
     }
   }
 
@@ -99,6 +99,7 @@
   .card-header {
     border-bottom: none;
     background: transparent;
+    box-shadow: none;
     .title {
       color: $white-color;
     }
@@ -118,7 +119,7 @@
       margin-left: 15px;
       margin-right: 15px;
       margin-top: -30px;
-      border-radius: $border-radius-large;
+      border-radius: $border-radius-base;
 
       img {
         width: 100%;
@@ -210,44 +211,6 @@
   &.card-rotate.bg-rose .front,
   &.card-rotate.bg-rose .back {
     background: linear-gradient(60deg, $pink-400, $pink-600);
-  }
-
-  .card-header-primary .card-icon,
-  .card-header-primary:not(.card-header-icon):not(.card-header-text),
-  .card-header-primary .card-text {
-    @include shadow-big-color($brand-primary);
-
-    //@include shadow-8dp-color($brand-primary);
-    //@include shadow-16dp-color($brand-primary);
-  }
-  .card-header-danger .card-icon,
-  .card-header-danger:not(.card-header-icon):not(.card-header-text),
-  .card-header-danger .card-text {
-    @include shadow-big-color($brand-danger);
-  }
-
-  .card-header-rose .card-icon,
-  .card-header-rose:not(.card-header-icon):not(.card-header-text),
-  .card-header-rose .card-text {
-    @include shadow-big-color($brand-rose);
-  }
-
-  .card-header-warning .card-icon,
-  .card-header-warning:not(.card-header-icon):not(.card-header-text),
-  .card-header-warning .card-text {
-    @include shadow-big-color($brand-warning);
-  }
-
-  .card-header-info .card-icon,
-  .card-header-info:not(.card-header-icon):not(.card-header-text),
-  .card-header-info .card-text {
-    @include shadow-big-color($brand-info);
-  }
-
-  .card-header-success .card-icon,
-  .card-header-success:not(.card-header-icon):not(.card-header-text),
-  .card-header-success .card-text {
-    @include shadow-big-color($brand-success);
   }
 
   [class*="card-header-"],

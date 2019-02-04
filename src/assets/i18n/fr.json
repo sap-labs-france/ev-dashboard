@@ -723,7 +723,7 @@
   },
   "settings": {
     "tabs": {
-      "ocpi": "OCPI",
+      "ocpi": "Itinérance",
       "chargeathome": "Charge@Home",
       "pricing": "Pricing"
     },
@@ -779,6 +779,9 @@
     "version": "Version",
     "localToken": "Jeton Local",
     "token": "Jeton Distant",
+    "new": "Nouveau",
+    "registered": "Enregistré",
+    "unregistered": "Désenregistré",
     "generateNewToken": "Générer nouveau jeton",
     "testConnection": "Tester la connexion",
     "create_success": "L'eMSP '{{name}}' a été créé avec succès",
@@ -804,7 +807,7 @@
     "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails"
   },
   "ocpi": {
-    "title": "OCPI",
+    "title": "Itinérance",
     "emsps": "Opérateurs de Services de Mobilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
@@ -947,6 +950,8 @@
       "refund": {
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
         "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
+        "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
+        "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
         "error": "Une erreur est survenue pendant la demande de remboursement"
       }
     }

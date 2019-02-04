@@ -1,20 +1,288 @@
 <div class="main-content">
-  <div class="container-fluid">
+  <div class="container-fluid" [@SlideChangeStart]="beforeChange" [@CardRotate]="beforeChange" (@SlideChangeStart.done)="slideChangeAnimationReloadEnd($event)"
+    [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)">
     <div class="row">
       <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons"></i>
+        <div class="w-100">
+          <div class="d-flex flex-column w-100 justify-content-center">
+            <div class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3" style="min-height:320px">
+              <div class="col-md-4 mx-1">
+                <div class="card card-stats gauge-card">
+                  <div class="card-header fade-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">ev_station</i>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title"></h3>
+                  </div>
+                  <div class="card-nooverflow">
+                    <div class="card-body fade-card-left gauge-card-body">
+                      <app-chargers-gauge [activeChargers]="activeSite.site.activeChargers"></app-chargers-gauge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1  ">
+                <div class="card  card-stats flipping-card ">
+                  <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                      <img *ngIf="activeSite.site.logoUrl && activeSite.site.logoUrl.length > 0" [src]="activeSite.site.logoUrl"
+                        alt="" style="max-width: 56px; max-height: 56px">
+                      <i *ngIf="!(activeSite.site.logoUrl && activeSite.site.logoUrl.length > 0)" class="material-icons">business</i>
+                    </div>
+                    <div>
+                      <p class="card-category">{{activeCompany.company.name}}</p>
+                      <h3 class="card-title">{{activeSite.site.name}}</h3>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-flex flex-column">
+                      <div class="d-flex d-flex-row w-100 justify-content-around align-items-center">
+                        <button mat-icon-button (click)="changeSite('prev')" [class]="'d-flex btn-group btn btn-danger btn-just-icon'">
+                          <mat-icon>keyboard_arrow_left</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="pauseSlide()" [class]="'d-flex btn-group btn btn-danger btn-just-icon'">
+                          <mat-icon *ngIf="!isCarouselPaused">pause</mat-icon>
+                          <mat-icon *ngIf="isCarouselPaused">play_arrow</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="changeSite('next')" [class]="'d-flex btn-group btn btn-danger btn-just-icon'">
+                          <mat-icon>keyboard_arrow_right</mat-icon>
+                        </button>
+                      </div>
+                      <div>
+                        <agm-map [latitude]="activeSite.site.latitude" [longitude]="activeSite.site.longitude" [zoom]="11">
+                          <agm-marker [latitude]="activeSite.site.latitude" [longitude]="activeSite.site.longitude"></agm-marker>
+                        </agm-map>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1  ">
+                <div class="card  card-stats gauge-card">
+                  <div class="card-header fade-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">flash_on</i>
+                    </div>
+                    <p class="card-category"></p>
+                    <h3 class="card-title"></h3>
+                  </div>
+                  <div class="card-nooverflow">
+                    <div class="card-body fade-card gauge-card-body">
+                      <app-consumption-gauge #consumptionGauge [consumption]="activeSite.site.consumptionValue"></app-consumption-gauge>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h4 class="card-title">New Hi-Availability Dashboard (under construction)</h4>
-          </div>
-          <div class="card-body">
-            <div class="row">
+            <div class="d-flex d-flex-row justify-content-around mb-3">
+              <div class="col-md-4 mx-1">
+                <div class="card  card-stats">
+                  <div class="card-header card-header-info card-header-icon">
+                    <div class="fade-header card-icon">
+                      <i class="material-icons">weekend</i>
+                    </div>
+                    <p class="fade-header card-category">Energy delivered</p>
+                    <div class="card-nooverflow">
+                      <h3 class="fade-card card-title">{{activeSite.site.consumption}} kW.h</h3>
+                    </div>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons text-danger">warning</i>
+                      <a href="#pablo">Get More Space...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1">
+                <div class="card  card-stats">
+                  <div class="card-header card-header-danger card-header-icon">
+                    <div class="fade-header card-icon">
+                      <i class="material-icons">weekend</i>
+                    </div>
+                    <p class="fade-header card-category">Charging time</p>
+                    <div class="card-nooverflow">
+                      <h3 class="fade-card card-title">6 hours</h3>
+                    </div>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons text-danger">warning</i>
+                      <a href="#pablo">Get More Space...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1">
+                <div class="card  card-stats">
+                  <div class="card-header card-header-danger card-header-icon">
+                    <div class="fade-header card-icon">
+                      <i class="material-icons">weekend</i>
+                    </div>
+                    <p class="fade-header card-category">Inactivity time</p>
+                    <div class="card-nooverflow">
+                      <h3 class="fade-card card-title">8 hours</h3>
+                    </div>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons text-danger">warning</i>
+                      <a href="" (click)="testFooterClick()">Get More Space...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex d-flex-row justify-content-around mb-3">
+              <div class="col-md-4 mx-1">
+                <div class="card  card-chart">
+                  <div class="fade-card-left card-header card-header-info">
+                    <div class="card-nooverflow">
+                      <div class="ct-chart" id="consumption"></div>
+                    </div>
+                  </div>
+                  <div class="fade-header card-body">
+                    <h4 class="card-title">Consumption</h4>
+                    <p class="card-category">1 day</p>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1">
+                <div class="card   card-chart">
+
+                  <div class="fade-card card-header card-header-info">
+                    <div class="card-nooverflow">
+                      <div class="ct-chart" id="delivered"></div>
+                    </div>
+                  </div>
+                  <div class="fade-header card-body">
+                    <h4 class="card-title">Delivered</h4>
+                    <p class="card-category">1 day</p>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex d-flex-row justify-content-around mb-3">
+              <div class="col-md-4 mx-1">
+                <div class="card  card-chart">
+                  <div class="fade-card-left card-header card-header-info">
+                    <div class="card-nooverflow">
+                      <div #chartConsumption class="chart-container">
+                        <div class="chart">
+                          <chart type="line" [data]="dataLine" [options]="optionsLine"></chart>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fade-header card-body">
+                    <h4 class="card-title">Consumption</h4>
+                    <p class="card-category">1 day</p>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1">
+                <div class="card   card-chart">
+
+                  <div class="fade-card card-header card-header-info">
+                    <div class="card-nooverflow">
+                      <div #chartDelivered class="chart-container">
+                        <div class="chart">
+                          <chart type="bar" [data]="dataBar" [options]="optionsBar"></chart>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fade-header card-body">
+                    <h4 class="card-title">Delivered</h4>
+                    <p class="card-category">1 day</p>
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex d-flex-row justify-content-around mb-3">
+              <div class="col-md-4 mx-1">
+                <div class="card  card-stats">
+                  <div class="fade-header card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">weekend</i>
+                    </div>
+                    <div>
+                      <h4 class="card-title">Consumption</h4>
+                      <p class="card-category">1 day</p>
+                    </div>
+                  </div>
+                  <div class="fade-card-left card-body">
+                    <div class="card-nooverflow">
+                      <div #chartConsumption class="chart-container">
+                        <div class="chart">
+                          <chart type="line" [data]="dataLineBlue" [options]="optionsLine"></chart>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mx-1">
+                <div class="card  card-stats">
+                  <div class="fade-header card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">weekend</i>
+                    </div>
+                    <div>
+                      <h4 class="card-title">Consumption</h4>
+                      <p class="card-category">1 day</p>
+                    </div>
+                  </div>
+                  <div class="fade-card card-body">
+                    <div class="card-nooverflow">
+                      <div #chartConsumption class="chart-container">
+                        <div class="chart">
+                          <chart type="bar" [data]="dataBarBlue" [options]="optionsBar"></chart>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="fade-header card-footer">
+                    <div class="stats">
+                      <i class="material-icons">udapted</i> 30 mins ago
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
+<!---</div>-->

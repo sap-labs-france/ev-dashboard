@@ -218,6 +218,12 @@
     "create_error": "Error occurred while creating the company",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
+  "dashboard": {
+    "metrics": "Current metrics",
+    "consumption_gauge_title": "Consumption",
+    "active_stations_gauge_title": "Charging points",
+    "active_stations_gauge_unit": "Active"
+  },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",
     "user_list": "Users authorized to use charging stations on this site",

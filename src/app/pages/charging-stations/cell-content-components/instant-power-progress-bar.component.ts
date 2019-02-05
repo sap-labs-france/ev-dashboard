@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { TableColumnDef, Charger, Connector } from '../../../common.types';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import {Component, Input, OnInit} from '@angular/core';
+import {Charger, Connector} from '../../../common.types';
+import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
@@ -14,8 +15,8 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
       <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
     </div>
     <mat-progress-bar [hidden]="maxPowerW===0"
-      value="{{instantPowerW/maxPowerW*100}}"
-      mode="determinate">
+                      value="{{instantPowerW/maxPowerW*100}}"
+                      mode="determinate">
     </mat-progress-bar>
   `
 })

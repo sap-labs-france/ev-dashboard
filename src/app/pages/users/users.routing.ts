@@ -10,7 +10,7 @@ export const UserRoutes: Routes = [
     path: ':id', component: UserComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_USER,
-        action: Constants.ACTION_READ
+        action: Constants.ACTION_UPDATE
       }
     }
   },

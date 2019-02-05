@@ -158,7 +158,7 @@
 
   </ng-container>
   <!-- Table -->
-  <div [class]="(tableDef.class ? tableDef.class : 'table-list') + ' flex-grow-1'">
+  <div [class]="(tableDef.class ? tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId" mat-table matSort matSortDisableClear
            multiTemplateDataRows>
       <!-- Checkbox Select Column -->

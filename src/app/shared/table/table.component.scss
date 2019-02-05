@@ -20,11 +20,12 @@ table {
 
 th {
   font-weight: bold;
+  padding: 5px !important;
 }
 
 td {
   font-size: $font-size-sm;
-  padding: 5px 0 5px 0;
+  padding: 5px;
 }
 
 td a, td button {
@@ -44,11 +45,15 @@ tr.mat-row {
 }
 
 th:first-child, td:first-child {
-  padding: 0 25px;
+  padding-left: 15px !important;
+}
+
+th:last-child, td:last-child {
+   padding-right: 15px !important;
 }
 
 th:nth-child(n+2), td:nth-child(n+2) {
-  padding-right: 20px;
+  //padding-right: 20px;
 }
 
 @mixin col-fixsize($width) {
@@ -89,7 +94,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 .table-detailed-list {
-  overflow: auto;
+  overflow: hidden;
   white-space: nowrap;
   background-color: white;
 }
@@ -157,12 +162,10 @@ tr.mat-header-row {
 
 .details-column-header i {
   padding-top: 5px;
-  margin-left: -5px;
 }
 
 .details-column-row i {
   padding-top: 5px;
-  margin-left: -5px;
   cursor: pointer;
 }
 

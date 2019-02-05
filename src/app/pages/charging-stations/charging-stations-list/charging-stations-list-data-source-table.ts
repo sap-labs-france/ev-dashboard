@@ -166,11 +166,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       {
         id: 'connectorsConsumption',
         name: 'chargers.consumption_title',
-        class: 'col-9em',
         sortable: false,
         isAngularComponent: true,
-        angularComponentName: InstantPowerProgressBarComponent,
-        headerClass: 'col-9em'
+        angularComponentName: InstantPowerProgressBarComponent
       },
       {
         id: 'siteArea.site.name',
@@ -246,11 +244,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         {
           id: 'connectorsConsumption',
           name: 'chargers.consumption_title',
-          class: 'col-12em',
           sortable: false,
           isAngularComponent: true,
-          angularComponentName: InstantPowerProgressBarComponent,
-          headerClass: 'col-12em'
+          angularComponentName: InstantPowerProgressBarComponent
         }
       ];
     }

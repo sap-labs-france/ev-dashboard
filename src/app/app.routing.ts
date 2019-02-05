@@ -56,7 +56,7 @@ export const AppRoutes: Routes = [
           menu: {
             title: 'transactions',
             type: 'link',
-            icon: 'list',
+            icon: 'history',
             path: '/transactions'
           },
           auth: {

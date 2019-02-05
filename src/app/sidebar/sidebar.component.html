@@ -34,7 +34,7 @@
       </a>
       <div class="collapse" id="collapseDetails">
         <ul class="nav">
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <li *ngIf="canEditProfile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
             <a [routerLink]="['/users/' + loggedUser.id ]" class="nav-link">
               <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
               <span class="sidebar-normal">{{'users.profile' | translate}}</span>

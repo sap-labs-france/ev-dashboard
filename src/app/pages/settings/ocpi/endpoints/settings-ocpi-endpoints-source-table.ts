@@ -24,6 +24,7 @@ import { TableSendAction } from '../../../../shared/table/actions/table-send-act
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from '../../../../services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
+import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
@@ -134,7 +135,16 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         angularComponentName: OcpiendpointStatusComponent,
         headerClass: 'col-25p',
         class: 'col-25p',
-        sortable: true
+        sortable: false
+      },
+      {
+        id: 'patchJobStatus',
+        name: 'ocpiendpoints.patchJobStatus',
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointPatchJobStatusComponent,
+        headerClass: 'col-25p',
+        class: 'col-25p',
+        sortable: false
       }
     ];
   }

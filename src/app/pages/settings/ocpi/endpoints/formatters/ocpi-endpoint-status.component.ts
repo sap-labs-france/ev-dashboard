@@ -1,18 +1,14 @@
-import { TableColumnDef, Ocpiendpoint, KeyValue } from '../../../../../common.types';
-import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from '../../../../../utils/Constants';
-import { ChipComponent } from '../../../../../shared/component/chip/chip.component';
-import { TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO } from '../../../../../shared/component/chip/chip.component';
-import { Component, Input, OnInit } from '@angular/core';
-
-
+import {KeyValue, Ocpiendpoint} from '../../../../../common.types';
+import {Constants} from '../../../../../utils/Constants';
+import {ChipComponent, TYPE_DEFAULT, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-log-level-chip',
   styleUrls: ['../../../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
-export class OcpiendpointStatusComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+export class OcpiendpointStatusComponent extends ChipComponent implements OnInit {
 
   @Input() row: Ocpiendpoint;
 
@@ -43,7 +39,7 @@ export class OcpiendpointStatusComponent extends ChipComponent implements CellCo
 
 
 export const ocpiStatuses: KeyValue[] = [
-  { key: 'new', value: 'ocpiendpoints.new' },
-  { key: 'registered', value: 'ocpiendpoints.registered' },
-  { key: 'unregistered', value: 'ocpiendpoints.unregistered'}
+  {key: 'new', value: 'ocpiendpoints.new'},
+  {key: 'registered', value: 'ocpiendpoints.registered'},
+  {key: 'unregistered', value: 'ocpiendpoints.unregistered'}
 ];

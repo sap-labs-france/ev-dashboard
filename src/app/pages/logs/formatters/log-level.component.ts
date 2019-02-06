@@ -1,5 +1,4 @@
-import {Log, TableColumnDef} from '../../../common.types';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
 import {Component, Input, OnInit} from '@angular/core';
 import {
@@ -16,7 +15,7 @@ import {
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class LogLevelComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+export class LogLevelComponent extends ChipComponent implements OnInit {
   @Input() row: Log;
 
   ngOnInit(): void {

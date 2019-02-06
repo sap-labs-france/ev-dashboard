@@ -22,7 +22,7 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 })
 
 
-export class InstantPowerProgressBarComponent implements CellContentTemplateComponent, OnInit {
+export class InstantPowerProgressBarComponent extends CellContentTemplateComponent implements OnInit {
 
   @Input() row: any;
 

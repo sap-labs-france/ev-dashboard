@@ -21,6 +21,7 @@ export class EndpointDialogComponent implements OnInit {
   public partyId: AbstractControl;
   public localToken: AbstractControl;
   public token: AbstractControl;
+  public isBackgroundPatchJobActive: AbstractControl;
 
   private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
@@ -44,7 +45,8 @@ export class EndpointDialogComponent implements OnInit {
         'countryCode': '',
         'partyId': '',
         'localToken': '',
-        'token': ''
+        'token': '',
+        'backgroundPatchJob': false
       }
     }
   }
@@ -82,6 +84,7 @@ export class EndpointDialogComponent implements OnInit {
         Validators.compose([
           Validators.maxLength(64)
         ])),
+      'backgroundPatchJob': new FormControl(this.currentEndpoint.backgroundPatchJob)
     });
 
     this.id = this.formGroup.controls['id'];
@@ -91,6 +94,7 @@ export class EndpointDialogComponent implements OnInit {
     this.partyId = this.formGroup.controls['partyId'];
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
+    this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
   }
 
   cancel() {

@@ -267,6 +267,7 @@ export interface Ocpiendpoint {
   partyID: string;
   version: string;
   status: string;
+  backgroundPatchJob: boolean;
 }
 
 export interface OcpiendpointResult {

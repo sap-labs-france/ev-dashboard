@@ -118,7 +118,7 @@
       </div>
 
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (actionsDef.length > 0) " class="row">
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions()) " class="row">
         <!-- Create Filters -->
         <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : 'filter-row')">
           <!-- Dropdown Filter -->

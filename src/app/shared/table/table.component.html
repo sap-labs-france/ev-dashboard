@@ -5,7 +5,7 @@
       <!-- Actions Row -->
       <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row">
         <!-- Create Left Actions -->
-        <div *ngFor="let actionDef of actionsDef; let i=index" class="d-flex filter-row">
+        <div *ngFor="let actionDef of actionsLeftDef; let i=index" class="d-flex filter-row">
           <!-- Action Button -->
           <button (click)="actionTriggered(actionDef)"
                   *ngIf="actionDef.type === 'button'" [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
@@ -16,8 +16,8 @@
             </span>
           </button>
         </div>
-        <span *ngIf="actionsDef.length > 0" class="toolbar-spacer"></span>
-        <ng-container *ngIf="actionsDef.length === 0">
+        <span *ngIf="actionsLeftDef.length > 0" class="toolbar-spacer"></span>
+        <ng-container *ngIf="actionsLeftDef.length === 0">
           <!-- Filters Row as there is no left actions -->
           <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="d-flex flex-wrap w-100">
             <!-- Create Filters -->
@@ -51,8 +51,8 @@
               </mat-form-field>
             </div>
             <!-- Search -->
-            <div class="d-flex col">
-              <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
+            <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
+              <mat-form-field>
                 <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
                        matInput>
               </mat-form-field>
@@ -118,12 +118,12 @@
       </div>
 
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions()) " class="row">
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " class="row">
         <!-- Create Filters -->
         <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : 'filter-row')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown'">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
                         [placeholder]="filterDef.name | translate">
               <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
               </mat-option>
@@ -149,9 +149,12 @@
           </mat-form-field>
         </div>
         <!-- Search -->
-        <mat-form-field *ngIf="dataSource.isSearchEnabled()" class="col">
-          <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate" matInput>
-        </mat-form-field>
+        <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
+          <mat-form-field>
+            <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
+                   matInput>
+          </mat-form-field>
+        </div>
       </div>
     </div>
 

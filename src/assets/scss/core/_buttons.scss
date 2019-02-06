@@ -150,6 +150,10 @@
   }
 }
 
+.mat-raised-button {
+  border-radius: $border-radius-base;
+}
+
 .btn-just-icon {
   &.btn-lg {
     font-size: $mdb-btn-fab-font-size;

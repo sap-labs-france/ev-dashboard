@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {Constants} from '../../../utils/Constants';
 import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
 import {LocaleService} from '../../../services/locale.service';
+import {ConsumptionChartComponent} from '../../component/transactionChart/consumption-chart.component';
 
 @Component({
   templateUrl: './session.dialog.component.html',
@@ -24,6 +25,8 @@ export class SessionDialogComponent implements OnInit {
   private totalDurationSecs: number;
   private totalInactivitySecs: number;
 
+  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
+
   constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -40,6 +43,15 @@ export class SessionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  refresh() {
+    this.loadData();
+    this.chartComponent.refresh();
+  }
+
+  loadData() {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
       if (transaction.stop) {
@@ -70,7 +82,6 @@ export class SessionDialogComponent implements OnInit {
           this.stateOfChargeIcon = 'battery_charging_20';
         }
       }
-
 
       this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
         if (userImage && userImage.image) {

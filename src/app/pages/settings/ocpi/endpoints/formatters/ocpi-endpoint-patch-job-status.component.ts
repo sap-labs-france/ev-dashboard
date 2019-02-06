@@ -1,10 +1,6 @@
-import { TableColumnDef, Ocpiendpoint, KeyValue } from '../../../../../common.types';
-import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from '../../../../../utils/Constants';
-import { ChipComponent } from '../../../../../shared/component/chip/chip.component';
-import { TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING, TYPE_INFO } from '../../../../../shared/component/chip/chip.component';
-import { Component, Input, OnInit } from '@angular/core';
-
+import {Ocpiendpoint} from '../../../../../common.types';
+import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
+import {Component, Input, OnInit} from '@angular/core';
 
 
 @Component({
@@ -12,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['../../../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
-export class OcpiendpointPatchJobStatusComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+export class OcpiendpointPatchJobStatusComponent extends ChipComponent implements OnInit {
 
   @Input() row: Ocpiendpoint;
 

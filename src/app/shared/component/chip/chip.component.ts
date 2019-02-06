@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CellContentTemplateComponent} from '../../table/cell-content-template/cell-content-template.component';
 
 export const TYPE_PRIMARY = 'chip-primary';
 export const TYPE_DEFAULT = 'chip-default';
@@ -13,7 +14,7 @@ export const TYPE_GREY = 'chip-grey';
   styleUrls: ['chip.component.scss'],
   templateUrl: 'chip.component.html'
 })
-export class ChipComponent {
+export class ChipComponent extends CellContentTemplateComponent {
   text: String;
   type: String;
 }

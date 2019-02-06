@@ -1,6 +1,8 @@
-import { TableColumnDef } from '../../../common.types';
-import { Input } from '@angular/core';
-export class CellContentTemplateComponent {
+import {Input} from '@angular/core';
+
+export abstract class CellContentTemplateComponent {
   @Input() row: any;
 
+  refresh(): void {
+  }
 }

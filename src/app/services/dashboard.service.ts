@@ -108,26 +108,38 @@ export class DashboardService {
         } while (date < moment())
 //        graphLabels.push(moment().format('h:mm'));
         graphSerie = this.generateDummyData(graphLabels.length, 450);
+        while (graphLabels.length < 24) {
+          graphLabels.push(date.format('h:mm'));
+          date.add(1, 'hour');
+        }
         break;
       case 'week':
         // create a date/time for 6 hours
         date = moment().startOf('week');
         do {
-          graphLabels.push(date.format('ddd, h:mmm'));
-          date.add(6, 'hour');
+          graphLabels.push(date.format('ddd'));
+          date.add(1, 'day');
         } while (date < moment())
 //        graphLabels.push(moment().format('ddd, h:mmm'));
         graphSerie = this.generateDummyData(graphLabels.length, 450);
+        while (graphLabels.length < 7) {
+          graphLabels.push(date.format('ddd'));
+          date.add(1, 'day');
+        }
         break;
       case 'month':
         // create a date/time for every day
         date = moment().startOf('month');
         do {
-          graphLabels.push(date.format('ddd, Do'));
+          graphLabels.push(date.format('Do'));
           date.add(1, 'day');
         } while (date < moment())
 //        graphLabels.push(moment().format('ddd, Do'));
         graphSerie = this.generateDummyData(graphLabels.length, 450);
+        while (graphLabels.length < moment().endOf('month').date()) {
+          graphLabels.push(date.format('Do'));
+          date.add(1, 'day');
+        }
         break;
       case 'year':
         // create a date/time for every day
@@ -138,6 +150,10 @@ export class DashboardService {
         } while (date < moment());
 //        graphLabels.push(moment().format('MMM'));
         graphSerie = this.generateDummyData(graphLabels.length, 450);
+        while (graphLabels.length < 12) {
+          graphLabels.push(date.format('MMM'));
+          date.add(1, 'day');
+        }
         break;
       default:
         break;
@@ -149,10 +165,50 @@ export class DashboardService {
     return currentData;
   }
 
-  generateDummyData(numberOfData, maxValue): any[] {
+  getRealtime(type: string, metrics: SiteCurrentMetrics): SiteCurrentMetrics {
+    const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
+    const graphLabels = [];
+    let graphSerie = [];
+    let date = moment();
+    switch (type) {
+      case 'consumption':
+        // create a date/time for each 5 minutes
+        date = moment().startOf('day');
+        do {
+          graphLabels.push(date.format('h:mm'));
+          date.add(5, 'minutes');
+        } while (date < moment())
+        graphSerie = this.generateDummyData(graphLabels.length, metrics.maximumPower / 1000, 10);
+        break;
+      case 'utilization':
+        // create a date/time for each 5 minutes
+        date = moment().startOf('day');
+        do {
+          graphLabels.push(date.format('h:mm'));
+          date.add(5, 'minutes');
+        } while (date < moment())
+        graphSerie = this.generateDummyData(graphLabels.length, metrics.maximumNumberOfChargingPoint, 2);
+        break;
+      default:
+        break;
+    }
+    currentData.dataConsumptionChart = {
+      labels: graphLabels,
+      series: [graphSerie]
+    }
+    return currentData;
+  }
+
+  generateDummyData(numberOfData, maxValue, maxVariation: number = 0): any[] {
     const data = [];
     for (let index = 0; index < numberOfData; index++) {
-      data.push(Math.round(Math.random() * maxValue))
+      if (maxVariation > 0 && index > 0) {
+        let value = (Math.round(Math.random() * maxVariation));
+        value = (Math.random() > 0.5 ? value : value * -1);
+        data.push(data[index - 1] + value > maxValue ? maxValue : ( data[index - 1] + value < 0 ? 0 : data[index - 1] + value))
+      } else {
+        data.push(Math.round(Math.random() * maxValue))
+      }
     }
     return data;
   }

@@ -47,7 +47,7 @@
                     </div>
                     <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
                       <div class="stats">
-                        Actual number of charging point occupied
+                        {{'dashboard.occupied_charging_points_gauge_footer' | translate }}
                       </div>
                     </div>
                   </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
                       <div class="stats">
-                        Instant power deliverd in kW
+                        {{'dashboard.consumption_footer' | translate }}
                       </div>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Today active charging duration
+                        {{'dashboard.today_duration_footer' | translate}}
                         <!--                        {{'dashboard.trends_of_day_duration_title' | translate:todayDay }}:
                         {{'dashboard.trends_of_day_duration_min' | translate}}: {{currentMetrics.trends.duration.min |
                         appDuration }}
@@ -140,7 +140,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Today inactive charging duration with the trends compared to previous {{todayDay.todayDay}}
+                          {{'dashboard.today_inactivity_footer' | translate:todayDay }} 
                         <!--                        {{'dashboard.trends_of_day_inactivity_title' | translate:todayDay }}:
                         {{'dashboard.trends_of_day_inactivity_min' | translate}}:
                         {{currentMetrics.trends.inactivity.min
@@ -174,7 +174,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Today energy delivered with the trends compared to previous {{todayDay.todayDay}}
+                          {{'dashboard.today_energy_delivered_footer' | translate:todayDay }}
                         <!--                        {{'dashboard.trends_of_day_title' | translate:todayDay }}:
                         {{'dashboard.trends_of_day_min' | translate}}: {{currentMetrics.trends.totalConsumption.min |
                         appUnit:'Wh':'kWh':true:0:2 }}
@@ -214,7 +214,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Dynamic description based on context :)
+                        {{chartConsumptionFooter | translate}}
                       </div>
                     </div>
                   </div>
@@ -244,7 +244,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Energy delivered in kWh.
+                          {{chartDeliveredFooter | translate}}
                       </div>
                     </div>
                   </div>
@@ -261,13 +261,13 @@
                       <p class="fade-out-text card-category">{{'dashboard.co2_title' | translate }}</p>
                       <div class="card-nooverflow">
                         <h3 class="card-title" [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">{{currentMetrics.totalConsumption
-                          / 1000 / 18 * 150 |
+                          / 1000 / 18 * 120 |
                           number:'1.0-0'}}g CO2</h3>
                       </div>
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        saved CO2 over the day.
+                          {{'dashboard.co2_footer' | translate }}
                       </div>
                     </div>
                   </div>
@@ -287,7 +287,7 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Distance that can be done using electric power
+                          {{'dashboard.km_footer' | translate }}
                       </div>
                     </div>
                   </div>
@@ -307,7 +307,8 @@
                     </div>
                     <div class="fade-out-text card-footer">
                       <div class="stats">
-                        Volume of petrol saved.
+                          {{'dashboard.gas_footer' | translate }}
+                        
                       </div>
                     </div>
                   </div>

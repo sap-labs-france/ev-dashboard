@@ -6,8 +6,12 @@ import { animate, state, style, transition, trigger, AnimationEvent, query, grou
 import { DashboardService, SiteCurrentMetrics } from '../../services/dashboard.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { DecimalPipe } from '@angular/common';
+import { LocaleService } from 'app/services/locale.service';
 
-const SLIDE_INTERVAL = 10000;
+const SLIDE_INTERVAL = 15000;
+const CHART_INTERVAL = 3000;
 
 @Component({
   selector: 'app-dashboard',
@@ -69,6 +73,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   afterChange = false;
   isCarouselPaused = false;
   carouselInterval;
+  chartInterval;
   nextSiteIndex = -1;
   currentSiteIndex = -1;
 
@@ -100,7 +105,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   constructor(private translateService: TranslateService,
     private spinnerService: SpinnerService,
-    private dashboardService: DashboardService) {
+    private dashboardService: DashboardService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: DecimalPipe,
+    private localeService: LocaleService) {
   }
 
   ngOnInit(): void {
@@ -119,6 +127,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
     });
     this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
+    this.chartInterval = setInterval(() => this.nextChart(true), CHART_INTERVAL);
     this.todayDay = {
       todayDay: moment().format('dddd')
     }
@@ -166,7 +175,40 @@ createOptions() {
             position: 'left',
           }
         ]
-      }
+      },
+      tooltips: {
+        bodySpacing: 5,
+        mode: 'index',
+        position: 'nearest',
+        multiKeyBackground: 'rgba(0,0,0,0)',
+        intersect: false,
+        callbacks: {
+          labelColor: (tooltipItem, chart) => {
+            return {
+              borderColor: 'rgba(0,0,0,0)',
+              backgroundColor: this.rgba([38, 198, 218], 1)
+            }
+          },
+          label: (tooltipItem, values) => {
+            const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            switch (tooltipItem.datasetIndex) {
+              case 0:
+                return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
+            }
+          },
+          title: (tooltipItems, data) => {
+//            const firstDate = data.labels[0];
+            const currentDate = data.labels[tooltipItems[0].index];
+
+            return currentDate;// +
+  //            ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
+          }
+        }
+      },
+      hover: {
+        mode: 'index',
+        intersect: false
+      },
     };
     this.optionsBar = JSON.parse(JSON.stringify(this.optionsLine));
     this.optionsBar.scales.xAxes[0].labels = this.currentMetrics.dataDeliveredChart.labels;
@@ -176,8 +218,8 @@ createOptions() {
     return {
       backgroundColor: this.rgba(colors, 0.6),
       borderColor: this.rgba(colors, 1),
-      pointRadius: 3,
-      borderWidth: 3,
+      pointRadius: 0,
+      borderWidth: 2,
       pointHoverBackgroundColor: this.rgba(colors, 1),
       pointHoverBorderColor: '#fff'
     };
@@ -191,6 +233,7 @@ createOptions() {
     if (this.beforeChange) {
       this.beforeChange = false;
       this.update();
+      this.chartInterval = setInterval(() => this.nextChart(true), CHART_INTERVAL);
       this.afterChange = true;
       ;
     }
@@ -205,9 +248,12 @@ createOptions() {
   pauseSlide() {
     if (this.isCarouselPaused) {
       this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
+      this.chartInterval = setInterval(() => this.nextChart(true), CHART_INTERVAL);
     } else {
       clearInterval(this.carouselInterval);
       this.carouselInterval = null;
+      clearInterval(this.chartInterval);
+      this.chartInterval = null;
     }
     this.isCarouselPaused = !this.isCarouselPaused;
   }
@@ -228,6 +274,23 @@ createOptions() {
     this.rotateSite(-1, triggerAnimation);
   }
 
+  nextChart(triggerAnimation: boolean) {
+    let indexRealtime = this.buttonsRealtimeChart.findIndex((button) => button.name === this.chartRealtimeActiveButton);
+    if (indexRealtime === this.buttonsRealtimeChart.length - 1) {
+      indexRealtime = 0;
+    } else {
+      indexRealtime += 1;
+    }
+    this.chartRealtimeChange(this.buttonsRealtimeChart[indexRealtime].name);
+    let indexStatistics = this.buttonsStatisticsChart.findIndex((button) => button.name === this.chartStatisticsActiveButton);
+    if (indexStatistics === this.buttonsStatisticsChart.length - 1) {
+      indexStatistics = 0;
+    } else {
+      indexStatistics += 1;
+    }
+    this.chartStatisticsChange(this.buttonsStatisticsChart[indexStatistics].name);
+  }
+
   /**
    *
    * rotate the data for the next or previous site
@@ -236,6 +299,10 @@ createOptions() {
    * @memberof DashboardComponent
    */
   rotateSite(direction, triggerAnimation: boolean) {
+    clearInterval(this.chartInterval);
+    this.chartInterval = null;
+    this.chartStatisticsActiveButton = this.buttonsStatisticsChart[0].name;
+    this.chartRealtimeActiveButton = this.buttonsRealtimeChart[0].name;
     if (triggerAnimation) {
       this.beforeChange = true;
     }
@@ -249,6 +316,7 @@ createOptions() {
     if (!triggerAnimation) {
       // Update current site
       this.update();
+//      this.chartInterval = setInterval(() => this.nextChart(true), CHART_INTERVAL);
     }
   }
 
@@ -272,6 +340,8 @@ createOptions() {
     this.currentMetrics = this.dashboardService.currentMetrics[this.currentSiteIndex];
     this.createGraphData();
     this.calculateTrends();
+    this.chartStatisticsChange(this.chartStatisticsActiveButton);
+    this.chartRealtimeChange(this.chartRealtimeActiveButton);
     this.todayDay = {
       todayDay: moment().format('dddd')
     }
@@ -285,6 +355,8 @@ createOptions() {
 
   chartRealtimeChange(buttonName: string) {
     this.chartRealtimeActiveButton = buttonName;
+    this.currentMetrics = this.dashboardService.getRealtime(buttonName, this.currentMetrics);
+    this.createGraphData();
   }
 
 }

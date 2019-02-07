@@ -53,7 +53,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   //  private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
-  private actionsDef: TableActionDef[] = [];
+  private actionsLeftDef: TableActionDef[] = [];
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
@@ -80,7 +80,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get Filters def
     this.filtersDef = this.dataSource.getTableFiltersDef();
     // Get Actions def
-    this.actionsDef = this.dataSource.getTableActionsDef();
+    this.actionsLeftDef = this.dataSource.getTableActionsDef();
     // Get Actions Right def
     this.actionsRightDef = this.dataSource.getTableActionsRightDef();
     // Get Selection Model

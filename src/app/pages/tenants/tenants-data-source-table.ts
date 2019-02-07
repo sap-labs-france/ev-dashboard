@@ -160,6 +160,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '60vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (tenant) {
       dialogConfig.data = tenant;
     }

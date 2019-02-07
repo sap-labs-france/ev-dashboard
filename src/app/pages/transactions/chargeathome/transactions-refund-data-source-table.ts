@@ -106,8 +106,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     columns.push({
       id: 'timestamp',
       name: 'transactions.started_at',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
+      class: 'text-left',
       sortable: true,
       direction: 'desc',
       formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
@@ -118,60 +117,45 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         name: 'transactions.refundDate',
         sorted: true,
         sortable: true,
-        headerClass: 'col-15p',
-        class: 'col-15p',
         formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
       });
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
-        headerClass: 'col-15p',
-        class: 'col-15p',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       });
     }
     columns.push({
       id: 'tagID',
       name: 'transactions.badge_id',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
+      headerClass: 'd-none d-xl-table-cell',
+      class: 'text-left d-none d-xl-table-cell'
     });
     columns.push({
       id: 'stop.totalConsumption',
       name: 'transactions.total_consumption',
-      headerClass: 'col-10p',
-      class: 'col-10p',
       formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
     });
     columns.push(
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
       });
     columns.push({
       id: 'stop.totalInactivitySecs',
       name: 'transactions.inactivity',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
+      headerClass: 'd-none d-lg-table-cell',
+      class: 'text-left d-none d-lg-table-cell',
       formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
     });
     columns.push({
       id: 'chargeBoxID',
       name: 'transactions.charging_station',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p'
+      class: 'text-left',
+      formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
     });
-    columns.push({
-      id: 'connectorId',
-      name: 'transactions.connector',
-      headerClass: 'text-center col-5p',
-      class: 'text-center col-5p',
-      formatter: (value) => this.appConnectorIdPipe.transform(value)
-    });
-
 
     return columns as TableColumnDef[];
   }
@@ -183,6 +167,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+  }
+
+  formatChargingStation(chargingStation, row) {
+    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   formatPrice(price, priceUnit): string {

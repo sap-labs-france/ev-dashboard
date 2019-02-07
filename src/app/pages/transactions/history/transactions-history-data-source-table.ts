@@ -98,8 +98,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        class: 'text-left',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -108,48 +107,37 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       {
         id: 'user',
         name: 'transactions.user',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value)
       },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
       },
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'd-none d-lg-table-cell',
+        class: 'text-left d-none d-lg-table-cell',
         formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
       },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p'
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-5p',
-        class: 'text-center col-5p',
-        formatter: (value) => this.appConnectorIdPipe.transform(value)
+        class: 'text-left',
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'text-left d-none d-xl-table-cell',
       },
       {
         id: 'stop.totalConsumption',
         name: 'transactions.total_consumption',
-        headerClass: 'col-10p',
-        class: 'col-10p',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }
     ];
@@ -157,10 +145,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
-        headerClass: 'col-10p',
-        class: 'col-10p',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
-      })
+      });
     }
     return columns as TableColumnDef[];
   }
@@ -172,6 +160,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
       ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+  }
+
+  formatChargingStation(chargingStation, row) {
+    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   formatPrice(price, priceUnit): string {

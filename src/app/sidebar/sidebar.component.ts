@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   private userSubscription;
   public isAdmin = false;
+  public canEditProfile = false;
 
   constructor(
     private configService: ConfigService,
@@ -39,14 +40,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
+    this.toggleSidebar();
     // Get the routes
     this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
       return route.data && route.data.menu && this.guard.isRouteAllowed(route);
     }).map(route => route.data.menu);
+
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
     this.loggedUser = this.centralServerService.getLoggedUser();
+
+    if (authorizationService.canUpdateUser({'id': this.loggedUser.id})) {
+      this.canEditProfile = true;
+    }
     // Read user
     this.updateUserImage();
   }
@@ -105,30 +112,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return bool;
   }
 
-  minimizeSidebar() {
+  toggleSidebar() {
     const body = document.getElementsByTagName('body')[0];
 
     if (misc.sidebar_mini_active === true) {
       body.classList.remove('sidebar-mini');
       misc.sidebar_mini_active = false;
-
     } else {
-      setTimeout(function () {
-        body.classList.add('sidebar-mini');
-
-        misc.sidebar_mini_active = true;
-      }, 300);
+      body.classList.add('sidebar-mini');
+      misc.sidebar_mini_active = true;
     }
-
-    // we simulate the window Resize so the charts will get updated in realtime.
-    // const simulateWindowResize = setInterval(function () {
-    //   window.dispatchEvent(new Event('resize'));
-    // }, 180);
-    //
-    // // we stop the simulation of Window Resize after the animations are completed
-    // setTimeout(() => {
-    //   clearInterval(simulateWindowResize);
-    // }, 1000);
   }
 
   logout() {

@@ -11,25 +11,8 @@ import {ChartComponent} from 'angular2-chartjs';
 @Component({
   selector: 'app-transaction-chart',
   styleUrls: ['consumption-chart.component.scss'],
-  template: `
-    <div #chart *ngIf="data && data.datasets && hasMoreThanTwoValues; else noData" class="chart-container">
-      <div class="chart">
-        <chart type="line"
-               [data]="data"
-               [options]="options"></chart>
-      </div>
-      <div class="icon-left">
-        <a
-          [class]="'btn btn-link btn-just-icon'"
-          (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
-      </div>
-    </div>
-    <ng-template #noData>
-      {{'transactions.graph.no_consumption' | translate}}
-    </ng-template>
-  `
+  templateUrl: 'consumption-chart.component.html'
 })
-
 
 export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;

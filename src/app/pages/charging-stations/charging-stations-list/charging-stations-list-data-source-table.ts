@@ -147,12 +147,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         name: 'chargers.name',
         sortable: true,
         sorted: true,
-        direction: 'asc',
-        /*        headerClass: 'col-10p',
-                class: 'col-10p',*/
-/*        dynamicClass: (row: Charger) => {
-          return (row.siteArea ? 'col-15p' : 'col-15p charger-not-assigned');
-        }*/
+        direction: 'asc'
       },
       {
         id: 'inactive',
@@ -171,17 +166,16 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       {
         id: 'connectorsConsumption',
         name: 'chargers.consumption_title',
-        class: 'col-9em',
         sortable: false,
         isAngularComponent: true,
-        angularComponentName: InstantPowerProgressBarComponent,
-        headerClass: 'col-9em'
+        angularComponentName: InstantPowerProgressBarComponent
       },
       {
         id: 'siteArea.site.name',
         name: 'sites.site',
         sortable: true,
         defaultValue: 'sites.unassigned',
+        headerClass: 'd-none d-xl-table-cell',
         formatter: (value) => {
           if (value === 'sites.unassigned') {
             return this.translateService.instant(value)
@@ -190,7 +184,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           }
         },
         dynamicClass: (row: Charger) => {
-          return (row.siteArea ? '' : 'charger-not-assigned');
+          return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
         }
       },
       {
@@ -198,6 +192,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         name: 'site_areas.title',
         sortable: true,
         defaultValue: 'site_areas.unassigned',
+        headerClass: 'd-none d-xl-table-cell',
         formatter: (value) => {
           if (value === 'site_areas.unassigned') {
             return this.translateService.instant(value)
@@ -206,16 +201,20 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           }
         },
         dynamicClass: (row: Charger) => {
-          return (row.siteArea ? '' : 'charger-not-assigned');
+          return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
         }
       },
       {
         id: 'chargePointVendor',
         name: 'chargers.vendor',
+        headerClass: 'd-none d-lg-table-cell',
+        class: 'd-none d-lg-table-cell',
         sortable: true
       }, {
         id: 'chargePointModel',
         name: 'chargers.model',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
         sortable: true
       }
     ];
@@ -245,11 +244,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         {
           id: 'connectorsConsumption',
           name: 'chargers.consumption_title',
-          class: 'col-12em',
           sortable: false,
           isAngularComponent: true,
-          angularComponentName: InstantPowerProgressBarComponent,
-          headerClass: 'col-12em'
+          angularComponentName: InstantPowerProgressBarComponent
         }
       ];
     }
@@ -397,6 +394,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }
@@ -434,6 +432,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }
@@ -447,6 +446,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }

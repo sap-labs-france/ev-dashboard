@@ -23,7 +23,7 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-//    this.loadComponent();
+   this.loadComponent();
   }
 
   ngOnDestroy() {
@@ -39,12 +39,9 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
-    this.loadComponent();
-/*    if(<CellContentTemplateComponent>this.componentRef && <CellContentTemplateComponent>this.componentRef.instance){
-      (<CellContentTemplateComponent>this.componentRef.instance).row = this.row;
-    }*/
+    if (this.cellComponent && changes.row && changes.row.currentValue) {
+      this.cellComponent.row = changes.row.currentValue;
+      this.cellComponent.refresh();
+    }
   }
-
 }

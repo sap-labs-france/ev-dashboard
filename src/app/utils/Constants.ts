@@ -150,7 +150,12 @@ export class Constants {
   public static OCPP_UNIT_WATT = 'W';
   /* Settings */
 
-  /* Ocpi status */
+  /* OCPI status */
   public static OCPIENDPOINT_STATUS_NEW = 'new';
   public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
+  public static OCPIENDPOINT_STATUS_UNREGISTERED = 'unregistered';
+
+  /* OCPI Patch Job status */
+  public static OCPIENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
+  public static OCPIENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
 }

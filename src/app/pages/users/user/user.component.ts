@@ -20,6 +20,7 @@ import {DOCUMENT} from '@angular/common';
 import {ActionResponse} from '../../../common.types';
 import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
+import {ConfigService} from '../../../services/config.service';
 
 @Component({
   selector: 'app-user-cmp',
@@ -37,6 +38,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
   public hidePassword = true;
+  public maxSize;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -75,6 +77,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
+    private configService: ConfigService,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router,
@@ -82,6 +85,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications']);
+
+    this.maxSize = this.configService.getUser().maxPictureKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -405,18 +410,23 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public imageChanged(event) {
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.image = reader.result as string;
-        this.formGroup.markAsDirty();
-      };
-      reader.readAsDataURL(event.target.files[0]);
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('users.picture_size_error', { 'maxPictureKb': this.maxSize });
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.image = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
 
   public clearImage() {
     // Clear
-    // jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
+    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
     this.image = Constants.USER_NO_PICTURE;
     // Set form dirty
     this.formGroup.markAsDirty();

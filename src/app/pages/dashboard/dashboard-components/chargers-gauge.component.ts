@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ChargingStationGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input() activeChargers = 0;
+    @Input() maxChargers = 0;
 
   constructor(el: ElementRef,
                 zone: NgZone,
@@ -21,14 +22,14 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     this.options.title = this.translateService.instant('dashboard.active_stations_gauge_title');
     this.options.units = this.translateService.instant('dashboard.active_stations_gauge_unit');
     this.options.minValue = 0;
-    this.options.maxValue = 24;
+    this.options.maxValue = this.maxChargers;
 
     this.options.width = 250;
     this.options.height = 250;
     this.options.value = this.activeChargers;
 
     // Ticks
-    this.options.majorTicks = [0, 4, 8, 12, 16, 20, 24];
+    this.buildTicks();
     this.options.majorTicksDec = 0;
     this.options.minorTicks = 0;
     this.options.strokeTicks = false;
@@ -87,11 +88,26 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.options && changes.activeChargers.currentValue !== this.gauge.value) {
+    if (this.options && changes.maxChargers && changes.maxChargers.currentValue !== changes.maxChargers.previousValue) {
+      this.options.maxValue = this.maxChargers;
+      this.buildTicks();
+      this.gauge.update(this.options);
+      this.gauge.draw();
+    }
+    if (this.options && changes.activeChargers && changes.activeChargers.currentValue !== this.gauge.value) {
       this.options.value = this.activeChargers;
       this.gauge.value = this.activeChargers;
       this.gauge.draw();
     }
+  }
+
+  buildTicks() {
+    this.options.majorTicks = [];
+    const tickRange = ( Math.floor(this.maxChargers / 5) > 0 ? Math.floor(this.maxChargers / 5) : 1);
+    for (let currentTick = 0; currentTick < this.maxChargers; currentTick += tickRange) {
+      this.options.majorTicks = <number[]> [...this.options.majorTicks, currentTick];
+    }
+    this.options.majorTicks = <number[]> [...this.options.majorTicks, this.maxChargers];
   }
 
 }

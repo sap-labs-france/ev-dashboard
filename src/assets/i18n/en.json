@@ -220,9 +220,47 @@
   },
   "dashboard": {
     "metrics": "Current metrics",
+    "location": "Localisation",
+    "occupied_charging_points_gauge_title": "Utilization",
     "consumption_gauge_title": "Consumption",
+    "consumption_title": "Consumption",
     "active_stations_gauge_title": "Charging points",
-    "active_stations_gauge_unit": "Active"
+    "active_stations_gauge_unit": "Occupied",
+    "realtime_title": "Realtime",
+    "statistics_title": "Statistics",
+    "all_site": "All sites",
+    "co2_title": "CO2 saved",
+    "km_title": "Distance",
+    "gas_title": "Petrol",
+    "today_energy_delivered": "Energy",
+    "trends_of_day_title": "{{todayDay}} trends",
+    "trends_of_day_min": "Minimum",
+    "trends_of_day_max": "Maximum",
+    "trends_of_day_avg": "Average",
+    "today_inactivity": "Inactivity",
+    "trends_of_day_inactivity_title": "{{todayDay}} trends",
+    "trends_of_day_inactivity_min": "Minimum",
+    "trends_of_day_inactivity_max": "Maximum",
+    "trends_of_day_inactivity_avg": "Average",
+    "today_duration": "Charging",
+    "trends_of_day_duration_title": "{{todayDay}} trends",
+    "trends_of_day_duration_min": "Minimum",
+    "trends_of_day_duration_max": "Maximum",
+    "trends_of_day_duration_avg": "Average",
+    "statistics" : {
+      "button": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "year": "Year"
+      }
+    },
+    "realtime" : {
+      "button": {
+        "consumption": "Consumption",
+        "utilization": "Utilization"
+      }
+    }
   },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",

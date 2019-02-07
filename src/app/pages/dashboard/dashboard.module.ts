@@ -12,6 +12,7 @@ import { ConsumptionGaugeComponent } from './dashboard-components/consumption-ga
 import { ChargingStationGaugeComponent } from './dashboard-components/chargers-gauge.component';
 import { AgmCoreModule } from '@agm/core';
 import { ChartModule } from 'angular2-chartjs';
+import { FormattersModule } from 'app/shared/formatters/formatters.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { ChartModule } from 'angular2-chartjs';
     ComponentModule,
     GaugesModule,
     AgmCoreModule,
-    ChartModule
+    ChartModule,
+    FormattersModule
   ],
   declarations: [
     DashboardComponent,

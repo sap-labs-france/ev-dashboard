@@ -1,14 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Connector } from 'app/common.types';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { ChipComponent, TYPE_DANGER, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING, TYPE_GREY } from 'app/shared/component/chip/chip.component';
+import {Component, Input, OnInit} from '@angular/core';
+import {Connector} from 'app/common.types';
+import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from 'app/shared/component/chip/chip.component';
 
 @Component({
   selector: 'app-connector-availability',
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class ConnectorAvailibilityComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+export class ConnectorAvailibilityComponent extends ChipComponent implements OnInit {
   @Input() row: Connector;
 
   ngOnInit(): void {

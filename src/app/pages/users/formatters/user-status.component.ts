@@ -1,5 +1,4 @@
-import {TableColumnDef, User} from '../../../common.types';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+import {User} from '../../../common.types';
 import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
 import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
@@ -10,13 +9,13 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class UserStatusComponent extends ChipComponent implements CellContentTemplateComponent, OnInit {
+export class UserStatusComponent extends ChipComponent implements OnInit {
 
   @Input() row: User;
 
-   ngOnInit(): void {
-     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-     // Add 'implements OnInit' to the class.
+  ngOnInit(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
     for (const userStatus of userStatuses) {
       if (userStatus.key === this.row.status) {
         this.text = userStatus.value

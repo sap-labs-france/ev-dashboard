@@ -24,11 +24,13 @@ The application:
 
 #### Configuration
 
-There are two templates provided: **config-template-http.json** for HTTP and **config-template-https.json** for HTTPS.
+There is one template provided: **src/assets/config-template.json**.
 
-Choose one and rename it to **config.json**.
+Rename it to **config.json**.
 
 Move this configuration file into the **src/assets** directory.
+
+Edit this file, you will set relevant config data in it.
 
 #### Connect to the Central Service REST Server (CSRS)
 

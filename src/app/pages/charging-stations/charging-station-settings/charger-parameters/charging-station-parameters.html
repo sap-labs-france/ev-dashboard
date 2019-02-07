@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
@@ -35,7 +35,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2">
                     <div class="form-group">
                         <mat-form-field>
                             <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase"
@@ -47,7 +47,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2">
                     <mat-form-field>
                         <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}" [formControl]="powerLimitUnit"
                             required>
@@ -57,7 +57,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col text-left">
+                <div class="col-lg-6 text-left">
                     <div class="form-group">
                         <mat-checkbox [formControl]="cannotChargeInParallel">
                             {{'chargers.cant_charge_in_parallel' | translate}}
@@ -67,7 +67,7 @@
             </div>
             <div class="row my-2">
                 <ng-container *ngFor="let connector of charger.connectors">
-                    <div class="col-md-3 charger-dialog-connector">
+                    <div class="col-lg-6 col-xl-4 charger-dialog-connector">
                         <div class="card">
                             <div class="card-header card-header-danger card-header-icon">
                                 <div class="card-icon">

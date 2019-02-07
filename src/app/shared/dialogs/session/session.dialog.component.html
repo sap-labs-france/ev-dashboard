@@ -83,7 +83,7 @@
           </div>
         </div>
         <!-- chart -->
-        <app-transaction-chart [consumptions]="transaction.values" [transactionId]="transaction.id" class="w-100"
+        <app-transaction-chart #chartConsumption [consumptions]="transaction.values" [transactionId]="transaction.id" class="w-100"
                                ratio="4"></app-transaction-chart>
       </div>
       <div class="card-footer">

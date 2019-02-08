@@ -81,14 +81,23 @@
                                                         {{"general.mandatory_field" | translate}}
                                                     </mat-error>
                                                 </mat-form-field>
+                                            </div>
+                                            <div class="form-group">
                                                 <mat-form-field>
                                                     <mat-select [formControl]="companyID" placeholder="{{'companies.company' | translate}}">
                                                         <mat-option *ngFor="let company of companies" value="{{company.id}}">{{company.name}}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
+                                            </div>
+                                            <div class="form-group">
                                                 <div style="text-align: left">
                                                     <mat-checkbox [formControl]="allowAllUsersToStopTransactions">
                                                         {{'sites.allow_all_users' | translate}}
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div style="text-align: left">
+                                                    <mat-checkbox [formControl]="autoUserSiteAssignment">
+                                                        {{'sites.auto_user_site_assignment' | translate}}
                                                     </mat-checkbox>
                                                 </div>
                                             </div>

@@ -218,6 +218,7 @@
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
+    "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",

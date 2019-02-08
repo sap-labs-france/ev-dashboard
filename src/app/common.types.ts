@@ -320,6 +320,7 @@ export interface Site {
   companyID: string;
   company: Company;
   allowAllUsersToStopTransactions: boolean;
+  autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
   image: string;

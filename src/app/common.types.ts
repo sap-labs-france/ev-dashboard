@@ -115,6 +115,9 @@ export interface ConsumptionValue {
   cumulated: number;
   price: number;
   stateOfCharge: number;
+  unroundedAmount: number;
+  cumulatedAmount: number;
+  pricingSource: string;
 }
 
 export interface ChargerConsumption {

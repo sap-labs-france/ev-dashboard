@@ -167,6 +167,8 @@ export interface Charger {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface ChargerInError extends Charger {

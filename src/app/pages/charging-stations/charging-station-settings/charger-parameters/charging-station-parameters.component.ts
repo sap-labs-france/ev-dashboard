@@ -49,6 +49,8 @@ export class ChargingStationParametersComponent implements OnInit {
   public cannotChargeInParallel: AbstractControl;
   public powerLimitUnit: AbstractControl;
   public maximumPower: AbstractControl;
+  public latitude: AbstractControl;
+  public longitude: AbstractControl;
   public siteArea: AbstractControl;
   public siteAreaID: AbstractControl;
 
@@ -102,7 +104,19 @@ export class ChargingStationParametersComponent implements OnInit {
           Validators.pattern('^[+]?[0-9]*$')
         ])),
       'siteArea': new FormControl(''),
-      'siteAreaID': new FormControl('')
+      'siteAreaID': new FormControl(''),
+      'latitude': new FormControl('',
+        Validators.compose([
+          Validators.max(90),
+          Validators.min(-90),
+          Validators.pattern('^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$')
+        ])),
+      'longitude': new FormControl('',
+        Validators.compose([
+          Validators.max(180),
+          Validators.min(-180),
+          Validators.pattern('^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$')
+        ]))
     });
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
@@ -112,6 +126,8 @@ export class ChargingStationParametersComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.powerLimitUnit = this.formGroup.controls['powerLimitUnit'];
+    this.latitude = this.formGroup.controls['latitude'];
+    this.longitude = this.formGroup.controls['longitude'];
 
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();
@@ -120,6 +136,8 @@ export class ChargingStationParametersComponent implements OnInit {
       this.numberOfConnectedPhase.disable();
       this.maximumPower.disable();
       this.powerLimitUnit.disable();
+      this.latitude.disable();
+      this.longitude.disable();
     }
 
     // add connectors formcontrol
@@ -177,6 +195,12 @@ export class ChargingStationParametersComponent implements OnInit {
       if (this.charger.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(this.charger.maximumPower);
       }
+      if (this.charger.latitude) {
+        this.formGroup.controls.latitude.setValue(this.charger.latitude);
+      }
+      if (this.charger.longitude) {
+        this.formGroup.controls.longitude.setValue(this.charger.longitude);
+      }
       if (this.charger.siteArea && this.charger.siteArea.name) {
         // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
@@ -220,6 +244,8 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.numberOfConnectedPhase = this.numberOfConnectedPhase.value;
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
       this.charger.powerLimitUnit = this.powerLimitUnit.value;
+      this.charger.latitude = this.latitude.value;
+      this.charger.longitude = this.longitude.value;
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;
         connector.power = this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].value;

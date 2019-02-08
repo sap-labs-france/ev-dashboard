@@ -270,6 +270,8 @@ export interface Ocpiendpoint {
   version: string;
   status: string;
   backgroundPatchJob: boolean;
+  lastPatchJobOn: Date;
+  lastPatchJobResult: any;
 }
 
 export interface OcpiendpointResult {

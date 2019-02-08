@@ -57,7 +57,19 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-lg-6 text-left">
+                <div class="col-md-6 col-xl-3">
+                    <mat-form-field>
+                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin" >
+                        <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <mat-form-field>
+                        <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin" >
+                        <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12 text-left">
                     <div class="form-group">
                         <mat-checkbox [formControl]="cannotChargeInParallel">
                             {{'chargers.cant_charge_in_parallel' | translate}}

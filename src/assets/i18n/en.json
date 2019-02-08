@@ -220,6 +220,7 @@
   },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",
+    "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -788,7 +789,9 @@
     "new": "New",
     "registered": "Registered",
     "unregistered": "Unregistered",
+    "lastPatchJobOn": "Last Update Date",
     "patchJobStatus": "Update Job",
+    "patchJobResult": "Success / Failures",
     "patchJobCheckbox": "Activate EVSE Status Update Job",
     "status_active": "Active",
     "status_inactive": "Inactive",

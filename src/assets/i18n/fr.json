@@ -218,6 +218,7 @@
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
+    "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
@@ -782,7 +783,9 @@
     "new": "Nouveau",
     "registered": "Enregistré",
     "unregistered": "Désenregistré",
+    "lastPatchJobOn": "Dernière mise à jour",
     "patchJobStatus": "Tâche de mise à jour",
+    "patchJobResult": "Succès / Echecs",
     "patchJobCheckbox": "Activer la mise à jour automatique du statut des bornes",
     "status_active": "Active",
     "status_inactive": "Inactive",

@@ -14,10 +14,19 @@ The application:
 **Live demo here** [Smart EVSE](https://smart-evse.com/)
 
 ## Installation
+
 * Install NodeJS: https://nodejs.org/ (install the LTS version)
 * Install Python version 2.7 (not the version 3.7!)
 * Clone this GitHub project
 * Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
+
+**NOTE**: On Windows with **chocolatey** (https://chocolatey.org/),  
+do as an administrator:
+```
+choco install -y nodejs-lts python2
+```
+to install all needed dependencies
+
 * Follow the rest of the setup below
 
 ## The Dashboard

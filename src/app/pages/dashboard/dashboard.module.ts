@@ -13,6 +13,8 @@ import { ChargingStationGaugeComponent } from './dashboard-components/chargers-g
 import { AgmCoreModule } from '@agm/core';
 import { ChartModule } from 'angular2-chartjs';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
+import { CardChartComponent } from './card-chart/card-chart.component';
+import { CardKeyfigureComponent } from './card-keyfigure/card-keyfigure.component';
 
 @NgModule({
   imports: [
@@ -29,11 +31,15 @@ import { FormattersModule } from 'app/shared/formatters/formatters.module';
   declarations: [
     DashboardComponent,
     ConsumptionGaugeComponent,
-    ChargingStationGaugeComponent
+    ChargingStationGaugeComponent,
+    CardChartComponent,
+    CardKeyfigureComponent
   ],
   exports: [
     ConsumptionGaugeComponent,
-    ChargingStationGaugeComponent
+    ChargingStationGaugeComponent,
+    CardChartComponent,
+    CardKeyfigureComponent
   ]
 })
 

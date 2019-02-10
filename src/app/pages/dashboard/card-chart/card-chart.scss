@@ -1,0 +1,26 @@
+@import "../../../../assets/scss/core/variables";
+//@import "../../../assets/scss/core/mixins";
+//@import "../../../assets/scss/core/misc";
+//@import "../../../assets/scss/core/variables/brand";
+
+$button-darken-active: darken($brand-info, 15%);
+
+.is-hidden {
+    opacity: 0;
+}
+
+.next-chart {
+    position: absolute;
+    top: 0;
+    overflow: visible;
+    width:100%;
+    height: 100%;
+}
+
+.app-card-stats {
+    background-color:$button-darken-active !important; 
+    :hover,:focus {
+        background-color:$button-darken-active !important; 
+    }
+}
+

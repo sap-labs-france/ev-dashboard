@@ -95,6 +95,9 @@ export class DashboardService {
 
   getStatistics(period: string, metrics: SiteCurrentMetrics): SiteCurrentMetrics {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
+    if (!currentData) {
+      return;
+    }
     const graphLabels = [];
     let graphSerie = [];
     let date = moment();
@@ -167,6 +170,9 @@ export class DashboardService {
 
   getRealtime(type: string, metrics: SiteCurrentMetrics): SiteCurrentMetrics {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
+    if (!currentData) {
+      return;
+    }
     const graphLabels = [];
     let graphSerie = [];
     let date = moment();

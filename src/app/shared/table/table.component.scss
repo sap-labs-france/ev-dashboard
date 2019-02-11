@@ -13,9 +13,13 @@ $outer-spinner: $red !default;
   width: 100%;
 }
 
+.mat-table {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 table {
   width: 100%;
-  border-collapse: unset;
+  border-collapse: collapse;
 }
 
 th {
@@ -24,7 +28,7 @@ th {
 }
 
 td {
-  font-size: $font-size-sm;
+  font-size: $font-size-md;
   padding: 5px;
 }
 
@@ -42,6 +46,7 @@ th {
 
 tr.mat-row {
   height: initial;
+  border-bottom: 1px solid $table-border-color;
 }
 
 th:first-child, td:first-child {
@@ -103,7 +108,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 .table-detailed-list {
   overflow: hidden;
   white-space: nowrap;
-  background-color: white;
+  background-color: transparent;
 }
 
 .table-list {
@@ -111,7 +116,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: white;
+  background-color: transparent;
 }
 
 .table-dialog-list {
@@ -120,7 +125,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   min-width: 50vw;
   width: 50vh;
   height: calc(100vh - (0.7 * 100vh));
-  background-color: white;
+  background-color: transparent;
   white-space: nowrap;
 }
 
@@ -140,9 +145,16 @@ tr.mat-header-row {
   height: 40px;
 }
 
-.table-header {
-  background-color: white;
+.mat-toolbar {
+  background-color: rgba($color: #000, $alpha: .20);
+}
 
+.mat-header-cell {
+  background-color: #2b5177;
+}
+
+.mat-paginator {
+  background-color: rgba($color: #000, $alpha: .4);
 }
 
 .col-select {
@@ -154,12 +166,9 @@ tr.mat-header-row {
     overflow: auto;
   }
   padding: 15px;
-  //padding-right: 15px;
-  //padding-left: 15px;
 }
 
 .mat-toolbar-row {
-  //padding: 10px;
   align-items: center;
 }
 
@@ -284,19 +293,6 @@ tr.element-row:not(.expanded-row):active {
       -webkit-animation: spin 5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
       animation: spin 5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
     }
-
-    //    &:after {
-    //      content: "";
-    //      position: absolute;
-    //      top: 6px;
-    //      left: 6px;
-    //      right: 6px;
-    //      bottom: 6px;
-    //      border-radius: 50%;
-    //      border: 2px solid transparent;
-    //      border-top-color: $inner-spinner;
-    //      animation: spin 1.2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-    //    }
   }
 }
 

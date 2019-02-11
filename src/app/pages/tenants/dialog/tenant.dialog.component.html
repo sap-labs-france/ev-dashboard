@@ -51,7 +51,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}"
+                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}"
                                                         type="text" [formControl]="name" required>
                                                     <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -64,7 +64,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="{{'tenants.email' | translate}}" type="text"
+                                                    <input autocomplete="off" matInput placeholder="{{'tenants.email' | translate}}" type="text"
                                                         [formControl]="email" required>
                                                     <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -76,7 +76,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="{{'tenants.subdomain' | translate}}"
+                                                    <input autocomplete="off" matInput placeholder="{{'tenants.subdomain' | translate}}"
                                                         type="text" [formControl]="subdomain" required>
                                                     <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>

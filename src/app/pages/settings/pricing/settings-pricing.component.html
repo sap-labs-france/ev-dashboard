@@ -30,7 +30,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
                    placeholder="{{'settings.pricing.convergentcharging.url' | translate}}"
                    required>
             <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
@@ -47,7 +47,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
                    placeholder="{{'settings.pricing.convergentcharging.user' | translate}}"
                    required>
             <mat-error *ngIf="convergentChargingUser.hasError('required')">{{"general.mandatory_field"
@@ -62,7 +62,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
+            <input autocomplete="off" appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
                    placeholder="{{'settings.pricing.convergentcharging.password' | translate}}"
                    required>
             <mat-error *ngIf="convergentChargingPassword.hasError('required')">{{"general.mandatory_field"

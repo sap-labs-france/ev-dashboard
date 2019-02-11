@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="country_code" placeholder="{{'ocpi.cpo_country_code' | translate}}"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="country_code" placeholder="{{'ocpi.cpo_country_code' | translate}}"
               required>
             <mat-error *ngIf="country_code.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="party_id" placeholder="{{'ocpi.cpo_party_id' | translate}}"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="party_id" placeholder="{{'ocpi.cpo_party_id' | translate}}"
               required>
             <mat-error *ngIf="party_id.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="name" placeholder="{{'ocpi.businessdetails.name' | translate}}"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="name" placeholder="{{'ocpi.businessdetails.name' | translate}}"
               required>
             <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="website" placeholder="{{'ocpi.businessdetails.website' | translate}}">
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="website" placeholder="{{'ocpi.businessdetails.website' | translate}}">
             <mat-error *ngIf="website.hasError('pattern')">
               <div [translate]="'general.error_url_pattern'"></div>
             </mat-error>
@@ -72,7 +72,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="logo_url" placeholder="{{'ocpi.businessdetails.logo.url' | translate}}">
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="logo_url" placeholder="{{'ocpi.businessdetails.logo.url' | translate}}">
             <mat-error *ngIf="logo_url.hasError('pattern')">
               <div [translate]="'general.error_url_pattern'"></div>
             </mat-error>
@@ -80,7 +80,7 @@
         </div>
         <div class="col-md-4">
           <mat-form-field>
-            <!-- <input appSetAutoFocus matInput type="text" [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}"> -->
+            <!-- <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}"> -->
             <mat-select [formControl]="logo_type" placeholder="{{'ocpi.businessdetails.logo.type' | translate}}" >
               <mat-option  *ngFor="let logoType of logoTypes" value="{{logoType.key}}">{{logoType.description}}</mat-option >
             </mat-select>
@@ -88,7 +88,7 @@
         </div>
         <div class="col-md-1">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="logo_width" placeholder="{{'ocpi.businessdetails.logo.width' | translate}}">
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="logo_width" placeholder="{{'ocpi.businessdetails.logo.width' | translate}}">
             <mat-error *ngIf="logo_width.hasError('pattern')">
               <div [translate]="'general.error_number_pattern'"></div>
             </mat-error>
@@ -96,7 +96,7 @@
         </div>
         <div class="col-md-1">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="logo_height" placeholder="{{'ocpi.businessdetails.logo.height' | translate}}">
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="logo_height" placeholder="{{'ocpi.businessdetails.logo.height' | translate}}">
             <mat-error *ngIf="logo_height.hasError('pattern')">
               <div [translate]="'general.error_number_pattern'"></div>
             </mat-error>
@@ -106,7 +106,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="logo_thumbnail" placeholder="{{'ocpi.businessdetails.logo.thumbnail' | translate}}">
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="logo_thumbnail" placeholder="{{'ocpi.businessdetails.logo.thumbnail' | translate}}">
             <mat-error *ngIf="logo_thumbnail.hasError('pattern')">
               <div [translate]="'general.error_url_pattern'"></div>
             </mat-error>

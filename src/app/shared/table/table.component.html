@@ -34,7 +34,7 @@
 
               <!-- Dialog Table Filter -->
               <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-                <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
+                <input autocomplete="off" (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
                        readonly=true
                        type="text"/>
                 <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button matSuffix>
@@ -44,7 +44,7 @@
 
               <!-- Date Filter -->
               <mat-form-field *ngIf="filterDef.type === 'date'">
-                <input (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
+                <input autocomplete="off" (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
                        autocomplete="off" matInput>
                 <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -53,7 +53,7 @@
             <!-- Search -->
             <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
               <mat-form-field>
-                <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
+                <input autocomplete="off" #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
                        matInput>
               </mat-form-field>
             </div>
@@ -132,7 +132,7 @@
 
           <!-- Dialog Table Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
+            <input autocomplete="off" (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
                    readonly=true
                    type="text"/>
             <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button matSuffix>
@@ -142,7 +142,7 @@
 
           <!-- Date Filter -->
           <mat-form-field *ngIf="filterDef.type === 'date'">
-            <input (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
+            <input autocomplete="off" (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
                    autocomplete="off" matInput>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -151,7 +151,7 @@
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
           <mat-form-field>
-            <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
+            <input autocomplete="off" #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
                    matInput>
           </mat-form-field>
         </div>

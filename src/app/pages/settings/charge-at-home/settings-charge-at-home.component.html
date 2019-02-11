@@ -30,7 +30,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="concurUrl"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="concurUrl"
                    placeholder="{{'settings.chargeathome.concur.url' | translate}}"
                    required>
             <mat-error *ngIf="concurUrl.hasError('required')">{{"general.mandatory_field"
@@ -47,7 +47,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="concurClientId"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="concurClientId"
                    placeholder="{{'settings.chargeathome.concur.client_id' | translate}}"
                    required>
             <mat-error *ngIf="concurClientId.hasError('required')">{{"general.mandatory_field"
@@ -62,7 +62,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="password" [formControl]="concurClientSecret"
+            <input autocomplete="off" appSetAutoFocus matInput type="password" [formControl]="concurClientSecret"
                    placeholder="{{'settings.chargeathome.concur.client_secret' | translate}}"
                    required>
             <mat-error *ngIf="concurClientSecret.hasError('required')">{{"general.mandatory_field"
@@ -79,7 +79,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="concurPaymentTypeId"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="concurPaymentTypeId"
                    placeholder="{{'settings.chargeathome.concur.payment_type_id' | translate}}"
                    required>
             <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
@@ -94,7 +94,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="concurExpenseTypeCode"
+            <input autocomplete="off" appSetAutoFocus matInput type="text" [formControl]="concurExpenseTypeCode"
                    placeholder="{{'settings.chargeathome.concur.expense_type_code' | translate}}"
                    required>
             <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"

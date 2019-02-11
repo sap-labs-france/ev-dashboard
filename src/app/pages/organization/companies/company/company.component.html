@@ -55,7 +55,7 @@
                                                                 <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
                                                                     <i class="material-icons" (click)="file.click()">mode_edit</i>
                                                                     <div style="display:none">
-                                                                        <input type="file" name="..." (change)="logoChanged($event)"
+                                                                        <input autocomplete="off" type="file" name="..." (change)="logoChanged($event)"
                                                                             #file>
                                                                     </div>
                                                                 </a>
@@ -71,7 +71,7 @@
                                         <div class="col-md-10">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'companies.name' | translate}}"
+                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'companies.name' | translate}}"
                                                         class="app-company-name-bold" type="text" [formControl]="name"
                                                         required>
                                                     <mat-error *ngIf="name.hasError('required')">

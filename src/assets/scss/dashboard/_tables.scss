@@ -1,4 +1,6 @@
 .table {
+  background: rgba(255,255,255,0.3);
+
   > thead > tr > th {
     border-bottom-width: 1px;
     font-size: $font-size-h5;

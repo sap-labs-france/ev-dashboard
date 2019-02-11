@@ -22,20 +22,19 @@ const FADE_OUT_CLASS = 'fade-out';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.scss'],
   animations: [
-    trigger('SlideChangeStart', [
+    trigger('SlideChangeStart', [ // used for first half of the animation before changing model data
       transition(':enter', []),
       transition('false => true', [
         group([
-          query('.slide-card-up', [
+          query('.slide-card-up', [ // Used for title to move it up and and down when it changes
             group([
-              //              animate('1.0s ease', style({ opacity: '0.05' })),
               animate('1.0s ease-in', style({ transform: 'translateY(-300%)' }))
             ])
           ], { optional: true }),
-          query('.fade-out-text', [
+          query('.fade-out-text', [ // Slight opacity for static texts
             animate('1.0s ease', style({ opacity: '0.6' })),
           ], { optional: true }),
-          query('.fade-in', [
+          query('.fade-in', [ // Complete fade-in-out for dynamic texts (keyfigure values, charts and gauges)
             animate('1.0s ease', style({ opacity: '1' })),
           ], { optional: true }),
           query('.fade-out', [
@@ -45,7 +44,7 @@ const FADE_OUT_CLASS = 'fade-out';
       ]),
     ]),
 
-    trigger('SlideChangeDone', [
+    trigger('SlideChangeDone', [ // used for last half of the animation after changing model data
       transition('false => true', [
         group([
         query('.slide-card-up, .fade-out-text', [
@@ -68,10 +67,30 @@ const FADE_OUT_CLASS = 'fade-out';
 
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  /**
+   * Set to true to trigger the first half of the animation before changing model data
+   *
+   * @memberof DashboardComponent
+   */
   beforeChange = false;
+  /**
+   * Set  to true after model data was changed to trigger teh second half of the animation
+   *
+   * @memberof DashboardComponent
+   */
   afterChange = false;
   isCarouselPaused = false;
+  /**
+   * Reference to the set interval
+   *
+   * @memberof DashboardComponent
+   */
   carouselInterval;
+  /**
+   * Keep track of teh next site index in order during the animation to update the data model accordingly
+   *
+   * @memberof DashboardComponent
+   */
   nextSiteIndex = -1;
   currentSiteIndex = -1;
 
@@ -91,11 +110,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   dynamicFadeInOutClass = FADE_IN_CLASS;
 
   todayDay: any;
-  trendingConsumptionValue = 0;
-  trendingConsumption = `scale(0.6,0.6) rotate(${this.trendingConsumptionValue}deg)`;
-  trendingInactivityValue = 0;
-  trendingInactivity = `scale(0.6,0.6) rotate(${this.trendingInactivityValue}deg)`;
 
+  /**
+   * Current Mterics retrieved from dashboard service
+   *
+   * @type {SiteCurrentMetrics}
+   * @memberof DashboardComponent
+   */
   currentMetrics: SiteCurrentMetrics;
 
   realtimeInterval = REALTIME_INTERVAL;
@@ -104,13 +125,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private dashboardService: DashboardService,
-    private datePipe: AppDatePipe,
     private decimalPipe: DecimalPipe,
     private localeService: LocaleService) {
   }
 
   ngOnInit(): void {
     this.spinnerService.show();
+    // Special initialization sequence
     this.dashboardService.initialLoadDone.subscribe(isDone => {
       if (isDone) {
         // Get first site
@@ -126,6 +147,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 200);
       }
     });
+    // Handle data update
+    this.dashboardService.refreshData.subscribe(metrics => {
+      this.update();
+    })
+    // Start carousel
     this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
     this.todayDay = {
       todayDay: moment().format('dddd')
@@ -133,16 +159,26 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
+    }
     this.isCarouselPaused = true;
   }
 
   ngAfterViewInit(): void {
   }
 
+  /**
+   * End of first animation part
+   *
+   * @param {AnimationEvent} event
+   * @memberof DashboardComponent
+   */
   slideChangeAnimationReloadEnd(event: AnimationEvent) {
     if (this.beforeChange) {
       this.dynamicFadeInOutClass = FADE_IN_CLASS;
       this.update();
+      // Set chart to first button
       this.realtimeChartComponent.nextChart(this.buttonsRealtimeChart[0].name);
       this.statisticsChartComponent.nextChart(this.buttonsStatisticsChart[0].name);
       this.beforeChange = false;
@@ -151,8 +187,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * End of second part of animation after data model changed
+   *
+   * @param {AnimationEvent} event
+   * @memberof DashboardComponent
+   */
   slideChangeAnimationDone(event: AnimationEvent) {
     if (this.afterChange) {
+      // retsart rotation on chart components
       this.realtimeChartComponent.startRotation();
       this.statisticsChartComponent.startRotation();
       this.afterChange = false;
@@ -161,11 +204,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pauseSlide() {
     if (this.isCarouselPaused) {
+      // Restart slide show
       this.isCarouselPaused = false;
       this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
       this.realtimeChartComponent.startRotation();
       this.statisticsChartComponent.startRotation();
     } else {
+      // Pause slide show
       clearInterval(this.carouselInterval);
       this.carouselInterval = null;
       this.isCarouselPaused = true;
@@ -226,25 +271,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  calculateTrends() {
-    // Update consumption trending
-    // tslint:disable-next-line:max-line-length
-    this.trendingConsumptionValue = Math.round((this.currentMetrics.totalConsumption / this.currentMetrics.trends.totalConsumption.avg) * 120 % 60);
-    this.trendingConsumptionValue = (this.currentMetrics.totalConsumption < this.currentMetrics.trends.totalConsumption.avg ?
-      this.trendingConsumptionValue : this.trendingConsumptionValue * -1)
-    this.trendingConsumption = `scale(0.6,0.6) rotate(${this.trendingConsumptionValue}deg)`;
-    // Update inactivty trending
-    // tslint:disable-next-line:max-line-length
-    this.trendingInactivityValue = Math.round((this.currentMetrics.currentTotalInactivitySecs / this.currentMetrics.trends.inactivity.avg) * 120 % 60);
-    this.trendingInactivityValue = (this.currentMetrics.currentTotalInactivitySecs < this.currentMetrics.trends.inactivity.avg ?
-      this.trendingInactivityValue : this.trendingInactivityValue * -1)
-    this.trendingInactivity = `scale(0.6,0.6) rotate(${this.trendingInactivityValue}deg)`;
-  }
-
   update() {
     this.currentSiteIndex = this.nextSiteIndex;
     this.currentMetrics = this.dashboardService.currentMetrics[this.currentSiteIndex];
-    this.calculateTrends();
     // Update charts
     for (const button of this.buttonsRealtimeChart) {
       this.setRealtimeChartData(button);
@@ -253,7 +282,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.realtimeChartComponent.setData(this.buttonsRealtimeChart);
     } else {
       setTimeout(() => {
-        this.realtimeChartComponent.setData(this.buttonsRealtimeChart);
+        if (this.realtimeChartComponent) {
+          this.realtimeChartComponent.setData(this.buttonsRealtimeChart);
+        }
       }, 200);
     }
     for (const button of this.buttonsStatisticsChart) {
@@ -263,7 +294,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statisticsChartComponent.setData(this.buttonsStatisticsChart);
     } else {
       setTimeout(() => {
-        this.statisticsChartComponent.setData(this.buttonsStatisticsChart);
+        if (this.statisticsChartComponent) {
+          this.statisticsChartComponent.setData(this.buttonsStatisticsChart);
+        }
       }, 200);
     }
     this.todayDay = {
@@ -328,11 +361,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           title: (tooltipItems, data) => {
-            //            const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
 
-            return currentDate; // +
-            //            ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
+            return currentDate;
           }
         }
       },
@@ -414,11 +445,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           },
           title: (tooltipItems, data) => {
-            //            const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
 
-            return currentDate; // +
-            //            ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
+            return currentDate;
           }
         }
       },

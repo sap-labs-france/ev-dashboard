@@ -70,7 +70,7 @@ agm-map {
 
 .navigation-button {
     position: fixed; 
-    top: 7px; 
+    top: 18px; 
     right:1%; 
     z-index:999
 }
@@ -172,6 +172,9 @@ agm-map {
         @include sidebar-background-color($gray-base, $white-color);
         h1, h2, h3, h4, div, span, p {
             color: $white-color;
+            font-weight: bold; 
+            font-size: 1.35em !important;
+            margin: 7px 0px;
         }
     }
 

@@ -22,14 +22,22 @@
   .menu-on-left {
     &.nav-open {
       .main-panel,
-      .wrapper-full-page,
+      //.wrapper-full-page,
+      .navbar .container .navbar-toggler,
       .navbar-fixed > div {
+        right: 0;
         @include transform-translate-x(260px);
+      }
+
+      .navbar .container .navbar-collapse {
+        right: 0;
+        @include transform-translate-x(0px);
       }
     }
 
     .sidebar,
-    .off-canvas-sidebar {
+    .off-canvas-sidebar,
+    .navbar-collapse {
       left: 0;
       right: auto;
       @include transform-translate-x(-260px);
@@ -170,10 +178,8 @@
 
   .nav-open {
     .main-panel,
-    .wrapper-full-page,
-    .navbar .container .navbar-toggler,
-    .navbar .container .navbar-wrapper,
-    .navbar .container {
+    //.wrapper-full-page,
+    .navbar .container .navbar-toggler {
       left: 0;
       @include transform-translate-x(-260px);
     }

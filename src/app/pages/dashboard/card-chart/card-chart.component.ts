@@ -33,20 +33,30 @@ interface ChartDataLocal {
       transition('false => true', [
         group([
           query('.first-chart', [
-            animate('2s ease', style({ opacity: '0' })),
+            group([
+            animate('1.5s ease-in', style({ opacity: '0' })),
+          ])
           ]),
           query('.second-chart', [
-            animate('2s ease', style({ opacity: '1' })),
+            style({opacity: '0'}),
+            group([
+            animate('1.5s ease-in', style({ opacity: '1' })),
+          ])
           ]),
         ]),
       ]),
       transition('true => false', [
         group([
           query('.first-chart', [
-            animate('2s ease', style({ opacity: '1' })),
+            style({opacity: '0'}),
+            group([
+            animate('1.5s ease-in', style({ opacity: '1' })),
+          ])
           ]),
           query('.second-chart', [
-            animate('2s ease', style({ opacity: '0' })),
+            group([
+            animate('1.5s ease-in', style({ opacity: '0' })),
+          ])
           ]),
         ]),
       ])

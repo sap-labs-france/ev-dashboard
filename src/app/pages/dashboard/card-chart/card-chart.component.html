@@ -14,14 +14,14 @@
     <div [class]="'card-body ' + bodyClass" >
         <div class="col m-0 p-0" 
             [@ChartFade]="changeFromFirstToSecond" (@ChartFade.done)="chartFadeOutComplete($event)">
-            <div class="col m-0 p-0 first-chart" [class.is-hidden]="!firstChart.isDisplayed" [class.fade-out]="changeFromFirstToSecond" [class.fade-in]="!changeFromFirstToSecond">
+            <div class="col m-0 p-0 first-chart" [class.is-hidden]="!firstChart.isDisplayed">
                 <div class="chart-container" >
                     <div class="chart">
                         <chart [type]="chartType" [data]="firstChart.chartData.data" [options]="firstChart.chartData.options"></chart>
                     </div>
                 </div>
             </div>
-            <div class="col m-0 p-0 next-chart second-chart" [class.is-hidden]="!secondChart.isDisplayed" [class.fade-out]="!changeFromFirstToSecond" [class.fade-in]="changeFromFirstToSecond">
+            <div class="col m-0 p-0 next-chart second-chart" [class.is-hidden]="!secondChart.isDisplayed">
                 <div class="chart-container">
                     <div class="chart">
                         <chart [type]="chartType" [data]="secondChart.chartData.data" [options]="secondChart.chartData.options"></chart>

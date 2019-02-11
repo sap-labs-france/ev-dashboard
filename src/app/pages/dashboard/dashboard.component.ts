@@ -11,7 +11,7 @@ import { DecimalPipe } from '@angular/common';
 import { LocaleService } from 'app/services/locale.service';
 import { ChartButton, CardChartComponent, ChartData, ChartDefinition } from './card-chart/card-chart.component';
 
-const SLIDE_INTERVAL = 30000;
+const SLIDE_INTERVAL = 60000;
 const REALTIME_INTERVAL = 10000;
 const STATISTICS_INTERVAL = 5000;
 

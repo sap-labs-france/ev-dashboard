@@ -79,18 +79,16 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public loadData(refreshAction: boolean) {
-    let spinnerStyle = null;
     if (!refreshAction) {
       // Show
-      spinnerStyle = (this.getData().length > 0);
-      this.spinnerService.show(spinnerStyle);
+      this.spinnerService.show();
     }
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
         if (!refreshAction) {
           // Show
-          this.spinnerService.hide(spinnerStyle);
+          this.spinnerService.hide();
         }
         // Set number of records
         this.setNumberOfRecords(chargers.count);
@@ -105,7 +103,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         this.setData(chargers.result);
       }, (error) => {
         // Show
-        this.spinnerService.hide(spinnerStyle);
+        this.spinnerService.hide();
         // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));

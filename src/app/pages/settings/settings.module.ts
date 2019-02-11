@@ -16,6 +16,7 @@ import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-endpoints-sour
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 import {OcpiendpointPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
+import {OcpiendpointPatchJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
 import {SettingsChargeAtHomeComponent} from './charge-at-home/settings-charge-at-home.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
 
@@ -39,7 +40,8 @@ import {SettingsPricingComponent} from './pricing/settings-pricing.component';
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
     OcpiendpointStatusComponent,
-    OcpiendpointPatchJobStatusComponent
+    OcpiendpointPatchJobStatusComponent,
+    OcpiendpointPatchJobResultComponent
   ],
   entryComponents: [
     SettingsComponent,
@@ -48,7 +50,8 @@ import {SettingsPricingComponent} from './pricing/settings-pricing.component';
     SettingsPricingComponent,
     EndpointDialogComponent,
     OcpiendpointStatusComponent,
-    OcpiendpointPatchJobStatusComponent
+    OcpiendpointPatchJobStatusComponent,
+    OcpiendpointPatchJobResultComponent
   ],
   providers: [
     EndpointsDataSource

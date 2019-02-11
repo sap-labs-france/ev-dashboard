@@ -167,6 +167,8 @@ export interface Charger {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface ChargerInError extends Charger {
@@ -268,6 +270,8 @@ export interface Ocpiendpoint {
   version: string;
   status: string;
   backgroundPatchJob: boolean;
+  lastPatchJobOn: Date;
+  lastPatchJobResult: any;
 }
 
 export interface OcpiendpointResult {
@@ -320,6 +324,7 @@ export interface Site {
   companyID: string;
   company: Company;
   allowAllUsersToStopTransactions: boolean;
+  autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
   image: string;

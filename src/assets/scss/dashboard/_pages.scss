@@ -137,6 +137,8 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
+    background: rgba(62, 62, 62, 0.75);
+
     &.card-hidden {
       opacity: 0;
       @include transform-translate-y(-60px);

@@ -70,7 +70,7 @@
 .mat-button,.mat-fab,.mat-flat-button,.mat-icon-button,.mat-mini-fab,.mat-raised-button,.mat-stroked-button{
   font-family:Roboto,"Helvetica Neue",sans-serif;
   font-size:14px;
-  font-weight:500
+  font-weight:500;
 }
 .mat-button-toggle{
   font-family:Roboto,"Helvetica Neue",sans-serif
@@ -878,8 +878,8 @@ textarea.cdk-textarea-autosize-measuring{
   color:#fff
 }
 .mat-button,.mat-icon-button,.mat-stroked-button{
-  color:inherit;
-  background:0 0
+  color: #fff;
+  background: 0 0;
 }
 .mat-button.mat-primary,.mat-icon-button.mat-primary,.mat-stroked-button.mat-primary{
   color:#00bcd4
@@ -916,8 +916,8 @@ textarea.cdk-textarea-autosize-measuring{
   border-color:rgba(255,255,255,.12)
 }
 .mat-fab,.mat-flat-button,.mat-mini-fab,.mat-raised-button{
-  color:#fff;
-  background-color:#424242
+  color: #fff;
+  background: rgba(255,255,255,0.2);
 }
 .mat-fab.mat-primary,.mat-flat-button.mat-primary,.mat-mini-fab.mat-primary,.mat-raised-button.mat-primary{
   color:#fff
@@ -980,7 +980,7 @@ textarea.cdk-textarea-autosize-measuring{
   box-shadow:none
 }
 .mat-button-toggle{
-  color:rgba(255,255,255,.5)
+  color: #fff;
 }
 .mat-button-toggle .mat-button-toggle-focus-overlay{
   background-color:rgba(255,255,255,.12)

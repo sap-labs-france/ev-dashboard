@@ -116,7 +116,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: transparent;
+  background-color: rgba($color: #000, $alpha: 0.2);
 }
 
 .table-dialog-list {
@@ -150,11 +150,11 @@ tr.mat-header-row {
 }
 
 .mat-header-cell {
-  background-color: #2b5177;
+  background-color: $blue-1000;
 }
 
 .mat-paginator {
-  background-color: rgba($color: #000, $alpha: .4);
+  background-color: rgba($color: #000, $alpha: .6);
 }
 
 .col-select {

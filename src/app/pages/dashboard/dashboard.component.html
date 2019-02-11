@@ -1,7 +1,7 @@
 <div [@SlideChangeStart]="beforeChange" (@SlideChangeStart.done)="slideChangeAnimationReloadEnd($event)"
   [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)">
   <div class="row position-sticky fixed-top mx-0 px-0" style="z-index:999">
-    <div class="topbar pr-1 w-100 " data-background-color="red" data-color="white">
+    <div class="topbar pr-1 w-100 " data-background-color="blue" data-color="white">
       <div class="d-flex w-100 justify-content-center align-items-center slide-card-up ">
         <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name !== 'ALL'">{{currentMetrics.name}}</span>
         <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name === 'ALL'">{{'dashboard.all_site'

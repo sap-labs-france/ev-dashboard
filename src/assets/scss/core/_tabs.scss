@@ -76,7 +76,7 @@
   color: $white-color !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: linear-gradient(60deg, $cyan-400, $cyan-600);
+  background: linear-gradient(60deg, $blue-1000, rgba($color: $blue-900, $alpha: 0.2));
   @include shadow-big-color($brand-info);
 }
 

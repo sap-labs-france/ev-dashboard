@@ -138,6 +138,11 @@ agm-map {
         background-image: linear-gradient(60deg, #e53935,lighten(#e53935, 20%));
     }
 
+    &[data-background-color="blue"] {
+      background-color: $blue-1000;
+      background-image: linear-gradient(60deg, $blue-1000, $blue-900);
+    }
+
     .sidebar-background {
         //      position: relative;
         z-index: 1;
@@ -178,6 +183,16 @@ agm-map {
         }
     }
 
+    &[data-background-color="blue"] {
+      @include sidebar-background-color($gray-base, $white-color);
+      h1, h2, h3, h4, div, span, p {
+          color: $white-color;
+          font-weight: bold; 
+          font-size: 1.35em !important;
+          margin: 7px 0px;
+      }
+    }
+
     &[data-color="purple"] {
         @include set-background-color-button($brand-primary);
     }
@@ -209,6 +224,10 @@ agm-map {
 
     &[data-background-color="red"] {
         @include sidebar-background-color($brand-danger, $white-color);
+    }
+
+    &[data-background-color="blue"] {
+      @include sidebar-background-color($blue-1000, $white-color);
     }
 
     &[data-image]:after,

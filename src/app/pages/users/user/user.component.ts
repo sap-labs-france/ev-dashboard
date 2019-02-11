@@ -177,13 +177,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern('^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$')
+            Validators.pattern(/^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/)
           ])),
         'longitude': new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern('^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$')
+            Validators.pattern(/^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/)
           ]))
       }),
       'passwords': new FormGroup({

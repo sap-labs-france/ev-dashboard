@@ -19,6 +19,47 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.12',
+      date: new Date('2019-02-10'),
+      componentChanges: [
+        {
+          name: 'Front-end',
+          changes: [
+            `Added Transactions to be refunded with Concur`,
+            `Added GPS localization for Charging Station`,
+            `Added 'Auto assign new user to Site' checkbox in Site management`,
+            `Propagate Refresh event to dialogs`,
+            `Restore Search and Filters in table toolbar`,
+            `Set details and select columns with fixed width`,
+            `Bug + CSS fixes`
+          ]
+        },
+        {
+          name: 'Backend',
+          changes: [
+            `Created background jobs to update Charger's statuses for GIREVE`,
+            'Added more info in logs for OCPI registration',
+            'Added User IDs and Tad IDs in OData for SAP Analytics',
+            `Added GPS localization for Charging Stations`,
+            `Handled new flag 'Auto assign new user to Site' in Site entity`,
+            `Removed handling of unavailable connector status on ABB (charge in //)`,
+            `Fixed Unit Tests on Transaction`,
+            `Set Charger's inactivity to 5 mins`,
+            `Added Charger info in User's notifications logs`,
+            `Fixed Available/Occupied Chargers for Site/Site Area for the mobile app`,
+            `Fixed invalid consumption computation for charts`,
+            `Fixed badge saving + Start Transaction with no Badge ID`,
+            `Handled Status Notif with connector '0' for EBEE`,
+            `Fixed no error info provided when connector is faulty`,
+            `Fixed ABB bug on not sending Stop Transaction when user unlocks his car`,
+            `Fixed User not assigned to a Site (error handling)`,
+            `Checked Badge ID in Start/Stop Transaction + Fix exception handling`,
+            `Simplified oData server`
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.11',
       date: new Date('2019-01-26'),
       componentChanges: [

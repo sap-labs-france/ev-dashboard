@@ -1,0 +1,219 @@
+@import "../../../assets/scss/core/variables";
+@import "../../../assets/scss/core/mixins";
+@import "../../../assets/scss/core/misc";
+@import "../../../assets/scss/core/variables/brand";
+$carousel-control-prev-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ef5350' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
+$carousel-control-next-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ef5350' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
+
+$button-darken-active: darken($brand-info, 15%);
+
+.local-previous {
+    background-image: $carousel-control-prev-icon-bg !important
+}
+
+.local-next {
+    background-image: $carousel-control-next-icon-bg !important
+}
+
+.carousel-arrow {
+    position: relative;
+}
+
+.gauge-card {
+    min-width: 280px;
+    min-height: 250px;
+    z-index: 0;
+
+    .gauge-card-body {
+        text-align: center !important;
+        margin-top: -10px;
+    }
+}
+
+.trending-stat {
+    height:36px;
+
+    .trending-icon {
+//        transform: scale(0.6,0.6) !important;
+        color: initial;    
+    }
+}
+
+.is-hidden {
+    opacity: 0;
+}
+
+.next-chart {
+    position: absolute;
+    top: 0;
+    overflow: visible;
+    width:100%;
+    height: 100%;
+//    left: 0;
+}
+
+agm-map {
+    height: 250px;
+}
+
+.card-nooverflow {
+    overflow: hidden;
+}
+
+.footer-position-with-gauge {
+    margin-top: -20px;
+    margin-left: 15px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    z-index: 2;
+}
+
+.navigation-button {
+    position: fixed; 
+    top: 18px; 
+    right:1%; 
+    z-index:999
+}
+
+.prev-next-button {
+    height: 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    line-height: 38px !important;
+
+    .material-icons, .fa {
+        line-height: 38px !important;
+    }
+}
+
+.play-button {
+    height: 45px;
+    width: 45px;
+    min-width: 45px;
+    line-height: 45px;
+    .material-icons, .fa {
+        line-height: 45px !important;
+    }
+}
+
+.app-card-stats {
+    background-color:$button-darken-active !important; 
+    :hover,:focus {
+        background-color:$button-darken-active !important; 
+    }
+}
+
+.topbar {
+    position: sticky;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+//    padding-bottom: 0.8rem;
+//    padding-top: 0.8rem;
+    flex-direction: row;
+    align-items: center;
+    top: 0;
+    z-index: 2;
+    background: $white-color;
+//    @include shadow-big();
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+    &[data-background-color="black"] {
+        background-color: #191919;
+    }
+
+    &[data-background-color="red"] {
+        background-color: $brand-danger;
+        background-image: linear-gradient(60deg, #e53935,lighten(#e53935, 20%));
+    }
+
+    .sidebar-background {
+        //      position: relative;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        display: block;
+        top: 0;
+        left: 0;
+        background-size: cover;
+        background-position: center center;
+
+        &:after {
+            //        position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            content: "";
+            display: block;
+            background: #FFFFFF;
+            opacity: .93;
+        }
+    }
+
+    &[data-background-color="black"] {
+        @include sidebar-background-color($gray-base, $white-color);
+        h1, h2, h3, h4, div, span, p {
+            color: $white-color;
+        }
+    }
+
+    &[data-background-color="red"] {
+        @include sidebar-background-color($gray-base, $white-color);
+        h1, h2, h3, h4, div, span, p {
+            color: $white-color;
+            font-weight: bold; 
+            font-size: 1.35em !important;
+            margin: 7px 0px;
+        }
+    }
+
+    &[data-color="purple"] {
+        @include set-background-color-button($brand-primary);
+    }
+
+    &[data-color="azure"] {
+        @include set-background-color-button($brand-info);
+    }
+
+    &[data-color="green"] {
+        @include set-background-color-button($brand-success);
+    }
+
+    &[data-color="orange"] {
+        @include set-background-color-button($brand-warning);
+    }
+
+    &[data-color="danger"] {
+        @include set-background-color-button($brand-danger);
+    }
+
+    &[data-color="rose"] {
+        @include set-background-color-button($brand-rose);
+    }
+
+    &[data-color="white"] {
+        @include set-background-color-button($white-color);
+        @include sidebar-active-color($black-color);
+    }
+
+    &[data-background-color="red"] {
+        @include sidebar-background-color($brand-danger, $white-color);
+    }
+
+    &[data-image]:after,
+    &.has-image:after {
+        opacity: .77;
+    }
+}
+

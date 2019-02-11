@@ -1,16 +1,159 @@
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons"></i>
-            </div>
-            <h4 class="card-title">New Hi-Availability Dashboard (under construction)</h4>
-          </div>
-          <div class="card-body">
-            <div class="row">
+<div [@SlideChangeStart]="beforeChange" (@SlideChangeStart.done)="slideChangeAnimationReloadEnd($event)"
+  [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)">
+  <div class="row position-sticky fixed-top mx-0 px-0" style="z-index:999">
+    <div class="topbar pr-1 w-100 " data-background-color="red" data-color="white">
+      <div class="d-flex w-100 justify-content-center align-items-center slide-card-up ">
+        <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name !== 'ALL'">{{currentMetrics.name}}</span>
+        <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name === 'ALL'">{{'dashboard.all_site'
+          |
+          translate}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="d-inline-flex align-items-center navigation-button">
+    <button mat-icon-button (click)="changeSite('prev')" [class]="'d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button '">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button mat-icon-button (click)="pauseSlide()" [class]="'d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab btn-round play-button'">
+      <mat-icon *ngIf="!isCarouselPaused">pause</mat-icon>
+      <mat-icon *ngIf="isCarouselPaused">play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button (click)="changeSite('next')" [class]="'d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button '">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="w-100">
+            <div class="d-flex flex-column w-100 justify-content-center">
+              <!-- First for with 2 gauges and central card for site -->
+              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3"
+                style="min-height:320px">
+                <div class="d-flex col-md-4 mx-1">
+                  <div class="card card-stats gauge-card">
+                    <div class="card-header fade-out-text card-header-info card-header-icon">
+                      <div class="card-icon">
+                        <i class="material-icons">ev_station</i>
+                      </div>
+                      <p class="card-category"></p>
+                      <h3 class="card-title">{{'dashboard.occupied_charging_points_gauge_title' | translate }}</h3>
+                    </div>
+                    <div class="card-nooverflow">
+                      <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body "
+                        [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
+                        <app-chargers-gauge [activeChargers]="currentMetrics.occupiedChargingPoint" [maxChargers]="currentMetrics.maximumNumberOfChargingPoint"></app-chargers-gauge>
+                      </div>
+                    </div>
+                    <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
+                      <div class="stats">
+                        {{'dashboard.occupied_charging_points_gauge_footer' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex col-md-4 mx-1">
+                  <div class="d-flex card  card-stats ">
+                    <div class="card-header fade-out-text card-header-danger card-header-icon">
+                      <div class="card-icon">
+                        <i class="material-icons">location_on</i>
+                      </div>
+                      <p class="card-category">{{currentMetrics.company.name}}</p>
+                      <h3 class="card-title">{{'dashboard.location' | translate}}</h3>
+                    </div>
+                    <div class="card-body" [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
+                      <agm-map [latitude]="currentMetrics.address[0].latitude" [longitude]="currentMetrics.address[0].longitude"
+                        [zoom]="4" [streetViewControl]="false">
+                        <agm-marker *ngFor="let address of currentMetrics.address" [latitude]="address.latitude"
+                          [longitude]="address.longitude"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex col-md-4 mx-1  ">
+                  <div class="d-flex card  card-stats gauge-card">
+                    <div class="card-header fade-out-text card-header-info card-header-icon">
+                      <div class="card-icon">
+                        <i class="material-icons">flash_on</i>
+                      </div>
+                      <p class="card-category"></p>
+                      <h3 class="card-title">{{'dashboard.consumption_title' | translate }}</h3>
+                    </div>
+                    <div class="card-nooverflow">
+                      <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
+                        [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
+                        <app-consumption-gauge #consumptionGauge [consumption]="currentMetrics.currentConsumption"
+                          [maxConsumption]="currentMetrics.maximumPower"></app-consumption-gauge>
+                      </div>
+                    </div>
+                    <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
+                      <div class="stats">
+                        {{'dashboard.consumption_gauge_footer' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Row for key values component based-->
+              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch justify-content-around mb-3">
+                <div class="d-flex col-md-4 mx-1">
+                  <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="power" iconClass="fade-out-text"
+                    [cardCategory]="'dashboard.today_duration'" cardTitle="6 hours" [titleClass]="dynamicFadeInOutClass"
+                    [cardFooter]="'dashboard.today_duration_footer'"></app-card-keyfigure>
+                </div>
+                <div class="d-flex col-md-4 mx-1">
+                  <app-card-keyfigure class="col d-flex px-0" [withTrend]=true cardIcon="power_off" iconClass="fade-out-text"
+                    [cardCategory]="'dashboard.today_inactivity'" [cardTitle]="currentMetrics.currentTotalInactivitySecs | appDuration"
+                    [trendClass]="dynamicFadeInOutClass" [cardFooter]="'dashboard.today_inactivity_footer' | translate:todayDay" [trendTitle]="currentMetrics.trends.inactivity.avg"
+                    [trendValue]="this.currentMetrics.trends.inactivity.avg" [currentValue]="currentMetrics.currentTotalInactivitySecs"></app-card-keyfigure>
+                </div>
+                <div class="d-flex col-md-4 mx-1">
+                    <app-card-keyfigure class="col d-flex px-0" [withTrend]=true cardIcon="flash_on" iconClass="fade-out-text"
+                    [cardCategory]="'dashboard.today_energy_delivered'" [cardTitle]="currentMetrics.totalConsumption | appUnit:'Wh':'kWh':true:0:2"
+                    [trendClass]="dynamicFadeInOutClass" [cardFooter]="'dashboard.today_energy_delivered_footer' | translate:todayDay" 
+                    [trendTitle]="currentMetrics.trends.totalConsumption.avg | appUnit:'Wh':'kWh':true:0:2"
+                    [trendValue]="this.currentMetrics.trends.totalConsumption.avg" [currentValue]="currentMetrics.totalConsumption"></app-card-keyfigure>
+                </div>
+              </div>
+              <!-- Row for graphics-->
+              <div class="d-flex d-flex-row align-items-stretch justify-content-around mb-3" *ngIf="currentMetrics">
+                <div class="d-flex col-md-6 mx-1">
+                  <app-card-chart class="col d-flex px-0" #realtimeChart chartType="line" cardIcon="flash_on" [cardTitle]="'dashboard.realtime_title'"
+                    [chartButtons]="buttonsRealtimeChart" [cardFooter]="chartRealtimeFooter" [rotationInterval]="realtimeInterval"
+                    headerClass="fade-out-text card-header-info" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
+                </div>
+                <div class="d-flex col-md-6 mx-1">
+                  <app-card-chart class="d-flex col px-0" #statisticsChart chartType="bar" cardIcon="history" [cardTitle]="'dashboard.statistics_title'"
+                    [chartButtons]="buttonsStatisticsChart" [cardFooter]="chartDeliveredFooter" [rotationInterval]="statisticsInterval"
+                    headerClass="fade-out-text card-header-info" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
+                </div>
+              </div>
+              <!-- Row for sustainability -->
+              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch justify-content-around mb-3">
+                <div class="d-flex col-md-4 mx-1">
+                  <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="filter_vintage" iconClass="fade-out-text"
+                  headerClass="card-header-success"
+                  [cardCategory]="'dashboard.co2_title'" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 120 | number:'1.0-0') + 'g CO2'" 
+                  [titleClass]="dynamicFadeInOutClass"
+                  [cardFooter]="'dashboard.co2_footer'"></app-card-keyfigure>
+                </div>
+                <div class="d-flex col-md-4 mx-1">
+                  <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="filter_vintage" iconClass="fade-out-text"
+                  headerClass="card-header-success"
+                  [cardCategory]="'dashboard.km_title'" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 100 | number:'1.0-0') + ' km'" 
+                  [titleClass]="dynamicFadeInOutClass"
+                  [cardFooter]="'dashboard.km_footer'"></app-card-keyfigure>
+                </div>
+                <div class="d-flex col-md-4 mx-1">
+                  <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="filter_vintage" iconClass="fade-out-text"
+                  headerClass="card-header-success"
+                  [cardCategory]="'dashboard.gas_title'" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 8 | number:'1.0-0') + ' Liters'" 
+                  [titleClass]="dynamicFadeInOutClass"
+                  [cardFooter]="'dashboard.gas_footer'"></app-card-keyfigure>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,0 +1,23 @@
+<div [class]="'card ' + (cardClass ? cardClass : 'card-stats')">
+    <div [class]="'card-header card-header-icon ' + ( headerClass ? headerClass : 'card-header-info')">
+        <div [class]="'card-icon ' + (iconClass ? iconClass : '')">
+            <i class="material-icons">{{cardIcon}}</i>
+        </div>
+        <p [class]="'card-category btn-group ' + (categoryClass ? categoryClass : '')">{{cardCategory | translate }}</p>
+
+        <div class="card-nooverflow">
+            <div *ngIf="withTrend" [class]="'d-flex align-items-center justify-content-end trending-stat ' + (trendClass ? trendClass : '')">
+                <i class="material-icons trending-icon" [ngStyle]="{'transform': trendingRotation}" [title]="trendTitle">trending_flat</i>
+                <h3 [class]="'card-title ' + (titleClass ? titleClass : '')">{{cardTitle | translate}}
+                </h3>
+            </div>
+            <h3 *ngIf="!withTrend" [class]="'card-title ' + (titleClass ? titleClass : '')">{{cardTitle | translate}}</h3>
+        </div>
+
+    </div>
+    <div [class]="'card-footer ' + (footerClass ? footerClass : '')" style="white-space: pre-wrap">
+        <div class="stats">
+            {{cardFooter | translate}}
+        </div>
+    </div>
+</div>

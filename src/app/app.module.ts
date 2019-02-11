@@ -70,7 +70,8 @@ import {WindowService} from './services/window.service';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
 import {ChartModule} from 'angular2-chartjs';
-
+import {AgmCoreModule} from '@agm/core';
+import { DashboardService } from './services/dashboard.service';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -153,6 +154,7 @@ export function localeFactory(
     RecaptchaModule.forRoot(),
     HttpClientModule,
     ChartModule,
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -186,6 +188,7 @@ export function localeFactory(
     ConfigService,
     TranslateService,
     WindowService,
+    DashboardService,
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
   ],

@@ -9,6 +9,7 @@ import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
 import {AbstractTabComponent} from './tab/AbstractTab.component';
+import { GaugesModule } from './gauge/gauge.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {AbstractTabComponent} from './tab/AbstractTab.component';
     TranslateModule,
     CommonDirectivesModule,
     FormattersModule,
-    ChartModule
+    ChartModule,
+    GaugesModule
   ],
   declarations: [
     ChipComponent,

@@ -1094,7 +1094,6 @@ textarea.cdk-textarea-autosize-measuring{
 .mat-chip.mat-standard-chip{
   background-color:#616161;
   color:#fff;
-  margin-top: 0 !important;
 }
 .mat-chip.mat-standard-chip .mat-chip-remove{
   color:#fff;
@@ -1554,7 +1553,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:rgba(255,255,255,.5)
 }
 .mat-select-arrow{
-  color:rgba(255,255,255,.7)
+  color:#fff
 }
 .mat-select-panel{
   background:#424242
@@ -1880,7 +1879,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:currentColor
 }
 .mat-toolbar .mat-focused .mat-form-field-label,.mat-toolbar .mat-form-field-label,.mat-toolbar .mat-form-field.mat-focused .mat-select-arrow,.mat-toolbar .mat-select-arrow,.mat-toolbar .mat-select-value{
-  color:inherit
+  color: #fff;
 }
 .mat-toolbar .mat-input-element{
   caret-color:currentColor

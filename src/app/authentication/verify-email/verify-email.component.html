@@ -20,7 +20,7 @@
                         <i class="material-icons">email</i>
                       </span>
                       <mat-form-field>
-                        <input autocomplete="off" matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email"
+                        <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email"
                                required
                                [readonly]="true">
                         <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>

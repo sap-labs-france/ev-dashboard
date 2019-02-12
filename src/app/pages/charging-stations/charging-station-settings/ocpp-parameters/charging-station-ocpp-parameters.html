@@ -16,7 +16,7 @@
                 {{item.key | translate}}
               </td>
               <td class="text-left">
-                <input autocomplete="off" [id]="item.key" #parameter *ngIf="!item.readonly" matInput
+                <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
                        [formControlName]="item.key" [value]="item.value">
                 <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
               </td>

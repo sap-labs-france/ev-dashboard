@@ -37,19 +37,19 @@
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                            <input autocomplete="off" matInput [formControl]="stackLevelControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.stack_level' | translate}}"
+                            <input matInput [formControl]="stackLevelControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.stack_level' | translate}}"
                                 required />
                         </mat-form-field>
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                            <input autocomplete="off" matInput [formControl]="profileIdControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.profile_id' | translate}}"
+                            <input matInput [formControl]="profileIdControl" type="number" min=0 max=10 placeholder="{{'chargers.smart_charging.profile_id' | translate}}"
                                 required />
                         </mat-form-field>
                     </div>
                     <div class="form-group col-md-2">
                         <mat-form-field>
-                            <input autocomplete="off" matInput [formControl]="durationControl" type="number" min=0 placeholder="{{'chargers.smart_charging.duration' | translate}}" />
+                            <input matInput [formControl]="durationControl" type="number" min=0 placeholder="{{'chargers.smart_charging.duration' | translate}}" />
                         </mat-form-field>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                                         <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlot">
                                             <!-- Date selector -->
                                             <mat-form-field>
-                                                <input autocomplete="off" matInput type="datetime-local" (input)="changeStartSlotDate($event, slot)"
+                                                <input matInput type="datetime-local" (input)="changeStartSlotDate($event, slot)"
                                                     [placeholder]="'chargers.smart_charging.start_date' | translate"
                                                     [value]="slot.displayedStartValue">
                                             </mat-form-field>
@@ -98,7 +98,7 @@
                                         </ng-container>
                                         <ng-template #elseDuration>
                                             <mat-form-field>
-                                                <input autocomplete="off" matInput type="number" (input)="changeSlotDuration($event, slot)"
+                                                <input matInput type="number" (input)="changeSlotDuration($event, slot)"
                                                     [placeholder]="'chargers.smart_charging.duration' | translate"
                                                     [value]="slot.duration">
                                             </mat-form-field>
@@ -115,7 +115,7 @@
                                 <div *ngIf="false && slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
                                     <div class="col-md-6">
                                         <mat-form-field>
-                                            <input autocomplete="off" matInput type="datetime-local" (input)="changeEndSlotDate($event, slot)"
+                                            <input matInput type="datetime-local" (input)="changeEndSlotDate($event, slot)"
                                                 [placeholder]="'chargers.smart_charging.end_date' | translate" [value]="slot.displayedEndValue">
                                         </mat-form-field>
                                     </div>

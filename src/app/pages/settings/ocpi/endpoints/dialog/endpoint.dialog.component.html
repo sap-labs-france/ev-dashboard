@@ -44,7 +44,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.name' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.name' | translate}}"
                                                         type="text" [formControl]="name" required>
                                                     <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -58,7 +58,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
                                                         type="text" [formControl]="baseUrl" required>
                                                     <mat-error *ngIf="baseUrl.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -72,7 +72,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group" *ngIf="!currentEndpoint.id">
                                                 <mat-form-field>
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
                                                         type="text" [formControl]="countryCode">
                                                     <mat-error *ngIf="countryCode.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -88,7 +88,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group" *ngIf="!currentEndpoint.id">
                                                 <mat-form-field>
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
                                                         type="text" [formControl]="partyId">
                                                     <mat-error *ngIf="partyId.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
@@ -109,7 +109,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group flex-nowrap">
                                                 <mat-form-field class="app-no-padding-bottom">
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.localToken' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.localToken' | translate}}"
                                                         type="text" [formControl]="localToken">
                                                     <mat-error *ngIf="localToken.hasError('maxlength')">
                                                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
@@ -140,7 +140,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <mat-form-field class="app-no-padding-bottom">
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'ocpiendpoints.token' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.token' | translate}}"
                                                         type="text" [formControl]="token">
                                                     <mat-error *ngIf="token.hasError('maxlength')">
                                                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>

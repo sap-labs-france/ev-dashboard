@@ -59,7 +59,7 @@
                                                                 <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
                                                                     <i class="material-icons" (click)="file.click()">mode_edit</i>
                                                                     <div style="display:none">
-                                                                        <input autocomplete="off" type="file" name="..." (change)="imageChanged($event)"
+                                                                        <input type="file" name="..." (change)="imageChanged($event)"
                                                                             #file>
                                                                     </div>
                                                                 </a>
@@ -75,7 +75,7 @@
                                         <div class="col-md-7">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input autocomplete="off" appSetAutoFocus matInput placeholder="{{'site_areas.name' | translate}}"
+                                                    <input appSetAutoFocus matInput placeholder="{{'site_areas.name' | translate}}"
                                                         class="app-site-area-name-bold" type="text" [formControl]="name"
                                                         required>
                                                     <mat-error *ngIf="name.hasError('required')">
@@ -92,7 +92,7 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <mat-form-field>
-                                                    <input autocomplete="off" matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
+                                                    <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
                                                         type="text" [formControl]="maximumPower">
                                                     <button mat-button matSuffix mat-icon-button aria-label="Reset"
                                                         (click)="clearMaximumPower()" [hidden]="maximumPower.value === null || maximumPower.value === ''">

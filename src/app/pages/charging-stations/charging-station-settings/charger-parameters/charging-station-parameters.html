@@ -5,7 +5,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <mat-form-field>
-                            <input autocomplete="off" matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
+                            <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
                                 [formControl]="chargingStationURL" required [readOnly]="!isAdmin" />
                         </mat-form-field>
                         <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <!-- Dialog Table Filter -->
                         <mat-form-field>
-                            <input autocomplete="off" matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
+                            <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
                                 class="form-field-popup" [formControl]="siteArea" required />
                             <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()"
                                 [hidden]="!isAdmin">
@@ -29,7 +29,7 @@
                 <div class="col-md-4 col-xl-2">
                     <div class="form-group">
                         <mat-form-field>
-                            <input autocomplete="off" matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
+                            <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
                                 required [readOnly]="!isAdmin" />
                             <mat-error *ngIf="maximumPower.invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
                         </mat-form-field>
@@ -59,13 +59,13 @@
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
-                        <input autocomplete="off" matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin" >
+                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin" >
                         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
-                        <input autocomplete="off" matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin" >
+                        <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin" >
                         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="row">
                                     <mat-form-field>
-                                        <input autocomplete="off" matInput placeholder="{{'chargers.connector_max_power' | translate}}"
+                                        <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
                                             [formControlName]="'connectorMaxPower' + connector.connectorId" required
                                             [readOnly]="!isAdmin">
                                         <mat-error *ngIf="formGroup.controls['connectorMaxPower' + connector.connectorId].invalid">{{'chargers.invalid_power_value'

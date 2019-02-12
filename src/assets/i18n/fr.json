@@ -37,6 +37,7 @@
     "create": "Créer",
     "refresh": "Rafraîchir",
     "save": "Sauvegarder",
+    "export": "Export",
     "change": "Changer",
     "reload": "Recharger",
     "stop": "Stop",
@@ -493,6 +494,12 @@
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
+    "dialog": {
+      "export": {
+        "title": "Exporter les bornes",
+        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Redémarrer",
       "soft_reset_item": "Soft reset",
@@ -549,6 +556,20 @@
       "get_diagnostics_dialog_confirm": "Voulez-vous vraiment télécharger le diagnostique de la borne '{{chargeBoxID}}'?",
       "get_diagnostics_success": "Le téléchargement du diagnostique a été effectué avec succès",
       "get_diagnostics_error": "une erreur est survenue pendant le téléchargement du diagnostique"
+    },
+    "action_error": {
+      "transaction_start_title": "Erreur démarrage de session",
+      "transaction_start_not_available": "Le connecteur n'est pas disponible, impossible de démarrer une session",
+      "transaction_start_charger_inactive": "La borne n'est pas connectée, impossible de démarrer une session",
+      "transaction_stop_title": "Erreur d'arrêt de session",
+      "transaction_stop_not_authorized": "Vous n'êtes pas autorisé à arrêter cette session",
+      "delete_title": "Suppression d'une borne impossible",
+      "delete_active_transaction": "La suppression d'une borne n'est pas autorisée quand une session est en cours",
+      "command_title": "Erreur d'envoi de commande ",
+      "command_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "smart_charging_title": "Erreur dans smart charging",
+      "smart_charging_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging"
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
@@ -987,6 +1008,10 @@
       "delete": {
         "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
+      },
+      "export": {
+        "title": "Exporter les sessions",
+        "confirm": "Voulez-vous vraiment exporter les sessions correspondant aux filtres ?"
       },
       "soft_stop": {
         "title": "Arréter la Session",

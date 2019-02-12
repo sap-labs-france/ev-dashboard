@@ -38,6 +38,7 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "export": "Export",
     "connect": "Connect",
     "stop": "Stop",
     "refund": "Refund",
@@ -447,6 +448,7 @@
     "firmware_version": "Firmware Version",
     "connector_status": "Status",
     "ocpp_version": "OCPP Version",
+    "ocpp_version_title": "OCPP",
     "private_url": "Private URL",
     "nb_connected_phase": "Number of Connected Phase",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
@@ -498,6 +500,12 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "dialog": {
+      "export": {
+        "title": "Export charging stations",
+        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Reboot",
       "soft_reset_item": "Soft reset",
@@ -554,6 +562,20 @@
       "get_diagnostics_dialog_confirm": "Do you really want to download the charging station '{{chargeBoxID}}' diagnostics file?",
       "get_diagnostics_success": "Diagnostics download started successfully",
       "get_diagnostics_error": "Error when starting diagnostics download"
+    },
+    "action_error": {
+      "transaction_start_title": "Start transaction error",
+      "transaction_start_not_available": "Connector is not available, unable to start a transaction",
+      "transaction_start_charger_inactive": "Charger is not connected, unable to start a transaction",
+      "transaction_stop_title": "Stop transaction error",
+      "transaction_stop_not_authorized": "you are not authorized to stop this transaction",
+      "delete_title": "Delete charging station error",
+      "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
+      "command_title": "Charging station command error",
+      "command_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_title": "Snart charging error",
+      "smart_charging_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station"
     },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",
@@ -995,6 +1017,10 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
+      },
+      "export": {
+        "title": "Export Sessions",
+        "confirm": "Do you really want to export all the sessions matching the filters ?"
       },
       "soft_stop": {
         "title": "Stop Session",

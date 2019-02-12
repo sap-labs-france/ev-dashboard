@@ -15,6 +15,11 @@ export class DialogService {
     return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK_CANCEL, title, message);
   }
 
+  public createAndShowOkDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+    // Call
+    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK, title, message);
+  }
+
   public createAndShowYesNoDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
     // Call
     return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO, title, message);

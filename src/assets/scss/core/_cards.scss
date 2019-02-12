@@ -12,7 +12,7 @@
   font-size: 0.9rem;
 
   .card-category:not([class*="text-"]) {
-    color: $gray-color;
+    color: $white;
   }
   .card-category {
     margin-top: 10px;
@@ -73,7 +73,7 @@
     }
 
     .stats {
-      color: $gray-color;
+      color: $white;
 
       .material-icons {
         position: relative;
@@ -231,7 +231,7 @@
     .stats,
     .card-category,
     .card-description {
-      color: $white-transparent;
+      color: $white;
     }
 
     .author a {
@@ -315,7 +315,7 @@
 
     .card-category,
     .card-description {
-      color: $gray-color;
+      color: $white;
     }
   }
 

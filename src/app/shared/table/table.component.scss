@@ -146,7 +146,7 @@ tr.mat-header-row {
 }
 
 .mat-toolbar {
-  background-color: rgba($color: #000, $alpha: .20);
+  background: linear-gradient(60deg, $blue-925, $blue-1000);
 }
 
 .mat-header-cell {

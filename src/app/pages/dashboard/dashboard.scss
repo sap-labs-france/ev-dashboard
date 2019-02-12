@@ -35,7 +35,7 @@ $button-darken-active: darken($brand-info, 15%);
 
     .trending-icon {
 //        transform: scale(0.6,0.6) !important;
-        color: initial;    
+        color: $white;    
     }
 }
 
@@ -135,12 +135,10 @@ agm-map {
 
     &[data-background-color="red"] {
         background-color: $brand-danger;
-        background-image: linear-gradient(60deg, #e53935,lighten(#e53935, 20%));
     }
 
     &[data-background-color="blue"] {
       background-color: $blue-1000;
-      background-image: linear-gradient(60deg, $blue-1000, $blue-900);
     }
 
     .sidebar-background {
@@ -169,28 +167,34 @@ agm-map {
     &[data-background-color="black"] {
         @include sidebar-background-color($gray-base, $white-color);
         h1, h2, h3, h4, div, span, p {
-            color: $white-color;
+          color: $white-color;
+          font-weight: 400; 
+          font-size: 1.5rem !important;
+          padding: 14px 0px;
+          background: $blue-1000;
         }
     }
 
     &[data-background-color="red"] {
-        @include sidebar-background-color($gray-base, $white-color);
-        h1, h2, h3, h4, div, span, p {
-            color: $white-color;
-            font-weight: bold; 
-            font-size: 1.35em !important;
-            margin: 7px 0px;
-        }
+      @include sidebar-background-color($gray-base, $white-color);
+      h1, h2, h3, h4, div, span, p {
+        color: $white-color;
+        font-weight: 400; 
+        font-size: 1.5rem !important;
+        padding: 14px 0px;
+        background: $blue-1000;
+    }
     }
 
     &[data-background-color="blue"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-          color: $white-color;
-          font-weight: bold; 
-          font-size: 1.35em !important;
-          margin: 7px 0px;
-      }
+        color: $white-color;
+        font-weight: 400; 
+        font-size: 1.5rem !important;
+        padding: 14px 0px;
+        background: $blue-1000;
+    }
     }
 
     &[data-color="purple"] {
@@ -205,7 +209,7 @@ agm-map {
         @include set-background-color-button($brand-success);
     }
 
-    &[data-color="orange"] {
+    &[data-color="o range"] {
         @include set-background-color-button($brand-warning);
     }
 

@@ -39,6 +39,7 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.loadComponent();
     if (this.cellComponent && changes.row && changes.row.currentValue) {
       this.cellComponent.row = changes.row.currentValue;
       this.cellComponent.refresh();

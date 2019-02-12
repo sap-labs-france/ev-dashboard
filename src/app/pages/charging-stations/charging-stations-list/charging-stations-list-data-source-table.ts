@@ -17,6 +17,7 @@ import {InstantPowerProgressBarComponent} from '../cell-content-components/insta
 import {ConnectorsDetailComponent} from '../details-content-component/connectors-detail-component.component';
 import {HeartbeatCellComponent} from '../cell-content-components/heartbeat-cell.component';
 import {ConnectorsCellComponent} from '../cell-content-components/connectors-cell.component';
+import {TableSettingsAction} from 'app/shared/table/actions/table-settings-action';
 import {TableDeleteAction} from 'app/shared/table/actions/table-delete-action';
 import {
   ACTION_CLEAR_CACHE,
@@ -34,6 +35,7 @@ import { Constants } from 'app/utils/Constants';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
 import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import saveAs from 'file-saver';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 
 const POLL_INTERVAL = 10000;
@@ -167,7 +169,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           name: 'chargers.consumption_title',
           sortable: false,
           isAngularComponent: true,
-          class: 'power-progress-bar', angularComponentName: InstantPowerProgressBarComponent
+          class: 'power-progress-bar',
+          angularComponentName: InstantPowerProgressBarComponent
         },
         {
           id: 'siteArea.site.name',

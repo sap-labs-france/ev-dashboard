@@ -37,6 +37,7 @@
     "create": "Créer",
     "refresh": "Rafraîchir",
     "save": "Sauvegarder",
+    "export": "Export",
     "change": "Changer",
     "reload": "Recharger",
     "stop": "Stop",
@@ -493,6 +494,12 @@
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
+    "dialog": {
+      "export": {
+        "title": "Exporter les bornes",
+        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Redémarrer",
       "soft_reset_item": "Soft reset",
@@ -987,6 +994,10 @@
       "delete": {
         "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
+      },
+      "export": {
+        "title": "Exporter les sessions",
+        "confirm": "Voulez-vous vraiment exporter les sessions correspondant aux filtres ?"
       },
       "soft_stop": {
         "title": "Arréter la Session",

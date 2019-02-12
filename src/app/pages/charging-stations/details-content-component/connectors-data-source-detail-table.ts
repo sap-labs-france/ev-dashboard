@@ -98,12 +98,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   public setCharger(charger: Charger) {
-    console.log('setCharger');
     this.charger = charger;
   }
 
   setDetailedDataSource(row) {
-    console.log('setDetailedDataSource');
     this.loadData();
   }
 

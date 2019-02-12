@@ -11,6 +11,8 @@ export class ChargerStatusDirective {
   @HostBinding('class.charger-connector-finishing') statusFinishing = false;
   @HostBinding('class.charger-connector-reserved') statusReserved = false;
   @HostBinding('class.charger-connector-charging') statusCharging = false;
+  @HostBinding('class.charger-connector-charging-active') statusChargingActive = false;
+  @HostBinding('class.charger-connector-charging-inactive') statusChargingInactive = false;
   @HostBinding('class.charger-connector-unavailable') statusUnavailable = false;
   @HostBinding('class.charger-connector-faulted') statusFaulted = false;
   @HostBinding('class.charger-connector-active-text') statusUnknown = false;
@@ -23,6 +25,8 @@ export class ChargerStatusDirective {
     this.statusFinishing = false;
     this.statusReserved = false;
     this.statusCharging = false;
+    this.statusChargingActive = false;
+    this.statusChargingInactive = false;
     this.statusUnavailable = false;
     this.statusFaulted = false;
     this.statusUnknown = false;
@@ -48,7 +52,13 @@ export class ChargerStatusDirective {
       // (Operative)
       case 'Occupied':
       case 'Charging':
-        this.statusCharging = true;
+      this.statusCharging = true;
+        break;
+      case 'Charging-inactive':
+        this.statusChargingInactive = true;
+        break;
+      case 'Charging-active':
+        this.statusChargingActive = true;
         break;
 
       // When the contactor of a Connector opens upon

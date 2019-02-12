@@ -127,6 +127,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dashboardService: DashboardService,
     private decimalPipe: DecimalPipe,
     private localeService: LocaleService) {
+      this.dashboardService.startLoading();
   }
 
   ngOnInit(): void {
@@ -163,6 +164,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       clearInterval(this.carouselInterval);
     }
     this.isCarouselPaused = true;
+    this.dashboardService.stopLoading();
   }
 
   ngAfterViewInit(): void {

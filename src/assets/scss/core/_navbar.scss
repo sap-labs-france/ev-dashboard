@@ -1,7 +1,4 @@
 .navbar {
-  @media screen and (min-width: 992px) {
-    display: none;
-  }
   border: 0;
   border-radius: $border-radius-base;
   padding: 0.625rem 0;
@@ -176,6 +173,12 @@
     line-height: 19px;
     vertical-align: middle;
     display: block;
+  }
+}
+
+.main-panel .navbar {
+  @media screen and (min-width: 992px) {
+    display: none;
   }
 }
 

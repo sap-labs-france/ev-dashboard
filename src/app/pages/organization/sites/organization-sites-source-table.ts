@@ -26,6 +26,7 @@ import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteDialogComponent } from './site/site.dialog.component';
 import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
+import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
 
 @Injectable()
 export class SitesDataSource extends TableDataSource<Site> {
@@ -199,13 +200,15 @@ export class SitesDataSource extends TableDataSource<Site> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new CompaniesTableFilter().getFilterDef()
+    ];
   }
 
   private _showPlace(rowItem) {

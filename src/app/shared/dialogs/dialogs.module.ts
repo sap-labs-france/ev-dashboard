@@ -14,13 +14,14 @@ import {TableModule} from '../table/table.module';
 import {UsersDialogComponent} from './users/users-dialog-component';
 import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
+import {CompaniesFilterDialogComponent} from './companies/companies-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
 import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
 import {UsersDataSource} from './users/users-data-source-table';
 import {ChargersDataSource} from './chargers/chargers-data-source-table';
-import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error-code-details-dialog-component';
+import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-code-details-dialog-component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ChargerErrorCodeDetailsDialogComponent
   ],
@@ -47,6 +49,7 @@ import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ConsumptionChartComponent,
     ChargerErrorCodeDetailsDialogComponent
@@ -57,6 +60,7 @@ import { ChargerErrorCodeDetailsDialogComponent } from './chargers/charger-error
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ChargerErrorCodeDetailsDialogComponent
   ],

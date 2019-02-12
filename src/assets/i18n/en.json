@@ -38,6 +38,7 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "export": "Export",
     "connect": "Connect",
     "stop": "Stop",
     "refund": "Refund",
@@ -268,7 +269,8 @@
     "company_not_found": "Company not found",
     "create_success": "The company '{{companyName}}' has been created successfully",
     "create_error": "Error occurred while creating the company",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
+    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_companies": "Select Companies"
   },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",
@@ -498,6 +500,12 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "dialog": {
+      "export": {
+        "title": "Export charging stations",
+        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Reboot",
       "soft_reset_item": "Soft reset",
@@ -1009,6 +1017,10 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
+      },
+      "export": {
+        "title": "Export Sessions",
+        "confirm": "Do you really want to export all the sessions matching the filters ?"
       },
       "soft_stop": {
         "title": "Stop Session",

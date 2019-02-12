@@ -28,6 +28,8 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import * as moment from 'moment';
+import {TableExportAction} from '../../../shared/table/actions/table-export-action';
+import saveAs from 'file-saver';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -227,6 +229,29 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     ];
   }
 
+  getTableActionsDef(): TableActionDef[] {
+    return [
+      new TableExportAction().getActionDef()
+    ];
+  }
+
+  actionTriggered(actionDef: TableActionDef) {
+    switch (actionDef.id) {
+      case 'export':
+        this.dialogService.createAndShowYesNoDialog(
+          this.dialog,
+          this.translateService.instant('transactions.dialog.export.title'),
+          this.translateService.instant('transactions.dialog.export.confirm')
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this.exportTransactions();
+          }
+        });
+        break;
+    }
+    super.actionTriggered(actionDef);
+  }
+
   forAdmin(isAdmin: boolean) {
     this.isAdmin = isAdmin
   }
@@ -245,5 +270,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
+  }
+
+  private exportTransactions() {
+    this.centralServerService.exportTransactions(this.getFilterValues(), {limit: this.getNumberOfRecords(), skip: Constants.DEFAULT_SKIP}, this.getOrdering())
+      .subscribe((result) => {
+        saveAs(result, 'exportTransactions.csv');
+      }, (error) => {
+        console.log(error);
+
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('general.error_backend'));
+      });
   }
 }

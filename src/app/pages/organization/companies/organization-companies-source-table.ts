@@ -202,7 +202,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }

@@ -28,18 +28,19 @@ export class ConsumptionChartComponent implements OnInit {
   chart: any;
   // public ctx: any;
   private colors = [
-    [255, 99, 132],
-    [54, 162, 235],
-    [255, 206, 86],
-    [230, 126, 34],
-    [211, 84, 0],
-    [75, 192, 192],
-    [151, 187, 205],
-    [220, 220, 220],
-    [247, 70, 74],
-    [70, 191, 189],
-    [148, 159, 177],
-    [77, 83, 96]];
+    [116, 171, 226],
+    [88, 153, 218],
+
+    [25, 169, 121],
+
+    [76, 186, 107],
+    [63, 164, 91],
+    [19, 164, 180],
+    [82, 93, 244],
+    [191, 57, 158],
+    [108, 136, 147],
+    [238, 104, 104],
+    [47, 100, 151]];
 
   constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
@@ -95,15 +96,6 @@ export class ConsumptionChartComponent implements OnInit {
 
   createGraphData() {
     this.data.datasets.push({
-      name: 'instantPower',
-      colorIndex: 0,
-      type: 'line',
-      data: [],
-      yAxisID: 'power',
-      ...this.formatLineColor(this.colors[0]),
-      label: this.translateService.instant('transactions.graph.power')
-    });
-    this.data.datasets.push({
       name: 'cumulatedConsumption',
       colorIndex: 1,
       type: 'line',
@@ -112,6 +104,15 @@ export class ConsumptionChartComponent implements OnInit {
       yAxisID: 'power',
       ...this.formatLineColor(this.colors[1]),
       label: this.translateService.instant('transactions.graph.energy')
+    });
+    this.data.datasets.push({
+      name: 'instantPower',
+      colorIndex: 0,
+      type: 'bar',
+      data: [],
+      yAxisID: 'power',
+      ...this.formatBarColor(this.colors[0]),
+      label: this.translateService.instant('transactions.graph.power')
     });
     if (this.consumptions.find(c => c.stateOfCharge !== undefined)) {
       this.data.datasets.push({
@@ -139,24 +140,24 @@ export class ConsumptionChartComponent implements OnInit {
     }
     if (this.consumptions.find(c => c.hasOwnProperty('pricingSource')) !== undefined) {
       this.data.datasets.push({
-        name: 'amount',
-        colorIndex: 3,
-        data: [],
-        hidden: true,
-        type: 'bar',
-        yAxisID: 'amount',
-        ...this.formatBarColor(this.colors[3]),
-        label: this.translateService.instant('transactions.graph.amount')
-      });
-      this.data.datasets.push({
         name: 'cumulatedAmount',
-        colorIndex: 4,
+        colorIndex: 3,
         type: 'line',
         data: [],
         hidden: true,
         yAxisID: 'amount',
-        ...this.formatLineColor(this.colors[4]),
+        ...this.formatLineColor(this.colors[3]),
         label: this.translateService.instant('transactions.graph.cumulated_amount')
+      });
+      this.data.datasets.push({
+        name: 'amount',
+        colorIndex: 4,
+        data: [],
+        hidden: true,
+        type: 'bar',
+        yAxisID: 'amount',
+        ...this.formatBarColor(this.colors[4]),
+        label: this.translateService.instant('transactions.graph.amount')
       });
       this.options.scales.yAxes.push(
         {
@@ -208,6 +209,7 @@ export class ConsumptionChartComponent implements OnInit {
       legend: {position: 'bottom'},
       responsive: true,
       aspectRatio: this.ratio,
+      barPercentage: 0.5,
       tooltips: {
         bodySpacing: 5,
         mode: 'index',
@@ -314,7 +316,7 @@ export class ConsumptionChartComponent implements OnInit {
 
   formatLineColor(colors: Array<number>): any {
     return {
-      backgroundColor: this.rgba(colors, 0.1),
+      backgroundColor: this.rgba(colors, 0),
       borderColor: this.rgba(colors, 1),
       pointRadius: 0,
       pointHoverBackgroundColor: this.rgba(colors, 1),
@@ -326,7 +328,7 @@ export class ConsumptionChartComponent implements OnInit {
 
   formatBarColor(colors: Array<number>): any {
     return {
-      backgroundColor: this.rgba(colors, 0.4),
+      backgroundColor: this.rgba(colors, 1),
       borderColor: this.rgba(colors, 1),
       pointRadius: 0,
       pointHoverBackgroundColor: this.rgba(colors, 1),

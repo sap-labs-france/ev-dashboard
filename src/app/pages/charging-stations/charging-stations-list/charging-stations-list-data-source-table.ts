@@ -34,21 +34,22 @@ import { AuthorizationService } from 'app/services/authorization-service';
 import { Constants } from 'app/utils/Constants';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
 import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 
 const POLL_INTERVAL = 10000;
 const DEFAULT_ADMIN_ROW_ACTIONS = [
   new TableChargerMoreAction().getActionDef(),
-  new TableSettingsAction().getActionDef(),
+  new TableEditAction().getActionDef(),
   new TableDeleteAction().getActionDef()
 ];
 
 const DEFAULT_BASIC_ROW_ACTIONS = [
-  new TableSettingsAction().getActionDef()
+  new TableEditAction().getActionDef()
 ]
 
 const NODELETE_ADMIN_ROW_ACTIONS = [
   new TableChargerMoreAction().getActionDef(),
-  new TableSettingsAction().getActionDef(),
+  new TableEditAction().getActionDef(),
   new TableDeleteAction().getActionDef()
 ]
 
@@ -166,6 +167,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         name: 'chargers.consumption_title',
         sortable: false,
         isAngularComponent: true,
+        class: 'power-progress-bar',
         angularComponentName: InstantPowerProgressBarComponent
       },
       {
@@ -214,6 +216,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         headerClass: 'd-none d-xl-table-cell',
         class: 'd-none d-xl-table-cell',
         sortable: true
+      },
+      {
+        id: 'ocppVersion',
+        name: 'chargers.ocpp_version',
+        headerClass: 'd-none d-xl-table-cell text-center',
+        class: 'd-none d-xl-table-cell text-center',
+        sortable: false
       }
     ];
     } else {
@@ -270,14 +279,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public getTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
-      return [
-        new TableChargerMoreAction().getActionDef(),
-        new TableSettingsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
+      return DEFAULT_ADMIN_ROW_ACTIONS;
+    } else if (this.authorizationService.isDemo()) {
+      return DEFAULT_BASIC_ROW_ACTIONS;
+    } else if (this.authorizationService.isBasic()) {
+      return DEFAULT_BASIC_ROW_ACTIONS;
     } else {
       return [
-//        new TableSettingsAction().getActionDef()
       ];
     }
   }
@@ -292,7 +300,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'settings':
+      case 'edit':
         this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
@@ -340,7 +348,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-    action.dropdownItems.forEach(dropDownItem => {
+/*    action.dropdownItems.forEach(dropDownItem => {
       if (dropDownItem.id === ACTION_SMART_CHARGING) {
         // Check charging station version
         dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
@@ -350,7 +358,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         // Check active status of CS
         dropDownItem.disabled = row.inactive;
       }
-    });
+    });*/
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
@@ -457,27 +465,27 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     this.setPollingInterval(POLL_INTERVAL);
   }
 
-  specificRowActions(charger: Charger) {
+/*  specificRowActions(charger: Charger) {
     if (this.authorizationService.isAdmin()) {
       if (charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
         const inactiveDelete = new TableDeleteAction().getActionDef();
         inactiveDelete.disabled = true;
         return [
           new TableChargerMoreAction().getActionDef(),
-          new TableSettingsAction().getActionDef(),
+          new TableEditAction().getActionDef(),
           inactiveDelete
         ];
       } else {
         return [
           new TableChargerMoreAction().getActionDef(),
-          new TableSettingsAction().getActionDef(),
+          new TableEditAction().getActionDef(),
           new TableDeleteAction().getActionDef()
         ];
       }
     } else {
       return [
-        new TableSettingsAction().getActionDef()
+        new TableEditAction().getActionDef()
       ];
     }
-  }
+  }*/
 }

@@ -46,26 +46,27 @@ import { ChargerErrorCodeComponent } from '../cell-content-components/charger-er
 import { ConnectorsErrorDetailComponent } from './detail-component/connectors-error-detail-component.component';
 import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
 import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 
 const POLL_INTERVAL = 10000;
 
 const ACTION_MAP = {
   missingSettings: [
-    new TableSettingsAction().getActionDef(),
+    new TableEditAction().getActionDef(),
     new TableDeleteAction().getActionDef()
   ],
   missingSiteArea: [
-    new TableSettingsAction().getActionDef(),
+    new TableEditAction().getActionDef(),
     new TableDeleteAction().getActionDef()
   ],
   connectionBroken: [
-    new TableSettingsAction().getActionDef(),
+    new TableEditAction().getActionDef(),
     new TableDeleteAction().getActionDef()
   ],
   connectorError: [
     new TableChargerResetAction().getActionDef(),
     new TableChargerRebootAction().getActionDef(),
-    new TableSettingsAction().getActionDef(),
+    new TableEditAction().getActionDef(),
     new TableDeleteAction().getActionDef()
   ]
 }
@@ -261,7 +262,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       case 'delete':
         this._deleteChargingStation(rowItem);
         break;
-      case 'settings':
+      case 'edit':
         this._showChargingStationDialog(rowItem);
         break;
       default:
@@ -364,11 +365,11 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       // duplicate actions from the map
       const actions = JSON.parse(JSON.stringify(ACTION_MAP[charger.errorCode]));
       // handle specific case for delete
-      actions.forEach((action: TableActionDef) => {
+/*      actions.forEach((action: TableActionDef) => {
         if (action.id === 'delete') {
           action.disabled = charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0;
         }
-      });
+      });*/
       return actions;
     } else {
       return [

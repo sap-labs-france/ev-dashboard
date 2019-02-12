@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
+import {Component, Injectable, Input, OnInit} from '@angular/core';
 import {CellContentTemplateComponent} from '../../table/cell-content-template/cell-content-template.component';
 
 @Component({
@@ -6,7 +6,7 @@ import {CellContentTemplateComponent} from '../../table/cell-content-template/ce
   styleUrls: ['./connector-cell.scss'],
   template: `
     <div data-toggle="tooltip" [attr.title]="row.status"
-         class="charger-connector charger-connector-background" [appChargerStatus]="row.status">
+         class="charger-connector charger-connector-background" [appChargerStatus]="chargerStatus">
         <span [appChargerStatusText]="row.status">
           {{row.connectorId | appConnectorId}}
         </span>
@@ -15,8 +15,16 @@ import {CellContentTemplateComponent} from '../../table/cell-content-template/ce
 })
 
 @Injectable()
-export class ConnectorCellComponent extends CellContentTemplateComponent {
+export class ConnectorCellComponent extends CellContentTemplateComponent implements OnInit {
 
   @Input() row: any;
 
+  chargerStatus: string;
+
+  ngOnInit(): void {
+    this.chargerStatus = this.row.status;
+    if (this.row.status === 'Charging' && this.row.currentConsumption) {
+      this.chargerStatus = (this.row.currentConsumption > 0 ? `${this.row.status}-active` : `${this.row.status}-inactive`)
+    }
+  }
 }

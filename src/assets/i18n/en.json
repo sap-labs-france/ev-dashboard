@@ -206,7 +206,7 @@
 	"today_energy_delivered": "Energy",
 	"today_energy_delivered_footer": "Today energy delivered with the trends compared to previous {{todayDay}}",
 	"today_inactivity": "Inactivity",
-	"today_inactivity_footer": "Duration when no energy is delivered and vehciule is plugged.<br> Trends are compared to previous {{todayDay}}",
+	"today_inactivity_footer": "Duration when no energy is delivered and vehciule is plugged. Trends are compared to previous {{todayDay}}",
 	"trends_of_day_avg": "Average",
 	"trends_of_day_duration_avg": "Average",
 	"trends_of_day_duration_max": "Maximum",
@@ -502,7 +502,7 @@
       "soft_reset_item": "Soft reset",
       "clear_cache_item": "Clear cache",
       "smart_charging_item": "Smart Charging",
-      "more_actions_item": "More actions"
+      "more_actions_item": "More"
     },
     "smart_charging": {
       "reset_button": "Reset",
@@ -630,17 +630,17 @@
       "missingSettings": {
         "title": "Missing settings",
         "description": "Required settings are missing",
-        "action": "Maintain missing required settings within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain missing required settings within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectionBroken": {
         "title": "Connection lost",
         "description": "The server can't reach the charging station",
-        "action": "Manual intervention is required.<br>Check your network and/or the charging station configuration"
+        "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
         "title": "Charging station is not assigned",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectorError": {
         "title": "Connector error",

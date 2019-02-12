@@ -429,6 +429,36 @@ export class CentralServerService {
       );
   }
 
+  public exportTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public exportChargingStations(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
     : Observable<TransactionResult> {
     // Verify init

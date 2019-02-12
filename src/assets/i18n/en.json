@@ -38,6 +38,7 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "export": "Export",
     "connect": "Connect",
     "stop": "Stop",
     "refund": "Refund",
@@ -444,6 +445,12 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "dialog": {
+      "export": {
+        "title": "Export charging stations",
+        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Reboot",
       "soft_reset_item": "Soft reset",
@@ -939,6 +946,10 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
+      },
+      "export": {
+        "title": "Export Sessions",
+        "confirm": "Do you really want to export all the sessions matching the filters ?"
       },
       "soft_stop": {
         "title": "Stop Session",

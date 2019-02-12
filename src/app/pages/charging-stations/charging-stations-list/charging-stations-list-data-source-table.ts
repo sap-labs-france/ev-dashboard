@@ -27,30 +27,31 @@ import {
   ACTION_SOFT_RESET,
   TableChargerMoreAction
 } from '../other-actions-button/table-charger-more-action';
-import {SitesTableFilter} from 'app/shared/table/filters/site-filter';
-import {ChargingStationSettingsComponent} from '../charging-station-settings/charging-station-settings.component';
-import {Injectable} from '@angular/core';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {Constants} from 'app/utils/Constants';
-import {ChargingStationSmartChargingDialogComponent} from '../smart-charging/smart-charging.dialog.component';
-import {ChargingStationMoreActionsDialogComponent} from '../more-actions/charging-station-more-actions.dialog.component';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
+import { Injectable } from '@angular/core';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { Constants } from 'app/utils/Constants';
+import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
+import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 
 const POLL_INTERVAL = 10000;
 const DEFAULT_ADMIN_ROW_ACTIONS = [
   new TableChargerMoreAction().getActionDef(),
-  new TableSettingsAction().getActionDef(),
+  new TableEditAction().getActionDef(),
   new TableDeleteAction().getActionDef()
 ];
 
 const DEFAULT_BASIC_ROW_ACTIONS = [
-  new TableSettingsAction().getActionDef()
+  new TableEditAction().getActionDef()
 ]
 
 const NODELETE_ADMIN_ROW_ACTIONS = [
   new TableChargerMoreAction().getActionDef(),
-  new TableSettingsAction().getActionDef(),
+  new TableEditAction().getActionDef(),
   new TableDeleteAction().getActionDef()
 ]
 
@@ -81,18 +82,16 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public loadData(refreshAction: boolean) {
-    let spinnerStyle = null;
     if (!refreshAction) {
       // Show
-      spinnerStyle = (this.getData().length > 0);
-      this.spinnerService.show(spinnerStyle);
+      this.spinnerService.show();
     }
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((chargers) => {
       if (!refreshAction) {
         // Show
-        this.spinnerService.hide(spinnerStyle);
+        this.spinnerService.hide();
       }
       // Set number of records
       this.setNumberOfRecords(chargers.count);
@@ -107,7 +106,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       this.setData(chargers.result);
     }, (error) => {
       // Show
-      this.spinnerService.hide(spinnerStyle);
+      this.spinnerService.hide();
       // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('general.error_backend'));
@@ -170,7 +169,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           name: 'chargers.consumption_title',
           sortable: false,
           isAngularComponent: true,
-          angularComponentName: InstantPowerProgressBarComponent
+          class: 'power-progress-bar',angularComponentName: InstantPowerProgressBarComponent
         },
         {
           id: 'siteArea.site.name',
@@ -218,8 +217,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
           sortable: true
-        }
-      ];
+        },
+      {
+        id: 'ocppVersion',
+        name: 'chargers.ocpp_version',
+        headerClass: 'd-none d-xl-table-cell text-center',
+        class: 'd-none d-xl-table-cell text-center',
+        sortable: false
+      }
+    ];
     } else {
       return [
         {
@@ -273,14 +279,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public getTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
-      return [
-        new TableChargerMoreAction().getActionDef(),
-        new TableSettingsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
+      return DEFAULT_ADMIN_ROW_ACTIONS;
+    } else if (this.authorizationService.isDemo()) {
+      return DEFAULT_BASIC_ROW_ACTIONS;
+    } else if (this.authorizationService.isBasic()) {
+      return DEFAULT_BASIC_ROW_ACTIONS;
     } else {
       return [
-//        new TableSettingsAction().getActionDef()
       ];
     }
   }
@@ -304,7 +309,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'settings':
+      case 'edit':
         this._showChargingStationDialog(rowItem);
         break;
       case 'delete':
@@ -352,7 +357,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-    action.dropdownItems.forEach(dropDownItem => {
+/*    action.dropdownItems.forEach(dropDownItem => {
       if (dropDownItem.id === ACTION_SMART_CHARGING) {
         // Check charging station version
         dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
@@ -362,7 +367,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         // Check active status of CS
         dropDownItem.disabled = row.inactive;
       }
-    });
+    });*/
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
@@ -469,29 +474,29 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     this.setPollingInterval(POLL_INTERVAL);
   }
 
-  specificRowActions(charger: Charger) {
+/*  specificRowActions(charger: Charger) {
     if (this.authorizationService.isAdmin()) {
       if (charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
         const inactiveDelete = new TableDeleteAction().getActionDef();
         inactiveDelete.disabled = true;
         return [
           new TableChargerMoreAction().getActionDef(),
-          new TableSettingsAction().getActionDef(),
+          new TableEditAction().getActionDef(),
           inactiveDelete
         ];
       } else {
         return [
           new TableChargerMoreAction().getActionDef(),
-          new TableSettingsAction().getActionDef(),
+          new TableEditAction().getActionDef(),
           new TableDeleteAction().getActionDef()
         ];
       }
     } else {
       return [
-        new TableSettingsAction().getActionDef()
+        new TableEditAction().getActionDef()
       ];
     }
-  }
+  }*/
 
   private exportChargingStations() {
     this.centralServerService.exportChargingStations(this.getFilterValues(), {

@@ -2,7 +2,7 @@
   "general": {
     "applications": "applications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.11",
+    "last_update": "Version 2.0.12",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -166,6 +166,58 @@
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "changed_by_other_user": "Le véhicule '{{vehicleName}}' a été changé par un autre utilisateur et va être rechargé"
   },
+  "dashboard": {
+	"active_stations_gauge_title": "Point de charge",
+	"active_stations_gauge_unit": "Occupé",
+	"all_site": "Tous les sites",
+	"co2_footer": "CO2 economisé sur la journée, basé sur une voiture éléctrique consommant 18kWh/100k et pour une voiture thermique émettant 120g C02",
+	"co2_title": "CO2 économisé",
+	"consumption_gauge_footer": "Consommation instantanée en kW",
+	"consumption_gauge_title": "Consommation",
+	"consumption_title": "Consommation",
+	"gas_footer": "Quantité d'essence economisée, basée sur une voiture éléctrique consommant 18kWh/100k et pour une voiture thermique consommant 8L/100km",
+	"gas_title": "Essence",
+	"km_footer": "Distance pouvant être parcourue en voiture éléctrique pour une consommation moyenne de 18kWh/100km",
+	"km_title": "Distance",
+	"location": "Localisation",
+	"metrics": "Valeurs clés courantes",
+	"occupied_charging_points_gauge_footer": "Nombre de point de charge actuellement occupés",
+	"occupied_charging_points_gauge_title": "Utilisation",
+	"realtime": {
+		"button": {
+			"consumption": "Consommation",
+			"utilization": "Utilisation"
+		}
+	},
+	"realtime_title": "Temps réel",
+	"statistics": {
+		"button": {
+			"day": "Hier",
+			"month": "Mois",
+			"week": "Semaine",
+			"year": "Année"
+		}
+	},
+	"statistics_title": "Statistiques",
+	"today_duration": "En charge",
+	"today_duration_footer": "Temps de charge total aujourd'hui",
+	"today_energy_delivered": "Energie",
+	"today_energy_delivered_footer": "Energie delivrée aujourd'hui comparée à la tendance des {{todayDay}} précédents",
+	"today_inactivity": "Inactivité",
+	"today_inactivity_footer": "Durée d'un véhicule branché mais ne consommant pas d'energie. Tendance  comparée au {{todayDay}} précédent.",
+	"trends_of_day_avg": "Moyenne",
+	"trends_of_day_duration_avg": "Moyenne",
+	"trends_of_day_duration_max": "Maximum",
+	"trends_of_day_duration_min": "Minimum",
+	"trends_of_day_duration_title": "tendance du jour {{todayDay}}",
+	"trends_of_day_inactivity_avg": "Moyenne",
+	"trends_of_day_inactivity_max": "Maximum",
+	"trends_of_day_inactivity_min": "Minimum",
+	"trends_of_day_inactivity_title": "tendance pour {{todayDay}}",
+	"trends_of_day_max": "Maximum",
+	"trends_of_day_min": "Minimum",
+	"trends_of_day_title": "Tendance pour {{todayDay}}"
+  },
   "manufacturers": {
     "no_manufacturers": "Aucun constructeur n'a été trouvé",
     "manufacturer_number": "Constructeur(s)",
@@ -215,10 +267,11 @@
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "save_company": ""
+    "select_companies": "Selection Entreprises"
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
+    "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
@@ -580,17 +633,17 @@
       "missingSettings": {
         "title": "Paramètres manquants",
         "description": "Des paramètres obligatoires sont manquants",
-        "action": "Renseigner les paramètres requis manquant dans la page des paramètres de la borne.<br>Voir l'action correspondante dans la colonne 'Actions'"
+        "action": "Renseigner les paramètres requis manquant dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
       "connectionBroken": {
         "title": "Connexion perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
-        "action": "Une intervention manuelle est à prévoir.<br>Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
+        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
       },
       "missingSiteArea": {
         "title": "La born n'est pas assignée",
         "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
-        "action": "Renseigner la zone dans la page des paramètres de la borne.<br>Voir l'action correspondante dans la colonne 'Actions'"
+        "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
       "connectorError": {
         "title": "Erreur d'un connecteur",
@@ -789,7 +842,9 @@
     "new": "Nouveau",
     "registered": "Enregistré",
     "unregistered": "Désenregistré",
+    "lastPatchJobOn": "Dernière mise à jour",
     "patchJobStatus": "Tâche de mise à jour",
+    "patchJobResult": "Succès / Echecs",
     "patchJobCheckbox": "Activer la mise à jour automatique du statut des bornes",
     "status_active": "Active",
     "status_inactive": "Inactive",

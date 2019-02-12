@@ -320,6 +320,34 @@ export class CentralServerService {
       );
   }
 
+  public getConsumptionStatistics(year): Observable<any> {
+    const params: any = [];
+    params['Year'] = year;
+    // Call
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
+    {
+      headers: this._buildHttpHeaders(),
+      params
+    })
+    .pipe(
+      catchError(this._handleHttpError)
+    );
+  }
+
+  public getCurrentMetrics(): Observable<any> {
+    const params: any = [];
+    params['PeriodInMonth'] = 6;
+    // Call
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
+    {
+      headers: this._buildHttpHeaders(),
+      params
+    })
+    .pipe(
+      catchError(this._handleHttpError)
+    );
+  }
+
   public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
     // Verify init
     this._checkInit();

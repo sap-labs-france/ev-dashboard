@@ -13,6 +13,7 @@ import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
@@ -25,6 +26,7 @@ import { Constants } from '../../../../utils/Constants';
 import { DialogService } from '../../../../services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
+import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
@@ -39,7 +41,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe) {
     super();
 
     this.tableActionsRow = [
@@ -90,6 +93,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'name',
@@ -144,6 +148,26 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         angularComponentName: OcpiendpointPatchJobStatusComponent,
         headerClass: 'col-25p',
         class: 'col-25p',
+        sortable: false
+      },
+      {
+        id: 'lastPatchJobOn',
+        type: 'date',
+        formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
+        name: 'ocpiendpoints.lastPatchJobOn',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sorted: true,
+        direction: 'desc',
+        sortable: true
+      },
+      {
+        id: 'patchJobResult',
+        name: 'ocpiendpoints.patchJobResult',
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointPatchJobResultComponent,
+        headerClass: 'col-5p',
+        class: 'col-5p',
         sortable: false
       }
     ];

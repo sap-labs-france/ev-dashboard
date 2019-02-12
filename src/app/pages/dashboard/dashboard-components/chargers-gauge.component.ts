@@ -67,7 +67,7 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     this.options.colorValueBoxRect = 'transparent';
     this.options.colorValueBoxBackground = 'transparent';
     this.options.colorValueBoxShadow = 'transparent';
-    this.options.colorBarProgress = '#00bcd4';
+    this.options.colorBarProgress = '#009cd4';
 
     // value box
     this.options.valueBox = true;

@@ -80,8 +80,8 @@
             <div class="row my-2">
                 <ng-container *ngFor="let connector of charger.connectors">
                     <div class="col-lg-6 col-xl-4 charger-dialog-connector">
-                        <div class="card">
-                            <div class="card-header card-header-danger card-header-icon">
+                        <div class="card card-settings">
+                            <div class="card-header card-header-primary card-header-icon">
                                 <div class="card-icon">
                                     <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
                                         <img width="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}">

@@ -48,7 +48,7 @@
 }
 
 .mat-option.mat-selected:not(.mat-option-multiple) {
-  background-color: $blue-1000 !important;
+  background-color: $cyan-500 !important;
   color: $white-color !important;
 }
 
@@ -58,7 +58,7 @@
 
   &:hover {
     @include box-shadow($shadow-mat-select-option);
-    background: $blue-1000 !important;
+    background: $cyan-500 !important;
     color: $white-color !important;
   }
   &:focus {
@@ -70,7 +70,7 @@
       }
     }
     &:hover {
-      background-color: $blue-1000 !important;
+      background-color: $cyan-500 !important;
       color: $white-color !important;
     }
   }
@@ -85,7 +85,7 @@
       background: transparent !important;
     }
     &:hover {
-      background-color: $blue-1000 !important;
+      background-color: $cyan-500 !important;
       color: $white-color !important;
       .mat-option-pseudo-checkbox:after {
        color: $white-color;

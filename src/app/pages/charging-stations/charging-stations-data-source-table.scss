@@ -50,6 +50,7 @@
 
 ::ng-deep .power-bar-text {
   text-align: center;
+  font-size: 0.9rem;
 
   .power-bar-text-error {
     color: $state-danger-bg;
@@ -77,7 +78,6 @@
 }
 
 .charger-dialog-connector-type-icon {
-  filter: invert(100%);
   width: 25px;
   height: 25px;
 }

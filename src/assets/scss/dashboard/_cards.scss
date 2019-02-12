@@ -63,8 +63,9 @@
         line-height: 33px;
       }
       .card-title {
-        margin-top: 15px;
-        color: $black-color;
+        margin-top: 10px;
+        color: $white-color;
+        font-weight: 400;
       }
       h4 {
         font-weight: 300;
@@ -165,7 +166,7 @@
 
     &:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
       border-radius: $border-radius-base;
-      margin-top: -60px;
+      margin-top: -20px;
       padding: 15px 15px 10px 15px;
     }
 

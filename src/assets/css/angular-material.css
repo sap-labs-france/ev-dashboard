@@ -573,10 +573,10 @@ textarea.cdk-textarea-autosize-measuring{
   color:rgba(255,255,255,.5)
 }
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-accent .mat-option.mat-selected:not(.mat-option-disabled){
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-warn .mat-option.mat-selected:not(.mat-option-disabled){
   color:#f44336
@@ -594,10 +594,10 @@ textarea.cdk-textarea-autosize-measuring{
   color:#303030
 }
 .mat-accent .mat-pseudo-checkbox-checked,.mat-accent .mat-pseudo-checkbox-indeterminate,.mat-pseudo-checkbox-checked,.mat-pseudo-checkbox-indeterminate{
-  background:#00bcd4
+  background:#009cd4
 }
 .mat-primary .mat-pseudo-checkbox-checked,.mat-primary .mat-pseudo-checkbox-indeterminate{
-  background:#00bcd4
+  background:#009cd4
 }
 .mat-warn .mat-pseudo-checkbox-checked,.mat-warn .mat-pseudo-checkbox-indeterminate{
   background:#f44336
@@ -702,10 +702,10 @@ textarea.cdk-textarea-autosize-measuring{
 }
 .mat-badge-content{
   color:#fff;
-  background:#00bcd4
+  background:#009cd4
 }
 .mat-badge-accent .mat-badge-content{
-  background:#00bcd4;
+  background:#009cd4;
   color:rgba(0,0,0,.87)
 }
 .mat-badge-warn .mat-badge-content{
@@ -882,10 +882,10 @@ textarea.cdk-textarea-autosize-measuring{
   background: 0 0;
 }
 .mat-button.mat-primary,.mat-icon-button.mat-primary,.mat-stroked-button.mat-primary{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-button.mat-accent,.mat-icon-button.mat-accent,.mat-stroked-button.mat-accent{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-button.mat-warn,.mat-icon-button.mat-warn,.mat-stroked-button.mat-warn{
   color:#f44336
@@ -894,10 +894,10 @@ textarea.cdk-textarea-autosize-measuring{
   color:rgba(255,255,255,.3)
 }
 .mat-button.mat-primary .mat-button-focus-overlay,.mat-icon-button.mat-primary .mat-button-focus-overlay,.mat-stroked-button.mat-primary .mat-button-focus-overlay{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-button.mat-accent .mat-button-focus-overlay,.mat-icon-button.mat-accent .mat-button-focus-overlay,.mat-stroked-button.mat-accent .mat-button-focus-overlay{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-button.mat-warn .mat-button-focus-overlay,.mat-icon-button.mat-warn .mat-button-focus-overlay,.mat-stroked-button.mat-warn .mat-button-focus-overlay{
   background-color:#f44336
@@ -932,10 +932,10 @@ textarea.cdk-textarea-autosize-measuring{
   color:rgba(255,255,255,.3)
 }
 .mat-fab.mat-primary,.mat-flat-button.mat-primary,.mat-mini-fab.mat-primary,.mat-raised-button.mat-primary{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-fab.mat-accent,.mat-flat-button.mat-accent,.mat-mini-fab.mat-accent,.mat-raised-button.mat-accent{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-fab.mat-warn,.mat-flat-button.mat-warn,.mat-mini-fab.mat-warn,.mat-raised-button.mat-warn{
   background-color:#f44336
@@ -1055,10 +1055,10 @@ textarea.cdk-textarea-autosize-measuring{
   background-color:#303030
 }
 .mat-checkbox-checked.mat-primary .mat-checkbox-background,.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-checkbox-checked.mat-warn .mat-checkbox-background,.mat-checkbox-indeterminate.mat-warn .mat-checkbox-background{
   background-color:#f44336
@@ -1083,17 +1083,18 @@ textarea.cdk-textarea-autosize-measuring{
   }
 }
 .mat-checkbox:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-ripple .mat-ripple-element{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-checkbox:not(.mat-checkbox-disabled).mat-warn .mat-checkbox-ripple .mat-ripple-element{
   background-color:#f44336
 }
 .mat-chip.mat-standard-chip{
   background-color:#616161;
-  color:#fff
+  color:#fff;
+  margin-top: 0 !important;
 }
 .mat-chip.mat-standard-chip .mat-chip-remove{
   color:#fff;
@@ -1109,7 +1110,7 @@ textarea.cdk-textarea-autosize-measuring{
   opacity:.4
 }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary{
-  background-color:#00bcd4;
+  background-color:#009cd4;
   color:#fff
 }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary .mat-chip-remove{
@@ -1131,7 +1132,7 @@ textarea.cdk-textarea-autosize-measuring{
   background:rgba(255,255,255,.1)
 }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent{
-  background-color:#00bcd4;
+  background-color:#009cd4;
   color:rgba(0,0,0,.87)
 }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent .mat-chip-remove{
@@ -1188,7 +1189,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   border-color:rgba(255,255,255,.3)
 }
 .mat-calendar-body-selected{
-  background-color:#00bcd4;
+  background-color:#009cd4;
   color:#fff
 }
 .mat-calendar-body-disabled>.mat-calendar-body-selected{
@@ -1203,7 +1204,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:#fff
 }
 .mat-datepicker-content.mat-accent .mat-calendar-body-selected{
-  background-color:#00bcd4;
+  background-color:#009cd4;
   color:rgba(0,0,0,.87)
 }
 .mat-datepicker-content.mat-accent .mat-calendar-body-disabled>.mat-calendar-body-selected{
@@ -1226,10 +1227,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   box-shadow:0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rgba(0,0,0,.14),0 0 0 0 rgba(0,0,0,.12)
 }
 .mat-datepicker-toggle-active{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-datepicker-toggle-active.mat-accent{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-datepicker-toggle-active.mat-warn{
   color:#f44336
@@ -1283,25 +1284,25 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:rgba(255,255,255,.7)
 }
 .mat-form-field.mat-focused .mat-form-field-label{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field.mat-focused .mat-form-field-label.mat-accent{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field.mat-focused .mat-form-field-label.mat-warn{
   color:#f44336
 }
 .mat-focused .mat-form-field-required-marker{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field-ripple{
   background-color:#fff
 }
 .mat-form-field.mat-focused .mat-form-field-ripple{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-form-field.mat-focused .mat-form-field-ripple.mat-accent{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-form-field.mat-focused .mat-form-field-ripple.mat-warn{
   background-color:#f44336
@@ -1362,10 +1363,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:#fff
 }
 .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field-appearance-outline.mat-focused.mat-accent .mat-form-field-outline-thick{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field-appearance-outline.mat-focused.mat-warn .mat-form-field-outline-thick{
   color:#f44336
@@ -1380,10 +1381,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:rgba(255,255,255,.15)
 }
 .mat-icon.mat-primary{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-icon.mat-accent{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-icon.mat-warn{
   color:#f44336
@@ -1395,7 +1396,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:rgba(255,255,255,.5)
 }
 .mat-input-element{
-  caret-color:#00bcd4
+  caret-color:#009cd4
 }
 .mat-input-element::placeholder{
   color:rgba(255,255,255,.5)
@@ -1416,7 +1417,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:rgba(0,0,0,.38)
 }
 .mat-accent .mat-input-element{
-  caret-color:#00bcd4
+  caret-color:#009cd4
 }
 .mat-form-field-invalid .mat-input-element,.mat-warn .mat-input-element{
   caret-color:#f44336
@@ -1475,13 +1476,13 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   border-color:rgba(255,255,255,.5)
 }
 .mat-progress-bar-background{
-  fill:#00bcd4
+  fill:#009cd4
 }
 .mat-progress-bar-buffer{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-progress-bar-fill::after{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-progress-bar.mat-accent .mat-progress-bar-background{
   fill:#b9f6ca
@@ -1490,7 +1491,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:#b9f6ca
 }
 .mat-progress-bar.mat-accent .mat-progress-bar-fill::after{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-progress-bar.mat-warn .mat-progress-bar-background{
   fill:#ffcdd2
@@ -1502,10 +1503,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:#f44336
 }
 .mat-progress-spinner circle,.mat-spinner circle{
-  stroke:#00bcd4
+  stroke:#009cd4
 }
 .mat-progress-spinner.mat-accent circle,.mat-spinner.mat-accent circle{
-  stroke:#00bcd4
+  stroke:#009cd4
 }
 .mat-progress-spinner.mat-warn circle,.mat-spinner.mat-warn circle{
   stroke:#f44336
@@ -1514,16 +1515,16 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   border-color:rgba(255,255,255,.7)
 }
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle{
-  border-color:#00bcd4
+  border-color:#009cd4
 }
 .mat-radio-button.mat-primary .mat-radio-inner-circle,.mat-radio-button.mat-primary .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),.mat-radio-button.mat-primary.mat-radio-checked .mat-radio-persistent-ripple,.mat-radio-button.mat-primary:active .mat-radio-persistent-ripple{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-  border-color:#00bcd4
+  border-color:#009cd4
 }
 .mat-radio-button.mat-accent .mat-radio-inner-circle,.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-radio-button.mat-warn.mat-radio-checked .mat-radio-outer-circle{
   border-color:#f44336
@@ -1565,10 +1566,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background:rgba(255,255,255,.12)
 }
 .mat-form-field.mat-focused.mat-primary .mat-select-arrow{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field.mat-focused.mat-accent .mat-select-arrow{
-  color:#00bcd4
+  color:#009cd4
 }
 .mat-form-field.mat-focused.mat-warn .mat-select-arrow{
   color:#f44336
@@ -1612,13 +1613,13 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(189,189,189,.6)
 }
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
   background-color:rgba(165,214,167,.54)
 }
 .mat-slide-toggle.mat-checked .mat-ripple-element{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb{
   background-color:#ce93d8
@@ -1652,13 +1653,13 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(255,255,255,.3)
 }
 .mat-primary .mat-slider-thumb,.mat-primary .mat-slider-thumb-label,.mat-primary .mat-slider-track-fill{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-primary .mat-slider-thumb-label-text{
   color:#fff
 }
 .mat-accent .mat-slider-thumb,.mat-accent .mat-slider-thumb-label,.mat-accent .mat-slider-track-fill{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-accent .mat-slider-thumb-label-text{
   color:rgba(0,0,0,.87)
@@ -1721,7 +1722,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:#fff
 }
 .mat-step-header .mat-step-icon-selected,.mat-step-header .mat-step-icon-state-done,.mat-step-header .mat-step-icon-state-edit{
-  background-color:#00bcd4;
+  background-color:#009cd4;
   color:#fff
 }
 .mat-step-header .mat-step-icon-state-error{
@@ -1773,7 +1774,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(156,39,176,.3)
 }
 .mat-tab-group.mat-primary .mat-ink-bar,.mat-tab-nav-bar.mat-primary .mat-ink-bar{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-tab-group.mat-primary.mat-background-primary .mat-ink-bar,.mat-tab-nav-bar.mat-primary.mat-background-primary .mat-ink-bar{
   background-color:#fff
@@ -1782,7 +1783,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(185,246,202,.3)
 }
 .mat-tab-group.mat-accent .mat-ink-bar,.mat-tab-nav-bar.mat-accent .mat-ink-bar{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-tab-group.mat-accent.mat-background-accent .mat-ink-bar,.mat-tab-nav-bar.mat-accent.mat-background-accent .mat-ink-bar{
   background-color:rgba(0,0,0,.87)
@@ -1800,7 +1801,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(156,39,176,.3)
 }
 .mat-tab-group.mat-background-primary .mat-tab-header,.mat-tab-group.mat-background-primary .mat-tab-links,.mat-tab-nav-bar.mat-background-primary .mat-tab-header,.mat-tab-nav-bar.mat-background-primary .mat-tab-links{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-tab-group.mat-background-primary .mat-tab-label,.mat-tab-group.mat-background-primary .mat-tab-link,.mat-tab-nav-bar.mat-background-primary .mat-tab-label,.mat-tab-nav-bar.mat-background-primary .mat-tab-link{
   color:#fff
@@ -1821,7 +1822,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(185,246,202,.3)
 }
 .mat-tab-group.mat-background-accent .mat-tab-header,.mat-tab-group.mat-background-accent .mat-tab-links,.mat-tab-nav-bar.mat-background-accent .mat-tab-header,.mat-tab-nav-bar.mat-background-accent .mat-tab-links{
-  background-color:#00bcd4
+  background-color:#009cd4
 }
 .mat-tab-group.mat-background-accent .mat-tab-label,.mat-tab-group.mat-background-accent .mat-tab-link,.mat-tab-nav-bar.mat-background-accent .mat-tab-label,.mat-tab-nav-bar.mat-background-accent .mat-tab-link{
   color:rgba(0,0,0,.87)
@@ -1864,11 +1865,11 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color:#fff
 }
 .mat-toolbar.mat-primary{
-  background:#00bcd4;
+  background:#009cd4;
   color:#fff
 }
 .mat-toolbar.mat-accent{
-  background:#00bcd4;
+  background:#009cd4;
   color:rgba(0,0,0,.87)
 }
 .mat-toolbar.mat-warn{

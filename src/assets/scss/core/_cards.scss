@@ -1,12 +1,13 @@
 //https://www.google.com/design/spec/components/cards.html#cards-content-blocks
 // Card resting elevation: 2dp
+
 .card {
   border: 0;
   margin-bottom: 30px;
   margin-top: 30px;
   border-radius: $border-radius-base;
-  color: $gray-dark;
-  background: $white-color;
+  color: $white;
+  background: url(/assets/img/sky-bg.jpg) no-repeat 50%;
   width: 100%;
   font-size: 0.9rem;
 
@@ -28,7 +29,7 @@
   }
 
   .card-title {
-    margin-top: 0.625rem;
+    margin-top: 0.5rem;
     // padding-bottom: 15px;
 
     &:last-child {
@@ -169,7 +170,7 @@
   &.bg-primary,
   &.card-rotate.bg-primary .front,
   &.card-rotate.bg-primary .back {
-    background: linear-gradient(60deg, $purple-400, $purple-600);
+    background: linear-gradient(60deg, $blue-1000, rgba($color: $blue-1000, $alpha: 1));
   }
   .card-header-info .card-icon,
   .card-header-info .card-text,
@@ -298,6 +299,10 @@
       display: inline-flex;
     }
   }
+}
+
+.card-settings {
+  background: linear-gradient(60deg, #407dbe, #1d3752);
 }
 
 .card-plain {

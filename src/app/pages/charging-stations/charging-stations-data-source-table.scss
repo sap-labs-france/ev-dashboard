@@ -89,3 +89,9 @@
 ::ng-deep .power-progress-bar {
   min-width: 140px;
 }
+
+::ng-deep .connectors-details {
+    .mat-chip-list-wrapper { 
+      justify-content: center 
+    }
+  }

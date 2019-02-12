@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { MessageService } from '../../../services/message.service';
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
-  template: '<app-table [dataSource]="connectorsDataSource"></app-table>'
+  template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>'
 })
 
 export class ConnectorsDetailComponent extends DetailComponent implements OnInit {

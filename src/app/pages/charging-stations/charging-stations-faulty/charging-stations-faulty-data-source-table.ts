@@ -40,8 +40,6 @@ import { ChargingStationSettingsComponent } from '../charging-station-settings/c
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { Constants } from 'app/utils/Constants';
-import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
-import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
 import { ChargerErrorCodeComponent } from '../cell-content-components/charger-error-code.component';
 import { ConnectorsErrorDetailComponent } from './detail-component/connectors-error-detail-component.component';
 import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
@@ -177,20 +175,20 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         angularComponentName: ConnectorsCellComponent
       },
       {
-        id: 'errorCode',
-        name: 'chargers.errors.title',
-        sortable: true,
-        formatter: (value) => {
-          return this.translateService.instant(`chargers.errors.${value}.title`)
-        }
-      },
-      {
         id: 'errorCodeDetails',
         name: 'chargers.errors.details_title',
         sortable: false,
         class: 'action-cell text-left',
         isAngularComponent: true,
         angularComponentName: ChargerErrorCodeComponent
+      },
+      {
+        id: 'errorCode',
+        name: 'chargers.errors.title',
+        sortable: true,
+        formatter: (value) => {
+          return this.translateService.instant(`chargers.errors.${value}.title`)
+        }
       },
       {
         id: 'errorCodeDescription',
@@ -244,7 +242,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'reboot':
-        this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({ type: 'Hard' }),
+        this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Hard' }),
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', { 'chargeBoxID': rowItem.id }),
           this.translateService.instant('chargers.reboot_success', { 'chargeBoxID': rowItem.id }),
@@ -252,7 +250,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         );
         break;
       case 'soft_reset':
-        this._simpleActionChargingStation('ChargingStationReset', rowItem.id, JSON.stringify({ type: 'Soft' }),
+        this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Soft' }),
           this.translateService.instant('chargers.soft_reset_title'),
           this.translateService.instant('chargers.soft_reset_confirm', { 'chargeBoxID': rowItem.id }),
           this.translateService.instant('chargers.soft_reset_success', { 'chargeBoxID': rowItem.id }),
@@ -291,31 +289,38 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     ];
   }
 
-  private _simpleActionChargingStation(action, id, args, title, message, success_message, error_message) {
-    // Show yes/no dialog
-    this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
-      title,
-      message
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        // Call REST service
-        this.centralServerService.actionChargingStation(action, id, args).subscribe(response => {
-          if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-            // Success + reload
-            this.messageService.showSuccessMessage(success_message);
-            this.loadData(false);
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, error_message);
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            error_message);
-        });
-      }
-    });
+  private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
+    if (charger.inactive) {
+      // Charger is not connected
+      this.dialogService.createAndShowOkDialog(this.dialog,
+        this.translateService.instant('chargers.action_error.command_title'),
+        this.translateService.instant('chargers.action_error.command_charger_disconnected'));
+    } else {
+      // Show yes/no dialog
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        title,
+        message
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          // Call REST service
+          this.centralServerService.actionChargingStation(action, charger.id, args).subscribe(response => {
+            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+              // Success + reload
+              this.messageService.showSuccessMessage(success_message);
+              this.loadData(true);
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, error_message);
+            }
+          }, (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              error_message);
+          });
+        }
+      });
+    }
   }
 
   private _showChargingStationDialog(chargingStation?: Charger) {
@@ -329,33 +334,39 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData(false));
+    dialogRef.afterClosed().subscribe(result => this.loadData(true));
   }
 
   private _deleteChargingStation(chargingStation: Charger) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
-      this.translateService.instant('chargers.delete_title'),
-      this.translateService.instant('chargers.delete_confirm', { 'chargeBoxID': chargingStation.id })
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.loadData(false);
-            this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'chargers.delete_error');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'chargers.delete_error');
-        });
-      }
-    });
+    if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
+      // Do not delete when active transaction on going
+      this.dialogService.createAndShowOkDialog(this.dialog,
+        this.translateService.instant('chargers.action_error.delete_title'),
+        this.translateService.instant('chargers.action_error.delete_active_transaction'));
+    } else {
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('chargers.delete_title'),
+        this.translateService.instant('chargers.delete_confirm', { 'chargeBoxID': chargingStation.id })
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
+            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+              this.loadData(true);
+              this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'chargers.delete_error');
+            }
+          }, (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'chargers.delete_error');
+          });
+        }
+      });
+    }
   }
-
   definePollingIntervalStrategy() {
     this.setPollingInterval(POLL_INTERVAL);
   }

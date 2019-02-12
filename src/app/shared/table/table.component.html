@@ -66,11 +66,11 @@
             <button (click)="actionTriggered(actionRightDef)"
                     *ngIf="actionRightDef.id === 'refresh'"
                     [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')" [matTooltip]="actionRightDef.tooltip | translate">
-              <div *ngIf="ongoingManualRefresh" class="spinner-refresh-button" id="spinnerManualRefresh">
+              <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
                 </div>
               </div>
-              <div *ngIf="!ongoingManualRefresh">
+              <div *ngIf="!ongoingManualRefresh" class="refresh-icon">
                 <span *ngIf="!actionRightDef.name" class="mat-button-wrapper">
                   <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
                 </span>
@@ -96,7 +96,7 @@
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)" [checked]="actionRightDef.currentValue"
                                 [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <div class="refresh-box">
-                  <div *ngIf="ongoingAutoRefresh " class="spinner-autorefresh" id="spinnerRefresh">
+                  <div *ngIf="ongoingAutoRefresh " class="spinner-autorefresh2" id="spinnerRefresh">
                     <div class="loader">
                     </div>
                   </div>
@@ -271,8 +271,7 @@
                   </ng-template>
                 </mat-menu>
                 <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'" [matMenuTriggerFor]="rowActionMenu"
-                        [matTooltip]="rowAction.tooltip | translate"
-                        mat-icon-button>
+                        [matTooltip]="rowAction.tooltip | translate">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
                 </button>
               </ng-container>

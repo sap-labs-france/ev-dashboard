@@ -20,6 +20,6 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
   }
 
   public getPaginatorPageSizes() {
-    return [10, 25, 50];
+    return [25, 50, 100];
   }
 }

@@ -109,7 +109,12 @@ export class ConsumptionChartComponent implements OnInit {
 
   createOptions(consumptions: ConsumptionValue[]) {
     const options: any = {
-      legend: { position: 'bottom' },
+      legend: {
+        position: 'bottom',
+        labels: {
+          fontColor: 'white'
+        }
+      },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -155,6 +160,13 @@ export class ConsumptionChartComponent implements OnInit {
             type: 'time',
             time: {
               tooltipFormat: 'h:mm a',
+            },
+            gridLines: {
+              display: true,
+              color: 'white'
+            },
+            ticks: {
+              fontColor: 'white'
             }
           }
         ],
@@ -164,7 +176,12 @@ export class ConsumptionChartComponent implements OnInit {
             type: 'linear',
             position: 'left',
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value / 1000)
+              callback: (value, index, values) => this.decimalPipe.transform(value / 1000),
+              fontColor: 'white'
+            },
+            gridLines: {
+              display: true,
+              color: 'white'
             }
           }
         ]

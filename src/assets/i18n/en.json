@@ -703,7 +703,13 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
-    "no_logs": "No logs matching the filters"
+    "no_logs": "No logs matching the filters",
+    "dialog": {
+      "export": {
+        "title": "Export Logs",
+        "confirm": "Do you really want to export all the logs matching the filters ?"
+      }
+    }
   },
   "users": {
     "tabs": {

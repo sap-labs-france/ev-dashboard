@@ -111,7 +111,12 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
 
   createOptions(limitPlanning: ConnectorSchedule[]) {
     const options: any = {
-      legend: { position: 'bottom' },
+      legend: {
+        position: 'bottom',
+        labels: {
+          fontColor: 'white'
+        }
+      },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -151,6 +156,13 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             distribution: 'linear',
             time: {
               tooltipFormat: 'h:mm',
+            },
+            gridLines: {
+              display: true,
+              color: 'white'
+            },
+            ticks: {
+              fontColor: 'white'
             }
           }
         ],
@@ -160,8 +172,13 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             type: 'linear',
             position: 'left',
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value)
+              callback: (value, index, values) => this.decimalPipe.transform(value),
+              fontColor: 'white'
             },
+            gridLines: {
+              display: true,
+              color: 'white'
+            }
           }
         ]
       },

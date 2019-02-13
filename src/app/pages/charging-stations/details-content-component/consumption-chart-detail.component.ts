@@ -10,6 +10,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transactionChart
 })
 
 export class ConnectorConsumptionChartDetailComponent extends DetailComponent {
+
   transactionId: number;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
@@ -25,5 +26,8 @@ export class ConnectorConsumptionChartDetailComponent extends DetailComponent {
   refresh(row) {
     this.transactionId = row.activeTransactionID;
     this.chartComponent.refresh();
+  }
+
+  destroy() {
   }
 }

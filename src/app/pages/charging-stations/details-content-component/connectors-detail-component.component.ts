@@ -18,7 +18,7 @@ import { MessageService } from '../../../services/message.service';
   template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>'
 })
 
-export class ConnectorsDetailComponent extends DetailComponent implements OnInit {
+export class ConnectorsDetailComponent extends DetailComponent {
   connectorId: string;
   chargerInactive: boolean;
   classDateError: string;
@@ -51,10 +51,6 @@ export class ConnectorsDetailComponent extends DetailComponent implements OnInit
       this.dialogService);
   }
 
-  ngOnInit(): void {
-    this.connectorsDataSource.loadData();
-  }
-
   /**
    * setData
    */
@@ -63,9 +59,14 @@ export class ConnectorsDetailComponent extends DetailComponent implements OnInit
     this.connectorsDataSource.setDetailedDataSource(row.connectors);
   }
 
-  refresh(row: any) {
+  refresh(row: any, autoRefresh: boolean) {
     this.connectorsDataSource.setCharger(row);
-    this.connectorsDataSource.setDetailedDataSource(row.connectors);
+    this.connectorsDataSource.setDetailedDataSource(row.connectors, autoRefresh);
   }
+
+  destroy() {
+    this.connectorsDataSource.destroy();
+  }
+
 
 }

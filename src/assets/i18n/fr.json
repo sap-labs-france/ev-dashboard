@@ -507,6 +507,8 @@
       "smart_charging_item": "Smart Charging",
       "more_actions_item": "Autres"
     },
+    "assign_sitearea_action": "Assigner",
+    "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",

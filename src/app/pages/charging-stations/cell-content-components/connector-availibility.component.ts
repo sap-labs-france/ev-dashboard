@@ -11,8 +11,14 @@ export class ConnectorAvailibilityComponent extends ChipComponent implements OnI
   @Input() row: Connector;
 
   ngOnInit(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
+    this.updateValues();
+  }
+
+  refresh() {
+    this.updateValues();
+  }
+
+  updateValues() {
     this.text = this.row.status;
     this.type = 'chip-width-8em ';
     switch (this.row.status) {

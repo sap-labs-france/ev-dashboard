@@ -1351,7 +1351,7 @@ export class CentralServerService {
         }
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1375,7 +1375,7 @@ export class CentralServerService {
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1418,7 +1418,7 @@ export class CentralServerService {
     body += `}
       }`;
 
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {

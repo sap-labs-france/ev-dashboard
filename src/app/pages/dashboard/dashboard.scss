@@ -231,7 +231,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      @include sidebar-background-color($blue-1000, $white-color);
+      @include sidebar-background-color($blue-1100, $white-color);
     }
 
     &[data-image]:after,

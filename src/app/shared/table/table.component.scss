@@ -13,8 +13,16 @@ $outer-spinner: $red !default;
   width: 100%;
 }
 
-.mat-table {
-  background: rgba(0, 0, 0, 0.1);
+.mat-table, .mat-toolbar {
+  background-color: rgba($color: $blue-900, $alpha: .15);
+}
+
+.mat-header-cell {
+  background-color: $blue-850;
+}
+
+.mat-paginator {
+  background-color: $blue-850;
 }
 
 table {
@@ -116,7 +124,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: rgba($color: #000, $alpha: 0.2);
+  // background-color: rgba($color: $blue-1000, $alpha: 0.2);
 }
 
 .table-dialog-list {
@@ -143,18 +151,6 @@ tr.mat-footer-row {
 
 tr.mat-header-row {
   height: 40px;
-}
-
-.mat-toolbar {
-  background: linear-gradient(60deg, $blue-950, $blue-1000);
-}
-
-.mat-header-cell {
-  background-color: $blue-1000;
-}
-
-.mat-paginator {
-  background-color: rgba($color: #000, $alpha: .6);
 }
 
 .col-select {

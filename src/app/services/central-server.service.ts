@@ -457,6 +457,21 @@ export class CentralServerService {
       );
   }
 
+  public exportLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public exportTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
     this._buildPaging(paging, params);

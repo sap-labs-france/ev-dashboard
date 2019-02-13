@@ -7,17 +7,16 @@ export class AbstractTabComponent {
 
   constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService, protected hashArray: string[]) {
     activatedRoute.fragment.subscribe(fragment => {
-      console.log('set activeRoute');
       const indexOf = this.hashArray.indexOf(fragment);
       if (indexOf >= 0) {
+        console.log('set activeRoute to ' + indexOf);
         this.activeTabIndex = indexOf;
       }
     })
   }
 
   updateRoute(index: number) {
-    console.log('updateRoute');
-    console.log(index);
+    console.log('updateRoute from ' + index);
     if (this.hashArray && index < this.hashArray.length) {
       this.windowService.setHash(this.hashArray[index]);
     }

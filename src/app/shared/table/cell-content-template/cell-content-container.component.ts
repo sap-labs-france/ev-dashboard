@@ -39,7 +39,6 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-<<<<<<< HEAD
       if (!changes.row.isFirstChange()) {
         // console.log('REload cell component ' + this.columnDef.angularComponentName.name);
 //        this.loadComponent();
@@ -48,17 +47,6 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
           this.cellComponent.row = changes.row.currentValue;
           this.cellComponent.refresh();
         }
-=======
-    this.loadComponent();
-    if (this.cellComponent && changes.row && changes.row.currentValue) {
-      this.cellComponent.row = changes.row.currentValue;
-      if (typeof this.cellComponent.refresh !== 'function') {
-        console.error('missing refresh method for cellComponent');
-        console.log(this.cellComponent);
-      } else {
-        this.cellComponent.refresh();
-      }
->>>>>>> 5acbd459d61aefee39ae9de810c918faaf42a386
     }
   }
 }

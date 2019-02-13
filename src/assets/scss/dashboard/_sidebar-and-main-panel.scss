@@ -41,6 +41,9 @@
   &[data-background-color="red"] {
     background-color: #e53935;
   }
+  &[data-background-color="blue"] {
+    background-color: $blue-1000;
+  }
   .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
@@ -332,6 +335,12 @@
       color: $white-color;
     }
   }
+  &[data-background-color="blue"] {
+    @include sidebar-background-color($gray-base, $white-color);
+    .nav li .dropdown-menu .dropdown-item {
+      color: $white-color;
+    }
+  }
   &[data-color="purple"] {
     @include set-background-color-button($brand-primary);
   }
@@ -356,6 +365,22 @@
   }
   &[data-background-color="red"] {
     @include sidebar-background-color($brand-danger, $white-color);
+    .user,
+    .logo,
+    .nav li.separator {
+      &:after {
+        background-color: rgba(255, 255, 255, .3);
+      }
+    }
+    .nav {
+      li:hover:not(.active) > a,
+      li.active > [data-toggle="collapse"] {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  &[data-background-color="blue"] {
+    @include sidebar-background-color($blue-1000, $white-color);
     .user,
     .logo,
     .nav li.separator {
@@ -398,8 +423,13 @@
   @include transition (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
   .main-content {
     padding: 15px;
+    content: "";
     width: 100%;
     height: 100%;
+    background: url(/assets/img/sky-bg.jpg) no-repeat 50%;
+    background-size: cover;
+    will-change: transform;
+    z-index: 0;
   }
   .footer {
     border-top: 1px solid #e7e7e7;

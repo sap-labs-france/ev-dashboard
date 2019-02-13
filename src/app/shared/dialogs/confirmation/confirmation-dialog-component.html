@@ -10,5 +10,5 @@
 
 <mat-dialog-actions align="end">
   <button class="mat-raised-button mat-primary" (click)="valdate()">{{buttonValidateName}}</button>
-  <button class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>
+  <button *ngIf="buttonCancelID" class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>
 </mat-dialog-actions>

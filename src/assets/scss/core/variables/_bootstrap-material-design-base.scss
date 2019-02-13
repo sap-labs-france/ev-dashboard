@@ -14,7 +14,7 @@ $bmd-inverse-lighter: rgba($white, 0.54) !default;
 $bmd-label-color: $gray-color !default;
 $bmd-label-color-inner-focus: $gray !default; // e.g. radio label or text-muted not a control-label which is primary
 
-$border-radius-base: 0px !default;
+$border-radius-base: 5px !default;
 $border-radius-small: 2px !default;
 $border-radius-large: 6px !default;
 $border-radius-huge: 10px !default;

@@ -1,10 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Constants } from '../../../utils/Constants';
 import { LocaleService } from '../../../services/locale.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
@@ -13,7 +12,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
   templateUrl: './geomap.dialog.component.html',
   styleUrls: ['./geomap.dialog.component.scss'],
 })
-export class GeoMapDialogComponent implements OnInit {
+export class GeoMapDialogComponent  {
   private map: any;
   private mapLatitude: number;
   private mapLongitude: number;
@@ -41,9 +40,7 @@ export class GeoMapDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
 
-  }
 
   mapClick(event) {
     if (event && event.coords) {
@@ -74,7 +71,10 @@ export class GeoMapDialogComponent implements OnInit {
   }
 
   maxZoom() {
-    this.map.setZoom(20);
+    if (this.map) {
+      this.map.setCenter({ lat: this.markerLatitude, lng: this.markerLongitude });
+      this.map.setZoom(20);
+    }
   }
 
   minZoom() {

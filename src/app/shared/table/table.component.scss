@@ -13,12 +13,8 @@ $outer-spinner: $red !default;
   width: 100%;
 }
 
-.mat-table {
-  background-color: rgba($color: $blue-900, $alpha: .2);
-}
-
-.mat-toolbar {
-  background-color: rgba($color: $blue-900, $alpha: .2);
+.mat-table, .mat-toolbar {
+  background-color: rgba($color: $blue-900, $alpha: .15);
 }
 
 .mat-header-cell {

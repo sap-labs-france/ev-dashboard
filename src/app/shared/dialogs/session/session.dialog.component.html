@@ -65,7 +65,7 @@
             <span class="ml-2">{{totalConsumption | appUnit:'Wh':'kWh'}}</span>
           </div>
           <div *ngIf="stateOfChargeIcon" class="d-flex align-items-center mb-2">
-            <i [class]="'material-icons-new twotone-'+stateOfChargeIcon"></i>
+            <i class="material-icons">battery_charging_full</i>
             <span class="ml-2">{{stateOfCharge / 100| percent:'2.0-0' }}</span>
           </div>
           <div class="d-flex align-items-center mb-2">

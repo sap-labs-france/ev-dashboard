@@ -12,6 +12,7 @@ import { MessageService } from '../../../../services/message.service';
 import { Utils } from '../../../../utils/Utils';
 import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
 import { SiteAreaDialogComponent } from '../site-area/site-area.dialog.component';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { Constants } from '../../../../utils/Constants';
 
 export const CONNECTED_PHASE_MAP =
@@ -267,6 +268,56 @@ export class ChargingStationParametersComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
         this.formGroup.controls.siteArea.markAsDirty();
+      });
+  }
+
+  public assignGeoMap() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '50vw';
+
+    // get latitud/longitude from form
+    let latitude = this.formGroup.controls.latitude.value;
+    let longitude = this.formGroup.controls.longitude.value;
+
+    // if one is not available try to get from SiteArea and then from Site
+    if (!latitude || !longitude) {
+      const siteArea = this.charger.siteArea;
+
+      if (siteArea && siteArea.address) {
+        if (siteArea.address.latitude && siteArea.address.longitude) {
+          latitude = siteArea.address.latitude;
+          longitude = siteArea.address.longitude;
+        } else {
+          const site = siteArea.site;
+
+          if (site && site.address && site.address.latitude && site.address.longitude) {
+            latitude = site.address.latitude;
+            longitude = site.address.longitude;
+          }
+        }
+      }
+    }
+
+    // Set data
+    dialogConfig.data = {
+      latitude: latitude,
+      longitude: longitude
+    }
+
+    // Open
+    this.dialog.open(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+        if (result) {
+          if (result.latitude) {
+            this.formGroup.controls.latitude.setValue(result.latitude);
+            this.formGroup.controls.latitude.markAsDirty();
+          }
+          if (result.longitude) {
+            this.formGroup.controls.longitude.setValue(result.longitude);
+            this.formGroup.controls.longitude.markAsDirty();
+          }
+        }
       });
   }
 

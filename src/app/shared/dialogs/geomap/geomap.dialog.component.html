@@ -1,5 +1,5 @@
 <!-- <h2 class="dialog-title" mat-dialog-title>{{"geomap.select_geolocation" | translate}}</h2> -->
-<mat-dialog-content>
+
   <div class="row">
     <div class="col-md-8">
       <mat-form-field>
@@ -28,15 +28,15 @@
     </div>
   </div>
 
-
-  <div class="row">
+  <!-- <mat-dialog-content> -->
+  <!-- <div class="row"> -->
     <agm-map [streetViewControl]="false" [zoom]="4" [latitude]="mapLatitude" [longitude]="mapLongitude" (mapReady)="mapReady($event)"
       (mapClick)="mapClick($event)" [disableDefaultUI]="true">
       <agm-marker [latitude]="markerLatitude" [longitude]="markerLongitude" [markerDraggable]=true (dragEnd)="mapClick($event)">
       </agm-marker>
     </agm-map>
-  </div>
-</mat-dialog-content>
+  <!-- </div> -->
+<!-- </mat-dialog-content> -->
 
 <mat-dialog-actions align="end">
   <button class="mat-raised-button mat-primary" (click)="validate()">

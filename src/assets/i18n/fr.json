@@ -695,7 +695,13 @@
     "search_last_week": "Semaine Dernière",
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
-    "no_logs": "Aucun log ne correspond aux filtres"
+    "no_logs": "Aucun log ne correspond aux filtres",
+    "dialog": {
+      "export": {
+        "title": "Exporter leg logs",
+        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
+      }
+    }
   },
   "users": {
     "tabs": {

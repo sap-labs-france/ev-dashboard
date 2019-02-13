@@ -42,7 +42,12 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
     this.loadComponent();
     if (this.cellComponent && changes.row && changes.row.currentValue) {
       this.cellComponent.row = changes.row.currentValue;
-      this.cellComponent.refresh();
+      if (typeof this.cellComponent.refresh !== 'function') {
+        console.error('missing refresh method for cellComponent');
+        console.log(this.cellComponent);
+      } else {
+        this.cellComponent.refresh();
+      }
     }
   }
 }

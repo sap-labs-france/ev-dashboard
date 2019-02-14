@@ -12,6 +12,14 @@ export class WindowService {
     return this.window.location.hostname;
   }
 
+  getHost(): string {
+    return this.window.location.host;
+  }
+
+  getProtocol(): string {
+    return this.window.location.protocol;
+  }
+
   getPath(): string {
     return this.window.location.pathname;
   }

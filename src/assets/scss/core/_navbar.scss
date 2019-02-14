@@ -116,10 +116,9 @@
   .navbar-brand {
     position: relative;
     color: inherit;
-    height: 40px;
     font-size: $navbar-brand-font-size - 0.125;
     line-height: 30px;
-    padding: $padding-general-y 0;
+    padding: 0;
     font-weight: 300;
     margin-left: 1rem;
   }
@@ -151,7 +150,8 @@
   }
 
   &.navbar-transparent {
-    background-color: transparent !important;
+    background: linear-gradient(60deg, $blue-725, $blue-850);
+    // background-color: transparent !important;
     box-shadow: none;
     padding-top: 25px;
 

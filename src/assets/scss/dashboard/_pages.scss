@@ -137,7 +137,8 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: rgba(62, 62, 62, 0.75);
+    background: linear-gradient(60deg, $blue-725, $blue-825);
+    // background: rgba(62, 62, 62, 0.75);
 
     &.card-hidden {
       opacity: 0;

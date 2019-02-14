@@ -2,18 +2,18 @@ import {User} from '../../../common.types';
 import {userStatuses} from '../users.model';
 import {Constants} from '../../../utils/Constants';
 import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../shared/component/chip/chip.component';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-log-level-chip',
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class UserStatusComponent extends ChipComponent implements OnInit {
+export class UserStatusComponent extends ChipComponent {
 
   @Input() row: User;
 
-  ngOnInit(): void {
+  loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
     for (const userStatus of userStatuses) {

@@ -1,32 +1,21 @@
-import { TranslateService } from '@ngx-translate/core';
-import { ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User } from 'app/common.types';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ConfigService } from 'app/services/config.service';
-import { Router } from '@angular/router';
-import { MessageService } from 'app/services/message.service';
-import { DialogService } from 'app/services/dialog.service';
-import { ConnectorAvailibilityComponent } from '../../cell-content-components/connector-availibility.component';
-import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.pipe';
-import { AppConnectorErrorCodePipe } from 'app/shared/formatters/app-connector-error-code.pipe';
-import { ConnectorCellComponent } from 'app/shared/component/connector/connector-cell.component';
-import { LocaleService } from 'app/services/locale.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { SpinnerService } from 'app/services/spinner.service';
-import { InstantPowerProgressBarComponent } from '../../cell-content-components/instant-power-progress-bar.component';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { TableStartAction } from 'app/shared/table/actions/table-start-action';
-import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
-import { TableNoAction } from 'app/shared/table/actions/table-no-action';
-import { Utils } from 'app/utils/Utils';
-import { Constants } from 'app/utils/Constants';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog-component';
-import { TableOpenAction } from 'app/shared/table/actions/table-open-action';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
-import { SessionDetailComponent } from '../../cell-content-components/session-detail.component';
-import { TableDataSource } from 'app/shared/table/table-data-source';
+import {TranslateService} from '@ngx-translate/core';
+import {Charger, Connector, TableActionDef, TableColumnDef, TableDef} from 'app/common.types';
+import {CentralServerService} from 'app/services/central-server.service';
+import {MatDialog} from '@angular/material';
+import {ConfigService} from 'app/services/config.service';
+import {Router} from '@angular/router';
+import {MessageService} from 'app/services/message.service';
+import {DialogService} from 'app/services/dialog.service';
+import {ConnectorAvailibilityComponent} from '../../cell-content-components/connector-availibility.component';
+import {AppConnectorTypePipe} from 'app/shared/formatters/app-connector-type.pipe';
+import {AppConnectorErrorCodePipe} from 'app/shared/formatters/app-connector-error-code.pipe';
+import {ConnectorCellComponent} from 'app/shared/component/connector/connector-cell.component';
+import {LocaleService} from 'app/services/locale.service';
+import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe';
+import {SpinnerService} from 'app/services/spinner.service';
+import {AuthorizationService} from 'app/services/authorization-service';
+import {Utils} from 'app/utils/Utils';
+import {TableDataSource} from 'app/shared/table/table-data-source';
 
 export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
 
@@ -34,16 +23,16 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   private connectorTransactionAuthorization;
 
   constructor(private configService: ConfigService,
-    private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private appUnitPipe: AppUnitPipe,
-    private dialog: MatDialog,
-    private authorizationService: AuthorizationService,
-    private spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private router: Router,
-    private dialogService: DialogService) {
+              private centralServerService: CentralServerService,
+              private translateService: TranslateService,
+              private localeService: LocaleService,
+              private appUnitPipe: AppUnitPipe,
+              private dialog: MatDialog,
+              private authorizationService: AuthorizationService,
+              private spinnerService: SpinnerService,
+              private messageService: MessageService,
+              private router: Router,
+              private dialogService: DialogService) {
     super();
   }
 
@@ -168,8 +157,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
-    return [
-    ];
+    return [];
   }
 
   public getTableRowActions(rowItem: Connector): TableActionDef[] {

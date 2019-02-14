@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Connector} from 'app/common.types';
 import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from 'app/shared/component/chip/chip.component';
 
@@ -7,18 +7,10 @@ import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WAR
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class ConnectorAvailibilityComponent extends ChipComponent implements OnInit {
+export class ConnectorAvailibilityComponent extends ChipComponent {
   @Input() row: Connector;
 
-  ngOnInit(): void {
-    this.updateValues();
-  }
-
-  refresh() {
-    this.updateValues();
-  }
-
-  updateValues() {
+  loadContent() {
     this.text = this.row.status;
     this.type = 'chip-width-8em ';
     switch (this.row.status) {

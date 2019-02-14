@@ -1,6 +1,6 @@
 import {Ocpiendpoint} from '../../../../../common.types';
 import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 
 @Component({
@@ -8,11 +8,11 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['../../../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
-export class OcpiendpointPatchJobStatusComponent extends ChipComponent implements OnInit {
+export class OcpiendpointPatchJobStatusComponent extends ChipComponent {
 
   @Input() row: Ocpiendpoint;
 
-  ngOnInit(): void {
+  loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
     this.type = 'chip-width-10em ';

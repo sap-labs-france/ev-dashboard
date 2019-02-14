@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CellContentTemplateComponent} from '../../table/cell-content-template/cell-content-template.component';
 
 export const TYPE_PRIMARY = 'chip-primary';
@@ -14,7 +14,17 @@ export const TYPE_GREY = 'chip-grey';
   styleUrls: ['chip.component.scss'],
   templateUrl: 'chip.component.html'
 })
-export class ChipComponent extends CellContentTemplateComponent {
+export abstract class ChipComponent extends CellContentTemplateComponent implements OnInit {
   text: String;
   type: String;
+
+  ngOnInit(): void {
+    this.loadContent();
+  }
+
+  refresh(): void {
+    this.loadContent();
+  }
+
+  abstract loadContent(): void;
 }

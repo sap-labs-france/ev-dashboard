@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
@@ -12,28 +11,28 @@ import {CentralServerNotificationService} from './central-server-notification.se
 import {
   ActionResponse,
   Charger,
-  ChargerResult,
   ChargerInErrorResult,
+  ChargerResult,
+  Company,
+  CompanyResult,
   Image,
   Log,
+  Logo,
   LogResult,
   OcpiendpointResult,
   Ordering,
   Paging,
   SettingResult,
-  CompanyResult,
-  Company,
+  Site,
+  SiteArea,
   SiteAreaResult,
   SiteResult,
-  Site,
   Tenant,
   TenantResult,
   Transaction,
   TransactionResult,
   User,
-  UserResult,
-  Logo,
-  SiteArea
+  UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -325,13 +324,13 @@ export class CentralServerService {
     params['Year'] = year;
     // Call
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
-    {
-      headers: this._buildHttpHeaders(),
-      params
-    })
-    .pipe(
-      catchError(this._handleHttpError)
-    );
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
   public getCurrentMetrics(): Observable<any> {
@@ -339,13 +338,13 @@ export class CentralServerService {
     params['PeriodInMonth'] = 6;
     // Call
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
-    {
-      headers: this._buildHttpHeaders(),
-      params
-    })
-    .pipe(
-      catchError(this._handleHttpError)
-    );
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
   }
 
   public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
@@ -1346,7 +1345,7 @@ export class CentralServerService {
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
-      body = `{
+    body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
@@ -1383,7 +1382,7 @@ export class CentralServerService {
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
-      body = `{
+    body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
@@ -1603,13 +1602,10 @@ export class CentralServerService {
     }
   }
 
-  private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
+  private _handleHttpError(error: HttpErrorResponse, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = {status: 0, message: '', details: undefined};
-    if (error instanceof Response) {
-      errMsg.status = error.status;
-      errMsg.message = error.text();
-    } else {
+    if (error) {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();
       errMsg.details = error.error;

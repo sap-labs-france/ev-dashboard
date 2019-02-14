@@ -281,6 +281,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    if (this.authorizationService.isDemo()) {
+      return [];
+    }
     return [
       new TableExportAction().getActionDef()
     ];

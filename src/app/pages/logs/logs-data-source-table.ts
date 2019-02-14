@@ -26,6 +26,7 @@ import {DialogService} from '../../services/dialog.service';
 import {MatDialog} from '@angular/material';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../shared/table/actions/table-export-action';
+import {AuthorizationService} from '../../services/authorization-service';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
@@ -36,6 +37,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     private localeService: LocaleService,
     private dialogService: DialogService,
     private spinnerService: SpinnerService,
+    private authorizationService: AuthorizationService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -161,6 +163,9 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   getTableActionsDef(): TableActionDef[] {
+    if (this.authorizationService.isDemo()) {
+      return [];
+    }
     return [
       new TableExportAction().getActionDef()
     ];

@@ -30,6 +30,7 @@ import {ConsumptionChartDetailComponent} from '../components/consumption-chart-d
 import * as moment from 'moment';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import saveAs from 'file-saver';
+import {AuthorizationService} from '../../../services/authorization-service';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -46,6 +47,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private appDatePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
@@ -230,6 +232,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   getTableActionsDef(): TableActionDef[] {
+    if (this.authorizationService.isDemo()) {
+      return [];
+    }
     return [
       new TableExportAction().getActionDef()
     ];
@@ -273,7 +278,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   private exportTransactions() {
-    this.centralServerService.exportTransactions(this.getFilterValues(), {limit: this.getNumberOfRecords(), skip: Constants.DEFAULT_SKIP}, this.getOrdering())
+    this.centralServerService.exportTransactions(this.getFilterValues(), {
+      limit: this.getNumberOfRecords(),
+      skip: Constants.DEFAULT_SKIP
+    }, this.getOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {

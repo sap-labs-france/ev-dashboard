@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 
 import {CellContentTemplateDirective} from './cell-content-template.directive';
 import {CellContentTemplateComponent} from './cell-content-template.component';
@@ -7,8 +7,8 @@ import {TableColumnDef} from '../../../common.types';
 @Component({
   selector: 'app-cell-component-container',
   template: `
-        <ng-template appCellContentTemplate></ng-template>
-    `
+    <ng-template appCellContentTemplate></ng-template>
+  `
 })
 // tslint:disable-next-line:component-class-suffix
 export class CellContentComponentContainer implements OnInit, OnDestroy, OnChanges {
@@ -20,10 +20,11 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
 
   componentRef: any;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  }
 
   ngOnInit() {
-   this.loadComponent();
+    this.loadComponent();
   }
 
   ngOnDestroy() {
@@ -39,14 +40,18 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if (!changes.row.isFirstChange()) {
-        // console.log('REload cell component ' + this.columnDef.angularComponentName.name);
+    if (!changes.row.isFirstChange()) {
+      // console.log('REload cell component ' + this.columnDef.angularComponentName.name);
 //        this.loadComponent();
-        if (this.cellComponent && changes.row && changes.row.currentValue) {
-          // console.log('REFRESH cell component ' + this.columnDef.angularComponentName.name);
+      if (this.cellComponent && changes.row && changes.row.currentValue) {
+        // console.log('REFRESH cell component ' + this.columnDef.angularComponentName.name);
+        if (typeof this.cellComponent.refresh === 'function') {
           this.cellComponent.row = changes.row.currentValue;
           this.cellComponent.refresh();
+        } else {
+          console.error('missing refresh in component ' + this.columnDef.angularComponentName.name);
         }
+      }
     }
   }
 }

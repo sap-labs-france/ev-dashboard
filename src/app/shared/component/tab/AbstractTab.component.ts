@@ -9,14 +9,16 @@ export class AbstractTabComponent {
     activatedRoute.fragment.subscribe(fragment => {
       const indexOf = this.hashArray.indexOf(fragment);
       if (indexOf >= 0) {
+        console.log('set activeRoute to ' + indexOf);
         this.activeTabIndex = indexOf;
       }
     })
   }
 
-  updateRoute(event: MatTabChangeEvent) {
-    if (this.hashArray && event.index < this.hashArray.length) {
-      this.windowService.setHash(this.hashArray[event.index]);
+  updateRoute(index: number) {
+    console.log('updateRoute from ' + index);
+    if (this.hashArray && index < this.hashArray.length) {
+      this.windowService.setHash(this.hashArray[index]);
     }
   }
 }

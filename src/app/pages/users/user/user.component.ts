@@ -110,7 +110,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  updateRoute(event: MatTabChangeEvent) {
+  updateRoute(event: number) {
     if (!this.inDialog) {
       super.updateRoute(event);
     }

@@ -513,6 +513,8 @@
       "smart_charging_item": "Smart Charging",
       "more_actions_item": "More"
     },
+    "assign_sitearea_action": "Assign",
+    "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
       "reset_button": "Reset",
       "maximum_energy_limit": "Master power limit of '{{chargeBoxID}}'",

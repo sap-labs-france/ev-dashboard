@@ -23,6 +23,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   protected formattedData = [];
   private locale;
   private dataChangeSubscription: Subscription;
+  // private _refreshInterval;
   private staticFilters = [];
   private pollingInterval: number;
   private i = 0;
@@ -30,6 +31,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
   private _rowRefresh = new Subject<any>();
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
+  private _isDestroyed = false;
 
   public setPollingInterval(pollingInterval: number) {
     this.pollingInterval = pollingInterval;
@@ -170,7 +172,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public updatePaginator() {
-    this.paginator.length = this.getNumberOfRecords();
+    if (this.paginator) { // Might happen in case destroy occurs before the end of the loadData
+      this.paginator.length = this.getNumberOfRecords();
+    }
   }
 
   public getPaginatorPageSizes() {
@@ -219,6 +223,32 @@ export abstract class TableDataSource<T> implements DataSource<T> {
    * @memberof TableDataSource
    */
   public destroy() {
+    this._isDestroyed = true;
+    if (this._displayDetailsColumns) {
+      this._displayDetailsColumns.complete();
+      this._displayDetailsColumns = null;
+    }
+    if (this._rowRefresh) {
+      this._rowRefresh.complete();
+      this._rowRefresh = null;
+    }
+    if (this._ongoingAutoRefresh) {
+      this._ongoingAutoRefresh.complete();
+      this._ongoingAutoRefresh = null;
+    }
+    if (this._ongoingManualRefresh) {
+      this._ongoingManualRefresh.complete();
+      this._ongoingManualRefresh = null;
+    }
+    if (this.dataChangeSubscription) {
+//      console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this.dataChangeSubscription);
+      this.dataChangeSubscription.unsubscribe();
+      this.dataChangeSubscription = null;
+    }
+    // if (this._refreshInterval) {
+    //   clearInterval(this._refreshInterval);
+    //   this._refreshInterval = null;
+    // }
     this.paginator = null;
     this.sort = null;
   }
@@ -321,7 +351,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeAutoRefresh(fn): Subscription {
-    if (this._ongoingAutoRefresh.isStopped) {
+    if (!this._ongoingAutoRefresh || this._ongoingAutoRefresh.isStopped) {
       // restart observable
       this._ongoingAutoRefresh = new BehaviorSubject(false);
     }
@@ -329,7 +359,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeManualRefresh(fn): Subscription {
-    if (this._ongoingManualRefresh.isStopped) {
+    if (!this._ongoingManualRefresh || this._ongoingManualRefresh.isStopped) {
       // restart observable
       this._ongoingManualRefresh = new BehaviorSubject(false);
     }
@@ -337,7 +367,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeRowRefresh(fn): Subscription {
-    if (this._rowRefresh.isStopped) {
+    if (!this._rowRefresh || this._rowRefresh.isStopped) {
       // restart observable
       this._rowRefresh = new Subject();
     }
@@ -345,7 +375,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeDisplayDetailsColumn(fn): Subscription {
-    if (this._displayDetailsColumns.isStopped) {
+    if (!this._displayDetailsColumns || this._displayDetailsColumns.isStopped) {
       this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
     }
     return this._displayDetailsColumns.subscribe(fn);
@@ -356,9 +386,21 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     if (!this.dataChangeSubscription) {
       this.definePollingIntervalStrategy();
       if (this.pollingInterval > 0) {
-        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
-          this._refreshReload();
+//        this.dataChangeSubscription
+        // if (this._refreshInterval) {
+        //   clearInterval(this._refreshInterval);
+        // }
+        // this._refreshInterval = setInterval(() => {//
+          this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
+          if (this._isDestroyed) {
+            // tslint:disable-next-line:max-line-length
+            console.log(new Date().toISOString() + ' Refresh on destroyed data source ' + this.constructor.name);
+          } else {
+            // console.log(new Date().toISOString() + ' Refresh ' + this.constructor.name);
+            this.refreshReload();
+          }
         });
+        // console.log(new Date().toISOString() + ' Set Interval ' + this.constructor.name + ' ' + this.dataChangeSubscription);
       } else {
         this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
           this._ongoingAutoRefresh.next(true);
@@ -370,10 +412,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public triggerRefreshFromComponent() {
-    this._refreshReload();
+    this.refreshReload();
   }
 
-  private _refreshReload() {
+  refreshReload() {
     // check if there is not already an ongoing refresh
     let refreshStatus;
     this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -385,13 +427,15 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     const startDate = new Date().getTime();
     this.loadData(true);
     const endDate = new Date().getTime();
-    // display the spinner at min 1,5s
-    if (endDate - startDate > 1500) {
+    // display the spinner at min 1s
+    if (endDate - startDate > 1000) {
       this._ongoingAutoRefresh.next(false);
     } else {
       setTimeout(() => {
-        this._ongoingAutoRefresh.next(false);
-      }, 1500 - (endDate - startDate));
+        if (this._ongoingAutoRefresh) { // check if component si not destroyed in the meantime
+          this._ongoingAutoRefresh.next(false);
+        }
+      }, 1000 - (endDate - startDate));
     }
   }
 
@@ -422,10 +466,16 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public unregisterToDataChange() {
     // Exist?
     if (this.dataChangeSubscription) {
+      // console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this.dataChangeSubscription);
       // Unregister
       this.dataChangeSubscription.unsubscribe();
       this.dataChangeSubscription = null;
     }
+    // if (this._refreshInterval) {
+    //   console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this._refreshInterval);
+    //   clearInterval(this._refreshInterval);
+    //   this._refreshInterval = null;
+    // }
   }
 
   public getFilterValues(withSearch: boolean = true) {
@@ -497,6 +547,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   refreshData(freshData: any[]) {
     const freshFormattedData = [];
+    const rowRefreshed = [];
     freshData.forEach((freshRow) => {
       const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
       const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
@@ -505,9 +556,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           freshFormattedData.push(this.formattedData[index]);
         } else {
           const formattedRow = this._formatRow(freshRow);
-          // Check if row is expanded
-          if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
-            formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+          if (this._ongoingAutoRefresh.getValue() || this._ongoingManualRefresh.getValue()) {
+            // Check if row is expanded
+            if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
+              formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+            }
           }
           // Update specific row actions
           const specificRowActions = this.specificRowActions(formattedRow['data']);
@@ -515,7 +568,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             formattedRow['specificRowActions'] = specificRowActions;
           }
           freshFormattedData.push(formattedRow);
-          this._rowRefresh.next({ newValue: formattedRow, previousValue: this.formattedData[index]['data'] });
+          rowRefreshed.push({ newValue: formattedRow, previousValue: this.formattedData[index]['data'],
+                isAutoRefresh: this._ongoingAutoRefresh.getValue() || this._ongoingManualRefresh.getValue()});
         }
       } else {
         const formattedRow = this._formatRow(freshRow);
@@ -529,6 +583,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     });
     this.formattedData = freshFormattedData;
     this.data = freshData;
+    rowRefreshed.forEach((row) => {
+      this._rowRefresh.next(row);
+    })
   }
 
   _formatRow(row): any[] {

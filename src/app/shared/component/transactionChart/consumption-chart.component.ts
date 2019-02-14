@@ -163,7 +163,7 @@ export class ConsumptionChartComponent implements OnInit {
             },
             gridLines: {
               display: true,
-              color: 'white'
+              color: 'rgba(255,255,255,0.5)'
             },
             ticks: {
               fontColor: 'white'
@@ -181,7 +181,7 @@ export class ConsumptionChartComponent implements OnInit {
             },
             gridLines: {
               display: true,
-              color: 'white'
+              color: 'rgba(255,255,255,0.5)'
             }
           }
         ]

@@ -1,5 +1,5 @@
 <div class="transactions main-content">
-  <mat-tab-group (selectedTabChange)="updateRoute($event)" [(selectedIndex)]="activeTabIndex"
+  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                  animationDuration="0ms" class="h-100 mat-tab-info"
                  disableRipple="true">
     <mat-tab>

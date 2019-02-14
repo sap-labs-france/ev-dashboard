@@ -1,6 +1,6 @@
 <div class="main-content">
   <form [formGroup]="formGroup" class="form">
-    <mat-tab-group [(selectedIndex)]="activeTabIndex" (selectedTabChange)="updateRoute($event)"
+    <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                    animationDuration="0ms" disableRipple="true" class="mat-tab-info">
       <mat-tab>
         <ng-template mat-tab-label>

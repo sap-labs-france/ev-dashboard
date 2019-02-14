@@ -68,4 +68,7 @@ export class ConnectorsErrorDetailComponent extends DetailComponent implements O
     this.connectorsErrorDataSource.setDetailedDataSource(row.connectors);
   }
 
+  destroy() {
+  }
+
 }

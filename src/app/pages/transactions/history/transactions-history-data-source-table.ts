@@ -277,7 +277,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       .subscribe((result) => {
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {
-        console.log(error);
 
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));

@@ -457,6 +457,21 @@ export class CentralServerService {
       );
   }
 
+  public exportLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public exportTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
     this._buildPaging(paging, params);
@@ -1351,7 +1366,7 @@ export class CentralServerService {
         }
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1375,7 +1390,7 @@ export class CentralServerService {
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1418,7 +1433,7 @@ export class CentralServerService {
     body += `}
       }`;
 
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {

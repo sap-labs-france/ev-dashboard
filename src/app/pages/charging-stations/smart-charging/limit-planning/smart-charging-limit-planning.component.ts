@@ -112,7 +112,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
     this.hasNoActivePlanning = true;
     this.hasNoCompositeResultAccepted = true;
     this.centralServerService.getChargingStationCompositeSchedule(this.charger.id, 0, 86400, this.powerUnit, true).subscribe((result) => {
-      console.log(JSON.stringify(result, null, ' '));
+      //console.log(JSON.stringify(result, null, ' '));
       this.compositeSchedule = [];
       if (!Array.isArray(result)) {
         this.compositeSchedule = [result];

@@ -143,16 +143,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Load the data
     this.loadData();
-  }
-
-  ngAfterViewInit() {
-    // Set Paginator
-    this.dataSource.setPaginator(this.paginator);
-    // Set Sort
-    this.dataSource.setSort(this.sort);
-    // Set Search
-    this.dataSource.setSearchInput(this.searchInput);
-    this.selection.clear();
 
     if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
       // subscribe to auto-refresh
@@ -170,6 +160,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.rowRefreshObserver = this.dataSource.subscribeRowRefresh(row => {
       this._rowRefresh(row);
     });
+
+  }
+
+  ngAfterViewInit() {
+    // Set Paginator
+    this.dataSource.setPaginator(this.paginator);
+    // Set Sort
+    this.dataSource.setSort(this.sort);
+    // Set Search
+    this.dataSource.setSearchInput(this.searchInput);
+    this.selection.clear();
+//    console.log(`${new Date().toISOString()} AfterViwInit ${this.constructor.name}`);
+
+//    this.dataSource.registerToDataChange();
   }
 
   ngOnDestroy() {
@@ -359,7 +363,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             const identifierFieldname = (this.tableDef.rowFieldNameIdentifier ? this.tableDef.rowFieldNameIdentifier : 'id');
             if (detailComponentContainer.parentRow[identifierFieldname] === data[identifierFieldname]) {
               detailComponentContainer.parentRow = data;
-              detailComponentContainer.refresh(data);
+              detailComponentContainer.refresh(data, compositeValue.isAutoRefresh);
             }
           });
         }

@@ -37,12 +37,15 @@ import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charg
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
+import { TableChargerSiteAreaAction } from '../other-actions-button/table-charger-sitearea-action';
 
 const POLL_INTERVAL = 10000;
+
 const DEFAULT_ADMIN_ROW_ACTIONS = [
-  new TableChargerMoreAction().getActionDef(),
   new TableEditAction().getActionDef(),
-  new TableDeleteAction().getActionDef()
+  new TableChargerSiteAreaAction().getActionDef(),
+  new TableDeleteAction().getActionDef(),
+  new TableChargerMoreAction().getActionDef(),
 ];
 
 const DEFAULT_BASIC_ROW_ACTIONS = [
@@ -169,6 +172,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           name: 'chargers.consumption_title',
           sortable: false,
           isAngularComponent: true,
+          headerClass: 'text-center',
           class: 'power-progress-bar',
           angularComponentName: InstantPowerProgressBarComponent
         },
@@ -212,13 +216,17 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           headerClass: 'd-none d-lg-table-cell',
           class: 'd-none d-lg-table-cell',
           sortable: true
-        }, {
+/*          formatter: (value, row: Charger) => {
+            return `${row.chargePointVendor} - ${row.chargePointModel}`;
+          },*/
+        },
+/*        {
           id: 'chargePointModel',
           name: 'chargers.model',
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
           sortable: true
-        },
+        },*/
       {
         id: 'ocppVersion',
         name: 'chargers.ocpp_version_title',
@@ -538,7 +546,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       skip: Constants.DEFAULT_SKIP
     }, this.getOrdering())
       .subscribe((result) => {
-        console.log(result);
         saveAs(result, 'exportChargingStations.csv');
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

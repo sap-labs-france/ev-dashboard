@@ -29,10 +29,10 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
      }
 
   ngOnInit() {
-//    this.loadComponent();
   }
 
   ngOnDestroy() {
+    this.destroy();
   }
 
   loadComponent() {
@@ -50,9 +50,17 @@ export class DetailComponentContainer implements OnInit, OnDestroy {
 
   }
 
-  refresh(row: any) {
+  refresh(row: any, autoRefresh: boolean) {
     if (this.detailComponent) {
-      this.detailComponent.refresh(row);
+      this.detailComponent.refresh(row, autoRefresh);
+    } else {
+      this.loadComponent();
+    }
+  }
+
+  destroy() {
+    if (this.detailComponent) {
+      this.detailComponent.destroy();
     }
   }
 

@@ -507,6 +507,8 @@
       "smart_charging_item": "Smart Charging",
       "more_actions_item": "Autres"
     },
+    "assign_sitearea_action": "Assigner",
+    "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",
@@ -695,7 +697,13 @@
     "search_last_week": "Semaine Dernière",
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
-    "no_logs": "Aucun log ne correspond aux filtres"
+    "no_logs": "Aucun log ne correspond aux filtres",
+    "dialog": {
+      "export": {
+        "title": "Exporter leg logs",
+        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
+      }
+    }
   },
   "users": {
     "tabs": {

@@ -3,7 +3,7 @@ import { ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, Tab
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { CentralServerService } from '../../../services/central-server.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { ConfigService } from '../../../services/config.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../services/message.service';
@@ -39,6 +39,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   private charger: Charger;
   private connectorTransactionAuthorization;
+  private dialogRefSession: MatDialogRef<SessionDialogComponent>;
   private isInitialized = false;
 
   private transactionConsumptions = {};
@@ -101,8 +102,15 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.charger = charger;
   }
 
-  setDetailedDataSource(row) {
-    this.loadData();
+  setDetailedDataSource(row, autoRefresh = false) {
+    if (autoRefresh) {
+      if (this.dialogRefSession && this.dialogRefSession.componentInstance) {
+        this.dialogRefSession.componentInstance.refresh();
+      }
+      this.refreshReload(); // will call loadData
+    } else {
+      this.loadData();
+    }
   }
 
   public getTableDef(): TableDef {
@@ -414,7 +422,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       connector: connector,
     };
     // Open
-    const dialogRef = this.dialog.open(SessionDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(() => this.loadData());
+    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
   }
 }

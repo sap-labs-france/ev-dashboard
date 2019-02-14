@@ -159,7 +159,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             },
             gridLines: {
               display: true,
-              color: 'white'
+              color: 'rgba(255,255,255,0.5)'
             },
             ticks: {
               fontColor: 'white'
@@ -177,7 +177,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             },
             gridLines: {
               display: true,
-              color: 'white'
+              color: 'rgba(255,255,255,0.5)'
             }
           }
         ]

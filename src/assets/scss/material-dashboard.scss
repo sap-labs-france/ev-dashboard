@@ -14,11 +14,11 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-@import "../css/angular-material.css";
 // @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 // @import "~@angular/material/prebuilt-themes/purple-green.css";
 @import "core/variables";
 @import "core/mixins";
+@import "angular-material.scss";
 @import "~bootstrap/scss/bootstrap";
 @import "core/reboot";
 @import "core/recaptcha";

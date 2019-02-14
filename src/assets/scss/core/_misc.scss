@@ -1,5 +1,5 @@
 body {
-  background-color: #000;
+  background-color: $blue-1000;
   color: $white-color;
   font-weight: 300;
 }
@@ -10,11 +10,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba($color: #fff, $alpha: 0.2);
+  background-color: rgba($color: #fff, $alpha: 0.1);
 }
  
 ::-webkit-scrollbar-thumb {
-  background: $blue-875;
+  background: $blue-925;
 }
 
 legend {

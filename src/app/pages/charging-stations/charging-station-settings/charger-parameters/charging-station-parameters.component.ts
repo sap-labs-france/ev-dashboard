@@ -312,10 +312,12 @@ export class ChargingStationParametersComponent implements OnInit {
           if (result.latitude) {
             this.formGroup.controls.latitude.setValue(result.latitude);
             this.formGroup.controls.latitude.markAsDirty();
+            this.formGroup.controls.latitude.markAsPending();
           }
           if (result.longitude) {
             this.formGroup.controls.longitude.setValue(result.longitude);
             this.formGroup.controls.longitude.markAsDirty();
+            this.formGroup.controls.longitude.markAsPending();
           }
         }
       });

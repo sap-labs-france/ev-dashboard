@@ -38,6 +38,7 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import { TableChargerSiteAreaAction } from '../other-actions-button/table-charger-sitearea-action';
+import { SiteAreaDialogComponent } from '../charging-station-settings/site-area/site-area.dialog.component';
 
 const POLL_INTERVAL = 10000;
 
@@ -324,6 +325,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       case 'delete':
         this._deleteChargingStation(rowItem);
         break;
+      case 'sitearea':
+        this._assignSiteArea(rowItem);
+        break;
       case 'more':
         switch (dropdownItem.id) {
           case ACTION_REBOOT:
@@ -510,6 +514,19 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Open
       const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
     }
+  }
+
+  private _assignSiteArea(charger: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    if (charger) {
+      dialogConfig.data = charger;
+    }
+    // Open
+    this.dialog.open(SiteAreaDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+//        this.charger.siteArea = <SiteArea>result[0];
+      });
   }
 
   definePollingIntervalStrategy() {

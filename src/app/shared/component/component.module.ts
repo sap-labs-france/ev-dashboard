@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {ChipComponent} from './chip/chip.component';
 import {MatChipsModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
@@ -8,8 +7,7 @@ import {ConnectorCellComponent} from './connector/connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
-import {AbstractTabComponent} from './tab/AbstractTab.component';
-import { GaugesModule } from './gauge/gauge.module';
+import {GaugesModule} from './gauge/gauge.module';
 
 @NgModule({
   imports: [
@@ -22,12 +20,10 @@ import { GaugesModule } from './gauge/gauge.module';
     GaugesModule
   ],
   declarations: [
-    ChipComponent,
     ConnectorCellComponent,
     ConsumptionChartComponent
   ],
   exports: [
-    ChipComponent,
     ConnectorCellComponent,
     ConsumptionChartComponent
   ],

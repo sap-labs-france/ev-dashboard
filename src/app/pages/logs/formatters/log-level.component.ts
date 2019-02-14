@@ -1,6 +1,6 @@
 import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {
   ChipComponent,
   TYPE_DANGER,
@@ -15,12 +15,10 @@ import {
   styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
-export class LogLevelComponent extends ChipComponent implements OnInit {
+export class LogLevelComponent extends ChipComponent {
   @Input() row: Log;
 
-  ngOnInit(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
+  loadContent(): void {
     for (const level of logLevels) {
       if (level.key === this.row.level) {
         this.text = level.value

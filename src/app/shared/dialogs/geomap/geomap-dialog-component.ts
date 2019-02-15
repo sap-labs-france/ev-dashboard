@@ -14,10 +14,10 @@ import {} from '@agm/core'
 })
 export class GeoMapDialogComponent {
   private map: any;
-  private mapLatitude: number;
-  private mapLongitude: number;
-  private markerLatitude: number;
-  private markerLongitude: number;
+  public mapLatitude: number;
+  public mapLongitude: number;
+  public markerLatitude: number;
+  public markerLongitude: number;
   public labelFormatted: any;
   public label = '';
   public zoom = 4;

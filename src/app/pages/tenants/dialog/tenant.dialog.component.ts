@@ -18,8 +18,10 @@ export class TenantDialogComponent implements OnInit {
   public name: AbstractControl;
   public subdomain: AbstractControl;
   public email: AbstractControl;
+  public pricingType: AbstractControl;
   public components: FormGroup;
-  public componentList = Constants.COMPONENTS_LIST;
+  public pricingTypes = [{key: 'convergentCharging', description: 'settings.pricing.convergentcharging.title'}, {key: 'simple', description: 'settings.pricing.simple.title'}];
+  public selectedPricing: string;
   private readonly currentTenant: any;
 
   constructor(
@@ -77,12 +79,19 @@ export class TenantDialogComponent implements OnInit {
       if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {
         activeFlag = this.currentTenant.components[componentIdentifier].active === true;
       }
-
       this.components.addControl(componentIdentifier, new FormGroup({
         'active': new FormControl(activeFlag)
       }));
     }
+    let type =  '';
+    if (this.currentTenant.components && this.currentTenant.components.pricing.active) {
+      type = this.currentTenant.components.pricing.type;
+    }
+    (<FormGroup>this.components.controls['pricing']).addControl('type',
+      new FormControl(type));
+    this.pricingType = (<FormGroup>this.components.controls['pricing']).controls['type'];
   }
+
 
   cancel() {
     this.dialogRef.close();
@@ -99,6 +108,16 @@ export class TenantDialogComponent implements OnInit {
       // create new tenant
       this._createTenant(tenant);
     }
+  }
+
+  updatePricingType() {
+    if (this.components.get('pricing').get('active').value) {
+      this.selectedPricing = 'simple';
+    } else {
+      this.selectedPricing = '';
+    }
+    this.components.get('pricing').updateValueAndValidity();
+    this.formGroup.markAsTouched();
   }
 
   private _createTenant(tenant) {

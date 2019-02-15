@@ -836,6 +836,10 @@ export class CentralServerService {
     }
   }
 
+  public getActiveComponents(): string[] {
+    return this.getLoggedUser().activeComponents;
+  }
+
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();

@@ -13,6 +13,7 @@
     "error_min_length": "Minimum length is {{length}}",
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
+    "error_not_a_number": "Not a valid number",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Cancel",
@@ -858,6 +859,11 @@
         "url": "Url",
         "user": "User",
         "password": "Password"
+      },
+      "simple": {
+        "title": "Simple Pricing",
+        "price": "Price",
+        "currency": "Currency"
       }
     },
     "information": "Information",
@@ -943,6 +949,7 @@
   },
   "pricing": {
     "title": "Pricing",
+    "type_placeholder": "Type",
     "description": "Pricing Interface",
     "price_kw_h_label": "Price kW.h",
     "price_unit_label": "Currency",

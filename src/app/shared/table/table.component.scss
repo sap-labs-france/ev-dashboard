@@ -13,18 +13,6 @@ $outer-spinner: $red !default;
   width: 100%;
 }
 
-.mat-table, .mat-toolbar {
-  background-color: rgba($color: $blue-900, $alpha: .2);
-}
-
-.mat-header-cell {
-  background-color: $blue-850;
-}
-
-.mat-paginator {
-  background-color: $blue-850;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;

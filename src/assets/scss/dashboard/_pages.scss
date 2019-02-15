@@ -131,13 +131,20 @@
   }
 }
 
+.eula-page {
+  overflow: auto;
+  height: 90vh;
+  padding-top: 0 !important;
+}
+
 .login-page {
 
   .card-login {
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: rgba(62, 62, 62, 0.75);
+    background: linear-gradient(60deg, $blue-400, $blue-825);
+    opacity: 0.9;
 
     &.card-hidden {
       opacity: 0;
@@ -149,14 +156,15 @@
       margin-bottom: 20px;
     }
     .card-body {
-      padding: 0px 70px 0px 45px;
+      padding: 0px 5% 0px 5%;
 
       .input-group {
         .input-group-prepend {
           width: 100%;
+          padding-right: 5%;
         }
         .input-group-text {
-          padding: 0px 15px 0 15px;
+          padding: 0px 10px 0 10px;
         }
         .form-control {
           padding-bottom: 10px;

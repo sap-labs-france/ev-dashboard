@@ -7,7 +7,7 @@
   margin-top: 30px;
   border-radius: $border-radius-base;
   color: $white;
-  background: url(/assets/img/sky-bg-dark.jpg) no-repeat 50%;
+  background: linear-gradient(60deg, $blue-725, $blue-825, $blue-725);
   width: 100%;
   font-size: 0.9rem;
 
@@ -170,7 +170,7 @@
   &.bg-primary,
   &.card-rotate.bg-primary .front,
   &.card-rotate.bg-primary .back {
-    background: linear-gradient(60deg, $blue-850, rgba($color: $blue-850, $alpha: 1));
+    background: $blue-950;
   }
   .card-header-info .card-icon,
   .card-header-info .card-text,
@@ -178,7 +178,7 @@
   &.bg-info,
   &.card-rotate.bg-info .front,
   &.card-rotate.bg-info .back {
-    background: linear-gradient(60deg, $blue-850, rgba($color: $blue-850, $alpha: 1));
+    background: $blue-950;
   }
   .card-header-success .card-icon,
   .card-header-success .card-text,
@@ -186,7 +186,7 @@
   &.bg-success,
   &.card-rotate.bg-success .front,
   &.card-rotate.bg-success .back {
-    background: linear-gradient(60deg, $green-400, $green-600);
+    background: linear-gradient(60deg, $green-500, $green-600);
   }
   .card-header-warning .card-icon,
   .card-header-warning .card-text,
@@ -194,7 +194,7 @@
   &.bg-warning,
   &.card-rotate.bg-warning .front,
   &.card-rotate.bg-warning .back {
-    background: linear-gradient(60deg, $orange-400, $orange-600);
+    background: linear-gradient(60deg, $orange-500, $orange-600);
   }
   .card-header-danger .card-icon,
   .card-header-danger .card-text,
@@ -202,7 +202,7 @@
   &.bg-danger,
   &.card-rotate.bg-danger .front,
   &.card-rotate.bg-danger .back {
-    background: linear-gradient(60deg, $red-400, $red-600);
+    background: linear-gradient(60deg, $red-500, $red-600);
   }
 
   .card-header-rose .card-icon,
@@ -211,7 +211,7 @@
   &.bg-rose,
   &.card-rotate.bg-rose .front,
   &.card-rotate.bg-rose .back {
-    background: linear-gradient(60deg, $pink-400, $pink-600);
+    background: linear-gradient(60deg, $pink-500, $pink-600);
   }
 
   [class*="card-header-"],
@@ -291,7 +291,7 @@
   }
 
   .card-stats {
-    background: transparent;
+    background: rgba(255,255,255,.1);
     display: flex;
 
     .author,
@@ -302,7 +302,7 @@
 }
 
 .card-settings {
-  background: linear-gradient(60deg, #1d4b7b, #1d3752);
+  background: rgba(255,255,255,.15);
 }
 
 .card-plain {

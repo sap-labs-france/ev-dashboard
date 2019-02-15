@@ -174,7 +174,7 @@
     .card-icon,
     .card-text {
       border-radius: $border-radius-base;
-      background-color: $gray-color;
+      background-color: $blue-950;
       padding: 15px;
       margin-top: -20px;
       margin-right: 15px;
@@ -249,6 +249,7 @@
   }
 
   &.card-stats {
+    background: rgba(255,255,255,.1);
     .card-header {
       &.card-header-icon,
       &.card-header-text {

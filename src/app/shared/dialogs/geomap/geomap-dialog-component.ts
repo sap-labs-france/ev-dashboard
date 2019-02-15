@@ -6,22 +6,23 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { LocaleService } from '../../../services/locale.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-
+import {} from '@agm/core'
 
 @Component({
   templateUrl: './geomap.dialog.component.html',
   styleUrls: ['./geomap.dialog.component.scss'],
 })
-export class GeoMapDialogComponent  {
+export class GeoMapDialogComponent {
   private map: any;
   private mapLatitude: number;
   private mapLongitude: number;
   private markerLatitude: number;
   private markerLongitude: number;
-  private zoom = 14;
-  private icon = {
-    url: '../../../../assets/img/ev_station.svg', scaledSize: { height: 25, width: 25 },
-    strokeColor: 'red', scale: 3
+  public labelFormatted: any;
+  public label = '';
+  public zoom = 4;
+  public icon = {
+    url: '../../../../assets/img/ev_station_blu.svg', scale: 1, labelOrigin: { x: 11, y: -10 }
   };
 
   constructor(
@@ -33,14 +34,16 @@ export class GeoMapDialogComponent  {
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
+      if (data.label) {
+        this.label = data.label;
+      }
+      if (data.latitude && data.longitude) { this.zoom = 14; }
       this.mapLatitude = data.latitude ? +data.latitude : 51.476852;
       this.mapLongitude = data.longitude ? +data.longitude : -0.000500;
       this.markerLatitude = data.latitude ? +data.latitude : 51.476852;
       this.markerLongitude = data.longitude ? +data.longitude : -0.000500;
     }
   }
-
-
 
   mapClick(event) {
     if (event && event.coords) {
@@ -51,6 +54,21 @@ export class GeoMapDialogComponent  {
         this.markerLongitude = event.coords.lng;
       }
     }
+  }
+
+  mapTypeIdChange(event) {
+    switch (event) {
+      case 'hybrid':
+        this.labelFormatted = { text: this.label, color: 'white', fontWeight: 'bold' };
+        break;
+      case 'satellite':
+        this.labelFormatted = { text: this.label, color: 'white', fontWeight: 'bold' };
+        break;
+      default:
+        this.labelFormatted = { text: this.label, color: 'black', fontWeight: 'bold' };
+    }
+    console.log(event);
+
   }
 
   setAddress(address: Address) {
@@ -84,6 +102,7 @@ export class GeoMapDialogComponent  {
   mapReady(map) {
     this.map = map;
     this.map.setTilt(0);
+    this.mapTypeIdChange(map.getMapTypeId());
   }
 
 }

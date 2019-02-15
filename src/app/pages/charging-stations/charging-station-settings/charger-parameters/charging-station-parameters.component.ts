@@ -302,7 +302,8 @@ export class ChargingStationParametersComponent implements OnInit {
     // Set data
     dialogConfig.data = {
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      label: this.charger.id ? this.charger.id : ''
     }
 
     // Open

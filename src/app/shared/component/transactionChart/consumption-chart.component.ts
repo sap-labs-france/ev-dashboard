@@ -279,9 +279,6 @@ export class ConsumptionChartComponent implements OnInit {
             id: 'power',
             type: 'linear',
             position: 'left',
-            gridLines: {
-              display: false
-            },
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value / 1000),
               fontColor: 'white'

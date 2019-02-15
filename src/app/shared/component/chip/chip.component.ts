@@ -9,11 +9,11 @@ export const TYPE_DANGER = 'chip-danger';
 export const TYPE_WARNING = 'chip-warning';
 export const TYPE_GREY = 'chip-grey';
 
-@Component({
-  selector: 'app-chip',
-  styleUrls: ['chip.component.scss'],
-  templateUrl: 'chip.component.html'
-})
+// @Component({
+//   selector: 'app-chip',
+//   styleUrls: ['chip.component.scss'],
+//   templateUrl: 'chip.component.html'
+// })
 export abstract class ChipComponent extends CellContentTemplateComponent implements OnInit {
   text: String;
   type: String;

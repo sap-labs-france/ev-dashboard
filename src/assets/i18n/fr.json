@@ -13,6 +13,7 @@
     "error_min_length": "La Longueur minimale est {{length}}",
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
+    "error_not_a_number": "La valeur n'est pas un nombre",
     "id": "ID",
     "ok": "Ok",
     "cancel": "Annuler",
@@ -847,6 +848,11 @@
         "url": "Url",
         "user": "Utilisateur",
         "password": "Mot de passe"
+      },
+      "simple": {
+        "title": "Calculs Basique",
+        "price": "Prix",
+        "currency": "Devise"
       }
     },
     "information": "Information",

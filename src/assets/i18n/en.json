@@ -945,8 +945,8 @@
     "description": "Charge At Home Interface"
   },
   "pricing": {
-    "title": "Advanced Pricing",
-    "description": "Advanced Pricing Interface",
+    "title": "Pricing",
+    "description": "Pricing Interface",
     "price_kw_h_label": "Price kW.h",
     "price_unit_label": "Currency",
     "update_success": "The price has been updated successfully",

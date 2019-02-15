@@ -79,7 +79,8 @@
             </div>
             <div class="row my-2">
                 <ng-container *ngFor="let connector of charger.connectors">
-                    <div class="col-lg-6 col-xl-4 charger-dialog-connector">
+                    <div [class.col]="charger.connectors.length <= 1" [class.col-6]="charger.connectors.length >= 2" 
+                        [class.mb-4]="charger.connectors.length > 2" class="charger-dialog-connector">
                         <div class="card card-settings">
                             <div class="card-header card-header-primary card-header-icon">
                                 <div class="card-icon">

@@ -64,11 +64,6 @@ export class ChargingStationParametersComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router) {
 
-    // Check auth
-    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
-      // Not authorized
-      this.router.navigate(['/']);
-    }
     // Get translated messages
     this.translateService.get('chargers', {}).subscribe((messages) => {
       this.messages = messages;

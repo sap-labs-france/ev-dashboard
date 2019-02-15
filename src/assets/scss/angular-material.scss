@@ -1243,7 +1243,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-dialog-container{
   padding-top: 15px !important;
   box-shadow:0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
-  background: linear-gradient(60deg, $blue-725, $blue-825);
+  background: linear-gradient(60deg, $blue-725, $blue-825, $blue-725);
   color:$white
 }
 .mat-divider{

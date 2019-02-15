@@ -150,7 +150,8 @@
   }
 
   &.navbar-transparent {
-    background: linear-gradient(60deg, $blue-725, $blue-850);
+    background-color: transparent !important;
+    // background: linear-gradient(60deg, $blue-725, $blue-850);
     opacity: 0.9;
     box-shadow: none;
     padding-top: 25px;

@@ -946,6 +946,7 @@
   },
   "pricing": {
     "title": "Pricing",
+    "type_placeholder": "Type",
     "description": "Pricing Interface",
     "price_kw_h_label": "Price kW.h",
     "price_unit_label": "Currency",

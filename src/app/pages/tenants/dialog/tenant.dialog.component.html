@@ -116,7 +116,7 @@
                           </div>
                           <mat-form-field class="flex-shrink-1 mx-5">
                             <mat-select [formControl]="pricingType" [disabled]="!components.get('pricing').get('active').value"
-                                        [placeholder]="'pricing.type.placeholder' | translate" [(value)]="selectedPricing">
+                                        [placeholder]="'pricing.type_placeholder' | translate" [(value)]="selectedPricing">
                               <mat-option *ngFor="let pricingType of pricingTypes" [value]="pricingType.key">
                                 {{pricingType.description | translate}}
                               </mat-option>

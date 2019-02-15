@@ -22,6 +22,10 @@ import {FormattersModule} from '../formatters/formatters.module';
 import {UsersDataSource} from './users/users-data-source-table';
 import {ChargersDataSource} from './chargers/chargers-data-source-table';
 import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-code-details-dialog-component';
+import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
+import {AgmCoreModule} from '@agm/core';
+import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
+
 
 @NgModule({
   imports: [
@@ -32,6 +36,8 @@ import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-c
     TranslateModule,
     ComponentModule,
     FormattersModule,
+    AgmCoreModule,
+    GooglePlaceModule
   ],
   declarations: [
     SitesDialogComponent,
@@ -41,7 +47,8 @@ import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-c
     SitesFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
-    ChargerErrorCodeDetailsDialogComponent
+    ChargerErrorCodeDetailsDialogComponent,
+    GeoMapDialogComponent
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -52,7 +59,8 @@ import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-c
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ConsumptionChartComponent,
-    ChargerErrorCodeDetailsDialogComponent
+    ChargerErrorCodeDetailsDialogComponent,
+    GeoMapDialogComponent
   ],
   exports: [
     SitesDialogComponent,

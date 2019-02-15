@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-8">
+    <!-- <div class="input-group no-border"><input class="form-control" placeholder="{{'geomap.search' | translate}}" type="text"
+        value=""></div> -->
+    <mat-form-field>
+      <input ngx-google-places-autocomplete #placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}" matInput (onAddressChange)="setAddress($event)">
+    </mat-form-field>
+  </div>
+  <div class="col-md-4" align="right">
+    <button class="btn btn-info btn-round mat-raised-button app-btn-min-width" (click)="minZoom()">
+      <span class="mat-button-wrapper">
+        <i class="material-icons mr-2">zoom_out</i>
+        <span class="btn-label">{{'geomap.min_zoom'
+          | translate}}</span>
+      </span>
+    </button>
+    <button class="btn btn-info btn-round mat-raised-button app-btn-min-width" (click)="maxZoom()">
+      <span class="mat-button-wrapper">
+        <i class="material-icons mr-2">zoom_in</i>
+        <span class="btn-label">{{'geomap.max_zoom'
+          | translate}}</span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<div>
+  <agm-map [streetViewControl]="false" [zoom]="zoom" [latitude]="mapLatitude" [longitude]="mapLongitude" (mapReady)="mapReady($event)" (mapTypeIdChange)="mapTypeIdChange($event)"
+    (mapClick)="mapClick($event)" [disableDefaultUI]="true" [mapTypeControl]="true">
+    <agm-marker class="test-patrice" [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted" [markerDraggable]=true (dragEnd)="mapClick($event)" [iconUrl]="icon">
+    </agm-marker>
+  </agm-map>
+</div>
+
+<mat-dialog-actions align="end">
+  <button class="mat-raised-button mat-primary" (click)="validate()">
+    {{"general.ok" | translate}}
+  </button>
+  <button class="mat-raised-button" (click)="cancel()" cdkFocusInitial>{{"general.cancel" | translate}}</button>
+</mat-dialog-actions>

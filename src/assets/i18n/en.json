@@ -1066,5 +1066,11 @@
         "error": "An error occurred during refund request"
       }
     }
+  },
+  "geomap": {
+    "select_geolocation": "Select Geo Location",
+    "search": "Search Place",
+    "max_zoom": "Max",
+    "min_zoom": "Min"
   }
 }

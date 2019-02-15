@@ -17,11 +17,14 @@ export class SettingsPricingComponent implements OnInit {
   public formGroup: FormGroup;
   public isActive = false;
 
+  public simplePricing: FormGroup;
+  public price: AbstractControl;
+  public currency: AbstractControl;
   public convergentCharging: FormGroup;
   public convergentChargingUrl: AbstractControl;
   public convergentChargingUser: AbstractControl;
   public convergentChargingPassword: AbstractControl;
-
+  public pricingType: string = null;
   private currentSettingID;
 
   constructor(
@@ -31,39 +34,60 @@ export class SettingsPricingComponent implements OnInit {
     private messageService: MessageService,
     private router: Router
   ) {
-    this
-      .isActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);
+    this.isActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);
+    this.pricingType = centralServerService.getActiveComponents().find(c => c.startsWith(Constants.SETTINGS_PRICING + '_'));
   }
 
   ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      'convergentCharging': new FormGroup({
-        'url': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        ),
-        'user': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        ),
-        'password': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        )
-      })
-    });
-
-    this.convergentCharging = <FormGroup>this.formGroup.controls['convergentCharging'];
-    this.convergentChargingUrl = this.convergentCharging.controls['url'];
-    this.convergentChargingUser = this.convergentCharging.controls['user'];
-    this.convergentChargingPassword = this.convergentCharging.controls['password'];
-
+    if (this.pricingType === 'pricing_convergentCharging') {
+      this.formGroup = new FormGroup({
+        'convergentCharging': new FormGroup({
+          'url': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(100)
+            ])
+          ),
+          'user': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(100)
+            ])
+          ),
+          'password': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(100)
+            ])
+          )
+        })
+      });
+      this.convergentCharging = <FormGroup>this.formGroup.controls['convergentCharging'];
+      this.convergentChargingUrl = this.convergentCharging.controls['url'];
+      this.convergentChargingUser = this.convergentCharging.controls['user'];
+      this.convergentChargingPassword = this.convergentCharging.controls['password'];
+    } else if (this.pricingType === 'pricing_simple') {
+      this.formGroup = new FormGroup({
+        'simple': new FormGroup({
+          'price': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(/^-?((\d+(\.\d+)?))$/),
+              Validators.maxLength(10)
+            ])
+          ),
+          'currency': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(3)
+            ])
+          )
+        })
+      });
+      this.simplePricing = <FormGroup>this.formGroup.controls['simple'];
+      this.price = this.simplePricing.controls['price'];
+      this.currency = this.simplePricing.controls['currency'];
+    }
     this.loadConfiguration();
   }
 
@@ -76,10 +100,13 @@ export class SettingsPricingComponent implements OnInit {
         const config = setting.result[0].content;
         this.currentSettingID = setting.result[0].id;
 
-        if (config.convergentCharging) {
+        if (this.pricingType === 'pricing_convergentCharging' && config.convergentCharging) {
           this.convergentChargingUrl.setValue(config.convergentCharging.url ? config.convergentCharging.url : '');
           this.convergentChargingUser.setValue(config.convergentCharging.user ? config.convergentCharging.user : '');
           this.convergentChargingPassword.setValue(config.convergentCharging.password ? config.convergentCharging.password : '');
+        } else if (this.pricingType === 'pricing_simple' && config.simple) {
+          this.price.setValue(config.simple.price ? config.simple.price : '');
+          this.currency.setValue(config.simple.currency ? config.simple.currency : '');
         }
       }
       this.formGroup.markAsPristine();
@@ -103,6 +130,10 @@ export class SettingsPricingComponent implements OnInit {
     } else {
       this._createConfiguration(content);
     }
+  }
+
+  public refresh() {
+    this.loadConfiguration();
   }
 
   private _updateConfiguration(content) {
@@ -162,9 +193,5 @@ export class SettingsPricingComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.create_error');
       }
     });
-  }
-
-  public refresh() {
-    this.loadConfiguration();
   }
 }

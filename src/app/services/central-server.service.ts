@@ -12,28 +12,28 @@ import {CentralServerNotificationService} from './central-server-notification.se
 import {
   ActionResponse,
   Charger,
-  ChargerResult,
   ChargerInErrorResult,
+  ChargerResult,
+  Company,
+  CompanyResult,
   Image,
   Log,
+  Logo,
   LogResult,
   OcpiendpointResult,
   Ordering,
   Paging,
   SettingResult,
-  CompanyResult,
-  Company,
+  Site,
+  SiteArea,
   SiteAreaResult,
   SiteResult,
-  Site,
   Tenant,
   TenantResult,
   Transaction,
   TransactionResult,
   User,
-  UserResult,
-  Logo,
-  SiteArea
+  UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
 
@@ -764,6 +764,10 @@ export class CentralServerService {
     }
   }
 
+  public getActiveComponents(): string[] {
+    return this.getLoggedUser().activeComponents;
+  }
+
   public resetUserPassword(data) {
     // Verify init
     this._checkInit();
@@ -1273,7 +1277,7 @@ export class CentralServerService {
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
-      body = `{
+    body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,
@@ -1310,7 +1314,7 @@ export class CentralServerService {
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
-      body = `{
+    body = `{
       "chargeBoxID": "${charger.id}",
       "args": {
         "connectorId": 0,

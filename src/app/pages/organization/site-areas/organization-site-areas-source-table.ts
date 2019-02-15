@@ -26,6 +26,7 @@ import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
 import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 
 @Injectable()
 export class SiteAreasDataSource extends TableDataSource<SiteArea> {
@@ -201,14 +202,17 @@ export class SiteAreasDataSource extends TableDataSource<SiteArea> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new SitesTableFilter().getFilterDef()
+    ];
   }
+
 
   private _showPlace(rowItem) {
     if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {

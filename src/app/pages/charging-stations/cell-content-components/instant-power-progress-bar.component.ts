@@ -5,19 +5,21 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-    <div class="power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
-      <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
-        {{instantPowerW | appUnit:'W':'kW':false:0:0}}
-      </ng-container>
-      <ng-template #elseTemplate>
-        {{instantPowerW | appUnit:'W':'kW':false:0:1}}
-      </ng-template>
-      <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
+    <div class="d-flex flex-column align-items-center mx-2">
+      <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
+        <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
+          {{instantPowerW | appUnit:'W':'kW':false:0:0}}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{instantPowerW | appUnit:'W':'kW':false:0:1}}
+        </ng-template>
+        <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
+      </div>
+      <mat-progress-bar color="warn" class="d-flex" [hidden]="maxPowerW===0"
+                        value="{{instantPowerW/maxPowerW*100}}"
+                        mode="determinate">
+      </mat-progress-bar>
     </div>
-    <mat-progress-bar [hidden]="maxPowerW===0"
-                      value="{{instantPowerW/maxPowerW*100}}"
-                      mode="determinate">
-    </mat-progress-bar>
   `
 })
 
@@ -32,6 +34,16 @@ export class InstantPowerProgressBarComponent extends CellContentTemplateCompone
   ngOnInit(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
+    this.updateValues();
+  }
+
+  refresh() {
+    this.updateValues();
+  }
+
+  updateValues() {
+    this.instantPowerW = 0;
+    this.maxPowerW = 0;
     if (Array.isArray(<Charger>this.row.connectors)) {
       const charger = <Charger>this.row;
       // Extract the row information from a Charger

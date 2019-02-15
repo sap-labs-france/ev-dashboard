@@ -6,7 +6,7 @@
   }
 
   &.wrapper-full-page {
-    height: auto;
+    //height: auto;
     min-height: 100vh;
   }
 }
@@ -126,7 +126,7 @@
     display: inherit;
 
     .container {
-      padding-top: 18vh !important;
+      padding-top: 22vh !important;
     }
   }
 }
@@ -136,6 +136,9 @@
   .card-login {
     @include transform-translate-y(0);
     @extend .animation-transition-general;
+
+    background: linear-gradient(60deg, $blue-725, $blue-825);
+    opacity: 0.9;
 
     &.card-hidden {
       opacity: 0;
@@ -147,7 +150,7 @@
       margin-bottom: 20px;
     }
     .card-body {
-      padding: 0px 30px 0px 10px;
+      padding: 0px 70px 0px 45px;
 
       .input-group {
         .input-group-prepend {

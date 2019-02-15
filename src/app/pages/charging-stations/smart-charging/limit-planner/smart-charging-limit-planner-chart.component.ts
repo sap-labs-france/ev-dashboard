@@ -124,7 +124,12 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
 
   createOptions(scheduleSlots: DisplayedScheduleSlot[]) {
     const options: any = {
-      legend: { position: 'bottom' },
+      legend: {
+        position: 'bottom',
+        labels: {
+          fontColor: 'white'
+        }
+      },
       responsive: true,
       aspectRatio: this.ratio,
       tooltips: {
@@ -165,6 +170,13 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             time: {
               tooltipFormat: 'h:mm',
               unit: 'minute'
+            },
+            gridLines: {
+              display: true,
+              color: 'rgba(255,255,255,0.5)'
+            },
+            ticks: {
+              fontColor: 'white'
             }
           }
         ],
@@ -176,8 +188,13 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             min: 0,
             stepSize: 1,
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value / 1000, '1.0-0')
+              callback: (value, index, values) => this.decimalPipe.transform(value / 1000, '1.0-0'),
+              fontColor: 'white'
             },
+            gridLines: {
+              display: true,
+              color: 'rgba(255,255,255,0.5)'
+            }
           }
         ]
       },

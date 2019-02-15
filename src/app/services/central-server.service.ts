@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
@@ -320,6 +319,34 @@ export class CentralServerService {
       );
   }
 
+  public getConsumptionStatistics(year): Observable<any> {
+    const params: any = [];
+    params['Year'] = year;
+    // Call
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getCurrentMetrics(): Observable<any> {
+    const params: any = [];
+    params['PeriodInMonth'] = 6;
+    // Call
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
     // Verify init
     this._checkInit();
@@ -422,6 +449,51 @@ export class CentralServerService {
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
         headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public exportLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public exportTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public exportChargingStations(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._buildPaging(paging, params);
+    this._buildOrdering(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
         params
       })
       .pipe(
@@ -1297,7 +1369,7 @@ export class CentralServerService {
         }
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1321,7 +1393,7 @@ export class CentralServerService {
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1364,7 +1436,7 @@ export class CentralServerService {
     body += `}
       }`;
 
-    console.log(body);
+    //console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
@@ -1534,13 +1606,10 @@ export class CentralServerService {
     }
   }
 
-  private _handleHttpError(error: any, caught: Observable<any>): ObservableInput<{}> {
+  private _handleHttpError(error: HttpErrorResponse, caught: Observable<any>): ObservableInput<{}> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = {status: 0, message: '', details: undefined};
-    if (error instanceof Response) {
-      errMsg.status = error.status;
-      errMsg.message = error.text();
-    } else {
+    if (error) {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();
       errMsg.details = error.error;

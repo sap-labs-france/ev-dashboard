@@ -19,6 +19,8 @@ import {TableDeleteAction} from '../../shared/table/actions/table-delete-action'
 import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
 import {Injectable} from '@angular/core';
+import {TableOpenAction} from '../../shared/table/actions/table-open-action';
+import {WindowService} from '../../services/window.service';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
@@ -30,6 +32,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
+    private windowService: WindowService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -37,6 +40,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     super();
 
     this.tableActionsRow = [
+      new TableOpenAction().getActionDef(),
       new TableEditAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
@@ -140,6 +144,9 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       case 'delete':
         this._deleteTenant(rowItem);
         break;
+      case 'open':
+        this._openTenant(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -167,6 +174,12 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
+  }
+
+  private _openTenant(tenant?: any) {
+    if (tenant) {
+      window.open(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
+    }
   }
 
   private _deleteTenant(tenant) {

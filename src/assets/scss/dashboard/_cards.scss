@@ -13,7 +13,7 @@
 // dashboard Cards
 
 .card {
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14);
 
   .table tr:first-child td {
     border-top: none;
@@ -63,8 +63,9 @@
         line-height: 33px;
       }
       .card-title {
-        margin-top: 15px;
-        color: $black-color;
+        margin-top: 10px;
+        color: $white-color;
+        font-weight: 400;
       }
       h4 {
         font-weight: 300;
@@ -78,6 +79,7 @@
       }
       .nav-tabs-title {
         float: left;
+        font-weight: 400;
         padding: 10px 10px 10px 0;
         line-height: 24px;
       }
@@ -142,7 +144,7 @@
     }
 
     .stats {
-      color: #999999;
+      color: $white;
       font-size: 12px;
       line-height: 22px;
 
@@ -172,7 +174,7 @@
     .card-icon,
     .card-text {
       border-radius: $border-radius-base;
-      background-color: $gray-color;
+      background-color: $blue-950;
       padding: 15px;
       margin-top: -20px;
       margin-right: 15px;
@@ -247,6 +249,7 @@
   }
 
   &.card-stats {
+    background: rgba(255,255,255,.1);
     .card-header {
       &.card-header-icon,
       &.card-header-text {
@@ -267,7 +270,7 @@
         margin-top: 0;
 
         &:not([class*="text-"]) {
-          color: $gray-color;
+          color: $white;
           font-size: $font-paragraph;
         }
       }

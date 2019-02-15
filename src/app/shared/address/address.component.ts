@@ -69,6 +69,8 @@ export class AddressComponent implements OnInit {
     this.address.controls.latitude.setValue(address.geometry.location.lat());
     // Longitude
     this.address.controls.longitude.setValue(address.geometry.location.lng());
+    // set as dirty
+    this.formGroup.markAsDirty();
   }
 
   showPlace() {

@@ -3,7 +3,7 @@ import {SortDirection} from '@angular/material/typings';
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
-export declare type DialogType = 'YES_NO' | 'OK_CANCEL';
+export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK';
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO';
 
 export interface KeyValue {
@@ -170,6 +170,8 @@ export interface Charger {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface ChargerInError extends Charger {
@@ -271,6 +273,8 @@ export interface Ocpiendpoint {
   version: string;
   status: string;
   backgroundPatchJob: boolean;
+  lastPatchJobOn: Date;
+  lastPatchJobResult: any;
 }
 
 export interface OcpiendpointResult {
@@ -323,6 +327,7 @@ export interface Site {
   companyID: string;
   company: Company;
   allowAllUsersToStopTransactions: boolean;
+  autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
   image: string;

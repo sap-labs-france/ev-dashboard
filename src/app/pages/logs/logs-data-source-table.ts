@@ -20,15 +20,26 @@ import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {LogLevelComponent} from './formatters/log-level.component';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
+import {Constants} from '../../utils/Constants';
+import {TranslateService} from '@ngx-translate/core';
+import {DialogService} from '../../services/dialog.service';
+import {MatDialog} from '@angular/material';
+import saveAs from 'file-saver';
+import {TableExportAction} from '../../shared/table/actions/table-export-action';
+import {AuthorizationService} from '../../services/authorization-service';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
-    private localeService: LocaleService,
     private messageService: MessageService,
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private dialogService: DialogService,
     private spinnerService: SpinnerService,
+    private authorizationService: AuthorizationService,
     private router: Router,
+    private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
@@ -151,9 +162,30 @@ export class LogsDataSource extends TableDataSource<Log> {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
+  getTableActionsDef(): TableActionDef[] {
+    if (this.authorizationService.isDemo()) {
+      return [];
+    }
     return [
+      new TableExportAction().getActionDef()
     ];
+  }
+
+  actionTriggered(actionDef: TableActionDef) {
+    switch (actionDef.id) {
+      case 'export':
+        this.dialogService.createAndShowYesNoDialog(
+          this.dialog,
+          this.translateService.instant('logs.dialog.export.title'),
+          this.translateService.instant('logs.dialog.export.confirm')
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this.exportLogs();
+          }
+        });
+        break;
+    }
+    super.actionTriggered(actionDef);
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
@@ -175,5 +207,17 @@ export class LogsDataSource extends TableDataSource<Log> {
 
   definePollingIntervalStrategy() {
     this.setPollingInterval(POLL_INTERVAL);
+  }
+
+  private exportLogs() {
+    this.centralServerService.exportLogs(this.getFilterValues(), {limit: this.getNumberOfRecords(), skip: Constants.DEFAULT_SKIP}, this.getOrdering())
+      .subscribe((result) => {
+        saveAs(result, 'exportLogs.csv');
+      }, (error) => {
+        console.log(error);
+
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+          this.translateService.instant('general.error_backend'));
+      });
   }
 }

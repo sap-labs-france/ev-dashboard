@@ -20,6 +20,10 @@
     animation: status-glowing 4s ease-in-out infinite;
 }
 
+@mixin anim-status-glowing-blinking {
+    animation: status-blinking 2s ease-in-out infinite, status-glowing 4s ease-in-out infinite;
+}
+
 $connectorStatusColor: ('available' : $brand-success,
 'charging' : $brand-info,
 'preparing': $brand-warning,
@@ -37,12 +41,15 @@ $connectorStatusColor: ('available' : $brand-success,
         background-color: map-get($connectorStatusColor, $status);
     }
 
-    @if $glowing {
-        @include anim-status-glowing;
-    }
-
-    @if $blinking {
-        @include anim-status-blinking;
+    @if $glowing and $blinking {
+        @include anim-status-glowing-blinking;
+    } @else {
+        @if $glowing {
+            @include anim-status-glowing;
+        }
+        @if $blinking {
+            @include anim-status-blinking;
+        }
     }
 }
 
@@ -59,8 +66,16 @@ $connectorStatusColor: ('available' : $brand-success,
     @include charge-connector-status('charging', true, true, false);
 }
 
+.charger-connector-charging-active {
+    @include charge-connector-status('charging', true, true, true);
+}
+
+.charger-connector-charging-inactive {
+    @include charge-connector-status('charging', true, true, false);
+}
+
 .charger-connector-faulted {
-    @include charge-connector-status('faulted', true, false, true);
+    @include charge-connector-status('faulted', true, false, false);
 }
 
 .charger-connector-unavailable {
@@ -68,7 +83,7 @@ $connectorStatusColor: ('available' : $brand-success,
 }
 
 .charger-connector-preparing {
-    @include charge-connector-status('preparing', true, true, false);
+    @include charge-connector-status('preparing', true, false, false);
 }
 
 .charger-connector-suspended-evse {

@@ -39,6 +39,13 @@ export class ConfirmationDialogComponent {
         this.buttonCancelID = Constants.BUTTON_TYPE_NO;
         this.buttonCancelName = this.translateService.instant('general.no');
         break;
+
+      case Constants.DIALOG_TYPE_OK:
+        this.buttonValidateID = Constants.BUTTON_TYPE_OK;
+        this.buttonValidateName = this.translateService.instant('general.ok');
+        this.buttonCancelID = null;
+        this.buttonCancelName = null;
+        break;
     }
   }
 

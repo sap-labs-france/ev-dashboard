@@ -34,6 +34,7 @@ export class SiteComponent implements OnInit {
   public name: AbstractControl;
   public companyID: AbstractControl;
   public allowAllUsersToStopTransactions: AbstractControl;
+  public autoUserSiteAssignment: AbstractControl;
 
   public address: FormGroup;
   public address1: AbstractControl;
@@ -85,6 +86,7 @@ export class SiteComponent implements OnInit {
           Validators.required
         ])),
       'allowAllUsersToStopTransactions': new FormControl(false),
+      'autoUserSiteAssignment': new FormControl(false),
       'address': new FormGroup({
         'address1': new FormControl(''),
         'address2': new FormControl(''),
@@ -97,13 +99,13 @@ export class SiteComponent implements OnInit {
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern('^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$')
+            Validators.pattern(/^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/)
           ])),
         'longitude': new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern('^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$')
+            Validators.pattern(/^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/)
           ]))
       })
     });
@@ -112,6 +114,7 @@ export class SiteComponent implements OnInit {
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
     this.allowAllUsersToStopTransactions = this.formGroup.controls['allowAllUsersToStopTransactions'];
+    this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
@@ -195,6 +198,11 @@ export class SiteComponent implements OnInit {
         this.formGroup.controls.allowAllUsersToStopTransactions.setValue(site.allowAllUsersToStopTransactions);
       } else {
         this.formGroup.controls.allowAllUsersToStopTransactions.setValue(false);
+      }
+      if (site.autoUserSiteAssignment) {
+        this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
+      } else {
+        this.formGroup.controls.autoUserSiteAssignment.setValue(false);
       }
       if (site.address && site.address.address1) {
         this.address.controls.address1.setValue(site.address.address1);

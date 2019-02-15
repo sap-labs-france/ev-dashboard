@@ -2,7 +2,7 @@
   "general": {
     "applications": "applications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.11",
+    "last_update": "Version 2.0.12",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -39,6 +39,7 @@
     "refresh": "Refresh",
     "save": "Save",
     "delete": "Delete",
+    "export": "Export",
     "connect": "Connect",
     "stop": "Stop",
     "refund": "Refund",
@@ -169,6 +170,58 @@
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "changed_by_other_user": "The vehicle '{{vehicleName}}' has been changed by another user and will be reloaded"
   },
+  "dashboard": {
+	"active_stations_gauge_title": "Charging points",
+	"active_stations_gauge_unit": "Occupied",
+	"all_site": "All sites",
+	"co2_footer": "Saved CO2 over the day, based on 18kWh/100km electric car consumption and average of 120CO2 emission for gas cars",
+	"co2_title": "CO2 saved",
+	"consumption_gauge_footer": "Instant power deliverd in kW",
+	"consumption_gauge_title": "Consumption",
+	"consumption_title": "Consumption",
+	"gas_footer": "Volume of petrol saved, based on 18kWh/100km electric car consumption and average of 8L/100km for gas cars consumption",
+	"gas_title": "Petrol",
+	"km_footer": "Distance that can be done using electric power with average consumption of 18kWh/100km",
+	"km_title": "Distance",
+	"location": "Localisation",
+	"metrics": "Current metrics",
+	"occupied_charging_points_gauge_footer": "Actual number of charging point occupied",
+	"occupied_charging_points_gauge_title": "Utilization",
+	"realtime": {
+		"button": {
+			"consumption": "Consumption",
+			"utilization": "Utilization"
+		}
+	},
+	"realtime_title": "Realtime",
+	"statistics": {
+		"button": {
+			"day": "Yesterday",
+			"month": "Month",
+			"week": "Week",
+			"year": "Year"
+		}
+	},
+	"statistics_title": "Statistics",
+	"today_duration": "Charging",
+	"today_duration_footer": "Today active charging duration",
+	"today_energy_delivered": "Energy",
+	"today_energy_delivered_footer": "Today energy delivered with the trends compared to previous {{todayDay}}",
+	"today_inactivity": "Inactivity",
+	"today_inactivity_footer": "Duration when no energy is delivered and vehciule is plugged. Trends are compared to previous {{todayDay}}",
+	"trends_of_day_avg": "Average",
+	"trends_of_day_duration_avg": "Average",
+	"trends_of_day_duration_max": "Maximum",
+	"trends_of_day_duration_min": "Minimum",
+	"trends_of_day_duration_title": "{{todayDay}} trends",
+	"trends_of_day_inactivity_avg": "Average",
+	"trends_of_day_inactivity_max": "Maximum",
+	"trends_of_day_inactivity_min": "Minimum",
+	"trends_of_day_inactivity_title": "{{todayDay}} trends",
+	"trends_of_day_max": "Maximum",
+	"trends_of_day_min": "Minimum",
+	"trends_of_day_title": "{{todayDay}} trends"
+  },
   "manufacturers": {
     "no_manufacturers": "No manufacturers found",
     "manufacturer_number": "Manufacturer(s)",
@@ -217,10 +270,12 @@
     "company_not_found": "Company not found",
     "create_success": "The company '{{companyName}}' has been created successfully",
     "create_error": "Error occurred while creating the company",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
+    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_companies": "Select Companies"
   },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",
+    "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -394,6 +449,7 @@
     "firmware_version": "Firmware Version",
     "connector_status": "Status",
     "ocpp_version": "OCPP Version",
+    "ocpp_version_title": "OCPP",
     "private_url": "Private URL",
     "nb_connected_phase": "Number of Connected Phase",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
@@ -445,13 +501,21 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "dialog": {
+      "export": {
+        "title": "Export charging stations",
+        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+      }
+    },
     "more_actions_items": {
       "reboot_item": "Reboot",
       "soft_reset_item": "Soft reset",
       "clear_cache_item": "Clear cache",
       "smart_charging_item": "Smart Charging",
-      "more_actions_item": "More actions"
+      "more_actions_item": "More"
     },
+    "assign_sitearea_action": "Assign",
+    "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
       "reset_button": "Reset",
       "maximum_energy_limit": "Master power limit of '{{chargeBoxID}}'",
@@ -501,6 +565,20 @@
       "get_diagnostics_dialog_confirm": "Do you really want to download the charging station '{{chargeBoxID}}' diagnostics file?",
       "get_diagnostics_success": "Diagnostics download started successfully",
       "get_diagnostics_error": "Error when starting diagnostics download"
+    },
+    "action_error": {
+      "transaction_start_title": "Start transaction error",
+      "transaction_start_not_available": "Connector is not available, unable to start a transaction",
+      "transaction_start_charger_inactive": "Charger is not connected, unable to start a transaction",
+      "transaction_stop_title": "Stop transaction error",
+      "transaction_stop_not_authorized": "you are not authorized to stop this transaction",
+      "delete_title": "Delete charging station error",
+      "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
+      "command_title": "Charging station command error",
+      "command_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_title": "Snart charging error",
+      "smart_charging_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station"
     },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",
@@ -578,17 +656,17 @@
       "missingSettings": {
         "title": "Missing settings",
         "description": "Required settings are missing",
-        "action": "Maintain missing required settings within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain missing required settings within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectionBroken": {
         "title": "Connection lost",
         "description": "The server can't reach the charging station",
-        "action": "Manual intervention is required.<br>Check your network and/or the charging station configuration"
+        "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
         "title": "Charging station is not assigned",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area within the charging station settings.<br>See corresponding actions in 'Actions' column"
+        "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectorError": {
         "title": "Connector error",
@@ -626,7 +704,13 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
-    "no_logs": "No logs matching the filters"
+    "no_logs": "No logs matching the filters",
+    "dialog": {
+      "export": {
+        "title": "Export Logs",
+        "confirm": "Do you really want to export all the logs matching the filters ?"
+      }
+    }
   },
   "users": {
     "tabs": {
@@ -794,7 +878,9 @@
     "new": "New",
     "registered": "Registered",
     "unregistered": "Unregistered",
+    "lastPatchJobOn": "Last Update Date",
     "patchJobStatus": "Update Job",
+    "patchJobResult": "Success / Failures",
     "patchJobCheckbox": "Activate EVSE Status Update Job",
     "status_active": "Active",
     "status_inactive": "Inactive",
@@ -945,6 +1031,10 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?"
+      },
+      "export": {
+        "title": "Export Sessions",
+        "confirm": "Do you really want to export all the sessions matching the filters ?"
       },
       "soft_stop": {
         "title": "Stop Session",

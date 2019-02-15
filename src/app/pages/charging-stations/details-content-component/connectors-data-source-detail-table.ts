@@ -168,13 +168,13 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         angularComponentName: InstantPowerProgressBarComponent,
         sortable: false
       },
-/*      {
-        id: 'sessionDetails',
-        name: 'chargers.session_details',
-        isAngularComponent: true,
-        angularComponentName: SessionDetailComponent,
-        sortable: false
-      },*/
+      /*      {
+              id: 'sessionDetails',
+              name: 'chargers.session_details',
+              isAngularComponent: true,
+              angularComponentName: SessionDetailComponent,
+              sortable: false
+            },*/
       {
         id: 'totalConsumption',
         name: 'transactions.total_consumption',
@@ -223,10 +223,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         if (this.connectorTransactionAuthorization &&
           this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized &&
           (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
-            return [
-              new TableOpenAction().getActionDef(),
-              this.stopAction.getActionDef()
-            ];
+          return [
+            new TableOpenAction().getActionDef(),
+            this.stopAction.getActionDef()
+          ];
         } else {
           return [
             this.stopAction.getActionDef()
@@ -242,30 +242,13 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   specificRowActions(rowItem): TableActionDef[] {
-    if (rowItem && !this.charger.inactive) {
-      // Check active transaction and authorization to stop
-      if (rowItem && rowItem.activeTransactionID &&
-        this.connectorTransactionAuthorization &&
-        this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
-          if (this.connectorTransactionAuthorization &&
-            this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized &&
-            (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
-              return [
-                new TableOpenAction().getActionDef(),
-                this.stopAction.getActionDef()
-              ];
-          } else {
-            return [
-              this.stopAction.getActionDef()
-            ];
-          }
-      }
-      // check charger status
+    if (rowItem && rowItem.activeTransactionID) {
       return [
-        this.startAction.getActionDef()
+        new TableOpenAction().getActionDef(),
+        this.stopAction.getActionDef()
       ];
     }
-    // By default no actions
+    // dafault
     return [
       this.startAction.getActionDef()
     ];
@@ -302,10 +285,18 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         }
         break;
       case 'open':
-        this._openSession(rowItem);
+        if ((this.connectorTransactionAuthorization &&
+          this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)
+          || this.authorizationService.isDemo() || this.authorizationService.isAdmin()) {
+          this._openSession(rowItem);
+        } else {
+          this.dialogService.createAndShowOkDialog(this.dialog,
+            this.translateService.instant('chargers.action_error.session_details_title'),
+            this.translateService.instant('chargers.action_error.session_details_not_authorized'));
+        }
         break;
       case 'stop':
-      // check authorization
+        // check authorization
         if (rowItem && rowItem.activeTransactionID &&
           this.connectorTransactionAuthorization &&
           this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {

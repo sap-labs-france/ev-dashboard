@@ -426,7 +426,7 @@
     content: "";
     width: 100%;
     height: 100%;
-    background: linear-gradient(60deg, $blue-725, $blue-850);
+    background: linear-gradient(60deg, $blue-725 0%, $blue-850 50%, $blue-725 100%);
     // background: url(/assets/img/sky-bg.jpg) round;
     background-size: cover;
     will-change: transform;

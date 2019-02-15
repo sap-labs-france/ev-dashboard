@@ -22,6 +22,14 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   chargerStatus: string;
 
   ngOnInit(): void {
+    this.updateValues();
+  }
+
+  refresh() {
+    this.updateValues();
+  }
+
+  updateValues() {
     this.chargerStatus = this.row.status;
     if (this.row.status === 'Charging' && this.row.currentConsumption) {
       this.chargerStatus = (this.row.currentConsumption > 0 ? `${this.row.status}-active` : `${this.row.status}-inactive`)

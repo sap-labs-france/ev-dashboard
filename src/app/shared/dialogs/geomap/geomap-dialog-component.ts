@@ -67,8 +67,6 @@ export class GeoMapDialogComponent {
       default:
         this.labelFormatted = { text: this.label, color: 'black', fontWeight: 'bold' };
     }
-    console.log(event);
-
   }
 
   setAddress(address: Address) {

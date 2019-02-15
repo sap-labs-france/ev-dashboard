@@ -571,7 +571,9 @@
       "command_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
       "smart_charging_title": "Erreur dans smart charging",
       "smart_charging_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
-      "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging"
+      "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging",
+      "session_details_title": "Erreur pour les details de session",
+      "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session"
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",

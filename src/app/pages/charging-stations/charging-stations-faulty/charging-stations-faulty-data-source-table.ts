@@ -46,7 +46,7 @@ import { TableChargerResetAction } from '../other-actions-button/table-charger-r
 import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 
-const POLL_INTERVAL = 10000;
+const POLL_INTERVAL = 30000;
 
 const ACTION_MAP = {
   missingSettings: [

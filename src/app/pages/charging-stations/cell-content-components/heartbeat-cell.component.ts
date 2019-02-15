@@ -14,9 +14,9 @@ import { LocaleService } from '../../../services/locale.service';
         </span>
       </ng-container>
       <ng-container *ngIf="!row.inactive">
-        <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok">
+<!--        <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok">
           {{row.lastHeartBeat | appDate : locale : 'time'}}
-        </span>
+        </span>-->
       </ng-container>
     </span>
   `

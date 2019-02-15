@@ -5,7 +5,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transactionChart
 
 @Component({
   template: `
-    <app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="5.5"></app-transaction-chart>
+    <app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>
   `
 })
 

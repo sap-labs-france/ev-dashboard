@@ -10,6 +10,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { Charger } from '../../../common.types';
 import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';
+import { Utils } from 'app/utils/Utils';
 
 const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
@@ -46,13 +47,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService,
     private router: Router) {
 
-    // Check auth
-    if (!authorizationService.canUpdateChargingStation({
-      'id': 'currentCharger.id'
-    })) {
-      // Not authorized
-      this.router.navigate(['/']);
-    }
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
@@ -67,6 +61,15 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     }, {
         duration: 500
       });
+      // Check auth
+    if (!this.authorizationService.canUpdateChargingStation({
+      'id': 'currentCharger.id'
+    }) && !this.authorizationService.isDemo()) {
+      // Not authorized
+      this.messageService.showErrorMessage(this.translateService.instant('chargers.action_error.not_authorize'));
+      this.dialog.closeAll();
+      setTimeout(() => this.router.navigate(['/']), 1000);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -90,22 +93,24 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
         this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
-    this.ocppParametersComponent.formGroup.statusChanges.subscribe(() => {
-      if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
-        // When we have changes to save we can't navigate to other panes
-        this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-        // When we have changes to save we can't navigate to other panes
-        this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-      }
-    });
-    this.ocppParametersComponent.formGroup.valueChanges.subscribe(() => {
-      if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
-        // When we have changes to save we can't navigate to other panes
-        this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-        // When we have changes to save we can't navigate to other panes
-        this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-      }
-    });
+    if (this.ocppParametersComponent) {
+      this.ocppParametersComponent.formGroup.statusChanges.subscribe(() => {
+        if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
+          // When we have changes to save we can't navigate to other panes
+          this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
+          // When we have changes to save we can't navigate to other panes
+          this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
+        }
+      });
+      this.ocppParametersComponent.formGroup.valueChanges.subscribe(() => {
+        if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
+          // When we have changes to save we can't navigate to other panes
+          this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
+          // When we have changes to save we can't navigate to other panes
+          this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
+        }
+      });
+    }
   }
 
   public refresh() {

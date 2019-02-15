@@ -556,7 +556,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           freshFormattedData.push(this.formattedData[index]);
         } else {
           const formattedRow = this._formatRow(freshRow);
-          if (this._ongoingAutoRefresh.getValue() || this._ongoingManualRefresh.getValue()) {
+          if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+            (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
             // Check if row is expanded
             if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
               formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
@@ -569,7 +570,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           }
           freshFormattedData.push(formattedRow);
           rowRefreshed.push({ newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-                isAutoRefresh: this._ongoingAutoRefresh.getValue() || this._ongoingManualRefresh.getValue()});
+                isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+                (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))});
         }
       } else {
         const formattedRow = this._formatRow(freshRow);
@@ -583,9 +585,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     });
     this.formattedData = freshFormattedData;
     this.data = freshData;
-    rowRefreshed.forEach((row) => {
-      this._rowRefresh.next(row);
-    })
+    if (this._rowRefresh) {
+      rowRefreshed.forEach((row) => {
+        this._rowRefresh.next(row);
+      })
+    }
   }
 
   _formatRow(row): any[] {

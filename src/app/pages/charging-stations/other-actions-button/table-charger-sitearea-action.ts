@@ -5,7 +5,7 @@ export class TableChargerSiteAreaAction implements TableAction {
   private action: TableActionDef = {
     id: 'sitearea',
     type: 'button',
-    icon: 'local_parking',
+    icon: 'view_week', // 'local_parking',
     class: 'btn-info',
     name: 'chargers.assign_sitearea_action',
     tooltip: 'chargers.assign_sitearea_action_tooltip'

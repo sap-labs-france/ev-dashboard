@@ -1,7 +1,5 @@
 <div class="row">
   <div class="col-md-8">
-    <!-- <div class="input-group no-border"><input class="form-control" placeholder="{{'geomap.search' | translate}}" type="text"
-        value=""></div> -->
     <mat-form-field>
       <input ngx-google-places-autocomplete #placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}" matInput (onAddressChange)="setAddress($event)">
     </mat-form-field>
@@ -27,7 +25,7 @@
 <div>
   <agm-map [streetViewControl]="false" [zoom]="zoom" [latitude]="mapLatitude" [longitude]="mapLongitude" (mapReady)="mapReady($event)" (mapTypeIdChange)="mapTypeIdChange($event)"
     (mapClick)="mapClick($event)" [disableDefaultUI]="true" [mapTypeControl]="true" class="app-shadow">
-    <agm-marker class="test-patrice" [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted" [markerDraggable]=true (dragEnd)="mapClick($event)" [iconUrl]="icon">
+    <agm-marker [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted" [markerDraggable]=true (dragEnd)="mapClick($event)" [iconUrl]="icon">
     </agm-marker>
   </agm-map>
 </div>

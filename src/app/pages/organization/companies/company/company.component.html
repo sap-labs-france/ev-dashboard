@@ -43,7 +43,7 @@
                                 <div class="tab-pane active" id="company">
                                     <div class="row  app-align-center">
                                         <div class="col-md-2">
-                                            <div class="rotating-card-container">
+                                            <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                                                 <div class="card card-rotate card-background" style="height: 100px">
                                                     <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                                                         <div class="card-body">

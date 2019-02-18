@@ -38,11 +38,14 @@
     "create": "Créer",
     "refresh": "Rafraîchir",
     "save": "Sauvegarder",
+    "delete": "Effacer",
     "export": "Export",
     "change": "Changer",
     "reload": "Recharger",
     "stop": "Stop",
     "refund": "Rembourser",
+    "connect": "Connection",
+    "register": "Register",
     "close": "Fermer",
     "back": "Retour",
     "next": "Suivant",
@@ -168,56 +171,56 @@
     "changed_by_other_user": "Le véhicule '{{vehicleName}}' a été changé par un autre utilisateur et va être rechargé"
   },
   "dashboard": {
-	"active_stations_gauge_title": "Point de charge",
-	"active_stations_gauge_unit": "Occupé",
-	"all_site": "Tous les sites",
-	"co2_footer": "CO2 economisé sur la journée, basé sur une voiture éléctrique consommant 18kWh/100k et pour une voiture thermique émettant 120g C02",
-	"co2_title": "CO2 économisé",
-	"consumption_gauge_footer": "Consommation instantanée en kW",
-	"consumption_gauge_title": "Consommation",
-	"consumption_title": "Consommation",
-	"gas_footer": "Quantité d'essence economisée, basée sur une voiture éléctrique consommant 18kWh/100k et pour une voiture thermique consommant 8L/100km",
-	"gas_title": "Essence",
-	"km_footer": "Distance pouvant être parcourue en voiture éléctrique pour une consommation moyenne de 18kWh/100km",
-	"km_title": "Distance",
-	"location": "Localisation",
-	"metrics": "Valeurs clés courantes",
-	"occupied_charging_points_gauge_footer": "Nombre de point de charge actuellement occupés",
-	"occupied_charging_points_gauge_title": "Utilisation",
-	"realtime": {
-		"button": {
-			"consumption": "Consommation",
-			"utilization": "Utilisation"
-		}
-	},
-	"realtime_title": "Temps réel",
-	"statistics": {
-		"button": {
-			"day": "Hier",
-			"month": "Mois",
-			"week": "Semaine",
-			"year": "Année"
-		}
-	},
-	"statistics_title": "Statistiques",
-	"today_duration": "En charge",
-	"today_duration_footer": "Temps de charge total aujourd'hui",
-	"today_energy_delivered": "Energie",
-	"today_energy_delivered_footer": "Energie delivrée aujourd'hui comparée à la tendance des {{todayDay}} précédents",
-	"today_inactivity": "Inactivité",
-	"today_inactivity_footer": "Durée d'un véhicule branché mais ne consommant pas d'energie. Tendance  comparée au {{todayDay}} précédent.",
-	"trends_of_day_avg": "Moyenne",
-	"trends_of_day_duration_avg": "Moyenne",
-	"trends_of_day_duration_max": "Maximum",
-	"trends_of_day_duration_min": "Minimum",
-	"trends_of_day_duration_title": "tendance du jour {{todayDay}}",
-	"trends_of_day_inactivity_avg": "Moyenne",
-	"trends_of_day_inactivity_max": "Maximum",
-	"trends_of_day_inactivity_min": "Minimum",
-	"trends_of_day_inactivity_title": "tendance pour {{todayDay}}",
-	"trends_of_day_max": "Maximum",
-	"trends_of_day_min": "Minimum",
-	"trends_of_day_title": "Tendance pour {{todayDay}}"
+    "active_stations_gauge_title": "Point de charge",
+    "active_stations_gauge_unit": "Occupé",
+    "occupied_charging_points_gauge_footer": "Nombre de point de charge occupés",
+    "occupied_charging_points_gauge_title": "Occupé",
+    "all_site": "Tous les sites",
+    "co2_footer": "CO2 économisé depuis 2017 basé sur une émission de 120g/km",
+    "co2_title": "CO2",
+    "consumption_gauge_footer": "Puissance instantanée en kW",
+    "consumption_gauge_title": "Puissance Instantanée",
+    "consumption_title": "Puissance Instantanée",
+    "gas_footer": "Essence economisée par un véhicule thermique consommant 8L/100km",
+    "gas_title": "Essence",
+    "km_footer": "Distance parcourue par un véhicule éléctrique consommant 18kW.h/100km",
+    "km_title": "Distance Parcourue",
+    "location": "Localisation",
+    "metrics": "Valeurs clés courantes",
+    "realtime_title": "Statistiques Journalières",
+    "realtime": {
+      "button": {
+        "consumption": "Consommation",
+        "utilization": "Utilisation"
+      }
+    },
+    "statistics_title": "Historique Consommation",
+    "statistics": {
+      "button": {
+        "day": "Hier",
+        "month": "Mois",
+        "week": "Semaine",
+        "year": "Année"
+      }
+    },
+    "today_duration": "Temps de Charge",
+    "today_duration_footer": "Temps total passé à charger aujourd'hui",
+    "today_inactivity": "Inactivité",
+    "today_inactivity_footer": "Temps total utilisé aujourd'hui pas les véhicules qui ont finis de charger mais qui restent connectés",
+    "today_energy_delivered": "Energie Consommée",
+    "today_energy_delivered_footer": "Energie totale consommée aujourd'hui",
+    "trends_of_day_avg": "Moyenne",
+    "trends_of_day_duration_avg": "Moyenne",
+    "trends_of_day_duration_max": "Maximum",
+    "trends_of_day_duration_min": "Minimum",
+    "trends_of_day_duration_title": "tendance du jour {{todayDay}}",
+    "trends_of_day_inactivity_avg": "Moyenne",
+    "trends_of_day_inactivity_max": "Maximum",
+    "trends_of_day_inactivity_min": "Minimum",
+    "trends_of_day_inactivity_title": "tendance pour {{todayDay}}",
+    "trends_of_day_max": "Maximum",
+    "trends_of_day_min": "Minimum",
+    "trends_of_day_title": "Tendance pour {{todayDay}}"
   },
   "manufacturers": {
     "no_manufacturers": "Aucun constructeur n'a été trouvé",
@@ -446,9 +449,10 @@
     "firmware_version": "Version Firmware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
+    "ocpp_version_title": "OCPP",
+    "private_url": "URL Privée",
     "nb_connected_phase": "Nombre de Phase Connectée",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
-    "private_url": "URL Privée",
     "public_url": "URL Publique",
     "select_chargers": "Selection Bornes",
     "serial_number": "No Série",
@@ -460,6 +464,8 @@
     "connector0": "Borne",
     "connector_type": "Type",
     "connector_error_title": "Code erreur",
+    "connector_info_title": "Error info",
+    "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Puissance Maximum en Watts",
     "charger_url": "URL",
     "charger_param_key": "Clé",
@@ -574,7 +580,8 @@
       "smart_charging_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
       "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging",
       "session_details_title": "Erreur pour les details de session",
-      "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session"
+      "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session",
+      "not_authorize": "Vous n'êtes pas autorisé a exécuter cette action"
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",
@@ -738,6 +745,7 @@
     "status": "Statut",
     "picture": "Photo",
     "show_image": "Afficher Photos",
+    "sites": "Sites",
     "status_invalid": "Statut invalide",
     "status_active": "Actif",
     "status_blocked": "Bloqué",
@@ -818,7 +826,8 @@
       "create_success": "La configuration OCPI a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
-      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI"
+      "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI",
+      "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
     },
     "chargeathome": {
       "description": "L'application Charge At Home permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
@@ -957,6 +966,7 @@
     "connector": "Connecteur",
     "total_consumption": "Consommé",
     "current_consumption": "Puissance",
+    "state": "Status",
     "price": "Prix",
     "state_of_charge": "Niveau Batterie",
     "date": "Date",
@@ -1057,5 +1067,11 @@
         "error": "Une erreur est survenue pendant la demande de remboursement"
       }
     }
+  },
+  "geomap": {
+    "select_geolocation": "Selectionner la Géo",
+    "search": "Rechercher une place",
+    "max_zoom": "Max",
+    "min_zoom": "Min"
   }
 }

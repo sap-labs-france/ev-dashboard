@@ -24,8 +24,8 @@ export class ConsumptionGaugeComponent extends RadialGaugeComponent implements O
     this.options.minValue = 0;
     this.options.maxValue = Math.round(this.maxConsumption / 1000);
 
-    this.options.width = 250;
-    this.options.height = 250;
+    this.options.width = 225;
+    this.options.height = 225;
     this.options.value = Math.round(this.consumption / 1000);
 
     // Ticks

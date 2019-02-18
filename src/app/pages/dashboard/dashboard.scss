@@ -20,21 +20,20 @@ $button-darken-active: darken($brand-info, 15%);
 }
 
 .gauge-card {
-    min-width: 280px;
-    min-height: 250px;
-    z-index: 0;
+  min-width: 285px;
+  min-height: 250px;
+  z-index: 0;
 
-    .gauge-card-body {
-        text-align: center !important;
-        margin-top: -10px;
-    }
+  .gauge-card-body {
+    text-align: center !important;
+    margin: 10px 0;
+  }
 }
 
 .trending-stat {
     height:36px;
 
     .trending-icon {
-//        transform: scale(0.6,0.6) !important;
         color: $white;    
     }
 }
@@ -49,7 +48,6 @@ $button-darken-active: darken($brand-info, 15%);
     overflow: visible;
     width:100%;
     height: 100%;
-//    left: 0;
 }
 
 agm-map {
@@ -65,7 +63,7 @@ agm-map {
 
 .navigation-button {
     position: fixed; 
-    top: 18px; 
+    top: 28px; 
     right:1%; 
     z-index:999
 }
@@ -103,8 +101,6 @@ agm-map {
     display: flex;
     box-sizing: border-box;
     width: 100%;
-//    padding-bottom: 0.8rem;
-//    padding-top: 0.8rem;
     flex-direction: row;
     align-items: center;
     top: 0;

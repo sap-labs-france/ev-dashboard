@@ -12,8 +12,8 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     @Input() maxChargers = 0;
 
   constructor(el: ElementRef,
-                zone: NgZone,
-                private translateService: TranslateService) {
+      zone: NgZone,
+      private translateService: TranslateService) {
     super(el, zone);
   }
 
@@ -24,8 +24,8 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     this.options.minValue = 0;
     this.options.maxValue = this.maxChargers;
 
-    this.options.width = 250;
-    this.options.height = 250;
+    this.options.width = 225;
+    this.options.height = 225;
     this.options.value = this.activeChargers;
 
     // Ticks

@@ -119,7 +119,8 @@ export class ConsumptionChartComponent implements OnInit {
           type: 'linear',
           position: 'right',
           gridLines: {
-            display: false
+            display: true,
+            color: 'rgba(255,255,255,0.2)'
           },
           ticks: {
             callback: (value, index, values) => `${value}%`,
@@ -154,7 +155,8 @@ export class ConsumptionChartComponent implements OnInit {
           type: 'linear',
           position: 'right',
           gridLines: {
-            display: false
+            display: true,
+            color: 'rgba(255,255,255,0.2)'
           },
           ticks: {
             callback: (value, index, values) => `${value}€`,
@@ -256,7 +258,7 @@ export class ConsumptionChartComponent implements OnInit {
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.5)'
+              color: 'rgba(255,255,255,0.2)'
             },
             ticks: {
               fontColor: 'white'
@@ -274,7 +276,7 @@ export class ConsumptionChartComponent implements OnInit {
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.5)'
+              color: 'rgba(255,255,255,0.2)'
             }
           }
         ]

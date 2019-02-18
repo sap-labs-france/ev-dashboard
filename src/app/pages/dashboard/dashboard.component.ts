@@ -332,13 +332,27 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       scales: {
         xAxes: [{
           type: 'category',
-          labels: target.labels
-        }],
+          labels: target.labels,
+          gridLines: {
+            display: true,
+            color: 'rgba(255,255,255,0.2)'
+          },
+          ticks: {
+            fontColor: 'white'
+          }
+      }],
         yAxes: [
           {
             id: 'power',
             type: 'linear',
             position: 'left',
+            ticks: {
+              fontColor: 'white'
+            },
+            gridLines: {
+              display: true,
+              color: 'rgba(255,255,255,0.2)'
+            }
           }
         ]
       },
@@ -416,13 +430,27 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       scales: {
         xAxes: [{
           type: 'category',
-          labels: target.labels
+          labels: target.labels,
+          gridLines: {
+            display: true,
+            color: 'rgba(255,255,255,0.2)'
+          },
+          ticks: {
+            fontColor: 'white'
+          }
         }],
         yAxes: [
           {
             id: 'power',
             type: 'linear',
             position: 'left',
+            ticks: {
+              fontColor: 'white'
+            },
+            gridLines: {
+              display: true,
+              color: 'rgba(255,255,255,0.2)'
+            }
           }
         ]
       },

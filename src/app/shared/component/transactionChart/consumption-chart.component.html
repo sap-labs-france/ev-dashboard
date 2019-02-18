@@ -1,15 +1,15 @@
-<div *ngIf="data && data.datasets && hasMoreThanTwoValues; else noData" class="chart-container">
-  <div class="chart">
-    <chart #chart type="line"
-           [data]="data"
-           [options]="options"></chart>
+<!--<ng-template *ngIf="consumptions; else noData">-->
+<div *ngIf="!canDisplayGraph()">
+  {{'transactions.graph.no_consumption' | translate}}
+</div>
+<div [hidden]=" !canDisplayGraph()">
+  <div class="chart-container mt-2">
+    <canvas #chart></canvas>
   </div>
   <div class="icon-left">
     <a
-        [class]="'btn btn-link btn-just-icon'"
-        (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
+      (click)="resetZoom()"
+      [class]="'btn btn-link btn-just-icon'"><i class="material-icons">zoom_out_map</i></a>
   </div>
 </div>
-<ng-template #noData>
-  {{'transactions.graph.no_consumption' | translate}}
-</ng-template>
+<!--</ng-template>-->

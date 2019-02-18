@@ -1,116 +1,148 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form" [formGroup]="formGroup">
-                    <div class="card card-profile card-testimonial">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formGroup" class="form">
+          <div class="card card-profile card-testimonial">
                         <div class="card-header card-header-tabs card-header-primary">
-                            <div class="nav-tabs-navigation">
-                                <div class="nav-tabs-wrapper">
-                                    <ul class="nav nav-tabs" data-tabs="tabs">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#profile" data-toggle="tab">
-                                                <i class="material-icons">account_balance</i> {{name.value}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" *ngIf="id.value">
-                                            <a class="nav-link" href="#components" data-toggle="tab">
-                                                <i class="material-icons">settings_input_component</i>
-                                                {{'general.menu.components' |
-                                                translate}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
-                                        <span class="toolbar-spacer"></span>
-                                        <button class="btn btn-info mat-raised-button" (click)="save(formGroup.value)"
-                                            [disabled]="!formGroup.valid || !formGroup.dirty">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#profile">
+                        <i class="material-icons">account_balance</i> {{name.value}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li *ngIf="id.value" class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#components">
+                        <i class="material-icons">settings_input_component</i>
+                        {{'general.menu.components' |
+                        translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <span class="toolbar-spacer"></span>
+                    <button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty"
+                            class="btn btn-info mat-raised-button">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons mr-2">save</i>
                                                 <span class="btn-label">{{'general.save' | translate}}</span>
                                             </span>
-                                        </button>
-                                        <button *ngIf="id.value" class="btn btn-info mat-raised-button" (click)="refresh()">
+                    </button>
+                    <button (click)="refresh()" *ngIf="id.value" class="btn btn-info mat-raised-button">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons">refresh</i>
                                             </span>
-                                        </button>
-                                        <button class="btn btn-info mat-raised-button" mat-dialog-close>
+                    </button>
+                    <button class="btn btn-info mat-raised-button" mat-dialog-close>
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons">close</i>
                                             </span>
-                                        </button>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="profile">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'tenants.name' | translate}}"
-                                                        type="text" [formControl]="name" required>
-                                                    <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="name.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="{{'tenants.email' | translate}}" type="text"
-                                                        [formControl]="email" required>
-                                                    <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email"
-                                                        | translate}}</mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="{{'tenants.subdomain' | translate}}"
-                                                        type="text" [formControl]="subdomain" required>
-                                                    <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="subdomain.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div>
-                                                    </mat-error>
-                                                    <mat-error *ngIf="subdomain.hasError('pattern')">{{"tenants.error_subdomain"
-                                                        | translate}}</mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="tab-pane" id="components">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <mat-list>
-                                                <mat-list-item *ngFor="let component of componentList">
-                                                    <p mat-line align="left"><b>{{component + ".title" | translate}}</b></p>
-                                                    <p mat-line align="left">{{component + ".description" | translate}}</p>
-                                                    <mat-slide-toggle mat-line-end [formControl]="components.get(component).get('active')"></mat-slide-toggle>
-                                                </mat-list-item>
-                                            </mat-list>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                        </div>
-                    </div>
-                </form>
+                    </button>
+                  </ul>
+                </div>
+              </div>
             </div>
-        </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="profile">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input [formControl]="name" appSetAutoFocus matInput
+                                 placeholder="{{'tenants.name' | translate}}" required type="text">
+                          <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
+                            | translate}}</mat-error>
+                          <mat-error *ngIf="name.hasError('maxlength')">
+                            <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}"
+                                 required type="text">
+                          <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field"
+                            | translate}}</mat-error>
+                          <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email"
+                            | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input [formControl]="subdomain" matInput
+                                 placeholder="{{'tenants.subdomain' | translate}}" required type="text">
+                          <mat-error *ngIf="subdomain.hasError('required')">{{"general.mandatory_field"
+                            | translate}}</mat-error>
+                          <mat-error *ngIf="subdomain.hasError('maxlength')">
+                            <div [translateParams]="{length: 20}" [translate]="'general.error_max_length'"></div>
+                          </mat-error>
+                          <mat-error *ngIf="subdomain.hasError('pattern')">{{"tenants.error_subdomain"
+                            | translate}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="tab-pane" id="components">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="d-flex flex-column mx-3">
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                            <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
+                            <div>{{"ocpi.description" | translate}}</div>
+                          </div>
+                          <mat-slide-toggle [formControl]="components.get('ocpi').get('active')"></mat-slide-toggle>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                            <div><strong><b>{{"chargeathome.title" | translate}}</b></strong></div>
+                            <div>{{"chargeathome.description" | translate}}</div>
+                          </div>
+                          <mat-slide-toggle [formControl]="components.get('chargeathome').get('active')"></mat-slide-toggle>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                            <div><strong><b>{{"pricing.title" | translate}}</b></strong></div>
+                            <div>{{"pricing.description" | translate}}</div>
+                          </div>
+                          <mat-form-field class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="pricingType" [disabled]="!components.get('pricing').get('active').value"
+                                        [placeholder]="'pricing.type_placeholder' | translate" [(value)]="selectedPricing">
+                              <mat-option *ngFor="let pricingType of pricingTypes" [value]="pricingType.key">
+                                {{pricingType.description | translate}}
+                              </mat-option>
+                            </mat-select>
+                          <mat-error *ngIf="pricingType.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                          </mat-form-field>
+                          <mat-slide-toggle [formControl]="components.get('pricing').get('active')" (change)="updatePricingType()"></mat-slide-toggle>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                            <div><strong><b>{{"organization.title" | translate}}</b></strong></div>
+                            <div>{{"organization.description" | translate}}</div>
+                          </div>
+                          <mat-slide-toggle [formControl]="components.get('organization').get('active')"></mat-slide-toggle>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

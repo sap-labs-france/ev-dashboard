@@ -113,8 +113,12 @@ export interface ConsumptionValue {
   date: Date;
   value: number;
   cumulated: number;
+  amount: number;
   price: number;
   stateOfCharge: number;
+  unroundedAmount: number;
+  cumulatedAmount: number;
+  pricingSource: string;
 }
 
 export interface ChargerConsumption {

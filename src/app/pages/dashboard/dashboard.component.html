@@ -9,14 +9,14 @@
     </div>
   </div>
   <div class="d-inline-flex align-items-center navigation-button">
-    <button mat-icon-button (click)="changeSite('prev')" [class]="'d-flex mx-1 btn-group btn btn-info  btn-fab-mini btn-round prev-next-button '">
+    <button mat-icon-button (click)="changeSite('prev')" class="d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="pauseSlide()" [class]="'d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab btn-round play-button'">
+    <button mat-icon-button (click)="pauseSlide()" class="d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab btn-round play-button">
       <mat-icon *ngIf="!isCarouselPaused">pause</mat-icon>
       <mat-icon *ngIf="isCarouselPaused">play_arrow</mat-icon>
     </button>
-    <button mat-icon-button (click)="changeSite('next')" [class]="'d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button '">
+    <button mat-icon-button (click)="changeSite('next')" class="d-flex mx-1 btn-group btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>

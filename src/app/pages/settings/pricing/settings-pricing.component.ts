@@ -22,6 +22,7 @@ export class SettingsPricingComponent implements OnInit {
   public currency: AbstractControl;
   public convergentCharging: FormGroup;
   public convergentChargingUrl: AbstractControl;
+  public convergentChargingChargeableItemName: AbstractControl;
   public convergentChargingUser: AbstractControl;
   public convergentChargingPassword: AbstractControl;
   public pricingType: string = null;
@@ -48,6 +49,12 @@ export class SettingsPricingComponent implements OnInit {
               Validators.maxLength(100)
             ])
           ),
+          'chargeableItemName': new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(100)
+            ])
+          ),
           'user': new FormControl('',
             Validators.compose([
               Validators.required,
@@ -64,6 +71,7 @@ export class SettingsPricingComponent implements OnInit {
       });
       this.convergentCharging = <FormGroup>this.formGroup.controls['convergentCharging'];
       this.convergentChargingUrl = this.convergentCharging.controls['url'];
+      this.convergentChargingChargeableItemName = this.convergentCharging.controls['chargeableItemName'];
       this.convergentChargingUser = this.convergentCharging.controls['user'];
       this.convergentChargingPassword = this.convergentCharging.controls['password'];
     } else if (this.pricingType === 'pricing_simple') {
@@ -102,6 +110,8 @@ export class SettingsPricingComponent implements OnInit {
 
         if (this.pricingType === 'pricing_convergentCharging' && config.convergentCharging) {
           this.convergentChargingUrl.setValue(config.convergentCharging.url ? config.convergentCharging.url : '');
+          this.convergentChargingChargeableItemName.setValue(
+            config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '');
           this.convergentChargingUser.setValue(config.convergentCharging.user ? config.convergentCharging.user : '');
           this.convergentChargingPassword.setValue(config.convergentCharging.password ? config.convergentCharging.password : '');
         } else if (this.pricingType === 'pricing_simple' && config.simple) {

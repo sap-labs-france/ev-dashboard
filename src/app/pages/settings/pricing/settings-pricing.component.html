@@ -87,6 +87,18 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
+                   placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}"
+                   required>
+            <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
+              | translate}}</mat-error>
+            <mat-error *ngIf="convergentChargingUrl.hasError('maxlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-6">

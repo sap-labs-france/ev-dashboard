@@ -847,6 +847,7 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
         "title": "Convergent Charging",
+        "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
         "user": "Utilisateur",
         "password": "Mot de passe"

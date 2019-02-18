@@ -857,6 +857,7 @@
       "convergentcharging": {
         "title": "Convergent Charging",
         "url": "Url",
+        "chargeable_item_name": "Chargeable Item Name",
         "user": "User",
         "password": "Password"
       },

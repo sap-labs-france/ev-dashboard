@@ -39,6 +39,9 @@ export class AddressComponent implements OnInit {
 
   setAddress(address: Address) {
     // Set data
+    let street_number = '';
+    let route = '';
+
     address.address_components.forEach(((address_component) => {
       switch (address_component.types[0]) {
         // Postal Code
@@ -61,10 +64,24 @@ export class AddressComponent implements OnInit {
         case 'country':
           this.address.controls.country.setValue(address_component.long_name);
           break;
+        case 'route':
+          route = address_component.long_name;
+          break;
+        case 'street_number':
+          street_number = address_component.long_name;
+          break;
       }
     }));
+    // build Address 2
+    const address2 = `${street_number} ${route}`;
     // Address
     this.address.controls.address1.setValue(address.name);
+    // Set Address 2 if different from Address 1
+    if (address2 !== address.name) {
+      this.address.controls.address2.setValue(address2);
+    } else {
+      this.address.controls.address2.setValue('');
+    }
     // Latitude
     this.address.controls.latitude.setValue(address.geometry.location.lat());
     // Longitude

@@ -17,6 +17,7 @@ export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;
   public isChargeAtHomeActive = false;
   public isPricingActive = false;
+  public isSacActive = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -24,9 +25,10 @@ export class SettingsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
-    super(activatedRoute, windowService, ['ocpi', 'chargeathome', 'pricing']);
+    super(activatedRoute, windowService, ['ocpi', 'chargeathome', 'pricing', 'sac']);
     this.isOCPIActive = centralServerService.isComponentActive(Constants.SETTINGS_OCPI);
     this.isChargeAtHomeActive = centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
     this.isPricingActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);
+    this.isSacActive = centralServerService.isComponentActive(Constants.SETTINGS_SAC);
   }
 }

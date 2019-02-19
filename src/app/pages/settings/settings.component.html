@@ -31,5 +31,15 @@
         <app-settings-pricing></app-settings-pricing>
       </ng-template>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="mr-2">insert_chart_outlined</mat-icon>
+        {{'settings.tabs.sac' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-sac></app-settings-sac>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

@@ -131,13 +131,14 @@ export class Constants {
   public static DIALOG_TYPE_OK: DialogType = 'OK';
 
   /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization'];
+  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization', 'sac'];
 
   /* Settings */
   public static SETTINGS_OCPI = 'ocpi';
   public static SETTINGS_ORGANIZATION = 'organization';
   public static SETTINGS_CHARGE_AT_HOME = 'chargeathome';
   public static SETTINGS_PRICING = 'pricing';
+  public static SETTINGS_SAC = 'sac';
 
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';

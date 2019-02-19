@@ -867,6 +867,9 @@
         "currency": "Devise"
       }
     },
+    "sac": {
+      "description": "Étendez vos fonctionnalités d’analyse (Planification, Prediction, Intelligence économique) avec "
+    },
     "information": "Information",
     "activation_contact_msg": "Please contact your administrator for enabling this feature."
   },
@@ -943,6 +946,10 @@
       "sites": "Sites",
       "siteareas": "Zones"
     }
+  },
+  "sac": {
+    "title": "SAP Analytics Cloud",
+    "description": "SAP Analytics Cloud Interface"
   },
   "chargeathome": {
     "title": "Charge@Home",

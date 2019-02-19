@@ -19,6 +19,7 @@ import {OcpiendpointPatchJobStatusComponent} from './ocpi/endpoints/formatters/o
 import {OcpiendpointPatchJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
 import {SettingsChargeAtHomeComponent} from './charge-at-home/settings-charge-at-home.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
+import {SettingsSacComponent} from './sac/settings-sac.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {SettingsPricingComponent} from './pricing/settings-pricing.component';
     SettingsOcpiComponent,
     SettingsChargeAtHomeComponent,
     SettingsPricingComponent,
+    SettingsSacComponent,
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
@@ -48,6 +50,7 @@ import {SettingsPricingComponent} from './pricing/settings-pricing.component';
     SettingsOcpiComponent,
     SettingsChargeAtHomeComponent,
     SettingsPricingComponent,
+    SettingsSacComponent,
     EndpointDialogComponent,
     OcpiendpointStatusComponent,
     OcpiendpointPatchJobStatusComponent,

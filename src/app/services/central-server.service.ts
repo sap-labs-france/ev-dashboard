@@ -684,6 +684,20 @@ export class CentralServerService {
       );
   }
 
+  public getUserInvoice(id: string): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserInvoice?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob'
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getSettings(identifier: string): Observable<SettingResult> {
     // verify init
     this._checkInit();

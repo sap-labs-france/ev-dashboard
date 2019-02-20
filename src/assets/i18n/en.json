@@ -818,7 +818,8 @@
     "tabs": {
       "ocpi": "Roaming",
       "chargeathome": "Charge@Home",
-      "pricing": "Pricing"
+      "pricing": "Pricing",
+      "sac": "SAP Analytics Cloud"
     },
     "ocpi": {
       "setting_do_not_exist": "OCPI Settings not found",
@@ -866,6 +867,16 @@
         "price": "Price",
         "currency": "Currency"
       }
+    },
+    "sac": {
+      "setting_do_not_exist": "SAP Analytics Cloud Settings not found",
+      "setting_not_found": "SAP Analytics Cloud Settings not found",
+      "create_success": "SAP Analytics Cloud settings have been created successfully",
+      "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
+      "update_success": "SAP Analytics Cloud settings have been updated successfully",
+      "update_error": "Error occurred while updating the SAP Analytics Cloud settings",
+      "description": "Extend your analytics functionalities (Planning, Predictive, Business Intelligence) with ",
+      "settings": "Settings"
     },
     "information": "Information",
     "activation_contact_msg": "Please contact your administrator for enabling this feature."
@@ -943,6 +954,12 @@
       "sites": "Sites",
       "siteareas": "Site Areas"
     }
+  },
+  "sac": {
+    "title": "SAP Analytics Cloud",
+    "description": "SAP Analytics Cloud Interface",
+    "mainurl": "SAP Analytics Cloud Home Page",
+    "timezone": "Timezone used in SAP Analytics Cloud"
   },
   "chargeathome": {
     "title": "Charge@Home",

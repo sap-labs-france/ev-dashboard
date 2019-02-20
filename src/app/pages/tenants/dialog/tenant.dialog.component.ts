@@ -84,7 +84,7 @@ export class TenantDialogComponent implements OnInit {
       }));
     }
     let type =  '';
-    if (this.currentTenant.components && this.currentTenant.components.pricing.active) {
+    if (this.currentTenant.components && this.currentTenant.components.pricing && this.currentTenant.components.pricing.active) {
       type = this.currentTenant.components.pricing.type;
     }
     (<FormGroup>this.components.controls['pricing']).addControl('type',

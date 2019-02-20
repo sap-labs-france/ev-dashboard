@@ -2,7 +2,7 @@ import {mergeMap} from 'rxjs/operators';
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatTabChangeEvent} from '@angular/material';
+import {MatDialog} from '@angular/material';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -412,7 +412,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('users.picture_size_error', { 'maxPictureKb': this.maxSize });
+        this.messageService.showErrorMessage('users.picture_size_error', {'maxPictureKb': this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -448,6 +448,27 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   alreadyLinkedToConcur() {
     return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
+  }
+
+  getInvoice() {
+    this.spinnerService.show();
+    this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
+      this.spinnerService.hide();
+      const blob = new Blob([result], {type: 'application/pdf'});
+      const fileUrl = URL.createObjectURL(blob);
+      window.open(fileUrl, '_blank');
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        case 404:
+          this.messageService.showErrorMessage('users.invoicing.errors.no_invoice_found');
+          break;
+        default:
+          this.messageService.showErrorMessage('users.invoicing.errors.unable_to_get_invoice');
+      }
+    });
   }
 
   private loadApplicationSettings() {

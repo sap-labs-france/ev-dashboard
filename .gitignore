@@ -30,6 +30,13 @@ manifest.yml
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Vim
+# Persistent undo
+[._]*.un~
+# Temporary
+.netrwhist
+*~
+
 # misc
 /.sass-cache
 /connect.lock
@@ -39,8 +46,8 @@ npm-debug.log
 npm-debug.log*
 testem.log
 /typings
-
 /output
+
 # System Files
 .DS_Store
 Thumbs.db

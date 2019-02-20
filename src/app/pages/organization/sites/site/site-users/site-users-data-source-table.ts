@@ -94,7 +94,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     this.setStaticFilters([
       {'SiteID': site.id}
     ]);
-    // Set user
+    // Set site
     this.site = site;
   }
 

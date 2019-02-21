@@ -52,7 +52,7 @@ form {
 
   .has-white & {
     @include material-placeholder() {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 }
@@ -105,7 +105,7 @@ form {
 
   .form-control {
     &:focus {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 }
@@ -383,12 +383,12 @@ fieldset[disabled] .form-group .form-control {
 .has-success {
   .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
   .mat-form-field-empty.mat-form-field-label {
-    color: #4caf50;
+    color: $brand-success;
   }
   &.mat-focused {
     .mat-input-underline {
       .mat-input-ripple {
-        background-color: #4caf50;
+        background-color: $brand-success;
       }
     }
   }
@@ -397,12 +397,12 @@ fieldset[disabled] .form-group .form-control {
 .has-danger {
   .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
   .mat-form-field-empty.mat-form-field-label {
-    color: #ef9a9a;
+    color: $brand-danger;
   }
   &.mat-focused {
     .mat-input-underline {
       .mat-input-ripple {
-        background-color: #ef9a9a;
+        background-color: $brand-danger;
       }
     }
   }
@@ -410,7 +410,7 @@ fieldset[disabled] .form-group .form-control {
 
 .ng-invalid {
   &.mat-focused .mat-form-field-label {
-    color: #ef9a9a;
+    color: $brand-danger;
   }
 }
 
@@ -424,13 +424,13 @@ fieldset[disabled] .form-group .form-control {
 
 .mat-form-field.has-success {
   .mat-input-underline {
-    background-color: #4caf50;
+    background-color: $brand-success;
     height: 2px;
     .mat-input-ripple {
-      background-color: #4caf50;
+      background-color: $brand-success;
     }
   }
   .mat-form-field-label {
-    color: #4caf50;
+    color: $brand-success;
   }
 }

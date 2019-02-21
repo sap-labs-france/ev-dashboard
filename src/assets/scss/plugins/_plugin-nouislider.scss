@@ -86,7 +86,7 @@
   height: 2px;
   background: #c8c8c8;
   &[style^="left: 0"] .noUi-handle {
-    background-color: #fff;
+    background-color: $brand-primary;
     border: 2px solid #c8c8c8;
     &.noUi-active {
       border-width: 1px;
@@ -213,7 +213,7 @@
   display: block;
   position: absolute;
   border-radius: 3px;
-  color: #000;
+  color: $brand-inverse;
   padding: 0px;
   text-align: center;
 }

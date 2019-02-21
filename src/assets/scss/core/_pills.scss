@@ -28,7 +28,7 @@
       }
 
       &.active {
-        color: $white-color;
+        color: $brand-primary;
         background-color: $brand-primary;
         @include shadow-big-color($brand-primary);
       }
@@ -50,7 +50,7 @@
         &:hover {
           background-color: $brand-info;
           @include shadow-big-color($brand-info);
-          color: $white-color;
+          color: $brand-primary;
         }
       }
     }
@@ -64,7 +64,7 @@
         &:hover {
           background-color: $brand-rose;
           @include shadow-big-color($brand-rose);
-          color: $white-color;
+          color: $brand-primary;
         }
       }
     }
@@ -78,7 +78,7 @@
         &:hover {
           background-color: $brand-success;
           @include shadow-big-color($brand-success);
-          color: $white-color;
+          color: $brand-primary;
         }
       }
     }
@@ -92,7 +92,7 @@
         &:hover {
           background-color: $brand-warning;
           @include shadow-big-color($brand-warning);
-          color: $white-color;
+          color: $brand-primary;
         }
       }
     }
@@ -106,7 +106,7 @@
         &:hover {
           background-color: $brand-danger;
           @include shadow-big-color($brand-danger);
-          color: $white-color;
+          color: $brand-primary;
         }
       }
     }

@@ -314,7 +314,7 @@
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
     -webkit-text-fill-color: white;
-    -webkit-box-shadow: 0 0 0px 1000px $blue-750 inset;
+    -webkit-box-shadow: 0 0 0px 1000px $blue-700 inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -401,9 +401,9 @@
 @mixin tag-color($color) {
   .tag {
     background-color: $color;
-    color: $white-color;
+    color: $brand-primary;
     .tagsinput-remove-link {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   .tagsinput-add {

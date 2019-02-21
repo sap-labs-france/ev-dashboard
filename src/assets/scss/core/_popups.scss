@@ -31,7 +31,7 @@
   }
 
   &.bs-tether-element-attached-top:after {
-    border-bottom-color: $white-color;
+    border-bottom-color: $brand-primary;
     top: -9px;
   }
 
@@ -58,26 +58,26 @@
 
 .tooltip {
   &.bs-tooltip-right .arrow:before {
-    border-right-color: $white-color;
+    border-right-color: $brand-primary;
   }
 
   &.bs-tooltip-top .arrow:before {
-    border-top-color: $white-color;
+    border-top-color: $brand-primary;
   }
 
   &.bs-tooltip-bottom .arrow:before {
-    border-bottom-color: $white-color;
+    border-bottom-color: $brand-primary;
   }
 
   &.bs-tooltip-left .arrow:before {
-    border-left-color: $white-color;
+    border-left-color: $brand-primary;
   }
 }
 
 .tooltip-inner {
   padding: $padding-base-vertical $padding-base-horizontal;
   min-width: 130px;
-  background-color: $white-color;
+  background-color: $brand-inverse;
   font-size: $font-size-base;
   color: inherit;
   box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);

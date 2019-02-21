@@ -335,10 +335,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labels: target.labels,
           gridLines: {
             display: true,
-            color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
-            fontColor: 'white'
+            fontColor: '#0d47a1'
           }
       }],
         yAxes: [
@@ -347,11 +347,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             type: 'linear',
             position: 'left',
             ticks: {
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             }
           }
         ]
@@ -433,10 +433,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labels: target.labels,
           gridLines: {
             display: true,
-            color: 'rgba(255,255,255,0.2)'
+            color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
-            fontColor: 'white'
+            fontColor: '#0d47a1'
           }
         }],
         yAxes: [
@@ -445,11 +445,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             type: 'linear',
             position: 'left',
             ticks: {
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             }
           }
         ]

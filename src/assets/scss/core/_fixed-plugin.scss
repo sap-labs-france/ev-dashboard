@@ -17,7 +17,7 @@
   }
 
   .fa-cog {
-    color: #FFFFFF;
+    color: $brand-primary;
     padding: 10px;
     border-radius: 0 0 6px 6px;
     width: auto;
@@ -39,7 +39,7 @@
   }
 
   .fa-circle-thin {
-    color: #FFFFFF;
+    color: $brand-primary;
   }
 
   .active .fa-circle-thin {
@@ -186,7 +186,7 @@
         font-size: 16px;
         text-align: center;
         border-radius: 10px;
-        background-color: #FFF;
+        background-color: $brand-primary;
         border: 3px solid #FFF;
         padding-left: 0;
         padding-right: 0;
@@ -218,7 +218,7 @@
     > .active > a.img-holder,
     > .active > a.img-holder {
       border-color: #00bbff;
-      background-color: #FFFFFF;
+      background-color: $brand-primary;
     }
 
   }

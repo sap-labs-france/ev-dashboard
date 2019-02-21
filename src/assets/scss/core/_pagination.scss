@@ -43,7 +43,7 @@
     &:hover {
       background-color: $brand-primary;
       border-color: $brand-primary;
-      color: $white-color;
+      color: $brand-primary;
       @include shadow-4dp-color($brand-primary);
     }
 

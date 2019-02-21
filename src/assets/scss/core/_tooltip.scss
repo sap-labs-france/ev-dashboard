@@ -2,9 +2,10 @@
 
 .tooltip-inner, .mat-tooltip {
   color: $brand-primary !important;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   line-height: 1.5em;
-  background: $blue-850;
+  background: $brand-inverse;
   border: none;
   border-radius: $border-radius-base !important;
   @include shadow-8dp();
@@ -26,22 +27,22 @@
 
   &.left {
     .tooltip-arrow {
-      border-left-color: $white-color;
+      border-left-color: $brand-primary;
     }
   }
   &.right {
     .tooltip-arrow {
-      border-right-color: $white-color;
+      border-right-color: $brand-primary;
     }
   }
   &.top {
     .tooltip-arrow {
-      border-top-color: $white-color;
+      border-top-color: $brand-primary;
     }
   }
   &.bottom {
     .tooltip-arrow {
-      border-bottom-color: $white-color;
+      border-bottom-color: $brand-primary;
     }
   }
 }

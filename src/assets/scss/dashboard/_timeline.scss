@@ -93,7 +93,7 @@
   }
 
   > li > .timeline-badge {
-    color: $white-color;
+    color: $brand-primary;
     width: 50px;
     height: 50px;
     line-height: 51px;
@@ -139,7 +139,7 @@
 
   > li.timeline-inverted > .timeline-panel {
     float: right;
-    background-color: $white-color;
+    background-color: $brand-primary;
 
     &:before {
       border-left-width: 0;

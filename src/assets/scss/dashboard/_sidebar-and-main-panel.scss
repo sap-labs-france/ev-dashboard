@@ -42,7 +42,7 @@
     background-color: #e53935;
   }
   &[data-background-color="blue"] {
-    background-color: $blue-1000;
+    background-color: $blue-900;
   }
   .sidebar-wrapper {
     position: relative;
@@ -148,7 +148,7 @@
       }
       &.active > a,
       &.active > a i {
-        color: $white-color;
+        color: $brand-primary;
       }
       &.separator {
         margin: 15px 0;
@@ -256,7 +256,7 @@
       float: left;
       font-size: 20px;
       margin: 10px 10px;
-      color: $white-color;
+      color: $brand-primary;
       line-height: 20px;
     }
     .simple-text {
@@ -326,19 +326,19 @@
   &[data-background-color="black"] {
     @include sidebar-background-color($gray-base, $white-color);
     .nav li .dropdown-menu .dropdown-item {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   &[data-background-color="red"] {
     @include sidebar-background-color($gray-base, $white-color);
     .nav li .dropdown-menu .dropdown-item {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   &[data-background-color="blue"] {
     @include sidebar-background-color($gray-base, $white-color);
     .nav li .dropdown-menu .dropdown-item {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   &[data-color="purple"] {
@@ -380,7 +380,7 @@
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color($blue-850, $white-color);
+    @include sidebar-background-color($blue-800, $white-color);
     .user,
     .logo,
     .nav li.separator {
@@ -405,7 +405,7 @@
   .nav {
     > li > a,
     > li > a:hover {
-      color: $white-color;
+      color: $brand-primary;
       margin: 0 15px;
     }
     > li > a:focus,
@@ -426,7 +426,7 @@
     content: "";
     width: 100%;
     height: 100%;
-    background: linear-gradient(60deg, $blue-725 0%, $blue-850 50%, $blue-725 100%);
+    background: linear-gradient(60deg, $blue-50, $blue-200);
     // background: url(/assets/img/sky-bg.jpg) round;
     background-size: cover;
     will-change: transform;

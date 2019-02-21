@@ -151,7 +151,7 @@
 
   &.navbar-transparent {
     background-color: transparent !important;
-    // background: linear-gradient(60deg, $blue-725, $blue-850);
+    // background: linear-gradient(60deg, $blue-700, $blue-800);
     opacity: 0.9;
     box-shadow: none;
     padding-top: 25px;
@@ -165,7 +165,7 @@
     right: 10px;
     font-size: 9px;
     background: #ef9a9a;
-    color: #FFFFFF;
+    color: $brand-primary;
     min-width: 20px;
     padding: 0px 5px;
     height: 20px;

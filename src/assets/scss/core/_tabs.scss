@@ -6,13 +6,13 @@
 
   .nav-item {
     .nav-link {
-      color: $white-color;
+      color: $brand-inverse;
       border: 0;
       margin: 0;
       border-radius: $border-radius-base;
       line-height: $mdb-btn-font-size-base * 2;
       font-size: $mdb-btn-font-size-base;
-      padding: 8px 15px;
+      padding: 10px 15px;
       background-color: transparent;
       transition: 0.3s background-color 0s;
 
@@ -24,7 +24,7 @@
     .nav-link:hover,
     .nav-link:focus {
       border: 0 !important;
-      color: $white-color !important;
+      color: $brand-inverse !important;
       font-weight: $font-weight-bold;
     }
     &.disabled .nav-link,
@@ -37,7 +37,8 @@
     }
 
     .nav-link.active {
-      background-color: rgba(255, 255, 255, .2);
+      background-color: $brand-inverse;
+      color: $brand-primary !important;
       transition: 0.3s background-color 0.2s;
     }
   }
@@ -69,14 +70,11 @@
 }
 
 .mat-tab-labels {
-  border-radius: $border-radius-base;
-  /* margin-top: -20px; */
   padding: 10px;
-  //margin: 0px 15px 15px;
-  color: $white-color !important;
+  color: $brand-inverse !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $blue-950;
+  background: $blue-500;
   @include shadow-big-color($brand-info);
 }
 
@@ -96,7 +94,7 @@
 
 .mat-tab-label {
   opacity: 1 !important;
-  color: $white-color !important;
+  color: $brand-inverse !important;
   border: 0;
   margin: 0;
   min-width: 9em !important;
@@ -109,7 +107,7 @@
   text-transform: uppercase;
   &:focus {
     border: 0 !important;
-    color: $white-color !important;
+    color: $brand-primary !important;
     font-weight: $font-weight-bold;
   }
   disabled .mat-tab-label:hover {
@@ -123,14 +121,14 @@
 }
 
 .mat-tab-label-active {
-  color: $white-color !important;
+  color: $brand-primary !important;
   border: 0;
   margin: 0;
   border-radius: $border-radius-base;
   line-height: $mdb-btn-font-size-base * 2;
   font-size: $mdb-btn-font-size-base;
-  padding: 8px 15px;
-  background-color: rgba(255, 255, 255, .2);
+  padding: 10px 15px;
+  background-color: $brand-inverse;
   transition: 0.3s background-color 0.2s;
 }
 

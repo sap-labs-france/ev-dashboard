@@ -13,7 +13,7 @@ $icon-color: rgba($black, 0.5) !default;
 
 // --------------------
 // inputs
-$mdb-input-placeholder-color: #D2D2D2 !default;
+$mdb-input-placeholder-color: $brand-primary !default;
 $mdb-input-underline-color: #D2D2D2 !default;
 
 $mdb-input-font-size-base: 14px !default;

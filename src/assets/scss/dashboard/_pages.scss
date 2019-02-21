@@ -143,7 +143,7 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: linear-gradient(60deg, $blue-400, $blue-800);
+    background: $brand-inverse;
     opacity: 0.9;
 
     &.card-hidden {
@@ -235,6 +235,7 @@
     .copyright {
       a {
         color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -278,6 +279,7 @@
       }
       a {
         color: $brand-primary;
+        font-weight: 500;
       }
     }
 
@@ -337,6 +339,7 @@
     .copyright {
       a {
         color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -394,6 +397,7 @@
     .copyright {
       a {
         color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -454,6 +458,7 @@
     .copyright,
     a {
       color: $brand-primary;
+      font-weight: 500;
     }
   }
 }

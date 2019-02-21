@@ -92,11 +92,14 @@
   font-family:Roboto,"Helvetica Neue",sans-serif
 }
 .mat-checkbox-layout .mat-checkbox-label{
-  line-height:24px
+  line-height:24px;
+  a {
+    text-decoration: underline;
+  }
 }
 .mat-chip{
   font-size:14px;
-  font-weight:500
+  font-weight:500;
 }
 .mat-chip .mat-chip-remove.mat-icon,.mat-chip .mat-chip-trailing-icon.mat-icon{
   font-size:18px

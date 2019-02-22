@@ -6,7 +6,7 @@ export class TableChargerRebootAction implements TableAction {
     id: 'reboot',
     type: 'button',
     icon: 'repeat',
-    class: 'btn-info',
+    class: 'btn-danger',
     name: 'general.edit',
     tooltip: 'general.tooltips.reboot'
   };

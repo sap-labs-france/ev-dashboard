@@ -1465,7 +1465,8 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color: $brand-primary
 }
 .mat-menu-item-highlighted:not([disabled]),.mat-menu-item.cdk-keyboard-focused:not([disabled]),.mat-menu-item.cdk-program-focused:not([disabled]),.mat-menu-item:hover:not([disabled]){
-  background:rgba(255,255,255,.04)
+  background: $brand-info;
+  color: $brand-inverse;
 }
 .mat-paginator{
   background-color: $blue-100;

@@ -313,6 +313,7 @@ export class ConsumptionChartComponent implements OnInit {
 
   updatePanOptions() {
     this.options.pan.rangeMin.x = this.consumptions.length > 0 ? new Date(this.consumptions[0].date).getTime() : 0;
+    // tslint:disable-next-line:max-line-length
     this.options.pan.rangeMax.x = this.consumptions.length > 0 ? new Date(this.consumptions[this.consumptions.length - 1].date).getTime() : 0;
   }
 

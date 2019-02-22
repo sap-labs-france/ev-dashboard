@@ -1483,6 +1483,9 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-icon-button[disabled] .mat-paginator-decrement,.mat-icon-button[disabled] .mat-paginator-first,.mat-icon-button[disabled] .mat-paginator-increment,.mat-icon-button[disabled] .mat-paginator-last{
   border-color:rgba(255,255,255,.5)
 }
+.mat-progress-bar{
+  height: 6px !important;
+}
 .mat-progress-bar-background{
   fill: $brand-info
 }
@@ -1493,10 +1496,10 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color: $brand-info
 }
 .mat-progress-bar.mat-accent .mat-progress-bar-background{
-  fill: $green-a100
+  fill: $blue-100
 }
 .mat-progress-bar.mat-accent .mat-progress-bar-buffer{
-  background-color: $green-a100
+  background-color: $blue-100
 }
 .mat-progress-bar.mat-accent .mat-progress-bar-fill::after{
   background-color: $brand-info
@@ -1508,7 +1511,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color: $red-100
 }
 .mat-progress-bar.mat-warn .mat-progress-bar-fill::after{
-  background-color: $red-200
+  background-color: $brand-danger
 }
 .mat-progress-spinner circle,.mat-spinner circle{
   stroke: $brand-info

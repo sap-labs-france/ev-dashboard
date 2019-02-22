@@ -15,7 +15,7 @@ export class ChargerStatusDirective {
   @HostBinding('class.charger-connector-charging-inactive') statusChargingInactive = false;
   @HostBinding('class.charger-connector-unavailable') statusUnavailable = false;
   @HostBinding('class.charger-connector-faulted') statusFaulted = false;
-  @HostBinding('class.charger-connector-active-text') statusUnknown = false;
+  @HostBinding('class.charger-connector-unknown') statusUnknown = false;
 
   @Input() set appChargerStatus(status) {
     this.statusAvailable = false;
@@ -30,7 +30,6 @@ export class ChargerStatusDirective {
     this.statusUnavailable = false;
     this.statusFaulted = false;
     this.statusUnknown = false;
-
     switch (status) {
       // When a Connector becomes available for a new user (Operative)
       case 'Available':
@@ -52,12 +51,14 @@ export class ChargerStatusDirective {
       // (Operative)
       case 'Occupied':
       case 'Charging':
-      this.statusCharging = true;
+        this.statusCharging = true;
         break;
       case 'Charging-inactive':
+      case 'Occupied-inactive':
         this.statusChargingInactive = true;
         break;
       case 'Charging-active':
+      case 'Occupied-active':
         this.statusChargingActive = true;
         break;
 

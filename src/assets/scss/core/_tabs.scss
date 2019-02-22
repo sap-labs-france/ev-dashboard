@@ -74,12 +74,12 @@
   color: $brand-inverse !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $blue-500;
+  background: $brand-primary;
   @include shadow-big-color($brand-info);
 }
 
 .mat-tab-danger .mat-tab-labels {
-  background: linear-gradient(60deg, $red-400, $red-600);
+  background: $brand-danger;
   @include shadow-big-color($brand-danger);
 }
 

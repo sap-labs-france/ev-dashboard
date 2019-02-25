@@ -110,8 +110,9 @@
     color: $brand-primary !important;
     font-weight: $font-weight-bold;
   }
-  disabled .mat-tab-label:hover {
-    color: rgba(255, 255, 255, 0.5);
+  disabled,
+  &:hover {
+    color: rgba(255, 255, 255, 0.5) !important;
   }
 }
 
@@ -130,6 +131,9 @@
   padding: 10px 15px;
   background-color: $brand-inverse;
   transition: 0.3s background-color 0.2s;
+  &:hover {
+    color: $brand-primary !important;
+  }
 }
 
 .mat-tab-body-wrapper {

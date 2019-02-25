@@ -192,7 +192,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.displayDetailObserver) {
       this.displayDetailObserver.unsubscribe();
     }
-    this.dataSource.destroy();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

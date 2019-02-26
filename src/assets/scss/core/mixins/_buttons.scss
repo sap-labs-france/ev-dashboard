@@ -196,14 +196,14 @@
 
   &.btn-link {
     background-color: transparent;
-    color: $color;
+    color: $background;
     box-shadow: none;
 
     &:hover,
     &:focus,
     &:active {
       background-color: transparent;
-      color: darken($color, 20%);
+      color: darken($background, 20%);
     }
   }
 

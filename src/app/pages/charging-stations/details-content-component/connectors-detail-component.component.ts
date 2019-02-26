@@ -65,8 +65,6 @@ export class ConnectorsDetailComponent extends DetailComponent {
   }
 
   destroy() {
-    this.connectorsDataSource.destroy();
+    // this.connectorsDataSource.destroy();
   }
-
-
 }

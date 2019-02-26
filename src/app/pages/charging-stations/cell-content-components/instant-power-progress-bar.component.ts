@@ -6,7 +6,7 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
-      <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerW==0">
+      <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerW === 0">
         <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
           {{instantPowerW | appUnit:'W':'kW':false:0:0}}
         </ng-container>
@@ -15,9 +15,8 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
         </ng-template>
         <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
       </div>
-      <mat-progress-bar color="warn" class="d-flex" [hidden]="maxPowerW===0"
-                        value="{{instantPowerW/maxPowerW*100}}"
-                        mode="determinate">
+      <mat-progress-bar color="accent" class="d-flex" [hidden]="maxPowerW === 0"
+        value="{{instantPowerW / maxPowerW * 100}}" mode="determinate">
       </mat-progress-bar>
     </div>
   `
@@ -25,9 +24,7 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 
 
 export class InstantPowerProgressBarComponent extends CellContentTemplateComponent implements OnInit {
-
   @Input() row: any;
-
   instantPowerW = 0;
   maxPowerW = 0;
 

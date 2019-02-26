@@ -203,7 +203,7 @@
     &:focus,
     &:active {
       background-color: transparent;
-      color: $background;
+      color: darken($background, 20%);
     }
   }
 
@@ -346,7 +346,7 @@ $opacity-2: rgba(255, 255, 255, .2) !default;
   .open > &.dropdown-toggle:focus,
   .open > &.dropdown-toggle:hover {
     background-color: $btn-color;
-    color: $white-color;
+    color: $brand-primary;
   }
 
   &:focus,

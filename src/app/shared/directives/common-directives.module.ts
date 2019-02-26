@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AppAutofocusDirective} from './app-auto-focus.directive';
 import {ChargerStatusDirective} from './charger-status.directive';
-import {ChargerStatusTextDirective} from './charger-status-text.directive';
 
 @NgModule({
   imports: [
@@ -10,13 +9,11 @@ import {ChargerStatusTextDirective} from './charger-status-text.directive';
   ],
   declarations: [
     AppAutofocusDirective,
-    ChargerStatusDirective,
-    ChargerStatusTextDirective
+    ChargerStatusDirective
   ],
   exports: [
     AppAutofocusDirective,
-    ChargerStatusDirective,
-    ChargerStatusTextDirective
+    ChargerStatusDirective
   ]
 })
 export class CommonDirectivesModule {

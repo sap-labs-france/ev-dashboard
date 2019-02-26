@@ -9,7 +9,7 @@
     overflow: hidden;
   }
   .brand {
-    color: $white-color;
+    color: $brand-primary;
     text-align: center;
 
     h1 {
@@ -129,7 +129,7 @@
   .card-header {
     .social-line {
       .btn {
-        color: $white-color;
+        color: $brand-primary;
       }
     }
   }
@@ -176,7 +176,7 @@
     }
     .copyright,
     a {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 }

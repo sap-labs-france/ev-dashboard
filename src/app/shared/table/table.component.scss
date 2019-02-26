@@ -19,13 +19,12 @@ table {
 }
 
 th {
-  font-weight: bold;
   padding: 5px !important;
 }
 
 td {
-  font-size: $font-size-md;
-  padding: 5px;
+  font-size: $font-size-sm;
+  padding: 2px 5px;
 }
 
 td a, td button {
@@ -37,7 +36,7 @@ td a i {
 }
 
 th {
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
 }
 
 tr.mat-row {
@@ -112,7 +111,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  // background-color: rgba($color: $blue-1000, $alpha: 0.2);
+  // background-color: rgba($color: $blue-900, $alpha: 0.2);
 }
 
 .table-dialog-list {
@@ -133,10 +132,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
   overflow: initial;
 }
 
-tr.mat-footer-row {
-  font-weight: bold;
-}
-
 tr.mat-header-row {
   height: 40px;
 }
@@ -149,11 +144,12 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
-  padding: 15px;
+  padding: 0 10px;
 }
 
 .mat-toolbar-row {
   align-items: center;
+  padding: 10px 0 0 0;
 }
 
 .details-row {
@@ -337,3 +333,4 @@ tr.element-row:not(.expanded-row):active {
 .refresh-box {
   min-width: 90px
 }
+

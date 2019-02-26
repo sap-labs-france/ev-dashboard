@@ -5,14 +5,14 @@
   border: 0;
   margin-bottom: 30px;
   margin-top: 30px;
-  border-radius: $border-radius-base;
-  color: $white;
-  background: linear-gradient(60deg, $blue-725, $blue-825, $blue-725);
+  color: $brand-primary;
+  background: $brand-inverse;
   width: 100%;
   font-size: 0.9rem;
+  border-radius: 0;
 
   .card-category:not([class*="text-"]) {
-    color: $white;
+    color: $brand-primary;
   }
   .card-category {
     margin-top: 10px;
@@ -57,7 +57,6 @@
     & + .card-footer {
       padding-top: 0rem;
       border: 0;
-      border-radius: $border-radius-base;
     }
   }
 
@@ -73,7 +72,7 @@
     }
 
     .stats {
-      color: $white;
+      color: $brand-primary;
 
       .material-icons {
         position: relative;
@@ -102,7 +101,7 @@
     background: transparent;
     box-shadow: none;
     .title {
-      color: $white-color;
+      color: $brand-primary;
     }
 
     &:not([class*="card-header-"]) {
@@ -132,7 +131,7 @@
         position: absolute;
         bottom: 15px;
         left: 15px;
-        color: $white-color;
+        color: $brand-primary;
         font-size: $font-size-h4;
         text-shadow: 0 2px 5px rgba(33, 33, 33, 0.5);
       }
@@ -170,7 +169,7 @@
   &.bg-primary,
   &.card-rotate.bg-primary .front,
   &.card-rotate.bg-primary .back {
-    background: $blue-950;
+    background: $brand-info;
   }
   .card-header-info .card-icon,
   .card-header-info .card-text,
@@ -178,7 +177,7 @@
   &.bg-info,
   &.card-rotate.bg-info .front,
   &.card-rotate.bg-info .back {
-    background: $blue-950;
+    background: $brand-info;
   }
   .card-header-success .card-icon,
   .card-header-success .card-text,
@@ -186,7 +185,7 @@
   &.bg-success,
   &.card-rotate.bg-success .front,
   &.card-rotate.bg-success .back {
-    background: linear-gradient(60deg, $green-500, $green-600);
+    background: $brand-success;
   }
   .card-header-warning .card-icon,
   .card-header-warning .card-text,
@@ -194,7 +193,7 @@
   &.bg-warning,
   &.card-rotate.bg-warning .front,
   &.card-rotate.bg-warning .back {
-    background: linear-gradient(60deg, $orange-500, $orange-600);
+    background: $brand-warning;
   }
   .card-header-danger .card-icon,
   .card-header-danger .card-text,
@@ -202,7 +201,7 @@
   &.bg-danger,
   &.card-rotate.bg-danger .front,
   &.card-rotate.bg-danger .back {
-    background: linear-gradient(60deg, $red-500, $red-600);
+    background: $brand-danger;
   }
 
   .card-header-rose .card-icon,
@@ -211,17 +210,18 @@
   &.bg-rose,
   &.card-rotate.bg-rose .front,
   &.card-rotate.bg-rose .back {
-    background: linear-gradient(60deg, $pink-500, $pink-600);
+    background: brand-rose;
   }
 
   [class*="card-header-"],
   &[class*="bg-"] {
-    color: $white-color;
+    color: $brand-inverse;
 
     .card-title a,
     .card-title,
     .icon i {
-      color: $white-color;
+      color: $brand-inverse;
+      font-weight: 500;
     }
 
     .icon i {
@@ -231,14 +231,14 @@
     .stats,
     .card-category,
     .card-description {
-      color: $white;
+      color: $brand-primary;
     }
 
     .author a {
       &:hover,
       &:focus,
       &:active {
-        color: $white-color;
+        color: $brand-primary;
       }
     }
   }
@@ -285,13 +285,13 @@
     h2,
     h3 {
       small {
-        color: $white-transparent;
+        color: $brand-primary;
       }
     }
   }
 
   .card-stats {
-    background: rgba(255,255,255,.1);
+    background: $brand-inverse;
     display: flex;
 
     .author,
@@ -302,7 +302,7 @@
 }
 
 .card-settings {
-  background: rgba(255,255,255,.15);
+  background: $brand-inverse;
 }
 
 .card-plain {
@@ -315,7 +315,7 @@
 
     .card-category,
     .card-description {
-      color: $white;
+      color: $brand-primary;
     }
   }
 

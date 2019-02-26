@@ -26,7 +26,7 @@ $button-darken-active: darken($brand-info, 15%);
 
   .gauge-card-body {
     text-align: center !important;
-    margin: 10px 0;
+    margin: 0;
   }
 }
 
@@ -34,7 +34,7 @@ $button-darken-active: darken($brand-info, 15%);
     height:36px;
 
     .trending-icon {
-        color: $white;    
+        color: $brand-primary;    
     }
 }
 
@@ -129,7 +129,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      background-color: $blue-1000;
+      background-color: $brand-inverse;
     }
 
     .sidebar-background {
@@ -158,34 +158,34 @@ agm-map {
     &[data-background-color="black"] {
         @include sidebar-background-color($gray-base, $white-color);
         h1, h2, h3, h4, div, span, p {
-          color: $white-color;
-          font-weight: 400; 
+          color: $brand-primary;
+          font-weight: 500; 
           font-size: 1.5rem !important;
           padding: 14px 0px;
-          background: $blue-1000;
+          background: $brand-inverse;
         }
     }
 
     &[data-background-color="red"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-        color: $white-color;
-        font-weight: 400; 
+        color: $brand-inverse;
+        font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
-        background: $blue-1000;
-    }
+        background-color: $brand-danger;
+      }
     }
 
     &[data-background-color="blue"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-        color: $white-color;
-        font-weight: 400; 
+        color: $brand-inverse;
+        font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
-        background: $blue-1000;
-    }
+        background-color: $brand-primary;
+      }
     }
 
     &[data-color="purple"] {
@@ -222,7 +222,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      @include sidebar-background-color($blue-1100, $white-color);
+      @include sidebar-background-color($blue-900, $white-color);
     }
 
     &[data-image]:after,

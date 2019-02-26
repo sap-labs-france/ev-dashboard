@@ -22,14 +22,14 @@ $bmd-nav-tabs-disabled-link-color: $nav-disabled-link-color !default;
 $bmd-nav-tabs-disabled-link-color-hover: $nav-disabled-link-hover-color !default;
 
 $bmd-nav-tabs-primary-color: $bmd-inverse !default;
-$bmd-nav-tabs-primary-active-color: #fff !default;
-$bmd-nav-tabs-primary-active-border-color: #fff !default;
+$bmd-nav-tabs-primary-active-color: $brand-primary !default;
+$bmd-nav-tabs-primary-active-border-color: $brand-primary !default;
 $bmd-nav-tabs-primary-disabled-link-color: $bmd-inverse-light !default;
 $bmd-nav-tabs-primary-disabled-link-color-hover: $bmd-inverse-light !default;
 
 $bmd-nav-tabs-inverse-color: $bmd-inverse !default;
-$bmd-nav-tabs-inverse-active-color: #fff !default;
-$bmd-nav-tabs-inverse-active-border-color: #fff !default;
+$bmd-nav-tabs-inverse-active-color: $brand-primary !default;
+$bmd-nav-tabs-inverse-active-border-color: $brand-primary !default;
 $bmd-nav-tabs-inverse-disabled-link-color: $bmd-inverse-light !default;
 $bmd-nav-tabs-inverse-disabled-link-color-hover: $bmd-inverse-light !default;
 

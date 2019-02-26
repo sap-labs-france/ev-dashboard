@@ -19,6 +19,42 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.13',
+      date: new Date('2019-02-22'),
+      componentChanges: [
+        {
+          name: 'Front-end',
+          changes: [
+            `Added the Dashboard Front-page 1/2 (in progress)`,
+            `Added Convergent Charging features`,
+            `Changed to a completely new design (Fiori like)`,
+            `Enhanced OCPI interface`,
+            `Improve performances`,
+            `Bug fixes`
+          ]
+        },
+        {
+          name: 'Backend',
+          changes: [
+            `Transaction consumption migration (convert meter values to consumption values)`,
+            `Transaction consumption can be used in SAP Cloud Analytics`,
+            'Passed OCPI certification as CPO (Charge Point Operator)',
+            'Added Convergent Charging consumption calculation + invoicing',
+            'Fix total duration secs during a charge',
+            'Fix SoC/Price calculation in Consumption calculation',
+            'SiteManagement - add filter for Company and Site',
+            'Update heartbeat timestamp in Start/Stop Transaction',
+            'Fix issue with assignment of users and chargingStations',
+            'Handle Status Notif with connector 0 for EBEE',
+            'Odata - add ChargingStations SiteAreas Sites',
+            'Add charger info in Notification logs to trace user\'s transaction',
+            'Stop the transaction for ABB when status changes from Finishing to Available',
+            'Fixed no error provided when connector is faulty'
+          ]
+        }
+      ]
+    },
+    {
       version: '2.0.12',
       date: new Date('2019-02-10'),
       componentChanges: [

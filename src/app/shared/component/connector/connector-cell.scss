@@ -12,7 +12,7 @@
 
 @keyframes status-glowing {
     50% {
-        box-shadow: 0 0 30px;
+        box-shadow: 0 0 30px $brand-info;
     }
 }
 
@@ -24,89 +24,7 @@
     animation: status-blinking 2s ease-in-out infinite, status-glowing 4s ease-in-out infinite;
 }
 
-$connectorStatusColor: ('available' : $brand-success,
-'charging' : $brand-info,
-'preparing': $brand-warning,
-'suspended-evse': $brand-info,
-'suspended-ev': $brand-info,
-'finishing': $brand-warning,
-'reserved': $brand-info,
-'unavailable': $grey-600,
-'faulted': $brand-danger);
-
-@mixin charge-connector-status($status, $bgColor, $glowing, $blinking) {
-    color: map-get($connectorStatusColor, $status);
-
-    @if $bgColor {
-        background-color: map-get($connectorStatusColor, $status);
-    }
-
-    @if $glowing and $blinking {
-        @include anim-status-glowing-blinking;
-    } @else {
-        @if $glowing {
-            @include anim-status-glowing;
-        }
-        @if $blinking {
-            @include anim-status-blinking;
-        }
-    }
-}
-
-.charger-connector-background {
-    border-radius: 30px;
-    border: 2px solid;
-}
-
-.charger-connector-available {
-    @include charge-connector-status('available', false, false, false);
-}
-
-.charger-connector-charging {
-    @include charge-connector-status('charging', true, true, false);
-}
-
-.charger-connector-charging-active {
-    @include charge-connector-status('charging', true, true, true);
-}
-
-.charger-connector-charging-inactive {
-    @include charge-connector-status('charging', true, true, false);
-}
-
-.charger-connector-faulted {
-    @include charge-connector-status('faulted', true, false, false);
-}
-
-.charger-connector-unavailable {
-    @include charge-connector-status('unavailable', true, false, false);
-}
-
-.charger-connector-preparing {
-    @include charge-connector-status('preparing', true, false, false);
-}
-
-.charger-connector-suspended-evse {
-    @include charge-connector-status('suspended-evse', true, false, false);
-}
-
-.charger-connector-suspended-ev {
-    @include charge-connector-status('suspended-ev', true, false, false);
-}
-
-.charger-connector-finishing {
-    @include charge-connector-status('finishing', true, false, false);
-}
-
-.charger-connector-reserved {
-    @include charge-connector-status('reserved', false, false, false);
-}
-
-.charger-connector-reserved {
-    @include charge-connector-status('reserved', false, false, false);
-}
-
-.charger-connector {
+.charger-connector-container {
     text-align: center;
     width: 30px;
     height: 30px;
@@ -115,11 +33,59 @@ $connectorStatusColor: ('available' : $brand-success,
     margin-right: 3px;
     justify-content: center;
     padding-top: .13rem;
+    border-radius: 50%;
+    border: 2px solid darken($brand-info, 5%);
+    color: $brand-inverse;
 
-    .charger-connector-active-text {
-        color: $white;
+    &.charger-connector-available {
+      color: $brand-success;
+      background-color: $brand-inverse;
+      border-color: darken($brand-success, 5%);
+    }
+    
+    &.charger-connector-charging {
+      background-color: $brand-info;
+    }
+    
+    &.charger-connector-charging-active {
+      background-color: $brand-info;
+      @include anim-status-glowing-blinking;
+    }
+    
+    &.charger-connector-charging-inactive {
+      background-color: $brand-info;
+    }
+    
+    &.charger-connector-faulted {
+      background-color: $brand-danger;
+      border-color: darken($brand-danger, 5%);
+    }
+    
+    &.charger-connector-unavailable {
+      background-color: $brand-disabled;
+      border-color: darken($brand-disabled, 5%);
+    }
+    
+    &.charger-connector-suspended-evse {
+      background-color: $brand-info;
+    }
+    
+    &.charger-connector-suspended-ev {
+      background-color: $brand-info;
+    }
+    
+    &.charger-connector-preparing, &.charger-connector-finishing {
+      background-color: $brand-warning;
+      border-color: darken($brand-warning, 5%);
+    }
+    
+    &.charger-connector-reserved {
+      background-color: $brand-warning;
+      border-color: darken($brand-warning, 5%);
     }
 
-    .charger-connector-text {}
-
-}
+    &.charger-connector-unknown {
+      background-color: $brand-disabled;
+      border-color: darken($brand-disabled, 5%);
+    }
+  }

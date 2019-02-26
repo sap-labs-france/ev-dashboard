@@ -120,11 +120,11 @@ export class ConsumptionChartComponent implements OnInit {
           position: 'right',
           gridLines: {
             display: true,
-            color: 'rgba(255,255,255,0.2)'
+            color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
             callback: (value, index, values) => `${value}%`,
-            fontColor: 'white'
+            fontColor: '#0d47a1'
           }
         });
     }
@@ -156,12 +156,12 @@ export class ConsumptionChartComponent implements OnInit {
           position: 'right',
           gridLines: {
             display: true,
-            color: 'rgba(255,255,255,0.2)'
+            color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
             callback: (value, index, values) => `${value}€`,
             min: 0,
-            fontColor: 'white'
+            fontColor: '#0d47a1'
           }
         });
     }
@@ -200,7 +200,7 @@ export class ConsumptionChartComponent implements OnInit {
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: 'white'
+          fontColor: '#0d47a1'
         }
       },
       responsive: true,
@@ -258,10 +258,10 @@ export class ConsumptionChartComponent implements OnInit {
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             },
             ticks: {
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             }
           }
         ],
@@ -272,11 +272,11 @@ export class ConsumptionChartComponent implements OnInit {
             position: 'left',
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value / 1000),
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             }
           }
         ]
@@ -313,6 +313,7 @@ export class ConsumptionChartComponent implements OnInit {
 
   updatePanOptions() {
     this.options.pan.rangeMin.x = this.consumptions.length > 0 ? new Date(this.consumptions[0].date).getTime() : 0;
+    // tslint:disable-next-line:max-line-length
     this.options.pan.rangeMax.x = this.consumptions.length > 0 ? new Date(this.consumptions[this.consumptions.length - 1].date).getTime() : 0;
   }
 

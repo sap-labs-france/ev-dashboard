@@ -1,6 +1,6 @@
-$table-bg-accent: rgba(#FFF, .03);
-$table-border-color: rgba(#FFF, .2);
-$table-bg-hover: rgba(#FFF, .02); // Grey 100 (on white background)
+$table-bg-accent: rgba($brand-primary, .03);
+$table-border-color: rgba($brand-primary, .2);
+$table-bg-hover: rgba($brand-primary, .02); // Grey 100 (on white background)
 
 $bmd-table-header-font-size: 1rem;
 $bmd-table-border-color-inverse: rgba(#000, .06);

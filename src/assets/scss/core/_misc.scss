@@ -1,20 +1,20 @@
 body {
-  background-color: $blue-1000;
-  color: $white-color;
+  background-color: $blue-50;
+  color: $brand-primary;
   font-weight: 300;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba($color: #fff, $alpha: 0.1);
+  background-color: $brand-inverse;
 }
  
 ::-webkit-scrollbar-thumb {
-  background: $blue-925;
+  background: $blue-200;
 }
 
 legend {
@@ -167,16 +167,16 @@ label {
     width: 100%;
     background: transparent;
     bottom: 0;
-    color: $white-color;
+    color: $brand-primary;
     z-index: 1;
     .copyright a {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   .navbar {
     .navbar-brand,
     .navbar-collapse .nav-link {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 }
@@ -366,7 +366,7 @@ label {
 }
 
 #notifications {
-  background-color: $white-color;
+  background-color: $brand-primary;
   display: block;
   width: 100%;
   position: relative;
@@ -425,7 +425,7 @@ label {
 
 .separator {
   content: "Separator";
-  color: #FFFFFF;
+  color: $brand-primary;
   display: block;
   width: 100%;
   padding: 20px;
@@ -471,7 +471,7 @@ label {
 
 .sharing-area .btn {
   margin: 15px 4px 0;
-  color: #FFFFFF;
+  color: $brand-primary;
 }
 
 .sharing-area .btn i {

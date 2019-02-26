@@ -53,10 +53,10 @@
 @mixin badges-color($color) {
   .tag {
     background-color: $color;
-    color: $white-color;
+    color: $brand-primary;
 
     .tagsinput-remove-link {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
   // .tagsinput-add{

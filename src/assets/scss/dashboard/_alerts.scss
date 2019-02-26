@@ -67,7 +67,7 @@
       position: absolute;
       margin-top: -39px;
       font-size: 20px;
-      background-color: $white-color;
+      background-color: $brand-inverse;
       padding: 9px;
       border-radius: 50%;
       max-width: 38px;
@@ -78,7 +78,7 @@
   .close {
     line-height: .5;
     i {
-      color: $white-color;
+      color: $brand-primary;
       font-size: 11px;
     }
   }

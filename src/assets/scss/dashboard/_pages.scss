@@ -104,7 +104,7 @@
   .footer nav > ul a:not(.btn),
   .footer,
   .footer .copyright a {
-    color: $white-color;
+    color: $brand-primary;
   }
 
 }
@@ -135,6 +135,8 @@
   overflow: auto;
   height: 90vh;
   padding-top: 0 !important;
+  color: $brand-inverse;
+  background: rgba(0,0,0,0.3);
 }
 
 .login-page {
@@ -143,7 +145,7 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: linear-gradient(60deg, $blue-400, $blue-825);
+    background: $brand-inverse;
     opacity: 0.9;
 
     &.card-hidden {
@@ -190,7 +192,7 @@
   .card-profile {
     width: 240px;
     margin: 60px auto 0;
-    color: #FFFFFF;
+    color: $brand-primary;
     left: 0;
     right: 0;
     display: block;
@@ -230,11 +232,12 @@
 
   .footer {
     z-index: 1;
-    color: #fff;
+    color: $brand-primary;
 
     .copyright {
       a {
-        color: $white;
+        color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -278,6 +281,7 @@
       }
       a {
         color: $brand-primary;
+        font-weight: 500;
       }
     }
 
@@ -329,14 +333,15 @@
   }
 
   .footer {
-    color: $white-color;
+    color: $brand-primary;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $white;
+        color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -361,7 +366,7 @@
   padding: 0 !important;
 
   .title {
-    color: $white-color;
+    color: $brand-primary;
     margin-top: 5vh;
   }
 
@@ -373,12 +378,12 @@
   .card-plain {
     .icon i,
     .card-title {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 
   .description {
-    color: $white-color;
+    color: $brand-primary;
   }
   &.full-page:before {
     background-color: rgba(0, 0, 0, 0.65);
@@ -386,14 +391,15 @@
 
   .footer {
     z-index: 2;
-    color: $white-color;
+    color: $brand-primary;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $white;
+        color: $brand-primary;
+        font-weight: 500;
 
         &:hover {
           color: $brand-primary;
@@ -405,14 +411,14 @@
 
 .off-canvas-sidebar {
   .navbar-toggler .navbar-toggler-icon {
-    background-color: $white-color !important;
+    background-color: $brand-primary !important;
   }
 
   .navbar-collapse {
     .nav {
       > li > a,
       > li > a:hover {
-        color: $white-color;
+        color: $brand-primary;
         margin: 0 15px;
       }
 
@@ -430,7 +436,7 @@
 .offline-doc {
   .navbar .navbar-nav {
     .nav-item .nav-link {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 }
@@ -453,7 +459,8 @@
     }
     .copyright,
     a {
-      color: #FFFFFF;
+      color: $brand-primary;
+      font-weight: 500;
     }
   }
 }

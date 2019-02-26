@@ -216,8 +216,7 @@
 
       <!-- Detailed Icon Column -->
       <ng-container matColumnDef="details">
-        <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell><i class="material-icons">keyboard_arrow_right</i>
-        </th>
+        <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
           <i
             (click)="showHideDetailsClicked(row['data'])"

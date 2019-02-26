@@ -7,7 +7,7 @@
 
         <div class="card-nooverflow">
             <div *ngIf="withTrend" [class]="'d-flex align-items-center justify-content-end trending-stat ' + (trendClass ? trendClass : '')">
-                <i class="material-icons trending-icon" [ngStyle]="{'transform': trendingRotation}" [title]="trendTitle">trending_flat</i>
+                <!-- <i class="material-icons trending-icon" [ngStyle]="{'transform': trendingRotation}" [title]="trendTitle">trending_flat</i> -->
                 <h3 [class]="'card-title ' + (titleClass ? titleClass : '')">{{cardTitle | translate}}
                 </h3>
             </div>

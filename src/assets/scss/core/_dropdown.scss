@@ -115,7 +115,7 @@
   a:active {
     @include shadow-small-color($brand-primary);
     background-color: $brand-primary;
-    color: #FFFFFF;
+    color: $brand-primary;
   }
 }
 

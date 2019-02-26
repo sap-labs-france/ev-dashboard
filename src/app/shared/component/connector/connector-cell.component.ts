@@ -6,10 +6,10 @@ import {CellContentTemplateComponent} from '../../table/cell-content-template/ce
   styleUrls: ['./connector-cell.scss'],
   template: `
     <div data-toggle="tooltip" [attr.title]="row.status"
-         class="charger-connector charger-connector-background" [appChargerStatus]="chargerStatus">
-        <span [appChargerStatusText]="row.status">
-          {{row.connectorId | appConnectorId}}
-        </span>
+        class="charger-connector-container" [appChargerStatus]="chargerStatus">
+      <span>
+        {{row.connectorId | appConnectorId}}
+      </span>
     </div>
   `
 })
@@ -31,8 +31,8 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
 
   updateValues() {
     this.chargerStatus = this.row.status;
-    if (this.row.status === 'Charging' && this.row.currentConsumption) {
-      this.chargerStatus = (this.row.currentConsumption > 0 ? `${this.row.status}-active` : `${this.row.status}-inactive`)
+    if (this.row.status === 'Charging' || this.row.status === 'Occupied') {
+      this.chargerStatus = (this.row.currentConsumption > 0 ? `${this.row.status}-active` : `${this.row.status}-inactive`);
     }
   }
 }

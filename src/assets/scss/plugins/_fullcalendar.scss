@@ -34,7 +34,7 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 .fc-unthemed .fc-popover {
-  background-color: $white-color;
+  background-color: $brand-primary;
 }
 
 .fc-unthemed .fc-divider,
@@ -555,7 +555,7 @@ temporary rendered events).
 .fc-event,
 .fc-event:hover,
 .ui-widget .fc-event {
-  color: $white-color; /* default TEXT color */
+  color: $brand-primary; /* default TEXT color */
   text-decoration: none; /* if <a> has an href */
 }
 
@@ -744,7 +744,7 @@ tr:first-child > td > .fc-day-grid-event {
 .fc-day-grid-event .fc-content { /* force events to be one-line tall */
   white-space: nowrap;
   overflow: hidden;
-  color: #fff;
+  color: $brand-primary;
 }
 
 .fc-day-grid-event .fc-time {
@@ -1462,7 +1462,7 @@ be a descendant of the grid when it is being dragged.
     border: 0;
 
     .fc-title {
-      color: $white-color;
+      color: $brand-primary;
     }
   }
 

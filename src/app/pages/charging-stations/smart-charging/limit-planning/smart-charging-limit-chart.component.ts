@@ -114,7 +114,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: 'white'
+          fontColor: '#0d47a1'
         }
       },
       responsive: true,
@@ -159,10 +159,10 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             },
             ticks: {
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             }
           }
         ],
@@ -173,11 +173,11 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             position: 'left',
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value),
-              fontColor: 'white'
+              fontColor: '#0d47a1'
             },
             gridLines: {
               display: true,
-              color: 'rgba(255,255,255,0.2)'
+              color: 'rgba(0,0,0,0.2)'
             }
           }
         ]

@@ -5,11 +5,11 @@ import { ACTION_SMART_CHARGING } from './table-charger-more-action';
 export class TableChargerSmartChargingAction implements TableAction {
   private action: TableActionDef = {
     id: ACTION_SMART_CHARGING,
-    type: 'button', 
+    type: 'button',
     name: 'chargers.more_actions_items.smart_charging_item',
-    icon: 'battery_charging_full', 
+    icon: 'battery_charging_full',
     tooltip: 'general.tooltips.smart_charging',
-    class: 'btn-info'
+    class: 'btn-success'
   };
 
   public getActionDef(): TableActionDef {

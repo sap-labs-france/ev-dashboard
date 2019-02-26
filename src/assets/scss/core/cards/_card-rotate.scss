@@ -19,7 +19,7 @@
       @include backface-visibility(hidden);
       @include shadow-2dp();
       position: absolute;
-      background-color: $white-color;
+      background-color: $brand-inverse;
       border-radius: $border-radius-large;
       top: 0;
       left: 0;

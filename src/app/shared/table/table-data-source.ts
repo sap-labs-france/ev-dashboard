@@ -164,10 +164,38 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<T[]> {
+    this._isDestroyed = false;
+    if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
+      this.dataSubject = new BehaviorSubject<any[]>([]);
+    }
     return this.dataSubject.asObservable();
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
+    this._isDestroyed = true;
+    if (this._displayDetailsColumns) {
+      this._displayDetailsColumns.complete();
+      this._displayDetailsColumns = null;
+    }
+    if (this._rowRefresh) {
+      this._rowRefresh.complete();
+      this._rowRefresh = null;
+    }
+    if (this._ongoingAutoRefresh) {
+      this._ongoingAutoRefresh.complete();
+      this._ongoingAutoRefresh = null;
+    }
+    if (this._ongoingManualRefresh) {
+      this._ongoingManualRefresh.complete();
+      this._ongoingManualRefresh = null;
+    }
+    if (this.dataChangeSubscription) {
+      this.dataChangeSubscription.unsubscribe();
+      this.dataChangeSubscription = null;
+    }
+    this.paginator = null;
+    this.sort = null;
+
     this.dataSubject.complete();
   }
 
@@ -215,42 +243,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         ]
       }
     }
-  }
-
-  /**
-   * Called by table component on ngOnDestroy
-   *
-   * @memberof TableDataSource
-   */
-  public destroy() {
-    this._isDestroyed = true;
-    if (this._displayDetailsColumns) {
-      this._displayDetailsColumns.complete();
-      this._displayDetailsColumns = null;
-    }
-    if (this._rowRefresh) {
-      this._rowRefresh.complete();
-      this._rowRefresh = null;
-    }
-    if (this._ongoingAutoRefresh) {
-      this._ongoingAutoRefresh.complete();
-      this._ongoingAutoRefresh = null;
-    }
-    if (this._ongoingManualRefresh) {
-      this._ongoingManualRefresh.complete();
-      this._ongoingManualRefresh = null;
-    }
-    if (this.dataChangeSubscription) {
-//      console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this.dataChangeSubscription);
-      this.dataChangeSubscription.unsubscribe();
-      this.dataChangeSubscription = null;
-    }
-    // if (this._refreshInterval) {
-    //   clearInterval(this._refreshInterval);
-    //   this._refreshInterval = null;
-    // }
-    this.paginator = null;
-    this.sort = null;
   }
 
   public setNumberOfRecords(numberOfRecords: number) {
@@ -418,7 +410,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   refreshReload() {
     // check if there is not already an ongoing refresh
     let refreshStatus;
-    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    if (this._ongoingManualRefresh) {
+      this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
+    }
     this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
     if (refreshStatus) {
       return;
@@ -443,7 +437,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // check if there is not already an ongoing refresh
     let refreshStatus;
     this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
-    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    if (this._ongoingAutoRefresh) {
+      this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
+    }
     if (refreshStatus) {
       return;
     }
@@ -457,7 +453,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this._ongoingManualRefresh.next(false);
     } else {
       setTimeout(() => {
-        this._ongoingManualRefresh.next(false);
+        if (this._ongoingManualRefresh) {
+          this._ongoingManualRefresh.next(false);
+        }
       }, 1000 - (endDate - startDate));
     }
   }

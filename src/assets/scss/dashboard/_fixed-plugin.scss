@@ -40,7 +40,7 @@
 }
 
 .fixed-plugin .fa-cog {
-  color: #FFFFFF;
+  color: $brand-primary;
   padding: 10px;
   border-radius: 0 0 6px 6px;
   width: auto;
@@ -61,7 +61,7 @@
 }
 
 .fixed-plugin .fa-circle-thin {
-  color: #FFFFFF;
+  color: $brand-primary;
 }
 
 .fixed-plugin .active .fa-circle-thin {
@@ -105,39 +105,39 @@
 }
 
 .fixed-plugin .badge-black {
-  background-color: #000;
+  background-color: $brand-inverse;
 }
 
 .fixed-plugin .badge-azure {
-  background-color: #2CA8FF;
+  background-color: $brand-info;
 }
 
 .fixed-plugin .badge-green {
-  background-color: #18ce0f;
+  background-color: $brand-success;
 }
 
 .fixed-plugin .badge-orange {
-  background-color: #f96332;
+  background-color: $brand-danger;
 }
 
 .fixed-plugin .badge-yellow {
-  background-color: #FFB236;
+  background-color: $brand-warning;
 }
 
 .fixed-plugin .badge-danger {
-  background-color: #ef9a9a;
+  background-color: $brand-danger;
 }
 
 .fixed-plugin .badge-purple {
-  background-color: #9368E9;
+  background-color: $brand-purple;
 }
 
 .fixed-plugin .badge-white {
-  background-color: rgba(200, 200, 200, 0.2);
+  background-color: $brand-inverse;
 }
 
 .fixed-plugin .badge-rose {
-  background-color: #e91e63;
+  background-color: $pink-400;
 }
 
 .fixed-plugin h5 {
@@ -217,7 +217,7 @@
   font-size: 16px;
   text-align: center;
   border-radius: 10px;
-  background-color: #FFF;
+  background-color: $brand-primary;
   border: 3px solid #FFF;
   padding-left: 0;
   padding-right: 0;
@@ -243,7 +243,7 @@
 .fixed-plugin .dropdown-menu > .active > a.img-holder,
 .fixed-plugin .dropdown-menu > .active > a.img-holder {
   border-color: #00bbff;
-  background-color: #FFFFFF;
+  background-color: $brand-primary;
 }
 
 .fixed-plugin .dropdown-menu > li > a img {

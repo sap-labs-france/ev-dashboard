@@ -239,7 +239,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         ]
       } else {
         return [
-          //        { field: 'id', direction: 'asc' }
+          // { field: 'id', direction: 'asc' }
         ]
       }
     }
@@ -378,7 +378,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     if (!this.dataChangeSubscription) {
       this.definePollingIntervalStrategy();
       if (this.pollingInterval > 0) {
-//        this.dataChangeSubscription
+        // this.dataChangeSubscription
         // if (this._refreshInterval) {
         //   clearInterval(this._refreshInterval);
         // }

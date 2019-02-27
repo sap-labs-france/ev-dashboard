@@ -160,4 +160,9 @@ export class Constants {
   /* OCPI Patch Job status */
   public static OCPIENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
   public static OCPIENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
+
+  /* RegEx validation rule */
+  public static REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;
+  public static REGEX_VALIDATION_LONGITUDE = /^-?([1]?[0-7][0-9]|[1]?[0-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/;
+
 }

@@ -16,7 +16,7 @@ import { defaultIterableDiffers } from '@angular/core/src/change_detection/chang
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
-  private site: Site;
+  private _site: Site;
 
   constructor(
     private messageService: MessageService,
@@ -30,7 +30,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
 
   public loadData() {
     // Site provided?
-    if (this.site) {
+    if (this._site) {
       // Yes: Get data
       this.centralServerService.getUsers(this.getFilterValues(),
         this.getPaging(), this.getOrdering()).subscribe((users) => {
@@ -95,7 +95,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       {'SiteID': site.id}
     ]);
     // Set site
-    this.site = site;
+    this._site = site;
   }
 
   public getTableActionsDef(): TableActionDef[] {
@@ -140,7 +140,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     const dialogConfig = new MatDialogConfig();
     // Set data
     dialogConfig.data = {
-      excludeUsersOfSiteID: this.site.id,
+      excludeUsersOfSiteID: this._site.id,
       tableDef: {
         class: 'table-dialog-list',
         rowSelection: {
@@ -160,7 +160,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
 
   private _removeUsers(userIDs) {
     // Yes: Update
-    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe(response => {
+    this.centralServerService.removeUsersFromSite(this._site.id, userIDs).subscribe(response => {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
@@ -186,7 +186,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update
-      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe(response => {
+      this.centralServerService.addUsersToSite(this._site.id, userIDs).subscribe(response => {
         // Ok?
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Ok

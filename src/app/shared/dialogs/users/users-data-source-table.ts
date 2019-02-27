@@ -1,6 +1,6 @@
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {TableColumnDef, TableDef, User} from '../../../common.types';
+import {TableColumnDef, User} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
@@ -31,19 +31,6 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('general.error_backend'));
     });
-  }
-
-  getTableDef(): TableDef {
-    return {
-      class: 'table-dialog-list',
-      rowSelection: {
-        enabled: true,
-        multiple: false
-      },
-      search: {
-        enabled: true
-      }
-    };
   }
 
   getTableColumnDefs(): TableColumnDef[] {

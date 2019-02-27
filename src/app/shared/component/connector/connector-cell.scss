@@ -24,6 +24,12 @@
     animation: status-blinking 2s ease-in-out infinite, status-glowing 4s ease-in-out infinite;
 }
 
+@keyframes text-color-invert {
+  100% {
+      color: $brand-info;
+  }
+}
+
 .charger-connector-container {
     text-align: center;
     width: 30px;
@@ -50,6 +56,9 @@
     &.charger-connector-charging-active {
       background-color: $brand-info;
       @include anim-status-glowing-blinking;
+      &.charger-connector-charging-active-text {
+        animation: text-color-invert 4s ease-in-out infinite;
+      }
     }
     
     &.charger-connector-charging-inactive {

@@ -7,7 +7,7 @@ import {CellContentTemplateComponent} from '../../table/cell-content-template/ce
   template: `
     <div data-toggle="tooltip" [attr.title]="row.status"
         class="charger-connector-container" [appChargerStatus]="chargerStatus">
-      <span>
+      <span class="charger-connector-charging-active-text">
         {{row.connectorId | appConnectorId}}
       </span>
     </div>

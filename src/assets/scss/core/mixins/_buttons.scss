@@ -203,7 +203,7 @@
     &:focus,
     &:active {
       background-color: transparent;
-      color: $background;
+      color: darken($background, 20%);
     }
   }
 

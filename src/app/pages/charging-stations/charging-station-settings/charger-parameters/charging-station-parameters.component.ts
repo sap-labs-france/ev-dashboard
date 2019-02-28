@@ -3,7 +3,7 @@ import { Charger, SiteArea } from '../../../../common.types';
 import { LocaleService } from '../../../../services/locale.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -14,6 +14,7 @@ import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-
 import { SiteAreaDialogComponent } from '../site-area/site-area.dialog.component';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { Constants } from '../../../../utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -36,6 +37,7 @@ const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
   @Input() charger: Charger;
+  @Input() dialogRef: MatDialogRef<any>;
   private messages;
   public userLocales;
   public isAdmin;
@@ -62,6 +64,7 @@ export class ChargingStationParametersComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
     private router: Router) {
 
@@ -105,13 +108,13 @@ export class ChargingStationParametersComponent implements OnInit {
         Validators.compose([
           Validators.max(90),
           Validators.min(-90),
-          Validators.pattern(/^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/)
+          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
         ])),
       'longitude': new FormControl('',
         Validators.compose([
           Validators.max(180),
           Validators.min(-180),
-          Validators.pattern(/^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/)
+          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
         ]))
     });
     // Form
@@ -331,7 +334,7 @@ export class ChargingStationParametersComponent implements OnInit {
         // Ok
         // tslint:disable-next-line:max-line-length
         this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
-        this.refresh();
+        this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.messages['change_config_error']);
@@ -355,5 +358,39 @@ export class ChargingStationParametersComponent implements OnInit {
             this.messages['change_config_error']);
       }
     });
+  }
+
+  public closeDialog() {
+    if ( this.dialogRef) {
+      this.dialogRef.close();
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowYesNoCancelDialog(
+        this.dialog,
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.saveChargeBox();
+        } else if (result === Constants.BUTTON_TYPE_NO) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
   }
 }

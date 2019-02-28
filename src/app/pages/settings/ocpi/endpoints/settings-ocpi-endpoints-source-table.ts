@@ -233,6 +233,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     if (endpoint) {
       dialogConfig.data = endpoint;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());
@@ -311,4 +313,5 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       }
     });
   }
+
 }

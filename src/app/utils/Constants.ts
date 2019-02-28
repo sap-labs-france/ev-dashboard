@@ -126,9 +126,10 @@ export class Constants {
   public static BUTTON_TYPE_CANCEL: ButtonType = 'CANCEL';
   public static BUTTON_TYPE_YES: ButtonType = 'YES';
   public static BUTTON_TYPE_NO: ButtonType = 'NO';
+  public static DIALOG_TYPE_OK: DialogType = 'OK';
   public static DIALOG_TYPE_YES_NO: DialogType = 'YES_NO';
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
-  public static DIALOG_TYPE_OK: DialogType = 'OK';
+  public static DIALOG_TYPE_YES_NO_CANCEL: DialogType = 'YES_NO_CANCEL';
 
   /* Tenant Components */
   public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization', 'sac'];
@@ -160,4 +161,9 @@ export class Constants {
   /* OCPI Patch Job status */
   public static OCPIENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
   public static OCPIENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
+
+  /* RegEx validation rule */
+  public static REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;
+  public static REGEX_VALIDATION_LONGITUDE = /^-?([1]?[0-7][0-9]|[1]?[0-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/;
+
 }

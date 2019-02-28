@@ -226,6 +226,8 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     if (company) {
       dialogConfig.data = company.id;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());

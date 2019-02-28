@@ -10,10 +10,13 @@ import {TranslateService} from '@ngx-translate/core';
 export class ConfirmationDialogComponent {
   public title = '';
   public message = '';
-  public buttonValidateName = '';
-  public buttonCancelName = '';
   public buttonValidateID = '';
+  public buttonValidateName = '';
+  public buttonNoID = '';
+  public buttonNoName = '';
   public buttonCancelID = '';
+  public buttonCancelName = '';
+
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
@@ -30,30 +33,51 @@ export class ConfirmationDialogComponent {
         this.buttonValidateName = this.translateService.instant('general.ok');
         this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
+        this.buttonNoID = null;
+        this.buttonNoName = null;
         break;
 
       // Yes / No
       case Constants.DIALOG_TYPE_YES_NO:
         this.buttonValidateID = Constants.BUTTON_TYPE_YES;
         this.buttonValidateName = this.translateService.instant('general.yes');
-        this.buttonCancelID = Constants.BUTTON_TYPE_NO;
-        this.buttonCancelName = this.translateService.instant('general.no');
-        break;
-
-      case Constants.DIALOG_TYPE_OK:
-        this.buttonValidateID = Constants.BUTTON_TYPE_OK;
-        this.buttonValidateName = this.translateService.instant('general.ok');
+        this.buttonNoID = Constants.BUTTON_TYPE_NO;
+        this.buttonNoName = this.translateService.instant('general.no');
         this.buttonCancelID = null;
         this.buttonCancelName = null;
         break;
+      // Yes
+      case Constants.DIALOG_TYPE_OK:
+        this.buttonValidateID = Constants.BUTTON_TYPE_OK;
+        this.buttonValidateName = this.translateService.instant('general.ok');
+        this.buttonNoID = null;
+        this.buttonNoName = null;
+        this.buttonCancelID = null;
+        this.buttonCancelName = null;
+        break;
+      // Yes / No / Cancel
+      case Constants.DIALOG_TYPE_YES_NO_CANCEL:
+      this.buttonValidateID = Constants.BUTTON_TYPE_YES;
+      this.buttonValidateName = this.translateService.instant('general.yes');
+      this.buttonNoID = Constants.BUTTON_TYPE_NO;
+      this.buttonNoName = this.translateService.instant('general.no');
+      this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+      this.buttonCancelName = this.translateService.instant('general.cancel');
+      break;
     }
   }
 
-  valdate() {
+  validate() {
     this.dialogRef.close(this.buttonValidateID);
+  }
+
+  no() {
+    this.dialogRef.close(this.buttonNoID);
   }
 
   cancel() {
     this.dialogRef.close(this.buttonCancelID);
   }
+
+
 }

@@ -22,14 +22,7 @@
                                                 <span class="btn-label">{{'general.save' | translate}}</span>
                                             </span>
                                         </button>
-                                        <button *ngIf="currentCompanyID" class="btn btn-info mat-raised-button" (click)="refresh()">
-                                            <span class="mat-button-wrapper">
-                                                <i class="material-icons mr-2">refresh</i>
-                                                <span class="btn-label">{{'general.refresh' | translate}}</span>
-                                            </span>
-                                        </button>
-                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button"
-                                            mat-dialog-close>
+                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button" (click)="onClose()">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons">close</i>
                                             </span>

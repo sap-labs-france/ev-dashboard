@@ -50,7 +50,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private manualRefreshObserver: Subscription;
   private rowRefreshObserver: Subscription;
   private displayDetailObserver: Subscription;
-  //  private _detailComponentId: number;
+  // private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
   private actionsLeftDef: TableActionDef[] = [];
@@ -171,9 +171,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set Search
     this.dataSource.setSearchInput(this.searchInput);
     this.selection.clear();
-//    console.log(`${new Date().toISOString()} AfterViwInit ${this.constructor.name}`);
-
-//    this.dataSource.registerToDataChange();
+    // console.log(`${new Date().toISOString()} AfterViwInit ${this.constructor.name}`);
+    // this.dataSource.registerToDataChange();
   }
 
   ngOnDestroy() {
@@ -312,8 +311,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * set*ReferenceRow
-   *row, */
+   * setReferenceRow
+   * @row
+   * @rowDetails
+   */
   public setReferenceRow(row, rowDetails) {
     rowDetails.parentRow = row;
     return true;

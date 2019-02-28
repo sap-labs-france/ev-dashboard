@@ -267,7 +267,35 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           sortable: false,
           isAngularComponent: true,
           angularComponentName: InstantPowerProgressBarComponent
-        }
+        },
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          sortable: true,
+          defaultValue: 'sites.unassigned',
+          headerClass: 'd-none d-xl-table-cell',
+          formatter: (value) => {
+            if (value === 'sites.unassigned') {
+              return this.translateService.instant(value)
+            } else {
+              return value;
+            }
+          }
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          sortable: true,
+          defaultValue: 'site_areas.unassigned',
+          headerClass: 'd-none d-xl-table-cell',
+          formatter: (value) => {
+            if (value === 'site_areas.unassigned') {
+              return this.translateService.instant(value)
+            } else {
+              return value;
+            }
+          }
+        },
       ];
     }
   }
@@ -284,12 +312,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    if (this.authorizationService.isDemo()) {
+    if (this.authorizationService.isAdmin()) {
+      return [
+        new TableExportAction().getActionDef()
+      ];
+    } else {
       return [];
     }
-    return [
-      new TableExportAction().getActionDef()
-    ];
   }
 
   public getTableRowActions(): TableActionDef[] {

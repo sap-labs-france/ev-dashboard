@@ -181,7 +181,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },
-      {
+/*      {
         id: 'type',
         name: 'chargers.connector_type',
         headerClass: 'text-center',
@@ -191,7 +191,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           return `<img class="charger-connector-type" src="${imageUrl}"/>`;
         },
         sortable: false
-      },
+      },*/
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
@@ -243,15 +243,33 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   specificRowActions(rowItem): TableActionDef[] {
     if (rowItem && rowItem.activeTransactionID) {
+      // check if Authorized or is Admin
+      if ((this.connectorTransactionAuthorization && this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)
+           || this.authorizationService.isAdmin()) {
+        return [
+          new TableOpenAction().getActionDef(),
+          this.stopAction.getActionDef()
+        ];
+      }
+      // Demo can display transaction details only
+      if (this.authorizationService.isDemo()) {
+        return [
+          new TableOpenAction().getActionDef()
+        ];
+      } else {
+        // No authorization to stop or display details
+        return [];
+      }
+    }
+
+    // default action is start except for demo
+    if (this.authorizationService.isDemo()) {
+      return [];
+    } else {
       return [
-        new TableOpenAction().getActionDef(),
-        this.stopAction.getActionDef()
+        this.startAction.getActionDef()
       ];
     }
-    // dafault
-    return [
-      this.startAction.getActionDef()
-    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

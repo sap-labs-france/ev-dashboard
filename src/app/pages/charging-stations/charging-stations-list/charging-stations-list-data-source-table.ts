@@ -41,18 +41,22 @@ import { TableChargerSiteAreaAction } from '../other-actions-button/table-charge
 import { SiteAreaDialogComponent } from '../charging-station-settings/site-area/site-area.dialog.component';
 import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
 import { TableChargerSmartChargingAction } from '../other-actions-button/table-charger-smart-charging-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 
-const POLL_INTERVAL = 10000;
+const POLL_INTERVAL = 15000;
 
 const DEFAULT_ADMIN_ROW_ACTIONS = [
   new TableEditAction().getActionDef(),
+  new TableOpenInMapsAction().getActionDef(),
   new TableChargerRebootAction().getActionDef(),
-  new TableChargerSmartChargingAction().getActionDef(),
+//  new TableChargerSmartChargingAction().getActionDef(),
   new TableChargerMoreAction().getActionDef(),
 ];
 
 const DEFAULT_BASIC_ROW_ACTIONS = [
-  new TableEditAction().getActionDef()
+  new TableEditAction().getActionDef(),
+  new TableOpenInMapsAction().getActionDef()
 ]
 
 const NODELETE_ADMIN_ROW_ACTIONS = [
@@ -314,10 +318,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   public getTableActionsDef(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return [
+        new TableOpenInMapsAction().getActionDef(),
         new TableExportAction().getActionDef()
       ];
     } else {
-      return [];
+      return [ new TableOpenInMapsAction().getActionDef() ];
     }
   }
 
@@ -347,6 +352,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           }
         });
         break;
+      case 'open_in_maps':
+        this._openGeoMap();
+      break;
     }
     super.actionTriggered(actionDef);
   }
@@ -364,11 +372,14 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           'chargers.reset_error'
         );
         break;
-      case ACTION_SMART_CHARGING:
-        this._dialogSmartCharging(rowItem);
+        case 'open_in_maps':
+          this._openGeoMap(rowItem);
         break;
       case 'more':
         switch (dropdownItem.id) {
+          case ACTION_SMART_CHARGING:
+            this._dialogSmartCharging(rowItem);
+          break;
           case 'delete':
             this._deleteChargingStation(rowItem);
             break;
@@ -603,5 +614,92 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
+  }
+
+  private _openGeoMap(charger?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '50vw';
+
+    if (charger) {
+/*      // get latitud/longitude from form
+      let latitude = charger.latitude;
+      let longitude = charger.longitude;
+
+      // if one is not available try to get from SiteArea and then from Site
+      if (!latitude || !longitude) {
+        const siteArea = charger.siteArea;
+
+        if (siteArea && siteArea.address) {
+          if (siteArea.address.latitude && siteArea.address.longitude) {
+            latitude = siteArea.address.latitude;
+            longitude = siteArea.address.longitude;
+          } else {
+            const site = siteArea.site;
+
+            if (site && site.address && site.address.latitude && site.address.longitude) {
+              latitude = site.address.latitude;
+              longitude = site.address.longitude;
+            }
+          }
+        }
+      }*/
+
+      // Set data
+      dialogConfig.data = {
+        latitude: this._getChargerLatitudeLongitude(charger).latitude,
+        longitude: this._getChargerLatitudeLongitude(charger).longitude,
+        label: charger.id ? charger.id : '',
+        displayOnly: true,
+        dialogTitle: charger.id ? charger.id : ''
+      }
+    } else {
+      const markers = this.getData().map(currCharger => { return {
+        latitude: this._getChargerLatitudeLongitude(currCharger).latitude,
+        longitude: this._getChargerLatitudeLongitude(currCharger).longitude,
+        labelFormatted: currCharger.id }
+      });
+      // Set data
+      dialogConfig.data = {
+        displayOnly: true,
+        dialogTitle: this.translateService.instant('chargers.dialog.localisation.title'),
+        markers: markers
+      }
+    }
+
+    // Open
+    this.dialog.open(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+      });
+  }
+
+  private _getChargerLatitudeLongitude(charger: Charger) {
+    let latitude = 0;
+      let longitude = 0;
+    if (charger) {
+      // get latitud/longitude from form
+      latitude = charger.latitude;
+      longitude = charger.longitude;
+
+      // if one is not available try to get from SiteArea and then from Site
+      if (!latitude || !longitude) {
+        const siteArea = charger.siteArea;
+
+        if (siteArea && siteArea.address) {
+          if (siteArea.address.latitude && siteArea.address.longitude) {
+            latitude = siteArea.address.latitude;
+            longitude = siteArea.address.longitude;
+          } else {
+            const site = siteArea.site;
+
+            if (site && site.address && site.address.latitude && site.address.longitude) {
+              latitude = site.address.latitude;
+              longitude = site.address.longitude;
+            }
+          }
+        }
+      }
+    }
+    return {latitude: latitude, longitude: longitude};
   }
 }

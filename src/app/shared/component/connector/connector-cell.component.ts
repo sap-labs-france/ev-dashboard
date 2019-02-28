@@ -15,7 +15,8 @@ import { AuthorizationService } from 'app/services/authorization-service';
         {{row.connectorId | appConnectorId}}
       </div>
     </div>
-    <div *ngIf="!isSimpleConnectorDisplay && row.type" [matTooltip]="row.type | appConnectorType:false | translate"
+    <div *ngIf="!isSimpleConnectorDisplay && (row.type || row.type === null)"
+      [matTooltip]="row.type | appConnectorType:false | translate"
       class="charger-connector-container charger-connector-container-image
               d-flex align-items-center justify-content-center"
               [class.charger-connector-container-image-small]="!largeDisplay"

@@ -141,7 +141,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + moment.duration(moment(currentDate).diff(firstDate)).format('h[h]mm[m]', { trim: false });
+              ' - ' + (<any>moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', { trim: false });
           }
         }
       },

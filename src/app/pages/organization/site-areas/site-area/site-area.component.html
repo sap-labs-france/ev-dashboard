@@ -23,7 +23,7 @@
                                             </span>
                                         </button>
                                         <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button"
-                                            mat-dialog-close>
+                                            (click)="onClose()">
                                             <span class="mat-button-wrapper">
                                                 <i class="material-icons">close</i>
                                             </span>

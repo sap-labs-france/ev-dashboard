@@ -4,7 +4,6 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { mergeMap } from 'rxjs/operators';
 
-import { LocaleService } from 'app/services/locale.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -13,6 +12,7 @@ import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { DialogService } from 'app/services/dialog.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-site-area-cmp',
@@ -53,7 +53,7 @@ export class SiteAreaComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private localeService: LocaleService,
+    private translateService: TranslateService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -368,6 +368,34 @@ export class SiteAreaComponent implements OnInit {
   public closeDialog() {
     if (this.inDialog) {
       this.dialogRef.close();
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowYesNoCancelDialog(
+        this.dialog,
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.saveSiteArea(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_NO) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
     }
   }
 }

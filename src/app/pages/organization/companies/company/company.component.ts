@@ -1,17 +1,19 @@
-import {mergeMap} from 'rxjs/operators';
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import { mergeMap } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
-import {CentralServerService} from 'app/services/central-server.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {MessageService} from 'app/services/message.service';
-import {ParentErrorStateMatcher} from 'app/utils/ParentStateMatcher';
-import {DialogService} from 'app/services/dialog.service';
-import {Constants} from 'app/utils/Constants';
-import {Utils} from 'app/utils/Utils';
+import { CentralServerService } from 'app/services/central-server.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { MessageService } from 'app/services/message.service';
+import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { DialogService } from 'app/services/dialog.service';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+
 
 @Component({
   selector: 'app-company-cmp',
@@ -49,11 +51,12 @@ export class CompanyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private translateService: TranslateService,
     private router: Router) {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateCompany({'id': this.activatedRoute.snapshot.params['id']})) {
+      !authorizationService.canUpdateCompany({ 'id': this.activatedRoute.snapshot.params['id'] })) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -120,7 +123,7 @@ export class CompanyComponent implements OnInit {
       });
     }
     // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+    jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
   }
 
   public isOpenInDialog(): boolean {
@@ -241,7 +244,7 @@ export class CompanyComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.create_success',
-          {'companyName': company.name});
+          { 'companyName': company.name });
         // Refresh
         this.currentCompanyID = company.id;
         this.closeDialog();
@@ -278,7 +281,7 @@ export class CompanyComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('companies.update_success', {'companyName': company.name});
+        this.messageService.showSuccessMessage('companies.update_success', { 'companyName': company.name });
         this.closeDialog();
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -321,7 +324,35 @@ export class CompanyComponent implements OnInit {
 
   public closeDialog() {
     if (this.inDialog) {
-      this.dialogRef.close();
+        this.dialogRef.close();
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowYesNoCancelDialog(
+        this.dialog,
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.saveCompany(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_NO) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
     }
   }
 }

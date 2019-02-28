@@ -3,7 +3,7 @@ import {SortDirection} from '@angular/material/typings';
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
 
-export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK';
+export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL';
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO';
 
 export interface KeyValue {

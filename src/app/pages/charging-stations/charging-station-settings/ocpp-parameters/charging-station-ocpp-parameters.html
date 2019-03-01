@@ -1,42 +1,54 @@
 <div class="main-content">
-  <div class="col stick" align="right">
-  <button class="btn btn-info mat-raised-button" (click)="getConfiguration()">
-        <span class="mat-button-wrapper">
-            <i class="material-icons mr-2">get_app</i>
-            <span class="btn-label">{{'chargers.button_get_configuration' | translate}}</span>
-        </span>
-  </button>
+  <div class="d-flex-row justify-content-start pb-2">
+    <button class="d-flex btn btn-info mat-raised-button" (click)="getConfiguration()">
+          <span class="mat-button-wrapper">
+              <i class="material-icons mr-2">get_app</i>
+              <span class="btn-label">{{'chargers.button_get_configuration' | translate}}</span>
+          </span>
+    </button>
   </div>
-  <form class="form" [formGroup]="formGroup">
-    <div class="card">
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-properties col w-100">
-            <tbody>
-            <tr *ngFor="let item of chargerConfiguration">
-              <td class="text-left">
-                <strong>{{item.key | translate}}</strong>
-              </td>
-              <td class="text-left">
-                  <a *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon col-2em"
-                     (click)="clearParameter(item)" [hidden]="item.icon === 'edit'">
-                    <i class="material-icons">clear</i>
-                  </a>
-                  <a *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon col-2em"
-                     (click)="changeParameter(item)">
-                    <i class="material-icons">{{item.icon}}</i>
-                  </a>
+  <div class="d-flex-row">
+    <!-- <mat-dialog-content> -->
+    <form class="form" [formGroup]="formGroup" class="w-100">
+      <!-- <div class="card"> -->
+        <!-- <div class="card-body"> -->
+            
+          <div class="table-responsive flex-grow-1">
+              <mat-dialog-content>
+            <table class="mat-table d-flex">
+              
+              <tbody class="w-100">
+              <tr *ngFor="let item of chargerConfiguration" class="mat-row" role="row">
+                <td class="text-left">
+                  <strong>{{item.key | translate}}</strong>
                 </td>
-              <td class="text-left">
-                <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
-                       [formControlName]="item.key" [value]="item.value">
-                <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+                <td class="d-flex flex-grow-1 justif-content-center">
+                    <button *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon"
+                      (click)="clearParameter(item)" [hidden]="item.icon === 'edit'"
+                      [matTooltip]="'general.cancel' | translate">
+                      <i class="material-icons">clear</i>
+                   </button>
+                    <button *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon"
+                      (click)="changeParameter(item)"
+                      [matTooltip]="item.tooltip | translate">
+                      <i class="material-icons">{{item.icon}}</i>
+                    </button>
+                  </td>
+                <td class="text-left" [class.py-2]="item.readonly" class="text-left w-100">
+                  <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
+                        [formControlName]="item.key" [value]="item.value">
+                  <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
+                </td>
+              </tr>
+              </tbody>
+              
+            </table>
+          </mat-dialog-content>
+          <!-- </div> -->
+        <!-- </div> -->
       </div>
-    </div>
-  </form>
+    
+    </form>
+  <!-- </mat-dialog-content> -->
+  </div>
 </div>

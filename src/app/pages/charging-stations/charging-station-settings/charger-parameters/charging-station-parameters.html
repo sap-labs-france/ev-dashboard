@@ -1,4 +1,5 @@
 <div class="main-content">
+    <mat-dialog-content>
     <!--<div class="container-fluid">-->
         <form class="form" [formGroup]="formGroup">
             <div class="row">
@@ -16,7 +17,7 @@
                         <!-- Dialog Table Filter -->
                         <mat-form-field>
                             <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                                class="form-field-popup" [formControl]="siteArea" required />
+                                class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required />
                             <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()"
                                 [hidden]="!isAdmin">
                                 <mat-icon>create</mat-icon>
@@ -129,4 +130,5 @@
             </div>
         </form>
     <!--</div>-->
+    </mat-dialog-content>
 </div>

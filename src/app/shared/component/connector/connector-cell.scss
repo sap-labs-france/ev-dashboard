@@ -1,13 +1,18 @@
 @import "../../../../assets/scss/core/variables";
 
-@keyframes status-blinking {
+@keyframes status-blinking2 {
     50% {
-        opacity: 0;
+        background-color: white;
+        border: 2px solid darken($brand-info, 15%);
     }
 }
 
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
 @mixin anim-status-blinking {
-    animation: status-blinking 2s ease-in-out infinite;
+    animation: status-blinking2 2s ease-in-out infinite;
 }
 
 @keyframes status-glowing {
@@ -21,7 +26,18 @@
 }
 
 @mixin anim-status-glowing-blinking {
-    animation: status-blinking 2s ease-in-out infinite, status-glowing 4s ease-in-out infinite;
+    animation: spinner 2s ease-in-out infinite, status-glowing 4s ease-in-out infinite;
+}
+
+@keyframes text-color-invert {
+  50% {
+    color: $brand-info;
+  }
+}
+
+.detail-connector {
+  min-width: 70px;
+  margin-right: -18px !important;
 }
 
 .charger-connector-container {
@@ -32,60 +48,148 @@
     font-weight: bold;
     margin-right: 3px;
     justify-content: center;
-    padding-top: .13rem;
-    border-radius: 50%;
-    border: 2px solid darken($brand-info, 5%);
+    z-index:1;
+
     color: $brand-inverse;
 
-    &.charger-connector-available {
+    &.charger-connector-container-image {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid darken($brand-info, 15%);
+      &.charger-connector-container-image-small {
+        left:-15px;
+        transition: all .2s ease-in-out;
+        z-index:0;
+        position:relative;
+      }
+    }
+    &.charger-connector-container-image-small:hover {
+      transform: scale(1.5);
+      z-index: 2;
+    }
+
+    .charger-connector-background {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      border: 2px solid darken($brand-info, 15%);
+      padding-top: .13rem;
+      &.charger-connector-background-spinner {
+        border-width: 0px;
+        border-radius: 50%;
+//        border: 3px solid darken($brand-info, 20%);
+        border-top: 4px solid lighten($brand-info, 30%);
+        border-right: 4px solid transparent;
+        animation: spinner 3s linear infinite;
+      }
+    }
+
+    .charger-connector-text {
+      width: 100%;
+      height: 100%;
+      color: $brand-inverse;
+      position: relative;
+      top: -27px;
+      opacity: 1 !important;
+    }
+
+    .charger-connector-charging-active-text {
+//      animation: text-color-invert 2s ease-in-out infinite;
+    }
+
+    .charger-connector-charging-available-text {
+      color: $brand-success;
+    }
+
+    .charger-connector-available {
       color: $brand-success;
       background-color: $brand-inverse;
-      border-color: darken($brand-success, 5%);
+      border-color: darken($brand-success, 5%); 
+    }
+    &.charger-connector-available-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);
     }
     
-    &.charger-connector-charging {
+    .charger-connector-charging {
       background-color: $brand-info;
     }
+
+    &.charger-connector-charging-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);
+    }
     
-    &.charger-connector-charging-active {
+    .charger-connector-charging-active {
       background-color: $brand-info;
       @include anim-status-glowing-blinking;
     }
-    
-    &.charger-connector-charging-inactive {
-      background-color: $brand-info;
+    &.charger-connector-charging-active-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);
     }
     
-    &.charger-connector-faulted {
+    .charger-connector-charging-inactive {
+      background-color: $brand-info;
+    }
+    &.charger-connector-charging-inactive-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);
+    }
+    
+    .charger-connector-faulted {
       background-color: $brand-danger;
-      border-color: darken($brand-danger, 5%);
-    }
+      border-color: darken($brand-danger, 15%);
+    }    
+    &.charger-connector-faulted-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
     
-    &.charger-connector-unavailable {
+    .charger-connector-unavailable {
       background-color: $brand-disabled;
-      border-color: darken($brand-disabled, 5%);
+      border-color: darken($brand-disabled, 15%);
     }
+    &.charger-connector-unavailable-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
     
-    &.charger-connector-suspended-evse {
-      background-color: $brand-info;
-    }
-    
-    &.charger-connector-suspended-ev {
-      background-color: $brand-info;
-    }
-    
-    &.charger-connector-preparing, &.charger-connector-finishing {
-      background-color: $brand-warning;
-      border-color: darken($brand-warning, 5%);
-    }
-    
-    &.charger-connector-reserved {
-      background-color: $brand-warning;
-      border-color: darken($brand-warning, 5%);
-    }
 
-    &.charger-connector-unknown {
-      background-color: $brand-disabled;
-      border-color: darken($brand-disabled, 5%);
+    .charger-connector-suspended-evse {
+      background-color: $brand-info;
     }
+    &.charger-connector-suspended-evse-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
+    
+    .charger-connector-suspended-ev {
+      background-color: $brand-info;
+    }
+    &.charger-connector-suspended-ev-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
+    
+    .charger-connector-preparing, .charger-connector-finishing {
+      background-color: $brand-warning;
+      border-color: darken($brand-warning, 15%);
+    }
+    &.charger-connector-preparing-type-background, &.charger-connector-finishing-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
+    
+    .charger-connector-reserved {
+      background-color: $brand-warning;
+      border-color: darken($brand-warning, 15%);
+    }
+    &.charger-connector-reserved-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
+
+    .charger-connector-unknown {
+      background-color: $brand-disabled;
+      border-color: darken($brand-disabled, 15%);
+    }
+    &.charger-connector-unknown-type-background {
+      border: 1px solid $brand-disabled;
+      background-color: lighten($brand-disabled, 20%);    }
   }

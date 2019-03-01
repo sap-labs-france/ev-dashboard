@@ -17,6 +17,8 @@ export class TableChargerMoreAction implements TableAction {
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,
     dropdownItems: [
+      { id: ACTION_SMART_CHARGING, name: 'chargers.more_actions_items.smart_charging_item',
+        icon: 'battery_charging_full', tooltip: 'general.tooltips.smartcharging' },
       { id: ACTION_CLEAR_CACHE, name: 'chargers.more_actions_items.clear_cache_item',
         icon: 'layers_clear', tooltip: 'general.tooltips.clear_cache' },
       { id: ACTION_SOFT_RESET, name: 'chargers.more_actions_items.soft_reset_item',

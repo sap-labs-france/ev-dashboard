@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { SpinnerService } from '../../../../../services/spinner.service';
 import { Utils } from '../../../../../utils/Utils';
 import { Constants } from '../../../../../utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './endpoint.dialog.component.html',
@@ -31,6 +33,9 @@ export class EndpointDialogComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private translateService: TranslateService,
     private router: Router,
     protected dialogRef: MatDialogRef<EndpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
@@ -198,5 +203,37 @@ export class EndpointDialogComponent implements OnInit {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.update_error');
     });
+  }
+
+  public closeDialog() {
+      this.dialogRef.close();
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowYesNoCancelDialog(
+        this.dialog,
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.save(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_NO) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
   }
 }

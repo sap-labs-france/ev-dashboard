@@ -81,6 +81,10 @@
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
+    "change_pending_title": "Modifications en attente",
+    "change_pending_text": "Des modifications sont en cours, voulez-vous sauver ces changements ?",
+    "change_invalid_pending_title": "Modifications en attente",
+    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous quitter sans sauvegarder ces changements ?",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

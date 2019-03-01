@@ -130,13 +130,14 @@ export class ChargingStationParametersComponent implements OnInit {
 
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();
-      this.cannotChargeInParallel.disable();
       this.chargingStationURL.disable();
       this.numberOfConnectedPhase.disable();
       this.maximumPower.disable();
       this.powerLimitUnit.disable();
       this.latitude.disable();
       this.longitude.disable();
+      this.siteArea.disable();
+      this.siteAreaID.disable();
     }
 
     // add connectors formcontrol

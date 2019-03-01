@@ -3,6 +3,14 @@ import { Charger } from '../../../../common.types';
 import { DatePipe } from '@angular/common';
 import { LocaleService } from '../../../../services/locale.service';
 
+
+export interface PropertyDisplay {
+  key: string,
+  title: string,
+  value?: string
+  formatter?: Function
+}
+
 @Component({
   selector: 'app-charger-properties',
   styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
@@ -12,7 +20,7 @@ import { LocaleService } from '../../../../services/locale.service';
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() charger: Charger;
   chargerFormatted: any = {};
-  displayedProperties = [
+  displayedProperties: PropertyDisplay[] = [
     { key: 'chargePointVendor', title: 'chargers.vendor' },
     { key: 'chargePointModel', title: 'chargers.model' },
     { key: 'chargeBoxSerialNumber', title: 'chargers.serial_number' },
@@ -32,15 +40,20 @@ export class ChargingStationPropertiesComponent implements OnInit {
     }
   ];
 
+  displayedColumns: string[] = ['title', 'value'];
+
   constructor(private localeService: LocaleService) {
   }
 
   ngOnInit(): void {
+    // Format
     for (const property of this.displayedProperties) {
       if (property.formatter) {
-        this.chargerFormatted[property.key] = property.formatter(this.charger[property.key]);
+        property['value'] = property.formatter(this.charger[property.key]);
+//        this.chargerFormatted[property.key] = property.formatter(this.charger[property.key]);
       } else {
-        this.chargerFormatted[property.key] = this.charger[property.key];
+        property['value'] = this.charger[property.key];
+//        this.chargerFormatted[property.key] = this.charger[property.key];
       }
     }
   }

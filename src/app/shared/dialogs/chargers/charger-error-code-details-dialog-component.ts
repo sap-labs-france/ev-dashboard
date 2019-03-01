@@ -15,6 +15,7 @@ export class ChargerErrorCodeDetailsDialogComponent implements OnInit {
   errorCodeTitle: string;
   errorCodeDescription: string;
   errorCodeAction: string;
+  actionParams = {};
 
   constructor(
     private centralServerService: CentralServerService,
@@ -26,7 +27,12 @@ export class ChargerErrorCodeDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
       this.errorCodeTitle = `chargers.errors.${data.errorCode}.title`;
-      this.errorCodeDescription = `chargers.errors.${data.errorCode}.description`;
+      if (data.missingSettings) {
+        this.errorCodeDescription = `chargers.errors.${data.errorCode}.description`;
+        this.actionParams = { missingSettings: data.missingSettings };
+      } else {
+        this.errorCodeDescription = `chargers.errors.${data.errorCode}.description`;
+      }
       this.errorCodeAction = `chargers.errors.${data.errorCode}.action`;
     }
   }

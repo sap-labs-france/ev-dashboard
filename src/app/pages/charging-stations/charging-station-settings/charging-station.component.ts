@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from '../../../services/locale.service';
 import { AuthorizationService } from '../../../services/authorization-service';
@@ -45,6 +45,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     private localeService: LocaleService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    public dialogRef: MatDialogRef<ChargingStationComponent>,
     private router: Router) {
 
     // Get Locales
@@ -146,4 +147,9 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   public saveChangesMessage() {
     this.messageService.showErrorMessage(this.translateService.instant('chargers.unsaved_changes'))
   }
+
+  public onClose() {
+    this.chargerParametersComponent.onClose();
+  }
+
 }

@@ -26,8 +26,9 @@ export class AppUnitPipe implements PipeTransform {
     }
     const src = this._parseMeasure(srcMeasure);
     const dest = this._parseMeasure(destMeasure);
+    const localDestMeasure = destMeasure.replace('Wh', 'W.h');
     return this.decimalPipe.transform(value / (src.size * dest.size),
-      `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + destMeasure : ''}`;
+      `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + localDestMeasure : ''}`;
   }
 }
 

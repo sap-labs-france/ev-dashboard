@@ -1,34 +1,36 @@
 <div class="main-content">
+  <div class="col stick" align="right">
   <button class="btn btn-info mat-raised-button" (click)="getConfiguration()">
         <span class="mat-button-wrapper">
             <i class="material-icons mr-2">get_app</i>
             <span class="btn-label">{{'chargers.button_get_configuration' | translate}}</span>
         </span>
   </button>
+  </div>
   <form class="form" [formGroup]="formGroup">
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-properties">
+          <table class="table table-properties col w-100">
             <tbody>
             <tr *ngFor="let item of chargerConfiguration">
               <td class="text-left">
-                {{item.key | translate}}
+                <strong>{{item.key | translate}}</strong>
               </td>
+              <td class="text-left">
+                  <a *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon col-2em"
+                     (click)="clearParameter(item)" [hidden]="item.icon === 'edit'">
+                    <i class="material-icons">clear</i>
+                  </a>
+                  <a *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon col-2em"
+                     (click)="changeParameter(item)">
+                    <i class="material-icons">{{item.icon}}</i>
+                  </a>
+                </td>
               <td class="text-left">
                 <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
                        [formControlName]="item.key" [value]="item.value">
                 <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
-              </td>
-              <td *ngIf="!item.readonly" class="text-right">
-                <a class="btn-group btn btn-link btn-info btn-just-icon col-2em"
-                   (click)="clearParameter(item)" [hidden]="item.icon === 'edit'">
-                  <i class="material-icons">clear</i>
-                </a>
-                <a class="btn-group btn btn-link btn-info btn-just-icon col-2em"
-                   (click)="changeParameter(item)">
-                  <i class="material-icons">{{item.icon}}</i>
-                </a>
               </td>
             </tr>
             </tbody>

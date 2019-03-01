@@ -226,6 +226,8 @@ export class SitesDataSource extends TableDataSource<Site> {
     if (site) {
       dialogConfig.data = site.id;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData());

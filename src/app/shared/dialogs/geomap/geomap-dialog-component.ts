@@ -18,12 +18,15 @@ export class GeoMapDialogComponent {
   public mapLongitude: number;
   public markerLatitude: number;
   public markerLongitude: number;
+  public markers: [];
   public labelFormatted: any;
   public label = '';
   public zoom = 4;
   public icon = {
     url: '../../../../assets/img/ev_station_blu.svg', scale: 1, labelOrigin: { x: 11, y: -10 }
   };
+  public displayOnly = false;
+  public dialogTitle: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -42,6 +45,9 @@ export class GeoMapDialogComponent {
       this.mapLongitude = data.longitude ? +data.longitude : -0.000500;
       this.markerLatitude = data.latitude ? +data.latitude : 51.476852;
       this.markerLongitude = data.longitude ? +data.longitude : -0.000500;
+      this.displayOnly = data.displayOnly ? data.displayOnly : false;
+      this.dialogTitle = data.dialogTitle ? data.dialogTitle : '';
+      this.markers = data.markers ? data.markers : [{latitude : 51.476852, longitude : -0.000500, labelFormatted: ''}];
     }
   }
 

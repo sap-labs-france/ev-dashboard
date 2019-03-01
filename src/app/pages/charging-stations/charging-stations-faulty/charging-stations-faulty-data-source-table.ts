@@ -45,6 +45,7 @@ import { ConnectorsErrorDetailComponent } from './detail-component/connectors-er
 import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
 import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { ChargerErrorTypeTableFilter } from '../filter/error-type-filter';
 
 const POLL_INTERVAL = 30000;
 
@@ -285,7 +286,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   public getTableFiltersDef(): TableFilterDef[] {
     return [
       //      new ChargerTableFilter().getFilterDef(),
-      new SitesTableFilter().getFilterDef()
+      new SitesTableFilter().getFilterDef(),
+      new ChargerErrorTypeTableFilter().getFilterDef()
     ];
   }
 

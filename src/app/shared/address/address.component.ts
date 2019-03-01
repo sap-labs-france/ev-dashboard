@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
+import { tick } from '@angular/core/src/render3';
 
 
 @Component({
@@ -84,8 +85,10 @@ export class AddressComponent implements OnInit {
     }
     // Latitude
     this.address.controls.latitude.setValue(address.geometry.location.lat());
+    this.address.controls.latitude.markAsTouched();
     // Longitude
     this.address.controls.longitude.setValue(address.geometry.location.lng());
+    this.address.controls.longitude.markAsTouched();
     // set as dirty
     this.formGroup.markAsDirty();
   }

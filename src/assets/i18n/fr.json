@@ -330,6 +330,7 @@
     "charger_list_target_title": "Utilisées",
     "number_of_charging_stations": "Nb Bornes",
     "site_area_not_found": "Zone inconnue",
+    "select_site_areas": "Séléction Zone(s)",
     "unassigned": "Non assigné",
     "image": "Image",
     "assigned_chargers": "Bornes",

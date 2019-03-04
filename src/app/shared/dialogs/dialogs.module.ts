@@ -25,6 +25,8 @@ import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-c
 import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
 import {AgmCoreModule} from '@agm/core';
 import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
+import {SiteAreasDialogComponent} from './sites/site-areas-dialog-component';
+import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.component';
 
 
 @NgModule({
@@ -41,10 +43,12 @@ import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
   ],
   declarations: [
     SitesDialogComponent,
+    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    SiteAreasFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ChargerErrorCodeDetailsDialogComponent,
@@ -52,10 +56,12 @@ import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
   ],
   entryComponents: [
     SitesDialogComponent,
+    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    SiteAreasFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ConsumptionChartComponent,
@@ -64,10 +70,12 @@ import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
   ],
   exports: [
     SitesDialogComponent,
+    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SitesFilterDialogComponent,
+    SiteAreasFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ChargerErrorCodeDetailsDialogComponent

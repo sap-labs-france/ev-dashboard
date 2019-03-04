@@ -183,7 +183,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef(),
-      // new UserTableFilter().getFilterDef()
+      new UserTableFilter().getFilterDef()
     ];
   }
 

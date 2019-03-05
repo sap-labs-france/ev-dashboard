@@ -4,14 +4,14 @@ import {MatTabChangeEvent} from '@angular/material';
 import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-export class AbstractTabComponent implements OnDestroy{
+export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
 
   private _updatedRoutes = [];
   private _fragmentSubscription: Subscription;
   private _isDetroyed: boolean;
 
-  constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService, 
+  constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService,
       protected hashArray: string[], defaultIndex?: number
       ) {
     this._fragmentSubscription = activatedRoute.fragment.subscribe(fragment => {

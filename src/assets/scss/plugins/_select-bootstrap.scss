@@ -86,7 +86,7 @@
     }
     &:hover {
       background-color: $brand-info !important;
-      color: $brand-primary !important;
+      color: $brand-inverse !important;
       .mat-option-pseudo-checkbox:after {
        color: $brand-primary;
       }

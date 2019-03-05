@@ -31,6 +31,9 @@ import * as moment from 'moment';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
+import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
+import {SiteAreasFilterDataSourceTable} from '../../../shared/dialogs/sites/site-areas-filter-data-source-table';
+import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -179,6 +182,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef(),
+      new SiteAreasTableFilter().getFilterDef(),
       new UserTableFilter().getFilterDef()
     ];
   }

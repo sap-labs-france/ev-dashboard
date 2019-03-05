@@ -278,6 +278,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           sortable: true,
           defaultValue: 'sites.unassigned',
           headerClass: 'd-none d-xl-table-cell',
+          class:  'd-none d-xl-table-cell',
           formatter: (value) => {
             if (value === 'sites.unassigned') {
               return this.translateService.instant(value)
@@ -292,6 +293,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           sortable: true,
           defaultValue: 'site_areas.unassigned',
           headerClass: 'd-none d-xl-table-cell',
+          class:  'd-none d-xl-table-cell',
           formatter: (value) => {
             if (value === 'site_areas.unassigned') {
               return this.translateService.instant(value)

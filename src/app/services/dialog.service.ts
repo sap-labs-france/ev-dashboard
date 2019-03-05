@@ -30,6 +30,16 @@ export class DialogService {
     return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO_CANCEL, title, message);
   }
 
+  public createAndShowInvalidChangeCloseDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+    // Call
+    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_INVALID_CHANGE, title, message);
+  }
+
+  public createAndShowDirtyChangeCloseDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+    // Call
+    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_DIRTY_CHANGE, title, message);
+  }
+
   private _createAndShowDialog(dialog: MatDialog, component: any,
                                dialogType: DialogType, title: string, message: string): Observable<ButtonType> {
     // Create dialog data

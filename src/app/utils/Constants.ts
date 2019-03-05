@@ -126,10 +126,14 @@ export class Constants {
   public static BUTTON_TYPE_CANCEL: ButtonType = 'CANCEL';
   public static BUTTON_TYPE_YES: ButtonType = 'YES';
   public static BUTTON_TYPE_NO: ButtonType = 'NO';
+  public static BUTTON_TYPE_SAVE_AND_CLOSE: ButtonType = 'SAVE_AND_CLOSE';
+  public static BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE: ButtonType = 'DO_NOT_SAVE_AND_CLOSE';
   public static DIALOG_TYPE_OK: DialogType = 'OK';
   public static DIALOG_TYPE_YES_NO: DialogType = 'YES_NO';
   public static DIALOG_TYPE_OK_CANCEL: DialogType = 'OK_CANCEL';
   public static DIALOG_TYPE_YES_NO_CANCEL: DialogType = 'YES_NO_CANCEL';
+  public static DIALOG_TYPE_INVALID_CHANGE: DialogType = 'INVALID_CHANGE';
+  public static DIALOG_TYPE_DIRTY_CHANGE: DialogType = 'DIRTY_CHANGE';
 
   /* Tenant Components */
   public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization', 'sac'];

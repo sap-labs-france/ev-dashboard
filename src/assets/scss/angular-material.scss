@@ -1198,7 +1198,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 }
 .mat-calendar-body-selected{
   background-color: $brand-info;
-  color: $brand-primary
+  color: $brand-inverse
 }
 .mat-calendar-body-disabled>.mat-calendar-body-selected{
   background-color:rgba(255,255,255,.4)

@@ -178,18 +178,26 @@ export class ConsumptionChartComponent implements OnInit {
   refreshDataSets() {
     for (const key of Object.keys(this.data.datasets)) {
       this.data.datasets[key].data = [];
-      this.data.labels = [];
     }
+    this.data.labels = [];
     for (let i = 0; i < this.consumptions.length; i += 1) {
       const consumption = this.consumptions[i];
       this.data.labels.push(new Date(consumption.date).getTime());
       this.getDataSet('instantPower').data.push(consumption.value);
       this.getDataSet('cumulatedConsumption').data.push(consumption.cumulated);
-      if (consumption.pricingSource) {
-        this.getDataSet('cumulatedAmount').data.push(consumption.cumulatedAmount);
+      if (this.getDataSet('cumulatedAmount')) {
+        if (consumption.cumulatedAmount !== undefined) {
+          this.getDataSet('cumulatedAmount').data.push(consumption.cumulatedAmount);
+        } else {
+          this.getDataSet('cumulatedAmount').data.push(0);
+        }
       }
-      if (consumption.stateOfCharge) {
-        this.getDataSet('stateOfCharge').data.push(consumption.stateOfCharge);
+      if (this.getDataSet('stateOfCharge')) {
+        if (consumption.stateOfCharge !== undefined) {
+          this.getDataSet('stateOfCharge').data.push(consumption.stateOfCharge);
+        } else {
+          this.getDataSet('stateOfCharge').data.push(0);
+        }
       }
     }
   }

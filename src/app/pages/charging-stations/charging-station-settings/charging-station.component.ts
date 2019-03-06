@@ -71,6 +71,14 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
       this.dialog.closeAll();
       setTimeout(() => this.router.navigate(['/']), 1000);
     }
+
+    // listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 
   ngAfterViewInit(): void {

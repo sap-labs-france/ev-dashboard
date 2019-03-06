@@ -82,9 +82,11 @@
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localisation",
     "change_pending_title": "Pending Changes",
-    "change_pending_text": "Some changes are pending. Do you want to save before closing ?",
+    "change_pending_text": "Some changes are pending. Do you want to...",
     "change_invalid_pending_title": "Pending Changes with invalid value(s)",
-    "change_invalid_pending_text": "Some changes with invalid value(s) are pending . Do you want to leave without saving ?",
+    "change_invalid_pending_text": "Some changes with invalid value(s) are pending . Do you want to...",
+    "save_and_close": "Save & Close",
+    "do_not_save_and_close": "Do Not Save & Close",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -359,7 +361,7 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power (Watts)"
+    "maximum_energy": "Maximum Power Limitation (Watts)"
   },
   "authentication": {
     "accept": "I accept the",

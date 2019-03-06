@@ -124,6 +124,14 @@ export class CompanyComponent implements OnInit {
     }
     // Scroll up
     jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
+
+    // listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 
   public isOpenInDialog(): boolean {
@@ -324,30 +332,30 @@ export class CompanyComponent implements OnInit {
 
   public closeDialog() {
     if (this.inDialog) {
-        this.dialogRef.close();
+      this.dialogRef.close();
     }
   }
 
   public onClose() {
-    if (this.formGroup.invalid) {
-      this.dialogService.createAndShowYesNoDialog(
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.dialog,
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
     } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowYesNoCancelDialog(
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.dialog,
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveCompany(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_NO) {
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });

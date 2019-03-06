@@ -82,9 +82,11 @@
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",
-    "change_pending_text": "Des modifications sont en cours, voulez-vous sauver ces changements ?",
+    "change_pending_text": "Des modifications sont en cours, voulez-vous...",
     "change_invalid_pending_title": "Modifications en attente",
-    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous quitter sans sauvegarder ces changements ?",
+    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous...",
+    "save_and_close": "Sauvegarder et Fermer",
+    "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

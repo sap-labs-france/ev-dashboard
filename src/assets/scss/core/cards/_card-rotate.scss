@@ -17,7 +17,7 @@
 
     .back, .front {
       @include backface-visibility(hidden);
-      @include shadow-2dp();
+      // @include shadow-2dp();
       position: absolute;
       background-color: $brand-inverse;
       border-radius: $border-radius-large;

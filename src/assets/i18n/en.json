@@ -451,7 +451,9 @@
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
-    "heartbeat_title": "Heartbeat",
+    "heartbeat_title": "Status",
+    "charger_disconnected": "Disconnected ({{from}})",
+    "charger_connected": "Connected",
     "connectors_title": "Connectors",
     "consumption_title": "Power",
     "firmware_version": "Firmware Version",
@@ -467,14 +469,14 @@
     "last_reboot": "Last Reboot",
     "unassigned": "Unassigned",
     "unassigned_chargers": "Chargers",
-    "maximum_energy": "Maximum Power",
+    "maximum_energy": "Maximum Power (Watts)",
     "connector": "Connector",
     "connector0": "Charger",
     "connector_type": "Type",
     "connector_error_title": "Code Erreur",
     "connector_info_title": "Erreur info",
     "connector_vendor_error_code_title": "Vendor error",
-    "connector_max_power": "Maximum Power in Watts",
+    "connector_max_power": "Maximum Power (Watts)",
     "charger_url": "URL",
     "charger_param_key": "Key",
     "charger_param_value": "Value",
@@ -516,6 +518,10 @@
       },
       "localisation": {
         "title": "Charging stations localisations"
+      },
+      "settings": {
+        "fixedURLforOCPP": "From OCPP 1.6 on, the URL is fixed by the server",
+        "callbackURLforOCPP": "Callback URL to send HTTP request to the charging station"
       }
     },
     "more_actions_items": {

@@ -6,23 +6,24 @@ import { AuthorizationService } from 'app/services/authorization-service';
   selector: 'app-connector-id-cell',
   styleUrls: ['./connector-cell.scss'],
   template: `
-    <div class="row m-0 p-0" [class.simple-connector]="isSimpleConnectorDisplay" [class.detail-connector]="!isSimpleConnectorDisplay">
+  <div class="d-flex justify-content-center">
+    <div class="row mx-0 px-0 align-items-center"
+      [class.simple-connector]="isSimpleConnectorDisplay" [class.detail-connector]="!isSimpleConnectorDisplay">
     <div class="charger-connector-container">
-      <div class="charger-connector-background" [appChargerStatus]="{status: chargerStatus, target: 'background'}">
+      <div [appChargerStatus]="{status: chargerStatus, target: 'background', baseClass: 'charger-connector-background'}">
       </div>
       <div [matTooltip]="row.status"
-          class="charger-connector-text" [appChargerStatus]="{status: chargerStatus, target: 'text'}">
+          [appChargerStatus]="{status: chargerStatus, target: 'text', baseClass: 'charger-connector-text'}">
         {{row.connectorId | appConnectorId}}
       </div>
     </div>
     <div *ngIf="!isSimpleConnectorDisplay && (row.type || row.type === null)"
-      [matTooltip]="row.type | appConnectorType:false | translate"
-      class="charger-connector-container charger-connector-container-image
-              d-flex align-items-center justify-content-center"
-              [class.charger-connector-container-image-small]="!largeDisplay"
-              [appChargerStatus]="{status: chargerStatus, target: 'background-image'}">
+        [matTooltip]="row.type | appConnectorType:false | translate"
+              [appChargerStatus]="{status: chargerStatus, target: 'background-image',
+              baseClass: baseClassConnectorTypeText}">
           <img width="22" height="22" src="{{row.type | appConnectorType}}">
     </div>
+  </div>
   </div>
   `
 })
@@ -36,7 +37,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   chargerStatus: string;
   isSimpleConnectorDisplay: boolean;
   chargerActive = false;
-  minWidth = 'min-width:30px';
+  baseClassConnectorTypeText: string;
 
   constructor(private _authorizationService: AuthorizationService) {
     super();
@@ -45,7 +46,9 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   ngOnInit(): void {
     this.updateValues();
     this.isSimpleConnectorDisplay = false;
-    this.minWidth = (this.isSimpleConnectorDisplay ? 'min-width:30px' : 'min-width:50px');
+    this.baseClassConnectorTypeText =
+          `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center
+            ${(this.largeDisplay ? 'charger-connector-container-image-large' : 'charger-connector-container-image-small')}`
   }
 
   refresh() {

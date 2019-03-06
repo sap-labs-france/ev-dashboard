@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CentralServerService } from './central-server.service';
-import { Company } from 'app/common.types';
+import { Company, Address } from 'app/common.types';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 
@@ -17,7 +17,7 @@ export interface SiteCurrentMetrics {
   maximumPower: number;
   maximumNumberOfChargingPoint: number;
   occupiedChargingPoint: number;
-  address: any;
+  address: Address[];
   image: any;
   trends: any;
   dataConsumptionChart: any;

@@ -217,7 +217,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
         try {
           // Build OCPP planning
           const chargingProfile = this._buildProfile();
-          //console.log('Profile ' + JSON.stringify(chargingProfile, null, ' '));
+          // console.log('Profile ' + JSON.stringify(chargingProfile, null, ' '));
           // call REST service
           this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {

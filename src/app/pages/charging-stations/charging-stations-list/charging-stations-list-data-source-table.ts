@@ -43,6 +43,7 @@ import { TableChargerRebootAction } from '../other-actions-button/table-charger-
 import { TableChargerSmartChargingAction } from '../other-actions-button/table-charger-smart-charging-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
+import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 
 const POLL_INTERVAL = 15000;
 
@@ -57,12 +58,6 @@ const DEFAULT_ADMIN_ROW_ACTIONS = [
 const DEFAULT_BASIC_ROW_ACTIONS = [
   new TableEditAction().getActionDef(),
   new TableOpenInMapsAction().getActionDef()
-]
-
-const NODELETE_ADMIN_ROW_ACTIONS = [
-  new TableChargerMoreAction().getActionDef(),
-  new TableEditAction().getActionDef(),
-  new TableDeleteAction().getActionDef()
 ]
 
 @Injectable()
@@ -320,11 +315,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   public getTableActionsDef(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableOpenInMapsAction().getActionDef(),
+        // new TableOpenInMapsAction().getActionDef(),
         new TableExportAction().getActionDef()
       ];
     } else {
-      return [ new TableOpenInMapsAction().getActionDef() ];
+      return []; // new TableOpenInMapsAction().getActionDef() ];
     }
   }
 
@@ -375,7 +370,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         );
         break;
         case 'open_in_maps':
-          this._openGeoMap(rowItem);
+          this._showPlace(rowItem);
+          // this._openGeoMap(rowItem);
         break;
       case 'more':
         switch (dropdownItem.id) {
@@ -583,29 +579,29 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     this.setPollingInterval(POLL_INTERVAL);
   }
 
-  /*  specificRowActions(charger: Charger) {
-      if (this.authorizationService.isAdmin()) {
-        if (charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
-          const inactiveDelete = new TableDeleteAction().getActionDef();
-          inactiveDelete.disabled = true;
-          return [
-            new TableChargerMoreAction().getActionDef(),
-            new TableEditAction().getActionDef(),
-            inactiveDelete
-          ];
-        } else {
-          return [
-            new TableChargerMoreAction().getActionDef(),
-            new TableEditAction().getActionDef(),
-            new TableDeleteAction().getActionDef()
-          ];
-        }
-      } else {
-        return [
-          new TableEditAction().getActionDef()
-        ];
-      }
-    }*/
+  specificRowActions(charger: Charger) {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let actionTable: any[];
+    // check if GPs are available
+    openInMaps.disabled = (charger && charger.latitude && charger.longitude ) ? false : true;
+    if (this.authorizationService.isAdmin()) {
+      actionTable = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ROW_ACTIONS));
+      // return DEFAULT_ADMIN_ROW_ACTIONS;
+    } else if (this.authorizationService.isDemo()) {
+      actionTable = JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
+      // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
+      // return DEFAULT_BASIC_ROW_ACTIONS;
+    } else if (this.authorizationService.isBasic()) {
+      actionTable = JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
+      // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
+      // return DEFAULT_BASIC_ROW_ACTIONS;
+    } else {
+      return [ new TableNoAction().getActionDef()
+      ];
+    }
+    actionTable[1] = openInMaps;
+    return actionTable;
+  }
 
   private exportChargingStations() {
     this.centralServerService.exportChargingStations(this.getFilterValues(), {
@@ -618,6 +614,12 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
+  }
+
+  private _showPlace(charger: Charger) {
+    if (charger && charger.longitude && charger.latitude) {
+      window.open(`http://maps.google.com/maps?q=${charger.latitude},${charger.longitude}`);
+    }
   }
 
   private _openGeoMap(charger?: Charger) {

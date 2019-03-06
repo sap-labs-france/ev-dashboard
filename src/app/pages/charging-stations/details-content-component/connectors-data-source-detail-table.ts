@@ -146,7 +146,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         name: 'chargers.connector',
         sortable: false,
         headerClass: 'text-center',
-        class: 'd-flex justify-content-center',
+        class: 'text-center',
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent
       },
@@ -232,6 +232,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.stopAction.getActionDef()
           ];
         }
+      } else {
+        return [
+          this.noAction.getActionDef()
+        ];
       }
     }
     // By default no actions
@@ -244,8 +248,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   specificRowActions(rowItem): TableActionDef[] {
     if (rowItem && rowItem.activeTransactionID) {
       // check if Authorized or is Admin
-      if ((this.connectorTransactionAuthorization && this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)
-           || this.authorizationService.isAdmin()) {
+      if ((this.connectorTransactionAuthorization && this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)) {
         return [
           new TableOpenAction().getActionDef(),
           this.stopAction.getActionDef()
@@ -258,13 +261,17 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         ];
       } else {
         // No authorization to stop or display details
-        return [];
+        return [
+          this.noAction.getActionDef()
+        ];
       }
     }
 
     // default action is start except for demo
     if (this.authorizationService.isDemo()) {
-      return [];
+      return [
+        this.noAction.getActionDef()
+      ];
     } else {
       return [
         this.startAction.getActionDef()

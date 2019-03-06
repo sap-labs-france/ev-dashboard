@@ -288,6 +288,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '70vw';
+    dialogConfig.disableClose = true;
 
     // get latitud/longitude from form
     let latitude = this.formGroup.controls.latitude.value;

@@ -835,9 +835,9 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "chargeathome": "Charge@Home",
+      "chargeathome": "Refund",
       "pricing": "Pricing",
-      "sac": "SAP Analytics Cloud"
+      "sac": "Analytics"
     },
     "ocpi": {
       "setting_do_not_exist": "OCPI Settings not found",
@@ -974,14 +974,14 @@
     }
   },
   "sac": {
-    "title": "SAP Analytics Cloud",
-    "description": "SAP Analytics Cloud Interface",
+    "title": "Analytics",
+    "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
     "timezone": "Timezone used in SAP Analytics Cloud"
   },
   "chargeathome": {
-    "title": "Charge@Home",
-    "description": "Charge At Home Interface"
+    "title": "Refund",
+    "description": "Refund Interface"
   },
   "pricing": {
     "title": "Pricing",
@@ -1104,9 +1104,10 @@
     }
   },
   "geomap": {
+    "dialog_geolocation_title": "Set Geolocation of Charging Station '{{chargeBoxID}}'",
     "select_geolocation": "Select Geo Location",
     "search": "Search Place",
-    "max_zoom": "Max",
-    "min_zoom": "Min"
+    "max_zoom": "Max Zoom",
+    "min_zoom": "Min Zoom"
   }
 }

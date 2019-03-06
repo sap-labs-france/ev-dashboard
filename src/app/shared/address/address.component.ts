@@ -10,6 +10,7 @@ import { tick } from '@angular/core/src/render3';
 })
 export class AddressComponent implements OnInit {
   @Input() formGroup: FormGroup;
+  @Input() hideGeoLocation = false;
   public address: FormGroup;
   public address1: AbstractControl;
   public address2: AbstractControl;

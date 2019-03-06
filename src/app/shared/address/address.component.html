@@ -49,7 +49,7 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3" *ngIf="!hideGeoLocation">
     <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude">
@@ -57,7 +57,7 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3" *ngIf="!hideGeoLocation">
     <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
@@ -65,7 +65,7 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-2" align="left">
+  <div class="col-md-2" align="left" *ngIf="!hideGeoLocation">
       <button class="btn btn-info btn-round mat-raised-button app-btn-min-width" (click)="showPlace()">
         <span class="mat-button-wrapper">
           <i class="material-icons mr-2">location_on</i>

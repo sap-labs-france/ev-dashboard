@@ -57,13 +57,31 @@ export class ConfirmationDialogComponent {
         break;
       // Yes / No / Cancel
       case Constants.DIALOG_TYPE_YES_NO_CANCEL:
-      this.buttonValidateID = Constants.BUTTON_TYPE_YES;
-      this.buttonValidateName = this.translateService.instant('general.yes');
-      this.buttonNoID = Constants.BUTTON_TYPE_NO;
-      this.buttonNoName = this.translateService.instant('general.no');
-      this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
-      this.buttonCancelName = this.translateService.instant('general.cancel');
-      break;
+        this.buttonValidateID = Constants.BUTTON_TYPE_YES;
+        this.buttonValidateName = this.translateService.instant('general.yes');
+        this.buttonNoID = Constants.BUTTON_TYPE_NO;
+        this.buttonNoName = this.translateService.instant('general.no');
+        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelName = this.translateService.instant('general.cancel');
+        break;
+      // Save and Close / Do Not Save and Close / Cancel
+      case Constants.DIALOG_TYPE_DIRTY_CHANGE:
+        this.buttonValidateID = Constants.BUTTON_TYPE_SAVE_AND_CLOSE;
+        this.buttonValidateName = this.translateService.instant('general.save_and_close');
+        this.buttonNoID = Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE;
+        this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
+        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelName = this.translateService.instant('general.cancel');
+        break;
+      // Do Not Save and Close / Cancel
+      case Constants.DIALOG_TYPE_INVALID_CHANGE:
+        this.buttonValidateID = null;
+        this.buttonValidateName = null;
+        this.buttonNoID = Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE;
+        this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
+        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelName = this.translateService.instant('general.cancel');
+        break;
     }
   }
 

@@ -31,7 +31,8 @@ export const POWER_UNIT_MAP =
 const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
-  styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
+  styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss',
+    './charging-station-parameters.scss'],
   templateUrl: './charging-station-parameters.html'
 })
 @Injectable()
@@ -56,6 +57,8 @@ export class ChargingStationParametersComponent implements OnInit {
   public longitude: AbstractControl;
   public siteArea: AbstractControl;
   public siteAreaID: AbstractControl;
+
+  public chargingStationURLTooltip: string;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -128,6 +131,7 @@ export class ChargingStationParametersComponent implements OnInit {
     this.latitude = this.formGroup.controls['latitude'];
     this.longitude = this.formGroup.controls['longitude'];
 
+    // Deactivate for non admin users
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();
       this.chargingStationURL.disable();
@@ -138,6 +142,14 @@ export class ChargingStationParametersComponent implements OnInit {
       this.longitude.disable();
       this.siteArea.disable();
       this.siteAreaID.disable();
+    }
+
+    // URL not editable in case OCPP v1.6 or above
+    if (Number(this.charger.ocppVersion) >= 1.6) {
+      this.chargingStationURL.disable();
+      this.chargingStationURLTooltip = 'chargers.dialog.settings.fixedURLforOCPP';
+    } else {
+      this.chargingStationURLTooltip = 'chargers.dialog.settings.callbackURLforOCPP';
     }
 
     // add connectors formcontrol
@@ -368,25 +380,25 @@ export class ChargingStationParametersComponent implements OnInit {
   }
 
   public onClose() {
-    if (this.formGroup.invalid) {
-      this.dialogService.createAndShowYesNoDialog(
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.dialog,
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
     } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowYesNoCancelDialog(
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.dialog,
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveChargeBox();
-        } else if (result === Constants.BUTTON_TYPE_NO) {
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });

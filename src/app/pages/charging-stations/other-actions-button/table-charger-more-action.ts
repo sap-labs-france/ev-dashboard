@@ -24,7 +24,7 @@ export class TableChargerMoreAction implements TableAction {
       { id: ACTION_SOFT_RESET, name: 'chargers.more_actions_items.soft_reset_item',
         icon: 'refresh', tooltip: 'general.tooltips.soft_reset' },
       // { id: 'sitearea', icon: 'view_week', name: 'chargers.assign_sitearea_action', tooltip: 'chargers.assign_sitearea_action_tooltip' },
-      { id: 'delete', icon: 'delete', name: 'general.remove',
+      { id: 'delete', icon: 'delete', name: 'general.delete',
         tooltip: 'general.tooltips.delete'},
       { id: ACTION_MORE_ACTIONS, name: 'chargers.more_actions_items.more_actions_item',
         icon: 'more_horiz', tooltip: 'general.tooltips.more_actions' }

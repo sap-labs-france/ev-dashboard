@@ -37,13 +37,13 @@
                                 <div class="tab-pane active" id="profile">
                                     <div class="row">
                                         <div class="col-md-5" style="display: block; margin-top: auto">
-                                            <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
-                                                <div class="card card-rotate card-background" style="margin-top: 0px;">
-                                                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                            <div class="rotating-card-container app-image-border" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                                                <div class="card card-rotate card-background app-image-padding" style="margin-top: 0px;">
+                                                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                                                         <div class="card-body">
                                                         </div>
                                                     </div>
-                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+                                                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                                                         <div *ngIf="this.isAdmin" class="card-body">
                                                             <h5 class="card-title">
                                                                 {{'general.change_picture' | translate}}

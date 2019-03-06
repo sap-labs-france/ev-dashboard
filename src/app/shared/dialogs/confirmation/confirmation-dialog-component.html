@@ -9,7 +9,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button class="mat-raised-button mat-primary" (click)="validate()">{{buttonValidateName}}</button>
-  <button *ngIf="buttonNoID" class="mat-raised-button" (click)="no()">{{buttonNoName}}</button>
+  <button *ngIf="buttonValidateID" class="mat-raised-button" [class.mat-primary]="buttonValidateID" (click)="validate()">{{buttonValidateName}}</button>
+  <button *ngIf="buttonNoID" class="mat-raised-button" [class.mat-primary]="!buttonValidateID" (click)="no()">{{buttonNoName}}</button>
   <button *ngIf="buttonCancelID" class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>
 </mat-dialog-actions>

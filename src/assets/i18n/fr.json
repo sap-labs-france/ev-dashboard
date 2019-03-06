@@ -82,9 +82,11 @@
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",
-    "change_pending_text": "Des modifications sont en cours, voulez-vous sauver ces changements ?",
+    "change_pending_text": "Des modifications sont en cours, voulez-vous...",
     "change_invalid_pending_title": "Modifications en attente",
-    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous quitter sans sauvegarder ces changements ?",
+    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous...",
+    "save_and_close": "Sauvegarder et Fermer",
+    "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -449,7 +451,9 @@
     "vendor": "Vendeur",
     "model": "Modèle",
     "name": "Nom",
-    "heartbeat_title": "Heartbeat",
+    "heartbeat_title": "Etat",
+    "charger_disconnected": "Déconnectée ({{from}})",
+    "charger_connected": "Connectée",
     "connectors_title": "Connecteurs",
     "consumption_title": "Puissance",
     "firmware_version": "Version Firmware",
@@ -465,14 +469,14 @@
     "last_reboot": "Dernier Redémarrage",
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
-    "maximum_energy": "Energie Maximum",
+    "maximum_energy": "Energie Maximum (Watt)",
     "connector": "Connecteur",
     "connector0": "Borne",
     "connector_type": "Type",
     "connector_error_title": "Code erreur",
     "connector_info_title": "Error info",
     "connector_vendor_error_code_title": "Vendor error",
-    "connector_max_power": "Puissance Maximum en Watts",
+    "connector_max_power": "Puissance Maximum (Watts)",
     "charger_url": "URL",
     "charger_param_key": "Clé",
     "charger_param_value": "Valeur",
@@ -514,6 +518,10 @@
       },
       "localisation": {
         "title": "Localisation des bornes"
+      },
+      "settings": {
+        "fixedURLforOCPP": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
+        "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
     "more_actions_items": {

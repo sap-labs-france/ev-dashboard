@@ -1,4 +1,4 @@
-<h2 class="dialog-title" mat-dialog-title>Geo Location of Charging Station SAP-CAEN-01</h2>
+<h2 class="m-0" mat-dialog-title>{{dialogTitle}}</h2>
 
 <mat-dialog-content>
   <div class="row">
@@ -6,11 +6,10 @@
       <mat-form-field *ngIf="!displayOnly">
         <input ngx-google-places-autocomplete #placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}"
           matInput (onAddressChange)="setAddress($event)">
-          <mat-icon>pin_drop</mat-icon>
+          <button mat-button matSuffix mat-icon-button aria-label="Search">
+              <mat-icon>search</mat-icon>
+          </button>
       </mat-form-field>
-      <h2 class="m-0" *ngIf="displayOnly">
-        {{dialogTitle}}
-      </h2>
     </div>
   </div>
 </mat-dialog-content>

@@ -302,6 +302,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
     // Set data
     dialogConfig.data = {
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', { chargeBoxID: this.charger.id }),
       latitude: latitude,
       longitude: longitude,
       label: this.charger.id ? this.charger.id : ''

@@ -1098,6 +1098,7 @@
     }
   },
   "geomap": {
+    "dialog_geolocation_title": "Set Geolocation of Charging Station '{{chargeBoxID}}'",
     "select_geolocation": "Select Geo Location",
     "search": "Search Place",
     "max_zoom": "Max Zoom",

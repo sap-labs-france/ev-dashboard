@@ -124,6 +124,14 @@ export class CompanyComponent implements OnInit {
     }
     // Scroll up
     jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
+
+    // listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 
   public isOpenInDialog(): boolean {
@@ -324,7 +332,7 @@ export class CompanyComponent implements OnInit {
 
   public closeDialog() {
     if (this.inDialog) {
-        this.dialogRef.close();
+      this.dialogRef.close();
     }
   }
 

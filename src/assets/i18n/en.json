@@ -361,7 +361,7 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power (Watts)"
+    "maximum_energy": "Maximum Power Limitation (Watts)"
   },
   "authentication": {
     "accept": "I accept the",

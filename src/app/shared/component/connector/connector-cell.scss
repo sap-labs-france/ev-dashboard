@@ -11,6 +11,17 @@
   to {transform: rotate(360deg);}
 }
 
+@keyframes glow {
+  from {
+    text-shadow: 0 0 1px $brand-inverse, 0 0 3px $brand-inverse, 0 0 5px $brand-inverse, 0 0 7px $brand-inverse;
+  }
+  
+  to {
+    text-shadow: 0 0 4px $brand-inverse, 0 0 6px $brand-inverse, 0 0 8px $brand-inverse, 0 0 10px $brand-inverse, 0 0 14px $brand-inverse, 0 0 17px $brand-inverse, 0 0 20px $brand-inverse, 0 0 23px $brand-inverse, 0 0 26px $brand-inverse, 0 0 29px $brand-inverse, 0 0 32px $brand-inverse;
+  }
+}
+
+
 // @mixin anim-status-blinking {
 //     animation: status-blinking2 2s ease-in-out infinite;
 // }
@@ -107,10 +118,10 @@
         // border-color: transparent;
         border-radius: 50%;
         // border-image: 4px solid lighten($brand-info, 30%);
-        border-left: 2px solid $blue-900;
+        border-left: 2px solid $blue-200;
         border-top: 2px solid $blue-600;
-        border-right: 2px solid $blue-300;
-        border-bottom: 2px solid $blue-100;
+        border-right: 2px solid $blue-200;
+        border-bottom: 2px solid $blue-600;
         // background-image: radial-gradient(circle, $blue-50, $blue-500 70%);
       }
       &.charger-connector-background-spinner::before {
@@ -154,7 +165,8 @@
     .charger-connector-charging-active-text {
       // animation: text-color-invert 2s infinite;
       color: $blue-800;
-      text-shadow: 0px 0px 2px $brand-info;
+      animation: glow 2s linear infinite alternate;
+      // text-shadow: 0px 0px 2px $brand-inverse;
 
       
       // text-shadow: -1px -1px 2px $brand-info,  
@@ -203,8 +215,8 @@
     }
     
     .charger-connector-charging-active {
-      // background-color: $brand-info;
-      background-image: radial-gradient(circle, $brand-inverse, $brand-inverse 40%, $blue-500 100%);
+      background-color: $brand-info;
+      // background-image: radial-gradient(circle, $brand-inverse, $brand-inverse 30%, $blue-600 100%);
       // border: 2px solid darken($brand-info, 15%);
       // animation: spinner 2s ease infinite;
     }

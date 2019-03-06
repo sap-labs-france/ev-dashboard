@@ -137,7 +137,7 @@ export class ChargerStatusDirective {
     if (!classes) {
       classes = CLASS_STATUS_MAPS.find((statusClass) => 'Unknown' === statusClass.status);
     }
-    this._el.nativeElement.className += ' ' + classes.classes[input.target];
+    this._el.nativeElement.className = input.baseClass + ' '  + classes.classes[input.target];
   }
 
   constructor(private _el: ElementRef) {

@@ -7,7 +7,7 @@
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
-                                [formControl]="chargingStationURL" required [readOnly]="!isAdmin" />
+                                [formControl]="chargingStationURL" required [readOnly]="!isAdmin" [matTooltip]="chargingStationURLTooltip | translate"/>
                         </mat-form-field>
                         <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
                     </div>
@@ -84,11 +84,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row py-2 connector-row">
                 <ng-container *ngFor="let connector of charger.connectors">
                     <div [class.col]="charger.connectors.length <= 1" [class.col-6]="charger.connectors.length >= 2" 
                         [class.mb-4]="charger.connectors.length > 2" class="charger-dialog-connector">
-                        <div class="card card-settings">
+                        <div class="card card-settings connector-card pt-2">
                             <div class="card-header card-header-primary card-header-icon">
                                 <div class="card-icon">
                                     <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
@@ -103,7 +103,7 @@
                                 </h4>
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="">
                                     <mat-form-field>
                                         <mat-select placeholder="{{'chargers.connector_type' | translate}}"
                                             [formControlName]="'connectorType' + connector.connectorId" required value=connect>
@@ -114,7 +114,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="row">
+                                <div class="">
                                     <mat-form-field>
                                         <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
                                             [formControlName]="'connectorMaxPower' + connector.connectorId" required

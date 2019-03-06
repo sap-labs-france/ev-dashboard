@@ -451,7 +451,9 @@
     "vendor": "Vendeur",
     "model": "Modèle",
     "name": "Nom",
-    "heartbeat_title": "Heartbeat",
+    "heartbeat_title": "Etat",
+    "charger_disconnected": "Déconnectée ({{from}})",
+    "charger_connected": "Connectée",
     "connectors_title": "Connecteurs",
     "consumption_title": "Puissance",
     "firmware_version": "Version Firmware",
@@ -467,14 +469,14 @@
     "last_reboot": "Dernier Redémarrage",
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
-    "maximum_energy": "Energie Maximum",
+    "maximum_energy": "Energie Maximum (Watt)",
     "connector": "Connecteur",
     "connector0": "Borne",
     "connector_type": "Type",
     "connector_error_title": "Code erreur",
     "connector_info_title": "Error info",
     "connector_vendor_error_code_title": "Vendor error",
-    "connector_max_power": "Puissance Maximum en Watts",
+    "connector_max_power": "Puissance Maximum (Watts)",
     "charger_url": "URL",
     "charger_param_key": "Clé",
     "charger_param_value": "Valeur",
@@ -516,6 +518,10 @@
       },
       "localisation": {
         "title": "Localisation des bornes"
+      },
+      "settings": {
+        "fixedURLforOCPP": "Depuis la version OCPP 1.6, l'URL est fixée par le serveur",
+        "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
     "more_actions_items": {

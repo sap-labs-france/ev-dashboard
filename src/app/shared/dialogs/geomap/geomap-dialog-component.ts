@@ -47,7 +47,7 @@ export class GeoMapDialogComponent {
       this.markerLongitude = data.longitude ? +data.longitude : -0.000500;
       this.displayOnly = data.displayOnly ? data.displayOnly : false;
       this.dialogTitle = data.dialogTitle ? data.dialogTitle : '';
-      this.markers = data.markers ? data.markers : [{latitude : 51.476852, longitude : -0.000500, labelFormatted: ''}];
+      this.markers = data.markers ? data.markers : [];
     }
   }
 

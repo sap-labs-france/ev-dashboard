@@ -829,8 +829,9 @@
   "settings": {
     "tabs": {
       "ocpi": "Itinérance",
-      "chargeathome": "Charge@Home",
-      "pricing": "Pricing"
+      "chargeathome": "Remboursement",
+      "pricing": "Pricing",
+      "sac": "Analytics"
     },
     "ocpi": {
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
@@ -960,12 +961,12 @@
     }
   },
   "sac": {
-    "title": "SAP Analytics Cloud",
-    "description": "SAP Analytics Cloud Interface"
+    "title": "Analytics",
+    "description": "Analytics Interface"
   },
   "chargeathome": {
-    "title": "Charge@Home",
-    "description": "Charge At Home Interface"
+    "title": "Remboursement",
+    "description": "Interface de Remboursement"
   },
   "pricing": {
     "title": "Pricing",
@@ -1090,7 +1091,7 @@
   "geomap": {
     "select_geolocation": "Selectionner la Géo",
     "search": "Rechercher une place",
-    "max_zoom": "Max",
-    "min_zoom": "Min"
+    "max_zoom": "Zoom Max",
+    "min_zoom": "Zoom Min"
   }
 }

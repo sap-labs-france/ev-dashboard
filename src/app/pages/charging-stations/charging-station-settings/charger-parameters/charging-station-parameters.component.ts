@@ -106,12 +106,14 @@ export class ChargingStationParametersComponent implements OnInit {
       'siteAreaID': new FormControl(''),
       'latitude': new FormControl('',
         Validators.compose([
+          Validators.required,
           Validators.max(90),
           Validators.min(-90),
           Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
         ])),
       'longitude': new FormControl('',
         Validators.compose([
+          Validators.required,
           Validators.max(180),
           Validators.min(-180),
           Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
@@ -273,7 +275,7 @@ export class ChargingStationParametersComponent implements OnInit {
   public assignGeoMap() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '50vw';
+    dialogConfig.minWidth = '70vw';
 
     // get latitud/longitude from form
     let latitude = this.formGroup.controls.latitude.value;

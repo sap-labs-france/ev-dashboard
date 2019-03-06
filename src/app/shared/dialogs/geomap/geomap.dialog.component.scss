@@ -3,7 +3,11 @@
 
 
 agm-map {
-  height: 400px;
+  height: 600px;
+}
+
+.app-spacer {
+  flex: 1 1 auto;
 }
 
 ::ng-deep agm-map.app-shadow div[tabindex] div:last-child {

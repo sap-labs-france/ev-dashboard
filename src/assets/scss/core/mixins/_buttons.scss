@@ -177,7 +177,8 @@
   //$active-background: darken($background, 17%);
   $active-border: darken($border, 25%);
 
-  @include bmd-button-variant($color,
+  @include bmd-button-variant(
+    $color,
     $background,
     $focus-background,
     $active-background,

@@ -19,7 +19,7 @@ export class ChargerErrorTypeTableFilter extends TableFilter {
       httpId: 'ErrorType',
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'chargers.errors.filter_title',
-      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
+      class: 'col-sm-4 col-md-4 col-lg-3 col-xl-2 ',
       currentValue: Constants.FILTER_ALL_KEY,
       items: Object.assign([], errorTypes)
     };

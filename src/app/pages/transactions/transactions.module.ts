@@ -23,6 +23,7 @@ import {ConsumptionChartDetailComponent} from './components/consumption-chart-de
 import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
 import {TransactionsRefundComponent} from './chargeathome/transactions-refund.component';
 import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-data-source-table';
+import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-d
     TransactionsRefundComponent,
     ConnectorCellComponent,
     ConsumptionChartDetailComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
+    ErrorCodeDetailsComponent
   ],
   exports: [
     TransactionsComponent

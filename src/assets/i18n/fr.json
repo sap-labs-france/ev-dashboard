@@ -673,11 +673,6 @@
       "in_error": "Défectueuse"
     },
     "errors": {
-      "title": "Erreur",
-      "filter_title": "Erreur",
-      "details_title": "Détails",
-      "description_title": "Description",
-      "action_title": "Action recommendée",
       "missingSettings": {
         "title": "Paramètres manquants",
         "description": "Des paramètres obligatoires sont manquants",
@@ -994,8 +989,8 @@
     "user": "Utilisateur",
     "badge_id": "ID de badge",
     "connector": "Connecteur",
-    "total_consumption": "Consommé",
-    "current_consumption": "Puissance",
+    "total_consumption": "Puissance",
+    "current_consumption": "Puissance Instantanée",
     "state": "Status",
     "price": "Prix",
     "state_of_charge": "Niveau Batterie",
@@ -1021,7 +1016,7 @@
     "soft_stop_transaction_success": "La session a été stoppée avec succès, vous pouvez débrancher le connecteur",
     "soft_stop_transaction_error": "Une erreur est survenue pendant la tentative d'arrêt de la session",
     "delete": "Supprimer",
-    "error_code": "Code érreur",
+    "error_code": "Erreur",
     "delete_transaction_title": "Supprimer Session",
     "delete_transaction_confirm": "Voulez-vous vraiment supprimer la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
     "delete_transaction_success": "La session a été supprimée avec succès",
@@ -1060,7 +1055,8 @@
       "power": "Puissance Instantannée (kWatt)",
       "energy": "Energie délivrée (kWatt.h)",
       "reset_zoom": "Remise à Zéro",
-      "no_consumption": "Aucune donnée disponible"
+      "no_consumption": "Aucune donnée disponible",
+      "cumulated_amount": "Montant"
     },
     "dialog": {
       "delete": {
@@ -1096,6 +1092,13 @@
         "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
         "error": "Une erreur est survenue pendant la demande de remboursement"
       }
+    },
+      "errors": {
+        "noConsumption": {
+          "title": "Pas de consommations",
+          "description": "La transaction ne contient pas de données",
+          "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
+        }
     }
   },
   "geomap": {
@@ -1104,5 +1107,11 @@
     "search": "Rechercher une place",
     "max_zoom": "Zoom Max",
     "min_zoom": "Zoom Min"
+  },
+  "errors": {
+    "title": "Erreur",
+    "details": "Détails",
+    "description": "Description",
+    "action": "Action recommendée"
   }
 }

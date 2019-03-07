@@ -26,8 +26,12 @@ import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-r
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
+import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import * as moment from 'moment';
+
 
 const POLL_INTERVAL = 10000;
+
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
 
@@ -109,7 +113,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (currentTotalDurationSecs) => this.appDurationPipe.transform(currentTotalDurationSecs)
+        formatter: (currentTotalDurationSecs, row: Transaction) => this.appDurationPipe.transform(moment().diff(row.timestamp, 'seconds'))
       },
       {
         id: 'currentTotalInactivitySecs',
@@ -118,11 +122,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         class: 'text-left d-none d-lg-table-cell',
         formatter: (currentTotalInactivitySecs, row) => {
           const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
-          if (percentage === 0) {
-            return '';
-          }
           return this.appDurationPipe.transform(currentTotalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+            ` (${this.percentPipe.transform(percentage, '1.0-0')})`
         }
       },
       {
@@ -150,7 +151,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        formatter: (currentConsumption) => currentConsumption > 0 ? this.appUnitPipe.transform(currentConsumption, 'W', 'kW') : ''
+        formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW')
       },
       {
         id: 'currentStateOfCharge',
@@ -187,10 +188,17 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
 
   getTableFiltersDef(): TableFilterDef[] {
-    return [
+    const filters: TableFilterDef[] = [
       new TransactionsChargerFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef(),
-    ];
+      new SiteAreasTableFilter().getFilterDef()];
+    switch (this.centralServerService.getLoggedUser().role) {
+      case  Constants.ROLE_DEMO:
+      case  Constants.ROLE_BASIC:
+      case  Constants.ROLE_SUPER_ADMIN:
+      case  Constants.ROLE_ADMIN:
+        filters.push(new UserTableFilter().getFilterDef());
+    }
+    return filters;
   }
 
   getTableRowActions(): TableActionDef[] {
@@ -202,6 +210,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
+  }
+
+  definePollingIntervalStrategy() {
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   protected _stationStopTransaction(transaction: Transaction) {
@@ -234,10 +246,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     } else {
       this._stationStopTransaction(transaction);
     }
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
 }

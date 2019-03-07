@@ -26,6 +26,12 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
+import * as moment from 'moment';
+import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import {ErrorMessage} from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
+import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details/error-code-details.component';
+import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
+import en from '../../../../assets/i18n/en.json';
 
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
@@ -65,6 +71,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         if (!refreshAction) {
           this.spinnerService.hide();
         }
+        this.formatErrorMessages(transactions.result);
         this.setNumberOfRecords(transactions.count);
         this.updatePaginator();
         this.setData(transactions.result);
@@ -75,6 +82,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
+
   }
 
   public getTableDef(): TableDef {
@@ -96,11 +104,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sortable: true,
         direction: 'desc',
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-      },
-      {
-        id: 'errorCode',
-        name: 'transactions.error_code',
-        sortable: true
       },
       {
         id: 'user',
@@ -134,8 +137,24 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         class: 'text-left d-none d-xl-table-cell'
       },
       {
-        id: 'stop.totalConsumption',
-        name: 'transactions.total_consumption'
+        id: 'errorCodeDetails',
+        name: 'errors.details',
+        sortable: false,
+        class: 'action-cell text-left',
+        isAngularComponent: true,
+        angularComponentName: ErrorCodeDetailsComponent
+      },
+      {
+        id: 'errorCode',
+        name: 'errors.title',
+        sortable: true,
+        formatter: (value, row) => this.translateService.instant(row.errorMessage.title)
+      },
+      {
+        id: 'errorCodeDescription',
+        name: 'errors.description',
+        sortable: false,
+        formatter: (value, row) => this.translateService.instant(row.errorMessage.description)
       }
     ];
     if (this.isAdmin) {
@@ -152,11 +171,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   formatInactivity(totalInactivitySecs, row) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
-    if (percentage === 0) {
-      return '';
-    }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+      ` (${this.percentPipe.transform(percentage, '1.0-0')})`
   }
 
   formatChargingStation(chargingStation, row) {
@@ -168,14 +184,22 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   getTableFiltersDef(): TableFilterDef[] {
-    return [
-      new TransactionsDateFromFilter().getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef()
-    ];
-  }
+    const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
 
+    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new TransactionsDateUntilFilter().getFilterDef(),
+      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
+      new TransactionsChargerFilter().getFilterDef(),
+      new SiteAreasTableFilter().getFilterDef()];
+    switch (this.centralServerService.getLoggedUser().role) {
+      case  Constants.ROLE_DEMO:
+      case  Constants.ROLE_BASIC:
+      case  Constants.ROLE_SUPER_ADMIN:
+      case  Constants.ROLE_ADMIN:
+        filters.push(new UserTableFilter().getFilterDef());
+    }
+    return filters;
+  }
 
   getTableRowActions(): TableActionDef[] {
     return [new TableDeleteAction().getActionDef()];
@@ -223,6 +247,19 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
+    });
+  }
+
+  private formatErrorMessages(transactions) {
+    transactions.forEach(transaction => {
+      const path = `transactions.errors.${transaction.errorCode}`;
+      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      switch (transaction.errorCode) {
+        case'noConsumption':
+          // nothing to do
+          break;
+      }
+      transaction.errorMessage = errorMessage;
     });
   }
 }

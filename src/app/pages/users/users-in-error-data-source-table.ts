@@ -25,7 +25,7 @@ import {UserRoleFilter} from './filters/user-role-filter';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {UserStatusComponent} from './formatters/user-status.component';
-import {TableEditLocationAction} from '../../shared/table/actions/table-edit-location';
+import {TableAssignSiteAction} from '../../shared/table/actions/table-edit-location';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 
 @Injectable()
@@ -157,7 +157,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
   public getTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
-      new TableEditLocationAction().getActionDef(),
+      new TableAssignSiteAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }
@@ -178,7 +178,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       case 'edit':
         this._showUserDialog(rowItem);
         break;
-      case 'edit_location':
+      case 'assign_site':
         this._showSitesDialog(rowItem);
         break;
       case 'delete':

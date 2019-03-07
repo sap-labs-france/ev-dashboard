@@ -27,6 +27,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   public userLocales;
   public isAdmin;
   public formGroup: FormGroup;
+  isGetConfigurationActive = true;
   @ViewChildren('parameter') parameterInput: QueryList<ElementRef>;
 
   constructor(
@@ -117,43 +118,52 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
    * saveConfiguration
    */
   public saveConfiguration(item) {
-    // Show
-    this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.updateChargingStationOCPPConfiguration(
-      this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe(response => {
-        // Hide
-        this.spinnerService.hide();
-        // Ok?
-        if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-          // Ok
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
-          this.refresh();
-        } else {
-          this.refresh();
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.messages['change_params_error']);
-        }
-      }, (error) => {
-        this.refresh();
-        // Hide
-        this.spinnerService.hide();
-        // Check status
-        switch (error.status) {
-          case 401:
-            // Not Authorized
-            this.messageService.showErrorMessage(this.translateService.instant('chargers.change_params_error'));
-            break;
-          case 550:
-            // Does not exist
-            this.messageService.showErrorMessage(this.messages['change_params_error']);
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.messages['change_params_error']);
-        }
-      });
+    // Show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.dialog,
+      this.translateService.instant('chargers.set_configuration_title'),
+      this.translateService.instant('chargers.set_configuration_confirm', { 'chargeBoxID': this.charger.id, key: item.key })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Show
+        this.spinnerService.show();
+        // Yes: Update
+        this.centralServerService.updateChargingStationOCPPConfiguration(
+          this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe(response => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+              // Ok
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
+              this.refresh();
+            } else {
+              this.refresh();
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.messages['change_params_error']);
+            }
+          }, (error) => {
+            this.refresh();
+            // Hide
+            this.spinnerService.hide();
+            // Check status
+            switch (error.status) {
+              case 401:
+                // Not Authorized
+                this.messageService.showErrorMessage(this.translateService.instant('chargers.change_params_error'));
+                break;
+              case 550:
+                // Does not exist
+                this.messageService.showErrorMessage(this.messages['change_params_error']);
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                  this.messages['change_params_error']);
+            }
+          });
+      }
+    });
   }
 
 
@@ -163,11 +173,13 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   public changeParameter(item) {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
-      // Charger is not connected
-      this.dialogService.createAndShowOkDialog(this.dialog,
-        this.translateService.instant('chargers.action_error.command_title'),
-        this.translateService.instant('chargers.action_error.command_charger_disconnected'));
+        // Charger is not connected
+        this.dialogService.createAndShowOkDialog(this.dialog,
+          this.translateService.instant('chargers.action_error.command_title'),
+          this.translateService.instant('chargers.action_error.command_charger_disconnected'));
       } else {
+        // deactivate get configuration button
+        this.isGetConfigurationActive = false;
         // Change input to enable and give him focus
         item.icon = 'save';
         item.tooltip = 'general.save';
@@ -178,6 +190,8 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
         this.formGroup.markAsDirty();
       }
     } else {
+      // activate get configuration button
+      this.isGetConfigurationActive = true;
       // Save changes changes
       this.saveConfiguration(item);
       this.formGroup.controls[item.key].disable();
@@ -191,6 +205,8 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
    * clearParameter
    */
   public clearParameter(item) {
+    // activate get configuration button
+    this.isGetConfigurationActive = true;
     // Cancel input changes
     item.icon = 'edit';
     this.formGroup.controls[item.key].reset();
@@ -210,43 +226,54 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
       this.dialogService.createAndShowOkDialog(this.dialog,
         this.translateService.instant('chargers.action_error.command_title'),
         this.translateService.instant('chargers.action_error.command_charger_disconnected'));
-      } else {
-      // Show
-      this.spinnerService.show();
-      // Yes: Update
-      this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe(response => {
-        // Hide
-        this.spinnerService.hide();
-        // Ok?
-        if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-          // Ok
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
-          this.refresh();
-        } else {
-          this.refresh();
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.messages['change_config_error']);
-        }
-      }, (error) => {
-        this.refresh();
-        // Hide
-        this.spinnerService.hide();
-        // Check status
-        switch (error.status) {
-          case 401:
-            // Not Authorized
-            this.messageService.showErrorMessage(this.messages['change_config_error']);
-            break;
-          case 550:
-            // Does not exist
-            this.messageService.showErrorMessage(this.messages['change_config_error']);
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.messages['change_config_error']);
+    } else {
+      // Show yes/no dialog
+      this.dialogService.createAndShowYesNoDialog(
+        this.dialog,
+        this.translateService.instant('chargers.get_configuration_title'),
+        this.translateService.instant('chargers.get_configuration_confirm', { 'chargeBoxID': this.charger.id })
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          // Show
+          this.spinnerService.show();
+          // Yes: Update
+          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe(response => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+              // Ok
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
+              this.refresh();
+            } else {
+              this.refresh();
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.messages['change_config_error']);
+            }
+          }, (error) => {
+            this.refresh();
+            // Hide
+            this.spinnerService.hide();
+            // Check status
+            switch (error.status) {
+              case 401:
+                // Not Authorized
+                this.messageService.showErrorMessage(this.messages['change_config_error']);
+                break;
+              case 550:
+                // Does not exist
+                this.messageService.showErrorMessage(this.messages['change_config_error']);
+                break;
+              default:
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                  this.messages['change_config_error']);
+            }
+          });
         }
       });
     }
   }
 }
+
+

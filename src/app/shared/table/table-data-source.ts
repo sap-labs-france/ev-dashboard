@@ -1,12 +1,13 @@
-import { BehaviorSubject, interval, Observable, of, Subscription, Subject, Subscriber } from 'rxjs';
-import { ElementRef } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
-import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
-import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
-import { Constants } from '../../utils/Constants';
-import { Utils } from '../../utils/Utils';
+import {BehaviorSubject, interval, Observable, of, Subject, Subscription} from 'rxjs';
+import {ElementRef} from '@angular/core';
+import {MatPaginator, MatSort} from '@angular/material';
+import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
+import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {Constants} from '../../utils/Constants';
+import {Utils} from '../../utils/Utils';
 
 import * as _ from 'lodash';
+
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
   private dataSubject = new BehaviorSubject<any[]>([]);
@@ -226,7 +227,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public getOrdering(): Ordering[] {
     if (this.getSort()) {
       return [
-        { field: this.getSort().active, direction: this.getSort().direction }
+        {field: this.getSort().active, direction: this.getSort().direction}
       ]
     } else {
       // Find Sorted columns
@@ -235,7 +236,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       if (columnDef) {
         // Yes: Set Sorting
         return [
-          { field: columnDef.id, direction: columnDef.direction }
+          {field: columnDef.id, direction: columnDef.direction}
         ]
       } else {
         return [
@@ -287,7 +288,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getTableDef(): TableDef {
-    return { rowFieldNameIdentifier: '' };
+    return {rowFieldNameIdentifier: ''};
   }
 
   public setTableDef(tableDef: TableDef) {
@@ -303,6 +304,16 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     foundFilter.currentValue = filter.currentValue;
     // Reload data
     this.loadData(false);
+  }
+
+  public reset() {
+    this.unregisterToDataChange();
+    this.resetFilters();
+    this.tableDef = null;
+    this.filtersDef = null;
+    this.actionsDef = null;
+    this.actionsRightDef = null;
+    this.rowActionsDef = null;
   }
 
   public resetFilters() {
@@ -383,7 +394,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         //   clearInterval(this._refreshInterval);
         // }
         // this._refreshInterval = setInterval(() => {//
-          this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
+        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
           if (this._isDestroyed) {
             // tslint:disable-next-line:max-line-length
             console.log(new Date().toISOString() + ' Refresh on destroyed data source ' + this.constructor.name);
@@ -567,9 +578,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             formattedRow['specificRowActions'] = specificRowActions;
           }
           freshFormattedData.push(formattedRow);
-          rowRefreshed.push({ newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-                isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-                (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))});
+          rowRefreshed.push({
+            newValue: formattedRow, previousValue: this.formattedData[index]['data'],
+            isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+              (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
+          });
         }
       } else {
         const formattedRow = this._formatRow(freshRow);
@@ -665,22 +678,22 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     if (propertyName.indexOf('.') > 0) {
       propertyValue = source;
       propertyName.split('.').forEach((key) => {
-        if (propertyValue.hasOwnProperty(key)) {
-          propertyValue = propertyValue[key];
-        } else if (columnDef.defaultValue) {
-          propertyValue = columnDef.defaultValue;
-        } else {
-          switch (columnDef.type) {
-            case 'number':
-            case 'float':
-              propertyValue = 0;
-              break;
-            default:
-              propertyValue = '';
-              break;
+          if (propertyValue.hasOwnProperty(key)) {
+            propertyValue = propertyValue[key];
+          } else if (columnDef.defaultValue) {
+            propertyValue = columnDef.defaultValue;
+          } else {
+            switch (columnDef.type) {
+              case 'number':
+              case 'float':
+                propertyValue = 0;
+                break;
+              default:
+                propertyValue = '';
+                break;
+            }
           }
         }
-      }
       );
     }
     return propertyValue;

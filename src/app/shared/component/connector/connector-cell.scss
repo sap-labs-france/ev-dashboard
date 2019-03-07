@@ -51,10 +51,10 @@
       &.charger-connector-background-spinner {
         animation: spinner 3s linear infinite;
         border-radius: 50%;
-        border-left: 2px solid $blue-200;
-        border-top: 2px solid $brand-info;
-        border-right: 2px solid $blue-200;
-        border-bottom: 2px solid $brand-info;
+        border-left: 3px solid $blue-200;
+        border-top: 3px solid $brand-info;
+        border-right: 3px solid $blue-200;
+        border-bottom: 3px solid $brand-info;
       }
     }
 
@@ -98,7 +98,7 @@
     }
     .charger-connector-charging-active-text {
       color: $brand-inverse;
-      text-shadow: 0 0 10px $brand-inverse;
+      text-shadow: 0 0 4px $brand-inverse, 0 0 18px $brand-inverse;
     }    
     &.charger-connector-charging-active-type-background {
       border: 1px solid $brand-disabled;
@@ -131,7 +131,6 @@
       border: 1px solid $brand-disabled;
       background-color: lighten($brand-disabled, 20%);    
     }
-    
 
     .charger-connector-suspended-evse {
       background-color: $brand-info;

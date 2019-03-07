@@ -177,8 +177,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     // Unregister
-    this.dataSource.unregisterToDataChange();
-    this.dataSource.resetFilters();
+    this.dataSource.reset();
     if (this.manualRefreshObserver) {
       this.manualRefreshObserver.unsubscribe();
     }

@@ -159,11 +159,18 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    return [
-      new TableEditAction().getActionDef(),
-      new TableAssignSiteAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableAssignSiteAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    } else {
+      return [
+        new TableEditAction().getActionDef(),
+        new TableDeleteAction().getActionDef()
+      ];
+    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

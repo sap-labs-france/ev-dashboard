@@ -27,15 +27,15 @@ export class AbstractTabComponent implements OnDestroy {
         this.windowService.setHash(this.hashArray[index]);
         this.activeTabIndex = index;
       }
-      console.log(str + ' ' + this.constructor.name);
+      console.debug(str + ' ' + this.constructor.name);
     } else {
-      console.log(`no change in update route from ${this.activeTabIndex} to ${index}`);
+      console.debug(`no change in update route from ${this.activeTabIndex} to ${index}`);
     }
   }
 
   ngOnDestroy(): void {
-    if (!this._fragmentSubscription) {
-      console.log('Destroy fragment subscription ' + this.constructor.name);
+    if (this._fragmentSubscription) {
+      console.debug('Destroy fragment subscription ' + this.constructor.name);
       this.disableRoutingSynchronization();
     }
     this._isDetroyed = true;
@@ -60,7 +60,7 @@ export class AbstractTabComponent implements OnDestroy {
 
           str += ` End _updatedRoutes: ${this._updatedRoutes.toString()} with active index ${this.activeTabIndex}`;
         }
-        console.log(str + ' ' + this.constructor.name);
+        console.debug(str + ' ' + this.constructor.name);
       });
       // Set default route
       if (this.defaultIndex && this.defaultIndex < this.hashArray.length && this.defaultIndex >= 0) {

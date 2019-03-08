@@ -31,8 +31,6 @@ import * as moment from 'moment';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
-import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
-import {SiteAreasFilterDataSourceTable} from '../../../shared/dialogs/sites/site-areas-filter-data-source-table';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 
 @Injectable()
@@ -101,6 +99,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
+
     const columns = [
       {
         id: 'timestamp',
@@ -148,7 +147,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }
     ];
-    if (this.isAdmin) {
+    if (this.isAdmin && this.centralServerService.isComponentActive(Constants.SETTINGS_PRICING)) {
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
@@ -162,11 +161,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   formatInactivity(totalInactivitySecs, row) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
-    if (percentage === 0) {
-      return '';
-    }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+      ` (${this.percentPipe.transform(percentage, '1.0-0')})`
   }
 
   formatChargingStation(chargingStation, row) {
@@ -178,13 +174,18 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   getTableFiltersDef(): TableFilterDef[] {
-    return [
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef()
-    ];
+      new SiteAreasTableFilter().getFilterDef()];
+    switch (this.centralServerService.getLoggedUser().role) {
+      case  Constants.ROLE_DEMO:
+      case  Constants.ROLE_BASIC:
+      case  Constants.ROLE_SUPER_ADMIN:
+      case  Constants.ROLE_ADMIN:
+        filters.push(new UserTableFilter().getFilterDef());
+    }
+    return filters;
   }
 
 

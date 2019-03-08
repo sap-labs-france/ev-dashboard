@@ -289,13 +289,13 @@
     "no_sites": "No sites found",
     "select_sites": "Select Sites",
     "site": "Site",
+    "assigned_users_to_site": "Users assigned to {{siteName}}",
     "unassigned": "Unassigned",
     "no_connected_chargers": "You are not connected to a charging station",
     "site_number": "Site(s)",
     "number_of_site_areas": "Nb Site Areas",
     "number_of_users": "Nb Users",
     "users": "Users",
-    "assigned_users_to_site": "Users assigned to {{siteName}}",
     "image": "Image",
     "name": "Name",
     "title": "Site",
@@ -447,7 +447,7 @@
     "category_label": "Category"
   },
   "chargers": {
-    "chargers": "Chargers",
+    "chargers": "Charging Stations",
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
@@ -480,7 +480,7 @@
     "charger_url": "URL",
     "charger_param_key": "Key",
     "charger_param_value": "Value",
-    "title": "Charger",
+    "title": "Charging Station",
     "status_occupied": "Occupied",
     "status_available": "Available",
     "status_preparing": "Preparing",
@@ -673,11 +673,6 @@
       "in_error": "Faulty"
     },
     "errors": {
-      "title": "Error",
-      "filter_title": "Error",
-      "details_title": "Details",
-      "description_title": "Description",
-      "action_title": "Recommended action",
       "missingSettings": {
         "title": "Missing settings",
         "description": "Required settings are missing",
@@ -1003,8 +998,8 @@
     "user": "User",
     "badge_id": "Badge ID",
     "connector": "Connector",
-    "total_consumption": "Consumed",
-    "current_consumption": "Power",
+    "total_consumption": "Power",
+    "current_consumption": "Instant Power",
     "state": "Status",
     "price": "Price",
     "state_of_charge": "Battery level",
@@ -1030,7 +1025,7 @@
     "soft_stop_transaction_success": "The session has been stopped successfully. You can unlock the connector",
     "soft_stop_transaction_error": "Error occurred while stopping the session",
     "delete": "Delete",
-    "error_code": "Error Code",
+    "error_code": "Error",
     "delete_transaction_title": "Delete Session",
     "delete_transaction_confirm": "Do you really want to delete the session that belongs to '{{userFullName}}' on '{{chargeBoxID}}'?",
     "delete_transaction_success": "The session has been deleted successfully",
@@ -1069,7 +1064,8 @@
       "power": "Instant Power (kWatt)",
       "energy": "Energy Delivered (kWatt.h)",
       "reset_zoom": "Reset",
-      "no_consumption": "No consumption data available"
+      "no_consumption": "No consumption data available",
+      "cumulated_amount": "Amount"
     },
     "dialog": {
       "delete": {
@@ -1105,6 +1101,13 @@
         "not_authorized": "You are not authorized to perform this request",
         "error": "An error occurred during refund request"
       }
+    },
+    "errors": {
+      "noConsumption": {
+        "title": "No Consumptions",
+        "description": "The transaction does not contains meter values",
+        "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      }
     }
   },
   "geomap": {
@@ -1113,5 +1116,12 @@
     "search": "Search Place",
     "max_zoom": "Max Zoom",
     "min_zoom": "Min Zoom"
+  },
+  "errors": {
+    "title": "Error",
+    "details": "Details",
+    "description": "Description",
+    "action": "Recommended action"
   }
 }
+

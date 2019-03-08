@@ -84,7 +84,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications']);
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications'], false);
 
     this.maxSize = this.configService.getUser().maxPictureKb;
 
@@ -237,8 +237,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
 
     this.loadApplicationSettings();
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+
+    if (!this.inDialog) {
+      super.enableRoutingSynchronization();
+    }
   }
 
   public setCurrentUserId(currentUserId) {

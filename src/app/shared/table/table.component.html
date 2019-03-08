@@ -124,7 +124,7 @@
       
 
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " class="row filter-row">
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " class="d-flex mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <!-- <div class="filter-row w-100 d-md-flex flex-md-row flex-sm-column mr-auto"> -->
           <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">

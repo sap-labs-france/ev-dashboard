@@ -1,8 +1,7 @@
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../../services/window.service';
-import {MatTabChangeEvent} from '@angular/material';
-import { OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs';
 
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
@@ -12,51 +11,68 @@ export class AbstractTabComponent implements OnDestroy {
   private _isDetroyed: boolean;
 
   constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService,
-      protected hashArray: string[], defaultIndex?: number
-      ) {
-    this._fragmentSubscription = activatedRoute.fragment.subscribe(fragment => {
-      let str = 'activatedRoutes for ' + fragment + ' Start _updatedRoutes: ' + this._updatedRoutes.toString();
-      if (!this._isDetroyed) {
-        if (this._updatedRoutes.length > 0 && this._updatedRoutes[0] === fragment) {
-          // Route is coming from click event so do not consider it
-          this._updatedRoutes.shift();
-          str += ' IGNORED ';
-        } else {
-          const indexOf = this.hashArray.indexOf(fragment);
-          if (indexOf >= 0) {
-            str += ' INDEX ' + indexOf;
-            this.activeTabIndex = indexOf;
-          }
-        }
-
-        str += ' End _updatedRoutes: ' + this._updatedRoutes.toString();
-      }
-      console.log(str + ' ' + this.constructor.name);
-    });
-    // Set default route
-    if (defaultIndex && defaultIndex < this.hashArray.length && defaultIndex >= 0) {
-      this.activeTabIndex = defaultIndex;
+              protected hashArray: string[], protected synchronizeRouting: boolean = true, protected defaultIndex: number = 0) {
+    if (this.synchronizeRouting) {
+      this.enableRoutingSynchronization();
     }
-    this.windowService.setHash(this.hashArray[this.activeTabIndex]);
-    this._isDetroyed = false;
   }
 
   updateRoute(index: number) {
-    if (this.activeTabIndex !== index) {
-      let str = 'updateRoute for ' + this.hashArray[index] + ' Start _updatedRoutes: ' + this._updatedRoutes.toString();
+    if (this._fragmentSubscription && this.activeTabIndex !== index) {
+      let str = `updateRoute from ${this.activeTabIndex} to ${index} Start _updatedRoutes: ${this._updatedRoutes.toString()}`;
       if (this.hashArray && index < this.hashArray.length) {
         // Save route activated from click within a FIFO
         this._updatedRoutes.push(this.hashArray[index]);
         str += ' End _updatedRoutes: ' + this._updatedRoutes.toString();
-        console.log(str + ' ' + this.constructor.name);
         this.windowService.setHash(this.hashArray[index]);
+        this.activeTabIndex = index;
       }
+      console.debug(str + ' ' + this.constructor.name);
+    } else {
+      console.debug(`no change in update route from ${this.activeTabIndex} to ${index}`);
     }
   }
 
   ngOnDestroy(): void {
-    console.log('Destroy fragment subscription ' + this.constructor.name);
-    this._fragmentSubscription.unsubscribe();
+    if (this._fragmentSubscription) {
+      console.debug('Destroy fragment subscription ' + this.constructor.name);
+      this.disableRoutingSynchronization();
+    }
     this._isDetroyed = true;
+  }
+
+  enableRoutingSynchronization() {
+    if (!this._fragmentSubscription) {
+      this._fragmentSubscription = this.activatedRoute.fragment.subscribe(fragment => {
+        let str = `activatedRoutes for ${fragment} Start _updatedRoutes: ${this._updatedRoutes.toString()}`;
+        if (!this._isDetroyed) {
+          if (this._updatedRoutes.length > 0 && this._updatedRoutes[0] === fragment) {
+            // Route is coming from click event so do not consider it
+            this._updatedRoutes.shift();
+            str += ' IGNORED ';
+          } else {
+            const indexOf = this.hashArray.indexOf(fragment);
+            if (indexOf >= 0) {
+              str += ' INDEX ' + indexOf;
+              this.activeTabIndex = indexOf;
+            }
+          }
+
+          str += ` End _updatedRoutes: ${this._updatedRoutes.toString()} with active index ${this.activeTabIndex}`;
+        }
+        console.debug(str + ' ' + this.constructor.name);
+      });
+      // Set default route
+      if (this.defaultIndex && this.defaultIndex < this.hashArray.length && this.defaultIndex >= 0) {
+        this.activeTabIndex = this.defaultIndex;
+      }
+      this.windowService.setHash(this.hashArray[this.activeTabIndex]);
+      this._isDetroyed = false;
+    }
+  }
+
+  disableRoutingSynchronization() {
+    this._fragmentSubscription.unsubscribe();
+    this._fragmentSubscription = null;
   }
 }

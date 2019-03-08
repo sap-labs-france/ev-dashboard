@@ -1,4 +1,5 @@
 import {SortDirection} from '@angular/material/typings';
+import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -177,6 +178,7 @@ export interface Charger {
 
 export interface ChargerInError extends Charger {
   errorCode: string;
+  errorMessage: ErrorMessage;
   uniqueId: string;
 }
 

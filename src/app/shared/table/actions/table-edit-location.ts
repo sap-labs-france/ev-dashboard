@@ -1,14 +1,14 @@
 import {TableAction} from './table-action';
 import {TableActionDef} from '../../../common.types';
 
-export class TableEditLocationAction implements TableAction {
+export class TableAssignSiteAction implements TableAction {
   private action: TableActionDef = {
-    id: 'edit_location',
+    id: 'assign_site',
     type: 'button',
     icon: 'store_mall_directory',
     class: 'btn-info',
-    name: 'general.edit',
-    tooltip: 'general.tooltips.edit_location'
+    name: 'general.assign_site',
+    tooltip: 'general.tooltips.assign_site'
   };
 
   public getActionDef(): TableActionDef {

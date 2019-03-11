@@ -35,6 +35,7 @@
     "@angular/platform-server": "^7.2.7",
     "@angular/router": "^7.2.7",
     "@auth0/angular-jwt": "^2.1.0",
+    "@mat-datetimepicker/core": "3.0.0-beta.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/canvas-gauges": "^2.1.1",

@@ -1,7 +1,7 @@
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {CentralServerService} from './services/central-server.service';
 import {CentralServerNotificationService} from './services/central-server-notification.service';
 import {SpinnerService} from './services/spinner.service';
@@ -18,7 +18,6 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import * as $ from 'jquery';
-import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
@@ -71,7 +70,8 @@ import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
 import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
-import { DashboardService } from './services/dashboard.service';
+import {DashboardService} from './services/dashboard.service';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -86,6 +86,8 @@ registerLocaleData(localeFr, 'fr');
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
+    MatNativeDatetimeModule,
+    MatDatetimepickerModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
@@ -110,7 +112,7 @@ registerLocaleData(localeFr, 'fr');
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ { provide: LOCALE_ID, useValue: 'fr' } ],
+  providers: [{provide: LOCALE_ID, useValue: 'fr'}],
 })
 export class MaterialModule {
 }

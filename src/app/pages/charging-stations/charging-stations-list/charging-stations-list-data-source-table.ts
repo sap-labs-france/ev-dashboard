@@ -472,7 +472,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
+    dialogConfig.minHeight = '60vh';
+    dialogConfig.height = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;

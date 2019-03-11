@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
 
-  private _updatedRoutes = [];
+  private _updatedRoute: string;
   private _fragmentSubscription: Subscription;
   private _isDetroyed: boolean;
 
@@ -19,13 +19,13 @@ export class AbstractTabComponent implements OnDestroy {
 
   updateRoute(index: number) {
     if (this._fragmentSubscription && this.activeTabIndex !== index) {
-      let str = `updateRoute from ${this.activeTabIndex} to ${index} Start _updatedRoutes: ${this._updatedRoutes.toString()}`;
-      if (this.hashArray && index < this.hashArray.length) {
+      let str = `updateRoute from ${this.activeTabIndex} to ${index} Start _updatedRoutes: ${this._updatedRoute}`;
+      if (!this._updatedRoute && this.hashArray && index < this.hashArray.length) {
         // Save route activated from click within a FIFO
-        this._updatedRoutes.push(this.hashArray[index]);
-        str += ' End _updatedRoutes: ' + this._updatedRoutes.toString();
+        this._updatedRoute = this.hashArray[index];
+        str += ' End _updatedRoutes: ' + this._updatedRoute;
         this.windowService.setHash(this.hashArray[index]);
-        this.activeTabIndex = index;
+        // this.activeTabIndex = index;
       }
       console.debug(str + ' ' + this.constructor.name);
     } else {
@@ -44,21 +44,21 @@ export class AbstractTabComponent implements OnDestroy {
   enableRoutingSynchronization() {
     if (!this._fragmentSubscription) {
       this._fragmentSubscription = this.activatedRoute.fragment.subscribe(fragment => {
-        let str = `activatedRoutes for ${fragment} Start _updatedRoutes: ${this._updatedRoutes.toString()}`;
+        let str = `activatedRoutes for ${fragment} Start _updatedRoutes: ${this._updatedRoute}`;
         if (!this._isDetroyed) {
-          if (this._updatedRoutes.length > 0 && this._updatedRoutes[0] === fragment) {
+          if (this._updatedRoute === fragment) {
             // Route is coming from click event so do not consider it
-            this._updatedRoutes.shift();
-            str += ' IGNORED ';
-          } else {
+            this._updatedRoute = undefined;
             const indexOf = this.hashArray.indexOf(fragment);
-            if (indexOf >= 0) {
+            if (indexOf >= 0 && this.activeTabIndex !== indexOf) {
               str += ' INDEX ' + indexOf;
               this.activeTabIndex = indexOf;
             }
+          } else {
+            str += ' IGNORED ';
           }
 
-          str += ` End _updatedRoutes: ${this._updatedRoutes.toString()} with active index ${this.activeTabIndex}`;
+          str += ` End _updatedRoutes: ${this._updatedRoute} with active index ${this.activeTabIndex}`;
         }
         console.debug(str + ' ' + this.constructor.name);
       });

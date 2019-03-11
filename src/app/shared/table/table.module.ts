@@ -5,8 +5,9 @@ import {RouterModule} from '@angular/router';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormattersModule} from '../formatters/formatters.module';
-import { CellContentTemplateModule } from './cell-content-template/cell-content-template.module';
-import { DetailComponentModule } from './detail-component/detail-component.module';
+import {CellContentTemplateModule} from './cell-content-template/cell-content-template.module';
+import {DetailComponentModule} from './detail-component/detail-component.module';
+
 @NgModule({
   imports: [
     RouterModule,

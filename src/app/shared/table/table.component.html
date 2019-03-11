@@ -6,58 +6,67 @@
       <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row">
         <!-- Create Left Actions -->
         <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
-          <ng-container *ngFor="let actionDef of actionsLeftDef; let i=index">
-            <!-- Action Button -->
-            <button (click)="actionTriggered(actionDef)"
-                    *ngIf="actionDef.type === 'button'" [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                    [matTooltip]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+        <ng-container *ngFor="let actionDef of actionsLeftDef; let i=index">
+          <!-- Action Button -->
+          <button (click)="actionTriggered(actionDef)"
+                  *ngIf="actionDef.type === 'button'"
+                  [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+                  [matTooltip]="(actionDef.name ? '' : actionDef.tooltip | translate)">
               <span class="mat-button-wrapper">
                 <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
                 <span class="btn-label">{{actionDef.name | translate}}</span>
               </span>
-            </button>
-          </ng-container>
+          </button>
+        </ng-container>
         <!-- </div> -->
         <span *ngIf="actionsLeftDef.length > 0" class="toolbar-spacer"></span>
         <ng-container *ngIf="actionsLeftDef.length === 0">
           <!-- Filters Row as there is no left actions -->
-          <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()" class="d-flex flex-wrap w-100 filter-row">
+          <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()"
+               class="d-flex flex-wrap w-100 filter-row">
             <!-- Create Filters -->
             <!-- <div class="d-flex filter-row"> -->
-              <div *ngFor="let filterDef of filtersDef; let i=index"
-                  [class]="(filterDef.class ? filterDef.class + ' d-flex': 'd-flex col')">
-                <!-- Dropdown Filter -->
-                <mat-form-field *ngIf="filterDef.type === 'dropdown'">
-                  <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-                              [placeholder]="filterDef.name | translate">
-                    <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+            <div *ngFor="let filterDef of filtersDef; let i=index"
+                 [class]="(filterDef.class ? filterDef.class + ' d-flex': 'd-flex col')">
+              <!-- Dropdown Filter -->
+              <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+                <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+                            [placeholder]="filterDef.name | translate">
+                  <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
-                <!-- Dialog Table Filter -->
-                <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-                  <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
-                        readonly=true
-                        type="text"/>
-                  <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button matSuffix>
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                </mat-form-field>
+              <!-- Dialog Table Filter -->
+              <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+                <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                       [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                       class="form-field-popup" matInput
+                       readonly=true
+                       type="text"/>
+                <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button
+                        matSuffix>
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-form-field>
 
-                <!-- Date Filter -->
-                <mat-form-field *ngIf="filterDef.type === 'date'">
-                  <input (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
-                        matInput>
-                  <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-                  <mat-datepicker #picker disabled="false"></mat-datepicker>
-                </mat-form-field>
-              </div>
+              <!-- Date Filter -->
+
+              <mat-form-field *ngIf="filterDef.type === 'date'">
+                <input matInput [placeholder]="filterDef.name | translate"
+                       (dateChange)="filterChanged(filterDef, $event)" [value]="filterDef.currentValue"
+                       [matDatetimepicker]="picker" required
+                       autocomplete="false">
+                <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                <mat-datetimepicker #picker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+              </mat-form-field>
+            </div>
             <!-- </div> -->
             <!-- Search -->
             <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
               <mat-form-field>
-                <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
+                <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
+                       [placeholder]="searchPlaceholder | translate"
                        matInput>
               </mat-form-field>
             </div>
@@ -70,7 +79,8 @@
             <!-- Refresh Action Button -->
             <button (click)="actionTriggered(actionRightDef)"
                     *ngIf="actionRightDef.id === 'refresh'"
-                    [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')" [matTooltip]="actionRightDef.tooltip | translate">
+                    [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+                    [matTooltip]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
                 </div>
@@ -84,9 +94,10 @@
             <!-- Action Button -->
             <ng-container *ngIf="actionRightDef.id !== 'refresh'">
               <button
-                (click)="actionTriggered(actionRightDef)"
-                *ngIf="actionRightDef.type === 'button'" [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                  (click)="actionTriggered(actionRightDef)"
+                  *ngIf="actionRightDef.type === 'button'"
+                  [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+                  [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
                   <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
                   <span class="btn-label">{{actionRightDef.name| translate}}</span>
@@ -98,7 +109,8 @@
             </ng-container>
             <!-- Special handling of auto refresh -->
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
-              <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)" [checked]="actionRightDef.currentValue"
+              <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
+                                [checked]="actionRightDef.currentValue"
                                 [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <!-- <div class="refresh-box">
                   <div *ngIf="ongoingAutoRefresh " class="spinner-autorefresh2" id="spinnerRefresh">
@@ -106,77 +118,86 @@
                     </div>
                   </div>
                   <div *ngIf="!ongoingAutoRefresh " id="refreshText"> -->
-                    {{actionRightDef.name| translate}}
-                  <!-- </div>
-                </div> -->
+                {{actionRightDef.name| translate}}
+                <!-- </div>
+              </div> -->
               </mat-slide-toggle>
             </ng-container>
             <!-- Action Slide -->
             <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
-              <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)" *ngIf="actionRightDef.type === 'slide'"
+              <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
+                                *ngIf="actionRightDef.type === 'slide'"
                                 [checked]="actionRightDef.currentValue">
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
           </ng-container>
-          </div>
         </div>
-      
+      </div>
+
 
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " class="d-flex mat-toolbar-row filter-row">
+      <div
+          *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) "
+          class="d-flex mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <!-- <div class="filter-row w-100 d-md-flex flex-md-row flex-sm-column mr-auto"> -->
-          <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
-            <!-- Dropdown Filter -->
-            <mat-form-field *ngIf="filterDef.type === 'dropdown'">
-              <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
-                          [placeholder]="filterDef.name | translate">
-                <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+        <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
+          <!-- Dropdown Filter -->
+          <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+                        [placeholder]="filterDef.name | translate">
+              <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-            <!-- Dialog Table Filter -->
-            <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-              <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate" [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate" class="form-field-popup" matInput
-                    readonly=true
-                    type="text"/>
-              <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button matSuffix>
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-form-field>
+          <!-- Dialog Table Filter -->
+          <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                   [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                   class="form-field-popup" matInput
+                   readonly=true
+                   type="text"/>
+            <button (click)="resetDialogTableFilter(filterDef)" aria-label="Add" mat-button mat-icon-button matSuffix>
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
 
-            <!-- Date Filter -->
-            <mat-form-field *ngIf="filterDef.type === 'date'">
-              <input (dateChange)="filterChanged(filterDef, $event)" [matDatepicker]="picker" [placeholder]="filterDef.name | translate" [value]="filterDef.currentValue"
-                    matInput>
-              <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-              <mat-datepicker #picker disabled="false"></mat-datepicker>
-            </mat-form-field>
-          </div>
+          <!-- Date Filter -->
+          <mat-form-field *ngIf="filterDef.type === 'date'">
+            <input matInput [placeholder]="filterDef.name | translate" (dateChange)="filterChanged(filterDef, $event)"
+                   [matDatetimepicker]="picker" [value]="filterDef.currentValue" required autocomplete="false">
+            <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+            <mat-datetimepicker #picker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+          </mat-form-field>
+        </div>
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
           <mat-form-field>
-            <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)" [placeholder]="searchPlaceholder | translate"
+            <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
+                   [placeholder]="searchPlaceholder | translate"
                    matInput>
           </mat-form-field>
         </div>
-      <!-- </div> -->
+        <!-- </div> -->
+      </div>
     </div>
-  </div>
 
 
   </ng-container>
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
-    <table (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId" mat-table matSort matSortDisableClear
+    <table (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId" mat-table matSort
+           matSortDisableClear
            multiTemplateDataRows>
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
-          <mat-checkbox (change)="$event ? masterSelectToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                        [hidden]="!dataSource.isRowSelectionEnabled()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+          <mat-checkbox (change)="$event ? masterSelectToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [hidden]="!dataSource.isRowSelectionEnabled()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
@@ -196,24 +217,28 @@
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
         <ng-container *ngIf="columnDef.sortable; else noSort">
-          <th *matHeaderCellDef [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
+          <th *matHeaderCellDef
+              [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
               mat-header-cell mat-sort-header>{{columnDef.name | translate}}
           </th>
         </ng-container>
         <ng-template #noSort>
-          <th *matHeaderCellDef [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
+          <th *matHeaderCellDef
+              [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
               mat-header-cell>{{columnDef.name | translate}}
           </th>
         </ng-template>
 
         <ng-container *ngIf="columnDef.isAngularComponent">
-          <td *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+          <td *matCellDef="let row"
+              [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
               mat-cell>
             <app-cell-component-container [columnDef]="columnDef" [row]="row['data']"></app-cell-component-container>
           </td>
         </ng-container>
         <ng-container *ngIf="!columnDef.isAngularComponent">
-          <td *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+          <td *matCellDef="let row"
+              [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
               [innerHtml]="row[i] | translate" mat-cell>
           </td>
         </ng-container>
@@ -227,10 +252,11 @@
         <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
           <i
-            (click)="showHideDetailsClicked(row['data'])"
-            *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true" class="material-icons">{{row['data'].isExpanded ?
-            'keyboard_arrow_down' :
-            'keyboard_arrow_right'}}</i>
+              (click)="showHideDetailsClicked(row['data'])"
+              *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true"
+              class="material-icons">{{row['data'].isExpanded ?
+          'keyboard_arrow_down' :
+          'keyboard_arrow_right'}}</i>
         </td>
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell></td>
       </ng-container>
@@ -240,7 +266,7 @@
         <td *matCellDef="let rowDetail" [attr.colspan]="columns.length" mat-cell>
           <div [@detailExpand]="(rowDetail['data'].isExpanded ? 'expanded' : 'collapsed')" class="element-details">
             <ng-container
-              *ngIf="tableDef.rowDetails && !tableDef.rowDetails.isDetailComponent && rowDetail['data'][tableDef.rowDetails.detailsField]">
+                *ngIf="tableDef.rowDetails && !tableDef.rowDetails.isDetailComponent && rowDetail['data'][tableDef.rowDetails.detailsField]">
               <div [innerHtml]="(tableDef.rowDetails ? rowDetail['data'][tableDef.rowDetails.detailsField] : '')">
                 ...
               </div>
@@ -256,17 +282,18 @@
       <!-- Actions Column -->
       <ng-container matColumnDef="actions" ng-if="dataSource.hasRowActions()">
         <th *matHeaderCellDef class="table-header text-center col-5em" mat-header-cell>{{'general.actions' |
-          translate}}
+        translate}}
         </th>
         <td *matCellDef="let actionCell" [class]="'action-cell text-center'" mat-cell>
           <ng-container
-            *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
+              *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
             <ng-container *ngIf="canDisplayRowAction(rowAction, actionCell['data'])">
               <ng-container *ngIf="rowAction.isDropdownMenu">
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
-                      <button (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)" [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
+                      <button (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)"
+                              [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
                               [disabled]="dropdownItem.disabled"
                               [matTooltip]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)" mat-menu-item>
                         <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
@@ -277,7 +304,9 @@
                     </ng-container>
                   </ng-template>
                 </mat-menu>
-                <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])" [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'" [matMenuTriggerFor]="rowActionMenu"
+                <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
+                        [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
+                        [matMenuTriggerFor]="rowActionMenu"
                         [matTooltip]="rowAction.tooltip | translate">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
                 </button>
@@ -286,7 +315,7 @@
                 <button (click)="rowActionTriggered(rowAction, actionCell['data'])"
                         [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
                         [disabled]="rowAction.disabled" [matTooltip]="rowAction.tooltip | translate"><i
-                  class="material-icons">{{rowAction.icon}}</i></button>
+                    class="material-icons">{{rowAction.icon}}</i></button>
               </ng-container>
             </ng-container>
           </ng-container>
@@ -301,7 +330,7 @@
       <tr *matFooterRowDef="columns; sticky: true" [hidden]="!dataSource.isFooterEnabled()" mat-footer-row></tr>
     </table>
     <div *ngIf="dataSource && dataSource.isEmpty()" class="ml-4 text-left">{{'general.no_record_found' |
-      translate}}
+    translate}}
     </div>
   </div>
   <!-- Paginator: can show showFirstLastButtons -->

@@ -37,6 +37,8 @@ import {ConsumptionChartDetailComponent} from '../components/consumption-chart-d
 import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 import {TransactionsTypeFilter} from './transactions-type-filter';
+import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -178,12 +180,20 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   getTableFiltersDef(): TableFilterDef[] {
-    return [
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsTypeFilter().getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef()
-    ];
+      new TransactionsChargerFilter().getFilterDef()];
+    switch (this.centralServerService.getLoggedUser().role) {
+      case  Constants.ROLE_DEMO:
+      case  Constants.ROLE_BASIC:
+      case  Constants.ROLE_SUPER_ADMIN:
+      case  Constants.ROLE_ADMIN:
+        filters.push(new SiteAreasTableFilter().getFilterDef());
+        filters.push(new UserTableFilter().getFilterDef());
+    }
+    return filters;
+
   }
 
   getTableRowActions(): TableActionDef[] {

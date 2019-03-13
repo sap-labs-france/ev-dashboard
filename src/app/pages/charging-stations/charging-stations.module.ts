@@ -74,8 +74,6 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationMoreActionsDialogComponent
   ],
   providers: [
-    ChargingStationsListDataSource,
-    ChargingStationsFaultyDataSource
   ]
 })
 export class ChargingStationsModule { }

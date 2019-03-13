@@ -165,6 +165,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<T[]> {
+    console.log("connect collectionViewer " + this.constructor.name);
     this._isDestroyed = false;
     if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
       this.dataSubject = new BehaviorSubject<any[]>([]);
@@ -173,6 +174,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
+    console.log("disconnect collectionViewer " + this.constructor.name);
     this._isDestroyed = true;
     if (this._displayDetailsColumns) {
       this._displayDetailsColumns.complete();
@@ -190,10 +192,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this._ongoingManualRefresh.complete();
       this._ongoingManualRefresh = null;
     }
-    if (this.dataChangeSubscription) {
-      this.dataChangeSubscription.unsubscribe();
-      this.dataChangeSubscription = null;
-    }
+    this.unregisterToDataChange();
     this.paginator = null;
     this.sort = null;
 
@@ -386,24 +385,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public registerToDataChange() {
     // Listen for changes
-    if (!this.dataChangeSubscription) {
+    console.log('request registerToDataChange ' + this._isDestroyed + ':' + this.constructor.name + ':' + this.dataChangeSubscription);
+    if (!this._isDestroyed && !this.dataChangeSubscription) {
       this.definePollingIntervalStrategy();
       if (this.pollingInterval > 0) {
-        // this.dataChangeSubscription
-        // if (this._refreshInterval) {
-        //   clearInterval(this._refreshInterval);
-        // }
-        // this._refreshInterval = setInterval(() => {//
         this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
           if (this._isDestroyed) {
-            // tslint:disable-next-line:max-line-length
             console.log(new Date().toISOString() + ' Refresh on destroyed data source ' + this.constructor.name);
           } else {
-            // console.log(new Date().toISOString() + ' Refresh ' + this.constructor.name);
             this.refreshReload();
           }
         });
-        // console.log(new Date().toISOString() + ' Set Interval ' + this.constructor.name + ' ' + this.dataChangeSubscription);
       } else {
         this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
           this._ongoingAutoRefresh.next(true);
@@ -420,6 +412,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   refreshReload() {
     // check if there is not already an ongoing refresh
+    console.log("request refresh load " + this.constructor.name);
     let refreshStatus;
     if (this._ongoingManualRefresh) {
       this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -473,18 +466,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
 
   public unregisterToDataChange() {
-    // Exist?
+    console.log("request unregisterToDataChange " + this.constructor.name + ':' + this.dataChangeSubscription);
     if (this.dataChangeSubscription) {
-      // console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this.dataChangeSubscription);
-      // Unregister
       this.dataChangeSubscription.unsubscribe();
       this.dataChangeSubscription = null;
     }
-    // if (this._refreshInterval) {
-    //   console.log('Clear interval auto refresh ' + this.constructor.name + ' ' + this._refreshInterval);
-    //   clearInterval(this._refreshInterval);
-    //   this._refreshInterval = null;
-    // }
   }
 
   public getFilterValues(withSearch: boolean = true) {

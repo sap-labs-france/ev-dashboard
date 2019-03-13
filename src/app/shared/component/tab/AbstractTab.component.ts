@@ -20,7 +20,7 @@ export class AbstractTabComponent implements OnDestroy {
   updateRoute(index: number) {
     if (this._fragmentSubscription && this.activeTabIndex !== index) {
       let str = `updateRoute from ${this.activeTabIndex} to ${index} Start _updatedRoutes: ${this._updatedRoute}`;
-      if (!this._updatedRoute && this.hashArray && index < this.hashArray.length) {
+      if (this.hashArray && index < this.hashArray.length) {
         // Save route activated from click within a FIFO
         this._updatedRoute = this.hashArray[index];
         str += ' End _updatedRoutes: ' + this._updatedRoute;

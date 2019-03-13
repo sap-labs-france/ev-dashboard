@@ -18,7 +18,7 @@ export class CustomRouteStrategy implements RouteReuseStrategy {
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
     console.warn(`store ${route.url.join('/')}`);
     console.warn(route);
-    if (route.url) {
+    if (route.url && route.url.length) {
       this.handlers[route.url.join('/') || route.parent.url.join('/')] = handle;
     }
   }
@@ -26,7 +26,7 @@ export class CustomRouteStrategy implements RouteReuseStrategy {
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
     console.warn(`should attach ${route.url.join('/')}`);
     console.warn(route);
-    if (!route.url) {
+    if (!route.url || route.url.length === 0) {
       return false;
     }
     return !!this.handlers[route.url.join('/')];

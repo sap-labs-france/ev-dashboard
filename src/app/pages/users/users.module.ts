@@ -15,12 +15,10 @@ import {UsersComponent} from './users.component';
 import {UserRolePipe} from './formatters/user-role.pipe';
 import {UserStatusPipe} from './formatters/user-status.pipe';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
-import {UsersDataSource} from './users-data-source-table';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {UserStatusComponent} from './formatters/user-status.component';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 import {UserSitesDataSource} from './user/user-sites-data-source-table';
-import {UsersInErrorDataSource} from './users-in-error-data-source-table';
 
 @NgModule({
   imports: [
@@ -55,8 +53,6 @@ import {UsersInErrorDataSource} from './users-in-error-data-source-table';
   providers: [
     UserRolePipe,
     UserStatusPipe,
-    UsersDataSource,
-    UsersInErrorDataSource,
     UserSitesDataSource,
     UserComponent
   ]

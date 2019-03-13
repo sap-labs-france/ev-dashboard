@@ -44,6 +44,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -203,10 +204,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       new LogSourceTableFilter().getFilterDef(),
       new UserTableFilter().getFilterDef()
     ];
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   private exportLogs() {

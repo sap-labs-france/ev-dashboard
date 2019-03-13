@@ -51,7 +51,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe) {
-    super()
+    super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -210,10 +211,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   protected _stationStopTransaction(transaction: Transaction) {

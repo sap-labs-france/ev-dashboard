@@ -7,6 +7,7 @@ import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 
 import * as _ from 'lodash';
+import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
@@ -26,8 +27,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private dataChangeSubscription: Subscription;
   // private _refreshInterval;
   private staticFilters = [];
-  private pollingInterval: number;
-  private i = 0;
+  private pollingInterval = 0;
   private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
   private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
   private _rowRefresh = new Subject<any>();
@@ -165,7 +165,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    console.log("connect collectionViewer " + this.constructor.name);
+    console.log('connect collectionViewer ' + this.constructor.name);
     this._isDestroyed = false;
     if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
       this.dataSubject = new BehaviorSubject<any[]>([]);
@@ -174,7 +174,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
-    console.log("disconnect collectionViewer " + this.constructor.name);
+    console.log('disconnect collectionViewer ' + this.constructor.name);
     this._isDestroyed = true;
     if (this._displayDetailsColumns) {
       this._displayDetailsColumns.complete();
@@ -387,11 +387,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Listen for changes
     console.log('request registerToDataChange ' + this._isDestroyed + ':' + this.constructor.name + ':' + this.dataChangeSubscription);
     if (!this._isDestroyed && !this.dataChangeSubscription) {
-      this.definePollingIntervalStrategy();
-      if (this.pollingInterval > 0) {
-        this.dataChangeSubscription = interval(this.pollingInterval).subscribe(() => {
+      if (this.pollingInterval > 1000) {
+        this.dataChangeSubscription = interval(this.pollingInterval).pipe(takeWhile(() => !this._isDestroyed)).subscribe((occurrence) => {
+          console.log(`refresh occurrence ${occurrence} for ${this.constructor.name}`);
           if (this._isDestroyed) {
-            console.log(new Date().toISOString() + ' Refresh on destroyed data source ' + this.constructor.name);
+            console.log(`${new Date().toISOString()} Refresh on destroyed data source ${this.constructor.name}`);
+            this.dataChangeSubscription.unsubscribe();
           } else {
             this.refreshReload();
           }
@@ -406,13 +407,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
-  public triggerRefreshFromComponent() {
-    this.refreshReload();
-  }
-
   refreshReload() {
     // check if there is not already an ongoing refresh
-    console.log("request refresh load " + this.constructor.name);
+    console.log('request refresh load ' + this.constructor.name);
     let refreshStatus;
     if (this._ongoingManualRefresh) {
       this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -466,7 +463,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
 
   public unregisterToDataChange() {
-    console.log("request unregisterToDataChange " + this.constructor.name + ':' + this.dataChangeSubscription);
+    console.log('request unregisterToDataChange ' + this.constructor.name + ':' + this.dataChangeSubscription);
     if (this.dataChangeSubscription) {
       this.dataChangeSubscription.unsubscribe();
       this.dataChangeSubscription = null;
@@ -651,6 +648,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
             if (actionDef.currentValue) {
               // Activate
               this.registerToDataChange();
+            } else {
+              // Disable
+              this.unregisterToDataChange();
             }
             break;
         }
@@ -708,16 +708,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
     // Return the property
     return `${propertyValue ? propertyValue : ''}`;
-  }
-
-  /**
-   * Default implementation to define polling strategy
-   * If pollinginterval attribute is set to a value > 0, polling will occur every pollingInterval milliseconds
-   *
-   * Default implementation does not do anything so the initialized value of pollingInterval is used
-   * @memberof TableDataSource
-   */
-  definePollingIntervalStrategy() {
   }
 
   /**

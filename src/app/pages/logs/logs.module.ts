@@ -37,7 +37,6 @@ import {ComponentModule} from '../../shared/component/component.module';
     LogLevelComponent
   ],
   providers: [
-    LogsDataSource
   ]
 })
 

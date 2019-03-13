@@ -1,7 +1,7 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "localhost",
+    "host": "server",
     "port": 81,
     "pollEnabled": false,
     "pollIntervalSecs": 5

@@ -87,10 +87,12 @@ th:nth-child(n+2), td:nth-child(n+2) {
 
   :first-child {
     margin-left: 0 !important;
+    // padding-left: 0 !important;
   }
 
   :last-child {
     margin-right: 0 !important;
+    // padding-right: 0 !important;
   }
 }
 
@@ -111,7 +113,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  // background-color: rgba($color: $blue-900, $alpha: 0.2);
+  background-color: $brand-inverse;
 }
 
 .table-dialog-list {

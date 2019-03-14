@@ -1,0 +1,46 @@
+{
+  "CentralSystemServer": {
+    "protocol": "http",
+    "host": "server",
+    "port": 81,
+    "pollEnabled": false,
+    "pollIntervalSecs": 5
+  },
+  "FrontEnd": {
+    "host": "localhost"
+  },
+  "Authorization": {
+    "debug": false
+  },
+  "User": {
+    "maxPictureKb": 50,
+    "captchaSiteKey": "6LfzXSIUAAAAADTMDaUDMJ8-zYmLSmr8BeIZcK7t"
+  },
+  "Company": {
+    "maxPictureKb": 50
+  },
+  "Site": {
+    "maxPictureKb": 150
+  },
+  "SiteArea": {
+    "maxPictureKb": 150
+  },
+  "Car": {
+    "maxPictureKb": 250
+  },
+  "Locales": {
+    "default": "en",
+    "supported": [
+      "en",
+      "fr"
+    ],
+    "fullSupported": [
+      "en_US",
+      "fr_FR"
+    ]
+  },
+  "Advanced": {
+    "debounceTimeNotifMillis": 50,
+    "debounceTimeSearchMillis": 500
+  }
+}

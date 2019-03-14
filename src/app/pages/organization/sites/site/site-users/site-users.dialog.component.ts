@@ -7,7 +7,10 @@ import {TranslateService} from '@ngx-translate/core';
 @Component({
   selector: 'app-site-users-dialog-cmp',
   styleUrls: ['../../../../../shared/dialogs/dialogs.component.scss'],
-  templateUrl: 'site-users.dialog.component.html'
+  templateUrl: 'site-users.dialog.component.html',
+  providers: [
+    SiteUsersDataSource
+  ]
 })
 export class SiteUsersDialogComponent {
   public dialogTitle: String;

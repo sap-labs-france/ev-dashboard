@@ -81,6 +81,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     private dialogService: DialogService
   ) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{ 'WithSite': true }]);
   }
 
@@ -386,9 +387,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         }
       });
     }
-  }
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   specificRowActions(charger: ChargerInError) {

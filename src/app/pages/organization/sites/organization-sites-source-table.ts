@@ -29,7 +29,7 @@ import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.co
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
 
 @Injectable()
-export class SitesDataSource extends TableDataSource<Site> {
+export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public isAdmin = false;
 
   constructor(

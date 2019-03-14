@@ -53,7 +53,7 @@ const DEFAULT_ADMIN_ROW_ACTIONS = [
 const DEFAULT_BASIC_ROW_ACTIONS = [
   new TableEditAction().getActionDef(),
   new TableOpenInMapsAction().getActionDef()
-]
+];
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {

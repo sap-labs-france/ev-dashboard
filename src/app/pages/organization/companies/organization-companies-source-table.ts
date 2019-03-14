@@ -27,7 +27,7 @@ import { CompanyLogoComponent } from '../formatters/company-logo.component';
 import { CompanyDialogComponent } from './company/company.dialog.component';
 
 @Injectable()
-export class CompaniesDataSource extends TableDataSource<Company> {
+export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
   public isAdmin = false;
 
   constructor(

@@ -29,7 +29,7 @@ import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 
 @Injectable()
-export class SiteAreasDataSource extends TableDataSource<SiteArea> {
+export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   public isAdmin = false;
 
   constructor(

@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
       <!-- Actions Row -->
-      <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row ">
+      <div *ngIf="dataSource.hasActions()" class="d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
         <ng-container *ngFor="let actionDef of actionsLeftDef; let i=index">
@@ -23,7 +23,7 @@
         <ng-container *ngIf="actionsLeftDef.length === 0">
           <!-- Filters Row as there is no left actions -->
           <div *ngIf="dataSource.hasFilters() || dataSource.isSearchEnabled()"
-               class="d-flex flex-wrap w-100 filter-row">
+               class="d-flex flex-wrap col filter-row filter-row-with-action">
             <!-- Create Filters -->
             <!-- <div class="d-flex filter-row"> -->
             <div *ngFor="let filterDef of filtersDef; let i=index"
@@ -63,7 +63,7 @@
             </div>
             <!-- </div> -->
             <!-- Search -->
-            <div *ngIf="dataSource.isSearchEnabled()" class="col">
+            <div *ngIf="dataSource.isSearchEnabled()" class="col search-form">
               <mat-form-field>
                 <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
                        [placeholder]="searchPlaceholder | translate"
@@ -73,7 +73,7 @@
           </div>
         </ng-container>
         <!-- Create Right Actions -->
-        <div class="d-flex ml-auto align-items-center justify-content-md-end align-self-md-start">
+        <div class="d-flex align-items-center justify-content-md-end align-self-md-start">
           <!-- <div class="d-md-flex flex-md-row flex-sm-column mr-auto"></div> -->
           <ng-container *ngFor="let actionRightDef of actionsRightDef; let i=index">
             <!-- Refresh Action Button -->
@@ -138,7 +138,7 @@
 
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " 
-        class="d-md-flex flex-md-row flex-sm-column mr-auto flex-wrap mat-toolbar-row filter-row">
+        class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <!-- <div class="filter-row w-100 d-md-flex flex-md-row flex-sm-column mr-auto"> -->
         <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
@@ -172,7 +172,7 @@
           </mat-form-field>
         </div>
         <!-- Search -->
-        <div *ngIf="dataSource.isSearchEnabled()" class="col">
+        <div *ngIf="dataSource.isSearchEnabled()" class="col search-form">
           <mat-form-field>
             <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
                    [placeholder]="searchPlaceholder | translate"

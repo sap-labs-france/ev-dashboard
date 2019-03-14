@@ -155,6 +155,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
         headerClass: 'text-center',
+        class: 'text-center',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
         sortable: false
@@ -163,6 +164,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
         headerClass: 'text-center',
+        class: 'text-center',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorsCellComponent

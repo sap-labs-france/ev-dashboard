@@ -5,7 +5,7 @@ PROJECT_NAME:=evse
 default: all
 
 dashboard:
-	 docker stack deploy -c docker-compose.yml $(PROJECT_NAME) 
+	docker-compose -p $(PROJECT_NAME) up -d
 
 all: dashboard
 
@@ -13,7 +13,7 @@ clean-images:
 	docker image prune -f
 
 clean-containers:
-	docker stack rm $(PROJECT_NAME)
+	-docker-compose -p $(PROJECT_NAME) down
 
 dist-clean: clean-containers
 	docker image prune -a -f

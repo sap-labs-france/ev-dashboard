@@ -1,21 +1,14 @@
 version: '3.5'
 networks:
     ev_network:
-      driver: overlay
-    traefik:
-      external: true
+      driver: bridge
 
 services:
     dashboard:
-        image: evdash:1.0
-        deploy:
-          replicas: 1
-          labels:
-            traefik.port: "80"
-            traefik.frontend.rule: "Host:ev.pwn2learn.io;"
-            traefik.docker.network: "traefik"
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
         ports:
             - 3080:80
         networks:
             - ev_network
-            - traefik

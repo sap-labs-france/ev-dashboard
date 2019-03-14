@@ -1,8 +1,8 @@
 {
   "CentralSystemServer": {
-    "protocol": "http",
-    "host": "server",
-    "port": 81,
+    "protocol": "https",
+    "host": "evserver.pwn2learn.io",
+    "port": 443,
     "pollEnabled": false,
     "pollIntervalSecs": 5
   },

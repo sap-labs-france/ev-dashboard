@@ -56,8 +56,8 @@ const DEFAULT_ADMIN_ROW_ACTIONS = [
 ];
 
 const DEFAULT_BASIC_ROW_ACTIONS = [
-  new TableEditAction().getActionDef(),
-  new TableOpenInMapsAction().getActionDef()
+//  new TableEditAction().getActionDef(),
+  new TableNoAction().getActionDef()
 ]
 
 @Injectable()
@@ -146,6 +146,102 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
+    // Build common part for all cases
+    let tableColumns: TableColumnDef[] = [
+      {
+        id: 'id',
+        name: 'chargers.name',
+        sortable: true,
+        sorted: true,
+        direction: 'asc'
+      },
+      {
+        id: 'inactive',
+        name: 'chargers.heartbeat_title',
+        headerClass: 'text-center',
+        isAngularComponent: true,
+        angularComponentName: HeartbeatCellComponent,
+        sortable: false
+      },
+      {
+        id: 'connectorsStatus',
+        name: 'chargers.connectors_title',
+        headerClass: 'text-center',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponentName: ConnectorsCellComponent
+      },
+      {
+        id: 'connectorsConsumption',
+        name: 'chargers.consumption_title',
+        sortable: false,
+        isAngularComponent: true,
+        headerClass: 'text-center',
+        class: 'power-progress-bar',
+        angularComponentName: InstantPowerProgressBarComponent
+      }
+    ];
+    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+      tableColumns = tableColumns.concat(
+        [
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          sortable: true,
+          defaultValue: 'sites.unassigned',
+          headerClass: 'd-none d-xl-table-cell',
+          formatter: (value) => {
+            if (value === 'sites.unassigned') {
+              return this.translateService.instant(value)
+            } else {
+              return value;
+            }
+          },
+          dynamicClass: (row: Charger) => {
+            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
+          }
+        },
+        {
+          id: 'siteArea.name',
+          name: 'site_areas.title',
+          sortable: true,
+          defaultValue: 'site_areas.unassigned',
+          headerClass: 'd-none d-xl-table-cell',
+          formatter: (value) => {
+            if (value === 'site_areas.unassigned') {
+              return this.translateService.instant(value)
+            } else {
+              return value;
+            }
+          },
+          dynamicClass: (row: Charger) => {
+            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
+          }
+        }
+      ]
+      );
+    }
+    if (this.isAdmin) {
+      tableColumns = tableColumns.concat(
+        [
+          {
+            id: 'chargePointVendor',
+            name: 'chargers.vendor',
+            headerClass: 'd-none d-lg-table-cell',
+            class: 'd-none d-lg-table-cell',
+            sortable: true
+          },
+          {
+            id: 'ocppVersion',
+            name: 'chargers.ocpp_version_title',
+            headerClass: 'd-none d-xl-table-cell text-center',
+            class: 'd-none d-xl-table-cell text-center',
+            sortable: false
+          }
+        ]
+      )
+    }
+    return tableColumns;
     if (this.isAdmin) {
       return [
         {
@@ -432,10 +528,14 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [
-      //      new ChargerTableFilter().getFilterDef(),
-      new SitesTableFilter().getFilterDef()
-    ];
+    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+      return [
+        //      new ChargerTableFilter().getFilterDef(),
+        new SitesTableFilter().getFilterDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
@@ -591,20 +691,20 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     openInMaps.disabled = (charger && charger.latitude && charger.longitude ) ? false : true;
     if (this.authorizationService.isAdmin()) {
       actionTable = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ROW_ACTIONS));
+      actionTable[1] = openInMaps;
       // return DEFAULT_ADMIN_ROW_ACTIONS;
     } else if (this.authorizationService.isDemo()) {
-      actionTable = JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
+      actionTable = [openInMaps]; // JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
       // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
       // return DEFAULT_BASIC_ROW_ACTIONS;
     } else if (this.authorizationService.isBasic()) {
-      actionTable = JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
+      actionTable = [openInMaps]; // JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
       // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
       // return DEFAULT_BASIC_ROW_ACTIONS;
     } else {
       return [ new TableNoAction().getActionDef()
       ];
     }
-    actionTable[1] = openInMaps;
     return actionTable;
   }
 

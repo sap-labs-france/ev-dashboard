@@ -161,7 +161,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       },
       {
         id: 'currentConsumption',
-        name: 'transactions.current_consumption',
+        name: 'chargers.consumption_title',
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
@@ -177,7 +177,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             },*/
       {
         id: 'totalConsumption',
-        name: 'transactions.total_consumption',
+        name: 'chargers.total_consumption_title',
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },

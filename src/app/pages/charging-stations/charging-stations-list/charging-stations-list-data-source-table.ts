@@ -20,7 +20,6 @@ import {ConnectorsCellComponent} from '../cell-content-components/connectors-cel
 import {
   ACTION_CLEAR_CACHE,
   ACTION_MORE_ACTIONS,
-  ACTION_REBOOT,
   ACTION_SMART_CHARGING,
   ACTION_SOFT_RESET,
   TableChargerMoreAction
@@ -181,41 +180,41 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
       tableColumns = tableColumns.concat(
         [
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          sortable: true,
-          defaultValue: 'sites.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'sites.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
+          {
+            id: 'siteArea.site.name',
+            name: 'sites.site',
+            sortable: true,
+            defaultValue: 'sites.unassigned',
+            headerClass: 'd-none d-xl-table-cell',
+            formatter: (value) => {
+              if (value === 'sites.unassigned') {
+                return this.translateService.instant(value)
+              } else {
+                return value;
+              }
+            },
+            dynamicClass: (row: Charger) => {
+              return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
             }
           },
-          dynamicClass: (row: Charger) => {
-            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
-          }
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          sortable: true,
-          defaultValue: 'site_areas.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'site_areas.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
+          {
+            id: 'siteArea.name',
+            name: 'site_areas.title',
+            sortable: true,
+            defaultValue: 'site_areas.unassigned',
+            headerClass: 'd-none d-xl-table-cell',
+            formatter: (value) => {
+              if (value === 'site_areas.unassigned') {
+                return this.translateService.instant(value)
+              } else {
+                return value;
+              }
+            },
+            dynamicClass: (row: Charger) => {
+              return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
             }
-          },
-          dynamicClass: (row: Charger) => {
-            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
           }
-        }
-      ]
+        ]
       );
     }
     if (this.isAdmin) {

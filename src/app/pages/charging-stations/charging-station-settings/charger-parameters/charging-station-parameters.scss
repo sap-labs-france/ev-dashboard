@@ -8,3 +8,18 @@
 .connector-row {
     // background: $brand-background;
 }
+
+.component-invisible {
+    display: none;
+}
+
+.connector-type-select-option {
+    img {
+        filter: invert(1);
+    }
+    &:hover {
+        img {
+            filter: invert(0);
+        }
+    }
+}

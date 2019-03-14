@@ -211,8 +211,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {
-        console.log(error);
-
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });

@@ -165,7 +165,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    console.log('connect collectionViewer ' + this.constructor.name);
     this._isDestroyed = false;
     if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
       this.dataSubject = new BehaviorSubject<any[]>([]);
@@ -174,7 +173,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
-    console.log('disconnect collectionViewer ' + this.constructor.name);
     this._isDestroyed = true;
     if (this._displayDetailsColumns) {
       this._displayDetailsColumns.complete();
@@ -384,14 +382,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public registerToDataChange() {
-    // Listen for changes
-    console.log('request registerToDataChange ' + this._isDestroyed + ':' + this.constructor.name + ':' + this.dataChangeSubscription);
     if (!this._isDestroyed && !this.dataChangeSubscription) {
       if (this.pollingInterval > 1000) {
         this.dataChangeSubscription = interval(this.pollingInterval).pipe(takeWhile(() => !this._isDestroyed)).subscribe((occurrence) => {
-          console.log(`refresh occurrence ${occurrence} for ${this.constructor.name}`);
           if (this._isDestroyed) {
-            console.log(`${new Date().toISOString()} Refresh on destroyed data source ${this.constructor.name}`);
             this.dataChangeSubscription.unsubscribe();
           } else {
             this.refreshReload();
@@ -408,8 +402,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   refreshReload() {
-    // check if there is not already an ongoing refresh
-    console.log('request refresh load ' + this.constructor.name);
     let refreshStatus;
     if (this._ongoingManualRefresh) {
       this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -463,7 +455,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
 
   public unregisterToDataChange() {
-    console.log('request unregisterToDataChange ' + this.constructor.name + ':' + this.dataChangeSubscription);
     if (this.dataChangeSubscription) {
       this.dataChangeSubscription.unsubscribe();
       this.dataChangeSubscription = null;

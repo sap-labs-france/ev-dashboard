@@ -72,8 +72,6 @@ import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
 import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {RouteReuseStrategy} from '@angular/router';
-import {CustomRouteStrategy} from './providers/custom-route-strategy.provider';
 
 
 registerLocaleData(localeFr, 'fr');

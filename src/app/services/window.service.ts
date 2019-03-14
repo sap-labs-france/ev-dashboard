@@ -47,9 +47,7 @@ export class WindowService {
   }
 
   setHash(hash): void {
-    if (this.window.location.hash.substring(1) === hash) {
-      console.error('updating fragment with same value' + hash);
-    } else {
+    if (this.window.location.hash.substring(1) !== hash) {
       this.window.location.hash = hash;
     }
   }

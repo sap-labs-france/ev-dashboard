@@ -103,7 +103,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    console.log('request refresh setDetailedDataSource ' + autoRefresh);
     if (autoRefresh) {
       if (this.dialogRefSession && this.dialogRefSession.componentInstance) {
         this.dialogRefSession.componentInstance.refresh();

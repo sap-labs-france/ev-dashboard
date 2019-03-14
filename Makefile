@@ -5,7 +5,7 @@ PROJECT_NAME:=evse
 default: all
 
 dashboard:
-	 docker stack deploy -c docker-compose.yml $(PROJECT_NAME) 
+	docker stack deploy -c docker-compose.yml  $(PROJECT_NAME)
 
 all: dashboard
 

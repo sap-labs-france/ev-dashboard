@@ -12,7 +12,6 @@ import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
 import {DialogService} from 'app/services/dialog.service';
 import {Constants} from 'app/utils/Constants';
 import {Injectable} from '@angular/core';
-import { defaultIterableDiffers } from '@angular/core/src/change_detection/change_detection';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {

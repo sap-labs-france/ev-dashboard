@@ -925,13 +925,13 @@ textarea.cdk-textarea-autosize-measuring{
   color: $brand-inverse
 }
 .mat-fab.mat-accent,.mat-flat-button.mat-accent,.mat-mini-fab.mat-accent,.mat-raised-button.mat-accent{
-  color:rgba(0,0,0,.87)
+  color:$brand-inverse
 }
 .mat-fab.mat-warn,.mat-flat-button.mat-warn,.mat-mini-fab.mat-warn,.mat-raised-button.mat-warn{
-  color: $brand-primary
+  color: $brand-inverse
 }
 .mat-fab.mat-accent[disabled],.mat-fab.mat-primary[disabled],.mat-fab.mat-warn[disabled],.mat-fab[disabled][disabled],.mat-flat-button.mat-accent[disabled],.mat-flat-button.mat-primary[disabled],.mat-flat-button.mat-warn[disabled],.mat-flat-button[disabled][disabled],.mat-mini-fab.mat-accent[disabled],.mat-mini-fab.mat-primary[disabled],.mat-mini-fab.mat-warn[disabled],.mat-mini-fab[disabled][disabled],.mat-raised-button.mat-accent[disabled],.mat-raised-button.mat-primary[disabled],.mat-raised-button.mat-warn[disabled],.mat-raised-button[disabled][disabled]{
-  color:rgba(255,255,255,.3)
+  color:rgba(0,0,0,.3)
 }
 .mat-fab.mat-primary,.mat-flat-button.mat-primary,.mat-mini-fab.mat-primary,.mat-raised-button.mat-primary{
   background-color: $brand-info
@@ -940,10 +940,10 @@ textarea.cdk-textarea-autosize-measuring{
   background-color: $brand-info
 }
 .mat-fab.mat-warn,.mat-flat-button.mat-warn,.mat-mini-fab.mat-warn,.mat-raised-button.mat-warn{
-  background-color: $red-200
+  background-color: $brand-danger
 }
 .mat-fab.mat-accent[disabled],.mat-fab.mat-primary[disabled],.mat-fab.mat-warn[disabled],.mat-fab[disabled][disabled],.mat-flat-button.mat-accent[disabled],.mat-flat-button.mat-primary[disabled],.mat-flat-button.mat-warn[disabled],.mat-flat-button[disabled][disabled],.mat-mini-fab.mat-accent[disabled],.mat-mini-fab.mat-primary[disabled],.mat-mini-fab.mat-warn[disabled],.mat-mini-fab[disabled][disabled],.mat-raised-button.mat-accent[disabled],.mat-raised-button.mat-primary[disabled],.mat-raised-button.mat-warn[disabled],.mat-raised-button[disabled][disabled]{
-  background-color:rgba(255,255,255,.12)
+  background-color:rgba(0,0,0,.12)
 }
 .mat-fab.mat-primary .mat-ripple-element,.mat-flat-button.mat-primary .mat-ripple-element,.mat-mini-fab.mat-primary .mat-ripple-element,.mat-raised-button.mat-primary .mat-ripple-element{
   background-color:rgba(255,255,255,.1)
@@ -1060,7 +1060,7 @@ textarea.cdk-textarea-autosize-measuring{
   background-color: $brand-primary
 }
 .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-  background-color: $blue-400
+  background-color: $brand-info
 }
 .mat-checkbox-checked.mat-warn .mat-checkbox-background,.mat-checkbox-indeterminate.mat-warn .mat-checkbox-background{
   background-color: $red-200
@@ -1150,7 +1150,7 @@ textarea.cdk-textarea-autosize-measuring{
   background-color: inherit;
 }
 .mat-table thead {
-  background-color: $blue-grey-100;
+  background-color: $blue-grey-50;
 }
 .mat-table tbody {
   background-color: $brand-inverse;
@@ -1469,7 +1469,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   color: $brand-inverse;
 }
 .mat-paginator{
-  background-color: $blue-grey-100;
+  background-color: $blue-grey-50;
 }
 .mat-paginator,.mat-paginator-page-size .mat-select-trigger{
   color: $brand-primary;

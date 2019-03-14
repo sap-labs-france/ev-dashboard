@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
       <!-- Actions Row -->
-      <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row">
+      <div *ngIf="dataSource.hasActions()" class="d-md-flex flex-md-row flex-sm-column mr-auto mat-toolbar-row ">
         <!-- Create Left Actions -->
         <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
         <ng-container *ngFor="let actionDef of actionsLeftDef; let i=index">
@@ -63,7 +63,7 @@
             </div>
             <!-- </div> -->
             <!-- Search -->
-            <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
+            <div *ngIf="dataSource.isSearchEnabled()" class="col">
               <mat-form-field>
                 <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
                        [placeholder]="searchPlaceholder | translate"
@@ -137,9 +137,8 @@
 
 
       <!-- Filters Row -->
-      <div
-          *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) "
-          class="d-flex mat-toolbar-row filter-row">
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " 
+        class="d-md-flex flex-md-row flex-sm-column mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <!-- <div class="filter-row w-100 d-md-flex flex-md-row flex-sm-column mr-auto"> -->
         <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
@@ -173,7 +172,7 @@
           </mat-form-field>
         </div>
         <!-- Search -->
-        <div *ngIf="dataSource.isSearchEnabled()" class="d-flex col">
+        <div *ngIf="dataSource.isSearchEnabled()" class="col">
           <mat-form-field>
             <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
                    [placeholder]="searchPlaceholder | translate"

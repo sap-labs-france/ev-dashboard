@@ -12,7 +12,7 @@
                         <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" [class.component-invisible]="!isOrganizationComponentActive">
                     <div class="form-group">
                         <!-- Dialog Table Filter -->
                         <mat-form-field>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
-                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin" >
+                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin" >
                         <mat-error *ngIf="latitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
                         <mat-error *ngIf="latitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
-                        <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin" >
+                        <input matInput placeholder="{{'general.longitude' | translate}}" type="text" required [formControl]="longitude" [readOnly]="!isAdmin" >
                         <mat-error *ngIf="longitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
                         <mat-error *ngIf="longitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
@@ -109,7 +109,7 @@
                                     <mat-form-field>
                                         <mat-select placeholder="{{'chargers.connector_type' | translate}}"
                                             [formControlName]="'connectorType' + connector.connectorId" required value=connect>
-                                            <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key">
+                                            <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key" class="connector-type-select-option">
                                                 <img with="16" height="16" src="{{type.key | appConnectorType}}">
                                                 {{type.description | translate}}
                                             </mat-option>

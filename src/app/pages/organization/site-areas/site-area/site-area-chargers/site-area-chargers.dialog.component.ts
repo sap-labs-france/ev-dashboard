@@ -7,7 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-site-area-chargers-dialog-cmp',
   styleUrls: ['../../../../../shared/dialogs/dialogs.component.scss'],
-  templateUrl: 'site-area-chargers.dialog.component.html'
+  templateUrl: 'site-area-chargers.dialog.component.html',
+  providers: [
+    SiteAreaChargersDataSource
+  ]
 })
 export class SiteAreaChargersDialogComponent {
   public dialogTitle: String;

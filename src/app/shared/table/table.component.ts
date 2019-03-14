@@ -12,7 +12,6 @@ import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
-import { CellContentComponentContainer } from './cell-content-template/cell-content-container.component';
 
 const DEFAULT_POLLING = 10000;
 

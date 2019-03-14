@@ -210,7 +210,7 @@
   &.bg-rose,
   &.card-rotate.bg-rose .front,
   &.card-rotate.bg-rose .back {
-    background: brand-rose;
+    background: $brand-rose;
   }
 
   [class*="card-header-"],

@@ -60,6 +60,8 @@ export class ChargingStationParametersComponent implements OnInit {
 
   public chargingStationURLTooltip: string;
 
+  public isOrganizationComponentActive: boolean;
+
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
@@ -80,6 +82,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.formGroup = new FormGroup({});
+    this.isOrganizationComponentActive = this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION);
   }
 
   ngOnInit(): void {
@@ -219,8 +222,17 @@ export class ChargingStationParametersComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       } else {
-        this.formGroup.controls.siteAreaID.setValue(0);
-        this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
+        if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+          this.formGroup.controls.siteAreaID.setValue(0);
+          this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
+        } else {
+          this.formGroup.controls.siteAreaID.setValue('');
+          this.formGroup.controls.siteArea.setValue('');
+          this.formGroup.controls.siteAreaID.markAsPristine();
+          this.formGroup.controls.siteArea.markAsPristine();
+          this.formGroup.controls.siteArea.disable();
+          this.formGroup.controls.siteAreaID.disable();
+        }
       }
       // Update connectors formcontrol
       for (const connector of this.charger.connectors) {

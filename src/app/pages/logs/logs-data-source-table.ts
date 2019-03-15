@@ -44,6 +44,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -205,17 +206,11 @@ export class LogsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
-  }
-
   private exportLogs() {
     this.centralServerService.exportLogs(this.getFilterValues(), {limit: this.getNumberOfRecords(), skip: Constants.DEFAULT_SKIP}, this.getOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {
-        console.log(error);
-
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });

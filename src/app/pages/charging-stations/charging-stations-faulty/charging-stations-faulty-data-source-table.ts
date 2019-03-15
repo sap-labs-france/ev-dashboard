@@ -81,6 +81,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     private dialogService: DialogService
   ) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{ 'WithSite': true }]);
   }
 
@@ -161,6 +162,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
+        headerClass: 'text-center',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
         sortable: false
@@ -168,6 +170,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       {
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
+        headerClass: 'text-center',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorsCellComponent
@@ -384,9 +387,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         }
       });
     }
-  }
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   specificRowActions(charger: ChargerInError) {

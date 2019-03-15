@@ -33,6 +33,7 @@ import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
@@ -56,7 +57,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private currencyPipe: CurrencyPipe) {
-    super()
+    super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -264,10 +266,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   forAdmin(isAdmin: boolean) {
     this.isAdmin = isAdmin
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
   }
 
   protected _deleteTransaction(transaction: Transaction) {

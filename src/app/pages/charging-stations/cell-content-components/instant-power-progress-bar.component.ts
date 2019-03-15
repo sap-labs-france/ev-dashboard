@@ -7,13 +7,8 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerW === 0">
-        <ng-container *ngIf="instantPowerW === 0 || instantPowerW >= 10000; else elseTemplate">
-          {{instantPowerW | appUnit:'W':'kW':false:0:0}}
-        </ng-container>
-        <ng-template #elseTemplate>
-          {{instantPowerW | appUnit:'W':'kW':false:0:1}}
-        </ng-template>
-        <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:0}}</ng-container>
+          {{instantPowerW | appUnit:'W':'kW':false:0:nbDigitInstantPowerW}}
+        <ng-container *ngIf="maxPowerW!==0"> / {{maxPowerW | appUnit:'W':'kW':true:0:nbDigitMaxPowerW}}</ng-container>
       </div>
       <mat-progress-bar color="accent" class="d-flex" [hidden]="maxPowerW === 0"
         value="{{instantPowerW / maxPowerW * 100}}" mode="determinate">
@@ -26,6 +21,8 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 export class InstantPowerProgressBarComponent extends CellContentTemplateComponent implements OnInit {
   @Input() row: any;
   instantPowerW = 0;
+  nbDigitInstantPowerW = 1;
+  nbDigitMaxPowerW = 1;
   maxPowerW = 0;
 
   ngOnInit(): void {
@@ -63,12 +60,13 @@ export class InstantPowerProgressBarComponent extends CellContentTemplateCompone
         }
         this.instantPowerW += Number(connector.currentConsumption).valueOf();
       }
-      this.instantPowerW = (this.instantPowerW > this.maxPowerW ? this.maxPowerW : this.instantPowerW);
     } else if (<Connector>this.row) {
       // Extract the information from a connector
       const connector = <Connector>this.row;
       this.maxPowerW = connector.power;
-      this.instantPowerW = (connector.currentConsumption > this.maxPowerW ? this.maxPowerW : connector.currentConsumption);
+      this.instantPowerW = connector.currentConsumption;
     }
+    this.nbDigitInstantPowerW = (this.instantPowerW === 0 || this.instantPowerW >= 10000 ? 0 : 1);
+    this.nbDigitMaxPowerW = (this.maxPowerW === 0 || this.maxPowerW >= 10000 ? 0 : 1);
   }
 }

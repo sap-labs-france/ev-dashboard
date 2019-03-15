@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {TableFilter} from '../../../shared/table/filters/table-filter';
+import {TableFilter} from './table-filter';
 import {Constants} from '../../../utils/Constants';
 import {TableFilterDef} from '../../../common.types';
 

@@ -1,0 +1,14 @@
+version: '3.5'
+networks:
+    ev_network:
+      driver: bridge
+
+services:
+    dashboard:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        ports:
+            - 3080:80
+        networks:
+            - ev_network

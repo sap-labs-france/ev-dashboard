@@ -109,8 +109,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Show
       this.spinnerService.hide();
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -709,8 +708,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       .subscribe((result) => {
         saveAs(result, 'exportChargingStations.csv');
       }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 

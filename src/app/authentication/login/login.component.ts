@@ -166,8 +166,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           break;
         default:
           // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('general.unexpected_error_backend'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }

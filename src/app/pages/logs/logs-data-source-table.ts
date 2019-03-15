@@ -29,6 +29,7 @@ import {TableExportAction} from '../../shared/table/actions/table-export-action'
 import {AuthorizationService} from '../../services/authorization-service';
 
 const POLL_INTERVAL = 10000;
+
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
@@ -207,12 +208,14 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   private exportLogs() {
-    this.centralServerService.exportLogs(this.getFilterValues(), {limit: this.getNumberOfRecords(), skip: Constants.DEFAULT_SKIP}, this.getOrdering())
+    this.centralServerService.exportLogs(this.getFilterValues(), {
+      limit: this.getNumberOfRecords(),
+      skip: Constants.DEFAULT_SKIP
+    }, this.getOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 }

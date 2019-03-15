@@ -77,8 +77,7 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
         }, (error) => {
           this.spinnerService.hide();
           this.dialog.closeAll();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('chargers.smart_charging.clear_profile_error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
         });
       }
     });

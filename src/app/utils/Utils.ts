@@ -31,7 +31,7 @@ export class Utils {
   public static handleHttpError(error, router: Router,
                                 messageService: MessageService,
                                 centralServerService: CentralServerService,
-                                errorMessage) {
+                                errorMessage: string) {
     // Check error
     switch (error.status) {
       // Server connection error`

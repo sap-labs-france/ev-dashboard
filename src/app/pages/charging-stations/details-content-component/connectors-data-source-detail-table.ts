@@ -92,8 +92,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         this.isInitialized = true;
       }, (error) => {
         // Authorization issue!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
     }
   }
@@ -337,8 +336,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
                 this.messageService.showSuccessMessage(
                   this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
               }, (error) => {
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  this.translateService.instant('chargers.stop_transaction_error'));
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.stop_transaction_error');
               });
             }
           });
@@ -377,8 +375,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.loadData();
           return true;
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('chargers.start_transaction_error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
           return false;
         });
       }

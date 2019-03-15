@@ -81,8 +81,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         if (!refreshAction) {
           this.spinnerService.hide();
         }
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -275,8 +274,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.delete.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
   }
 
@@ -289,8 +287,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {
 
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 }

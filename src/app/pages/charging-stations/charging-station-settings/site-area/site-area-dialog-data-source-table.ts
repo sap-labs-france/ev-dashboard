@@ -61,8 +61,7 @@ export class SiteAreaDataSource extends TableDataSource<SiteArea> {
         this.setData(siteArea.result);
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
     } else {
       // Update page length

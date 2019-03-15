@@ -43,8 +43,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         this.setData(users.result);
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
     } else {
       this.updatePaginator();
@@ -174,8 +173,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       }
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('sites.remove_users_error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
     });
   }
 
@@ -200,8 +198,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         }
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('sites.update_users_error'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
       });
     }
   }

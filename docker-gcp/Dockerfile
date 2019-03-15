@@ -2,7 +2,7 @@ FROM node:lts-alpine as builder
 
 WORKDIR /usr/builder
 
-COPY package.json ./
+COPY package.json ./package.json 
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 RUN npm install

@@ -1074,6 +1074,17 @@
       "refund": {
         "title": "Rembourser des Sessions",
         "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
+      },
+      "session": {
+        "tooltips": {
+          "amount": "Montant",
+          "start_date": "Date de début",
+          "total_consumption": "Consommation totale",
+          "current_consumption": "Consommation courante",
+          "state_of_charge": "Niveau de batterie",
+          "total_duration": "Durée totale",
+          "inactivity": "Temps inactif"
+        }
       }
     },
     "notification": {

@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   todayDay: any;
 
   /**
-   * Current Mterics retrieved from dashboard service
+   * Current Metrics retrieved from dashboard service
    *
    * @type {SiteCurrentMetrics}
    * @memberof DashboardComponent

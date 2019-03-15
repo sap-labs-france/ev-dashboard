@@ -10,6 +10,10 @@ export class DialogService {
   constructor(private matDialog: MatDialog) {
   }
 
+  public closeAll() {
+    this.matDialog.closeAll();
+  }
+
   public createAndShowOkCancelDialog(title: string, message: string): Observable<ButtonType> {
     // Call
     return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK_CANCEL, title, message);

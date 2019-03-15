@@ -33,6 +33,7 @@ import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
 import en from '../../../../assets/i18n/en.json';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
 
@@ -55,7 +56,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private  currencyPipe: CurrencyPipe) {
-    super()
+    super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -232,10 +234,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   forAdmin(isAdmin: boolean) {
     this.isAdmin = isAdmin
-  }
-
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
   }
 
   protected _deleteTransaction(transaction: Transaction) {

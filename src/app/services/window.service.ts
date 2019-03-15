@@ -25,7 +25,7 @@ export class WindowService {
   }
 
   getHash(): string {
-    return this.window.location.hash;
+    return this.window.location.hash.substring(1);
   }
 
   getSubdomain(): string {
@@ -47,6 +47,8 @@ export class WindowService {
   }
 
   setHash(hash): void {
-    this.window.location.hash = hash;
+    if (this.getHash() !== hash) {
+      this.window.location.hash = hash;
+    }
   }
 }

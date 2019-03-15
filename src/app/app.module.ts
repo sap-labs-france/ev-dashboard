@@ -193,6 +193,7 @@ export function localeFactory(
     DashboardService,
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
+    // {provide: RouteReuseStrategy, useClass: CustomRouteStrategy}
   ],
   bootstrap: [AppComponent]
 })

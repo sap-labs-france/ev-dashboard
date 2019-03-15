@@ -73,7 +73,6 @@ export class ConsumptionChartComponent implements OnInit {
 
 
   prepareOrUpdateGraph() {
-    console.log('prepareOrUpdateGraph');
     if (this.canDisplayGraph()) {
       if (!this.graphCreated) {
         this.graphCreated = true;

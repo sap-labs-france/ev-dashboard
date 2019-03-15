@@ -12,7 +12,6 @@ import {SettingsRoutes} from './settings.routing';
 import {SettingsOcpiComponent} from './ocpi/settings-ocpi.component';
 import {SettingsOcpiBusinessDetailsComponent} from './ocpi/business-details/settings-ocpi-business-details.component';
 import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-endpoints.component';
-import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-endpoints-source-table';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 import {OcpiendpointPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
@@ -56,9 +55,7 @@ import {SettingsSacComponent} from './sac/settings-sac.component';
     OcpiendpointPatchJobStatusComponent,
     OcpiendpointPatchJobResultComponent
   ],
-  providers: [
-    EndpointsDataSource
-  ]
+  providers: []
 })
 
 export class SettingsModule {

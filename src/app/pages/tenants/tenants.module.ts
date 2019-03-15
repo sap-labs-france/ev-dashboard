@@ -11,7 +11,6 @@ import {TableModule} from '../../shared/table/table.module';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TenantDialogComponent} from './dialog/tenant.dialog.component';
-import {TenantsDataSource} from './tenants-data-source-table';
 
 @NgModule({
   imports: [
@@ -37,9 +36,7 @@ import {TenantsDataSource} from './tenants-data-source-table';
     TenantsComponent,
     TenantDialogComponent
   ],
-  providers: [
-    TenantsDataSource
-  ]
+  providers: []
 })
 
 export class TenantsModule {

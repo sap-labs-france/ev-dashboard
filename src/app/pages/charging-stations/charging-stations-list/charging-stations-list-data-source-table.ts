@@ -109,8 +109,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Show
       this.spinnerService.hide();
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -437,7 +436,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('chargers.dialog.export.title'),
           this.translateService.instant('chargers.dialog.export.confirm')
         ).subscribe((response) => {
@@ -538,13 +536,12 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
     if (charger.inactive) {
       // Charger is not connected
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.command_title'),
         this.translateService.instant('chargers.action_error.command_charger_disconnected'));
     } else {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
         title,
         message
       ).subscribe((result) => {
@@ -589,12 +586,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   private _deleteChargingStation(chargingStation: Charger) {
     if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.delete_title'),
         this.translateService.instant('chargers.action_error.delete_active_transaction'));
     } else {
       this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
         this.translateService.instant('chargers.delete_title'),
         this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
       ).subscribe((result) => {
@@ -621,11 +617,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     if (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6) {
       if (chargingStation.inactive) {
         // Charger is not connected
-        this.dialogService.createAndShowOkDialog(this.dialog,
+        this.dialogService.createAndShowOkDialog(
           this.translateService.instant('chargers.action_error.smart_charging_title'),
           this.translateService.instant('chargers.action_error.smart_charging_charger_disconnected'));
       } else if (parseFloat(chargingStation.ocppVersion) < 1.6) {
-        this.dialogService.createAndShowOkDialog(this.dialog,
+        this.dialogService.createAndShowOkDialog(
           this.translateService.instant('chargers.action_error.smart_charging_title'),
           this.translateService.instant('chargers.action_error.smart_charging_charger_version'));
       }
@@ -647,7 +643,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   private _dialogMoreActions(chargingStation?: Charger) {
     if (chargingStation.inactive) {
       // Charger is not connected
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.command_title'),
         this.translateService.instant('chargers.action_error.command_charger_disconnected'));
     } else {
@@ -709,8 +705,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       .subscribe((result) => {
         saveAs(result, 'exportChargingStations.csv');
       }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 

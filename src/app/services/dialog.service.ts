@@ -7,40 +7,44 @@ import {ConfirmationDialogComponent} from '../shared/dialogs/confirmation/confir
 
 @Injectable()
 export class DialogService {
-  constructor() {
+  constructor(private matDialog: MatDialog) {
   }
 
-  public createAndShowOkCancelDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public closeAll() {
+    this.matDialog.closeAll();
+  }
+
+  public createAndShowOkCancelDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK_CANCEL, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK_CANCEL, title, message);
   }
 
-  public createAndShowOkDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public createAndShowOkDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_OK, title, message);
   }
 
-  public createAndShowYesNoDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public createAndShowYesNoDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO, title, message);
   }
 
-  public createAndShowYesNoCancelDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public createAndShowYesNoCancelDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO_CANCEL, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_YES_NO_CANCEL, title, message);
   }
 
-  public createAndShowInvalidChangeCloseDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public createAndShowInvalidChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_INVALID_CHANGE, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_INVALID_CHANGE, title, message);
   }
 
-  public createAndShowDirtyChangeCloseDialog(dialog: MatDialog, title: string, message: string): Observable<ButtonType> {
+  public createAndShowDirtyChangeCloseDialog(title: string, message: string): Observable<ButtonType> {
     // Call
-    return this._createAndShowDialog(dialog, ConfirmationDialogComponent, Constants.DIALOG_TYPE_DIRTY_CHANGE, title, message);
+    return this._createAndShowDialog(ConfirmationDialogComponent, Constants.DIALOG_TYPE_DIRTY_CHANGE, title, message);
   }
 
-  private _createAndShowDialog(dialog: MatDialog, component: any,
+  private _createAndShowDialog(component: any,
                                dialogType: DialogType, title: string, message: string): Observable<ButtonType> {
     // Create dialog data
     const dialogConfig = new MatDialogConfig();
@@ -51,7 +55,7 @@ export class DialogService {
       title, message, dialogType
     }
     // Show
-    const dialogRef = dialog.open(component, dialogConfig);
+    const dialogRef = this.matDialog.open(component, dialogConfig);
     // Register
     return dialogRef.afterClosed();
   }

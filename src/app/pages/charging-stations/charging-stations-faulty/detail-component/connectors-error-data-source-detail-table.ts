@@ -67,8 +67,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
         this._displayDetailsColumns.next(hasSomeDetails);
       }, (error) => {
         // Authorization issue!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
     }
   }

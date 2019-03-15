@@ -235,7 +235,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
 
   private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('companies.delete_title'),
       this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
     ).subscribe((result) => {

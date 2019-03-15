@@ -184,7 +184,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   private _deleteTenant(tenant) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('tenants.delete_title'),
       this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
     ).subscribe((result) => {

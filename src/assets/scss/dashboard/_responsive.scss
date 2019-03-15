@@ -325,7 +325,7 @@
     left: auto;
     background: rgba(0, 0, 0, 0.35);
     content: "";
-    z-index: 9999;
+    z-index: 1999;
     overflow-x: hidden;
 
     @include transitions($slow-transition-time, $transition-ease-in);
@@ -493,7 +493,7 @@
     left: auto;
     right: 260px;
     content: "";
-    z-index: 9999;
+    z-index: 1999;
     overflow-x: hidden;
   }
 

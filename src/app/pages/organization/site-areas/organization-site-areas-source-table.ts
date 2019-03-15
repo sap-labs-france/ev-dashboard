@@ -248,7 +248,6 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
 
   private _deleteSiteArea(siteArea) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('site_areas.delete_title'),
       this.translateService.instant('site_areas.delete_confirm', { 'siteAreaName': siteArea.name })
     ).subscribe((result) => {

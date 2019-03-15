@@ -81,8 +81,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         if (!refreshAction) {
           this.spinnerService.hide();
         }
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -217,7 +216,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.delete.title'),
           this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {
@@ -251,7 +249,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm')
         ).subscribe((response) => {
@@ -275,8 +272,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.delete.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
   }
 
@@ -289,8 +285,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {
 
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 }

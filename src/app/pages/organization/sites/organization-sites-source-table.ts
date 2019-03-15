@@ -245,7 +245,6 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
 
   private _deleteSite(site) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('sites.delete_title'),
       this.translateService.instant('sites.delete_confirm', { 'siteName': site.name })
     ).subscribe((result) => {

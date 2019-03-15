@@ -179,10 +179,13 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   getTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+    const filters: TableFilterDef[] = [
+      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsChargerFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()];
+      new SiteAreasTableFilter().getFilterDef()
+    ];
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:

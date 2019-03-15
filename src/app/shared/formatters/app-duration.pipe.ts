@@ -16,7 +16,7 @@ export class AppDurationPipe implements PipeTransform {
     if (this.locale === 'fr_FR') {
       localDay = 'j';
     }
-    // const template = duration.asHours() > 24 ?  : 'H[h]mm[m]';
+
     return (<any>duration).format(`D[${localDay}]H[h]mm[m]`, {trim: 'both mid'});
   }
 }

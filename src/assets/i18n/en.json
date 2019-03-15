@@ -1083,6 +1083,17 @@
       "refund": {
         "title": "Refund Sessions",
         "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
+      },
+      "session": {
+        "tooltips": {
+          "amount": "Amount",
+          "start_date": "Start date",
+          "total_consumption": "Total consumption",
+          "current_consumption": "Current consumption",
+          "state_of_charge": "Battery level",
+          "total_duration": "Total duration",
+          "inactivity": "Inactivity duration"
+        }
       }
     },
     "notification": {

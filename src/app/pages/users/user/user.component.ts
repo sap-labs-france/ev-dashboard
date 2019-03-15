@@ -21,6 +21,7 @@ import {ActionResponse} from '../../../common.types';
 import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-cmp',
@@ -80,6 +81,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private configService: ConfigService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private translateService: TranslateService,
     private router: Router,
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
@@ -435,7 +437,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   linkConcurAccount() {
-    if (this.chargeAtHomeSetting && this.chargeAtHomeSetting.content && this.chargeAtHomeSetting.content.concur) {
+    if (!this.chargeAtHomeSetting || !this.chargeAtHomeSetting.content || !this.chargeAtHomeSetting.content.concur) {
+      this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
+    } else {
       const concurSetting = this.chargeAtHomeSetting.content.concur;
       // const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
       const returnedUrl = 'https://slfcah.cfapps.eu10.hana.ondemand.com';

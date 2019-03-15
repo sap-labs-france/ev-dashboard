@@ -194,6 +194,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
+        break;
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         filters.push(new UserTableFilter().getFilterDef());

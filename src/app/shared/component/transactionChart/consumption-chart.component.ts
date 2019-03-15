@@ -212,7 +212,8 @@ export class ConsumptionChartComponent implements OnInit {
         }
       },
       responsive: true,
-      aspectRatio: this.ratio,
+      maintainAspectRatio: false,
+      // aspectRatio: this.ratio,
       barPercentage: 0.5,
       tooltips: {
         bodySpacing: 5,

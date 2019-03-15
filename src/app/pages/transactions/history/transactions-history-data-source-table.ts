@@ -7,7 +7,7 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
@@ -32,11 +32,14 @@ import {TableExportAction} from '../../../shared/table/actions/table-export-acti
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
+  private dialogRefSession;
 
   constructor(
     private messageService: MessageService,
@@ -56,7 +59,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private currencyPipe: CurrencyPipe) {
-    super()
+    super();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -111,12 +114,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
-      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
@@ -147,14 +144,22 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }
     ];
-    if (this.isAdmin && this.centralServerService.isComponentActive(Constants.SETTINGS_PRICING)) {
-      columns.push({
-        id: 'stop.price',
-        name: 'transactions.price',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'd-none d-xl-table-cell',
-        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+    if (this.isAdmin) {
+      columns.splice(1, 0, {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
       });
+      if (this.centralServerService.isComponentActive(Constants.SETTINGS_PRICING)) {
+        columns.push({
+          id: 'stop.price',
+          name: 'transactions.price',
+          headerClass: 'd-none d-xl-table-cell',
+          class: 'd-none d-xl-table-cell',
+          formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+        });
+      }
     }
     return columns as TableColumnDef[];
   }
@@ -181,6 +186,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
+        break;
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         filters.push(new UserTableFilter().getFilterDef());
@@ -188,9 +194,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return filters;
   }
 
-
   getTableRowActions(): TableActionDef[] {
-    const rowActions = [];
+    const rowActions = [new TableOpenAction().getActionDef()];
     if (this.isAdmin) {
       rowActions.push(new TableDeleteAction().getActionDef());
     }
@@ -223,6 +228,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
             this._deleteTransaction(transaction);
           }
         });
+        break;
+      case 'open':
+        this._openSession(transaction);
         break;
       default:
         super.rowActionTriggered(actionDef, transaction);
@@ -294,5 +302,28 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           this.translateService.instant('general.error_backend'));
       });
+  }
+
+  private _openSession(transaction: Transaction) {
+
+    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
+        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.minWidth = '80vw';
+        dialogConfig.minHeight = '80vh';
+        dialogConfig.height = '80vh';
+        dialogConfig.width = '80vw';
+        dialogConfig.panelClass = 'transparent-dialog-container';
+        dialogConfig.data = {
+          transactionId: transaction.id,
+          siteArea: siteArea,
+          connector: chargeBox.connectors[transaction.connectorId],
+        };
+        // Open
+        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+        this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
+
+      }
+    )
   }
 }

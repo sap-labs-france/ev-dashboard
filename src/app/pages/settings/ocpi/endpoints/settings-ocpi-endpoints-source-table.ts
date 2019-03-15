@@ -255,10 +255,14 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.error_send_evse_statuses');
       }
+      // reload data
+      this.loadData();
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_send_evse_statuses');
+      // reload data
+      this.loadData();
     });
   }
 

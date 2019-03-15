@@ -913,7 +913,7 @@
     "unregistered": "Unregistered",
     "lastPatchJobOn": "Last Update Date",
     "patchJobStatus": "Update Job",
-    "patchJobResult": "Success / Failures",
+    "patchJobResult": "Success / Total",
     "patchJobCheckbox": "Activate EVSE Status Update Job",
     "status_active": "Active",
     "status_inactive": "Inactive",

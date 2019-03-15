@@ -906,7 +906,7 @@
     "unregistered": "Désenregistré",
     "lastPatchJobOn": "Dernière mise à jour",
     "patchJobStatus": "Tâche de mise à jour",
-    "patchJobResult": "Succès / Echecs",
+    "patchJobResult": "Succès / Total",
     "patchJobCheckbox": "Activer la mise à jour automatique du statut des bornes",
     "status_active": "Active",
     "status_inactive": "Inactive",

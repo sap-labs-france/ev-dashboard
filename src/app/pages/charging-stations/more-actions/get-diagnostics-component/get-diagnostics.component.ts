@@ -68,7 +68,6 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_title'),
       this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_confirm', { 'chargeBoxID': this.charger.id })
     ).subscribe((result) => {
@@ -91,8 +90,7 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
           }, (error) => {
             this.spinnerService.hide();
             this.dialog.closeAll();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.translateService.instant('chargers.more_actions.get_diagnostics_error'));
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.more_actions.get_diagnostics_error');
           });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),

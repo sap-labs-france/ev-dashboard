@@ -476,7 +476,7 @@ input.mat-input-element{
 }
 .cdk-overlay-container{
   position:fixed;
-  z-index:1000
+  z-index:9999 !important
 }
 .cdk-overlay-container:empty{
   display:none
@@ -484,13 +484,13 @@ input.mat-input-element{
 .cdk-global-overlay-wrapper{
   display:flex;
   position:absolute;
-  z-index:1000
+  z-index:9999 !important
 }
 .cdk-overlay-pane{
   position:absolute;
   pointer-events:auto;
   box-sizing:border-box;
-  z-index:1000;
+  z-index:9999 !important;
   display:flex;
   max-width:100%;
   max-height:100%
@@ -501,7 +501,7 @@ input.mat-input-element{
   bottom:0;
   left:0;
   right:0;
-  z-index:1000;
+  z-index:9999 !important;
   pointer-events:auto;
   -webkit-tap-highlight-color:transparent;
   transition:opacity .4s cubic-bezier(.25,.8,.25,1);
@@ -523,7 +523,7 @@ input.mat-input-element{
 }
 .cdk-overlay-connected-position-bounding-box{
   position:absolute;
-  z-index:1000;
+  z-index:9999 !important;
   display:flex;
   flex-direction:column;
   min-width:1px;

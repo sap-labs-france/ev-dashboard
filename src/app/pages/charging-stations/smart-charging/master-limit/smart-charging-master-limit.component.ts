@@ -99,7 +99,6 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm',
         { 'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
@@ -122,8 +121,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
         }, (error) => {
           this.spinnerService.hide();
           this.dialog.closeAll();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('chargers.smart_charging.power_limit_error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
         });
       }
     });

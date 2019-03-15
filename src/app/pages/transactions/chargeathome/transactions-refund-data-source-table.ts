@@ -79,8 +79,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         this.setData(transactions.result);
       }, (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -224,7 +223,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('transactions.dialog.refund.title'),
             this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
           ).subscribe((response) => {
@@ -261,8 +259,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.delete.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
   }
 
@@ -290,16 +287,13 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
       switch (error.status) {
         case 560: // not authorized
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('transactions.notification.refund.not_authorized'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.not_authorized');
           break;
         case 551: // cannot refund another user transactions
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('transactions.notification.refund.forbidden_refund_another_user'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('transactions.notification.refund.error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.error');
           break;
       }
     });

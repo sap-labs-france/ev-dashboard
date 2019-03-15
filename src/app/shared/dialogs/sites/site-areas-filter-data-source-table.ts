@@ -26,8 +26,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       this.setData(siteAreas.result);
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 

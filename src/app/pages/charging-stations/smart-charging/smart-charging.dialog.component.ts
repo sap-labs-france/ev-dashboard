@@ -58,7 +58,6 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
   clearProfiles() {
     // show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
       this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { 'chargeBoxID': this.charger.id })
     ).subscribe((result) => {

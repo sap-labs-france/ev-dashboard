@@ -264,7 +264,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
 
   private _deleteOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
@@ -290,7 +289,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
 
   private _registerOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {

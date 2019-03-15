@@ -119,7 +119,6 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   public saveConfiguration(item) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.set_configuration_title'),
       this.translateService.instant('chargers.set_configuration_confirm', { 'chargeBoxID': this.charger.id, key: item.key })
     ).subscribe((result) => {
@@ -173,7 +172,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
         // Charger is not connected
-        this.dialogService.createAndShowOkDialog(this.dialog,
+        this.dialogService.createAndShowOkDialog(
           this.translateService.instant('chargers.action_error.command_title'),
           this.translateService.instant('chargers.action_error.command_charger_disconnected'));
       } else {
@@ -222,13 +221,12 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   public getConfiguration() {
     if (this.charger.inactive) {
       // Charger is not connected
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.command_title'),
         this.translateService.instant('chargers.action_error.command_charger_disconnected'));
     } else {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
         this.translateService.instant('chargers.get_configuration_title'),
         this.translateService.instant('chargers.get_configuration_confirm', { 'chargeBoxID': this.charger.id })
       ).subscribe((result) => {

@@ -172,7 +172,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     switch (actionDef.id) {
       case 'stop':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.soft_stop.title'),
           this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {

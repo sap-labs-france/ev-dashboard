@@ -153,7 +153,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.messageService.showWarningMessage(this.messages['account_pending']);
           // Create and show dialog data
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('authentication.verify_email_title'),
             this.translateService.instant('authentication.verify_email_resend_confirm')
           ).subscribe((response) => {

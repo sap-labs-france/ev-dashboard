@@ -122,7 +122,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         } else {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('users.remove_sites_title'),
             this.translateService.instant('users.remove_sites_confirm')
           ).subscribe((response) => {

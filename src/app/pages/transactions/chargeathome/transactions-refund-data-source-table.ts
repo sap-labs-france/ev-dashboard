@@ -223,7 +223,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
         } else {
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('transactions.dialog.refund.title'),
             this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
           ).subscribe((response) => {

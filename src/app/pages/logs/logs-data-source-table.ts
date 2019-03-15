@@ -177,7 +177,6 @@ export class LogsDataSource extends TableDataSource<Log> {
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('logs.dialog.export.title'),
           this.translateService.instant('logs.dialog.export.confirm')
         ).subscribe((response) => {

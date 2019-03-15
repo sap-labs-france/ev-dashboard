@@ -99,7 +99,6 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm',
         { 'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })

@@ -397,7 +397,6 @@ export class ChargingStationParametersComponent implements OnInit {
   public onClose() {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.dialog,
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text')
       ).subscribe((result) => {
@@ -407,7 +406,6 @@ export class ChargingStationParametersComponent implements OnInit {
       });
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.dialog,
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text')
       ).subscribe((result) => {

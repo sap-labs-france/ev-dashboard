@@ -298,11 +298,11 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           }
         } else {
           if (rowItem.status !== 'Available') {
-            this.dialogService.createAndShowOkDialog(this.dialog,
+            this.dialogService.createAndShowOkDialog(
               this.translateService.instant('chargers.action_error.transaction_start_title'),
               this.translateService.instant('chargers.action_error.transaction_start_not_available'));
           } else if (this.charger.inactive) {
-            this.dialogService.createAndShowOkDialog(this.dialog,
+            this.dialogService.createAndShowOkDialog(
               this.translateService.instant('chargers.action_error.transaction_start_title'),
               this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
           }
@@ -314,7 +314,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           || this.authorizationService.isDemo() || this.authorizationService.isAdmin()) {
           this._openSession(rowItem);
         } else {
-          this.dialogService.createAndShowOkDialog(this.dialog,
+          this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
             this.translateService.instant('chargers.action_error.session_details_not_authorized'));
         }
@@ -325,7 +325,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.connectorTransactionAuthorization &&
           this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('chargers.stop_transaction_title'),
             this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
           ).subscribe((response) => {
@@ -341,7 +340,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             }
           });
         } else {
-          this.dialogService.createAndShowOkDialog(this.dialog,
+          this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_stop_title'),
             this.translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
         }
@@ -361,7 +360,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
    * */
   public _startTransactionFor(connector: Connector, user: User): boolean {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id, 'userName': user.name})
     ).subscribe((response) => {

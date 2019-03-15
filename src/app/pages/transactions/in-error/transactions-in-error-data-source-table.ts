@@ -210,7 +210,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.delete.title'),
           this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {

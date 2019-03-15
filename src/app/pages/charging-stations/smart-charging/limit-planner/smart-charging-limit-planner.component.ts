@@ -209,7 +209,6 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { 'chargeBoxID': this.charger.id })
     ).subscribe((result) => {

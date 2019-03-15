@@ -216,7 +216,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.delete.title'),
           this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {
@@ -250,7 +249,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm')
         ).subscribe((response) => {

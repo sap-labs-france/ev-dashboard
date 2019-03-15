@@ -140,7 +140,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         } else {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('site_areas.remove_chargers_title'),
             this.translateService.instant('site_areas.remove_chargers_confirm')
           ).subscribe((response) => {

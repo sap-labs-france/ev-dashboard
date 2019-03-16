@@ -51,7 +51,6 @@ export class CentralServerService {
   constructor(
     private httpClient: HttpClient,
     private translateService: TranslateService,
-    private dialogService: DialogService,
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
@@ -825,7 +824,7 @@ export class CentralServerService {
 
   public logoutSucceeded() {
     this._checkInit();
-    this.dialogService.closeAll();
+    // this.dialogService.closeAll();
     this.clearLoggedUserToken();
     this.centralServerNotificationService.resetSocketIO();
   }

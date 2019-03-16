@@ -11,8 +11,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {LocalStorageService} from './services/local-storage.service';
-import {ConfigService} from './services/config.service';
-import {DialogService} from './services/dialog.service';
+import {ConfigService} from './services/config.service'
 import {MessageService} from './services/message.service';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
@@ -185,7 +184,6 @@ export function localeFactory(
     SpinnerService,
     LocaleService,
     LocalStorageService,
-    DialogService,
     MessageService,
     ConfigService,
     TranslateService,

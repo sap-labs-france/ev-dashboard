@@ -23,6 +23,7 @@ import {SiteAreasDialogComponent} from './sites/site-areas-dialog-component';
 import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.component';
 import {ErrorCodeDetailsDialogComponent} from './error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../component/error-details/error-code-details.component';
+import {DialogService} from '../../services/dialog.service';
 
 export class FooterModule {
 }
@@ -87,7 +88,8 @@ export class FooterModule {
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    ChargersDataSource
+    ChargersDataSource,
+    DialogService
   ]
 })
 export class DialogsModule {

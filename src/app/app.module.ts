@@ -71,6 +71,7 @@ import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
 import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {ComponentService} from './services/component.service';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -179,6 +180,7 @@ export function localeFactory(
     CentralServerService,
     CentralServerNotificationService,
     AuthorizationService,
+    ComponentService,
     TenantGuard,
     RouteGuardService,
     SpinnerService,

@@ -32,6 +32,7 @@ import {TableExportAction} from '../../../shared/table/actions/table-export-acti
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
@@ -50,6 +51,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private appDatePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
@@ -148,7 +150,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }
     ];
-    if (this.isAdmin && this.centralServerService.isComponentActive(Constants.SETTINGS_PRICING)) {
+    if (this.isAdmin && this.componentService.isActive(ComponentEnum.PRICING)) {
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',

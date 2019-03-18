@@ -7,6 +7,7 @@ import {Utils} from '../../../utils/Utils';
 import {SpinnerService} from '../../../services/spinner.service';
 import {MessageService} from '../../../services/message.service';
 import {Router} from '@angular/router';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-charge-at-home',
@@ -29,12 +30,12 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router
   ) {
-    this
-      .isActive = centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
+    this.isActive = componentService.isActive(ComponentEnum.CHARGE_AT_HOME);
   }
 
   ngOnInit(): void {

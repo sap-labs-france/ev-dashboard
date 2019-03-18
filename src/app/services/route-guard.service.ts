@@ -5,6 +5,7 @@ import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
 import {WindowService} from './window.service';
+import {ComponentService} from './component.service';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild {
@@ -14,6 +15,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private windowService: WindowService) {
   }
 
@@ -71,7 +73,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     }
 
     const component = route.data ? route.data['component'] : undefined;
-    if (component && !this.centralServerService.isComponentActive(component)) {
+    if (component && !this.componentService.isActive(component)) {
       return false;
     }
 

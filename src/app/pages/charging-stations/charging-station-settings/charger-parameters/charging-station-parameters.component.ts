@@ -15,6 +15,7 @@ import { SiteAreaDialogComponent } from '../site-area/site-area.dialog.component
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
+import {ComponentEnum, ComponentService} from '../../../../services/component.service';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -65,6 +66,7 @@ export class ChargingStationParametersComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
@@ -82,7 +84,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.formGroup = new FormGroup({});
-    this.isOrganizationComponentActive = this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
   }
 
   ngOnInit(): void {
@@ -222,7 +224,7 @@ export class ChargingStationParametersComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       } else {
-        if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+        if (this.isOrganizationComponentActive) {
           this.formGroup.controls.siteAreaID.setValue(0);
           this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
         } else {

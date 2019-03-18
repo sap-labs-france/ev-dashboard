@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
@@ -214,8 +214,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
+    // Disable outside click close
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
     // Show
-    const dialogRef = this.dialog.open(filterDef.dialogComponent);
+    const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
     dialogRef.afterClosed().subscribe(data => {
       if (data) {

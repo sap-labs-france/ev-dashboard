@@ -11,7 +11,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: true
+        multiple: false
       },
       search: {
         enabled: true

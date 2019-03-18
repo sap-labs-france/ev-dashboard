@@ -21,15 +21,17 @@
         <app-transactions-in-progress></app-transactions-in-progress>
       </ng-template>
     </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon class="mr-2">warning</mat-icon>
-        {{'transactions.tabs.in_error' | translate}}
-      </ng-template>
-      <ng-template matTabContent>
-        <app-transactions-in-error></app-transactions-in-error>
-      </ng-template>
-    </mat-tab>
+    <ng-container *ngIf="canAccessInErrorTab()">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-2">warning</mat-icon>
+          {{'transactions.tabs.in_error' | translate}}
+        </ng-template>
+        <ng-template matTabContent>
+          <app-transactions-in-error></app-transactions-in-error>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
     <ng-container *ngIf="canAccessChargeAtHome()">
       <mat-tab>
         <ng-template mat-tab-label>

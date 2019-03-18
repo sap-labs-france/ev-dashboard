@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {Constants} from '../../../utils/Constants';
 import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
 import {LocaleService} from '../../../services/locale.service';
-import {ConsumptionChartComponent} from '../../component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
   templateUrl: './session.dialog.component.html',
@@ -17,13 +17,12 @@ export class SessionDialogComponent implements OnInit {
   public transaction: Transaction = undefined;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
+  public endStateOfCharge: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   private transactionId: number;
-  private siteArea: SiteArea;
-  private connector: Connector;
   private totalConsumption: number;
-  private totalDurationSecs: number;
   private totalInactivitySecs: number;
+  private totalDurationSecs: number;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
@@ -37,8 +36,6 @@ export class SessionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
       this.transactionId = data.transactionId;
-      this.siteArea = data.siteArea;
-      this.connector = data.connector;
     }
   }
 
@@ -56,12 +53,14 @@ export class SessionDialogComponent implements OnInit {
       this.transaction = transaction;
       if (transaction.stop) {
         this.totalConsumption = transaction.stop.totalConsumption;
-        this.stateOfCharge = transaction.stop.stateOfCharge;
+        this.stateOfCharge = transaction.stateOfCharge;
+        this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
         this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
       } else {
         this.totalConsumption = transaction.currentTotalConsumption;
-        this.stateOfCharge = transaction.currentStateOfCharge;
+        this.stateOfCharge = transaction.stateOfCharge;
+        this.endStateOfCharge = transaction.currentStateOfCharge;
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
         this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }

@@ -31,19 +31,6 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
     });
   }
 
-  getTableDef(): TableDef {
-    return {
-      class: 'table-dialog-list',
-      rowSelection: {
-        enabled: true,
-        multiple: false
-      },
-      search: {
-        enabled: true
-      }
-    };
-  }
-
   getTableColumnDefs(): TableColumnDef[] {
     return [
       {

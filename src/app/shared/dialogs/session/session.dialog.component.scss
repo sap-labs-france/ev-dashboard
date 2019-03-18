@@ -1,11 +1,17 @@
 @import "../../../../assets/scss/core/mixins";
 @import "../../../../assets/scss/core/variables";
 
-.icon{
+.icon {
   width: 3em;
   height: 3em;
+
+  &-charger {
+    @extend .icon;
+    filter: invert(1);
+  }
 }
-.icon-font{
+
+.icon-font {
   font-size: 3em;
 }
 
@@ -21,6 +27,7 @@
 .second-text {
   font-size: $font-size-xs;
 }
+
 .material-icons-new {
   display: inline-block;
   width: 24px;

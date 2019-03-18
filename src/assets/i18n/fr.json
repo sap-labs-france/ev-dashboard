@@ -20,6 +20,7 @@
     "actions": "Actions",
     "add": "Ajouter",
     "remove": "Retirer",
+    "set_filter": "Filtrer",
     "location": "Location",
     "address": "Adresse",
     "address1": "Adresse 1",

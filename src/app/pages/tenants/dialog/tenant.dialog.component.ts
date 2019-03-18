@@ -116,6 +116,7 @@ export class TenantDialogComponent implements OnInit {
     } else {
       this.selectedPricing = '';
     }
+    this.pricingType.setValue(this.selectedPricing);
     this.components.get('pricing').updateValueAndValidity();
     this.formGroup.markAsTouched();
   }

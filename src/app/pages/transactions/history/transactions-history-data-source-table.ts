@@ -9,7 +9,6 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
@@ -34,6 +33,7 @@ import {AuthorizationService} from '../../../services/authorization-service';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
@@ -183,7 +183,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef(),
+      new ChargerTableFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef()
     ];
 

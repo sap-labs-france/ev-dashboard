@@ -9,7 +9,6 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
@@ -32,6 +31,7 @@ import {AuthorizationService} from '../../../services/authorization-service';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 
 
 const POLL_INTERVAL = 10000;
@@ -201,7 +201,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   getTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new TransactionsChargerFilter().getFilterDef(),
+      new ChargerTableFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef()];
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:

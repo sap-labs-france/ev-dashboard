@@ -17,7 +17,6 @@ import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog} from '@angular/material';
-import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
@@ -40,6 +39,7 @@ import {TransactionsTypeFilter} from './transactions-type-filter';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {AuthorizationService} from '../../../services/authorization-service';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -186,7 +186,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsTypeFilter().getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef()];
+      new ChargerTableFilter().getFilterDef()];
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:

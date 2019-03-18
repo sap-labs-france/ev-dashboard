@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {Constants} from '../../../utils/Constants';
 import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
 import {LocaleService} from '../../../services/locale.service';
-import {ConsumptionChartComponent} from '../../component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
   templateUrl: './session.dialog.component.html',

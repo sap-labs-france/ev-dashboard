@@ -9,7 +9,6 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
@@ -32,6 +31,7 @@ import {ErrorMessage} from '../../../shared/dialogs/error-details/error-code-det
 import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details/error-code-details.component';
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
 import en from '../../../../assets/i18n/en.json';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
@@ -190,11 +190,12 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
-      new TransactionsChargerFilter().getFilterDef(),
+      new ChargerTableFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef()];
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
+        break;
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         filters.push(new UserTableFilter().getFilterDef());

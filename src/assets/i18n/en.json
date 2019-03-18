@@ -18,7 +18,8 @@
     "ok": "Ok",
     "cancel": "Cancel",
     "actions": "Actions",
-    "add": "Add",
+    "add": "Add",            
+    "set_filter": "Set Filter",
     "remove": "Remove",
     "location": "Location",
     "address": "Address",
@@ -846,15 +847,15 @@
       "create_error": "Error occurred while creating the OCPI settings",
       "update_success": "OCPI settings have been updated successfully",
       "update_error": "Error occurred while updating the OCPI settings",
-      "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
+      "description": "E-Mobility provides standard and certified APIs to connect to an external E-Roaming Platform. This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface). E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
     },
     "chargeathome": {
-      "description": "The Charge At Home interface allows users to be refunded for the transactions made at home.",
-      "not_found": "Charge At Home settings not found",
-      "create_success": "Charge At Home settings have been created successfully",
-      "create_error": "Error occurred while creating the Charge At Home settings",
-      "update_success": "Charge At Home settings have been updated successfully",
-      "update_error": "Error occurred while updating the Charge At Home settings",
+      "description": "The Refunding interface allows users to be refunded for the transactions made at home.",
+      "not_found": "Refunding settings not found",
+      "create_success": "Refunding settings have been created successfully",
+      "create_error": "Error occurred while creating the Refunding settings",
+      "update_success": "Refunding settings have been updated successfully",
+      "update_error": "Error occurred while updating the Refunding settings",
       "concur": {
         "title": "Concur",
         "url": "Url",
@@ -893,11 +894,11 @@
       "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
       "update_error": "Error occurred while updating the SAP Analytics Cloud settings",
-      "description": "Extend your analytics functionalities (Planning, Predictive, Business Intelligence) with ",
+      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the transaction data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
       "settings": "Settings"
     },
     "information": "Information",
-    "activation_contact_msg": "Please contact your administrator for enabling this feature."
+    "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."
   },
   "ocpiendpoints": {
     "name": "Name",
@@ -980,8 +981,8 @@
     "timezone": "Timezone used in SAP Analytics Cloud"
   },
   "chargeathome": {
-    "title": "Refund",
-    "description": "Refund Interface"
+    "title": "Refunding",
+    "description": "Refunding Interface"
   },
   "pricing": {
     "title": "Pricing",
@@ -1058,7 +1059,7 @@
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "Faulty",
-      "charge_at_home": "Charge At Home"
+      "charge_at_home": "Refunding"
     },
     "graph": {
       "battery": "Battery Level (%)",
@@ -1084,6 +1085,17 @@
       "refund": {
         "title": "Refund Sessions",
         "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
+      },
+      "session": {
+        "tooltips": {
+          "amount": "Amount",
+          "start_date": "Start date",
+          "total_consumption": "Total consumption",
+          "current_consumption": "Current consumption",
+          "state_of_charge": "Battery level",
+          "total_duration": "Total duration",
+          "inactivity": "Inactivity duration"
+        }
       }
     },
     "notification": {
@@ -1100,7 +1112,9 @@
         "partial": "{{inError}} of {{total}} refund requested failed",
         "forbidden_refund_another_user": "You cannot refund another user's transaction",
         "not_authorized": "You are not authorized to perform this request",
-        "error": "An error occurred during refund request"
+        "error": "An error occurred during refund request",
+        "concur_connection_invalid": "Your Concur connection is not configured",
+        "tenant_concur_connection_invalid": "The Tenant Concur configuration is not implemented. Please, contact your administrator"
       }
     },
     "errors": {

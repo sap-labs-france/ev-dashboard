@@ -7,10 +7,14 @@ import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {Charger, KeyValue} from '../../../common.types';
+import {UsersDataSource} from '../users/users-data-source-table';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
   styleUrls: ['../dialogs.component.scss'],
+  providers: [
+    ChargersDataSource
+  ]
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   constructor(

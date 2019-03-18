@@ -18,6 +18,7 @@ export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;
   @Input() consumptions: ConsumptionValue[];
   graphCreated = false;
+  private lineTension = 0;
   @Input() ratio: number;
   @ViewChild('chart') ctx: ElementRef;
   data = {
@@ -98,6 +99,7 @@ export class ConsumptionChartComponent implements OnInit {
       type: 'line',
       data: [],
       yAxisID: 'power',
+      lineTension: this.lineTension,
       ...this.formatLineColor(this.colors[0]),
       label: this.translateService.instant('transactions.graph.power')
     });
@@ -108,6 +110,7 @@ export class ConsumptionChartComponent implements OnInit {
         type: 'line',
         data: [],
         yAxisID: 'percentage',
+        lineTension: this.lineTension,
         ...this.formatLineColor(this.colors[2]),
         label:
           this.translateService.instant('transactions.graph.battery')
@@ -134,6 +137,7 @@ export class ConsumptionChartComponent implements OnInit {
       data: [],
       hidden: true,
       yAxisID: 'power',
+      lineTension: this.lineTension,
       ...this.formatLineColor(this.colors[1]),
       label: this.translateService.instant('transactions.graph.energy')
     });
@@ -145,6 +149,7 @@ export class ConsumptionChartComponent implements OnInit {
         data: [],
         hidden: true,
         yAxisID: 'amount',
+        lineTension: this.lineTension,
         ...this.formatLineColor(this.colors[3]),
         label: this.translateService.instant('transactions.graph.cumulated_amount')
       });
@@ -211,7 +216,8 @@ export class ConsumptionChartComponent implements OnInit {
         }
       },
       responsive: true,
-      aspectRatio: this.ratio,
+      maintainAspectRatio: false,
+      // aspectRatio: this.ratio,
       barPercentage: 0.5,
       tooltips: {
         bodySpacing: 5,

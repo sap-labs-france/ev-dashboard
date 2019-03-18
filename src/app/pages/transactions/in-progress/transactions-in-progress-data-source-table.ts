@@ -7,9 +7,8 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {PercentPipe} from '@angular/common';
 import {Constants} from '../../../utils/Constants';
@@ -28,12 +27,19 @@ import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import * as moment from 'moment';
+import {AuthorizationService} from '../../../services/authorization-service';
+import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 
 
 const POLL_INTERVAL = 10000;
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
+
+  private dialogRefSession;
 
   constructor(
     private messageService: MessageService,
@@ -45,9 +51,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private appDatePipe: AppDatePipe,
     private percentPipe: PercentPipe,
     private appUnitPipe: AppUnitPipe,
+    private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe) {
@@ -93,7 +101,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
-    return [
+    const columns = [
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -102,12 +110,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         sortable: true,
         direction: 'desc',
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
       },
       {
         id: 'currentTotalDurationSecs',
@@ -144,14 +146,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         class: 'text-left d-none d-xl-table-cell',
       },
       {
-        id: 'currentTotalConsumption',
-        name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh')
-      },
-      {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
         formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW')
+      },
+      {
+        id: 'currentTotalConsumption',
+        name: 'transactions.total_consumption',
+        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh')
       },
       {
         id: 'currentStateOfCharge',
@@ -160,12 +162,20 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
           if (!currentStateOfCharge) {
             return '';
           }
-          return `${this.percentPipe.transform(row.stateOfCharge / 100, '2.0-0')} > ` +
-            `${this.percentPipe.transform(currentStateOfCharge / 100, '2.0-0')} ` +
-            `(${this.percentPipe.transform((currentStateOfCharge - row.stateOfCharge) / 100, '2.0-0')})`;
+          return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         }
       }
     ];
+    if (this.authorizationService.isAdmin()) {
+      columns.splice(1, 0, {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      });
+    }
+    return columns as TableColumnDef[];
+    ;
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -180,6 +190,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
           }
         });
         break;
+      case 'open':
+        this._openSession(transaction);
+        break;
       default:
         super.rowActionTriggered(actionDef, transaction);
     }
@@ -188,11 +201,12 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   getTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new TransactionsChargerFilter().getFilterDef(),
+      new ChargerTableFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef()];
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
+        break;
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         filters.push(new UserTableFilter().getFilterDef());
@@ -201,7 +215,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   getTableRowActions(): TableActionDef[] {
-    return [new TableStopAction().getActionDef()];
+    const rowActions = [new TableOpenAction().getActionDef()];
+    rowActions.push(new TableStopAction().getActionDef());
+    return rowActions;
   }
 
   getTableActionsRightDef(): TableActionDef[] {
@@ -239,6 +255,28 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     } else {
       this._stationStopTransaction(transaction);
     }
+  }
+
+  private _openSession(transaction: Transaction) {
+    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
+        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.minWidth = '80vw';
+        dialogConfig.minHeight = '80vh';
+        dialogConfig.height = '80vh';
+        dialogConfig.width = '80vw';
+        dialogConfig.panelClass = 'transparent-dialog-container';
+        dialogConfig.data = {
+          transactionId: transaction.id,
+          siteArea: siteArea,
+          connector: chargeBox.connectors[transaction.connectorId],
+        };
+        // Open
+        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+        this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
+
+      }
+    )
   }
 
 }

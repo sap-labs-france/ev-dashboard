@@ -18,7 +18,8 @@
     "ok": "Ok",
     "cancel": "Annuler",
     "actions": "Actions",
-    "add": "Ajouter",
+    "add": "Ajouter",    
+    "set_filter": "Filtrer",
     "remove": "Retirer",
     "location": "Location",
     "address": "Adresse",
@@ -846,15 +847,15 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI",
-      "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
+      "description": "E-Mobility fournit des APIs standards et certifiées permettant de se connecter à une plate-forme d'itinérance externe. Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité de la borne de recharge via le protocole standard OCPI (Open Charge Point Interface). E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
     "chargeathome": {
-      "description": "L'application Charge At Home permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
-      "not_found": "La configuration Charge At Home n'est pas disponible",
-      "create_success": "La configuration Charge At Home a été créé avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration Charge At Home",
-      "update_success": "Charge At Home settings have been updated successfully",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Charge At Home",
+      "description": "L'application Remboursement permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
+      "not_found": "La configuration Remboursement n'est pas disponible",
+      "create_success": "La configuration Remboursement a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",
+      "update_success": "la configuration Remboursement a été mis à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
       "concur": {
         "title": "Concur",
         "url": "Url",
@@ -871,7 +872,7 @@
       "not_found": "La configuration Pricing n'est pas disponible",
       "create_success": "La configuration Pricing a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration Pricing",
-      "update_success": "Pricing settings have been updated successfully",
+      "update_success": "La configuration Pricing a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
         "title": "Convergent Charging",
@@ -886,11 +887,17 @@
         "currency": "Devise"
       }
     },
-    "sac": {
-      "description": "Étendez vos fonctionnalités d’analyse (Planification, Prediction, Intelligence économique) avec "
+    "sac": {      
+      "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
+      "setting_not_found": "La configuration SAP Analytics Cloud n'est pas disponible",
+      "create_success": "La configuration SAP Analytics Cloud a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
+      "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud",
+      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de transaction via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur "
     },
     "information": "Information",
-    "activation_contact_msg": "Please contact your administrator for enabling this feature."
+    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
   },
   "ocpiendpoints": {
     "name": "Nom",
@@ -1049,7 +1056,7 @@
       "history": "Historique",
       "in_progress": "En cours",
       "in_error": "Défectueuse",
-      "charge_at_home": "Charge At Home"
+      "charge_at_home": "Remboursement"
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
@@ -1075,6 +1082,17 @@
       "refund": {
         "title": "Rembourser des Sessions",
         "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
+      },
+      "session": {
+        "tooltips": {
+          "amount": "Montant",
+          "start_date": "Date de début",
+          "total_consumption": "Consommation totale",
+          "current_consumption": "Consommation courante",
+          "state_of_charge": "Niveau de batterie",
+          "total_duration": "Durée totale",
+          "inactivity": "Temps inactif"
+        }
       }
     },
     "notification": {
@@ -1091,7 +1109,9 @@
         "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
         "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
         "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
-        "error": "Une erreur est survenue pendant la demande de remboursement"
+        "error": "Une erreur est survenue pendant la demande de remboursement",
+        "concur_connection_invalid": "Votre connection à Concur n'est pas configurée correctement",
+        "tenant_concur_connection_invalid": "La configuration Concur de votre tenant n'est pas complète. Contactez votre administrateur pour plus d'informations."
       }
     },
       "errors": {

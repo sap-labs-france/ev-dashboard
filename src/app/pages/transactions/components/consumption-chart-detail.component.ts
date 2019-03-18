@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {TableDef, Transaction} from '../../../common.types';
 import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
-import { ConsumptionChartComponent } from 'app/shared/component/transactionChart/consumption-chart.component';
+import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
 
 @Component({
   template: `

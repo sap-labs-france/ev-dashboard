@@ -849,12 +849,12 @@
       "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
     },
     "chargeathome": {
-      "description": "The Charge At Home interface allows users to be refunded for the transactions made at home.",
-      "not_found": "Charge At Home settings not found",
-      "create_success": "Charge At Home settings have been created successfully",
-      "create_error": "Error occurred while creating the Charge At Home settings",
-      "update_success": "Charge At Home settings have been updated successfully",
-      "update_error": "Error occurred while updating the Charge At Home settings",
+      "description": "The Refunding interface allows users to be refunded for the transactions made at home.",
+      "not_found": "Refunding settings not found",
+      "create_success": "Refunding settings have been created successfully",
+      "create_error": "Error occurred while creating the Refunding settings",
+      "update_success": "Refunding settings have been updated successfully",
+      "update_error": "Error occurred while updating the Refunding settings",
       "concur": {
         "title": "Concur",
         "url": "Url",
@@ -980,8 +980,8 @@
     "timezone": "Timezone used in SAP Analytics Cloud"
   },
   "chargeathome": {
-    "title": "Refund",
-    "description": "Refund Interface"
+    "title": "Refunding",
+    "description": "Refunding Interface"
   },
   "pricing": {
     "title": "Pricing",
@@ -1058,7 +1058,7 @@
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "Faulty",
-      "charge_at_home": "Charge At Home"
+      "charge_at_home": "Refunding"
     },
     "graph": {
       "battery": "Battery Level (%)",
@@ -1084,6 +1084,17 @@
       "refund": {
         "title": "Refund Sessions",
         "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
+      },
+      "session": {
+        "tooltips": {
+          "amount": "Amount",
+          "start_date": "Start date",
+          "total_consumption": "Total consumption",
+          "current_consumption": "Current consumption",
+          "state_of_charge": "Battery level",
+          "total_duration": "Total duration",
+          "inactivity": "Inactivity duration"
+        }
       }
     },
     "notification": {
@@ -1100,7 +1111,9 @@
         "partial": "{{inError}} of {{total}} refund requested failed",
         "forbidden_refund_another_user": "You cannot refund another user's transaction",
         "not_authorized": "You are not authorized to perform this request",
-        "error": "An error occurred during refund request"
+        "error": "An error occurred during refund request",
+        "concur_connection_invalid": "Your Concur connection is not configured",
+        "tenant_concur_connection_invalid": "The Tenant Concur configuration is not implemented. Please, contact your administrator"
       }
     },
     "errors": {

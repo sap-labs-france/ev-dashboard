@@ -17,7 +17,7 @@ import {ComponentModule} from '../../shared/component/component.module';
 import {ConnectorCellComponent} from '../../shared/component/connector/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
-import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
 import {TransactionsRefundComponent} from './chargeathome/transactions-refund.component';
 import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
 

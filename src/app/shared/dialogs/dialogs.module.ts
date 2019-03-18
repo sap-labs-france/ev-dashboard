@@ -12,10 +12,9 @@ import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {CompaniesFilterDialogComponent} from './companies/companies-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
-import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../component/transaction-chart/consumption-chart.component';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
-import {ChargersDataSource} from './chargers/chargers-data-source-table';
 import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
 import {AgmCoreModule} from '@agm/core';
 import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
@@ -88,7 +87,6 @@ export class FooterModule {
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    ChargersDataSource,
     DialogService
   ]
 })

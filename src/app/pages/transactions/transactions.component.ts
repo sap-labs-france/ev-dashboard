@@ -25,6 +25,11 @@ export class TransactionsComponent extends AbstractTabComponent implements OnIni
   }
 
   canAccessChargeAtHome() {
-    return this.authorizationService.canRefundTransaction() && this.centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
+    return this.centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
   }
+
+  canAccessInErrorTab() {
+    return this.authorizationService.isAdmin();
+  }
+
 }

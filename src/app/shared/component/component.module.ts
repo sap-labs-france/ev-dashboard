@@ -5,7 +5,7 @@ import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/com
 import {FormattersModule} from '../formatters/formatters.module';
 import {ConnectorCellComponent} from './connector/connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
-import {ConsumptionChartComponent} from './transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from './transaction-chart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
 import {GaugesModule} from './gauge/gauge.module';
 import { MaterialModule } from 'app/app.module';

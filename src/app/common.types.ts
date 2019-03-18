@@ -425,8 +425,11 @@ export interface Transaction {
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
   currentTotalDurationSecs: number;
+  stateOfCharge: number;
   currentStateOfCharge: number;
   isLoading: boolean;
+  siteAreaID: string;
+  siteID: string;
   user: User;
   tagID: string;
   status: string;

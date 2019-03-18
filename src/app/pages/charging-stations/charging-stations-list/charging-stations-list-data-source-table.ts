@@ -39,6 +39,7 @@ import {TableChargerRebootAction} from '../other-actions-button/table-charger-re
 import {TableOpenInMapsAction} from 'app/shared/table/actions/table-open-in-maps-action';
 import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 const POLL_INTERVAL = 15000;
 
@@ -59,6 +60,7 @@ const DEFAULT_BASIC_ROW_ACTIONS = [
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   isAdmin: boolean;
+  isOrganizationComponentActive: boolean;
 
   constructor(
     private localeService: LocaleService,
@@ -69,6 +71,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
@@ -76,6 +79,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -178,7 +182,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         angularComponentName: InstantPowerProgressBarComponent
       }
     ];
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+    if (this.isOrganizationComponentActive) {
       tableColumns = tableColumns.concat(
         [
           {
@@ -523,7 +527,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+    if (this.isOrganizationComponentActive) {
       return [
         //      new ChargerTableFilter().getFilterDef(),
         new SitesTableFilter().getFilterDef()

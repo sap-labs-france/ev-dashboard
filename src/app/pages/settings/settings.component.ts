@@ -1,10 +1,10 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
-import {CentralServerService} from '../../services/central-server.service';
 import {Constants} from '../../utils/Constants';
 import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
+import {ComponentEnum, ComponentService} from '../../services/component.service';
 
 declare const $: any;
 
@@ -21,14 +21,14 @@ export class SettingsComponent extends AbstractTabComponent {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['ocpi', 'chargeathome', 'pricing', 'sac']);
-    this.isOCPIActive = centralServerService.isComponentActive(Constants.SETTINGS_OCPI);
-    this.isChargeAtHomeActive = centralServerService.isComponentActive(Constants.SETTINGS_CHARGE_AT_HOME);
-    this.isPricingActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);
-    this.isSacActive = centralServerService.isComponentActive(Constants.SETTINGS_SAC);
+    this.isOCPIActive = componentService.isActive(ComponentEnum.OCPI);
+    this.isChargeAtHomeActive = componentService.isActive(ComponentEnum.CHARGE_AT_HOME);
+    this.isPricingActive = componentService.isActive(ComponentEnum.PRICING);
+    this.isSacActive = componentService.isActive(ComponentEnum.SAC);
   }
 }

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 import * as moment from 'moment-timezone';
 
-import { AuthorizationService } from 'app/services/authorization-service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { Constants } from 'app/utils/Constants';
-import { SpinnerService } from 'app/services/spinner.service';
-import { Utils } from 'app/utils/Utils';
+import {AuthorizationService} from 'app/services/authorization-service';
+import {CentralServerService} from 'app/services/central-server.service';
+import {MessageService} from 'app/services/message.service';
+import {Constants} from 'app/utils/Constants';
+import {SpinnerService} from 'app/services/spinner.service';
+import {Utils} from 'app/utils/Utils';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-sac',
@@ -31,11 +32,12 @@ export class SettingsSacComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router
   ) {
-    this.isSacActive = centralServerService.isComponentActive(Constants.SETTINGS_SAC);
+    this.isSacActive = componentService.isActive(ComponentEnum.SAC);
 
     // initialize timezone list from moment-timezone
     this.timezoneList = moment.tz.names();

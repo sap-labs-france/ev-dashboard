@@ -34,6 +34,7 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 const POLL_INTERVAL = 10000;
 @Injectable()
@@ -53,6 +54,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private appDatePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
@@ -152,7 +154,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value)
       });
-      if (this.centralServerService.isComponentActive(Constants.SETTINGS_PRICING)) {
+      if (this.componentService.isActive(ComponentEnum.PRICING)) {
         columns.push({
           id: 'stop.price',
           name: 'transactions.price',

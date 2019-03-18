@@ -36,6 +36,7 @@ import {
 } from '../common.types';
 import {WindowService} from './window.service';
 import {DialogService} from './dialog.service';
+import {MatDialog} from '@angular/material';
 
 @Injectable()
 export class CentralServerService {
@@ -54,7 +55,8 @@ export class CentralServerService {
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
-    private windowService: WindowService) {
+    private windowService: WindowService,
+    private dialog: MatDialog) {
     // Default
     this.initialized = false;
   }
@@ -824,7 +826,7 @@ export class CentralServerService {
 
   public logoutSucceeded() {
     this._checkInit();
-    // this.dialogService.closeAll();
+    this.dialog.closeAll();
     this.clearLoggedUserToken();
     this.centralServerNotificationService.resetSocketIO();
   }
@@ -837,20 +839,6 @@ export class CentralServerService {
     this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
-  }
-
-  public isComponentActive(componentName): boolean {
-    // get logged user
-    const activeComponents = this.getLoggedUser().activeComponents;
-    if (activeComponents) {
-      return this.getLoggedUser().activeComponents.includes(componentName);
-    } else {
-      return false;
-    }
-  }
-
-  public getActiveComponents(): string[] {
-    return this.getLoggedUser().activeComponents;
   }
 
   public resetUserPassword(data) {

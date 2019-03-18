@@ -84,14 +84,35 @@ th:nth-child(n+2), td:nth-child(n+2) {
     width: 100%;
     margin: 0;
   }
+  margin-left: -15px;
+  margin-right: -15px;
+
+  &>div {
+    margin-left: 15px !important;
+    padding-left: 0 !important;
+    margin-right: 0px !important;
+    padding-right: 0 !important;
+  }
 
   :first-child {
-    margin-left: 0 !important;
+//    margin-left: 0 !important;
+    // padding-left: 0 !important;
   }
 
   :last-child {
-    margin-right: 0 !important;
+    margin-right: 0px !important;
+    // padding-right: 0 !important;
+  } 
+
+  &.filter-row-with-action {
+    :last-child {
+      margin-right: 20px !important;
+    }
   }
+}
+
+.search-form {
+  min-width: 20%;
 }
 
 .col-hidden {

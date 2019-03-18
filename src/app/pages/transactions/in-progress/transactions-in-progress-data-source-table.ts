@@ -59,7 +59,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe) {
-    super()
+    super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -80,8 +81,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.setData(transactions.result);
       }, (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -182,7 +182,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     switch (actionDef.id) {
       case 'stop':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.soft_stop.title'),
           this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {
@@ -228,10 +227,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
-  }
-
   protected _stationStopTransaction(transaction: Transaction) {
     this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -239,8 +234,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData(false);
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.soft_stop.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
 
@@ -251,8 +245,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData(false);
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.soft_stop.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
 

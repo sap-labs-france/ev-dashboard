@@ -153,7 +153,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.messageService.showWarningMessage(this.messages['account_pending']);
           // Create and show dialog data
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('authentication.verify_email_title'),
             this.translateService.instant('authentication.verify_email_resend_confirm')
           ).subscribe((response) => {
@@ -166,8 +165,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           break;
         default:
           // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('general.unexpected_error_backend'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }

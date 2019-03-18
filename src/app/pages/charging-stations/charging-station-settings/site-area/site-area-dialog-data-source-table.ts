@@ -1,16 +1,15 @@
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { SiteArea, TableActionDef, TableColumnDef, TableDef, Charger } from '../../../../common.types';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { MessageService } from '../../../../services/message.service';
-import { Utils } from '../../../../utils/Utils';
-import { TableAction } from '../../../../shared/table/actions/table-action';
-import { MatDialogRef } from '@angular/material';
-import { DialogService } from '../../../../services/dialog.service';
-import { Injectable } from '@angular/core';
-import { SiteAreaDialogComponent } from './site-area.dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {Router} from '@angular/router';
+import {TableDataSource} from '../../../../shared/table/table-data-source';
+import {Charger, SiteArea, TableActionDef, TableColumnDef, TableDef} from '../../../../common.types';
+import {CentralServerService} from '../../../../services/central-server.service';
+import {MessageService} from '../../../../services/message.service';
+import {Utils} from '../../../../utils/Utils';
+import {TableAction} from '../../../../shared/table/actions/table-action';
+import {DialogService} from '../../../../services/dialog.service';
+import {Injectable} from '@angular/core';
+import {SiteAreaDialogComponent} from './site-area.dialog.component';
 
 export class TableAssignAction implements TableAction {
   private action: TableActionDef = {
@@ -42,7 +41,7 @@ export class SiteAreaDataSource extends TableDataSource<SiteArea> {
     super();
     // Set static filter
     this.setStaticFilters([
-      { 'WithSite': true, 'WithChargeBox': false }
+      {'WithSite': true, 'WithChargeBox': false}
     ]);
   }
 
@@ -52,19 +51,18 @@ export class SiteAreaDataSource extends TableDataSource<SiteArea> {
       // Yes: Get data
       this.centralServerService.getSiteAreas(this.getFilterValues(),
         this.getPaging(), this.getOrdering()).subscribe((siteArea) => {
-          // Set number of records
-          this.setNumberOfRecords(siteArea.count);
-          // Update page length (number of sites is in User)
-          this.updatePaginator();
-          // Return sites
-          this.getDataSubjet().next(siteArea.result);
-          // Keep it
-          this.setData(siteArea.result);
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('general.error_backend'));
-        });
+        // Set number of records
+        this.setNumberOfRecords(siteArea.count);
+        // Update page length (number of sites is in User)
+        this.updatePaginator();
+        // Return sites
+        this.getDataSubjet().next(siteArea.result);
+        // Keep it
+        this.setData(siteArea.result);
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+      });
     } else {
       // Update page length
       this.updatePaginator();

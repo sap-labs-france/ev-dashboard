@@ -35,6 +35,7 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
@@ -60,6 +61,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     private appDurationPipe: AppDurationPipe,
     private currencyPipe: CurrencyPipe) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -82,8 +84,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         if (!refreshAction) {
           this.spinnerService.hide();
         }
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -223,7 +224,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.delete.title'),
           this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {
@@ -260,7 +260,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm')
         ).subscribe((response) => {
@@ -277,10 +276,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
-  }
-
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -288,8 +283,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.delete.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
   }
 
@@ -302,8 +296,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {
 
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 

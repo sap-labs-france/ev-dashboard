@@ -255,16 +255,19 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.error_send_evse_statuses');
       }
+      // reload data
+      this.loadData();
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_send_evse_statuses');
+      // reload data
+      this.loadData();
     });
   }
 
   private _deleteOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
@@ -290,7 +293,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
 
   private _registerOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {

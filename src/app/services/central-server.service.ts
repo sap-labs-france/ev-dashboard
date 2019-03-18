@@ -35,6 +35,7 @@ import {
   UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
+import {DialogService} from './dialog.service';
 
 @Injectable()
 export class CentralServerService {
@@ -822,11 +823,9 @@ export class CentralServerService {
   }
 
   public logoutSucceeded() {
-    // Verify init
     this._checkInit();
-    // Keep it local (iFrame use case)
+    // this.dialogService.closeAll();
     this.clearLoggedUserToken();
-    // Disconnect
     this.centralServerNotificationService.resetSocketIO();
   }
 

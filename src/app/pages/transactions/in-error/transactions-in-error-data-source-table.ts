@@ -33,6 +33,7 @@ import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
 import en from '../../../../assets/i18n/en.json';
 
+const POLL_INTERVAL = 10000;
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
 
@@ -55,7 +56,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private  currencyPipe: CurrencyPipe) {
-    super()
+    super();
+    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -79,8 +81,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         if (!refreshAction) {
           this.spinnerService.hide();
         }
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
 
   }
@@ -210,7 +211,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     switch (actionDef.id) {
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
-          this.dialog,
           this.translateService.instant('transactions.dialog.delete.title'),
           this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
         ).subscribe((response) => {
@@ -235,10 +235,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     this.isAdmin = isAdmin
   }
 
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(30000);
-  }
-
   protected _deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
@@ -246,8 +242,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData();
     }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('transactions.notification.delete.error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
   }
 

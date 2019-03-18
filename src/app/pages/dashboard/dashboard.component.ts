@@ -1,15 +1,12 @@
-import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
-import { TranslateService } from '@ngx-translate/core';
-import * as CanvasGauges from 'canvas-gauges';
-import { animate, state, style, transition, trigger, AnimationEvent, query, group, sequence } from '@angular/animations';
-import { DashboardService, SiteCurrentMetrics } from '../../services/dashboard.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {animate, AnimationEvent, group, query, style, transition, trigger} from '@angular/animations';
+import {DashboardService, SiteCurrentMetrics} from '../../services/dashboard.service';
+import {SpinnerService} from 'app/services/spinner.service';
 import * as moment from 'moment';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { DecimalPipe } from '@angular/common';
-import { LocaleService } from 'app/services/locale.service';
-import { ChartButton, CardChartComponent, ChartData, ChartDefinition } from './card-chart/card-chart.component';
+import {DecimalPipe} from '@angular/common';
+import {LocaleService} from 'app/services/locale.service';
+import {CardChartComponent, ChartButton, ChartData} from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;
 const REALTIME_INTERVAL = 10000;
@@ -17,6 +14,7 @@ const STATISTICS_INTERVAL = 5000;
 
 const FADE_IN_CLASS = 'fade-in';
 const FADE_OUT_CLASS = 'fade-out';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -28,18 +26,18 @@ const FADE_OUT_CLASS = 'fade-out';
         group([
           query('.slide-card-up', [ // Used for title to move it up and and down when it changes
             group([
-              animate('1.0s ease-in', style({ transform: 'translateY(-300%)' }))
+              animate('1.0s ease-in', style({transform: 'translateY(-300%)'}))
             ])
-          ], { optional: true }),
+          ], {optional: true}),
           query('.fade-out-text', [ // Slight opacity for static texts
-            animate('1.0s ease', style({ opacity: '0.6' })),
-          ], { optional: true }),
+            animate('1.0s ease', style({opacity: '0.6'})),
+          ], {optional: true}),
           query('.fade-in', [ // Complete fade-in-out for dynamic texts (keyfigure values, charts and gauges)
-            animate('1.0s ease', style({ opacity: '1' })),
-          ], { optional: true }),
+            animate('1.0s ease', style({opacity: '1'})),
+          ], {optional: true}),
           query('.fade-out', [
-            animate('1.0s ease', style({ opacity: '0' })),
-          ], { optional: true }),
+            animate('1.0s ease', style({opacity: '0'})),
+          ], {optional: true}),
         ])
       ]),
     ]),
@@ -47,18 +45,18 @@ const FADE_OUT_CLASS = 'fade-out';
     trigger('SlideChangeDone', [ // used for last half of the animation after changing model data
       transition('false => true', [
         group([
-        query('.slide-card-up, .fade-out-text', [
-          group([
-            animate('1.0s ease', style({ opacity: '1' })),
-            animate('1.0s ease', style({ transform: 'translateY(0%)' }))
-          ])
-        ], { optional: true }),
-        query('.fade-in', [
-          animate('1.0s ease', style({ opacity: '1' })),
-        ], { optional: true }),
-        query('.fade-out', [
-          animate('1.0s ease', style({ opacity: '0' })),
-        ], { optional: true }),
+          query('.slide-card-up, .fade-out-text', [
+            group([
+              animate('1.0s ease', style({opacity: '1'})),
+              animate('1.0s ease', style({transform: 'translateY(0%)'}))
+            ])
+          ], {optional: true}),
+          query('.fade-in', [
+            animate('1.0s ease', style({opacity: '1'})),
+          ], {optional: true}),
+          query('.fade-out', [
+            animate('1.0s ease', style({opacity: '0'})),
+          ], {optional: true}),
         ])
       ])
     ]),
@@ -95,15 +93,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   currentSiteIndex = -1;
 
   buttonsStatisticsChart = [
-    { name: 'day', title: 'dashboard.statistics.button.day' },
-    { name: 'week', title: 'dashboard.statistics.button.week' },
-    { name: 'month', title: 'dashboard.statistics.button.month' },
-    { name: 'year', title: 'dashboard.statistics.button.year' },
+    {name: 'day', title: 'dashboard.statistics.button.day'},
+    {name: 'week', title: 'dashboard.statistics.button.week'},
+    {name: 'month', title: 'dashboard.statistics.button.month'},
+    {name: 'year', title: 'dashboard.statistics.button.year'},
   ];
   @ViewChild('statisticsChart') statisticsChartComponent: CardChartComponent;
   buttonsRealtimeChart = [
-    { name: 'consumption', title: 'dashboard.realtime.button.consumption' },
-    { name: 'utilization', title: 'dashboard.realtime.button.utilization' }
+    {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
+    {name: 'utilization', title: 'dashboard.realtime.button.utilization'}
   ];
   @ViewChild('realtimeChart') realtimeChartComponent: CardChartComponent;
 
@@ -112,7 +110,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   todayDay: any;
 
   /**
-   * Current Mterics retrieved from dashboard service
+   * Current Metrics retrieved from dashboard service
    *
    * @type {SiteCurrentMetrics}
    * @memberof DashboardComponent
@@ -123,11 +121,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   statisticsInterval = STATISTICS_INTERVAL;
 
   constructor(private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dashboardService: DashboardService,
-    private decimalPipe: DecimalPipe,
-    private localeService: LocaleService) {
-      this.dashboardService.startLoading();
+              private spinnerService: SpinnerService,
+              private dashboardService: DashboardService,
+              private decimalPipe: DecimalPipe,
+              private localeService: LocaleService) {
+    this.dashboardService.startLoading();
   }
 
   ngOnInit(): void {
@@ -323,7 +321,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createRealtimeOptions(target: any) {
     const optionsLine = {
-      legend: { display: false },
+      legend: {display: false},
       responsive: true,
       aspectRatio: 2,
       animation: {
@@ -335,12 +333,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labels: target.labels,
           gridLines: {
             display: true,
-              color: 'rgba(0,0,0,0.2)'
+            color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
             fontColor: '#0d47a1'
           }
-      }],
+        }],
         yAxes: [
           {
             id: 'power',
@@ -421,7 +419,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createStatisticsOptions(target: any) {
     const optionsLine = {
-      legend: { display: false },
+      legend: {display: false},
       responsive: true,
       aspectRatio: 2,
       animation: {

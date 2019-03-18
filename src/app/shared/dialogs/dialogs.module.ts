@@ -1,8 +1,4 @@
 import {SessionDialogComponent} from './session/session-dialog-component';
-
-export class FooterModule {
-}
-
 import {NgModule} from '@angular/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {RouterModule} from '@angular/router';
@@ -19,7 +15,6 @@ import {ComponentModule} from '../component/component.module';
 import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
-import {UsersDataSource} from './users/users-data-source-table';
 import {ChargersDataSource} from './chargers/chargers-data-source-table';
 import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
 import {AgmCoreModule} from '@agm/core';
@@ -28,6 +23,10 @@ import {SiteAreasDialogComponent} from './sites/site-areas-dialog-component';
 import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.component';
 import {ErrorCodeDetailsDialogComponent} from './error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../component/error-details/error-code-details.component';
+import {DialogService} from '../../services/dialog.service';
+
+export class FooterModule {
+}
 
 
 @NgModule({
@@ -89,8 +88,8 @@ import {ErrorCodeDetailsComponent} from '../component/error-details/error-code-d
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    UsersDataSource,
-    ChargersDataSource
+    ChargersDataSource,
+    DialogService
   ]
 })
 export class DialogsModule {

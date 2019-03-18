@@ -240,7 +240,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   private _deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('users.delete_title'),
       this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
     ).subscribe((result) => {

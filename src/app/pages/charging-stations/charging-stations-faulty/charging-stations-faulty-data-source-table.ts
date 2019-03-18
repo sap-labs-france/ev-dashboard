@@ -81,6 +81,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     private dialogService: DialogService
   ) {
     super();
+    this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{ 'WithSite': true }]);
   }
 
@@ -116,8 +117,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         // Show
         this.spinnerService.hide();
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }
 
@@ -161,6 +161,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
+        headerClass: 'text-center',
         isAngularComponent: true,
         angularComponentName: HeartbeatCellComponent,
         sortable: false
@@ -168,6 +169,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       {
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
+        headerClass: 'text-center',
         sortable: false,
         isAngularComponent: true,
         angularComponentName: ConnectorsCellComponent
@@ -310,13 +312,12 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
     if (charger.inactive) {
       // Charger is not connected
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.command_title'),
         this.translateService.instant('chargers.action_error.command_charger_disconnected'));
     } else {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
         title,
         message
       ).subscribe((result) => {
@@ -358,12 +359,11 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   private _deleteChargingStation(chargingStation: Charger) {
     if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
-      this.dialogService.createAndShowOkDialog(this.dialog,
+      this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.delete_title'),
         this.translateService.instant('chargers.action_error.delete_active_transaction'));
     } else {
       this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
         this.translateService.instant('chargers.delete_title'),
         this.translateService.instant('chargers.delete_confirm', { 'chargeBoxID': chargingStation.id })
       ).subscribe((result) => {
@@ -384,9 +384,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         }
       });
     }
-  }
-  definePollingIntervalStrategy() {
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   specificRowActions(charger: ChargerInError) {

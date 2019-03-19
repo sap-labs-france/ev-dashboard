@@ -108,6 +108,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
       {
         id: 'connectorId',
         name: 'chargers.connector',
+        headerClass: 'text-center',
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
@@ -116,12 +117,13 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
       {
         id: 'status',
         name: 'chargers.connector_status',
-        class: 'text-center',
+        headerClass: 'text-center',
+        class: '',
         isAngularComponent: true,
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
       },
-      {
+/*      {
         id: 'type',
         name: 'chargers.connector_type',
         formatter: (type) => {
@@ -129,7 +131,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
           return `<img class="charger-connector-type" src="${imageUrl}"/>`;
         },
         sortable: false
-      },
+      },*/
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',

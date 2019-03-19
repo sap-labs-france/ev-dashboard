@@ -26,10 +26,6 @@ export class CompaniesFilterDialogComponent extends DialogTableDataComponent<Com
     if (this.title === '') {
       this.title = 'companies.select_companies';
     }
-    // Default Set Filter Button Title
-    if (this.buttonTitle === 'general.select') {
-      this.buttonTitle = 'general.set_filter';
-    }
     // Create table data source
     this.dialogDataSource = new CompaniesFilterDataSource(
       this.messageService,

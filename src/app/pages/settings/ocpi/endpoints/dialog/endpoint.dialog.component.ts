@@ -210,7 +210,7 @@ export class EndpointDialogComponent implements OnInit {
   }
 
   public onClose() {
-    if (this.formGroup.invalid) {
+    if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text')

@@ -241,28 +241,35 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   }
 
   _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
-    // Show
-    this.spinnerService.show();
-    // Ping
-    this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.failure === 0 && response.success > 0) {
-        this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
-      } else if (response.failure > 0 && response.success > 0) {
-        this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
-          { success: response.success, error: response.failure });
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
+      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Show
+        this.spinnerService.show();
+        // Ping
+        this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+          this.spinnerService.hide();
+          if (response.failure === 0 && response.success > 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+          }
+          // reload data
+          this.loadData();
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.error_send_evse_statuses');
+          // reload data
+          this.loadData();
+        });
       }
-      // reload data
-      this.loadData();
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.error_send_evse_statuses');
-      // reload data
-      this.loadData();
     });
   }
 

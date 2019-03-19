@@ -87,7 +87,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [

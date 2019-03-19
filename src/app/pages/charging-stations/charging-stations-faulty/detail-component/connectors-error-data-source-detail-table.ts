@@ -103,7 +103,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'connectorId',

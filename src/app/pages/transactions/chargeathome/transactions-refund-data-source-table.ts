@@ -104,7 +104,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
     const columns = [];

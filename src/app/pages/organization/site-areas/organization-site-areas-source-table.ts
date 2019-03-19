@@ -84,7 +84,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

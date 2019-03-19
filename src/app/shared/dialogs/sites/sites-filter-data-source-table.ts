@@ -43,7 +43,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

@@ -30,7 +30,7 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
     });
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

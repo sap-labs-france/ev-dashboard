@@ -148,7 +148,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     return [
       {

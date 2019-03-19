@@ -26,6 +26,10 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
     if (this.title === '') {
       this.title = 'site_areas.select_site_areas';
     }
+    // Default Set Filter Button Title
+    if (this.buttonTitle === 'general.select') {
+      this.buttonTitle = 'general.set_filter';
+    }
     // Create table data source
     this.dialogDataSource = new SiteAreasFilterDataSourceTable(
       this.messageService,

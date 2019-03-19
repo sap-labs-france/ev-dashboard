@@ -943,7 +943,7 @@
   },
   "ocpi": {
     "title": "Itinérance",
-    "emsps": "Opérateurs de Services de Mobilité",
+    "emsps": "Plate-forme d'interopérabilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
     "cpo_details": "Identification du Point de Charge",

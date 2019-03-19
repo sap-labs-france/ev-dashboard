@@ -944,7 +944,7 @@
   },
   "ocpi": {
     "title": "Roaming",
-    "emsps": "e-Mobility Service Providers",
+    "emsps": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
     "cpo_details": "Charge Point Operator Identifier",

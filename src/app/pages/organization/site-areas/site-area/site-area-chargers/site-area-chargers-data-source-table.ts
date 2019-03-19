@@ -81,7 +81,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

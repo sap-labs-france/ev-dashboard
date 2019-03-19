@@ -16,7 +16,7 @@ export abstract class DialogTableDataComponent<T> {
     }
     // assign parameters
     this.title = (data && data.title ? data.title : '');
-    this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.set_filter');
+    this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.select');
     // Set table definition if provided
     if (data && data.tableDef) {
       this.dialogDataSource.setTableDef(data.tableDef);

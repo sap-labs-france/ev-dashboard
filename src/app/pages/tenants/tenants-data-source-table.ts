@@ -79,7 +79,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

@@ -17,6 +17,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private sort: MatSort;
   private numberOfRecords = 0;
   private tableDef: TableDef;
+  private tableColumnDef: TableColumnDef[];
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
@@ -228,7 +229,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       ]
     } else {
       // Find Sorted columns
-      const columnDef = this.getTableColumnDefs().find((column) => column.sorted === true);
+      const columnDef = this.tableColumnDef.find((column) => column.sorted === true);
       // Found?
       if (columnDef) {
         // Yes: Set Sorting
@@ -524,7 +525,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Should be implemented in implementation
   }
 
-  abstract getTableColumnDefs(): TableColumnDef[];
+  public getTableColumnDefs(): TableColumnDef[] {
+    if (!this.tableColumnDef) {
+      this.tableColumnDef = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDef;
+  }
+
+  abstract buildTableColumnDefs(): TableColumnDef[];
 
   abstract loadData(refreshAction?: boolean);
 
@@ -579,7 +587,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   _formatRow(row): any[] {
     const formattedRow = [];
-    this.getTableColumnDefs().forEach((columnDef) => {
+    console.log('format row');
+    this.tableColumnDef.forEach((columnDef) => {
       formattedRow.push(this._buildCellValue(row, columnDef));
     });
     formattedRow['data'] = row;
@@ -623,6 +632,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.rowActionsDef = this.getTableRowActions();
       // Check known actions
       this._checkKnownActions(this.rowActionsDef);
+    }
+    if (!this.tableColumnDef) {
+      this.tableColumnDef = this.buildTableColumnDefs();
     }
   }
 

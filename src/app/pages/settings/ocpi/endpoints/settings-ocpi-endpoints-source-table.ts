@@ -318,9 +318,9 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         if (ocpiendpoint.backgroundPatchJob) {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated', { 'name': ocpiendpoint.name });
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
         } else {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated', { 'name': ocpiendpoint.name });
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
         }
       } else {
         Utils.handleError(JSON.stringify(response),

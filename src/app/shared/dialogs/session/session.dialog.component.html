@@ -27,19 +27,19 @@
         <!-- general section -->
         <div class="d-flex justify-content-around mb-3">
           <div class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-4"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3"/>
             <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
             <div class="text-nowrap second-text">({{transaction.tagID}})</div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="transaction.stop" class="d-flex flex-column mb-5 mb-xl-0 align-items-center "
+            <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center "
                  matTooltip="{{'transactions.dialog.session.tooltips.amount' | translate}}"
                  matTooltipPosition="below">
               <i class="material-icons">money</i>
               <span
                 class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency: transaction.stop.priceUnit) : '--'}}</span>
             </div>
-            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-5 mb-xl-0 align-items-center"
+            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}"
                  matTooltipPosition="below">
               <mat-icon>flash_on</mat-icon>
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div class="d-flex flex-column mb-5 mb-xl-0 align-items-center"
+            <div class="d-flex flex-column mb-3 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.amount' | translate}}"
                  matTooltipPosition="below">
               <i class="material-icons">ev_station</i>
@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-5 mb-xl-2 align-items-center"
+            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}"
                  matTooltipPosition="below">
               <i class="material-icons">battery_charging_full</i>
@@ -83,7 +83,7 @@
             </div>
           </div>
           <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-5"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3"/>
             <div class="text-nowrap first-text">Tesla S 90D</div>
             <div class="text-nowrap second-text">(AA-543-BN)</div>
           </div>

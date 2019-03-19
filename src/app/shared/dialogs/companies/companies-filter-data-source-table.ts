@@ -43,7 +43,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

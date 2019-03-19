@@ -91,7 +91,7 @@ export class SiteAreaDataSource extends TableDataSource<SiteArea> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'site.name',

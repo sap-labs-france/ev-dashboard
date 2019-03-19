@@ -942,7 +942,8 @@
     "error_generate_local_token": "Error occured while generating new local token",
     "success_send_evse_statuses": "Successfully updated {{success}} EVSE statuses",
     "partial_send_evse_statuses": "{{success}} EVSE(s) updated - {{error}} EVSE(s) not updated - see logs for more details",
-    "error_send_evse_statuses": "Error occured while updating EVSE statuses - see logs for more details"
+    "error_send_evse_statuses": "Error occured while updating EVSE statuses - see logs for more details",
+    "start_stop_job": "Enable/Disable background job"
   },
   "ocpi": {
     "title": "Roaming",

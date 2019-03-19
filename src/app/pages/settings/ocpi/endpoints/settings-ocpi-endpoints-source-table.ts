@@ -317,7 +317,11 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { 'name': ocpiendpoint.name });
+        if (ocpiendpoint.backgroundPatchJob) {
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated', { 'name': ocpiendpoint.name });
+        } else {
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated', { 'name': ocpiendpoint.name });
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');

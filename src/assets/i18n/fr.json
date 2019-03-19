@@ -942,7 +942,9 @@
     "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès",
     "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
     "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails",
-    "start_stop_job": "Activer/Désactiver le processus"
+    "start_stop_job": "Activer/Désactiver le processus",
+    "background_job_activated": "Processus de mise à jour automatique activé avec succès",
+    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès"
   },
   "ocpi": {
     "title": "Itinérance",

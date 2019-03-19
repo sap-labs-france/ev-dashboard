@@ -1,3 +1,5 @@
+<!-- Updates : -->
+<!-- 19/03/19 - JPD - increase bottom margin of card-body and move tooltips below -->
 <div *ngIf="transaction" class="main-content">
   <div class="container-fluid ">
     <div class="card">
@@ -25,27 +27,27 @@
         <!-- general section -->
         <div class="d-flex justify-content-around mb-3">
           <div class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-2"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-4"/>
             <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
             <div class="text-nowrap second-text">({{transaction.tagID}})</div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="transaction.stop" class="d-flex flex-column mb-2 mb-xl-0 align-items-center "
+            <div *ngIf="transaction.stop" class="d-flex flex-column mb-5 mb-xl-0 align-items-center "
                  matTooltip="{{'transactions.dialog.session.tooltips.amount' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">money</i>
               <span
                 class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency: transaction.stop.priceUnit) : '--'}}</span>
             </div>
-            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-2 mb-xl-0 align-items-center"
+            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-5 mb-xl-0 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <mat-icon>flash_on</mat-icon>
               <span class="first-text">{{transaction.currentConsumption | appUnit:'W':'kW'}}</span>
             </div>
             <div class="d-flex flex-column align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.start_date' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">timelapse</i>
               <span
                 class="first-text">{{transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
@@ -53,35 +55,35 @@
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div class="d-flex flex-column mb-2 mb-xl-0 align-items-center"
+            <div class="d-flex flex-column mb-5 mb-xl-0 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.amount' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">ev_station</i>
               <span class="first-text">{{totalConsumption | appUnit:'Wh':'kWh'}}</span>
             </div>
             <div class="d-flex flex-column align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.total_duration' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">timer</i>
               <span class="first-text">{{totalDurationSecs | appDuration }}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-2 mb-xl-0 align-items-center"
+            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-5 mb-xl-2 align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">battery_charging_full</i>
               <span class="first-text">{{stateOfCharge| appBatteryPercentage: endStateOfCharge }}</span>
             </div>
             <div class="d-flex flex-column align-items-center"
                  matTooltip="{{'transactions.dialog.session.tooltips.inactivity' | translate}}"
-                 matTooltipPosition="after">
+                 matTooltipPosition="below">
               <i class="material-icons">timer_off</i>
               <span class="first-text">{{totalInactivitySecs | appDuration }}</span>
             </div>
           </div>
           <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-2"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-5"/>
             <div class="text-nowrap first-text">Tesla S 90D</div>
             <div class="text-nowrap second-text">(AA-543-BN)</div>
           </div>

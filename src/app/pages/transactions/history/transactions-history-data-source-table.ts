@@ -37,6 +37,7 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 const POLL_INTERVAL = 10000;
+
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
@@ -250,12 +251,13 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   getTableActionsDef(): TableActionDef[] {
-    if (this.authorizationService.isDemo()) {
+    if (!this.authorizationService.isDemo()) {
+      return [
+        new TableExportAction().getActionDef()
+      ];
+    } else {
       return [];
     }
-    return [
-      new TableExportAction().getActionDef()
-    ];
   }
 
   actionTriggered(actionDef: TableActionDef) {

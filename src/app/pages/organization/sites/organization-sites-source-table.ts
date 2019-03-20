@@ -84,7 +84,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

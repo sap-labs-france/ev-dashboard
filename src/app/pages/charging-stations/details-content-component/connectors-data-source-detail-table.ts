@@ -138,7 +138,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'connectorId',

@@ -64,7 +64,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

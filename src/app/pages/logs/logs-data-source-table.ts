@@ -113,7 +113,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {

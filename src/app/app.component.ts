@@ -4,6 +4,9 @@ import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {SpinnerService} from './services/spinner.service';
 import 'moment-duration-format';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe';
 
 @Component({
   selector: 'app-my-app',
@@ -15,7 +18,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(
     private spinnerService: SpinnerService,
-    private router: Router) {
+    private router: Router,
+    private iconRegistry: MatIconRegistry, 
+    private sanitizer: DomSanitizer) {
+      for (const connector_map of CONNECTOR_TYPE_MAP) {
+        iconRegistry.addSvgIcon(
+          connector_map.svgIconName,
+          sanitizer.bypassSecurityTrustResourceUrl(connector_map.svgIconFile));  
+      }
   }
 
   ngOnInit() {

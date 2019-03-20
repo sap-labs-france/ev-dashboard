@@ -15,6 +15,15 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
+            "optimization": true,
+            "buildOptimizer": true,
+            "outputHashing": "all",
+            "sourceMap": true,
+            "extractCss": true,
+            "namedChunks": false,
+            "aot": true,
+            "extractLicenses": true,
+            "vendorChunk": false,
             "polyfills": "src/polyfills.ts",
             "assets": [
               { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
@@ -43,15 +52,6 @@
           },
           "configurations": {
             "production": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

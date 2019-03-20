@@ -145,6 +145,8 @@ export interface Connector {
   type: string;
   hasDetails: boolean;
   isStopAuthorized: boolean;
+  isStartAuthorized: boolean;
+  isTransactionDisplayAuthorized: boolean;
 }
 
 export interface Charger {

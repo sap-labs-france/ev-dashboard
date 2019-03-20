@@ -1914,3 +1914,6 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-simple-snackbar-action{
   color:inherit
 }
+.pac-container {
+  z-index: 10000;
+}

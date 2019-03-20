@@ -874,6 +874,7 @@
       "update_success": "Pricing settings have been updated successfully",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
+        "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de transaction fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
         "title": "Convergent Charging",
         "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
@@ -881,6 +882,7 @@
         "password": "Mot de passe"
       },
       "simple": {
+        "description": "E-Mobility fournit un moyen simple de calculer le prix d'une session de charge d'un VE. Cette fonction vous permet d'établir un prix fixe par kW.h de votre infrastructure de charge. Pour activer cette fonction, veuillez contacter votre représentant E-Mobility.",
         "title": "Calculs Basique",
         "price": "Prix",
         "currency": "Devise"

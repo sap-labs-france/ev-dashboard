@@ -44,6 +44,7 @@ export const logActions: KeyValue[] = [
   {key: 'RequestConfiguration', value: 'RequestConfiguration'},
   {key: 'Reset', value: 'Reset'},
   {key: 'SendEmail', value: 'SendEmail'},
+  {key: 'SendEVSEStatuses', value: 'SendEVSEStatuses'},
   {key: 'SiteAreaCreate', value: 'SiteAreaCreate'},
   {key: 'SiteAreaDelete', value: 'SiteAreaDelete'},
   {key: 'SiteAreaUpdate', value: 'SiteAreaUpdate'},

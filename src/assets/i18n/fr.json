@@ -89,6 +89,7 @@
     "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous...",
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
+    "set_coordinates": "Définir les coordonnées",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
+import {APP_INITIALIZER, enableProdMode, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {CommonModule, registerLocaleData} from '@angular/common';
@@ -73,7 +73,7 @@ import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ComponentService} from './services/component.service';
 
-
+enableProdMode();
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({

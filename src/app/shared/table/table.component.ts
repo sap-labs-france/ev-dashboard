@@ -209,6 +209,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
+    // Reset paginator if field is not empty
+    if (filterDef.currentValue !== null) {
+      this.paginator.pageIndex = 0;
+    }
     filterDef.currentValue = null;
     this.dataSource.filterChanged(filterDef)
   }
@@ -217,12 +221,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
+    //Set Validate button title to 'Set Filter'
+    dialogConfig.data = {
+      validateButtonTitle : 'general.set_filter'
+    };
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         filterDef.currentValue = data;
+        // Reset paginator
+        this.paginator.pageIndex = 0;
         this.dataSource.filterChanged(filterDef)
       }
     });

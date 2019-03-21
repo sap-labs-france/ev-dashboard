@@ -18,6 +18,6 @@ export class ChargingStationsListComponent implements OnInit {
 
   ngOnInit() {
     // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
+    // jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

@@ -13,13 +13,13 @@ import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.p
         <div class="charger-connector-container">
           <div [appChargerStatus]="{status: chargerStatus, target: 'background', baseClass: 'charger-connector-background'}">
           </div>
-          <div data-toogle="tooltip" [title]="row.status"
+          <div appTooltip="" data-toogle="tooltip" [title]="row.status"
                [appChargerStatus]="{status: chargerStatus, target: 'text', baseClass: 'charger-connector-text'}">
             {{row.connectorId | appConnectorId}}
           </div>
         </div>
         <div *ngIf="!isSimpleConnectorDisplay && (row.type || row.type === null)"
-        data-toogle="tooltip" [title]="typeTooltip | translate"
+        appTooltip="" data-toogle="tooltip" [title]="typeTooltip | translate"
              [appChargerStatus]="{status: chargerStatus, target: 'background-image',
               baseClass: baseClassConnectorTypeText}">
               <mat-icon *ngIf="row.type !== null" [svgIcon]="typeSvgIcon" class="d-flex"></mat-icon>

@@ -16,7 +16,7 @@ import {MessageService} from './services/message.service';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
-import * as $ from 'jquery';
+
 import localeFr from '@angular/common/locales/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
@@ -72,8 +72,11 @@ import {AgmCoreModule} from '@agm/core';
 import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ComponentService} from './services/component.service';
+// import {TooltipDirective} from './shared/directives/tooltip.directive';
 
-
+import * as $ from 'jquery';
+import 'popper.js';
+import 'bootstrap';
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -170,7 +173,8 @@ export function localeFactory(
     AdminLayoutComponent,
     AuthLayoutComponent,
     NotFoundComponent,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
+    // TooltipDirective,
   ],
   exports: [
     TranslateModule

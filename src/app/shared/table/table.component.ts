@@ -204,10 +204,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Date is one way binding: update the value manually
       filterDef.currentValue = event.value;
     }
-    // Get Actions def
-    this.dataSource.filterChanged(filterDef);
     // Reset paginator
     this.paginator.pageIndex = 0;
+    // Get Actions def
+    this.dataSource.filterChanged(filterDef);
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {

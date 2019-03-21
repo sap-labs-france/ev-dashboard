@@ -206,6 +206,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
+    // Reset paginator
+    this.paginator.pageIndex = 0;
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
@@ -221,7 +223,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    //Set Validate button title to 'Set Filter'
+    // Set Validate button title to 'Set Filter'
     dialogConfig.data = {
       validateButtonTitle : 'general.set_filter'
     };

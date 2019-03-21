@@ -16,7 +16,9 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {AuthorizationService} from 'app/services/authorization-service';
 import {Utils} from 'app/utils/Utils';
 import {TableDataSource} from 'app/shared/table/table-data-source';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
 
   private charger: Charger;
@@ -39,36 +41,9 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   public loadData() {
     // Set number of records
     this.setNumberOfRecords(this.getData().length);
-    // Return connector
-    if (this.charger) {
-      // Check authorizations
-      this.centralServerService.getIsAuthorized('StopTransaction', this.charger.id).subscribe((result) => {
-        this.connectorTransactionAuthorization = result;
-        // Update authorization on individual connectors
-        for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
-          this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].IsAuthorized;
-        }
-        this.setData(this.charger.connectors);
-        // Update specific row actions
-        if (this.formattedData) {
-          this.formattedData.forEach(row => {
-            row.specificRowActions = this.specificRowActions(row['data']);
-          });
-        }
-        let hasSomeDetails = false;
-        // Check connectors details status
-        this.getData().forEach((connector: Connector) => {
-          // If user can stop transaction he can also see details
-          connector.hasDetails = connector.activeTransactionID > 0 && this.charger.connectors[connector.connectorId - 1].isStopAuthorized;
-          if (connector.hasDetails) {
-            hasSomeDetails = true;
-          }
-        });
-        this._displayDetailsColumns.next(hasSomeDetails);
-      }, (error) => {
-        // Authorization issue!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+    // // Return connector
+    if (this.charger && this.getTableColumnDefs()) {
+      this.setData(this.charger.connectors);
     }
   }
 
@@ -76,8 +51,12 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     this.charger = charger;
   }
 
-  setDetailedDataSource(row) {
-    this.loadData();
+  setDetailedDataSource(row, autoRefresh = false) {
+    if (autoRefresh) {
+      this.refreshReload(); // will call loadData
+    } else {
+      this.loadData();
+    }
   }
 
   public getTableDef(): TableDef {

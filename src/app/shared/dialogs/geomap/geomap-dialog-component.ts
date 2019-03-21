@@ -23,7 +23,7 @@ export class GeoMapDialogComponent {
   public label = '';
   public zoom = 4;
   public icon = {
-    url: '../../../../assets/img/ev_station_blu.svg', scale: 1, labelOrigin: { x: 11, y: -10 }
+    url: '../../../../assets/img/map-pin-18x30.svg', scale: 0.2, labelOrigin: { x: 11, y: -10 }
   };
   public displayOnly = false;
   public dialogTitle: string;

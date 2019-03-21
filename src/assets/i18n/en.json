@@ -89,6 +89,7 @@
     "change_invalid_pending_text": "Some changes with invalid value(s) are pending . Do you want to...",
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
+    "set_coordinates": "Set Coordinates",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",

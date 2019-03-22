@@ -417,6 +417,7 @@ export interface Transaction {
   timestamp: Date;
   chargeBox: Charger;
   chargeBoxID: string;
+  siteAreaID: string;
   connectorId: number;
   meterStart: number;
   currentConsumption: number;

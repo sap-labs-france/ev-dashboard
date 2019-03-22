@@ -7,7 +7,7 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsChargerFilter} from '../filters/transactions-charger-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
@@ -26,11 +26,16 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
+
+const POLL_INTERVAL = 10000;
 
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
+  private dialogRefSession;
 
   constructor(
     private messageService: MessageService,
@@ -178,7 +183,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
 
   getTableRowActions(): TableActionDef[] {
-    return [new TableDeleteAction().getActionDef()];
+    return [new TableOpenAction().getActionDef(), new TableDeleteAction().getActionDef()];
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -193,6 +198,9 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
             this._deleteTransaction(transaction);
           }
         });
+        break;
+      case 'open':
+        this._openSession(transaction);
         break;
       default:
         super.rowActionTriggered(actionDef, transaction);
@@ -224,5 +232,26 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         this.translateService.instant('transactions.notification.delete.error'));
     });
+  }
+
+  private _openSession(transaction: Transaction) {
+
+    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
+        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.minWidth = '80vw';
+        dialogConfig.minHeight = '80vh';
+        dialogConfig.height = '80vh';
+        dialogConfig.width = '80vw';
+        dialogConfig.panelClass = 'transparent-dialog-container';
+        dialogConfig.data = {
+          transactionId: transaction.id,
+          siteArea: siteArea,
+          connector: chargeBox.connectors[transaction.connectorId],
+        };
+        // Open
+        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+      }
+    )
   }
 }

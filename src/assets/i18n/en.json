@@ -90,6 +90,7 @@
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
+    "reset_filters" : "Reset Filters",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",

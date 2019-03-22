@@ -90,6 +90,7 @@
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
+    "reset_filters" : "Réinitialisation les Filtres",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

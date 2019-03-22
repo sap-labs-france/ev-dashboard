@@ -22,6 +22,7 @@ import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-user-cmp',

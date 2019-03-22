@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsHistoryDataSource} from './transactions-history-data-source-table';
 
@@ -9,7 +9,7 @@ import {TransactionsHistoryDataSource} from './transactions-history-data-source-
     TransactionsHistoryDataSource
   ]
 })
-export class TransactionsHistoryComponent implements OnInit {
+export class TransactionsHistoryComponent {
   public isAdmin;
 
   constructor(
@@ -18,10 +18,5 @@ export class TransactionsHistoryComponent implements OnInit {
   ) {
     this.isAdmin = this.authorizationService.isAdmin();
     this.transactionsHistoryDataSource.forAdmin(this.isAdmin);
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

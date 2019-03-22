@@ -7,6 +7,7 @@ import {Utils} from '../../../utils/Utils';
 import {SpinnerService} from '../../../services/spinner.service';
 import {MessageService} from '../../../services/message.service';
 import {Router} from '@angular/router';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-pricing',
@@ -31,12 +32,13 @@ export class SettingsPricingComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router
   ) {
-    this.isActive = centralServerService.isComponentActive(Constants.SETTINGS_PRICING);
-    this.pricingType = centralServerService.getActiveComponents().find(c => c.startsWith(Constants.SETTINGS_PRICING + '_'));
+    this.isActive = componentService.isActive(ComponentEnum.PRICING);
+    this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(Constants.SETTINGS_PRICING + '_'));
   }
 
   ngOnInit(): void {
@@ -119,8 +121,8 @@ export class SettingsPricingComponent implements OnInit {
           this.currency.setValue(config.simple.currency ? config.simple.currency : '');
         }
       }
-      this.formGroup.markAsPristine();
 
+      if (this.formGroup) { this.formGroup.markAsPristine(); }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

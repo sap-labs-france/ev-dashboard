@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
 import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
 import {AuthorizationService} from '../../services/authorization-service';
+import {ComponentEnum, ComponentService} from '../../services/component.service';
 
 @Component({
   selector: 'app-transactions',
@@ -14,6 +15,7 @@ export class TransactionsComponent extends AbstractTabComponent implements OnIni
 
   constructor(
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'chargeathome']);
   }
@@ -22,6 +24,11 @@ export class TransactionsComponent extends AbstractTabComponent implements OnIni
   }
 
   canAccessChargeAtHome() {
-    return this.authorizationService.canRefundTransaction();
+    return this.componentService.isActive(ComponentEnum.CHARGE_AT_HOME);
   }
+
+  canAccessInErrorTab() {
+    return this.authorizationService.isAdmin();
+  }
+
 }

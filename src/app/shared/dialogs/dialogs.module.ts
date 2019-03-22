@@ -1,8 +1,4 @@
 import {SessionDialogComponent} from './session/session-dialog-component';
-
-export class FooterModule {
-}
-
 import {NgModule} from '@angular/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {RouterModule} from '@angular/router';
@@ -16,17 +12,20 @@ import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {CompaniesFilterDialogComponent} from './companies/companies-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
-import {ConsumptionChartComponent} from '../component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../component/transaction-chart/consumption-chart.component';
 import {AppConnectorIdPipe} from '../formatters/app-connector-id.pipe';
 import {FormattersModule} from '../formatters/formatters.module';
-import {UsersDataSource} from './users/users-data-source-table';
-import {ChargersDataSource} from './chargers/chargers-data-source-table';
-import {ChargerErrorCodeDetailsDialogComponent} from './chargers/charger-error-code-details-dialog-component';
 import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
 import {AgmCoreModule} from '@agm/core';
 import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
 import {SiteAreasDialogComponent} from './sites/site-areas-dialog-component';
 import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.component';
+import {ErrorCodeDetailsDialogComponent} from './error-details/error-code-details-dialog.component';
+import {ErrorCodeDetailsComponent} from '../component/error-details/error-code-details.component';
+import {DialogService} from '../../services/dialog.service';
+
+export class FooterModule {
+}
 
 
 @NgModule({
@@ -51,8 +50,9 @@ import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.c
     SiteAreasFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
-    ChargerErrorCodeDetailsDialogComponent,
-    GeoMapDialogComponent
+    GeoMapDialogComponent,
+    ErrorCodeDetailsDialogComponent,
+    ErrorCodeDetailsComponent
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -65,8 +65,9 @@ import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.c
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
     ConsumptionChartComponent,
-    ChargerErrorCodeDetailsDialogComponent,
-    GeoMapDialogComponent
+    GeoMapDialogComponent,
+    ErrorCodeDetailsDialogComponent,
+    ErrorCodeDetailsComponent
   ],
   exports: [
     SitesDialogComponent,
@@ -78,15 +79,15 @@ import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.c
     SiteAreasFilterDialogComponent,
     CompaniesFilterDialogComponent,
     SessionDialogComponent,
-    ChargerErrorCodeDetailsDialogComponent
+    ErrorCodeDetailsDialogComponent,
+    ErrorCodeDetailsComponent
   ],
   providers: [
     CurrencyPipe,
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    UsersDataSource,
-    ChargersDataSource
+    DialogService
   ]
 })
 export class DialogsModule {

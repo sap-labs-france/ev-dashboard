@@ -134,8 +134,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           break;
         default:
           // Unexpected Error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('authentication.verify_email_error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_error');
           break;
       }
       // Go to login
@@ -180,8 +179,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           break;
         default:
           // Unexpected Error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('authentication.verify_email_resend_error'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_resend_error');
           break;
       }
     });

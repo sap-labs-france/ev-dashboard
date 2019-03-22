@@ -27,7 +27,7 @@ import { CompanyLogoComponent } from '../formatters/company-logo.component';
 import { CompanyDialogComponent } from './company/company.dialog.component';
 
 @Injectable()
-export class CompaniesDataSource extends TableDataSource<Company> {
+export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
   public isAdmin = false;
 
   constructor(
@@ -90,7 +90,7 @@ export class CompaniesDataSource extends TableDataSource<Company> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'logo',
@@ -235,7 +235,6 @@ export class CompaniesDataSource extends TableDataSource<Company> {
 
   private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('companies.delete_title'),
       this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
     ).subscribe((result) => {

@@ -3,27 +3,28 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Ocpiendpoint } from '../../../../common.types';
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
-import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { LocaleService } from '../../../../services/locale.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { Utils } from '../../../../utils/Utils';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, Ocpiendpoint } from 'app/common.types';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { CentralServerService } from 'app/services/central-server.service';
+import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Utils } from 'app/utils/Utils';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
-import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
-import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
-import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
-import { TableRegisterAction } from '../../../../shared/table/actions/table-register-action';
-import { TableSendAction } from '../../../../shared/table/actions/table-send-action';
-import { Constants } from '../../../../utils/Constants';
-import { DialogService } from '../../../../services/dialog.service';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
+// import { TableSendAction } from 'app/shared/table/actions/table-send-action';
+import { ACTION_SEND, EndpointMoreAction, ACTION_STOP_START_JOB } from './other-actions-boutton/endpoint-more-action';
+import { Constants } from 'app/utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
@@ -48,8 +49,9 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableRegisterAction().getActionDef(),
-      new TableSendAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      // new TableSendAction().getActionDef(),
+      new TableDeleteAction().getActionDef(),
+      new EndpointMoreAction().getActionDef(),
     ];
   }
 
@@ -92,7 +94,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -195,7 +197,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this._showOcpiendpointDialog(rowItem);
@@ -205,6 +207,16 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         break;
       case 'register':
         this._registerOcpiendpoint(rowItem);
+        break;
+      case 'more':
+        switch (dropdownItem.id) {
+          case ACTION_SEND:
+            this._sendEVSEStatusesOcpiendpoint(rowItem);
+            break;
+          case ACTION_STOP_START_JOB:
+            this._startStopBackgroundJob(rowItem);
+            break;
+        }
         break;
       case 'send':
         this._sendEVSEStatusesOcpiendpoint(rowItem);
@@ -240,31 +252,41 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
-    // Show
-    this.spinnerService.show();
-    // Ping
-    this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.failure === 0 && response.success > 0) {
-        this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
-      } else if (response.failure > 0 && response.success > 0) {
-        this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
-          { success: response.success, error: response.failure });
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+  private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
+      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Show
+        this.spinnerService.show();
+        // Ping
+        this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+          this.spinnerService.hide();
+          if (response.failure === 0 && response.success > 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+          }
+          // reload data
+          this.loadData();
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.error_send_evse_statuses');
+          // reload data
+          this.loadData();
+        });
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.error_send_evse_statuses');
     });
   }
 
   private _deleteOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
@@ -288,9 +310,32 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     });
   }
 
+  private _startStopBackgroundJob(ocpiendpoint) {
+    // switch background job state
+    ocpiendpoint.backgroundPatchJob = !ocpiendpoint.backgroundPatchJob;
+    // update it
+    this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (ocpiendpoint.backgroundPatchJob) {
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
+        } else {
+          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
+        }
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'ocpiendpoints.update_error');
+      }
+      this.loadData();
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'ocpiendpoints.update_error');
+    });
+  }
+
   private _registerOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {

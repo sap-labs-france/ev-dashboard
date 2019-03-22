@@ -43,8 +43,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         this.setData(sites.result);
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('general.error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
     } else {
       this.updatePaginator();
@@ -65,7 +64,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
@@ -123,7 +122,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         } else {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('users.remove_sites_title'),
             this.translateService.instant('users.remove_sites_confirm')
           ).subscribe((response) => {
@@ -167,8 +165,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
       }
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('users.remove_sites_error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.remove_sites_error');
     });
   }
 
@@ -193,8 +190,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         }
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('users.update_error'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       });
     }
   }

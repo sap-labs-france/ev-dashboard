@@ -19,7 +19,8 @@ export class OcpiendpointPatchJobResultComponent extends ChipComponent {
     this.text = '0 / 0';
 
     if (this.row.lastPatchJobResult) {
-      this.text = `${this.row.lastPatchJobResult.successNbr} / ${this.row.lastPatchJobResult.failureNbr}`
+      const totalEVSEs = this.row.lastPatchJobResult.successNbr + this.row.lastPatchJobResult.failureNbr;
+      this.text = `${this.row.lastPatchJobResult.successNbr} / ${totalEVSEs}`
       if (this.row.lastPatchJobResult.successNbr === 0 && this.row.lastPatchJobResult.failureNbr > 0) {
         this.type += TYPE_DANGER;
       } else if (this.row.lastPatchJobResult.successNbr > 0 && this.row.lastPatchJobResult.failureNbr === 0) {

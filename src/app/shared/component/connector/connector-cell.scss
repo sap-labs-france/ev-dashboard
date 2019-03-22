@@ -39,6 +39,9 @@
     &.charger-connector-container-image-large {
       margin-left: 4px;
     }
+    &.connector-not-typed-icon {
+      color: $brand-danger;
+    }
 
     .charger-connector-background {
       border-radius: 50%;

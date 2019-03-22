@@ -116,6 +116,7 @@ export class TenantDialogComponent implements OnInit {
     } else {
       this.selectedPricing = '';
     }
+    this.pricingType.setValue(this.selectedPricing);
     this.components.get('pricing').updateValueAndValidity();
     this.formGroup.markAsTouched();
   }
@@ -149,8 +150,7 @@ export class TenantDialogComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'tenants.update_error');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
     });
   }
 }

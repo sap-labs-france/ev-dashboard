@@ -29,7 +29,7 @@ import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.co
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
 
 @Injectable()
-export class SitesDataSource extends TableDataSource<Site> {
+export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public isAdmin = false;
 
   constructor(
@@ -84,7 +84,7 @@ export class SitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
@@ -245,7 +245,6 @@ export class SitesDataSource extends TableDataSource<Site> {
 
   private _deleteSite(site) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('sites.delete_title'),
       this.translateService.instant('sites.delete_confirm', { 'siteName': site.name })
     ).subscribe((result) => {

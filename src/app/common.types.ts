@@ -1,4 +1,5 @@
 import {SortDirection} from '@angular/material/typings';
+import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -144,6 +145,8 @@ export interface Connector {
   type: string;
   hasDetails: boolean;
   isStopAuthorized: boolean;
+  isStartAuthorized: boolean;
+  isTransactionDisplayAuthorized: boolean;
 }
 
 export interface Charger {
@@ -177,6 +180,7 @@ export interface Charger {
 
 export interface ChargerInError extends Charger {
   errorCode: string;
+  errorMessage: ErrorMessage;
   uniqueId: string;
 }
 
@@ -424,8 +428,11 @@ export interface Transaction {
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
   currentTotalDurationSecs: number;
+  stateOfCharge: number;
   currentStateOfCharge: number;
   isLoading: boolean;
+  siteAreaID: string;
+  siteID: string;
   user: User;
   tagID: string;
   status: string;

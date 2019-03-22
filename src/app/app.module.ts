@@ -1,7 +1,7 @@
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {CentralServerService} from './services/central-server.service';
 import {CentralServerNotificationService} from './services/central-server-notification.service';
 import {SpinnerService} from './services/spinner.service';
@@ -11,14 +11,12 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {LocalStorageService} from './services/local-storage.service';
-import {ConfigService} from './services/config.service';
-import {DialogService} from './services/dialog.service';
+import {ConfigService} from './services/config.service'
 import {MessageService} from './services/message.service';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import * as $ from 'jquery';
-import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
@@ -71,7 +69,9 @@ import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
 import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
-import { DashboardService } from './services/dashboard.service';
+import {DashboardService} from './services/dashboard.service';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {ComponentService} from './services/component.service';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -86,6 +86,8 @@ registerLocaleData(localeFr, 'fr');
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
+    MatNativeDatetimeModule,
+    MatDatetimepickerModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
@@ -110,7 +112,7 @@ registerLocaleData(localeFr, 'fr');
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [ { provide: LOCALE_ID, useValue: 'fr' } ],
+  providers: [{provide: LOCALE_ID, useValue: 'fr'}],
 })
 export class MaterialModule {
 }
@@ -178,12 +180,12 @@ export function localeFactory(
     CentralServerService,
     CentralServerNotificationService,
     AuthorizationService,
+    ComponentService,
     TenantGuard,
     RouteGuardService,
     SpinnerService,
     LocaleService,
     LocalStorageService,
-    DialogService,
     MessageService,
     ConfigService,
     TranslateService,
@@ -191,6 +193,7 @@ export function localeFactory(
     DashboardService,
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
+    // {provide: RouteReuseStrategy, useClass: CustomRouteStrategy}
   ],
   bootstrap: [AppComponent]
 })

@@ -143,6 +143,5 @@ export const AppRoutes: Routes = [
 
 export const AppRouting: ModuleWithProviders = RouterModule.forRoot(AppRoutes, {
   useHash: false,
-  anchorScrolling: 'enabled',
   scrollPositionRestoration: 'enabled'
 });

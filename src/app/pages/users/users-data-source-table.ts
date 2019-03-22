@@ -29,6 +29,7 @@ import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {UserStatusComponent} from './formatters/user-status.component';
 import {TableAssignSiteAction} from '../../shared/table/actions/table-edit-location';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
+import {ComponentEnum, ComponentService} from '../../services/component.service';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
@@ -44,6 +45,7 @@ export class UsersDataSource extends TableDataSource<User> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private userRolePipe: UserRolePipe,
     private userStatusPipe: UserStatusPipe,
     private userNamePipe: AppUserNamePipe,
@@ -89,7 +91,7 @@ export class UsersDataSource extends TableDataSource<User> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
@@ -159,7 +161,7 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       return [
         new TableEditAction().getActionDef(),
         new TableAssignSiteAction().getActionDef(),
@@ -240,7 +242,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   private _deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
-      this.dialog,
       this.translateService.instant('users.delete_title'),
       this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
     ).subscribe((result) => {

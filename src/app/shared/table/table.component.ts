@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
@@ -12,7 +12,6 @@ import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
-import { CellContentComponentContainer } from './cell-content-template/cell-content-container.component';
 
 const DEFAULT_POLLING = 10000;
 
@@ -205,22 +204,37 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Date is one way binding: update the value manually
       filterDef.currentValue = event.value;
     }
+    // Reset paginator
+    this.paginator.pageIndex = 0;
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
+    // Reset paginator if field is not empty
+    if (filterDef.currentValue !== null) {
+      this.paginator.pageIndex = 0;
+    }
     filterDef.currentValue = null;
     this.dataSource.filterChanged(filterDef)
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
+    // Disable outside click close
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    // Set Validate button title to 'Set Filter'
+    dialogConfig.data = {
+      validateButtonTitle : 'general.set_filter'
+    };
     // Show
-    const dialogRef = this.dialog.open(filterDef.dialogComponent);
+    const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         filterDef.currentValue = data;
+        // Reset paginator
+        this.paginator.pageIndex = 0;
         this.dataSource.filterChanged(filterDef)
       }
     });

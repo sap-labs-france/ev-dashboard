@@ -210,25 +210,23 @@ export class EndpointDialogComponent implements OnInit {
   }
 
   public onClose() {
-    if (this.formGroup.invalid) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.dialog,
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
     } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowYesNoCancelDialog(
-        this.dialog,
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text')
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.save(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_NO) {
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });

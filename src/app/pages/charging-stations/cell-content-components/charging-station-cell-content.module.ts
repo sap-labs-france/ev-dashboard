@@ -16,7 +16,6 @@ import { ConnectorsCellComponent } from './connectors-cell.component';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
 import { SessionDetailComponent } from './session-detail.component';
-import { ChargerErrorCodeComponent } from './charger-error-code.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,16 +36,14 @@ import { ChargerErrorCodeComponent } from './charger-error-code.component';
     ConnectorAvailibilityComponent,
     ConnectorsCellComponent,
     SessionDialogComponent,
-    SessionDetailComponent,
-    ChargerErrorCodeComponent,
+    SessionDetailComponent
   ],
   declarations: [
     HeartbeatCellComponent,
     InstantPowerProgressBarComponent,
     ConnectorAvailibilityComponent,
     ConnectorsCellComponent,
-    SessionDetailComponent,
-    ChargerErrorCodeComponent,
+    SessionDetailComponent
   ]
 })
 export class ChargingStationCellComponentsModule { }

@@ -16,8 +16,9 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
   }
 
   loadData() {
-    // Get data
-    this.centralServerService.getSiteAreas(this.getFilterValues(),
+    const filterValues = this.getFilterValues();
+    filterValues['WithSite'] = true;
+    this.centralServerService.getSiteAreas(filterValues,
       this.getPaging(), this.getOrdering()).subscribe((siteAreas) => {
       // Set number of records
       this.setNumberOfRecords(siteAreas.count);
@@ -26,8 +27,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       this.setData(siteAreas.result);
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('general.error_backend'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -44,15 +44,23 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('site_areas.name'),
+        name: this.translateService.instant('site_areas.title'),
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
+      },
+      {
+        id: 'site',
+        name: this.translateService.instant('sites.title'),
+        class: 'text-left col-600px',
+        direction: 'asc',
+        sortable: true,
+        formatter: (name, row: SiteArea) => `${row.site.name}`
       }
     ];
   }

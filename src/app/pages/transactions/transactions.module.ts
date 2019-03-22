@@ -13,16 +13,13 @@ import {TransactionsHistoryComponent} from './history/transactions-history.compo
 import {TransactionsInProgressComponent} from './in-progress/transactions-in-progress.component';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
-import {TransactionsHistoryDataSource} from './history/transactions-history-data-source-table';
-import {TransactionsInProgressDataSource} from './in-progress/transactions-in-progress-data-source-table';
 import {ComponentModule} from '../../shared/component/component.module';
 import {ConnectorCellComponent} from '../../shared/component/connector/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
-import {TransactionsInErrorDataSource} from './in-error/transactions-in-error-data-source-table';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
-import {ConsumptionChartComponent} from '../../shared/component/transactionChart/consumption-chart.component';
+import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
 import {TransactionsRefundComponent} from './chargeathome/transactions-refund.component';
-import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-data-source-table';
+import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
 
 @NgModule({
   imports: [
@@ -54,7 +51,8 @@ import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-d
     TransactionsRefundComponent,
     ConnectorCellComponent,
     ConsumptionChartDetailComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
+    ErrorCodeDetailsComponent
   ],
   exports: [
     TransactionsComponent
@@ -62,11 +60,7 @@ import {TransactionsRefundDataSource} from './chargeathome/transactions-refund-d
   providers: [
     CurrencyPipe,
     PercentPipe,
-    DecimalPipe,
-    TransactionsHistoryDataSource,
-    TransactionsInErrorDataSource,
-    TransactionsInProgressDataSource,
-    TransactionsRefundDataSource
+    DecimalPipe
   ]
 })
 

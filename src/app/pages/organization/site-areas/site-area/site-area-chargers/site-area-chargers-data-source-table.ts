@@ -47,8 +47,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           this.setData(chargers.result);
         }, (error) => {
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.translateService.instant('general.error_backend'));
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         });
     } else {
       this.updatePaginator();
@@ -82,7 +81,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',
@@ -141,7 +140,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         } else {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
-            this.dialog,
             this.translateService.instant('site_areas.remove_chargers_title'),
             this.translateService.instant('site_areas.remove_chargers_confirm')
           ).subscribe((response) => {
@@ -195,8 +193,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       }
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        this.translateService.instant('site_areas.remove_chargers_error'));
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
     });
   }
 
@@ -221,8 +218,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         }
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          this.translateService.instant('site_areas.update_error'));
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
       });
     }
   }

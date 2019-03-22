@@ -18,7 +18,7 @@
     "ok": "Ok",
     "cancel": "Annuler",
     "actions": "Actions",
-    "add": "Ajouter",    
+    "add": "Ajouter",
     "select": "Selectioner",
     "set_filter": "Filtrer",
     "remove": "Retirer",
@@ -891,7 +891,7 @@
         "currency": "Devise"
       }
     },
-    "sac": {      
+    "sac": {
       "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
       "setting_not_found": "La configuration SAP Analytics Cloud n'est pas disponible",
       "create_success": "La configuration SAP Analytics Cloud a été créé avec succès",
@@ -1123,11 +1123,16 @@
         "tenant_concur_connection_invalid": "La configuration Concur de votre tenant n'est pas complète. Contactez votre administrateur pour plus d'informations."
       }
     },
-      "errors": {
-        "noConsumption": {
-          "title": "Pas de consommations",
-          "description": "La transaction ne contient pas de données",
-          "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
+    "errors": {
+      "no_consumption": {
+        "title": "Pas de consommations",
+        "description": "La transaction ne contient pas de données",
+        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
+      },
+      "average_consumption_greater_than_connector_capacity": {
+        "title": "Charge moyenne trop importante",
+        "description": "La puissance de charge moyenne est supérieure à la capacitée du connecteur.",
+        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connécteur est correcte."
         }
     }
   },

@@ -18,7 +18,7 @@
     "ok": "Ok",
     "cancel": "Cancel",
     "actions": "Actions",
-    "add": "Add",            
+    "add": "Add",
     "select": "Select",
     "set_filter": "Set Filter",
     "remove": "Remove",
@@ -1129,10 +1129,15 @@
       }
     },
     "errors": {
-      "noConsumption": {
+      "no_consumption": {
         "title": "No Consumptions",
         "description": "The transaction does not contains meter values",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
+      },
+      "average_consumption_greater_than_connector_capacity": {
+        "title": "Average charging power Too high",
+        "description": "The average registered charging power is greater than the capacity of the connector.",
+        "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       }
     }
   },

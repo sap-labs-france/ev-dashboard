@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import * as moment from 'moment'
 import {LocaleService} from '../../services/locale.service';
 
-moment.updateLocale('fr', {
+moment.updateLocale('fr', <any>{
   durationLabelsStandard: {
     S: 'milliseconde',
     SS: 'millisecondes',

@@ -1,6 +1,6 @@
 {
   "general": {
-    "applications": "applications",
+    "connectors": "Connectors",
     "app_name": "e-Mobility",
     "last_update": "Version 2.0.13",
     "version": "Version",
@@ -877,7 +877,10 @@
       "create_error": "Error occurred while creating the Pricing settings",
       "update_success": "Pricing settings have been updated successfully",
       "update_error": "Error occurred while updating the Pricing settings",
+      "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables transaction costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
+      "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
+        "description": "E-Mobility provides Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables transaction costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). To enable this feature, please contact your E-Mobility representative. More technical information available at ",
         "title": "Convergent Charging",
         "chargeable_item_name": "Chargeable Item Name",
         "url": "Url",
@@ -885,6 +888,7 @@
         "password": "Password"
       },
       "simple": {
+        "description": "E-Mobility provides a simple way to compute the price of an EV session. This feature allows you to setup a fixed price per kW.h of your charging infrastructure. To enable this feature, please contact your E-Mobility representative.",
         "title": "Simple Pricing",
         "price": "Price",
         "currency": "Currency"

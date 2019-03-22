@@ -431,7 +431,6 @@ export interface Transaction {
   stateOfCharge: number;
   currentStateOfCharge: number;
   isLoading: boolean;
-  siteAreaID: string;
   siteID: string;
   user: User;
   tagID: string;

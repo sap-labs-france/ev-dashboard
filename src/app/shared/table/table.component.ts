@@ -204,6 +204,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Date is one way binding: update the value manually
       filterDef.currentValue = event.value;
     }
+    // Reset paginator
+    this.paginator.pageIndex = 0;
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
   }
@@ -221,7 +223,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    //Set Validate button title to 'Set Filter'
+    // Set Validate button title to 'Set Filter'
     dialogConfig.data = {
       validateButtonTitle : 'general.set_filter'
     };

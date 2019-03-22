@@ -8,13 +8,8 @@ import {TenantsDataSource} from './tenants-data-source-table';
     TenantsDataSource
   ]
 })
-export class TenantsComponent implements OnInit {
+export class TenantsComponent {
   constructor(
     public tenantsDataSource: TenantsDataSource) {
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

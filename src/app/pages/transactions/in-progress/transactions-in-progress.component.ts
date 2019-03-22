@@ -9,7 +9,7 @@ import {TransactionsInProgressDataSource} from './transactions-in-progress-data-
     TransactionsInProgressDataSource
   ]
 })
-export class TransactionsInProgressComponent implements OnInit {
+export class TransactionsInProgressComponent {
   public isAdmin;
 
   constructor(
@@ -17,10 +17,5 @@ export class TransactionsInProgressComponent implements OnInit {
     private authorizationService: AuthorizationService
   ) {
     this.isAdmin = this.authorizationService.isAdmin();
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

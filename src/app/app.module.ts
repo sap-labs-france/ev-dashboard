@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, enableProdMode, LOCALE_ID, NgModule} from '@angular/core';
+import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import {CommonModule, registerLocaleData} from '@angular/common';
@@ -16,7 +16,6 @@ import {MessageService} from './services/message.service';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
-import * as $ from 'jquery';
 import localeFr from '@angular/common/locales/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
@@ -73,7 +72,6 @@ import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ComponentService} from './services/component.service';
 
-enableProdMode();
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({

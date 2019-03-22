@@ -17,6 +17,7 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import localeFr from '@angular/common/locales/fr';
+import 'moment/locale/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import {

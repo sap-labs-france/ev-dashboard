@@ -354,6 +354,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           this.unregisterToDataChange();
         }
         break;
+      case 'reset_filters':
+        this.resetFilters();
+        this.loadData(true);
+        break;
     }
   }
 

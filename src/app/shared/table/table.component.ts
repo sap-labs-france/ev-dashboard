@@ -249,6 +249,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
     }
+    // Reset Filters ?
+    if (actionDef.id === 'reset_filters') {
+      // Reset paginator
+      this.paginator.pageIndex = 0;
+      // Reset all fields
+      this.filtersDef.forEach((filterDef: TableFilterDef) => {
+        switch (filterDef.type) {
+          case 'dropdown':
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            filterDef.reset();
+            break;
+        }
+      });
+    }
     // Get Actions def
     this.dataSource.actionTriggered(actionDef);
   }

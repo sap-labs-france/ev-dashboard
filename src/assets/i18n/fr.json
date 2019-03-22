@@ -18,7 +18,9 @@
     "ok": "Ok",
     "cancel": "Annuler",
     "actions": "Actions",
-    "add": "Ajouter",
+    "add": "Ajouter",    
+    "select": "Selectioner",
+    "set_filter": "Filtrer",
     "remove": "Retirer",
     "location": "Location",
     "address": "Adresse",
@@ -87,6 +89,7 @@
     "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous...",
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
+    "set_coordinates": "Définir les coordonnées",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -615,8 +618,8 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne",
-    "change_config_success": "La configuration de la borne '{{chargeBoxID}}' a été mise à jour avec succès",
-    "change_config_error": "Une erreur est survenue pendant le changement de la configuration de la borne",
+    "change_config_success": "La commande de lecture de la configuration de la borne '{{chargeBoxID}}' a été executée avec succès",
+    "change_config_error": "Une erreur est survenue pendant l'execution de la commande de lecture de la configuration de la borne",
     "change_params_success": "La commande pour changer les paramètres de la borne '{{chargeBoxID}}' a été evoyée avec succès",
     "change_params_error": "Une erreur est survenue pendant l'envoi de la commande de changement des paramètres",
     "delete_title": "Supprimer",
@@ -846,7 +849,7 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI",
-      "description": "The Open Charge Point Interface (OCPI) allows for a scalable, automated roaming setup between Charge Point Operators and e-Mobility Service Providers. It supports authorisation, charge point information exchange (incl transaction events), charge detail record exchange and finally, the exchange of smart-charging commands between parties."
+      "description": "E-Mobility fournit des APIs standards et certifiées permettant de se connecter à une plate-forme d'itinérance externe. Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité de la borne de recharge via le protocole standard OCPI (Open Charge Point Interface). E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
     "chargeathome": {
       "description": "L'application Remboursement permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
@@ -871,7 +874,7 @@
       "not_found": "La configuration Pricing n'est pas disponible",
       "create_success": "La configuration Pricing a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration Pricing",
-      "update_success": "Pricing settings have been updated successfully",
+      "update_success": "La configuration Pricing a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
         "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de transaction fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
@@ -888,11 +891,17 @@
         "currency": "Devise"
       }
     },
-    "sac": {
-      "description": "Étendez vos fonctionnalités d’analyse (Planification, Prediction, Intelligence économique) avec "
+    "sac": {      
+      "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
+      "setting_not_found": "La configuration SAP Analytics Cloud n'est pas disponible",
+      "create_success": "La configuration SAP Analytics Cloud a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
+      "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud",
+      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de transaction via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur "
     },
     "information": "Information",
-    "activation_contact_msg": "Please contact your administrator for enabling this feature."
+    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
   },
   "ocpiendpoints": {
     "name": "Nom",
@@ -914,18 +923,20 @@
     "status_inactive": "Inactive",
     "generateNewToken": "Générer nouveau jeton",
     "testConnection": "Tester la connexion",
-    "create_success": "L'eMSP '{{name}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du eMSP",
-    "update_error": "Une erreur est survenue pendant la mise à jour du eMSP",
-    "update_success": "L'eMSP '{{name}}' a été mis à jour avec succès",
-    "delete_confirm": "Voulez-vous vraiment supprimer l'eMSP '{{name}}' ?",
-    "delete_title": "Supprimer l'eMSP'",
-    "delete_success": "L'eMSP {{name}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du eMSP",
-    "register_confirm": "Voulez-vous vraiment lancer la procédure d'enregistrement avec l'eMSP '{{name}}'?",
-    "register_title": "Enregistrement de l'eMSP",
-    "register_success": "L'eMSP '{{name}}' a été enregistré avec succès",
-    "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'eMSP",
+    "create_success": "L'IOP '{{name}}' a été créé avec succès",
+    "create_error": "Une erreur est survenue pendant la création du IOP",
+    "update_error": "Une erreur est survenue pendant la mise à jour du IOP",
+    "update_success": "L'IOP '{{name}}' a été mis à jour avec succès",
+    "delete_confirm": "Voulez-vous vraiment supprimer l'IOP '{{name}}' ?",
+    "delete_title": "Supprimer l'IOP'",
+    "delete_success": "L'IOP {{name}}' a été supprimé avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du IOP",
+    "register_confirm": "Voulez-vous vraiment lancer la procédure d'enregistrement avec l'IOP '{{name}}'?",
+    "register_title": "Enregistrement de l'IOP",
+    "register_success": "L'IOP '{{name}}' a été enregistré avec succès",
+    "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP",
+    "sendEVSEStatuses_title": "Envoi des statuts des EVSEs",
+    "sendEVSEStatuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs au IOP '{{name}}'?",
     "success_ping": "Serveur accessible",
     "error_ping_401": "Serveur non accessible: Accès non autorisé",
     "error_ping_404": "Serveur non accessible: Ressource non trouvée",
@@ -934,11 +945,14 @@
     "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton",
     "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès",
     "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
-    "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails"
+    "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails",
+    "start_stop_job": "Activer/Désactiver le processus",
+    "background_job_activated": "Processus de mise à jour automatique activé avec succès",
+    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès"
   },
   "ocpi": {
     "title": "Itinérance",
-    "emsps": "Opérateurs de Services de Mobilité",
+    "emsps": "Plate-forme d'interopérabilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
     "cpo_details": "Identification du Point de Charge",

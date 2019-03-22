@@ -39,6 +39,7 @@ import {TableChargerRebootAction} from '../other-actions-button/table-charger-re
 import {TableOpenInMapsAction} from 'app/shared/table/actions/table-open-in-maps-action';
 import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 const POLL_INTERVAL = 15000;
 
@@ -59,6 +60,7 @@ const DEFAULT_BASIC_ROW_ACTIONS = [
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   isAdmin: boolean;
+  isOrganizationComponentActive: boolean;
 
   constructor(
     private localeService: LocaleService,
@@ -69,6 +71,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
@@ -76,6 +79,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -139,9 +143,10 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
+    console.log('get table column def');
     let tableColumns: TableColumnDef[] = [
       {
         id: 'id',
@@ -178,7 +183,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         angularComponentName: InstantPowerProgressBarComponent
       }
     ];
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+    if (this.isOrganizationComponentActive) {
       tableColumns = tableColumns.concat(
         [
           {
@@ -239,163 +244,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       )
     }
     return tableColumns;
-    if (this.isAdmin) {
-      return [
-        {
-          id: 'id',
-          name: 'chargers.name',
-          sortable: true,
-          sorted: true,
-          direction: 'asc'
-        },
-        {
-          id: 'inactive',
-          name: 'chargers.heartbeat_title',
-          headerClass: 'text-center',
-          isAngularComponent: true,
-          angularComponentName: HeartbeatCellComponent,
-          sortable: false
-        },
-        {
-          id: 'connectorsStatus',
-          name: 'chargers.connectors_title',
-          headerClass: 'text-center',
-          sortable: false,
-          isAngularComponent: true,
-          angularComponentName: ConnectorsCellComponent
-        },
-        {
-          id: 'connectorsConsumption',
-          name: 'chargers.consumption_title',
-          sortable: false,
-          isAngularComponent: true,
-          headerClass: 'text-center',
-          class: 'power-progress-bar',
-          angularComponentName: InstantPowerProgressBarComponent
-        },
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          sortable: true,
-          defaultValue: 'sites.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'sites.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
-            }
-          },
-          dynamicClass: (row: Charger) => {
-            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
-          }
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          sortable: true,
-          defaultValue: 'site_areas.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'site_areas.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
-            }
-          },
-          dynamicClass: (row: Charger) => {
-            return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
-          }
-        },
-        {
-          id: 'chargePointVendor',
-          name: 'chargers.vendor',
-          headerClass: 'd-none d-lg-table-cell',
-          class: 'd-none d-lg-table-cell',
-          sortable: true
-          /*          formatter: (value, row: Charger) => {
-                      return `${row.chargePointVendor} - ${row.chargePointModel}`;
-                    },*/
-        },
-        /*        {
-                  id: 'chargePointModel',
-                  name: 'chargers.model',
-                  headerClass: 'd-none d-xl-table-cell',
-                  class: 'd-none d-xl-table-cell',
-                  sortable: true
-                },*/
-        {
-          id: 'ocppVersion',
-          name: 'chargers.ocpp_version_title',
-          headerClass: 'd-none d-xl-table-cell text-center',
-          class: 'd-none d-xl-table-cell text-center',
-          sortable: false
-        }
-      ];
-    } else {
-      return [
-        {
-          id: 'id',
-          name: 'chargers.name',
-          sortable: true,
-          sorted: true,
-          direction: 'asc',
-        },
-        {
-          id: 'inactive',
-          name: 'chargers.heartbeat_title',
-          headerClass: 'text-center',
-          isAngularComponent: true,
-          angularComponentName: HeartbeatCellComponent,
-          sortable: false
-        },
-        {
-          id: 'connectorsStatus',
-          name: 'chargers.connectors_title',
-          headerClass: 'text-center',
-          sortable: false,
-          isAngularComponent: true,
-          angularComponentName: ConnectorsCellComponent
-        },
-        {
-          id: 'connectorsConsumption',
-          name: 'chargers.consumption_title',
-          sortable: false,
-          isAngularComponent: true,
-          angularComponentName: InstantPowerProgressBarComponent
-        },
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          sortable: true,
-          defaultValue: 'sites.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          class: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'sites.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
-            }
-          }
-        },
-        {
-          id: 'siteArea.name',
-          name: 'site_areas.title',
-          sortable: true,
-          defaultValue: 'site_areas.unassigned',
-          headerClass: 'd-none d-xl-table-cell',
-          class: 'd-none d-xl-table-cell',
-          formatter: (value) => {
-            if (value === 'site_areas.unassigned') {
-              return this.translateService.instant(value)
-            } else {
-              return value;
-            }
-          }
-        },
-      ];
-    }
   }
 
   public getPaginatorPageSizes() {
@@ -523,7 +371,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    if (this.centralServerService.isComponentActive(Constants.SETTINGS_ORGANIZATION)) {
+    if (this.isOrganizationComponentActive) {
       return [
         //      new ChargerTableFilter().getFilterDef(),
         new SitesTableFilter().getFilterDef()

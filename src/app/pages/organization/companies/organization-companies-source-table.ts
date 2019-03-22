@@ -90,7 +90,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'logo',

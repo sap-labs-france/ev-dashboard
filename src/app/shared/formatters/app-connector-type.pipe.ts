@@ -2,9 +2,9 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 export const CONNECTOR_TYPE_MAP =
   [
-    {key: 'T2', description: 'chargers.connector_type_type2', image: 'assets/img/connectors/type2.gif'},
-    {key: 'CCS', description: 'chargers.connector_type_combo', image: 'assets/img/connectors/combo_ccs.gif'},
-    {key: 'C', description: 'chargers.connector_type_chademo', image: 'assets/img/connectors/chademo.gif'}
+    {key: 'T2', description: 'chargers.connector_type_type2', svgIconName: 'T2', svgIconFile: 'assets/img/connectors/type2.svg'},
+    {key: 'CCS', description: 'chargers.connector_type_combo', svgIconName: 'CCS', svgIconFile: 'assets/img/connectors/combo_ccs.svg'},
+    {key: 'C', description: 'chargers.connector_type_chademo', svgIconName: 'C', svgIconFile: 'assets/img/connectors/chademo.svg'}
   ]
 
 /**
@@ -21,8 +21,7 @@ export class AppConnectorTypePipe implements PipeTransform {
     const foundConnectorType = CONNECTOR_TYPE_MAP.find(
       (connectorType) => connectorType.key === type);
     if (asIconUrl) {
-      return (foundConnectorType ? foundConnectorType.image :
-        'assets/img/connectors/no-connector.gif');
+      return (foundConnectorType ? foundConnectorType.svgIconName : 'not_interested');
     } else {
       return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_unknown');
     }

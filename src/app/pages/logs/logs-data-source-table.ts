@@ -113,7 +113,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -165,12 +165,13 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   getTableActionsDef(): TableActionDef[] {
-    if (this.authorizationService.isDemo()) {
+    if (!this.authorizationService.isDemo()) {
+      return [
+        new TableExportAction().getActionDef()
+      ];
+    } else {
       return [];
     }
-    return [
-      new TableExportAction().getActionDef()
-    ];
   }
 
   actionTriggered(actionDef: TableActionDef) {

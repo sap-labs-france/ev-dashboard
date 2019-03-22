@@ -32,7 +32,7 @@ export class UsersDataSource extends DialogTableDataSource<User> {
     });
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

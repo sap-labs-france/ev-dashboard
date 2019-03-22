@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from '../../../services/authorization-service';
-import { AbstractControl } from '@angular/forms';
-import { CentralServerService } from '../../../services/central-server.service';
-import { Constants } from '../../../utils/Constants';
+import {Component, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthorizationService} from '../../../services/authorization-service';
+import {AbstractControl} from '@angular/forms';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-ocpi',
@@ -21,9 +20,9 @@ export class SettingsOcpiComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
-    private centralServerService: CentralServerService
+    private componentService: ComponentService,
   ) {
-    this.isOcpiActive = centralServerService.isComponentActive(Constants.SETTINGS_OCPI);
+    this.isOcpiActive = componentService.isActive(ComponentEnum.OCPI);
   }
 
   ngOnInit(): void {

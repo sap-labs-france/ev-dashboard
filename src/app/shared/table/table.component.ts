@@ -253,7 +253,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (actionDef.id === 'reset_filters') {
       // Reset paginator
       this.paginator.pageIndex = 0;
-      // Reset all fields
+      // Reset all filter fields
       this.filtersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case 'dropdown':

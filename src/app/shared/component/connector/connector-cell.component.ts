@@ -51,7 +51,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
     this.isSimpleConnectorDisplay = false;
     this.baseClassConnectorTypeText =
       `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center
-            ${(this.largeDisplay ? 'charger-connector-container-image-large' : 'charger-connector-container-image-small')} 
+            ${(this.largeDisplay ? 'charger-connector-container-image-large' : 'charger-connector-container-image-small')}
             ${(this.isAdmin && this.row.type === null ? 'connector-not-typed-icon' : '')}`;
   }
 

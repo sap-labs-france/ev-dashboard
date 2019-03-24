@@ -18,7 +18,7 @@ export class AppBatteryPercentagePipe implements PipeTransform {
       formattedMessage += ` > ${this.percentPipe.transform(finalPercentage / 100, '1.0-0')}`;
       if (withEvolution) {
       /* Adding + sign in front of positive values */
-        let pct = ((finalPercentage - initialPercentage) > 0) ? "+" + this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0') : this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0');
+        const pct = ((finalPercentage - initialPercentage) > 0) ? '+' + this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0') : this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0');
         formattedMessage += ` (${pct})`;
       }
     }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization-service';
 import {UsersDataSource} from './users-data-source-table';
 import {UsersInErrorDataSource} from './users-in-error-data-source-table';
@@ -14,7 +14,7 @@ import {WindowService} from '../../services/window.service';
     UsersInErrorDataSource
   ]
 })
-export class UsersComponent extends AbstractTabComponent implements OnInit {
+export class UsersComponent extends AbstractTabComponent {
   public isAdmin;
 
   constructor(
@@ -26,10 +26,5 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
     super(activatedRoute, windowService, ['all', 'inerror']);
 
     this.isAdmin = this.authorizationService.isAdmin();
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

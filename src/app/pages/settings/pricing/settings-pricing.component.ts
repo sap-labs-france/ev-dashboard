@@ -121,8 +121,10 @@ export class SettingsPricingComponent implements OnInit {
           this.currency.setValue(config.simple.currency ? config.simple.currency : '');
         }
       }
+      if (this.formGroup) {
+        this.formGroup.markAsPristine();
+      }
 
-      if (this.formGroup) { this.formGroup.markAsPristine(); }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

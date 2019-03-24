@@ -421,6 +421,7 @@ export interface Transaction {
   timestamp: Date;
   chargeBox: Charger;
   chargeBoxID: string;
+  siteAreaID: string;
   connectorId: number;
   meterStart: number;
   currentConsumption: number;
@@ -430,7 +431,6 @@ export interface Transaction {
   stateOfCharge: number;
   currentStateOfCharge: number;
   isLoading: boolean;
-  siteAreaID: string;
   siteID: string;
   user: User;
   tagID: string;

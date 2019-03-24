@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsInErrorDataSource} from './transactions-in-error-data-source-table';
 
@@ -9,7 +9,7 @@ import {TransactionsInErrorDataSource} from './transactions-in-error-data-source
     TransactionsInErrorDataSource
   ]
 })
-export class TransactionsInErrorComponent implements OnInit {
+export class TransactionsInErrorComponent {
   public isAdmin;
 
   constructor(
@@ -18,10 +18,5 @@ export class TransactionsInErrorComponent implements OnInit {
   ) {
     this.isAdmin = this.authorizationService.isAdmin();
     this.transactionsInErrorDataSource.forAdmin(this.isAdmin);
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

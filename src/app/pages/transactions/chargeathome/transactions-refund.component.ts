@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsRefundDataSource} from './transactions-refund-data-source-table';
 
@@ -9,7 +9,7 @@ import {TransactionsRefundDataSource} from './transactions-refund-data-source-ta
     TransactionsRefundDataSource
   ]
 })
-export class TransactionsRefundComponent implements OnInit {
+export class TransactionsRefundComponent {
   public isAdmin;
 
   constructor(
@@ -18,10 +18,5 @@ export class TransactionsRefundComponent implements OnInit {
   ) {
     this.isAdmin = this.authorizationService.isAdmin();
     this.transactionsRefundDataSource.forAdmin(this.isAdmin);
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

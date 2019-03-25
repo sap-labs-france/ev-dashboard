@@ -54,6 +54,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private filtersDef: TableFilterDef[] = [];
   private actionsLeftDef: TableActionDef[] = [];
   private actionsRightDef: TableActionDef[] = [];
+  private actionsFiltersDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
 
@@ -82,6 +83,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.actionsLeftDef = this.dataSource.getTableActionsDef();
     // Get Actions Right def
     this.actionsRightDef = this.dataSource.getTableActionsRightDef();
+    // Get Actions Filters Def
+    this.actionsFiltersDef = this.dataSource.getTableActionsFiltersDef();
     // Get Selection Model
     this.selection = this.dataSource.getSelectionModel();
     // Get column defs
@@ -245,6 +248,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
+    }
+    // Reset Filters ?
+    if (actionDef.id === 'reset_filters') {
+      // Reset paginator
+      this.paginator.pageIndex = 0;
+      // Reset all filter fields
+      this.filtersDef.forEach((filterDef: TableFilterDef) => {
+        switch (filterDef.type) {
+          case 'dropdown':
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            filterDef.reset();
+            break;
+        }
+      });
     }
     // Get Actions def
     this.dataSource.actionTriggered(actionDef);

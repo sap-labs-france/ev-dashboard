@@ -645,6 +645,7 @@
     "unlock_connector_confirm": "Voulez-vous vraiment dévérouiller le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}'?",
     "unlock_connector_success": "Le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}' a été dévérouillé avec succès",
     "unlock_connector_error": "Une erreur est survenue lors du dévérouillage du connecteur",
+    "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",

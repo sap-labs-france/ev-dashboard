@@ -645,6 +645,7 @@
     "unlock_connector_confirm": "Do you really want to unlock the connector '{{connectorId}}' of the charging station '{{chargeBoxID}}'?",
     "unlock_connector_success": "The connector '{{connectorId}}' of the charging station '{{chargeBoxID}}' has been unlocked successfully",
     "unlock_connector_error": "Error occurred while unlocking the connector",
+    "connector_type_unknown": "Not set",
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",

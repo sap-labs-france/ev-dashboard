@@ -22,6 +22,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   isAdmin = false;
   typeSvgIcon: string;
   typeTooltip: string;
+  tooltipTypeOffest: any;
 
   constructor(private _authorizationService: AuthorizationService,
     private _appConnectorTypePipe: AppConnectorTypePipe) {
@@ -35,6 +36,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
       `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center ${(this.largeDisplay ? 
         'charger-connector-container-image-large' : 'charger-connector-container-image-small')} ${(this.isAdmin && this.row.type === null ? 'connector-not-typed-icon' : '')}`;
     // console.log(`OnInit ${this.row.connectorId}`);
+    this.tooltipTypeOffest = (this.largeDisplay ? '0px, 8px' : '-15px, 8px')
     this.updateValues();
   }
 

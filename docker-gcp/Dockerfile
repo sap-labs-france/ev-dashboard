@@ -1,5 +1,7 @@
 FROM node:lts-alpine as builder
 
+ARG build
+
 WORKDIR /usr/builder
 
 COPY package.json ./package.json 

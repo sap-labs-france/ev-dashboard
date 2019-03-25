@@ -355,7 +355,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
         break;
       case 'reset_filters':
-        this.setSearchInput(null);
+        this.searchInput.nativeElement.value = '';
         this.resetFilters();
         this.loadData(true);
         break;

@@ -19,6 +19,23 @@
           </button>
         </ng-container>
         <!-- </div> -->
+        <!-- Create Filter Actions -->
+        <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
+        <ng-container *ngFor="let actionFiltersDef of actionsFiltersDef; let i=index">
+          <!-- Action Button -->
+          <ng-container *ngIf="actionFiltersDef.id === 'reset_filters'">          
+            <button (click)="actionTriggered(actionFiltersDef)"
+                    *ngIf="actionFiltersDef.type === 'button'"
+                    [class]="(actionFiltersDef.class ? actionFiltersDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
+                    [matTooltip]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
+              <span class="mat-button-wrapper">
+                <i *ngIf="actionFiltersDef.icon" class="material-icons mr-2">{{actionFiltersDef.icon}}</i>
+                <span class="btn-label">{{actionFiltersDef.name | translate}}</span>
+              </span>
+            </button>
+          </ng-container>
+        </ng-container>
+        <!-- </div> -->     
         <span *ngIf="actionsLeftDef.length > 0" class="toolbar-spacer"></span>
         <ng-container *ngIf="actionsLeftDef.length === 0">
           <!-- Filters Row as there is no left actions -->
@@ -135,7 +152,6 @@
         </div>
       </div>
 
-
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " 
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
@@ -180,31 +196,8 @@
           </mat-form-field>
         </div>
         <!-- </div> -->
-      </div>
-      
-      <!-- Filters Actions -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled())" class="d-flex flex-row mat-toolbar-row bottom-row">
-        <!-- Create Filter Actions -->
-        <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
-        <ng-container *ngFor="let actionFiltersDef of actionsFiltersDef; let i=index">
-          <!-- Action Button -->
-          <ng-container *ngIf="actionFiltersDef.id === 'reset_filters'">          
-            <button (click)="actionTriggered(actionFiltersDef)"
-                    *ngIf="actionFiltersDef.type === 'button'"
-                    [class]="(actionFiltersDef.class ? actionFiltersDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                    [matTooltip]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
-                <span class="mat-button-wrapper">
-                  <i *ngIf="actionFiltersDef.icon" class="material-icons mr-2">{{actionFiltersDef.icon}}</i>
-                  <span class="btn-label">{{actionFiltersDef.name | translate}}</span>
-                </span>
-            </button>
-          </ng-container>
-        </ng-container>
-        <!-- </div> -->
       </div>      
     </div>
-
-
   </ng-container>
   <!-- Table -->
   <div [class]="(tableDef.class ? tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">

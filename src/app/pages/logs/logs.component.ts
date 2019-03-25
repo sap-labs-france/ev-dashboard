@@ -8,13 +8,8 @@ import {LogsDataSource} from './logs-data-source-table';
     LogsDataSource
   ]
 })
-export class LogsComponent implements OnInit {
+export class LogsComponent {
   constructor(
     public logsDataSource: LogsDataSource) {
-  }
-
-  ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
 }

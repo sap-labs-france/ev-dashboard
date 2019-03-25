@@ -1,4 +1,4 @@
-<div class="card">
+<div *ngIf="!isActive" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
       <i class="material-icons">info</i>
@@ -7,59 +7,80 @@
   </div>
   <div class="card-body">
     <h4 align="justify">
-      {{'settings.pricing.description' | translate}}
+      {{'settings.pricing.full_description_part_1' | translate}}  <a
+      href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a>.
+    </h4>
+    <h4 align="justify">
+      {{'settings.pricing.full_description_part_2' | translate}}
     </h4>
   </div>
 </div>
-<form *ngIf="isActive && pricingType==='pricing_simple'" class="form" [formGroup]="formGroup">
-  <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-      <div class="card-icon">
-        <i class="material-icons">business</i>
-      </div>
-      <h3 class="card-title">{{'settings.pricing.simple.title' | translate}}</h3>
-    </div>
-
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="price"
-                   placeholder="{{'settings.pricing.simple.price' | translate}}"
-                   required>
-            <mat-error *ngIf="price.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-            <mat-error *ngIf="price.hasError('pattern')">{{"general.error_not_a_number" | translate}}</mat-error>
-            <mat-error *ngIf="price.hasError('maxlength')">
-              <div [translate]="'general.error_max_length'" [translateParams]="{length: 10}"></div>
-            </mat-error>
-          </mat-form-field>
+<div *ngIf="isActive && pricingType==='pricing_simple'">
+  <form class="form" [formGroup]="formGroup">
+    <div class="card">
+      <div class="card-header card-header-icon card-header-primary">
+        <div class="card-icon">
+          <i class="material-icons">business</i>
         </div>
-        <div class="col-md-6">
-          <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="currency"
-                   placeholder="{{'settings.pricing.simple.currency' | translate}}"
-                   required>
-            <mat-error *ngIf="currency.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-            <mat-error *ngIf="currency.hasError('maxlength')">
-              <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
-            </mat-error>
-          </mat-form-field>
+        <h3 class="card-title">{{'settings.pricing.simple.title' | translate}}</h3>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input appSetAutoFocus matInput type="text" [formControl]="price"
+                     placeholder="{{'settings.pricing.simple.price' | translate}}"
+                     required>
+              <mat-error *ngIf="price.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="price.hasError('pattern')">{{"general.error_not_a_number" | translate}}</mat-error>
+              <mat-error *ngIf="price.hasError('maxlength')">
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 10}"></div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input appSetAutoFocus matInput type="text" [formControl]="currency"
+                     placeholder="{{'settings.pricing.simple.currency' | translate}}"
+                     required>
+              <mat-error *ngIf="currency.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="currency.hasError('maxlength')">
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card-footer text-center">
-      <span class="toolbar-spacer"></span>
-      <button class="btn btn-danger mat-raised-button btn-theme pull-right" (click)="save(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
+      <div class="card-footer text-center">
+        <span class="toolbar-spacer"></span>
+        <button class="btn btn-danger mat-raised-button btn-theme pull-right" (click)="save(formGroup.value)"
+                [disabled]="!formGroup.valid || !formGroup.dirty">
     <span class="mat-button-wrapper">
     <i class="material-icons mr-2">save</i>
     <span class="btn-label">{{'general.save' | translate}}</span>
     </span>
-      </button>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="card">
+    <div class="card-header card-header-icon card-header-primary">
+      <div class="card-icon">
+        <i class="material-icons">info</i>
+      </div>
+      <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    </div>
+    <div class="card-body">
+      <h4 align="justify">
+        {{'settings.pricing.convergentcharging.description' | translate}}  <a
+        href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a>.
+      </h4>
     </div>
   </div>
-</form>
+</div>
 
 <form *ngIf="isActive && pricingType==='pricing_convergentCharging'" class="form" [formGroup]="formGroup">
   <div class="card">

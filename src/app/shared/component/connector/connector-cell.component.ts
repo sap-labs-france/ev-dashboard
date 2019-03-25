@@ -21,8 +21,8 @@ import {AuthorizationService} from 'app/services/authorization-service';
              [matTooltip]="row.type | appConnectorType:false | translate"
              [appChargerStatus]="{status: chargerStatus, target: 'background-image',
               baseClass: baseClassConnectorTypeText}">
-              <mat-icon *ngIf="row.type !== null" [svgIcon]="row.type | appConnectorType" class="d-flex"></mat-icon>
-              <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
+          <mat-icon *ngIf="row.type !== null" [svgIcon]="row.type | appConnectorType" class="d-flex"></mat-icon>
+          <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
         </div>
       </div>
     </div>
@@ -50,8 +50,8 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
     this.updateValues();
     this.isSimpleConnectorDisplay = false;
     this.baseClassConnectorTypeText =
-          `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center
-            ${(this.largeDisplay ? 'charger-connector-container-image-large' : 'charger-connector-container-image-small')} 
+      `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center
+            ${(this.largeDisplay ? 'charger-connector-container-image-large' : 'charger-connector-container-image-small')}
             ${(this.isAdmin && this.row.type === null ? 'connector-not-typed-icon' : '')}`;
   }
 

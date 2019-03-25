@@ -205,7 +205,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getPaginatorPageSizes() {
-    return [25, 50, 100, 250, 500];
+    return [50, 100, 250, 500];
   }
 
   public getPaging(): Paging {

@@ -138,8 +138,6 @@ export class SiteComponent implements OnInit {
         // this.loadSite();
       });
     }
-    // Scroll up
-    jQuery('html, body').animate({ scrollTop: 0 }, { duration: 500 });
 
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

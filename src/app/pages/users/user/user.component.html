@@ -123,6 +123,17 @@
                   </mat-form-field>
                 </div>
               </div>
+              <div *ngIf="isAdmin" class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="plateID" matInput
+                           placeholder="{{'users.plate_id' | translate}}" type="text">
+                    <mat-error *ngIf="plateID.hasError('pattern')">
+                      {{"users.invalid_plate_id" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
             <div class="card-avatar">
               <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">

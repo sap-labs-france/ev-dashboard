@@ -28,6 +28,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
+import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
@@ -49,9 +50,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableRegisterAction().getActionDef(),
-      // new TableSendAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
-      new EndpointMoreAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
     ];
   }
 
@@ -90,6 +89,11 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       },
       design: {
         flat: true
+      },
+      rowDetails: {
+        enabled: true,
+        isDetailComponent: true,
+        detailComponentName: OcpiendpointDetailComponent
       }
     };
   }
@@ -143,29 +147,29 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         class: 'col-25p',
         sortable: false
       },
-      {
-        id: 'patchJobStatus',
-        name: 'ocpiendpoints.patchJobStatus',
-        isAngularComponent: true,
-        angularComponentName: OcpiendpointPatchJobStatusComponent,
-        headerClass: 'col-25p',
-        class: 'col-25p',
-        sortable: false
-      },
-      {
-        id: 'lastPatchJobOn',
-        type: 'date',
-        formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
-        name: 'ocpiendpoints.lastPatchJobOn',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        direction: 'desc',
-        sortable: true
-      },
+      // {
+      //   id: 'patchJobStatus',
+      //   name: 'ocpiendpoints.patchJobStatus',
+      //   isAngularComponent: true,
+      //   angularComponentName: OcpiendpointPatchJobStatusComponent,
+      //   headerClass: 'col-25p',
+      //   class: 'col-25p',
+      //   sortable: false
+      // },
+      // {
+      //   id: 'lastPatchJobOn',
+      //   type: 'date',
+      //   formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
+      //   name: 'ocpiendpoints.lastPatchJobOn',
+      //   headerClass: 'col-15p',
+      //   class: 'text-left col-15p',
+      //   sorted: true,
+      //   direction: 'desc',
+      //   sortable: true
+      // },
       {
         id: 'patchJobResult',
-        name: 'ocpiendpoints.patchJobResult',
+        name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
         angularComponentName: OcpiendpointPatchJobResultComponent,
         headerClass: 'col-5p',

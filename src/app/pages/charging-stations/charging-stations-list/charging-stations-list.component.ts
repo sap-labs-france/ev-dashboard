@@ -15,12 +15,4 @@ export class ChargingStationsListComponent {
     public chargingStationsListDataSource: ChargingStationsListDataSource
   ) {
   }
-<<<<<<< HEAD
-
-  ngOnInit() {
-    // Scroll up
-    // jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
-  }
-=======
->>>>>>> d67b7d67790d98d39c7d5ba278147fd72e4ca189
 }

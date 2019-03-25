@@ -3,6 +3,7 @@ import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 
@@ -20,6 +21,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableColumnDef: TableColumnDef[];
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
+  private actionsFiltersDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
@@ -275,6 +277,18 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [];
   }
 
+  public getTableActionsFiltersDef(): TableActionDef[] {
+    // Return default
+    // If there is a filter then the reset filter action is present
+    if (this.hasFilters) {
+      return [
+        new TableResetFiltersAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
+  }
+
   public getTableRowActions(item?: T): TableActionDef[] {
     // Return default
     return [];
@@ -339,6 +353,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           // Disable
           this.unregisterToDataChange();
         }
+        break;
+      case 'reset_filters':
+        this.searchInput.nativeElement.value = '';
+        this.resetFilters();
+        this.loadData(true);
         break;
     }
   }

@@ -247,8 +247,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   specificRowActions(rowItem: Connector): TableActionDef[] {
-    let actionAuthorize = [];
-    if (rowItem && rowItem.activeTransactionID) { 
+    const actionAuthorize = [];
+    if (rowItem && rowItem.activeTransactionID) {
       if (rowItem.isTransactionDisplayAuthorized) {
         actionAuthorize.push(new TableOpenAction().getActionDef());
       }

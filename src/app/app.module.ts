@@ -18,6 +18,7 @@ import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 
 import localeFr from '@angular/common/locales/fr';
+import 'moment/locale/fr';
 import 'hammerjs';
 import 'chartjs-plugin-zoom';
 import {
@@ -51,7 +52,7 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
+  // MatTooltipModule,
 } from '@angular/material';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -113,7 +114,7 @@ registerLocaleData(localeFr, 'fr');
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    // MatTooltipModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr'}],
 })

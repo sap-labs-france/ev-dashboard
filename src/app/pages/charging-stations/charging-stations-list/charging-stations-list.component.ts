@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ChargingStationsListDataSource} from './charging-stations-list-data-source-table';
 
 @Component({
@@ -10,14 +10,17 @@ import {ChargingStationsListDataSource} from './charging-stations-list-data-sour
     ChargingStationsListDataSource
   ]
 })
-export class ChargingStationsListComponent implements OnInit {
+export class ChargingStationsListComponent {
   constructor(
     public chargingStationsListDataSource: ChargingStationsListDataSource
   ) {
   }
+<<<<<<< HEAD
 
   ngOnInit() {
     // Scroll up
     // jQuery('html, body').animate({scrollTop: 0}, {duration: 500});
   }
+=======
+>>>>>>> d67b7d67790d98d39c7d5ba278147fd72e4ca189
 }

@@ -16,6 +16,7 @@ import {MessageService} from './services/message.service';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
+
 import localeFr from '@angular/common/locales/fr';
 import 'moment/locale/fr';
 import 'hammerjs';
@@ -51,7 +52,7 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
+  // MatTooltipModule,
 } from '@angular/material';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -72,7 +73,11 @@ import {AgmCoreModule} from '@agm/core';
 import {DashboardService} from './services/dashboard.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ComponentService} from './services/component.service';
+// import {TooltipDirective} from './shared/directives/tooltip.directive';
 
+import * as $ from 'jquery';
+import 'popper.js';
+import 'bootstrap';
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -109,7 +114,7 @@ registerLocaleData(localeFr, 'fr');
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    // MatTooltipModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr'}],
 })
@@ -169,7 +174,8 @@ export function localeFactory(
     AdminLayoutComponent,
     AuthLayoutComponent,
     NotFoundComponent,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
+    // TooltipDirective,
   ],
   exports: [
     TranslateModule

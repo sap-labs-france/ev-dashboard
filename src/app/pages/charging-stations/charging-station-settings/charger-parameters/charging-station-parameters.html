@@ -6,8 +6,10 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <mat-form-field>
+                            <span appTooltip data-toggle="tooltip" [title]="chargingStationURLTooltip | translate">
                             <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
-                                [formControl]="chargingStationURL" required [readOnly]="!isAdmin" [matTooltip]="chargingStationURLTooltip | translate"/>
+                                [formControl]="chargingStationURL" required [readOnly]="!isAdmin" />
+                            </span>
                         </mat-form-field>
                         <mat-error *ngIf="chargingStationURL.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
                     </div>

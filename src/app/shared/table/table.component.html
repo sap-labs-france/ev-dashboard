@@ -11,7 +11,7 @@
           <button (click)="actionTriggered(actionDef)"
                   *ngIf="actionDef.type === 'button'"
                   [class]="(actionDef.class ? actionDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                  [matTooltip]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+                  appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
               <span class="mat-button-wrapper">
                 <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
                 <span class="btn-label">{{actionDef.name | translate}}</span>
@@ -45,7 +45,7 @@
             <button (click)="actionTriggered(actionRightDef)"
                     *ngIf="actionRightDef.id === 'refresh'"
                     [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                    [matTooltip]="actionRightDef.tooltip | translate">
+                    appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
                 </div>
@@ -62,7 +62,7 @@
                   (click)="actionTriggered(actionRightDef)"
                   *ngIf="actionRightDef.type === 'button'"
                   [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                  [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                  appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <span *ngIf="actionRightDef.name" class="mat-button-wrapper">
                   <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
                   <span class="btn-label">{{actionRightDef.name| translate}}</span>
@@ -76,7 +76,7 @@
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
                                 [checked]="actionRightDef.currentValue"
-                                [matTooltip]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                                appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <!-- <div class="refresh-box">
                   <div *ngIf="ongoingAutoRefresh " class="spinner-autorefresh2" id="spinnerRefresh">
                     <div class="loader">
@@ -255,7 +255,7 @@
                       <button (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)"
                               [class]="(dropdownItem.class ? dropdownItem.class : '') + ' mat-menu-item'"
                               [disabled]="dropdownItem.disabled"
-                              [matTooltip]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)" mat-menu-item>
+                              appTooltip data-placement="bottom" data-toggle="tooltip" [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)" mat-menu-item>
                         <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                         <span>
                           {{dropdownItem.name | translate}}
@@ -267,15 +267,19 @@
                 <button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
                         [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
                         [matMenuTriggerFor]="rowActionMenu"
-                        [matTooltip]="rowAction.tooltip | translate">
+                        appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="rowAction.tooltip | translate">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
                 </button>
               </ng-container>
               <ng-container *ngIf="!rowAction.isDropdownMenu">
-                <button (click)="rowActionTriggered(rowAction, actionCell['data'])"
+                <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip" [title]="rowAction.tooltip | translate">
+                <button  
+                        (click)="rowActionTriggered(rowAction, actionCell['data'])"
                         [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
-                        [disabled]="rowAction.disabled" [matTooltip]="rowAction.tooltip | translate"><i
+                        [disabled]="rowAction.disabled" 
+                        ><i
                     class="material-icons">{{rowAction.icon}}</i></button>
+                </div>
               </ng-container>
             </ng-container>
           </ng-container>

@@ -23,7 +23,7 @@ export class AppConnectorTypePipe implements PipeTransform {
     if (asIconUrl) {
       return (foundConnectorType ? foundConnectorType.svgIconName : 'not_interested');
     } else {
-      return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_unknown');
+      return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_type_unknown');
     }
   }
 }

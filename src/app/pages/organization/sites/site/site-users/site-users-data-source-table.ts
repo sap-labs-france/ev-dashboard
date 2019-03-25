@@ -130,6 +130,11 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           });
         }
         break;
+        case 'reset_filters':
+          this.searchInput.nativeElement.value = '';
+          this.resetFilters();
+          this.loadData();
+          break;
     }
   }
 

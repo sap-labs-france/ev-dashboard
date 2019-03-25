@@ -13,7 +13,7 @@ import {takeWhile} from 'rxjs/operators';
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
   private dataSubject = new BehaviorSubject<any[]>([]);
-  private searchInput: ElementRef;
+  protected searchInput: ElementRef;
   private paginator: MatPaginator;
   private sort: MatSort;
   private numberOfRecords = 0;

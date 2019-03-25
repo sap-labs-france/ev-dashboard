@@ -311,13 +311,14 @@
                 </button>
               </ng-container>
               <ng-container *ngIf="!rowAction.isDropdownMenu">
-                <span appTooltip="" data-toogle="tooltip" [title]="rowAction.tooltip | translate">
-                <button (click)="rowActionTriggered(rowAction, actionCell['data'])"
+                <div class="d-inline-block" appTooltip="" data-toogle="tooltip" [title]="rowAction.tooltip | translate">
+                <button  
+                        (click)="rowActionTriggered(rowAction, actionCell['data'])"
                         [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
                         [disabled]="rowAction.disabled" 
                         ><i
                     class="material-icons">{{rowAction.icon}}</i></button>
-                  </span>
+                </div>
               </ng-container>
             </ng-container>
           </ng-container>

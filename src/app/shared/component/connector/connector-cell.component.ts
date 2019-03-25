@@ -6,28 +6,7 @@ import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.p
 @Component({
   selector: 'app-connector-id-cell',
   styleUrls: ['./connector-cell.scss'],
-  template: `
-    <div class="d-flex justify-content-center">
-      <div class="row mx-0 px-0 align-items-center"
-           [class.simple-connector]="isSimpleConnectorDisplay" [class.detail-connector]="!isSimpleConnectorDisplay">
-        <div class="charger-connector-container">
-          <div [appChargerStatus]="{status: chargerStatus, target: 'background', baseClass: 'charger-connector-background'}">
-          </div>
-          <div appTooltip="" data-toogle="tooltip" [title]="row.status"
-               [appChargerStatus]="{status: chargerStatus, target: 'text', baseClass: 'charger-connector-text'}">
-            {{row.connectorId | appConnectorId}}
-          </div>
-        </div>
-        <div *ngIf="!isSimpleConnectorDisplay && (row.type || row.type === null)"
-        appTooltip="" data-toogle="tooltip" [title]="typeTooltip | translate"
-             [appChargerStatus]="{status: chargerStatus, target: 'background-image',
-              baseClass: baseClassConnectorTypeText}">
-              <mat-icon *ngIf="row.type !== null" [svgIcon]="typeSvgIcon" class="d-flex"></mat-icon>
-              <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './connector-cell.component.html'
 })
 
 @Injectable()

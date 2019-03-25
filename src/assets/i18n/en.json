@@ -422,7 +422,7 @@
     "verify_email_email_not_valid": "This Email does not exist anymore",
     "verify_email_error": "Error occurred while activating your account",
     "verify_email_resend_button": "Send",
-    "verify_email_resend_confirm": "Do you want to request the activation link email again?",
+    "verify_email_resend_confirm": "Your account is not active! Do you want to request the activation link email again?",
     "verify_email_resend_success": "Your account's activation link has been sent with success",
     "verify_email_resend_error": "Error occurred while sending your account's activation link",
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",

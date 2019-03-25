@@ -27,7 +27,7 @@
             <button (click)="actionTriggered(actionFiltersDef)"
                     *ngIf="actionFiltersDef.type === 'button'"
                     [class]="(actionFiltersDef.class ? actionFiltersDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                    [matTooltip]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
+                    appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
               <span class="mat-button-wrapper">
                 <i *ngIf="actionFiltersDef.icon" class="material-icons mr-2">{{actionFiltersDef.icon}}</i>
                 <span class="btn-label">{{actionFiltersDef.name | translate}}</span>

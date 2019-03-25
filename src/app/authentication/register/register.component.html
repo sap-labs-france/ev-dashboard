@@ -21,8 +21,7 @@
                       </span>
                       <mat-form-field>
                         <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
-                               [formControl]="name"
-                               required>
+                               [formControl]="name" required>
                         <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
@@ -39,7 +38,7 @@
                       </span>
                       <mat-form-field>
                         <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
-                               [formControl]="email" required>
+                               [formControl]="email" autocomplete="username" required>
                         <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
                         <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
@@ -49,7 +48,7 @@
                         <i class="material-icons">lock_outline</i>
                       </span>
                       <mat-form-field>
-                        <input id="password-field" matInput type="password"
+                        <input id="password-field" matInput type="password" autocomplete="new-password"
                                placeholder="{{'authentication.password' | translate}}"
                                [type]="hidePassword ? 'password' : 'text'"
                                [formControl]="password" required>
@@ -63,7 +62,7 @@
                     </div>
                     <div class="input-group-prepend input-group-no-icon">
                       <mat-form-field>
-                        <input id="password-repeat-field" matInput type="password"
+                        <input id="password-repeat-field" matInput type="password" autocomplete="new-password"
                                placeholder="{{'authentication.repeat_password' | translate}}"
                                [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
                                [errorStateMatcher]="parentErrorStateMatcher" required>

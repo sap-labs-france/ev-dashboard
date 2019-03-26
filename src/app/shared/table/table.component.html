@@ -137,7 +137,7 @@
 
 
       <!-- Filters Row -->
-      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) " 
+      <div *ngIf="(dataSource.hasFilters() || dataSource.isSearchEnabled()) && (!dataSource.hasActions() || actionsLeftDef.length > 0) "
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <!-- <div class="filter-row w-100 d-md-flex flex-md-row flex-sm-column mr-auto"> -->
@@ -165,10 +165,10 @@
 
           <!-- Date Filter -->
           <mat-form-field *ngIf="filterDef.type === 'date'">
-            <input matInput [placeholder]="filterDef.name | translate" (dateChange)="filterChanged(filterDef, $event)"
+            <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1"></mat-datetimepicker>
+            <mat-datetimepicker-toggle  [for]="picker" matSuffix></mat-datetimepicker-toggle>
+            <input matInput [placeholder]="filterDef.name | translate" (dateChange)="dateFilterChanged(filterDef, $event)"
                    [matDatetimepicker]="picker" [value]="filterDef.currentValue" required autocomplete="false">
-            <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-            <mat-datetimepicker #picker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
           </mat-form-field>
         </div>
         <!-- Search -->
@@ -180,7 +180,7 @@
           </mat-form-field>
         </div>
         <!-- </div> -->
-      </div>      
+      </div>
     </div>
 
 
@@ -312,10 +312,10 @@
               </ng-container>
               <ng-container *ngIf="!rowAction.isDropdownMenu">
                 <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip" [title]="rowAction.tooltip | translate">
-                <button  
+                <button
                         (click)="rowActionTriggered(rowAction, actionCell['data'])"
                         [class]="(rowAction.class ? rowAction.class : '') + ' btn-group btn btn-link btn-info btn-just-icon'"
-                        [disabled]="rowAction.disabled" 
+                        [disabled]="rowAction.disabled"
                         ><i
                     class="material-icons">{{rowAction.icon}}</i></button>
                 </div>

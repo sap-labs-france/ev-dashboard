@@ -486,8 +486,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.filtersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
-          if (filterDef.currentValue instanceof Date) {
-            // Set it
+          if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {

@@ -1,5 +1,5 @@
 import {TableDataSource} from '../table/table-data-source';
-import {TableDef} from '../../common.types';
+import {TableDef, TableActionDef} from '../../common.types';
 
 export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
   constructor() {
@@ -17,6 +17,10 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
         enabled: true
       }
     };
+  }
+
+  public getTableActionsDef(): TableActionDef[] {
+    return [];
   }
 
   public getPaginatorPageSizes() {

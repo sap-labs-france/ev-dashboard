@@ -114,13 +114,14 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableAddAction().getActionDef(),
         new TableRemoveAction().getActionDef()
-      ];
+      ].concat(tableActionsDef);
     } else {
-      return [];
+      return tableActionsDef;
     }
   }
 

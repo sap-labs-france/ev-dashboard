@@ -205,7 +205,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   getTableActionsDef(): TableActionDef[] {
-    return [new TableRefundAction().getActionDef()]
+    const tableActionsDef = super.getTableActionsDef();
+    return [
+      new TableRefundAction().getActionDef()
+    ].concat(tableActionsDef);
   }
 
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {

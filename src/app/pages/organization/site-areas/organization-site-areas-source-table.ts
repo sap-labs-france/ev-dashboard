@@ -120,12 +120,13 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef()
-      ];
+      ].concat(tableActionsDef);
     } else {
-      return [];
+      return tableActionsDef;
     }
   }
 

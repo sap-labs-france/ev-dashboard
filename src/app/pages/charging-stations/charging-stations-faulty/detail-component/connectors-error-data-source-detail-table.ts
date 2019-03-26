@@ -133,7 +133,8 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [];
+    const tableActionsDef = super.getTableActionsDef();
+    return tableActionsDef;
   }
 
   public getTableActionsRightDef(): TableActionDef[] {

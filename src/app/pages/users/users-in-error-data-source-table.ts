@@ -158,7 +158,8 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [];
+    const tableActionsDef = super.getTableActionsDef();
+    return tableActionsDef;
   }
 
   public getTableRowActions(): TableActionDef[] {

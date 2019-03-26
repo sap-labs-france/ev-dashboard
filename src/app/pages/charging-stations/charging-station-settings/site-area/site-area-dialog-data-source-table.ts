@@ -124,9 +124,10 @@ export class SiteAreaDataSource extends TableDataSource<SiteArea> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
       new TableAssignAction().getActionDef()
-    ];
+    ].concat(tableActionsDef);
   }
 
   public actionTriggered(actionDef: TableActionDef) {

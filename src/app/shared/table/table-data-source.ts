@@ -159,6 +159,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.searchInput = searchInput;
   }
 
+  public setSearchValue(searchValue: String) {
+    this.searchInput.nativeElement.value = searchValue;
+  }
+
   public getSearchValue(): string {
     // Check
     if (this.searchInput) {
@@ -355,7 +359,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         }
         break;
       case 'reset_filters':
-        this.searchInput.nativeElement.value = '';
+        this.setSearchValue('');
         this.resetFilters();
         this.loadData(true);
         break;

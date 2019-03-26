@@ -36,7 +36,6 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
-  MatNativeDateModule,
   MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
@@ -52,7 +51,6 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  // MatTooltipModule,
 } from '@angular/material';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -71,13 +69,12 @@ import {TenantGuard} from './guard/tenant.guard';
 import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
 import {DashboardService} from './services/dashboard.service';
-import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {DatetimeAdapter, MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {ComponentService} from './services/component.service';
-// import {TooltipDirective} from './shared/directives/tooltip.directive';
-
-import * as $ from 'jquery';
 import 'popper.js';
 import 'bootstrap';
+import {MatMomentDatetimeModule, MomentDatetimeAdapter} from '@mat-datetimepicker/moment';
+// import {TooltipDirective} from './shared/directives/tooltip.directive';
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -90,7 +87,7 @@ registerLocaleData(localeFr, 'fr');
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDatetimeModule,
+    MatMomentDatetimeModule,
     MatDatetimepickerModule,
     MatDialogModule,
     MatExpansionModule,
@@ -99,7 +96,6 @@ registerLocaleData(localeFr, 'fr');
     MatInputModule,
     MatListModule,
     MatMenuModule,
-    MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -116,7 +112,10 @@ registerLocaleData(localeFr, 'fr');
     MatToolbarModule,
     // MatTooltipModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'fr'}],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'fr'},
+    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter}
+  ],
 })
 export class MaterialModule {
 }
@@ -153,7 +152,6 @@ export function localeFactory(
     FormsModule,
     AppRouting,
     MaterialModule,
-    MatNativeDateModule,
     SidebarModule,
     NavbarModule,
     FooterModule,
@@ -198,6 +196,7 @@ export function localeFactory(
     DashboardService,
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
+    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
     // {provide: RouteReuseStrategy, useClass: CustomRouteStrategy}
   ],
   bootstrap: [AppComponent]

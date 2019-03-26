@@ -680,7 +680,7 @@
     },
     "errors": {
       "missingSettings": {
-        "title": "Missing settings",
+        "title": "Missing Settings",
         "description": "Required settings are missing",
         "action": "Maintain missing required settings {{missingSettings}} within the charging station settings. See corresponding actions in 'Actions' column"
       },

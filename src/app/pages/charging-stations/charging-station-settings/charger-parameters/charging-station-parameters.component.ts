@@ -107,7 +107,7 @@ export class ChargingStationParametersComponent implements OnInit {
       'maximumPower': new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.min(0),
+          Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$')
         ])),
       'siteArea': new FormControl(''),
@@ -167,7 +167,7 @@ export class ChargingStationParametersComponent implements OnInit {
       this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.min(0),
+          Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$')
         ])));
       if (!this.isAdmin) {
@@ -200,7 +200,7 @@ export class ChargingStationParametersComponent implements OnInit {
       // Init form
       if (this.charger.chargingStationURL) {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
-        this.formGroup.controls.chargingStationURL.updateValueAndValidity();
+        // this.formGroup.controls.chargingStationURL.updateValueAndValidity();
       }
       if (this.charger.numberOfConnectedPhase) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
@@ -243,6 +243,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls[connectorTypeId].setValue(connector.type);
         this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
       }
+      this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.spinnerService.hide();
     }, (error) => {
@@ -294,6 +295,7 @@ export class ChargingStationParametersComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
         this.formGroup.controls.siteArea.markAsDirty();
+        this.formGroup.controls.siteArea.markAsPending();
       });
   }
 

@@ -198,13 +198,24 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [
-      new LogDateTableFilter().getFilterDef(),
-      new LogLevelTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
-      new LogSourceTableFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef()
-    ];
+    if (this.authorizationService.isSuperAdmin()) {
+      return [
+        new LogDateTableFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef()
+      ];
+    } else if (this.authorizationService.isAdmin()) {
+      return [
+        new LogDateTableFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   private exportLogs() {

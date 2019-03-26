@@ -162,8 +162,10 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
-      new TableCreateAction().getActionDef()
+      new TableCreateAction().getActionDef(),
+      ...tableActionsDef
     ];
   }
 

@@ -19,7 +19,6 @@
           </button>
         </ng-container>
         <!-- </div> -->
-<<<<<<< HEAD
         <ng-container *ngIf="dataSource.hasFilters()">        
           <!-- Create Filter Actions -->
           <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
@@ -29,29 +28,13 @@
               <button (click)="actionTriggered(actionFiltersDef)"
                       *ngIf="actionFiltersDef.type === 'button'"
                       [class]="(actionFiltersDef.class ? actionFiltersDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                      [matTooltip]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
+                      appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
                 <span class="mat-button-wrapper">
                   <i *ngIf="actionFiltersDef.icon" class="material-icons mr-2">{{actionFiltersDef.icon}}</i>
                   <span class="btn-label">{{actionFiltersDef.name | translate}}</span>
                 </span>
               </button>
             </ng-container>
-=======
-        <!-- Create Filter Actions -->
-        <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
-        <ng-container *ngFor="let actionFiltersDef of actionsFiltersDef; let i=index">
-          <!-- Action Button -->
-          <ng-container *ngIf="actionFiltersDef.id === 'reset_filters'">          
-            <button (click)="actionTriggered(actionFiltersDef)"
-                    *ngIf="actionFiltersDef.type === 'button'"
-                    [class]="(actionFiltersDef.class ? actionFiltersDef.class + ' btn btn-info mat-raised-button' : 'btn btn-info mat-raised-button')"
-                    appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionFiltersDef.name ? '' : actionFiltersDef.tooltip | translate)">
-              <span class="mat-button-wrapper">
-                <i *ngIf="actionFiltersDef.icon" class="material-icons mr-2">{{actionFiltersDef.icon}}</i>
-                <span class="btn-label">{{actionFiltersDef.name | translate}}</span>
-              </span>
-            </button>
->>>>>>> d249cf21ab925e7b4777fe118ffc43c9e5751231
           </ng-container>
         </ng-container>
         <!-- </div> -->     

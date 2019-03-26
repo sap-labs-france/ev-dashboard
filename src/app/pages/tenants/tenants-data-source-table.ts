@@ -115,8 +115,10 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
-      new TableCreateAction().getActionDef()
+      new TableCreateAction().getActionDef(),
+      ...tableActionsDef
     ];
   }
 

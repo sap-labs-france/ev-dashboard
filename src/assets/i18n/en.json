@@ -1139,7 +1139,7 @@
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Average charging power Too high",
+        "title": "Consumption Too High",
         "description": "The average registered charging power is greater than the capacity of the connector.",
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       }

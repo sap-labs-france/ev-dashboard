@@ -254,8 +254,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     const tableActionsDef = super.getTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
-        new TableExportAction().getActionDef()
-      ].concat(tableActionsDef);
+        new TableExportAction().getActionDef(),
+        ...tableActionsDef
+      ];
     } else {
       return tableActionsDef;
     }

@@ -168,8 +168,9 @@ export class LogsDataSource extends TableDataSource<Log> {
     const tableActionsDef = super.getTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
-        new TableExportAction().getActionDef()
-      ].concat(tableActionsDef);
+        new TableExportAction().getActionDef(),
+        ...tableActionsDef
+      ];
     } else {
       return tableActionsDef;
     }

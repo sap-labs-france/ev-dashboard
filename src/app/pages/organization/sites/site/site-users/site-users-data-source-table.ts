@@ -100,8 +100,9 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     const tableActionsDef = super.getTableActionsDef();
     return [
       new TableAddAction().getActionDef(),
-      new TableRemoveAction().getActionDef()
-    ].concat(tableActionsDef);
+      new TableRemoveAction().getActionDef(),
+      ...tableActionsDef
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

@@ -232,8 +232,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
-    return tableActionsDef;
+    return super.getTableActionsDef();
   }
 
   public getTableRowActions(): TableActionDef[] {

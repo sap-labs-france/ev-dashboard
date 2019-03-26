@@ -262,8 +262,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     if (this.authorizationService.isAdmin()) {
       return [
         // new TableOpenInMapsAction().getActionDef(),
-        new TableExportAction().getActionDef()
-      ].concat(tableActionsDef);
+        new TableExportAction().getActionDef(),
+        ...tableActionsDef
+      ];
     } else {
       return tableActionsDef;
     }

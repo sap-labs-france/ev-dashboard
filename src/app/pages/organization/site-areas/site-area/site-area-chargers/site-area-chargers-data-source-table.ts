@@ -118,8 +118,9 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     if (this.isAdmin) {
       return [
         new TableAddAction().getActionDef(),
-        new TableRemoveAction().getActionDef()
-      ].concat(tableActionsDef);
+        new TableRemoveAction().getActionDef(),
+        ...tableActionsDef
+      ];
     } else {
       return tableActionsDef;
     }

@@ -230,8 +230,8 @@ export class ChargingStationParametersComponent implements OnInit {
         } else {
           this.formGroup.controls.siteAreaID.setValue('');
           this.formGroup.controls.siteArea.setValue('');
-          this.formGroup.controls.siteAreaID.markAsPristine();
-          this.formGroup.controls.siteArea.markAsPristine();
+          // this.formGroup.controls.siteAreaID.markAsPristine();
+          // this.formGroup.controls.siteArea.markAsPristine();
           this.formGroup.controls.siteArea.disable();
           this.formGroup.controls.siteAreaID.disable();
         }
@@ -293,9 +293,9 @@ export class ChargingStationParametersComponent implements OnInit {
       .afterClosed().subscribe((result) => {
         this.charger.siteArea = <SiteArea>result[0];
         // tslint:disable-next-line:max-line-length
+        this.formGroup.markAsDirty();
         this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
-        this.formGroup.controls.siteArea.markAsDirty();
-        this.formGroup.controls.siteArea.markAsPending();
+        // this.formGroup.controls.siteArea.markAsPending();
       });
   }
 
@@ -342,13 +342,13 @@ export class ChargingStationParametersComponent implements OnInit {
         if (result) {
           if (result.latitude) {
             this.formGroup.controls.latitude.setValue(result.latitude);
-            this.formGroup.controls.latitude.markAsDirty();
-            this.formGroup.controls.latitude.markAsPending();
+            this.formGroup.markAsDirty();
+            // this.formGroup.controls.latitude.markAsPending();
           }
           if (result.longitude) {
             this.formGroup.controls.longitude.setValue(result.longitude);
-            this.formGroup.controls.longitude.markAsDirty();
-            this.formGroup.controls.longitude.markAsPending();
+            this.formGroup.markAsDirty();
+            // this.formGroup.controls.longitude.markAsPending();
           }
         }
       });

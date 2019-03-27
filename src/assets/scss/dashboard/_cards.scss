@@ -27,6 +27,21 @@
   .card-body {
     padding: $padding-card-body-y 20px;
     position: relative;
+    & .mat-toolbar {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+    & > .mat-toolbar, .mat-toolbar-row {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+      > button:first-child {
+        margin-left: 0px;
+      }
+      > button:last-child {
+        margin-right: 0px;
+      }
+    }
+
   }
 
   .card-logo {

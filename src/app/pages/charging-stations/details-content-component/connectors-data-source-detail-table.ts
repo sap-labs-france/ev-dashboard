@@ -205,7 +205,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    return [];
+    return super.getTableActionsDef();
   }
 
   public getTableActionsRightDef(): TableActionDef[] {

@@ -21,7 +21,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private tableColumnDef: TableColumnDef[];
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
-  private actionsFiltersDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
@@ -273,24 +272,19 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getTableActionsDef(): TableActionDef[] {
     // Return default
-    return [];
-  }
-
-  public getTableActionsRightDef(): TableActionDef[] {
-    // Return default
-    return [];
-  }
-
-  public getTableActionsFiltersDef(): TableActionDef[] {
-    // Return default
-    // If there is a filter then the reset filter action is present
-    if (this.hasFilters) {
+    if ((this.filtersDef && this.filtersDef.length > 0) ||
+        (this.tableDef && this.tableDef.search && this.tableDef.search.enabled)) {
       return [
         new TableResetFiltersAction().getActionDef()
       ];
     } else {
       return [];
     }
+  }
+
+  public getTableActionsRightDef(): TableActionDef[] {
+    // Return default
+    return [];
   }
 
   public getTableRowActions(item?: T): TableActionDef[] {
@@ -492,8 +486,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.filtersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
-          if (filterDef.currentValue instanceof Date) {
-            // Set it
+          if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {

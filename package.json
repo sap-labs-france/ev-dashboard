@@ -1,6 +1,6 @@
 {
   "name": "ev-dashboard",
-  "version": "2.0.0",
+  "version": "2.0.17",
   "repository": {
     "type": "git",
     "url": "https://github.com/LucasBrazi06/ev-dashboard-new"
@@ -36,6 +36,7 @@
     "@angular/router": "^7.2.10",
     "@auth0/angular-jwt": "^2.1.0",
     "@mat-datetimepicker/core": "3.0.0-beta.0",
+    "@mat-datetimepicker/moment": "^3.0.0-beta.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/canvas-gauges": "^2.1.1",

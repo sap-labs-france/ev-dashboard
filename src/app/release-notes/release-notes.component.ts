@@ -19,6 +19,161 @@ export class ReleaseNotesComponent {
   // Release Notes
   public releaseNotes: ReleaseNotes[] = [
     {
+      version: '2.0.17',
+      date: new Date('2019-03-26'),
+      componentChanges: [
+        {
+          name: 'Front-end (Stabilization)',
+          changes: [
+            `Deactivate dashboard page`,
+            `Remove useless HTML comments`,
+            `Enhance Datetime Picker with popup is opened only when the user click on the toggle`,
+            `Fixed issues for missing settings`,
+            `Fix padding for toolbar in cards`,
+            `Reset Filter is now a left action`,
+            `Remove charging station filter for Super Admin`,
+            `Fix missing tooltip`,
+            `Fix improper Reset Filter button placement`,
+            `First version of new tooltip`,
+            `Fixed user assignment dialog`,
+            `Always create a toolbar above filters for reset`,
+            `Allow Admins to search a user by car's Plate ID`,
+            `Add the vehicle Plate ID in User's profile for Admin only`,
+            `Fixed search reset`,
+            `Add password HTML Form styles for Chromium`,
+            `Placed filter reset action in toolbar`,
+            `Charger's Connector cell simplification and tooltips continuation`,
+            `Fixed button resets search value but not field`,
+            `Creates button and action for reseting all filters`,
+            `Add High Consumption in Action filter for Faulty Sessions list`,
+            `Handle high consumption in faulty sessions`,
+            `Changed minimum height for dialogs`,
+            `Remove unnecessary calls to jquery Remove dead code`,
+            `Use of tooltip bootsrap style`,
+            `List's Paginator: default min lines set to 50`,
+            `All filters now reset the list's Paginator`,
+            `Move tab 'Applications' before 'Miscs' in User's profile and rename it to 'Connectors'`,
+            `Add french duration language and do not display minutes if duration is greater than 24h`,
+            `Settings: Move Save btn at top left in a toolbar`,
+            `OCPI: add action SendEVSEStatuses to logs action list`,
+            `Adapt charger error data source to inject logic to improve perfs`,
+            `List's Paginator now resets when filter changes`,
+            `Update battery percentage format in Session`,
+            `Pricing > Settings: Handle Information Card`,
+            `Chargers: Fix issues and move connector's images to svg`,
+            `Remove use of Perfect ScrollBar`,
+            `Avoid too many calls in table data source`,
+            `OCPI: Background job: adjust i18n message`,
+            `OCPI: Implement start stop background job`,
+            `OCPI: Add more action buttons and move send and activate/inactivate job`,
+            `Remove export button for demo users`,
+            `Filters pop-ups: change button 'Select' to 'Set Filter'`,
+            `OCPI: Add confirmation dialog before sending all EVSE statuses`,
+            `OCPI: Don't display change confirmation on create`,
+            `OCPI: Change eMSP to IOP`,
+            `OCPI: Fix change confirmation dialog`,
+            `Create dedicated service for Components + Enum`,
+            `Component: Update descr for SAC and Roaming: Fix error in pricing`,
+            `Pop-ups: Disable outside click close`,
+            `Fixed sync issues in translation files`,
+            `Sessions: Fix arrow filter position`,
+            `Master Tenant: Fix simple pricing tenant issue`,
+            `OCPI: Change send EVSEs status display`,
+            `Make sure dialogs are closed when user is logged out`,
+            `inform the user instead of hiding refunding`,
+            `Fixes and change layout of filters`,
+            `Fallback angular.json for improving the perfs`,
+            `Fixed CSS on material buttons`,
+            `Fix progress bar max value`,
+            `Fixed CSS in material disabled buttons`,
+            `Darken table header/footer`,
+          ]
+        }
+      ]
+    },
+    {
+      version: '2.0.16',
+      date: new Date('2019-03-14'),
+      componentChanges: [
+        {
+          name: 'Front-end (Stabilization)',
+          changes: [
+            `Added more contrast in list's header and paginator + background list set to brand-inverse`,
+            `Set Alert close button color to brand inverse`,
+            `Fix navigation issue`,
+            `Use providers in component instead of module`,
+            `Center header title`,
+            `Improve tab navigation - Add custom route strategy`,
+            `Better handling of dialog height for charging station`,
+            `Add docker image generation for the dashboard.`,
+            `Add initial date value in filters`,
+          ]
+        }
+      ]
+    },
+    {
+      version: '2.0.15',
+      date: new Date('2019-03-09'),
+      componentChanges: [
+        {
+          name: 'Front-end (Stabilization)',
+          changes: [
+            `Enhanced UI according test feedbacks`,
+            `Updated charger's connector CSS`,
+            `Fix tab loop changes`,
+            `Rename 'Edit location' to 'Assign site'`,
+            `Fix the chrome debugger to open the slf tenant by default`,
+            `Toggle menu button is white now + increased size in login screen to read CGU checkbox`,
+            `Final connector CSS update`,
+            `Connector Glow + Border rotate`,
+            `Charger - Disable close on Geomap dialog`,
+            `Site Management - Add listener to escape for closing dialog`,
+            `Geomap - Fix issue with placing charging station`,
+            `Geomap - Redesign dialog accoridng to guidelines`,
+            `Address - Remove lattitude and longitude in user's profile`,
+            `Geomap - change and lat/long manadatory in Chargers`,
+            `Charers - Bug fixes and new connector`,
+            `Site Area - Rename Maximum Power to Maximum Power Limitation`,
+            `Site Management - Add padding to logo/image`,
+            `Updated CSS for material date picker`,
+            `Confirmation Dialog - Set mat-primary button`,
+            `ConfirmationDialog - Change text and option when closing dialog`,
+            `Fix transaction chart issue`,
+            `Add SiteArea filter on completed transactions history view`,
+            `Fix user demo column in small screen`,
+            `Fixed hover in selected element in all dowp-downs`,
+          ]
+        }
+      ]
+    },
+    {
+      version: '2.0.14',
+      date: new Date('2019-03-02'),
+      componentChanges: [
+        {
+          name: 'Front-end (Stabilization)',
+          changes: [
+            `Fix OCPP and properties dialog tabs`,
+            `Bug fixes and layout improvement`,
+            `Charging station - confirmation window when closing dialog`,
+            `OCPI - confirmaiton window before exiting dialog`,
+            `Correct session page when displaying connector`,
+            `Fix charger list`,
+            `Fix TS lint error TS2339`,
+            `Avoid exec in // in npm target 'clean-install-xxx'`,
+            `Organization - add confirmation before leaving window`,
+            `Fix longitude regex and address validation (save disabled)`,
+            `Fix W.h unit`,
+            `Upgrade to latest version of Angular`,
+            `Changed CSS on button in list`,
+            `Updated CSS`,
+            `Fix empty table after navigation`,
+            `Updated CSS`,
+            `Updated design`          ]
+        }
+      ]
+    },
+    {
       version: '2.0.13',
       date: new Date('2019-02-22'),
       componentChanges: [

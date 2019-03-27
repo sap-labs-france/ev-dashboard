@@ -120,12 +120,14 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     if (this.isAdmin) {
       return [
-        new TableCreateAction().getActionDef()
+        new TableCreateAction().getActionDef(),
+        ...tableActionsDef
       ];
     } else {
-      return [];
+      return tableActionsDef;
     }
   }
 

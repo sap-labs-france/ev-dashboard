@@ -19,7 +19,6 @@ import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { Utils } from 'app/utils/Utils';
 import { Constants } from 'app/utils/Constants';
-import { TableOpenAction } from 'app/shared/table/actions/table-open-action';
 import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
@@ -28,17 +27,11 @@ import { OcpiendpointPatchJobStatusComponent } from '../formatters/ocpi-endpoint
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDetail> {
 
-  public stopAction = new TableStopAction();
   public noAction = new TableNoAction();
-  public startAction = new TableStartAction();
-  public openAction = new TableOpenAction();
   public sendEvseStatusesAction = new TableSendAction();
 
   private ocpiendpoint: Ocpiendpoint;
-  private dialogRefSession: MatDialogRef<SessionDialogComponent>;
   private isInitialized = false;
-
-  private transactionConsumptions = {};
 
   constructor(private configService: ConfigService,
     private centralServerService: CentralServerService,
@@ -61,14 +54,19 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     this.setNumberOfRecords(this.getData().length);
     // Return connector
     if (this.ocpiendpoint) {
-      const ocpiendpointDetail = <OcpiendpointDetail> {
-        ocpiendpoint: this.ocpiendpoint,
-        successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
-        failureNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.failureNbr : 0,
-        totalNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.totalNbr : 0
-      }
-
-      this.setData([ocpiendpointDetail]);
+      setTimeout(() => {
+        const ocpiendpointDetail = <OcpiendpointDetail> {
+          id: this.ocpiendpoint.id,
+          ocpiendpoint: this.ocpiendpoint,
+          successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
+          failureNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.failureNbr : 0,
+          totalNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.totalNbr : 0,
+          lastPatchJobOn: this.ocpiendpoint.lastPatchJobOn ? this.ocpiendpoint.lastPatchJobOn : null
+        }
+        this.setData([ocpiendpointDetail]);
+        // this.setNumberOfRecords(1);
+        this.isInitialized = true;
+      }, 1);
     }
   }
 
@@ -77,7 +75,11 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    this.loadData();
+    if (autoRefresh) {
+      this.refreshReload(); // will call loadData
+    } else {
+      this.loadData();
+    }
   }
 
   public getTableDef(): TableDef {
@@ -92,7 +94,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
       search: {
         enabled: false
       },
-      rowFieldNameIdentifier: 'connectorId',
       isSimpleTable: true,
       design: {
         flat: true
@@ -124,7 +125,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         sortable: false
       },
       {
-        id: 'totalChargePoint',
+        id: 'totalNbr',
         type: 'integer',
         name: 'ocpiendpoints.totalChargePoints',
         headerClass: 'col-15p',

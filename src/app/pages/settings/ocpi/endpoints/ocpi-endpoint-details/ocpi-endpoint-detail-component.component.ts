@@ -4,32 +4,29 @@ import {DetailComponent} from 'app/shared/table/detail-component/detail-componen
 import {OcpiendpointDetailDataSource} from './ocpi-endpoint-detail-data-source-table';
 
 @Component({
-  // styleUrls: ['../charging-stations-data-source-table.scss'],
-  template: '<app-table class="connectors-details" [dataSource]="ocpiedpointDetailDataSource"></app-table>',
+  template: '<app-table [dataSource]="ocpiendpointDetailDataSource"></app-table>',
   providers: [
     OcpiendpointDetailDataSource
   ]
 })
 
 export class OcpiendpointDetailComponent extends DetailComponent {
-  connectorId: string;
-  chargerInactive: boolean;
-  classDateError: string;
-  heartbeatDate: string;
 
-  constructor(public ocpiedpointDetailDataSource: OcpiendpointDetailDataSource) {
+  constructor(public ocpiendpointDetailDataSource: OcpiendpointDetailDataSource) {
     super();
   }
 
   setData(row: any, tabledef: TableDef) {
-    this.ocpiedpointDetailDataSource.setEndpoint(row);
+    this.ocpiendpointDetailDataSource.setEndpoint(row);
+    this.ocpiendpointDetailDataSource.setDetailedDataSource(row);
   }
 
   refresh(row: any, autoRefresh: boolean) {
-    this.ocpiedpointDetailDataSource.setEndpoint(row);
+    this.ocpiendpointDetailDataSource.setEndpoint(row);
+    this.ocpiendpointDetailDataSource.setDetailedDataSource(row, autoRefresh);
   }
 
   destroy() {
-    // this.connectorsDataSource.destroy();
+    // this.ocpiendpointDetailDataSource.destroy();
   }
 }

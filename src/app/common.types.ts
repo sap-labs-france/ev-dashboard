@@ -283,6 +283,7 @@ export interface Ocpiendpoint {
 }
 
 export interface OcpiendpointDetail {
+  id: string;
   ocpiendpoint: Ocpiendpoint;
   status: string;
   backgroundPatchJob: boolean;

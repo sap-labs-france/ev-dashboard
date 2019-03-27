@@ -30,6 +30,7 @@ import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
 import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
 
+const POLL_INTERVAL = 15000;
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   private readonly tableActionsRow: TableActionDef[];
@@ -46,7 +47,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super();
-
+    this.setPollingInterval(POLL_INTERVAL);
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableRegisterAction().getActionDef(),
@@ -71,7 +72,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         // Update Paginator
         this.updatePaginator();
         // Notify
-        this.getDataSubjet().next(ocpiendpoints.result);
+        // this.getDataSubjet().next(ocpiendpoints.result);
         // Set the data
         this.setData(ocpiendpoints.result);
       }, (error) => {
@@ -196,9 +197,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       case 'create':
         this._showOcpiendpointDialog();
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
+    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
@@ -212,19 +212,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       case 'register':
         this._registerOcpiendpoint(rowItem);
         break;
-      case 'more':
-        switch (dropdownItem.id) {
-          case ACTION_SEND:
-            this._sendEVSEStatusesOcpiendpoint(rowItem);
-            break;
-          case ACTION_STOP_START_JOB:
-            this._startStopBackgroundJob(rowItem);
-            break;
-        }
-        break;
-      case 'send':
-        this._sendEVSEStatusesOcpiendpoint(rowItem);
-        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -232,7 +219,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableAutoRefreshAction(false).getActionDef(),
+      new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
@@ -256,38 +243,38 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     dialogRef.afterClosed().subscribe(result => this.loadData());
   }
 
-  private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        // Show
-        this.spinnerService.show();
-        // Ping
-        this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
-          this.spinnerService.hide();
-          if (response.failure === 0 && response.success > 0) {
-            this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
-          } else if (response.failure > 0 && response.success > 0) {
-            this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
-              { success: response.success, error: response.failure });
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'ocpiendpoints.error_send_evse_statuses');
-          }
-          // reload data
-          this.loadData();
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.error_send_evse_statuses');
-          // reload data
-          this.loadData();
-        });
-      }
-    });
-  }
+  // private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+  //   this.dialogService.createAndShowYesNoDialog(
+  //     this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
+  //     this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
+  //   ).subscribe((result) => {
+  //     if (result === Constants.BUTTON_TYPE_YES) {
+  //       // Show
+  //       this.spinnerService.show();
+  //       // Ping
+  //       this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+  //         this.spinnerService.hide();
+  //         if (response.failure === 0 && response.success > 0) {
+  //           this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
+  //         } else if (response.failure > 0 && response.success > 0) {
+  //           this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
+  //             { success: response.success, error: response.failure });
+  //         } else {
+  //           Utils.handleError(JSON.stringify(response),
+  //             this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+  //         }
+  //         // reload data
+  //         this.loadData();
+  //       }, (error) => {
+  //         this.spinnerService.hide();
+  //         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+  //           'ocpiendpoints.error_send_evse_statuses');
+  //         // reload data
+  //         this.loadData();
+  //       });
+  //     }
+  //   });
+  // }
 
   private _deleteOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
@@ -314,29 +301,29 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     });
   }
 
-  private _startStopBackgroundJob(ocpiendpoint) {
-    // switch background job state
-    ocpiendpoint.backgroundPatchJob = !ocpiendpoint.backgroundPatchJob;
-    // update it
-    this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        if (ocpiendpoint.backgroundPatchJob) {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
-        } else {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
-        }
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.update_error');
-      }
-      this.loadData();
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.update_error');
-    });
-  }
+  // private _startStopBackgroundJob(ocpiendpoint) {
+  //   // switch background job state
+  //   ocpiendpoint.backgroundPatchJob = !ocpiendpoint.backgroundPatchJob;
+  //   // update it
+  //   this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+  //     this.spinnerService.hide();
+  //     if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+  //       if (ocpiendpoint.backgroundPatchJob) {
+  //         this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
+  //       } else {
+  //         this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
+  //       }
+  //     } else {
+  //       Utils.handleError(JSON.stringify(response),
+  //         this.messageService, 'ocpiendpoints.update_error');
+  //     }
+  //     this.loadData();
+  //   }, (error) => {
+  //     this.spinnerService.hide();
+  //     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+  //       'ocpiendpoints.update_error');
+  //   });
+  // }
 
   private _registerOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(

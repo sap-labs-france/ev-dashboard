@@ -282,6 +282,17 @@ export interface Ocpiendpoint {
   lastPatchJobResult: any;
 }
 
+export interface OcpiendpointDetail {
+  id: string;
+  ocpiendpoint: Ocpiendpoint;
+  status: string;
+  backgroundPatchJob: boolean;
+  lastPatchJobOn: Date;
+  successNbr: number;
+  failureNbr: number;
+  totalNbr: number;
+}
+
 export interface OcpiendpointResult {
   count: number,
   result: Ocpiendpoint[]

@@ -952,7 +952,11 @@
     "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails",
     "start_stop_job": "Activer/Désactiver le processus",
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
-    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès"
+    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
+    "background_job_no_run": "Non executée",
+    "totalChargePoints": "Points de Charge Total",
+    "succeeded": "Succès",
+    "failed": "Echecs"
   },
   "ocpi": {
     "title": "Itinérance",

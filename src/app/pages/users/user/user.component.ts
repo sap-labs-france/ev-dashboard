@@ -313,7 +313,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.controls.id.setValue(user.id);
       }
       if (user.name) {
-        this.formGroup.controls.name.setValue(user.name);
+        this.formGroup.controls.name.setValue(user.name.toUpperCase());
       }
       if (user.firstName) {
         this.formGroup.controls.firstName.setValue(user.firstName);
@@ -620,5 +620,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
+  }
+
+  toUpperCase(control: AbstractControl) {
+    console.log('toUpperCase');
+    control.setValue(control.value.toUpperCase());
   }
 }

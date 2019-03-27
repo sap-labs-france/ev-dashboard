@@ -15,7 +15,7 @@
                   <mat-form-field>
                     <input [formControl]="name" appSetAutoFocus
                            matInput placeholder="{{'users.name' | translate}}"
-                           required
+                           required (input)="toUpperCase(name)"
                            type="text">
                     <mat-error *ngIf="name.hasError('required')">
                       {{"general.mandatory_field" | translate}}

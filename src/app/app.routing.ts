@@ -26,8 +26,8 @@ export const AppRoutes: Routes = [
   {
     path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
-      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {
+      {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
+      /*{
         path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: {
           menu: {
             title: 'dashboard',
@@ -36,7 +36,7 @@ export const AppRoutes: Routes = [
             path: '/dashboard'
           }
         }
-      },
+      },*/
       {
         path: 'charging-stations', loadChildren: './pages/charging-stations/charging-stations.module#ChargingStationsModule', data: {
           menu: {
@@ -137,7 +137,7 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: '**', redirectTo: 'dashboard', pathMatch: 'full'
+    path: '**', redirectTo: 'charging-stations', pathMatch: 'full'
   }
 ];
 

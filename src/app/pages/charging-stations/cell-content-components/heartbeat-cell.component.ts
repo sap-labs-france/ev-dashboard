@@ -8,9 +8,7 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-      <span class="charger-heartbeat" appTooltip data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip" [title]="tooltip">
-      <!--[ngbTooltip]="row.lastHeartBeat | appDate : locale : 'datetime'" -->
-      <!-- [title]="row.lastHeartBeat | appDate : locale : 'datetime'" -->
+      <span class="charger-heartbeat" appTooltip data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip" [attr.data-original-title]="tooltip">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">
@@ -21,7 +19,6 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
       <ng-container *ngIf="!row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok">
           {{'chargers.charger_connected' | translate}}
-<!--          {{row.lastHeartBeat | appDate : locale : 'time'}} -->
         </span>
       </ng-container>
     </span>

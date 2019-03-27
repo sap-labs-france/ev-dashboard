@@ -8,8 +8,6 @@ import { Directive, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 })
 export class TooltipDirective implements AfterViewInit, OnDestroy {
 
-
-
   constructor(private elementRef: ElementRef) {
   }
 
@@ -19,7 +17,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    jQuery(this.elementRef.nativeElement).tooltip('hide');
+    jQuery(this.elementRef.nativeElement).tooltip('dispose');
   }
 
 }

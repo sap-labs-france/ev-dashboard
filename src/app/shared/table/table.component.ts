@@ -12,6 +12,7 @@ import {TableDataSource} from './table-data-source';
 import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
+import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 
 const DEFAULT_POLLING = 10000;
 
@@ -201,15 +202,21 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public filterChanged(filterDef: TableFilterDef, event) {
-    // Date?
-    if (filterDef.type === 'date') {
-      // Date is one way binding: update the value manually
-      filterDef.currentValue = event.value;
-    }
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
+  }
+
+  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
+    // Date?
+    if (filterDef.type === 'date') {
+      // Date is one way binding: update the value manually
+      if (event.value) {
+        filterDef.currentValue = event.value;
+      }
+    }
+    this.filterChanged(filterDef, event);
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {

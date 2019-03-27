@@ -60,7 +60,7 @@
             <div class="d-flex flex-column align-items-center"
               appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
               <i class="material-icons">timer</i>
-              <span class="first-text">{{totalDurationSecs | appDuration }}</span>
+              <span class="first-text">{{totalDurationSecs | appDuration: true }}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
@@ -72,7 +72,7 @@
             <div class="d-flex flex-column align-items-center"
             appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
               <i class="material-icons">timer_off</i>
-              <span class="first-text">{{totalInactivitySecs | appDuration }}</span>
+              <span class="first-text">{{totalInactivitySecs | appDuration: true }}</span>
             </div>
           </div>
           <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">

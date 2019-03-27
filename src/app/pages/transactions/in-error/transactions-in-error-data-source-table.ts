@@ -116,7 +116,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value)
       },
-      {
+/*      {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
@@ -128,19 +128,19 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         headerClass: 'd-none d-lg-table-cell',
         class: 'text-left d-none d-lg-table-cell',
         formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
-      },
+      },*/
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
         formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       },
-      {
+/*      {
         id: 'tagID',
         name: 'transactions.badge_id',
         headerClass: 'd-none d-xl-table-cell',
         class: 'text-left d-none d-xl-table-cell'
-      },
+      },*/
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
@@ -162,7 +162,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (value, row) => this.translateService.instant(row.errorMessage.description)
       }
     ];
-    if (this.isAdmin) {
+/*    if (this.isAdmin) {
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
@@ -170,7 +170,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         class: 'd-none d-xl-table-cell',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
       })
-    }
+    }*/
     return columns as TableColumnDef[];
   }
 

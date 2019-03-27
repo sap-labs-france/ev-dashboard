@@ -1134,9 +1134,9 @@
         "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Charge moyenne trop importante",
-        "description": "La puissance de charge moyenne est supérieure à la capacitée du connecteur.",
-        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connécteur est correcte."
+        "title": "Consommation trop importante",
+        "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
+        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
         }
     }
   },

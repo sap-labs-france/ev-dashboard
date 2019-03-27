@@ -2,7 +2,7 @@
   "general": {
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.13",
+    "last_update": "Version 2.0.17",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -90,6 +90,7 @@
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
+    "reset_filters" : "Reset Filters",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -421,7 +422,7 @@
     "verify_email_email_not_valid": "This Email does not exist anymore",
     "verify_email_error": "Error occurred while activating your account",
     "verify_email_resend_button": "Send",
-    "verify_email_resend_confirm": "Do you want to request the activation link email again?",
+    "verify_email_resend_confirm": "Your account is not active! Do you want to request the activation link email again?",
     "verify_email_resend_success": "Your account's activation link has been sent with success",
     "verify_email_resend_error": "Error occurred while sending your account's activation link",
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",
@@ -608,7 +609,7 @@
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",
     "reboot_error": "Error occurred while rebooting the charging station",
     "get_configuration_title": "Get Configuration",
-    "get_configuration_confirm": "Do you really want to download the configuration from the charging station '{{chargeBoxID}}'?",
+    "get_configuration_confirm": "Do you really want to retrieve the configuration from the charging station '{{chargeBoxID}}'?",
     "set_configuration_title": "Save Change Configuration",
     "set_configuration_confirm": "Do you really want to change the configuration of {{key}} on the charging station '{{chargeBoxID}}'?",
     "soft_reset_confirm": "Do you really want to reset the charging station '{{chargeBoxID}}'?",
@@ -618,8 +619,8 @@
     "clear_cache_confirm": "Do you really want to clear the cache of the charging station '{{chargeBoxID}}'?",
     "clear_cache_success": "The cache of the charging station '{{chargeBoxID}}' has been cleared successfully",
     "clear_cache_error": "Error occurred while clearing the cache of the charging station",
-    "change_config_success": "The get configuration command for the charging station '{{chargeBoxID}}' has been executed successfully",
-    "change_config_error": "Error occurred while trying to get the configuration from the charging station",
+    "change_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
+    "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",
     "change_params_success": "The change parameters command has been sent successfully to the charging station '{{chargeBoxID}}'",
     "change_params_error": "Error occurred while trying to send the change parameter command to the charging station",
     "delete_title": "Delete",
@@ -645,6 +646,7 @@
     "unlock_connector_confirm": "Do you really want to unlock the connector '{{connectorId}}' of the charging station '{{chargeBoxID}}'?",
     "unlock_connector_success": "The connector '{{connectorId}}' of the charging station '{{chargeBoxID}}' has been unlocked successfully",
     "unlock_connector_error": "Error occurred while unlocking the connector",
+    "connector_type_unknown": "Not set",
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
@@ -678,22 +680,22 @@
     },
     "errors": {
       "missingSettings": {
-        "title": "Missing settings",
+        "title": "Missing Settings",
         "description": "Required settings are missing",
         "action": "Maintain missing required settings {{missingSettings}} within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectionBroken": {
-        "title": "Connection lost",
+        "title": "Connection Lost",
         "description": "The server can't reach the charging station",
         "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
-        "title": "Charging station is not assigned",
+        "title": "Charging Station is not Assigned",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
         "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
       "connectorError": {
-        "title": "Connector error",
+        "title": "Connector Error",
         "description": "The charging station sent an error code for one of its connectors.",
         "action": "Check the error code details, you may reset or restart the charger from the 'Action' columns"
       }
@@ -757,6 +759,7 @@
     "user_not_found": "User not found",
     "invalid_phone_number": "Invalid phone number",
     "invalid_tag_ids": "Only letters and numbers allowed",
+    "invalid_plate_id": "Only capital letters, numbers and '-' are allowed",
     "locale": "Language",
     "locale_invalid": "Invalid locale",
     "locale_desc_english": "English",
@@ -777,6 +780,7 @@
     "email": "Email",
     "name": "Name",
     "first_name": "First Name",
+    "plate_id": "Plate",
     "tag_ids": "Badge IDs",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
     "inumber": "I-Number",
@@ -1139,7 +1143,7 @@
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Average charging power Too high",
+        "title": "Consumption Too High",
         "description": "The average registered charging power is greater than the capacity of the connector.",
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       }

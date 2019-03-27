@@ -63,6 +63,7 @@ export class MessageService {
           from: from,
           align: align
         },
+        z_index: 10000,
         template: this._message_template
       }
     );

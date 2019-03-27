@@ -2,7 +2,7 @@
   "general": {
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.13",
+    "last_update": "Version 2.0.17",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -90,6 +90,7 @@
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
+    "reset_filters" : "Réinitialiser les Filtres",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -421,7 +422,7 @@
     "verify_email_email_not_valid": "Cet Email n'existe plus",
     "verify_email_error": "Une erreur est survenue pendant l'activation' de votre compte",
     "verify_email_resend_button": "Envoyer",
-    "verify_email_resend_confirm": "Voulez-vous renvoyer a nouveau l'email d'activation de votre compte ?",
+    "verify_email_resend_confirm": "Votre compte est inactif ! Voulez-vous renvoyer a nouveau l'email d'activation de votre compte ?",
     "verify_email_resend_success": "Le lien d'activation de votre compte a été envoyé avec succès",
     "verify_email_resend_error": "Une erreur est survenue pendant l'envoi du lien d'activation de votre compte",
     "verify_email_proceed_with_activation": "Votre compte n'est pas encore actif ! Voulez-vous renvoyer l'email d'activation ?",
@@ -618,8 +619,8 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne",
-    "change_config_success": "La commande de lecture de la configuration de la borne '{{chargeBoxID}}' a été executée avec succès",
-    "change_config_error": "Une erreur est survenue pendant l'execution de la commande de lecture de la configuration de la borne",
+    "change_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
+    "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
     "change_params_success": "La commande pour changer les paramètres de la borne '{{chargeBoxID}}' a été evoyée avec succès",
     "change_params_error": "Une erreur est survenue pendant l'envoi de la commande de changement des paramètres",
     "delete_title": "Supprimer",
@@ -645,6 +646,7 @@
     "unlock_connector_confirm": "Voulez-vous vraiment dévérouiller le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}'?",
     "unlock_connector_success": "Le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}' a été dévérouillé avec succès",
     "unlock_connector_error": "Une erreur est survenue lors du dévérouillage du connecteur",
+    "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
@@ -678,22 +680,22 @@
     },
     "errors": {
       "missingSettings": {
-        "title": "Paramètres manquants",
+        "title": "Paramètres Manquants",
         "description": "Des paramètres obligatoires sont manquants",
         "action": "Renseigner les paramètres requis manquant {{missingSettings}} dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
       "connectionBroken": {
-        "title": "Connexion perdue",
+        "title": "Connexion Perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
         "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
       },
       "missingSiteArea": {
-        "title": "La born n'est pas assignée",
+        "title": "La Borne n'est pas Assignée",
         "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
         "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
       "connectorError": {
-        "title": "Erreur d'un connecteur",
+        "title": "Erreur d'un Connecteur",
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
         "action": "Vérifier le code d'erreur, vous pouvez redémarrer ou faire un reset de la borne via les actions dans la colonne 'Action'"
       }
@@ -756,7 +758,8 @@
     "role_invalid": "Role invalide",
     "user_not_found": "Utilisateur inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
-    "invalid_tag_ids": "Seulement les lettres et les nombres sont authorisés",
+    "invalid_tag_ids": "Seulement les lettres et les nombres sont autorisés",
+    "invalid_plate_id": "Seulement les lettres majuscules, les nombres et '-' sont autorisés",
     "locale": "Language",
     "locale_invalid": "Locale invalide",
     "locale_desc_english": "Anglais",
@@ -777,6 +780,7 @@
     "email": "Email",
     "name": "Nom",
     "first_name": "Prénom",
+    "plate_id": "Plaque",
     "tag_ids": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
     "inumber": "I-Number",
@@ -1121,7 +1125,7 @@
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
         "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
         "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
-        "not_authorized": "Vous n'etes pas authorisé à effectuer cette opération",
+        "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
         "error": "Une erreur est survenue pendant la demande de remboursement",
         "concur_connection_invalid": "Votre connection à Concur n'est pas configurée correctement",
         "tenant_concur_connection_invalid": "La configuration Concur de votre tenant n'est pas complète. Contactez votre administrateur pour plus d'informations."
@@ -1134,9 +1138,9 @@
         "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Charge moyenne trop importante",
-        "description": "La puissance de charge moyenne est supérieure à la capacitée du connecteur.",
-        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connécteur est correcte."
+        "title": "Consommation trop Importante",
+        "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
+        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
         }
     }
   },

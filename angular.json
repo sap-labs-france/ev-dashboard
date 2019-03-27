@@ -23,13 +23,15 @@
               { "glob": "**", "input": "src/nginx/", "output": "/" }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
+              "node_modules/jquery/dist/jquery.slim.js",
               "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
               "node_modules/moment/moment.js",
               "node_modules/hammerjs/hammer.min.js",
@@ -68,7 +70,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 45000,
-            "host": "0.0.0.0",
+            "host": "localhost",
             "disableHostCheck": true,
             "browserTarget": "md-pro-angular-cli:build"
           },

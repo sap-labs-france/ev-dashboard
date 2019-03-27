@@ -165,12 +165,14 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
-        new TableExportAction().getActionDef()
+        new TableExportAction().getActionDef(),
+        ...tableActionsDef
       ];
     } else {
-      return [];
+      return tableActionsDef;
     }
   }
 
@@ -198,13 +200,24 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    return [
-      new LogDateTableFilter().getFilterDef(),
-      new LogLevelTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
-      new LogSourceTableFilter().getFilterDef(),
-      new UserTableFilter().getFilterDef()
-    ];
+    if (this.authorizationService.isSuperAdmin()) {
+      return [
+        new LogDateTableFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef()
+      ];
+    } else if (this.authorizationService.isAdmin()) {
+      return [
+        new LogDateTableFilter().getFilterDef(),
+        new LogLevelTableFilter().getFilterDef(),
+        new LogActionTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
+        new UserTableFilter().getFilterDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   private exportLogs() {

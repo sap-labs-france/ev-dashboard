@@ -181,8 +181,10 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
-      new TableCreateAction().getActionDef()
+      new TableCreateAction().getActionDef(),
+      ...tableActionsDef
     ];
   }
 

@@ -144,6 +144,13 @@ export class UsersDataSource extends TableDataSource<User> {
         sortable: true
       },
       {
+        id: 'plateID',
+        name: 'users.plate_id',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: true
+      },
+      {
         id: 'createdOn',
         name: 'users.created_on',
         formatter: (createdOn) => this.datePipe.transform(createdOn, locale),
@@ -155,8 +162,10 @@ export class UsersDataSource extends TableDataSource<User> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
-      new TableCreateAction().getActionDef()
+      new TableCreateAction().getActionDef(),
+      ...tableActionsDef
     ];
   }
 

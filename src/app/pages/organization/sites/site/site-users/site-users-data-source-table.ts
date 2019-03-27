@@ -97,9 +97,11 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.getTableActionsDef();
     return [
       new TableAddAction().getActionDef(),
-      new TableRemoveAction().getActionDef()
+      new TableRemoveAction().getActionDef(),
+      ...tableActionsDef
     ];
   }
 
@@ -130,6 +132,11 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           });
         }
         break;
+        case 'reset_filters':
+          this.setSearchValue('');
+          this.resetFilters();
+          this.loadData();
+          break;
     }
   }
 

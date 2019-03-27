@@ -265,6 +265,25 @@ tr.element-row:not(.expanded-row):active {
   min-height: 24px;
 }
 
+::ng-deep .auto-refresh-slider {
+    margin-right: 0.5rem !important;
+      & .mat-slide-toggle-label .mat-slide-toggle-bar  {
+        margin-right: 4px !important;
+    }
+  }
+
+.right-actions {
+  > button:last-child {
+    margin-right: 0;
+  }
+}
+
+.left-actions {
+  > button:first-child {
+    margin-left: 0;
+  }
+}
+
 .spinner-autorefresh2 {
   position:relative;
   top:0;

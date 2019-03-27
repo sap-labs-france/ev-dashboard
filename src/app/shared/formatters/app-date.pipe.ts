@@ -1,33 +1,23 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import * as moment from 'moment';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
 
   transform(value: any, locale = 'en-US', format = 'date'): any {
-    let options;
+    let displayFormat;
     switch (format) {
       case 'datetime':
-        options = {
-          hour12: false,
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        };
+        displayFormat = 'L LTS';
         break;
       case 'time':
-        options = {
-          hour12: false,
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        };
+        displayFormat = 'LTS';
         break;
       case 'date':
       default:
-        options = {
-          hour12: false,
-          year: 'numeric', month: '2-digit', day: '2-digit'
-        };
+        displayFormat = 'L';
         break;
     }
-    const date = value instanceof Date ? value : new Date(value);
-    return new Intl.DateTimeFormat(locale, options).format(date);
+    return moment(value).locale(locale).format(displayFormat);
   }
 }

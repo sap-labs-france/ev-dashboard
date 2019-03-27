@@ -3,11 +3,12 @@ import { Charger } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import { LocaleService } from '../../../services/locale.service';
 import * as moment from 'moment';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 
 @Component({
   styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
-      <span class="charger-heartbeat" [matTooltip]="row.lastHeartBeat | appDate : locale : 'datetime'">
+      <span class="charger-heartbeat" appTooltip data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip" [attr.data-original-title]="tooltip">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">
@@ -18,7 +19,6 @@ import * as moment from 'moment';
       <ng-container *ngIf="!row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-ok">
           {{'chargers.charger_connected' | translate}}
-<!--          {{row.lastHeartBeat | appDate : locale : 'time'}} -->
         </span>
       </ng-container>
     </span>
@@ -30,14 +30,16 @@ export class HeartbeatCellComponent extends CellContentTemplateComponent impleme
 
   @Input() row: Charger;
   disconnectedDuration: any;
+  tooltip: string;
 
-  constructor(localeService: LocaleService) {
+  constructor(localeService: LocaleService, 
+          private appDate: AppDatePipe) {
     super();
     this.locale = localeService.getCurrentFullLocaleForJS()
   }
 
   ngOnInit(): void {
-    this.disconnectedDuration = this.getDisconnectedDuration();
+    this.setData();
   }
 
   getDisconnectedDuration() {
@@ -46,7 +48,16 @@ export class HeartbeatCellComponent extends CellContentTemplateComponent impleme
   }
 
   refresh(): void {
-    this.disconnectedDuration = this.getDisconnectedDuration();
+    // console.log(`refresh heartbeat ${this.row.id} ${this.getDisconnectedDuration().from}`)
+    // this.disconnectedDuration = this.getDisconnectedDuration();
+    this.setData();
+  }
+
+  setData() {
+    if (this.row.inactive) {
+      this.disconnectedDuration = this.getDisconnectedDuration();
+    }
+    this.tooltip = this.appDate.transform(this.row.lastHeartBeat, this.locale, 'datetime');
   }
 
 }

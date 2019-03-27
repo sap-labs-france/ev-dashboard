@@ -3,6 +3,7 @@ import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 
@@ -157,6 +158,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.searchInput = searchInput;
   }
 
+  public setSearchValue(searchValue: String) {
+    this.searchInput.nativeElement.value = searchValue;
+  }
+
   public getSearchValue(): string {
     // Check
     if (this.searchInput) {
@@ -267,7 +272,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getTableActionsDef(): TableActionDef[] {
     // Return default
-    return [];
+    if ((this.filtersDef && this.filtersDef.length > 0) ||
+        (this.tableDef && this.tableDef.search && this.tableDef.search.enabled)) {
+      return [
+        new TableResetFiltersAction().getActionDef()
+      ];
+    } else {
+      return [];
+    }
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
@@ -339,6 +351,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           // Disable
           this.unregisterToDataChange();
         }
+        break;
+      case 'reset_filters':
+        this.setSearchValue('');
+        this.resetFilters();
+        this.loadData(false);
         break;
     }
   }
@@ -469,8 +486,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.filtersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
-          if (filterDef.currentValue instanceof Date) {
-            // Set it
+          if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {

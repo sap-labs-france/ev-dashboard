@@ -51,6 +51,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public mobile: AbstractControl;
   public iNumber: AbstractControl;
   public tagIDs: AbstractControl;
+  public plateID: AbstractControl;
   public costCenter: AbstractControl;
   public status: AbstractControl;
   public role: AbstractControl;
@@ -152,6 +153,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[a-zA-Z0-9,]*$')
         ])),
+      'plateID': new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[A-Z0-9-]*$')
+        ])),
       'costCenter': new FormControl('',
         Validators.compose([
           Validators.pattern('^[0-9]*$')
@@ -212,6 +217,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.mobile = this.formGroup.controls['mobile'];
     this.iNumber = this.formGroup.controls['iNumber'];
     this.tagIDs = this.formGroup.controls['tagIDs'];
+    this.plateID = this.formGroup.controls['plateID'];
     this.costCenter = this.formGroup.controls['costCenter'];
     this.status = this.formGroup.controls['status'];
     this.role = this.formGroup.controls['role'];
@@ -339,6 +345,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.tagIDs) {
         this.formGroup.controls.tagIDs.setValue(user.tagIDs);
+      }
+      if (user.plateID) {
+        this.formGroup.controls.plateID.setValue(user.plateID);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);

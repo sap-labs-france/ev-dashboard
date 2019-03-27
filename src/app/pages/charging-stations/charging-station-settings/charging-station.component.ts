@@ -56,12 +56,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // Scroll up
-    jQuery('html, body').animate({
-      scrollTop: 0
-    }, {
-        duration: 500
-      });
       // Check auth
     if (!this.authorizationService.canUpdateChargingStation({
       'id': 'currentCharger.id'

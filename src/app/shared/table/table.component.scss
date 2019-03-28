@@ -127,7 +127,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: rgba($brand-text, 0.1);
+  background-color: mat-color($app-background, dialog);
 }
 
 .table-dialog-list {

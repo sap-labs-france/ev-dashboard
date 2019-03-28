@@ -18,7 +18,6 @@
 }
 
 .app-dark .mat-select-panel {
-  background-color: $brand-text;
 }
 
 .mat-select-placeholder {
@@ -29,14 +28,11 @@
 }
 
 .mat-select-value, .mat-select-trigger {
-  color: #3C4858 !important;
 }
 
 .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-  color: $brand-primary
 }
 
-//
 .mat-pseudo-checkbox {
   border: none !important;
   margin-top: 2px;
@@ -44,12 +40,9 @@
 }
 
 .mat-select-panel {
-  background: white;
 }
 
 .mat-option.mat-selected:not(.mat-option-multiple) {
-  background-color: $brand-info !important;
-  color: $brand-text !important;
 }
 
 .mat-option {
@@ -58,37 +51,28 @@
 
   &:hover {
     @include box-shadow($shadow-mat-select-option);
-    background: $brand-info !important;
-    color: $brand-text !important;
   }
   &:focus {
     color: rgba(0, 0, 0, 0.87) !important;
     background: transparent !important;
     .mat-option-pseudo-checkbox {
       &:after {
-        color: $brand-text;
       }
     }
     &:hover {
-      background-color: $brand-info !important;
-      color: $brand-text !important;
     }
   }
   &.mat-selected {
     .mat-option-pseudo-checkbox {
       background: transparent;
       &:after {
-        color: $black-color;
       }
     }
     &:focus {
       background: transparent !important;
     }
     &:hover {
-      background-color: $brand-info !important;
-      color: $brand-text !important;
       .mat-option-pseudo-checkbox:after {
-       color: $brand-text;
       }
     }
   }
@@ -109,8 +93,8 @@
   outline: none;
   margin: 0 5px;
   border-radius: 2px;
-
   .mat-option-text {
+    color: $brand-text;
     float: left;
   }
   span .mat-option-pseudo-checkbox {
@@ -131,13 +115,11 @@
 }
 
 .mat-form-field-infix {
-  color: $brand-text;
   width: auto !important;
 }
 
 .mat-select {
   .mat-select-value-text span {
-    color: $brand-text;
     font-size: 0.9rem;
   }
 }
@@ -146,7 +128,6 @@
     .mat-select-trigger{
         margin: 0;
         padding-bottom: 0;
-        color: $brand-text!important;
         font-size: 12px !important;
     }
     .mat-select-arrow {
@@ -158,7 +139,6 @@
     }
     .mat-select-placeholder.mat-floating-placeholder{
         opacity: 1 !important;
-        color: #3f3f3f;
         margin-top: -25px;
     }
 }
@@ -169,18 +149,15 @@
         display: none !important;
     }
     .mat-input-placeholder{
-        color: $brand-text;
         margin: 4px 0px 0px 10px;
     }
     .mat-select-arrow-wrapper .mat-select-arrow{
-       color: $brand-text;
     }
     .mat-input-wrapper,
     .mat-form-field-wrapper{
         padding: 5px !important;
     }
     .mat-select-value-text{
-        color: $brand-text;
         font-size: 14px;
     }
 }

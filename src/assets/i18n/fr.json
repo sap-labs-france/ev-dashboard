@@ -650,6 +650,7 @@
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
+    "direct_current": "Courant Continu",
     "single_phase": "Monophasé",
     "tri_phases": "Triphasé",
     "site_area": "Site - Zone",

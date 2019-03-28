@@ -1,13 +1,13 @@
 <div class="main-content">
-  <form [formGroup]="formGroup" class="form">
-    <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                   animationDuration="0ms" disableRipple="true" class="mat-tab-info">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">portrait</mat-icon>
-          {{name.value}} {{firstName.value}}
-        </ng-template>
-        <div class="card card-profile card-testimonial">
+  <div class="card card-profile card-testimonial">
+    <form [formGroup]="formGroup" class="form">
+      <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
+                     animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">portrait</mat-icon>
+            {{name.value}} {{firstName.value}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -141,7 +141,8 @@
                   <img [src]="image" alt="..." class="">
                 </div>
                 <div style="display:none">
-                  <input (change)="imageChanged($event)" name="..." type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize">
+                  <input (change)="imageChanged($event)" name="..." type="file" accept=".jpg, .jpeg, .png, .gif"
+                         [maxLength]="maxSize">
                 </div>
               </div>
               <button (click)="clearImage()"
@@ -149,25 +150,21 @@
                       href="javascript:void(0)"></button>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">location_on</mat-icon>
-          {{'general.address' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">location_on</mat-icon>
+            {{'general.address' | translate}}
+          </ng-template>
           <div class="card-body">
             <app-address-cmp [formGroup]="formGroup" [hideGeoLocation]="true"></app-address-cmp>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">lock</mat-icon>
-          {{'authentication.password' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">lock</mat-icon>
+            {{'authentication.password' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -216,14 +213,12 @@
               </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">link</mat-icon>
-          {{'general.connectors' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">link</mat-icon>
+            {{'general.connectors' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-4">
@@ -238,7 +233,7 @@
                   <div class="card-footer">
                     <div class="d-flex flex-row align-items-center justify-content-between">
                       <div
-                        *ngIf="concurConnection && concurConnection.createdAt">{{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
+                          *ngIf="concurConnection && concurConnection.createdAt">{{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
                       </div>
                       <a href="https://www.concursolutions.com" target="_blank">
                         <i class="material-icons">launch</i>
@@ -256,14 +251,12 @@
               </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">more_horiz</mat-icon>
-          {{'users.miscs' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">more_horiz</mat-icon>
+            {{'users.miscs' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -299,26 +292,26 @@
             </div>
 
           </div>
-        </div>
-      </mat-tab>
-      <!--<span class="toolbar-spacer"></span>-->
-      <mat-tab disabled>
-        <ng-template mat-tab-label>
-          <button (click)="saveUser(formGroup.value)"
-                  [disabled]="!formGroup.valid || !formGroup.dirty"
-                  class="btn btn-just-icon btn-link btn-icon-white">
-            <i class="material-icons">save</i>
-          </button>
-          <button (click)="refresh()" *ngIf="currentUserID"
-                  class="btn btn-just-icon btn-link btn-icon-white">
-            <i class="material-icons">refresh</i>
-          </button>
-          <button *ngIf="inDialog" class="btn btn-just-icon btn-link btn-icon-white"
-                  mat-dialog-close>
-            <i class="material-icons">close</i>
-          </button>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </form>
+        </mat-tab>
+        <!--<span class="toolbar-spacer"></span>-->
+        <mat-tab disabled>
+          <ng-template mat-tab-label>
+            <button (click)="saveUser(formGroup.value)"
+                    [disabled]="!formGroup.valid || !formGroup.dirty"
+                    class="btn btn-just-icon btn-link btn-icon-white">
+              <i class="material-icons">save</i>
+            </button>
+            <button (click)="refresh()" *ngIf="currentUserID"
+                    class="btn btn-just-icon btn-link btn-icon-white">
+              <i class="material-icons">refresh</i>
+            </button>
+            <button *ngIf="inDialog" class="btn btn-just-icon btn-link btn-icon-white"
+                    mat-dialog-close>
+              <i class="material-icons">close</i>
+            </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </div>
 </div>

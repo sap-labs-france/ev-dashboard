@@ -236,6 +236,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.data = {
       validateButtonTitle : 'general.set_filter'
     };
+    // Render the Dialog Container transparent
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites

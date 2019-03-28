@@ -145,6 +145,13 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
 }
 
+.table-no-record-found {
+  padding: 13%;
+  white-space: normal;
+  font-size: large;
+  font-weight: bold;
+}
+
 .form-field-popup {
   cursor: pointer;
 }

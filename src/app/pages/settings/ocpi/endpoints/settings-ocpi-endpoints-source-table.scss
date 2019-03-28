@@ -12,3 +12,11 @@
       justify-content: center 
     }
   }
+
+::ng-deep .chip-width-8em {
+  width: 8em!important
+}
+
+::ng-deep .chip-width-10em {
+  width: 10em!important
+}

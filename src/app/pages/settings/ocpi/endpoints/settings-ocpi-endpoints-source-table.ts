@@ -141,8 +141,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         name: 'ocpiendpoints.status',
         isAngularComponent: true,
         angularComponentName: OcpiendpointStatusComponent,
-        headerClass: 'text-center',
-        class: 'col-20p',
+        headerClass: 'text-center col-10p',
+        class: '',
         sortable: false
       },
       {

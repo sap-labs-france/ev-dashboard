@@ -920,7 +920,7 @@
     "registered": "Enregistré",
     "unregistered": "Désenregistré",
     "lastPatchJobOn": "Dernière mise à jour",
-    "patchJobLastStatus": "Statut Dernière mise à jour",
+    "patchJobLastStatus": "Statut de mise à jour",
     "patchJobStatus": "Tâche de mise à jour",
     "patchJobResult": "Succès / Total",
     "patchJobCheckbox": "Activer la mise à jour automatique du statut des bornes",
@@ -955,7 +955,7 @@
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
     "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
     "background_job_no_run": "Non executée",
-    "totalChargePoints": "Points de Charge Total",
+    "totalChargePoints": "Points de Charge",
     "succeeded": "Succès",
     "failed": "Echecs"
   },

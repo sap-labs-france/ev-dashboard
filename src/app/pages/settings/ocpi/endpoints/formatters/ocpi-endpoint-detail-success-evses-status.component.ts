@@ -15,7 +15,7 @@ export class OcpiendpointDetailSuccessEvsesStatusComponent extends ChipComponent
   loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
-    this.type = 'chip-width-10em ';
+    this.type = 'chip-width-8em ';
     this.text = this.row.successNbr.toString();
     if (this.row.successNbr > 0) {
       this.type += TYPE_SUCCESS;

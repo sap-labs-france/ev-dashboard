@@ -132,7 +132,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         name: 'ocpiendpoints.totalChargePoints',
         isAngularComponent: true,
         angularComponentName: OcpiendpointDetailTotalEvsesStatusComponent,
-        headerClass: 'text-center col-15p',
+        headerClass: 'text-center col-10p',
         class: '',
         sorted: false
       },

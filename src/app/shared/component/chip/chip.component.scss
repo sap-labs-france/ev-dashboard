@@ -1,10 +1,10 @@
 @import "../../../../assets/scss/core/variables";
 
 @mixin chip($color) {
-  color: $color;
+  color: $color !important;
   opacity: 1 !important;
   border: 2px solid $color;
-  background-color: transparent;
+  background-color: transparent !important;
   font-size: 0.9rem;
   font-weight: bold;
   width: 80%;
@@ -49,5 +49,5 @@
 }
 
 .chip-grey {
-  @include chip($grey-700);
+  @include chip($brand-disabled);
 }

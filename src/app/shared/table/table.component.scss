@@ -18,10 +18,6 @@ table {
   border-collapse: collapse;
 }
 
-th {
-  padding: 5px !important;
-}
-
 td {
   font-size: $font-size-sm;
   padding: 2px 5px;
@@ -37,6 +33,7 @@ td a i {
 
 th {
   font-size: $font-size-sm;
+  padding: 5px !important;
 }
 
 tr.mat-row {
@@ -52,7 +49,6 @@ th:last-child, td:last-child {
 }
 
 th:nth-child(n+2), td:nth-child(n+2) {
-  //padding-right: 20px;
 }
 
 @mixin col-fixsize($width) {
@@ -131,7 +127,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: $brand-text;
+  background-color: rgba($brand-text, 0.1);
 }
 
 .table-dialog-list {
@@ -164,6 +160,7 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
+  background: mat-color($app-background, dialog);
   padding: 0 15px;
 }
 

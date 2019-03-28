@@ -38,7 +38,7 @@
 
     .nav-link.active {
       background-color: $brand-text;
-      color: $brand-text !important;
+      color: $brand-background !important;
       transition: 0.3s background-color 0.2s;
     }
   }

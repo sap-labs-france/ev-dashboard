@@ -4,11 +4,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $brand-background;
+  background: mat-color($app-foreground, disabled);
 }
 
 ::-webkit-scrollbar-track {
-  background: mat-color($app-foreground, disabled);
+  background: $brand-background;
 }
  
 legend {

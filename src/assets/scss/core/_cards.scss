@@ -6,7 +6,7 @@
   margin-bottom: 30px;
   margin-top: 30px;
   color: $brand-text;
-  background: $brand-text;
+  background: $brand-background;
   width: 100%;
   font-size: 0.9rem;
   border-radius: 0;
@@ -169,7 +169,7 @@
   &.bg-primary,
   &.card-rotate.bg-primary .front,
   &.card-rotate.bg-primary .back {
-    background: $brand-info;
+    background: $brand-primary;
   }
   .card-header-info .card-icon,
   .card-header-info .card-text,

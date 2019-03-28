@@ -204,7 +204,7 @@
     &:focus,
     &:active {
       background-color: transparent;
-      color: darken($background, 20%);
+      color: rgba($brand-text, 0.1);
     }
   }
 

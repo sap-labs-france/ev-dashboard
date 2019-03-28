@@ -39,9 +39,9 @@
 // Define colors with mat palette
 $app-primary: mat-palette($mat-grey, 600);
 $app-accent: mat-palette($mat-grey, A200, A100, A400);
-$app-success: mat-palette($mat-grey, 300);
-$app-warning: mat-palette($mat-grey, 200);
-$app-danger: mat-palette($mat-grey, 100);
+$app-success: mat-palette($mat-green, 300);
+$app-warning: mat-palette($mat-orange, 300);
+$app-danger: mat-palette($mat-red, 300);
 // Create the theme for materials
 $app-theme: mat-dark-theme($app-primary, $app-accent, $app-danger);
 // Bg/Fg
@@ -64,5 +64,4 @@ $brand-disabled: mat-color($app-foreground, disabled) !default;
 $brand-text: mat-color($app-foreground, text) !default;
 $brand-hover: mat-color($app-background, hover) !default;
 $brand-background: mat-color($app-background, background) !default;
-
 // End of Dark Theme ---------------------------------

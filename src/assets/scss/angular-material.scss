@@ -1337,7 +1337,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color: $brand-primary
 }
 .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline{
-  background-image:linear-gradient(to right,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 33%,transparent 0);
+  // background-image:linear-gradient(to right,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 33%,transparent 0);
   background-size:4px 100%;
   background-repeat:repeat-x
 }
@@ -1345,7 +1345,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
   background-color:rgba(255,255,255,.7)
 }
 .mat-form-field-appearance-standard.mat-form-field-disabled .mat-form-field-underline{
-  background-image:linear-gradient(to right,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 33%,transparent 0);
+  // background-image:linear-gradient(to right,rgba(255,255,255,.7) 0,rgba(255,255,255,.7) 33%,transparent 0);
   background-size:4px 100%;
   background-repeat:repeat-x
 }
@@ -1361,8 +1361,11 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label{
   color:rgba(255,255,255,.5)
 }
+.mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+  background-color: $brand-primary!important
+}
 .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-underline::before{
-  background-color:transparent
+  background-color: $brand-primary!important
 }
 .mat-form-field-appearance-outline .mat-form-field-outline{
   color:rgba(255,255,255,.3)

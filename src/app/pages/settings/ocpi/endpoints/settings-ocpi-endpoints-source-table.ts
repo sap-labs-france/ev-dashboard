@@ -21,14 +21,13 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
-// import { TableSendAction } from 'app/shared/table/actions/table-send-action';
-import { ACTION_SEND, EndpointMoreAction, ACTION_STOP_START_JOB } from './other-actions-boutton/endpoint-more-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
-import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
+import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
+
 
 const POLL_INTERVAL = 15000;
 @Injectable()
@@ -71,8 +70,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         this.setNumberOfRecords(ocpiendpoints.count);
         // Update Paginator
         this.updatePaginator();
-        // Notify
-        // this.getDataSubjet().next(ocpiendpoints.result);
         // Set the data
         this.setData(ocpiendpoints.result);
       }, (error) => {
@@ -105,8 +102,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       {
         id: 'name',
         name: 'ocpiendpoints.name',
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -121,22 +118,22 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       {
         id: 'countryCode',
         name: 'ocpiendpoints.countryCode',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-5p',
+        class: 'col-5p',
         sortable: true
       },
       {
         id: 'partyId',
         name: 'ocpiendpoints.partyId',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-5p',
+        class: 'col-5p',
         sortable: true
       },
       {
         id: 'version',
         name: 'ocpiendpoints.version',
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        headerClass: '',
+        class: '',
         sortable: true
       },
       {
@@ -144,37 +141,26 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         name: 'ocpiendpoints.status',
         isAngularComponent: true,
         angularComponentName: OcpiendpointStatusComponent,
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        headerClass: 'text-center',
+        class: 'col-20p',
         sortable: false
       },
-      // {
-      //   id: 'patchJobStatus',
-      //   name: 'ocpiendpoints.patchJobStatus',
-      //   isAngularComponent: true,
-      //   angularComponentName: OcpiendpointPatchJobStatusComponent,
-      //   headerClass: 'col-25p',
-      //   class: 'col-25p',
-      //   sortable: false
-      // },
-      // {
-      //   id: 'lastPatchJobOn',
-      //   type: 'date',
-      //   formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
-      //   name: 'ocpiendpoints.lastPatchJobOn',
-      //   headerClass: 'col-15p',
-      //   class: 'text-left col-15p',
-      //   sorted: true,
-      //   direction: 'desc',
-      //   sortable: true
-      // },
       {
-        id: 'patchJobResult',
+        id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
+        angularComponentName: OcpiendpointPatchJobStatusComponent,
+        headerClass: 'text-center col-10p',
+        class: '',
+        sortable: false
+      },
+      {
+        id: 'patchJobResult',
+        name: 'ocpiendpoints.patchJobLastStatus',
+        isAngularComponent: true,
         angularComponentName: OcpiendpointPatchJobResultComponent,
-        headerClass: 'col-5p',
-        class: 'col-5p',
+        headerClass: 'text-center col-10p',
+        class: '',
         sortable: false
       }
     ];

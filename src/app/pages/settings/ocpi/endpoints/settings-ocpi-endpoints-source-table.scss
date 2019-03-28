@@ -1,0 +1,14 @@
+@import "../../../../../assets/scss/core/variables";
+
+
+::ng-deep .endpoint-details {
+    .mat-chip-list-wrapper { 
+      justify-content: center 
+    }
+  }
+
+::ng-deep .endpoints-table {
+    .mat-chip-list-wrapper { 
+      justify-content: center 
+    }
+  }

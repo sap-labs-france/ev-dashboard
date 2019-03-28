@@ -1,5 +1,5 @@
-import {Ocpiendpoint} from 'app/common.types';
-import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
+import {OcpiendpointDetail} from 'app/common.types';
+import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
 
@@ -8,19 +8,18 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['../../../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
-export class OcpiendpointPatchJobStatusComponent extends ChipComponent {
+export class OcpiendpointDetailSuccessEvsesStatusComponent extends ChipComponent {
 
-  @Input() row: Ocpiendpoint;
+  @Input() row: OcpiendpointDetail;
 
   loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
     this.type = 'chip-width-10em ';
-    if (this.row.backgroundPatchJob) {
-      this.text = 'ocpiendpoints.status_active';
+    this.text = this.row.successNbr.toString();
+    if (this.row.successNbr > 0) {
       this.type += TYPE_SUCCESS;
     } else {
-      this.text = 'ocpiendpoints.status_inactive';
       this.type += TYPE_DEFAULT;
     }
   }

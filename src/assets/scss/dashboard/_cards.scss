@@ -79,7 +79,7 @@
       }
       .card-title {
         margin-top: 10px;
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 400;
       }
       h4 {
@@ -159,7 +159,7 @@
     }
 
     .stats {
-      color: $brand-primary;
+      color: $brand-text;
       font-size: 12px;
       line-height: 22px;
 
@@ -189,7 +189,7 @@
     .card-icon,
     .card-text {
       border-radius: $border-radius-base;
-      background-color: $blue-400;
+      background-color: mat-color($app-primary, 400);
       padding: 15px;
       margin-top: -20px;
       margin-right: 15px;
@@ -202,7 +202,7 @@
       margin-right: 0;
 
       .card-title {
-        color: $brand-inverse;
+        color: $brand-text;
         margin-top: 0;
       }
     }
@@ -211,7 +211,7 @@
 
     .ct-chart {
       .card-title {
-        color: $brand-primary;
+        color: $brand-text;
       }
       .card-category {
         margin-bottom: 0;
@@ -264,7 +264,7 @@
   }
 
   &.card-stats {
-    background: $brand-inverse;
+    background: $brand-text;
     .card-header {
       &.card-header-icon,
       &.card-header-text {
@@ -285,7 +285,7 @@
         margin-top: 0;
 
         &:not([class*="text-"]) {
-          color: $brand-primary;
+          color: $brand-text;
           font-size: $font-paragraph;
         }
       }

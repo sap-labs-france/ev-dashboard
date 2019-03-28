@@ -18,7 +18,7 @@
 }
 
 .app-dark .mat-select-panel {
-  background-color: $brand-primary;
+  background-color: $brand-text;
 }
 
 .mat-select-placeholder {
@@ -49,7 +49,7 @@
 
 .mat-option.mat-selected:not(.mat-option-multiple) {
   background-color: $brand-info !important;
-  color: $brand-inverse !important;
+  color: $brand-text !important;
 }
 
 .mat-option {
@@ -59,19 +59,19 @@
   &:hover {
     @include box-shadow($shadow-mat-select-option);
     background: $brand-info !important;
-    color: $brand-inverse !important;
+    color: $brand-text !important;
   }
   &:focus {
     color: rgba(0, 0, 0, 0.87) !important;
     background: transparent !important;
     .mat-option-pseudo-checkbox {
       &:after {
-        color: $brand-primary;
+        color: $brand-text;
       }
     }
     &:hover {
       background-color: $brand-info !important;
-      color: $brand-primary !important;
+      color: $brand-text !important;
     }
   }
   &.mat-selected {
@@ -86,9 +86,9 @@
     }
     &:hover {
       background-color: $brand-info !important;
-      color: $brand-inverse !important;
+      color: $brand-text !important;
       .mat-option-pseudo-checkbox:after {
-       color: $brand-primary;
+       color: $brand-text;
       }
     }
   }
@@ -131,13 +131,13 @@
 }
 
 .mat-form-field-infix {
-  color: $brand-primary;
+  color: $brand-text;
   width: auto !important;
 }
 
 .mat-select {
   .mat-select-value-text span {
-    color: $brand-primary;
+    color: $brand-text;
     font-size: 0.9rem;
   }
 }
@@ -146,7 +146,7 @@
     .mat-select-trigger{
         margin: 0;
         padding-bottom: 0;
-        color: $brand-primary!important;
+        color: $brand-text!important;
         font-size: 12px !important;
     }
     .mat-select-arrow {
@@ -169,18 +169,18 @@
         display: none !important;
     }
     .mat-input-placeholder{
-        color: $brand-primary;
+        color: $brand-text;
         margin: 4px 0px 0px 10px;
     }
     .mat-select-arrow-wrapper .mat-select-arrow{
-       color: $brand-primary;
+       color: $brand-text;
     }
     .mat-input-wrapper,
     .mat-form-field-wrapper{
         padding: 5px !important;
     }
     .mat-select-value-text{
-        color: $brand-primary;
+        color: $brand-text;
         font-size: 14px;
     }
 }

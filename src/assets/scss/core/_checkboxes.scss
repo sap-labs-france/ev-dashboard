@@ -64,7 +64,7 @@
         margin-top: -3px;
         margin-left: 7px;
         width: 0;
-        color: $brand-primary;
+        color: $brand-text;
         height: 0;
         box-shadow: 0 0 0 0,
         0 0 0 0,
@@ -91,7 +91,7 @@
       }
 
       & + .form-check-sign .check:before {
-        color: $brand-primary;
+        color: $brand-text;
         box-shadow: 0 0 0 10px,
         10px -10px 0 10px,
         32px 0 0 20px,

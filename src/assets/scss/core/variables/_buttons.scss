@@ -37,7 +37,7 @@ $btn-box-shadow: none !default;
 $btn-active-box-shadow: none !default; // inset 0 3px 5px rgba(0,0,0,.125)
 
 //
-$btn-primary-color: $brand-inverse !default;
+$btn-primary-color: $brand-text !default;
 $btn-primary-bg: $brand-primary !default;
 $btn-primary-border-color: $btn-primary-bg !default;
 //
@@ -45,32 +45,32 @@ $btn-secondary-color: $gray-dark !default;
 $btn-secondary-bg: $body-bg !default; // #fff
 $btn-secondary-border-color: #ccc !default;
 //
-$btn-info-color: $brand-inverse !default;
-$btn-info-bg: $brand-info !default;
+$btn-info-color: $brand-text !default;
+$btn-info-bg: $brand-primary !default;
 $btn-info-border-color: $btn-info-bg !default;
 //
-$btn-icon-white-color: $brand-inverse !default;
-$btn-icon-white-bg: $brand-inverse !default;
-$btn-icon-white-border-color: $brand-inverse !default;
+$btn-icon-white-color: $brand-text !default;
+$btn-icon-white-bg: $brand-text !default;
+$btn-icon-white-border-color: $brand-text !default;
 //
-$btn-success-color: $brand-inverse !default;
+$btn-success-color: $brand-text !default;
 $btn-success-bg: $brand-success !default;
 $btn-success-border-color: $btn-success-bg !default;
 //
-$btn-warning-color: $brand-inverse !default;
+$btn-warning-color: $brand-text !default;
 $btn-warning-bg: $brand-warning !default;
 $btn-warning-border-color: $btn-warning-bg !default;
 //
-$btn-danger-color: $brand-inverse !default;
+$btn-danger-color: $brand-text !default;
 $btn-danger-bg: $brand-danger !default;
 $btn-danger-border-color: $btn-danger-bg !default;
 
-$btn-rose-color: $brand-inverse !default;
-$btn-rose-bg: $brand-rose !default;
+$btn-rose-color: $brand-text !default;
+$btn-rose-bg: $brand-info !default;
 $btn-rose-border-color: $btn-rose-bg !default;
 
-$btn-default-color: $brand-inverse !default;
-$btn-default-bg: $gray-color !default;
+$btn-default-color: $brand-text !default;
+$btn-default-bg: $brand-primary !default;
 $btn-default-border-color: $btn-default-bg !default;
 //
 $btn-link-disabled-color: $gray-light !default;

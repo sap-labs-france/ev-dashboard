@@ -41,9 +41,9 @@
     &,
     &:focus,
     &:hover {
-      background-color: $brand-primary;
-      border-color: $brand-primary;
-      color: $brand-primary;
+      background-color: $brand-text;
+      border-color: $brand-text;
+      color: $brand-text;
       @include shadow-4dp-color($brand-primary);
     }
 

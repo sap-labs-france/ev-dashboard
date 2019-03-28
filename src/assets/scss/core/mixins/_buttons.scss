@@ -347,7 +347,7 @@ $opacity-2: rgba(255, 255, 255, .2) !default;
   .open > &.dropdown-toggle:focus,
   .open > &.dropdown-toggle:hover {
     background-color: $btn-color;
-    color: $brand-primary;
+    color: $brand-text;
   }
 
   &:focus,

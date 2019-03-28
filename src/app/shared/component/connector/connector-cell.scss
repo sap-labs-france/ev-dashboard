@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     z-index:1;
-    color: $brand-inverse;
+    color: $brand-text;
 
     &.charger-connector-container-image {
       width: 28px;
@@ -60,9 +60,9 @@
         height: 100%;
         animation: spinner 3s linear infinite;
         border-radius: 50%;
-        border-left: 3px solid $blue-200;
+        border-left: 3px solid $brand-accent;
         border-top: 3px solid $brand-info;
-        border-right: 3px solid $blue-200;
+        border-right: 3px solid $brand-accent;
         border-bottom: 3px solid $brand-info;
         z-index: -1;
       }
@@ -74,7 +74,7 @@
       justify-content: center;
       width: 100%;
       height: 100%;
-      color: $brand-inverse;
+      color: $brand-text;
       position: relative;
       // top: -30px;
       opacity: 1 !important;
@@ -83,7 +83,7 @@
     .charger-connector-available {
       color: $brand-success;
       border: 2px solid darken($brand-success, 5%);
-      background-color: $brand-inverse;
+      background-color: $brand-text;
     }
     .charger-connector-charging-available-text {
       color: $brand-success;
@@ -107,8 +107,8 @@
       // border: 2px solid darken($brand-info, 15%);
     }
     .charger-connector-charging-active-text {
-      color: $brand-inverse;
-      text-shadow: 0 0 4px $brand-inverse, 0 0 18px $brand-inverse;
+      color: $brand-text;
+      text-shadow: 0 0 4px $brand-text, 0 0 18px $brand-text;
     }    
     &.charger-connector-charging-active-type-background {
       // border: 1px solid $brand-disabled;

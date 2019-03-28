@@ -66,7 +66,7 @@
   &#{$component}-default#{$selector-suffix} {
 
     $args-extra: map-merge($args, (
-      variation-color: $brand-primary,
+      variation-color: $brand-text,
       variation-color-text: $gray
     ));
     @include call-variations-content-mixin($args-extra);
@@ -80,7 +80,7 @@
   }
   &#{$component}-primary#{$selector-suffix} {
     $args-primary: map-merge($args, (
-      variation-color: $brand-primary,
+      variation-color: $brand-text,
       variation-color-text: $mdb-text-color-light
     ));
     @include call-variations-content-mixin($args-primary);
@@ -116,7 +116,7 @@
 
   &#{$component}-rose#{$selector-suffix} {
     $args-rose: map-merge($args, (
-      variation-color: $brand-rose,
+      variation-color: $brand-info,
       variation-color-text: $mdb-text-color-light
     ));
     @include call-variations-content-mixin($args-rose);

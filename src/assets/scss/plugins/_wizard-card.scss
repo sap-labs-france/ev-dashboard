@@ -22,7 +22,7 @@
     height: 106px;
     background-color: #999999;
     border: 4px solid #CCCCCC;
-    color: $brand-primary;
+    color: $brand-text;
     border-radius: 50%;
     margin: 5px auto;
     overflow: hidden;
@@ -44,7 +44,7 @@
     top: -3px;
     left: 0px;
     border-radius: 4px;
-    color: $brand-primary;
+    color: $brand-text;
     cursor: pointer;
     font-weight: 500;
   }
@@ -70,7 +70,7 @@
   }
 
   &[data-color="rose"] {
-    @include set-wizard-color($brand-rose);
+    @include set-wizard-color($brand-info);
   }
 
   .picture input[type="file"] {
@@ -177,7 +177,7 @@
   }
 
   .description {
-    color: $brand-primary;
+    color: $brand-text;
     font-size: 14px;
   }
 

@@ -1,39 +1,8 @@
-/*!
 
- =========================================================
- * Material Dashboard PRO Angular - v2.1.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-angular2
- * Copyright 2018 Creative Tim (https://www.creative-tim.com)
-
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
- @import "core/variables";
- @import "core/mixins";
- 
-// @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-// @import "~@angular/material/prebuilt-themes/purple-green.css";
-// Create Material custom theme 
-@import '~@angular/material/theming';
-@include mat-core();
-$app-primary: mat-palette($mat-blue, 600);
-$app-accent:  mat-palette($mat-blue, 900);
-$app-warn:    mat-palette($mat-red, 600);
-// Create the theme
-$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
-// Use it
-@include angular-material-theme($app-theme);
-
-// Datetime picker
-@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
-@include mat-datetimepicker-theme($app-theme);
-
+// Import Core Vars/Mixins
+@import "core/variables";
+@import "core/mixins";
+// Bootstrap
 @import "~bootstrap/scss/bootstrap";
 @import "core/reboot";
 @import "core/recaptcha";

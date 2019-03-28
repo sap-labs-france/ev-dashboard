@@ -53,8 +53,8 @@
     @include alert-icon-color($brand-primary);
   }
   &.alert-rose {
-    @include shadow-alert-color($brand-rose);
-    @include alert-icon-color($brand-rose);
+    @include shadow-alert-color($brand-info);
+    @include alert-icon-color($brand-info);
   }
 
   &.alert-with-icon {
@@ -67,7 +67,7 @@
       position: absolute;
       margin-top: -39px;
       font-size: 20px;
-      background-color: $brand-inverse;
+      background-color: $brand-text;
       padding: 9px;
       border-radius: 50%;
       max-width: 38px;
@@ -78,7 +78,7 @@
   .close {
     line-height: .5;
     i {
-      color: $brand-inverse;
+      color: $brand-text;
       font-size: 11px;
     }
   }

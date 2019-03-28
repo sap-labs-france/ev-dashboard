@@ -17,7 +17,7 @@
   }
 
   .fa-cog {
-    color: $brand-primary;
+    color: $brand-text;
     padding: 10px;
     border-radius: 0 0 6px 6px;
     width: auto;
@@ -39,7 +39,7 @@
   }
 
   .fa-circle-thin {
-    color: $brand-primary;
+    color: $brand-text;
   }
 
   .active .fa-circle-thin {
@@ -88,7 +88,7 @@
     background-color: $brand-success;
   }
   .badge-orange {
-    background-color: $brand-primary;
+    background-color: $brand-text;
   }
   .badge-yellow {
     background-color: $brand-warning;
@@ -186,7 +186,7 @@
         font-size: 16px;
         text-align: center;
         border-radius: 10px;
-        background-color: $brand-primary;
+        background-color: $brand-text;
         border: 3px solid #FFF;
         padding-left: 0;
         padding-right: 0;
@@ -218,7 +218,7 @@
     > .active > a.img-holder,
     > .active > a.img-holder {
       border-color: #00bbff;
-      background-color: $brand-primary;
+      background-color: $brand-text;
     }
 
   }

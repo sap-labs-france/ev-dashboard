@@ -34,7 +34,7 @@ $button-darken-active: darken($brand-info, 15%);
     height:36px;
 
     .trending-icon {
-        color: $brand-primary;    
+        color: $brand-text;    
     }
 }
 
@@ -129,7 +129,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      background-color: $brand-inverse;
+      background-color: $brand-text;
     }
 
     .sidebar-background {
@@ -158,18 +158,18 @@ agm-map {
     &[data-background-color="black"] {
         @include sidebar-background-color($gray-base, $white-color);
         h1, h2, h3, h4, div, span, p {
-          color: $brand-primary;
+          color: $brand-text;
           font-weight: 500; 
           font-size: 1.5rem !important;
           padding: 14px 0px;
-          background: $brand-inverse;
+          background: $brand-text;
         }
     }
 
     &[data-background-color="red"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-        color: $brand-inverse;
+        color: $brand-text;
         font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
@@ -180,11 +180,11 @@ agm-map {
     &[data-background-color="blue"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-        color: $brand-inverse;
+        color: $brand-text;
         font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
-        background-color: $brand-primary;
+        background-color: $brand-text;
       }
     }
 
@@ -209,7 +209,7 @@ agm-map {
     }
 
     &[data-color="rose"] {
-        @include set-background-color-button($brand-rose);
+        @include set-background-color-button($brand-info);
     }
 
     &[data-color="white"] {
@@ -222,7 +222,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      @include sidebar-background-color($blue-900, $white-color);
+      @include sidebar-background-color(mat-color($app-primary, 900), $white-color);
     }
 
     &[data-image]:after,

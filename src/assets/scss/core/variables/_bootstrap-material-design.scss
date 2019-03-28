@@ -13,7 +13,7 @@ $icon-color: rgba($black, 0.5) !default;
 
 // --------------------
 // inputs
-$mdb-input-placeholder-color: $brand-primary !default;
+$mdb-input-placeholder-color: $brand-text !default;
 $mdb-input-underline-color: #D2D2D2 !default;
 
 $mdb-input-font-size-base: 14px !default;
@@ -50,9 +50,9 @@ $margin-base: 1.071rem !default;
 $bmd-checkbox-size: 1.25rem !default;
 $bmd-checkbox-animation-ripple: 500ms !default;
 $bmd-checkbox-animation-check: 0.3s !default;
-$bmd-checkbox-checked-color: $brand-primary !default;
+$bmd-checkbox-checked-color: $brand-text !default;
 $bmd-checkbox-label-padding: .3125rem !default; // 5px
-$checkboxes-text-color: $brand-primary !default;
+$checkboxes-text-color: $brand-text !default;
 
 $bmd-checkbox-border-size: .0625rem !default;
 $bmd-checkbox-border-color: $bmd-label-color-inner-focus !default;
@@ -67,14 +67,6 @@ $medium-pale-bg: #F1EAE0 !default;
 $pale-bg: #F9F7F3 !default;
 
 $font-color: #66615b !default;
-
-// $brand-default:     #cecece !default;
-// $brand-primary:     $purple !default;
-// $brand-success:     $green !default;
-// $brand-danger:      $red !default;
-// $brand-warning:     $orange !default;
-// $brand-info:        $cyan !default;
-// $brand-rose:        $pink !default;
 
 $black-color: #3C4858 !default;
 
@@ -125,7 +117,7 @@ $white-color: #fff !default;
 $navbar-color: #555 !default;
 $pills-color: $navbar-color !default;
 $black-color: #3C4858 !default;
-$link-color: $brand-primary;
+$link-color: $brand-text;
 $white-transparent: rgba($white-color, .8);
 $transparent: transparent;
 
@@ -140,7 +132,7 @@ $bg-primary: $brand-primary;
 $bg-danger: $brand-danger;
 $bg-warning: $brand-warning;
 $bg-info: $brand-info;
-$bg-rose: $brand-rose;
+$bg-rose: $brand-info;
 $bg-success: $brand-success;
 $bg-dark: $grey-900;
 
@@ -221,7 +213,7 @@ $mdb-label-color-toggle-focus: unquote("rgba(#{$rgb-black}, .54)") !default;
 $mdb-checkbox-size: 20px !default;
 $mdb-checkbox-animation-ripple: 500ms !default;
 $mdb-checkbox-animation-check: 0.3s !default;
-$mdb-checkbox-checked-color: $brand-primary !default;
+$mdb-checkbox-checked-color: $brand-text !default;
 
 $mdb-checkbox-label-color: $mdb-label-color !default;
 $mdb-checkbox-border-color: $mdb-label-color-toggle-focus !default;

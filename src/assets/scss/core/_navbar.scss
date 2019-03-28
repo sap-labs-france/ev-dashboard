@@ -12,7 +12,7 @@
   .navbar-nav {
     .nav-item .nav-link {
       position: relative;
-      color: $brand-inverse;
+      color: $brand-text;
       padding: $padding-general-x;
       font-weight: $font-weight-default;
       font-size: $mdb-btn-font-size-base;
@@ -68,8 +68,8 @@
       &,
       &:hover,
       &:focus {
-        color: $brand-primary;
-        background-color: $brand-inverse;
+        color: $brand-background;
+        background-color: $brand-text;
       }
     }
   }
@@ -151,7 +151,6 @@
 
   &.navbar-transparent {
     background-color: transparent !important;
-    // background: linear-gradient(60deg, $blue-700, $blue-800);
     opacity: 0.9;
     box-shadow: none;
     padding-top: 25px;
@@ -164,7 +163,7 @@
     right: 10px;
     font-size: 9px;
     background: $brand-danger;
-    color: $brand-inverse;
+    color: $brand-text;
     min-width: 20px;
     padding: 0px 5px;
     height: 20px;

@@ -15,7 +15,7 @@ export class OcpiendpointDetailFailureEvsesStatusComponent extends ChipComponent
   loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
-    this.type = 'chip-width-8m ';
+    this.type = 'chip-width-8em ';
     this.text = this.row.failureNbr.toString();
     if (this.row.failureNbr > 0) {
       this.type += TYPE_DANGER;

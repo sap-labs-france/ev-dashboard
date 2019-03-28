@@ -14,9 +14,9 @@
   }
 
 ::ng-deep .chip-width-8em {
-  width: 8em!important
+  min-width: 4em
 }
 
 ::ng-deep .chip-width-10em {
-  width: 10em!important
+  min-width: 10em!important
 }

@@ -952,7 +952,11 @@
     "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails",
     "start_stop_job": "Activer/Désactiver le processus",
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
-    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès"
+    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
+    "background_job_no_run": "Non executée",
+    "totalChargePoints": "Points de Charge Total",
+    "succeeded": "Succès",
+    "failed": "Echecs"
   },
   "ocpi": {
     "title": "Itinérance",
@@ -1134,9 +1138,9 @@
         "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Charge moyenne trop importante",
-        "description": "La puissance de charge moyenne est supérieure à la capacitée du connecteur.",
-        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connécteur est correcte."
+        "title": "Consommation trop Importante",
+        "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
+        "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
         }
     }
   },

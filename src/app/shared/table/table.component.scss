@@ -41,7 +41,6 @@ th {
 
 tr.mat-row {
   height: initial;
-  border-bottom: 1px solid $table-border-color;
 }
 
 th:first-child, td:first-child {
@@ -165,7 +164,7 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
-  padding: 0 10px;
+  padding: 0 15px;
 }
 
 .mat-toolbar-row {
@@ -263,6 +262,25 @@ tr.element-row:not(.expanded-row):active {
 
 .refresh-icon {
   min-height: 24px;
+}
+
+::ng-deep .auto-refresh-slider {
+    margin-right: 0.5rem !important;
+      & .mat-slide-toggle-label .mat-slide-toggle-bar  {
+        margin-right: 4px !important;
+    }
+  }
+
+.right-actions {
+  > button:last-child {
+    margin-right: 0;
+  }
+}
+
+.left-actions {
+  > button:first-child {
+    margin-left: 0;
+  }
 }
 
 .spinner-autorefresh2 {

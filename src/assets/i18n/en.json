@@ -955,7 +955,11 @@
     "error_send_evse_statuses": "Error occured while updating EVSE statuses - see logs for more details",
     "start_stop_job": "Enable/Disable background job",
     "background_job_activated": "Background job activated successfully",
-    "background_job_desactivated": "Background job disabled successfully"
+    "background_job_desactivated": "Background job disabled successfully",
+    "background_job_no_run": "Not Executed",
+    "totalChargePoints": "Total Charge Points",
+    "succeeded": "Succeeded",
+    "failed": "Failed"
   },
   "ocpi": {
     "title": "Roaming",
@@ -1139,7 +1143,7 @@
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
-        "title": "Average charging power Too high",
+        "title": "Consumption Too High",
         "description": "The average registered charging power is greater than the capacity of the connector.",
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       }

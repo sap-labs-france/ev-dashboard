@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <div *ngIf="dataSource.hasActions() || dataSource.hasFilters() || dataSource.isSearchEnabled()" class="mat-toolbar">
       <!-- Actions Row -->
-      <div *ngIf="dataSource.hasActions()" class="d-flex flex-row mat-toolbar-row ">
+      <div *ngIf="dataSource.hasActions()" class="left-actions d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <!-- <div class="filter-row d-md-flex flex-md-row flex-sm-column mr-auto"> -->
         <ng-container *ngFor="let actionDef of actionsLeftDef; let i=index">
@@ -73,7 +73,7 @@
           </div>
         </ng-container>
         <!-- Create Right Actions -->
-        <div class="d-flex align-items-center justify-content-md-end align-self-md-start">
+        <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
           <!-- <div class="d-md-flex flex-md-row flex-sm-column mr-auto"></div> -->
           <ng-container *ngFor="let actionRightDef of actionsRightDef; let i=index">
             <!-- Refresh Action Button -->
@@ -111,7 +111,8 @@
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
                                 [checked]="actionRightDef.currentValue"
-                                appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                                appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)"
+                                class="auto-refresh-slider">
                 <!-- <div class="refresh-box">
                   <div *ngIf="ongoingAutoRefresh " class="spinner-autorefresh2" id="spinnerRefresh">
                     <div class="loader">

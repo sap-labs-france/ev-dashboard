@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-md-4 col-xl-2">
+                <div class="col-md-6 col-xl-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
@@ -38,7 +38,29 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-4 col-xl-2">
+                <div class="col-md-6 col-xl-3">
+                    <mat-form-field>
+                        <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}" [formControl]="powerLimitUnit"
+                            required>
+                            <mat-option *ngFor="let powerUnit of powerUnitMap" [value]="powerUnit.key">
+                                {{powerUnit.description | translate}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-xl-6">
+                    <mat-form-field>
+                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin" >
+                        <mat-error *ngIf="latitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
+                        <mat-error *ngIf="latitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+                            <mat-icon>pin_drop</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 col-xl-6">
                     <div class="form-group">
                         <mat-form-field>
                             <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase"
@@ -50,27 +72,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-4 col-xl-2">
-                    <mat-form-field>
-                        <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}" [formControl]="powerLimitUnit"
-                            required>
-                            <mat-option *ngFor="let powerUnit of powerUnitMap" [value]="powerUnit.key">
-                                {{powerUnit.description | translate}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6 col-xl-3">
-                    <mat-form-field>
-                        <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin" >
-                        <mat-error *ngIf="latitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
-                        <mat-error *ngIf="latitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-                        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
-                            <mat-icon>pin_drop</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-6">
                     <mat-form-field>
                         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" required [formControl]="longitude" [readOnly]="!isAdmin" >
                         <mat-error *ngIf="longitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>

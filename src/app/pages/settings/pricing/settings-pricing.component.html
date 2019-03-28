@@ -26,7 +26,16 @@
       </div>
 
       <div class="card-body">
-        <div class="row">
+        <div class="mat-toolbar-row">
+          <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
+            [disabled]="!formGroup.valid || !formGroup.dirty">
+            <span class="mat-button-wrapper">
+              <i class="material-icons mr-2">save</i>
+              <span class="btn-label">{{'general.save' | translate}}</span>
+            </span>
+          </button>
+        </div>
+        <div class="row" style="margin-top: 1em">
           <div class="col-md-6">
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="price"
@@ -51,17 +60,6 @@
             </mat-form-field>
           </div>
         </div>
-      </div>
-
-      <div class="card-footer text-center">
-        <span class="toolbar-spacer"></span>
-        <button class="btn btn-danger mat-raised-button btn-theme pull-right" (click)="save(formGroup.value)"
-                [disabled]="!formGroup.valid || !formGroup.dirty">
-    <span class="mat-button-wrapper">
-    <i class="material-icons mr-2">save</i>
-    <span class="btn-label">{{'general.save' | translate}}</span>
-    </span>
-        </button>
       </div>
     </div>
   </form>

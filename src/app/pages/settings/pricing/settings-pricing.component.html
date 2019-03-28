@@ -55,12 +55,10 @@
 
       <div class="card-footer text-center">
         <span class="toolbar-spacer"></span>
-        <button class="btn btn-danger mat-raised-button btn-theme pull-right" (click)="save(formGroup.value)"
+        <button mat-raised-button class="btn btn-info pull-right" (click)="save(formGroup.value)"
                 [disabled]="!formGroup.valid || !formGroup.dirty">
-    <span class="mat-button-wrapper">
     <i class="material-icons mr-2">save</i>
-    <span class="btn-label">{{'general.save' | translate}}</span>
-    </span>
+      {{'general.save' | translate}}
         </button>
       </div>
     </div>
@@ -157,12 +155,10 @@
 
     <div class="card-footer text-center">
       <span class="toolbar-spacer"></span>
-      <button class="btn btn-danger mat-raised-button btn-theme pull-right" (click)="save(formGroup.value)"
+      <button mat-raised-button class="btn btn-info pull-right" (click)="save(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
-                    <span class="mat-button-wrapper">
                       <i class="material-icons mr-2">save</i>
-                      <span class="btn-label">{{'general.save' | translate}}</span>
-                    </span>
+                        {{'general.save' | translate}}
       </button>
     </div>
   </div>

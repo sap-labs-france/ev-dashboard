@@ -41,7 +41,6 @@ th {
 
 tr.mat-row {
   height: initial;
-  border-bottom: 1px solid $table-border-color;
 }
 
 th:first-child, td:first-child {
@@ -165,7 +164,7 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
-  padding: 0 10px;
+  padding: 0 15px;
 }
 
 .mat-toolbar-row {

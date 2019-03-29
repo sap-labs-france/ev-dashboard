@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.toggleSidebar();
     // Get the routes
     this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
-      return route.data && route.data.menu && this.guard.isRouteAllowed(route);
+      return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, null);
     }).map(route => route.data.menu);
 
     // Set admin

@@ -7,7 +7,9 @@ import {RouteGuardService} from './services/route-guard.service';
 import {ModuleWithProviders} from '@angular/core';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
+import {DevEnvGuard} from './guard/development.guard';
 import {Constants} from './utils/Constants';
+
 
 export const AppRoutes: Routes = [
   {
@@ -26,17 +28,22 @@ export const AppRoutes: Routes = [
   {
     path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
+      
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
-      /*{
+      {
         path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: {
           menu: {
             title: 'dashboard',
             type: 'link',
             icon: 'dashboard',
             path: '/dashboard'
+          },
+          options: {
+            onlyDev: true
           }
-        }
-      },*/
+        },
+        canLoad: [DevEnvGuard]
+      },
       {
         path: 'charging-stations', loadChildren: './pages/charging-stations/charging-stations.module#ChargingStationsModule', data: {
           menu: {
@@ -133,6 +140,27 @@ export const AppRoutes: Routes = [
       {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
         data: {forAdminOnly: true, forSuperAdminOnly: true}
+      },
+      {
+        path: 'template', 
+        canLoad: [DevEnvGuard], 
+        loadChildren: './pages/template/template.module#TemplateModule', 
+        data: {
+          menu: {
+            title: 'template',
+            type: 'link',
+            icon: 'help',
+            path: '/template'
+          },
+          auth: {
+            entity: Constants.ENTITY_LOGGINGS,
+            action: Constants.ACTION_LIST
+          },
+          options: {
+            onlyDev: true
+          }
+        },
+        
       },
     ]
   },

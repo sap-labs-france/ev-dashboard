@@ -34,7 +34,7 @@
                 </span>
             </div>
             <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">
-              <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" |
+              <button mat-raised-button class="btn btn-inverse" type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" |
                 translate}}
               </button>
             </div>

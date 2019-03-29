@@ -17,12 +17,14 @@
                             textPosition="bottom"></app-smart-charging-power-slider>
                     </div>
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-info mat-raised-button" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
+                        <button mat-raised-button class="btn btn-info" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
                             (click)="applyPowerLimit()">
-                            <span class="mat-button-wrapper">
+                            <!-- <span class="mat-button-wrapper"> -->
                                 <i class="material-icons mr-2">save</i>
-                                <span class="btn-label">{{'general.apply' | translate}}</span>
-                            </span>
+                                <!-- <span class="btn-label"> -->
+                                    {{'general.apply' | translate}}
+                                <!-- </span> -->
+                            <!-- </span> -->
                         </button>
                     </div>
                 </div>

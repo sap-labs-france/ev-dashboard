@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Route, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Route, Router, RouterStateSnapshot, CanLoad, UrlSegment} from '@angular/router';
 import {CentralServerService} from './central-server.service';
 import {AuthorizationService} from './authorization-service';
 import {MessageService} from './message.service';
 import {TranslateService} from '@ngx-translate/core';
 import {WindowService} from './window.service';
 import {ComponentService} from './component.service';
-
+import { environment } from 'environments/environment';
 @Injectable()
-export class RouteGuardService implements CanActivate, CanActivateChild {
+export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -94,5 +94,14 @@ export class RouteGuardService implements CanActivate, CanActivateChild {
     }
 
     return isAuthorized;
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): boolean {
+    if (route.data && route.data.options && route.data.options.onlyDev) {
+      console.log('Environment ' + environment.production);
+      return !environment.production; // if prod = false it will load module
+    } else {
+      return true;
+    }
   }
 }

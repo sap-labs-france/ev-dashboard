@@ -61,6 +61,14 @@
           </div>
         </div>
       </div>
+      <div class="card-footer text-center">
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button class="btn btn-info pull-right" (click)="save(formGroup.value)"
+                [disabled]="!formGroup.valid || !formGroup.dirty">
+            <i class="material-icons mr-2">save</i>
+                {{'general.save' | translate}}
+        </button>
+      </div>
     </div>
   </form>
 
@@ -160,6 +168,14 @@
           </mat-form-field>
         </div>
       </div>
+    </div>
+    <div class="card-footer text-center">
+      <span class="toolbar-spacer"></span>
+      <button mat-raised-button class="btn btn-info pull-right" (click)="save(formGroup.value)"
+              [disabled]="!formGroup.valid || !formGroup.dirty">
+                      <i class="material-icons mr-2">save</i>
+                        {{'general.save' | translate}}
+      </button>
     </div>
   </div>
 </form>

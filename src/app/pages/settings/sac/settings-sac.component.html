@@ -28,12 +28,10 @@
 
     <div class="card-body">
       <div class="mat-toolbar-row">
-        <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
+        <button mat-raised-button class="btn btn-danger" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-          <span class="mat-button-wrapper">
             <i class="material-icons mr-2">save</i>
-            <span class="btn-label">{{'general.save' | translate}}</span>
-          </span>
+              {{'general.save' | translate}}
         </button>
       </div>
       <div class="row">

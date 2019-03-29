@@ -20,10 +20,9 @@
   <div class="card-footer mat-dialog-actions">
     <span class="toolbar-spacer"></span>
 
-    <button class="mat-raised-button mat-primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
+    <button mat-raised-button class="btn btn-info" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
       {{buttonTitle | translate}}
     </button>
-    <button class="mat-raised-button" (click)="cancel()">{{"general.cancel" | translate}}</button>
+    <button mat-raised-button class="btn btn-inverse" (click)="cancel()">{{"general.cancel" | translate}}</button>
   </div>
 </div>
-

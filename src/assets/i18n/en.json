@@ -925,7 +925,7 @@
     "registered": "Registered",
     "unregistered": "Unregistered",
     "lastPatchJobOn": "Last Update Date",
-    "patchJobLastStatus": "Last Job Exec",
+    "patchJobLastStatus": "Last Push Status",
     "patchJobStatus": "Job Status",
     "patchJobResult": "Success / Total",
     "patchJobCheckbox": "Activate EVSE Status Update Job",

@@ -445,8 +445,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
       const concurSetting = this.chargeAtHomeSetting.content.concur;
-      // const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
-      const returnedUrl = 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections';
+      const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
+      // const returnedUrl = 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections';
       const state = {
         connector: 'concur',
         appId: this.chargeAtHomeSetting.id,

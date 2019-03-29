@@ -57,8 +57,8 @@ export class ConnectionComponent extends AbstractTabComponent implements OnInit 
         data:
           {
             code: this.activatedRoute.snapshot.queryParams['code'],
-            redirectUri: 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections'
-            // redirectUri: this.windowService.getOrigin()
+            // redirectUri: 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections'
+            redirectUri: this.windowService.getOrigin()
           }
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {

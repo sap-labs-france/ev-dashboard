@@ -14,8 +14,8 @@ import {TemplateRoutes} from './template.routing';
 import {ButtonsTemplateComponent} from './buttons/buttons.component';
 import { FormsTemplateComponent } from './forms/forms.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs.component';
-import { TableTemplateComponent } from './tableTemplate/table-template.component';
-import { BasicTableComponent } from './tableTemplate/basicTable/basic-table.component';
+import { TableTemplateComponent } from './table-template/table-template.component';
+import { BasicTableComponent } from './table-template/basic-table/basic-table.component';
 
 @NgModule({
   imports: [

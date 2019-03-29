@@ -97,5 +97,24 @@ export class ConfirmationDialogComponent {
     this.dialogRef.close(this.buttonCancelID);
   }
 
+  onEnter() {
+    if (this.buttonValidateName === null) {
+      this.no();
+    } else {
+      this.validate();
+    }
+  }
+
+  onEscape() {
+    if (this.buttonCancelName === null) {
+      if (this.buttonNoName === null) {
+        this.validate();
+      } else {
+        this.no();
+      }
+    } else {
+      this.cancel();
+    }
+  }
 
 }

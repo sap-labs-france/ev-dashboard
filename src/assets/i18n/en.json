@@ -517,6 +517,7 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "soft_reset_title": "Reset Charging Station",
     "dialog": {
       "export": {
         "title": "Export charging stations",

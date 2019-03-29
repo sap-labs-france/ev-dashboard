@@ -95,11 +95,13 @@
       .nav-tabs-title {
         color: $brand-background;
         float: left;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 400;
         padding: 10px 10px 15px 0;
         line-height: 24px;
         margin: 0;
+      }
+      .nav-tabs-navigation {
       }
     }
   }
@@ -186,7 +188,7 @@
     &:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
       border-radius: $border-radius-base;
       margin-top: -20px;
-      padding: 15px 15px 10px 15px;
+      padding: 10px 15px 10px 15px;
     }
 
     .card-icon,

@@ -517,6 +517,7 @@
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
+    "soft_reset_title": "Effacer le cache",
     "dialog": {
       "export": {
         "title": "Exporter les bornes",

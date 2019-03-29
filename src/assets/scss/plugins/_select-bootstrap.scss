@@ -43,8 +43,10 @@
 }
 
 .mat-option.mat-selected:not(.mat-option-multiple) {
-  color: $brand-background;
-  background: $brand-primary;
+  background: $brand-primary !important;
+  .mat-option-text {
+    color: $brand-background !important;
+  }
 }
 
 .mat-option {
@@ -52,6 +54,10 @@
   transition: all 150ms linear;
 
   &:hover {
+    background: $brand-primary !important;
+    .mat-option-text {
+      color: $brand-background !important;
+    }
     @include box-shadow($shadow-mat-select-option);
   }
   &:focus {

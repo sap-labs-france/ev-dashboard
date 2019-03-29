@@ -34,6 +34,11 @@ td a i {
 th {
   font-size: $font-size-sm !important;
   padding: 5px !important;
+  
+  mat-checkbox {
+    display: inline-block;
+    padding-top: 6px;
+  }
 }
 
 tr.mat-row {

@@ -18,7 +18,7 @@ import {ConnectorCellComponent} from '../../shared/component/connector/connector
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
 import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
-import {TransactionsRefundComponent} from './chargeathome/transactions-refund.component';
+import {TransactionsRefundComponent} from './refund/transactions-refund.component';
 import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
 
 @NgModule({

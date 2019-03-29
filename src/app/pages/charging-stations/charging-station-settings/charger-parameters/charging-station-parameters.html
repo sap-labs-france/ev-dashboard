@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-md-4 col-xl-2">
+                <div class="col-md-6 col-xl-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower"
@@ -38,19 +38,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-md-4 col-xl-2">
-                    <div class="form-group">
-                        <mat-form-field>
-                            <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase"
-                                required>
-                                <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
-                                    {{nbPhases.description | translate}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xl-2">
+                <div class="col-md-6 col-xl-3">
                     <mat-form-field>
                         <mat-select placeholder="{{'chargers.power_limit_unit' | translate}}" [formControl]="powerLimitUnit"
                             required>
@@ -80,7 +68,21 @@
                         </button>
                     </mat-form-field>
                 </div>
-                <div class="col-lg-12 text-left">
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 col-xl-6">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase"
+                                required>
+                                <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
+                                    {{nbPhases.description | translate}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-6 text-left">
                     <div class="form-group">
                         <mat-checkbox [formControl]="cannotChargeInParallel">
                             {{'chargers.cant_charge_in_parallel' | translate}}

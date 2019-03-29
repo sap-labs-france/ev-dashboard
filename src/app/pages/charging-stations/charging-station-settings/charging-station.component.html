@@ -36,14 +36,12 @@
                     </li>
                   </ng-container>
                   <span class="toolbar-spacer"></span>
-                  <button class="btn btn-info mat-raised-button" (click)="save()" [disabled]="isSaveButtonDisabled"
+                  <button mat-raised-button class="btn btn-info" (click)="save()" [disabled]="isSaveButtonDisabled"
                           [hidden]="isSaveButtonHidden">
-                                        <span class="mat-button-wrapper">
                                             <i class="material-icons mr-2">save</i>
-                                            <span class="btn-label">{{'chargers.save_charger' | translate}}</span>
-                                        </span>
+                                              {{'chargers.save_charger' | translate}}
                   </button>
-                  <button class="btn btn-info btn-just-icon mat-raised-button" (click)="onClose()">
+                  <button mat-raised-button class="btn btn-info btn-just-icon" (click)="onClose()">
                                         <i class="material-icons mr-2">close</i>
                   </button>
                 </ul>

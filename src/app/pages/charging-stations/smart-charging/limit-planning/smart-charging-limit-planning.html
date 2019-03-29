@@ -33,11 +33,13 @@
                                             <div class="row col-md-12"></div>
                                             <div class="row col-md-12"></div>
                                             <div class="row col-md-12">
-                                                <button class="btn btn-info mat-raised-button" (click)="getCompositeSchedule()">
-                                                    <span class="mat-button-wrapper">
+                                                <button mat-raised-button class="btn btn-info" (click)="getCompositeSchedule()">
+                                                    <!-- <span class="mat-button-wrapper"> -->
                                                         <i class="material-icons mr-2">refresh</i>
-                                                        <span class="btn-label">{{'general.refresh' | translate}}</span>
-                                                    </span>
+                                                        <!-- <span class="btn-label"> -->
+                                                            {{'general.refresh' | translate}}
+                                                        <!-- </span> -->
+                                                    <!-- </span> -->
                                                 </button>
                                             </div>
                                         </div>
@@ -48,7 +50,7 @@
                                     <mat-dialog-content>
                                         <ng-container *ngFor="let connectorPlanning of limitPlanning">
                                             <div class="col-md-12 text-left">
-                                                <button mat-icon-button color="primary" (click)="showHideConnectorPlanning(connectorPlanning)">
+                                                <button mat-raised-button class="btn btn-just-icon" (click)="showHideConnectorPlanning(connectorPlanning)">
                                                     <mat-icon class="material-icons">{{connectorPlanning.isExpanded ?
                                                         'keyboard_arrow_down' :
                                                         'keyboard_arrow_right'}}</mat-icon>

@@ -4,7 +4,7 @@
     {{dialogTitle}}
   </span>
     <span class="app-spacer"></span>
-    <button class="dialog-icon-right mat-icon-button" mat-dialog-close>
+    <button mat-raised-button class="btn btn-just-icon btn-link" mat-dialog-close>
         <i class="material-icons">close</i>
     </button>
     <!-- <button mat-button matSuffix mat-icon-button text-right aria-label="Close">
@@ -46,24 +46,28 @@
 
 
 <mat-dialog-actions align="end">
-  <button class="mat-raised-button app-btn-min-max-width" (click)="minZoom()">
-    <span class="mat-button-wrapper">
+  <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="minZoom()">
+    <!-- <span class="mat-button-wrapper"> -->
       <i class="material-icons mr-2">zoom_out</i>
-      <span class="btn-label">{{'geomap.min_zoom'
-                    | translate}}</span>
-    </span>
+      <!-- <span class="btn-label"> -->
+        {{'geomap.min_zoom'
+                    | translate}}
+                  <!-- </span> -->
+    <!-- </span> -->
   </button>
-  <button class="mat-raised-button app-btn-min-max-width" (click)="maxZoom()">
-    <span class="mat-button-wrapper">
+  <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="maxZoom()">
+    <!-- <span class="mat-button-wrapper"> -->
       <i class="material-icons mr-2">zoom_in</i>
-      <span class="btn-label">{{'geomap.max_zoom'
-                    | translate}}</span>
-    </span>
+      <!-- <span class="btn-label"> -->
+        {{'geomap.max_zoom'
+                    | translate}}
+                  <!-- </span> -->
+    <!-- </span> -->
   </button>
   <span class="app-spacer"></span>
-  <button class="mat-raised-button mat-primary" (click)="validate()">
+  <button mat-raised-button class="btn btn-info" (click)="validate()">
     {{"general.set_coordinates" | translate}}
   </button>
-  <button *ngIf="!displayOnly" class="mat-raised-button" (click)="cancel()"
+  <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
     cdkFocusInitial>{{"general.cancel" | translate}}</button>
 </mat-dialog-actions>

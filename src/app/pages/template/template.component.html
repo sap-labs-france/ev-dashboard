@@ -1,0 +1,40 @@
+<div class="main-content flex-grow-1">
+    <mat-tab-group disableRipple="true" class="h-100 mat-tab-info">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="mr-2">ev_station</mat-icon>
+                Buttons
+            </ng-template>
+            <ng-template matTabContent>
+                <app-buttons-template></app-buttons-template>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="mr-2">warning</mat-icon>
+                Forms
+            </ng-template>
+            <ng-template matTabContent>
+                <app-forms-template></app-forms-template>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="mr-2">edit</mat-icon>
+                Dialogs
+            </ng-template>
+            <ng-template matTabContent>
+                <app-dialogs-template></app-dialogs-template>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="material-icons">open</mat-icon>
+                    Table
+                </ng-template>
+                <ng-template matTabContent>
+                    <app-table-template></app-table-template>
+                </ng-template>
+            </mat-tab>
+    </mat-tab-group>
+</div>

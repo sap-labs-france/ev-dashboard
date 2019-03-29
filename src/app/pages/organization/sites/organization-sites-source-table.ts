@@ -238,6 +238,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   private _showUsersDialog(site?: Site) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (site) {
       dialogConfig.data = site;
     }

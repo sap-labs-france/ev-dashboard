@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {TranslateService} from '@ngx-translate/core';
+import {SpinnerService} from 'app/services/spinner.service';
 import {Router} from '@angular/router';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue,  SiteArea} from '../../../common.types';
@@ -17,6 +18,7 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private spinnerService: SpinnerService,
     protected dialogRef: MatDialogRef<SiteAreasFilterDialogComponent>,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
@@ -31,7 +33,8 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
       this.messageService,
       this.translateService,
       this.router,
-      this.centralServerService);
+      this.centralServerService,
+      this.spinnerService);
   }
 
   getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {

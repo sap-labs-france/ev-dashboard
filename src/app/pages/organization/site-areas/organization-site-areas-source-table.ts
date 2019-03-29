@@ -241,6 +241,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   private _showChargersDialog(charger?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (charger) {
       dialogConfig.data = charger;
     }

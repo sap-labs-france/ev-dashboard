@@ -340,7 +340,7 @@
       <tr *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row" mat-row></tr>
       <tr *matFooterRowDef="columns; sticky: true" [hidden]="!dataSource.isFooterEnabled()" mat-footer-row></tr>
     </table>
-    <div *ngIf="dataSource && dataSource.isEmpty()" class="ml-4 text-left">{{'general.no_record_found' |
+    <div *ngIf="dataSource && dataSource.isEmpty() && !spinnerService.isVisible()" class="ml-4 text-center table-no-record-found">{{'general.no_record_found' |
     translate}}
     </div>
   </div>

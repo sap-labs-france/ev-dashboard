@@ -16,4 +16,8 @@ export class SpinnerService {
   public hide(): void {
     this.spinner.style['display'] = 'none';
   }
+
+  public isVisible(): boolean {
+    return this.spinner.style['display'] === 'block';
+  }
 }

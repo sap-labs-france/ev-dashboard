@@ -291,7 +291,7 @@
   }
 
   .card-stats {
-    background: $brand-text;
+    background: rgba($brand-primary, 0.1);
     display: flex;
 
     .author,
@@ -302,7 +302,7 @@
 }
 
 .card-settings {
-  background: $brand-text;
+  background: rgba($brand-primary, 0.1);
 }
 
 .card-plain {

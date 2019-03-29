@@ -39,7 +39,6 @@
 
   .charger-heartbeat-error {
     color: $state-danger-bg;
-    @include anim-status-blinking();
   }
 
   .charger-heartbeat-date-error {

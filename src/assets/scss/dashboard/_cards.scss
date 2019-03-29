@@ -93,10 +93,13 @@
         padding: 0;
       }
       .nav-tabs-title {
+        color: $brand-background;
         float: left;
+        font-size: 1.3rem;
         font-weight: 400;
-        padding: 10px 10px 10px 0;
+        padding: 10px 10px 15px 0;
         line-height: 24px;
+        margin: 0;
       }
     }
   }
@@ -265,7 +268,7 @@
   }
 
   &.card-stats {
-    background: $brand-text;
+    background: rgba($brand-primary, 0.1);
     .card-header {
       &.card-header-icon,
       &.card-header-text {

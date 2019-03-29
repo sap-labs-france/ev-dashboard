@@ -186,13 +186,12 @@
     $focus-border,
     $active-border);
 
-  @include shadow-2dp-color($background);
+  @include shadow-4dp-color($color);
 
   &:focus,
   &:active,
   &:hover {
-    // remove this line if you want black shadows
-    @include button-shadow-color($background);
+    @include button-shadow-color($color);
   }
 
   &.btn-link {
@@ -205,7 +204,7 @@
     &:focus,
     &:active {
       background-color: transparent;
-      color: rgba($brand-text, 0.1);
+      color: rgba($background, 0.8);
     }
   }
 

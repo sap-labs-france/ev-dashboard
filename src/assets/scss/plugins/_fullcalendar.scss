@@ -176,9 +176,9 @@ NOTE: use percentage font sizes or else old IE chokes
 .fc button[disabled]:focus,
 .fc button[disabled]:hover {
   cursor: default;
-  background-color: $gray-light;
-  border-color: $gray-light;
-  @include shadow-2dp-color($gray-light);
+  background-color: rgba($brand-primary, 0.1);
+  border-color: rgba($brand-primary, 0.1);
+  @include shadow-2dp-color(rgba($brand-primary, 0.1));
 
 }
 

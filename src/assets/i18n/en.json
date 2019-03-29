@@ -650,8 +650,9 @@
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
-    "single_phase": "Single-phase",
-    "tri_phases": "Three phases",
+    "direct_current": "Direct Current",
+    "single_phase": "Alternative Current - Single-phase",
+    "tri_phases": "Alternative Current - Three phases",
     "site_area": "Site - Site Area",
     "assign_site_area": "Assign Site Area to",
     "change_site_area": "Change",
@@ -842,7 +843,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "chargeathome": "Refund",
+      "chargeathome": "Refunding",
       "pricing": "Pricing",
       "sac": "Analytics"
     },
@@ -923,7 +924,8 @@
     "registered": "Registered",
     "unregistered": "Unregistered",
     "lastPatchJobOn": "Last Update Date",
-    "patchJobStatus": "Update Job",
+    "patchJobLastStatus": "Last Job Exec",
+    "patchJobStatus": "Job Status",
     "patchJobResult": "Success / Total",
     "patchJobCheckbox": "Activate EVSE Status Update Job",
     "status_active": "Active",

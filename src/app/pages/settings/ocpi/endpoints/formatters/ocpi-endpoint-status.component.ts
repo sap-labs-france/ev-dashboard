@@ -37,7 +37,6 @@ export class OcpiendpointStatusComponent extends ChipComponent {
   }
 }
 
-
 export const ocpiStatuses: KeyValue[] = [
   {key: 'new', value: 'ocpiendpoints.new'},
   {key: 'registered', value: 'ocpiendpoints.registered'},

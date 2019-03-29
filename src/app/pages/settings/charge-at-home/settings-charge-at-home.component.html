@@ -27,27 +27,42 @@
     </div>
 
     <div class="card-body">
-        <div class="mat-toolbar-row">
-            <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
+      <div class="mat-toolbar-row">
+        <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
+                [disabled]="!formGroup.valid || !formGroup.dirty">
               <span class="mat-button-wrapper">
                 <i class="material-icons mr-2">save</i>
                 <span class="btn-label">{{'general.save' | translate}}</span>
               </span>
-            </button>
-        </div>
-        <div class="row" style="margin-top: 1em">
+        </button>
+      </div>
+      <div class="row" style="margin-top: 1em">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="concurUrl"
-                   placeholder="{{'settings.chargeathome.concur.url' | translate}}"
+            <input appSetAutoFocus matInput type="text" [formControl]="concurAuthenticationUrl"
+                   placeholder="{{'settings.chargeathome.concur.authentication_url' | translate}}"
                    required>
-            <mat-error *ngIf="concurUrl.hasError('required')">{{"general.mandatory_field"
-            | translate}}</mat-error>
-            <mat-error *ngIf="concurUrl.hasError('maxlength')">
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('required')">{{"general.mandatory_field"
+              | translate}}</mat-error>
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('maxlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
-            <mat-error *ngIf="concurUrl.hasError('minlength')">
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('minlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input appSetAutoFocus matInput type="text" [formControl]="concurApiUrl"
+                   placeholder="{{'settings.chargeathome.concur.api_url' | translate}}"
+                   required>
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('required')">{{"general.mandatory_field"
+              | translate}}</mat-error>
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('maxlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+            </mat-error>
+            <mat-error *ngIf="concurAuthenticationUrl.hasError('minlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
           </mat-form-field>
@@ -60,7 +75,7 @@
                    placeholder="{{'settings.chargeathome.concur.client_id' | translate}}"
                    required>
             <mat-error *ngIf="concurClientId.hasError('required')">{{"general.mandatory_field"
-            | translate}}</mat-error>
+              | translate}}</mat-error>
             <mat-error *ngIf="concurClientId.hasError('maxlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
@@ -75,7 +90,7 @@
                    placeholder="{{'settings.chargeathome.concur.client_secret' | translate}}"
                    required>
             <mat-error *ngIf="concurClientSecret.hasError('required')">{{"general.mandatory_field"
-            | translate}}</mat-error>
+              | translate}}</mat-error>
             <mat-error *ngIf="concurClientSecret.hasError('maxlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
@@ -92,7 +107,7 @@
                    placeholder="{{'settings.chargeathome.concur.payment_type_id' | translate}}"
                    required>
             <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
-            | translate}}</mat-error>
+              | translate}}</mat-error>
             <mat-error *ngIf="concurPaymentTypeId.hasError('maxlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
@@ -107,7 +122,7 @@
                    placeholder="{{'settings.chargeathome.concur.expense_type_code' | translate}}"
                    required>
             <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"
-            | translate}}</mat-error>
+              | translate}}</mat-error>
             <mat-error *ngIf="concurExpenseTypeCode.hasError('maxlength')">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>

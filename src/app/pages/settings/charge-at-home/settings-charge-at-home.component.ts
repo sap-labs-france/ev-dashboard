@@ -19,7 +19,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   public isActive = false;
 
   public concur: FormGroup;
-  public concurUrl: AbstractControl;
+  public concurAuthenticationUrl: AbstractControl;
+  public concurApiUrl: AbstractControl;
   public concurClientId: AbstractControl;
   public concurClientSecret: AbstractControl;
   public concurPaymentTypeId: AbstractControl;
@@ -41,7 +42,13 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       'concur': new FormGroup({
-        'url': new FormControl('',
+        'authenticationUrl': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        ),
+        'apiUrl': new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100)
@@ -75,7 +82,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     });
 
     this.concur = <FormGroup>this.formGroup.controls['concur'];
-    this.concurUrl = this.concur.controls['url'];
+    this.concurAuthenticationUrl = this.concur.controls['authenticationUrl'];
+    this.concurApiUrl = this.concur.controls['apiUrl'];
     this.concurClientId = this.concur.controls['clientId'];
     this.concurClientSecret = this.concur.controls['clientSecret'];
     this.concurPaymentTypeId = this.concur.controls['paymentTypeId'];
@@ -94,7 +102,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
         this.currentSettingID = setting.result[0].id;
 
         if (config.concur) {
-          this.concurUrl.setValue(config.concur.url ? config.concur.url : '');
+          this.concurAuthenticationUrl.setValue(config.concur.authenticationUrl ? config.concur.authenticationUrl : '');
+          this.concurApiUrl.setValue(config.concur.apiUrl ? config.concur.apiUrl : '');
           this.concurClientId.setValue(config.concur.clientId ? config.concur.clientId : '');
           this.concurClientSecret.setValue(config.concur.clientSecret ? config.concur.clientSecret : '');
           this.concurPaymentTypeId.setValue(config.concur.paymentTypeId ? config.concur.paymentTypeId : '');
@@ -107,7 +116,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.chargeathome.setting_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'settings.chargeathome.setting_not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -122,6 +132,10 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     } else {
       this._createConfiguration(content);
     }
+  }
+
+  public refresh() {
+    this.loadConfiguration();
   }
 
   private _updateConfiguration(content) {
@@ -181,9 +195,5 @@ export class SettingsChargeAtHomeComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.chargeathome.create_error');
       }
     });
-  }
-
-  public refresh() {
-    this.loadConfiguration();
   }
 }

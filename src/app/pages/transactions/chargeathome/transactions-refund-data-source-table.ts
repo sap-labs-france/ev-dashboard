@@ -234,7 +234,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case 'refund':
-        if (this.hasConcurConnectionConfigured) {
+        if (!this.hasConcurConnectionConfigured) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));

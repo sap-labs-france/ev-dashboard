@@ -9,8 +9,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" 
-  (keyup.enter)="onEnter()" 
-  (keyup.esc)="onEscape()">
+  (document:keyup.enter)="onEnter()" 
+  (document:keyup.esc)="onEscape()">
     <button *ngIf="buttonValidateID" class="mat-raised-button" [class.mat-primary]="buttonValidateID" (click)="validate()">{{buttonValidateName}}</button>
     <button *ngIf="buttonNoID" class="mat-raised-button" [class.mat-primary]="!buttonValidateID" (click)="no()">{{buttonNoName}}</button>
     <button *ngIf="buttonCancelID" class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>

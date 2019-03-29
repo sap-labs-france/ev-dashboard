@@ -843,7 +843,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "chargeathome": "Refund",
+      "chargeathome": "Refunding",
       "pricing": "Pricing",
       "sac": "Analytics"
     },
@@ -924,7 +924,8 @@
     "registered": "Registered",
     "unregistered": "Unregistered",
     "lastPatchJobOn": "Last Update Date",
-    "patchJobStatus": "Update Job",
+    "patchJobLastStatus": "Last Job Exec",
+    "patchJobStatus": "Job Status",
     "patchJobResult": "Success / Total",
     "patchJobCheckbox": "Activate EVSE Status Update Job",
     "status_active": "Active",

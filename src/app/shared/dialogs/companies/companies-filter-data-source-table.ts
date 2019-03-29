@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Company, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
+import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 
@@ -11,23 +12,30 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private spinnerService: SpinnerService) {
     super();
   }
 
   loadData() {
+    // Show spinner
+    this.spinnerService.show();
     // Get data
     this.centralServerService.getCompanies(this.getFilterValues(),
       this.getPaging(), this.getOrdering()).subscribe((companies) => {
-      // Set number of records
-      this.setNumberOfRecords(companies.count);
-      // Update page length
-      this.updatePaginator();
-      this.setData(companies.result);
-    }, (error) => {
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-    });
+        // Hide spinner
+        this.spinnerService.hide();
+        // Set number of records
+        this.setNumberOfRecords(companies.count);
+        // Update page length
+        this.updatePaginator();
+        this.setData(companies.result);
+      }, (error) => {
+        // Hide spinner
+        this.spinnerService.hide();
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+      });
   }
 
   getTableDef(): TableDef {

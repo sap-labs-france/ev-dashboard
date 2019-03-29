@@ -20,7 +20,8 @@ import {ComponentEnum, ComponentService} from '../../../../services/component.se
 export const CONNECTED_PHASE_MAP =
   [
     { key: 1, description: 'chargers.single_phase' },
-    { key: 3, description: 'chargers.tri_phases' }
+    { key: 3, description: 'chargers.tri_phases' },
+    { key: 9, description: 'chargers.direct_current' }
   ]
 
 export const POWER_UNIT_MAP =

@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-table-template',
   templateUrl: './table-template.component.html'
 })
-
 export class TableTemplateComponent {
   
 }

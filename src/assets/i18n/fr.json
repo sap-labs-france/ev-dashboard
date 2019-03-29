@@ -113,7 +113,8 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
-      "organization": "Organisation"
+      "organization": "Organisation",
+      "template": "Modeles"
     },
     "tooltips": {
       "assign_site_area": "Assigner un site",

@@ -843,7 +843,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "chargeathome": "Refund",
+      "chargeathome": "Refunding",
       "pricing": "Pricing",
       "sac": "Analytics"
     },

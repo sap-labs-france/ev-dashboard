@@ -46,8 +46,8 @@
     "reload": "Recharger",
     "stop": "Stop",
     "refund": "Rembourser",
-    "connect": "Connection",
-    "register": "Register",
+    "connect": "Connexion",
+    "register": "Enregistrer",
     "close": "Fermer",
     "back": "Retour",
     "next": "Suivant",
@@ -1062,7 +1062,7 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
-    "refundDate": "Remboursé le",
+    "refundDate": "Remboursée le",
     "filter": {
       "type": {
         "name": "Type",

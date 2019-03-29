@@ -189,6 +189,7 @@
     .card-icon,
     .card-text {
       border-radius: $border-radius-base;
+      color: $brand-background;
       background-color: mat-color($app-primary, 400);
       padding: 15px;
       margin-top: -20px;

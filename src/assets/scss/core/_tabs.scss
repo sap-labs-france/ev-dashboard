@@ -24,7 +24,7 @@
     .nav-link:hover,
     .nav-link:focus {
       border: 0 !important;
-      color: $brand-text !important;
+      color: $brand-background !important;
       font-weight: $font-weight-bold;
     }
     &.disabled .nav-link,
@@ -37,8 +37,8 @@
     }
 
     .nav-link.active {
-      background-color: $brand-text;
-      color: $brand-background !important;
+      background-color: $brand-background;
+      color: $brand-primary !important;
       transition: 0.3s background-color 0.2s;
     }
   }
@@ -71,7 +71,7 @@
 
 .mat-tab-labels {
   padding: 10px;
-  color: $brand-text !important;
+  color: $brand-background !important;
 }
 .mat-tab-info .mat-tab-labels {
   background: $brand-primary;
@@ -94,7 +94,7 @@
 
 .mat-tab-label {
   opacity: 1 !important;
-  color: $brand-text !important;
+  color: $brand-background !important;
   border: 0;
   margin: 0;
   min-width: 9em !important;
@@ -120,8 +120,8 @@
 }
 
 .mat-tab-label-active {
-  color: $brand-background !important;
-  background-color: $brand-text;
+  color: $brand-primary !important;
+  background-color: $brand-background;
   border: 0;
   margin: 0;
   border-radius: $border-radius-base;

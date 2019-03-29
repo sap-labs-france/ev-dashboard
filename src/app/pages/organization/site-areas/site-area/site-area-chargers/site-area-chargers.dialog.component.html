@@ -1,14 +1,22 @@
-<div class="dialog-header">
-    <h2 class="dialog-title" mat-dialog-title>{{this.dialogTitle}}</h2>
-    <button class="dialog-icon-right mat-icon-button" mat-dialog-close>
-        <i class="material-icons">close</i>
-    </button>
-</div>
-
-<mat-dialog-content>
-    <div class="row">
-        <div class="col-md-12">
-            <app-table [dataSource]="siteAreaChargersDataSource"></app-table>
+<div class="card">
+    <div class="card-header card-header-tabs card-header-info">
+        <div class="nav-tabs-navigation">
+            <h4 class="nav-tabs-title">{{this.dialogTitle}}</h4>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+                <span class="toolbar-spacer"></span>
+                <button mat-raised-button class="btn btn-just-icon btn-link" mat-dialog-close>
+                  <i class="material-icons">close</i>
+                </button>
+            </ul>
         </div>
     </div>
-</mat-dialog-content>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <app-table [dataSource]="siteAreaChargersDataSource"></app-table>
+            </div>
+>>>>>>> master
+        </div>
+    </div>
+    <div class="card-footer"></div>
+</div>

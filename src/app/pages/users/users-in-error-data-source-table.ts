@@ -226,6 +226,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
   private _showSitesDialog(user?: User) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     if (user) {
       dialogConfig.data = user;
     }

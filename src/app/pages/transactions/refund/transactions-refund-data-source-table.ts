@@ -116,30 +116,12 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       sortable: true,
       direction: 'desc',
       formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-    });
-    if (this.isAdmin) {
-      columns.push({
-        id: 'refundData.refundedAt',
-        name: 'transactions.refundDate',
-        sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
-      });
-      columns.push({
-        id: 'stop.price',
-        name: 'transactions.price',
-        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
-      });
-    }
-    columns.push({
-      id: 'tagID',
-      name: 'transactions.badge_id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'text-left d-none d-xl-table-cell'
-    });
-    columns.push({
-      id: 'stop.totalConsumption',
-      name: 'transactions.total_consumption',
-      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+    },
+    {
+      id: 'user',
+      name: 'transactions.user',
+      class: 'text-left',
+      formatter: (value) => this.appUserNamePipe.transform(value)
     });
     columns.push(
       {
@@ -161,6 +143,30 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       class: 'text-left',
       formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
     });
+    columns.push({
+      id: 'tagID',
+      name: 'transactions.badge_id',
+      headerClass: 'd-none d-xl-table-cell',
+      class: 'text-left d-none d-xl-table-cell'
+    });
+    columns.push({
+      id: 'stop.totalConsumption',
+      name: 'transactions.total_consumption',
+      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+    });
+  if (this.isAdmin) {
+      columns.push({
+        id: 'refundData.refundedAt',
+        name: 'transactions.refundDate',
+        sortable: true,
+        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+      });
+      columns.push({
+        id: 'stop.price',
+        name: 'transactions.price',
+        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+      });
+    }
 
     return columns as TableColumnDef[];
   }

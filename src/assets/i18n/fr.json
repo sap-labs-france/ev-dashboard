@@ -46,8 +46,8 @@
     "reload": "Recharger",
     "stop": "Stop",
     "refund": "Rembourser",
-    "connect": "Connection",
-    "register": "Register",
+    "connect": "Connexion",
+    "register": "Enregistrer",
     "close": "Fermer",
     "back": "Retour",
     "next": "Suivant",
@@ -113,7 +113,8 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
-      "organization": "Organisation"
+      "organization": "Organisation",
+      "template": "Modeles"
     },
     "tooltips": {
       "assign_site_area": "Assigner un site",
@@ -650,8 +651,9 @@
     "connector_type_type2": "Type 2",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
-    "single_phase": "Monophasé",
-    "tri_phases": "Triphasé",
+    "direct_current": "Courant Continu",
+    "single_phase": "Courant Alternatif - Monophasé",
+    "tri_phases": "Courant Alternatif - Triphasé",
     "site_area": "Site - Zone",
     "assign_site_area": "Assigner une zone à",
     "change_site_area": "Change",
@@ -912,7 +914,7 @@
     "baseUrl": "URL",
     "countryCode": "Code Pays",
     "partyId": "Groupe ID",
-    "status": "Status",
+    "status": "Statut",
     "version": "Version",
     "localToken": "Jeton Local",
     "token": "Jeton Distant",
@@ -920,6 +922,7 @@
     "registered": "Enregistré",
     "unregistered": "Désenregistré",
     "lastPatchJobOn": "Dernière mise à jour",
+    "patchJobLastStatus": "Statut de mise à jour",
     "patchJobStatus": "Tâche de mise à jour",
     "patchJobResult": "Succès / Total",
     "patchJobCheckbox": "Activer la mise à jour automatique du statut des bornes",
@@ -954,7 +957,7 @@
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
     "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
     "background_job_no_run": "Non executée",
-    "totalChargePoints": "Points de Charge Total",
+    "totalChargePoints": "Points de Charge",
     "succeeded": "Succès",
     "failed": "Echecs"
   },
@@ -1061,7 +1064,7 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
-    "refundDate": "Remboursé le",
+    "refundDate": "Remboursée le",
     "filter": {
       "type": {
         "name": "Type",

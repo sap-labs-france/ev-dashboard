@@ -1,10 +1,8 @@
 <div class="main-content">
   <div class="d-flex-row justify-content-start pb-2">
-    <button class="d-flex btn btn-info mat-raised-button" (click)="getConfiguration()" [disabled]="!isGetConfigurationActive">
-          <span class="mat-button-wrapper">
+    <button mat-raised-button class="btn btn-info pull-right" (click)="getConfiguration()" [disabled]="!isGetConfigurationActive">
               <i class="material-icons mr-2">get_app</i>
-              <span class="btn-label">{{'chargers.button_get_configuration' | translate}}</span>
-          </span>
+                {{'chargers.button_get_configuration' | translate}}
     </button>
   </div>
   <div class="d-flex-row">
@@ -23,12 +21,12 @@
                   <strong>{{item.key | translate}}</strong>
                 </td>
                 <td class="d-flex flex-grow-1 justif-content-center">
-                    <button *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon"
+                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-info btn-just-icon"
                       (click)="changeParameter(item)"
                       appTooltip data-toggle="tooltip" [title]="item.tooltip | translate">
                       <i class="material-icons">{{item.icon}}</i>
                     </button>
-                    <button *ngIf="!item.readonly" class="btn-group btn btn-link btn-info btn-just-icon"
+                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-info btn-just-icon"
                       (click)="clearParameter(item)" [hidden]="item.icon === 'edit'"
                       appTooltip data-toggle="tooltip" [title]="'general.cancel' | translate">
                       <i class="material-icons">clear</i>

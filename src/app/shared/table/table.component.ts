@@ -13,6 +13,7 @@ import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
+import { SpinnerService } from 'app/services/spinner.service';
 
 const DEFAULT_POLLING = 10000;
 
@@ -63,6 +64,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     protected localService: LocaleService,
+    protected spinnerService: SpinnerService,
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
@@ -236,6 +238,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.data = {
       validateButtonTitle : 'general.set_filter'
     };
+    // Render the Dialog Container transparent
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites

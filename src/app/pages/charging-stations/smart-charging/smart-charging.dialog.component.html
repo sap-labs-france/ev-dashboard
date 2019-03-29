@@ -22,18 +22,22 @@
                                             </li>
 -->
                                     <span class="toolbar-spacer"></span>
-                                    <button class="btn btn-info mat-raised-button" (click)="clearProfiles()" [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
-                                        <span class="mat-button-wrapper">
+                                    <button mat-raised-button class="btn btn-info" (click)="clearProfiles()" [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
+                                        <!-- <span class="mat-button-wrapper"> -->
                                             <i class="material-icons mr-2">delete_sweep</i>
-                                            <span class="btn-label">{{'chargers.smart_charging.clear_profiles_button' |
-                                                translate}}</span>
-                                        </span>
+                                            <!-- <span class="btn-label"> -->
+                                                {{'chargers.smart_charging.clear_profiles_button' |
+                                                translate}}
+                                            <!-- </span> -->
+                                        <!-- </span> -->
                                     </button>
-                                    <button class="btn btn-info mat-raised-button" mat-dialog-close>
-                                        <span class="mat-button-wrapper">
+                                    <button mat-raised-button class="btn btn-info" mat-dialog-close>
+                                        <!-- <span class="mat-button-wrapper"> -->
                                             <i class="material-icons mr-2">close</i>
-                                            <span class="btn-label">{{'general.close' | translate}}</span>
-                                        </span>
+                                            <!-- <span class="btn-label"> -->
+                                                {{'general.close' | translate}}
+                                            <!-- </span> -->
+                                        <!-- </span> -->
                                     </button>
                                 </ul>
                             </div>

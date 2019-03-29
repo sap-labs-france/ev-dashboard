@@ -12,7 +12,9 @@ export class ConfirmationDialogComponent {
   public message = '';
   public buttonValidateID = '';
   public buttonValidateName = '';
+  public buttonValidateClass = 'btn-info';
   public buttonNoID = '';
+  public buttonNoClass = 'btn-info';
   public buttonNoName = '';
   public buttonCancelID = '';
   public buttonCancelName = '';
@@ -35,6 +37,8 @@ export class ConfirmationDialogComponent {
         this.buttonCancelName = this.translateService.instant('general.cancel');
         this.buttonNoID = null;
         this.buttonNoName = null;
+        this.buttonValidateClass = 'btn-info';
+        this.buttonNoClass = '';
         break;
 
       // Yes / No
@@ -45,6 +49,8 @@ export class ConfirmationDialogComponent {
         this.buttonNoName = this.translateService.instant('general.no');
         this.buttonCancelID = null;
         this.buttonCancelName = null;
+        this.buttonValidateClass = 'btn-danger';
+        this.buttonNoClass = '';
         break;
       // Yes
       case Constants.DIALOG_TYPE_OK:
@@ -54,6 +60,8 @@ export class ConfirmationDialogComponent {
         this.buttonNoName = null;
         this.buttonCancelID = null;
         this.buttonCancelName = null;
+        this.buttonValidateClass = 'btn-info';
+        this.buttonNoClass = '';
         break;
       // Yes / No / Cancel
       case Constants.DIALOG_TYPE_YES_NO_CANCEL:
@@ -63,6 +71,8 @@ export class ConfirmationDialogComponent {
         this.buttonNoName = this.translateService.instant('general.no');
         this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
+        this.buttonValidateClass = 'btn-danger';
+        this.buttonNoClass = 'btn-info';
         break;
       // Save and Close / Do Not Save and Close / Cancel
       case Constants.DIALOG_TYPE_DIRTY_CHANGE:
@@ -72,6 +82,8 @@ export class ConfirmationDialogComponent {
         this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
         this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
+        this.buttonValidateClass = 'btn-info';
+        this.buttonNoClass = 'btn-danger';
         break;
       // Do Not Save and Close / Cancel
       case Constants.DIALOG_TYPE_INVALID_CHANGE:
@@ -81,6 +93,8 @@ export class ConfirmationDialogComponent {
         this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
         this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
+        this.buttonValidateClass = '';
+        this.buttonNoClass = 'btn-danger';
         break;
     }
   }
@@ -97,5 +111,24 @@ export class ConfirmationDialogComponent {
     this.dialogRef.close(this.buttonCancelID);
   }
 
+  onEnter() {
+    if (this.buttonValidateName === null) {
+      this.no();
+    } else {
+      this.validate();
+    }
+  }
+
+  onEscape() {
+    if (this.buttonCancelName === null) {
+      if (this.buttonNoName === null) {
+        this.validate();
+      } else {
+        this.no();
+      }
+    } else {
+      this.cancel();
+    }
+  }
 
 }

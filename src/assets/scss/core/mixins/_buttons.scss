@@ -232,6 +232,12 @@
   &.btn-danger {
     @include bmd-raised-button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border-color);
   }
+  &.btn-inverse {
+    @include bmd-raised-button-variant($btn-inverse-color, $btn-inverse-bg, $btn-inverse-border-color);
+    box-shadow: 0 2px 2px 0 rgba($btn-inverse-color, $bmd-shadow-penumbra-opacity),
+          0 3px 1px -2px rgba($btn-inverse-color, $bmd-shadow-umbra-opacity),
+          0 1px 5px 0 rgba($btn-inverse-color, $bmd-shadow-ambient-opacity);
+  }
   &.btn-rose {
     @include bmd-raised-button-variant($btn-rose-color, $btn-rose-bg, $btn-rose-border-color);
   }

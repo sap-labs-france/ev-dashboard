@@ -110,7 +110,7 @@
     font-weight: $font-weight-bold;
   }
   &:hover {
-    background-color: rgba($brand-text, .1);
+    background-color: rgba($brand-background, .1);
   }
 }
 
@@ -130,7 +130,7 @@
   padding: 10px 15px;
   transition: 0.3s background-color 0.2s;
   &:hover {
-    background-color: $brand-text;
+    background-color: $brand-background;
   }
 }
 

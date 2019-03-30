@@ -63,7 +63,7 @@ agm-map {
 
 .navigation-button {
     position: fixed; 
-    top: 28px; 
+    top: 5px; 
     right:1%; 
     z-index:999
 }
@@ -106,7 +106,6 @@ agm-map {
     top: 0;
     z-index: 2;
     background: $white-color;
-//    @include shadow-big();
 
     .caret {
         display: inline-block;
@@ -184,7 +183,7 @@ agm-map {
         font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
-        background-color: $brand-text;
+        background-color: $brand-background;
       }
     }
 

@@ -78,9 +78,10 @@
         line-height: 33px;
       }
       .card-title {
-        margin-top: 10px;
+        margin-top: 5px;
         color: $brand-text;
         font-weight: 400;
+        font-size: $font-size-h3;
       }
       h4 {
         font-weight: 300;
@@ -95,7 +96,7 @@
       .nav-tabs-title {
         color: $brand-background;
         float: left;
-        font-size: 1.2rem;
+        font-size: $font-size-h3;
         font-weight: 400;
         padding: 10px 10px 15px 0;
         line-height: 24px;
@@ -208,7 +209,7 @@
       margin-right: 0;
 
       .card-title {
-        color: $brand-text;
+        color: $brand-background;
         margin-top: 0;
       }
     }
@@ -217,7 +218,7 @@
 
     .ct-chart {
       .card-title {
-        color: $brand-text;
+        color: $brand-background;
       }
       .card-category {
         margin-bottom: 0;

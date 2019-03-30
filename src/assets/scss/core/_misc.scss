@@ -24,7 +24,7 @@ legend {
 }
 
 .app-version {
-  color: $brand-text;
+  color: $brand-background;
   font-size: 0.9rem;
   text-transform: initial;
   padding-top: 0;
@@ -32,8 +32,7 @@ legend {
 }
 
 a.app-version {
-  &:hover,
-  &:visited {
+  &:hover {
     color: $brand-text;
   }
 }

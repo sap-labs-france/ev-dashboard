@@ -1,6 +1,7 @@
 @import "../../assets/scss/core/variables";
 
 .release-notes-header {
+  color: $brand-primary;
   &:hover {
     cursor: default;
   }

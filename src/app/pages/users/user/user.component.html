@@ -306,13 +306,9 @@
         <ng-template mat-tab-label>
           <button mat-raised-button (click)="saveUser(formGroup.value)"
                   [disabled]="!formGroup.valid || !formGroup.dirty"
-                  class="btn btn-info">
+                  class="btn btn-link">
             <i class="material-icons">save</i>
             {{'general.save' | translate}}
-          </button>
-          <button *ngIf="!inDialog && currentUserID" mat-raised-button (click)="refresh()"
-                  class="btn btn-info btn-just-icon">
-            <i class="material-icons">refresh</i>
           </button>
           <button mat-raised-button *ngIf="inDialog" class="btn btn-info btn-just-icon"
                   mat-dialog-close>

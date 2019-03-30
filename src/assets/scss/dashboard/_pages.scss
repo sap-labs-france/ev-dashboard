@@ -71,7 +71,7 @@
     &:after {
       @include linear-gradient(rgba($pink-100, .56), rgba($pink-300, .95));
     }
-    @include lock-page-input-color($brand-rose);
+    @include lock-page-input-color($brand-info);
   }
 
   &[data-image]:after {
@@ -104,7 +104,7 @@
   .footer nav > ul a:not(.btn),
   .footer,
   .footer .copyright a {
-    color: $brand-primary;
+    color: $brand-text;
   }
 
 }
@@ -135,7 +135,7 @@
   overflow: auto;
   height: 90vh;
   padding-top: 0 !important;
-  color: $brand-inverse;
+  color: $brand-text;
   background: rgba(0,0,0,0.3);
 }
 
@@ -146,7 +146,7 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: $brand-inverse;
+    background: $brand-background;
     opacity: 0.9;
 
     &.card-hidden {
@@ -193,7 +193,7 @@
   .card-profile {
     width: 240px;
     margin: 60px auto 0;
-    color: $brand-primary;
+    color: $brand-text;
     left: 0;
     right: 0;
     display: block;
@@ -233,15 +233,15 @@
 
   .footer {
     z-index: 1;
-    color: $brand-primary;
+    color: $brand-text;
 
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -281,7 +281,7 @@
         padding-right: 20px;
       }
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
       }
     }
@@ -298,7 +298,7 @@
         }
 
         &.icon-primary {
-          color: $brand-primary;
+          color: $brand-text;
         }
         &.icon-info {
           color: $brand-info;
@@ -313,7 +313,7 @@
           color: $brand-danger;
         }
         &.icon-rose {
-          color: $brand-rose;
+          color: $brand-info;
         }
       }
 
@@ -334,18 +334,18 @@
   }
 
   .footer {
-    color: $brand-primary;
+    color: $brand-text;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -367,7 +367,7 @@
   padding: 0 !important;
 
   .title {
-    color: $brand-primary;
+    color: $brand-text;
     margin-top: 5vh;
   }
 
@@ -379,12 +379,12 @@
   .card-plain {
     .icon i,
     .card-title {
-      color: $brand-primary;
+      color: $brand-background;
     }
   }
 
   .description {
-    color: $brand-primary;
+    color: $brand-text;
   }
   &.full-page:before {
     background-color: rgba(0, 0, 0, 0.65);
@@ -392,18 +392,18 @@
 
   .footer {
     z-index: 2;
-    color: $brand-primary;
+    color: $brand-text;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -412,14 +412,14 @@
 
 .off-canvas-sidebar {
   .navbar-toggler .navbar-toggler-icon {
-    background-color: $brand-primary !important;
+    background-color: $brand-text !important;
   }
 
   .navbar-collapse {
     .nav {
       > li > a,
       > li > a:hover {
-        color: $brand-primary;
+        color: $brand-text;
         margin: 0 15px;
       }
 
@@ -437,7 +437,7 @@
 .offline-doc {
   .navbar .navbar-nav {
     .nav-item .nav-link {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 }
@@ -460,7 +460,7 @@
     }
     .copyright,
     a {
-      color: $brand-primary;
+      color: $brand-text;
       font-weight: 500;
     }
   }

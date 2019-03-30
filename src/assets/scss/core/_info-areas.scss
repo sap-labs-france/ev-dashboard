@@ -37,7 +37,7 @@
 
 .card-icon {
   &.icon-primary {
-    color: $brand-primary;
+    color: $brand-text;
   }
   &.icon-info {
     color: $brand-info;
@@ -52,9 +52,9 @@
     color: $brand-danger;
   }
   &.icon-rose {
-    color: $brand-rose;
+    color: $brand-info;
   }
   &.icon-white {
-    color: $brand-primary;
+    color: $brand-text;
   }
 }

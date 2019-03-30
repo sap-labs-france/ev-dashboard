@@ -313,8 +313,8 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    -webkit-text-fill-color: $brand-primary;
-    -webkit-box-shadow: 0 0 0px 1000px $brand-inverse inset;
+    -webkit-text-fill-color: $brand-text;
+    -webkit-box-shadow: 0 0 0px 1000px $brand-background inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -394,16 +394,16 @@
     @include tag-color($brand-danger);
   }
   &.tag-rose {
-    @include tag-color($brand-rose);
+    @include tag-color($brand-info);
   }
 }
 
 @mixin tag-color($color) {
   .tag {
     background-color: $color;
-    color: $brand-primary;
+    color: $brand-text;
     .tagsinput-remove-link {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   .tagsinput-add {

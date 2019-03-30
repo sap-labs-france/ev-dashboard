@@ -1,28 +1,22 @@
-body {
-  background-color: $blue-50;
-  color: $brand-primary;
-  font-weight: 300;
-}
-
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
-  background-color: $blue-grey-50;
-}
- 
 ::-webkit-scrollbar-thumb {
-  background: $blue-grey-100;
+  background: mat-color($app-foreground, disabled);
 }
 
+::-webkit-scrollbar-track {
+  background: $brand-background;
+}
+ 
 legend {
   border-bottom: 0;
 }
 
 .app-title {
-  color: white;
+  color: $brand-text;
   font-size: 1.2rem;
   text-transform: initial;
   padding-top: 0;
@@ -30,7 +24,7 @@ legend {
 }
 
 .app-version {
-  color: white;
+  color: $brand-text;
   font-size: 0.9rem;
   text-transform: initial;
   padding-top: 0;
@@ -38,9 +32,8 @@ legend {
 }
 
 a.app-version {
-  &:hover,
-  &:visited {
-    color: white;
+  &:hover {
+    color: $brand-text;
   }
 }
 
@@ -84,7 +77,7 @@ a {
 }
 
 .main {
-  background: #FFFFFF;
+  background: $brand-background;
   position: relative;
   z-index: 3;
 }
@@ -93,7 +86,7 @@ a {
 label {
   font-size: 14px;
   line-height: 1.42857;
-  color: $checkboxes-text-color;
+  color: $brand-text;
   font-weight: 400;
 }
 
@@ -167,16 +160,16 @@ label {
     width: 100%;
     background: transparent;
     bottom: 0;
-    color: $brand-primary;
+    color: $brand-text;
     z-index: 1;
     .copyright a {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   .navbar {
     .navbar-brand,
     .navbar-collapse .nav-link {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 }
@@ -366,7 +359,7 @@ label {
 }
 
 #notifications {
-  background-color: $brand-primary;
+  background-color: $brand-text;
   display: block;
   width: 100%;
   position: relative;
@@ -425,7 +418,7 @@ label {
 
 .separator {
   content: "Separator";
-  color: $brand-primary;
+  color: $brand-text;
   display: block;
   width: 100%;
   padding: 20px;
@@ -471,7 +464,7 @@ label {
 
 .sharing-area .btn {
   margin: 15px 4px 0;
-  color: $brand-primary;
+  color: $brand-text;
 }
 
 .sharing-area .btn i {

@@ -20,7 +20,7 @@
   }
 
   .card-title {
-    color: $brand-primary;
+    color: $brand-background;
     margin-top: 10px;
   }
 
@@ -37,7 +37,6 @@
     left: 0;
     top: 0;
     content: "";
-    // background-color: rgba(0, 0, 0, .56);
     border-radius: $border-radius-large;
   }
 }

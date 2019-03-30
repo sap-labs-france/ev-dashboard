@@ -40,7 +40,7 @@
 }
 
 .fixed-plugin .fa-cog {
-  color: $brand-primary;
+  color: $brand-text;
   padding: 10px;
   border-radius: 0 0 6px 6px;
   width: auto;
@@ -61,7 +61,7 @@
 }
 
 .fixed-plugin .fa-circle-thin {
-  color: $brand-primary;
+  color: $brand-text;
 }
 
 .fixed-plugin .active .fa-circle-thin {
@@ -105,7 +105,7 @@
 }
 
 .fixed-plugin .badge-black {
-  background-color: $brand-inverse;
+  background-color: $brand-text;
 }
 
 .fixed-plugin .badge-azure {
@@ -129,11 +129,11 @@
 }
 
 .fixed-plugin .badge-purple {
-  background-color: $brand-purple;
+  background-color: $brand-text;
 }
 
 .fixed-plugin .badge-white {
-  background-color: $brand-inverse;
+  background-color: $brand-text;
 }
 
 .fixed-plugin .badge-rose {
@@ -217,7 +217,7 @@
   font-size: 16px;
   text-align: center;
   border-radius: 10px;
-  background-color: $brand-primary;
+  background-color: $brand-text;
   border: 3px solid #FFF;
   padding-left: 0;
   padding-right: 0;
@@ -243,7 +243,7 @@
 .fixed-plugin .dropdown-menu > .active > a.img-holder,
 .fixed-plugin .dropdown-menu > .active > a.img-holder {
   border-color: #00bbff;
-  background-color: $brand-primary;
+  background-color: $brand-text;
 }
 
 .fixed-plugin .dropdown-menu > li > a img {

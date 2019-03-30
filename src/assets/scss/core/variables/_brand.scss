@@ -1,13 +1,69 @@
-// Bootstrap brand color customization
+// Create Material custom theme 
+@import '~@angular/material/theming';
+@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 
-/*     brand Colors              */
+// Material Theming
+@include mat-core();
 
-$brand-primary: $blue-900 !default;
-$brand-info: $blue-600 !default;
-$brand-success: $green-600 !default;
-$brand-warning: $orange-600 !default;
-$brand-danger: $red-600 !default;
-$brand-purple: $purple-600 !default;
-$brand-rose: $pink-600 !default;
-$brand-disabled: $grey-600 !default;
-$brand-inverse: $white !default;
+// Light Theme ---------------------------------
+// Define colors with mat palette
+$app-primary: mat-palette($mat-blue, 600);
+$app-accent: mat-palette($mat-blue, 400);
+$app-success: mat-palette($mat-green, 600);
+$app-warning: mat-palette($mat-orange, 600);
+$app-danger: mat-palette($mat-red, 600);
+// Create the theme for materials
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-danger);
+// Bg/Fg
+$app-foreground: map-get($app-theme, foreground);
+$app-background: map-get($app-theme, background);
+
+// Use it
+@include angular-material-theme($app-theme);
+
+// Datetime picker
+@include mat-datetimepicker-theme($app-theme);
+
+// Set Bootstrap theme according Material theme
+$brand-primary: mat-color($app-primary) !default;
+$brand-accent: mat-color($app-accent) !default;
+$brand-info: mat-color($app-accent) !default;
+$brand-success: mat-color($app-success) !default;
+$brand-warning: mat-color($app-warning) !default;
+$brand-danger: mat-color($app-danger) !default;
+$brand-disabled: mat-color($app-foreground, disabled) !default;
+$brand-text: mat-color($app-foreground, text) !default;
+$brand-hover: mat-color($app-background, hover) !default;
+$brand-background: mat-color($app-background, background) !default;
+// End of Light Theme ---------------------------------
+
+// Dark Theme ---------------------------------
+// // Define colors with mat palette
+// $app-primary: mat-palette($mat-grey, 600);
+// $app-accent: mat-palette($mat-grey, A200, A100, A400);
+// $app-success: mat-palette($mat-green, 300);
+// $app-warning: mat-palette($mat-orange, 300);
+// $app-danger: mat-palette($mat-red, 300);
+// // Create the theme for materials
+// $app-theme: mat-dark-theme($app-primary, $app-accent, $app-danger);
+// // Bg/Fg
+// $app-foreground: map-get($app-theme, foreground);
+// $app-background: map-get($app-theme, background);
+
+// // Use it
+// @include angular-material-theme($app-theme);
+// // Datetime picker
+// @include mat-datetimepicker-theme($app-theme);
+
+// // Set Bootstrap theme according Material theme
+// $brand-primary: mat-color($app-primary) !default;
+// $brand-accent: mat-color($app-accent) !default;
+// $brand-info: mat-color($app-accent) !default;
+// $brand-success: mat-color($app-success) !default;
+// $brand-warning: mat-color($app-warning) !default;
+// $brand-danger: mat-color($app-danger) !default;
+// $brand-disabled: mat-color($app-foreground, disabled) !default;
+// $brand-text: mat-color($app-foreground, text) !default;
+// $brand-hover: mat-color($app-background, hover) !default;
+// $brand-background: mat-color($app-background, background) !default;
+// End of Dark Theme ---------------------------------

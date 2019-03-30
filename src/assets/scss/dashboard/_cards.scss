@@ -196,7 +196,7 @@
     .card-text {
       border-radius: $border-radius-base;
       color: $brand-background;
-      background-color: mat-color($app-primary, 400);
+      background-color: $brand-primary;
       padding: 15px;
       margin-top: -20px;
       margin-right: 15px;

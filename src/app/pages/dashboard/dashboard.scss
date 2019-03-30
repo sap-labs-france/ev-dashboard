@@ -5,8 +5,6 @@
 $carousel-control-prev-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ef5350' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
 $carousel-control-next-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ef5350' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
 
-$button-darken-active: darken($brand-info, 15%);
-
 .local-previous {
     background-image: $carousel-control-prev-icon-bg !important
 }
@@ -63,7 +61,7 @@ agm-map {
 
 .navigation-button {
     position: fixed; 
-    top: 5px; 
+    top: 0; 
     right:1%; 
     z-index:999
 }
@@ -90,9 +88,9 @@ agm-map {
 }
 
 .app-card-stats {
-    background-color:$button-darken-active !important; 
+    background-color: lighten($brand-info, 15%) !important; 
     :hover,:focus {
-        background-color:$button-darken-active !important; 
+      background-color: lighten($brand-info, 15%) !important; 
     }
 }
 
@@ -128,7 +126,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      background-color: $brand-text;
+      background-color: $brand-primary;
     }
 
     .sidebar-background {
@@ -143,7 +141,6 @@ agm-map {
         background-position: center center;
 
         &:after {
-            //        position: relative;
             z-index: 3;
             width: 100%;
             height: 100%;
@@ -179,11 +176,11 @@ agm-map {
     &[data-background-color="blue"] {
       @include sidebar-background-color($gray-base, $white-color);
       h1, h2, h3, h4, div, span, p {
-        color: $brand-text;
+        color: $brand-background;
         font-weight: 500; 
         font-size: 1.5rem !important;
         padding: 14px 0px;
-        background-color: $brand-background;
+        background-color: $brand-primary;
       }
     }
 

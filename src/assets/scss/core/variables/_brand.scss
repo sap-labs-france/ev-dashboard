@@ -8,7 +8,7 @@
 // Light Theme ---------------------------------
 // Define colors with mat palette
 $app-primary: mat-palette($mat-blue, 600);
-$app-accent: mat-palette($mat-blue, A200, A100, A400);
+$app-accent: mat-palette($mat-blue, 400);
 $app-success: mat-palette($mat-green, 600);
 $app-warning: mat-palette($mat-orange, 600);
 $app-danger: mat-palette($mat-red, 600);

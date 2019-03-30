@@ -68,8 +68,8 @@
       &,
       &:hover,
       &:focus {
-        color: $brand-background;
-        background-color: $brand-text;
+        color: $brand-text;
+        background-color: $brand-background;
       }
     }
   }

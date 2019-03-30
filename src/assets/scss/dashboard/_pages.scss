@@ -135,8 +135,7 @@
   overflow: auto;
   height: 90vh;
   padding-top: 0 !important;
-  color: $brand-text;
-  background: rgba(0,0,0,0.3);
+  color: $brand-background;
 }
 
 .login-page {
@@ -437,7 +436,7 @@
 .offline-doc {
   .navbar .navbar-nav {
     .nav-item .nav-link {
-      color: $brand-text;
+      color: $brand-background;
     }
   }
 }

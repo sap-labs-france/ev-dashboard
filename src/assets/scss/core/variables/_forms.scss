@@ -1,12 +1,12 @@
 // Forms
 
 //
-$input-bg: rgba(#000, 0) !default; // #fff !default;
+$input-bg: rgba(#000, 0) !default; // $brand-background !default;
 $input-bg-disabled: rgba(#000, 0) !default; // ($brand-disabled !default;
 //
 //$input-color:                    $brand-disabled !default;
 $input-border-color: #d2d2d2 !default; // #ccc !default;
-$input-border-color-white: #FFFFFF !default;
+$input-border-color-white: $brand-background !default;
 
 //$input-btn-border-width:         $border-width !default; // For form controls and buttons
 $input-box-shadow: none !default; //inset 0 1px 1px rgba(0,0,0,.075) !default;

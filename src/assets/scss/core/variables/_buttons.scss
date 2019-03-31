@@ -6,7 +6,7 @@ $bmd-btn-margin-bottom: .3125rem !default; // 5px
 
 // default btn with no specific type designation
 $bmd-btn-color: $brand-disabled !default;
-$bmd-btn-bg: transparent !default; //$body-bg !default; // #fff
+$bmd-btn-bg: transparent !default; //$body-bg !default; // $brand-background
 $bmd-btn-border: #ccc !default;
 
 $bmd-btn-focus-bg: rgba(#999, .20) !default; // spec: bg Hover: 20% #999999
@@ -15,7 +15,7 @@ $bmd-btn-disabled: rgba(#999, .26) !default; // spec: light theme: Disabled text
 
 $bmd-inverse-btn-focus-bg: rgba(#ccc, .15) !default; // spec: dark bg Hover: 15% #CCCCCC
 $bmd-inverse-btn-active-bg: rgba(#ccc, .25) !default; // spec: dark Pressed: 25% #CCCCCC
-$bmd-inverse-btn-disabled: rgba(#ccc, .30) !default; // spec: dark theme: Disabled text: 30% #fff
+$bmd-inverse-btn-disabled: rgba(#ccc, .30) !default; // spec: dark theme: Disabled text: 30% $brand-background
 
 $bmd-btn-fab-size: 3.5rem !default; // 56px
 $bmd-btn-fab-size-sm: 2.5rem !default; // 40px
@@ -42,7 +42,7 @@ $btn-primary-bg: $brand-primary !default;
 $btn-primary-border-color: $btn-primary-bg !default;
 //
 $btn-secondary-color: $brand-disabled !default;
-$btn-secondary-bg: $body-bg !default; // #fff
+$btn-secondary-bg: $body-bg !default; // $brand-background
 $btn-secondary-border-color: #ccc !default;
 //
 $btn-info-color: $brand-background !default;

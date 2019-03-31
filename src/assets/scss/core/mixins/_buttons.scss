@@ -244,40 +244,40 @@
 
 @mixin bmd-social-buttons() {
   &.btn-facebook {
-    @include bmd-raised-button-variant(#fff, $social-facebook, $social-facebook);
+    @include bmd-raised-button-variant($brand-background, $social-facebook, $social-facebook);
   }
   &.btn-twitter {
-    @include bmd-raised-button-variant(#fff, $social-twitter, $social-twitter);
+    @include bmd-raised-button-variant($brand-background, $social-twitter, $social-twitter);
   }
   &.btn-pinterest {
-    @include bmd-raised-button-variant(#fff, $social-pinterest, $social-pinterest);
+    @include bmd-raised-button-variant($brand-background, $social-pinterest, $social-pinterest);
   }
   &.btn-google {
-    @include bmd-raised-button-variant(#fff, $social-google, $social-google);
+    @include bmd-raised-button-variant($brand-background, $social-google, $social-google);
   }
   &.btn-linkedin {
-    @include bmd-raised-button-variant(#fff, $social-linkedin, $social-linkedin);
+    @include bmd-raised-button-variant($brand-background, $social-linkedin, $social-linkedin);
   }
   &.btn-dribbble {
-    @include bmd-raised-button-variant(#fff, $social-dribbble, $social-dribbble);
+    @include bmd-raised-button-variant($brand-background, $social-dribbble, $social-dribbble);
   }
   &.btn-github {
-    @include bmd-raised-button-variant(#fff, $social-github, $social-github);
+    @include bmd-raised-button-variant($brand-background, $social-github, $social-github);
   }
   &.btn-youtube {
-    @include bmd-raised-button-variant(#fff, $social-youtube, $social-youtube);
+    @include bmd-raised-button-variant($brand-background, $social-youtube, $social-youtube);
   }
   &.btn-instagram {
-    @include bmd-raised-button-variant(#fff, $social-instagram, $social-instagram);
+    @include bmd-raised-button-variant($brand-background, $social-instagram, $social-instagram);
   }
   &.btn-reddit {
-    @include bmd-raised-button-variant(#fff, $social-reddit, $social-reddit);
+    @include bmd-raised-button-variant($brand-background, $social-reddit, $social-reddit);
   }
   &.btn-tumblr {
-    @include bmd-raised-button-variant(#fff, $social-tumblr, $social-tumblr);
+    @include bmd-raised-button-variant($brand-background, $social-tumblr, $social-tumblr);
   }
   &.btn-behance {
-    @include bmd-raised-button-variant(#fff, $social-behance, $social-behance);
+    @include bmd-raised-button-variant($brand-background, $social-behance, $social-behance);
   }
 }
 

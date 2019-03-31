@@ -16,7 +16,7 @@ svg {
   display: none;
   color: $brand-disabled;
   line-height: 1.5em;
-  background: #fff;
+  background: $brand-background;
   border: none;
   border-radius: $border-radius-extreme;
   @include shadow-8dp();

@@ -188,7 +188,7 @@ $filled-primary-dark: darken($filled-primary, 10%);
 // this is the container's theme
 $filled-theme: (container-border-bottom: 1px solid $filled-primary);
 // this is the tag's theme
-$filled-tag-theme: (cursor: pointer, margin: 8px 3px 5px 0px, position: relative, padding: 5px 8px, border-radius: 12px, color: #FFFFFF, font-weight: 500, font-size: 0.75em, text-transform: uppercase, display: inline-block, line-height: 1.5em, padding-left: 0.8em);
+$filled-tag-theme: (cursor: pointer, margin: 8px 3px 5px 0px, position: relative, padding: 5px 8px, border-radius: 12px, color: $brand-background, font-weight: 500, font-size: 0.75em, text-transform: uppercase, display: inline-block, line-height: 1.5em, padding-left: 0.8em);
 // this is the delete icon's theme
 $filled-icon-theme: (fill: $brand-primary, fill-focus: #eee, transform: none,);
 // apply theme to the container

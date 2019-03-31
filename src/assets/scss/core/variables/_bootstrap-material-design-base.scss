@@ -7,9 +7,9 @@ $brand-disabled: rgba(#000, 0.87) !default; // used for text color - others use 
 $bmd-font-weight-base: 400;
 
 // wondering if any of these could still be refactored out, but are definitely in use.
-$bmd-inverse: rgba(#fff, 1) !default;
-$bmd-inverse-light: rgba(#fff, 0.84) !default;
-$bmd-inverse-lighter: rgba(#fff, 0.54) !default;
+$bmd-inverse: rgba($brand-background, 1) !default;
+$bmd-inverse-light: rgba($brand-background, 0.84) !default;
+$bmd-inverse-lighter: rgba($brand-background, 0.54) !default;
 
 $bmd-label-color: $brand-disabled !default;
 $bmd-label-color-inner-focus: $brand-disabled !default; // e.g. radio label or text-muted not a control-label which is primary
@@ -23,8 +23,8 @@ $border-radius-extreme: 30px !default;
 
 // Typography elements
 $mdb-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
-$mdb-text-color-light: #fff !default;
-$mdb-text-color-light-hex: #fff !default; // for contrast function in inverse
+$mdb-text-color-light: $brand-background !default;
+$mdb-text-color-light-hex: $brand-background !default; // for contrast function in inverse
 $mdb-text-color-primary: unquote("rgba(#000, 0.87)") !default;
 $mdb-text-color-primary-hex: #000 !default; // for contrast function in inverse
 $icon-color: rgba(0, 0, 0, 0.5) !default;

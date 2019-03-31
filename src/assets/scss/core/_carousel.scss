@@ -78,7 +78,7 @@
       cursor: pointer;
       border: 1px solid $brand-danger;
       border-radius: 10px;
-      background: #FFFFFF;
+      background: $brand-background;
       @include shadow-2dp();
       @extend .animation-transition-general;
       border-radius: $border-radius-small;

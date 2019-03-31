@@ -109,16 +109,16 @@ $bmd-radio-color-off: $bmd-label-color-inner-focus !default;
 $bmd-radio-color-on: $brand-primary !default;
 $bmd-radio-color-disabled: $brand-disabled; //
 $bmd-radio-color-disabled-inverse: rgba(
-    #fff,
+    $brand-background,
     0.30
-); // dark theme spec: Disabled: #FFFFFF, Opacity  30%
+); // dark theme spec: Disabled: $brand-background, Opacity  30%
 
-$white: #fff !default;
+$white: $brand-background !default;
 $navbar-color: #555 !default;
 $pills-color: $navbar-color !default;
 $black: #3C4858 !default;
 $link-color: $brand-text;
-$white-transparent: rgba(#fff, .8);
+$white-transparent: rgba($brand-background, .8);
 $transparent: transparent;
 
 //Popovers

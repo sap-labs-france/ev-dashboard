@@ -66,7 +66,7 @@
   }
 
   .badge {
-    border: 3px solid #FFFFFF;
+    border: 3px solid $brand-background;
     border-radius: 50%;
     cursor: pointer;
     display: inline-block;
@@ -187,7 +187,7 @@
         text-align: center;
         border-radius: 10px;
         background-color: $brand-text;
-        border: 3px solid #FFF;
+        border: 3px solid $brand-background;
         padding-left: 0;
         padding-right: 0;
         opacity: 1;
@@ -263,7 +263,7 @@
 
       &:after {
         border-bottom: .4em solid rgba(0, 0, 0, 0);
-        border-left: .4em solid #FFFFFF;
+        border-left: .4em solid $brand-background;
         border-top: .4em solid rgba(0, 0, 0, 0);
         right: -16px;
       }

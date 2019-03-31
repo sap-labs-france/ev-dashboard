@@ -103,7 +103,7 @@ agm-map {
     align-items: center;
     top: 0;
     z-index: 2;
-    background: #fff;
+    background: $brand-background;
 
     .caret {
         display: inline-block;
@@ -146,13 +146,13 @@ agm-map {
             height: 100%;
             content: "";
             display: block;
-            background: #FFFFFF;
+            background: $brand-background;
             opacity: .93;
         }
     }
 
     &[data-background-color="black"] {
-        @include sidebar-background-color($brand-disabled, #fff);
+        @include sidebar-background-color($brand-disabled, $brand-background);
         h1, h2, h3, h4, div, span, p {
           color: $brand-text;
           font-weight: 500; 
@@ -163,7 +163,7 @@ agm-map {
     }
 
     &[data-background-color="red"] {
-      @include sidebar-background-color($brand-disabled, #fff);
+      @include sidebar-background-color($brand-disabled, $brand-background);
       h1, h2, h3, h4, div, span, p {
         color: $brand-text;
         font-weight: 500; 
@@ -174,7 +174,7 @@ agm-map {
     }
 
     &[data-background-color="blue"] {
-      @include sidebar-background-color($brand-disabled, #fff);
+      @include sidebar-background-color($brand-disabled, $brand-background);
       h1, h2, h3, h4, div, span, p {
         color: $brand-background;
         font-weight: 500; 
@@ -209,16 +209,16 @@ agm-map {
     }
 
     &[data-color="white"] {
-        @include set-background-color-button(#fff);
+        @include set-background-color-button($brand-background);
         @include sidebar-active-color(#000);
     }
 
     &[data-background-color="red"] {
-        @include sidebar-background-color($brand-danger, #fff);
+        @include sidebar-background-color($brand-danger, $brand-background);
     }
 
     &[data-background-color="blue"] {
-      @include sidebar-background-color(mat-color($app-primary, 900), #fff);
+      @include sidebar-background-color(mat-color($app-primary, 900), $brand-background);
     }
 
     &[data-image]:after,

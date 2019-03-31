@@ -88,7 +88,7 @@
 }
 
 .fixed-plugin .badge {
-  border: 3px solid #FFFFFF;
+  border: 3px solid $brand-background;
   border-radius: 50%;
   cursor: pointer;
   display: inline-block;
@@ -218,7 +218,7 @@
   text-align: center;
   border-radius: 10px;
   background-color: $brand-text;
-  border: 3px solid #FFF;
+  border: 3px solid $brand-background;
   padding-left: 0;
   padding-right: 0;
   opacity: 1;
@@ -306,7 +306,7 @@
 
 .fixed-plugin .dropdown-menu:after {
   border-bottom: 16px solid rgba(0, 0, 0, 0);
-  border-left: 16px solid #fff;
+  border-left: 16px solid $brand-background;
   border-top: 16px solid rgba(0, 0, 0, 0);
   right: -15px;
 }

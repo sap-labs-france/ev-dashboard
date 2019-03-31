@@ -11,7 +11,7 @@
   left: 0;
   z-index: 2;
   width: 260px;
-  background: #fff;
+  background: $brand-background;
   @include shadow-big();
   .logo-img {
     width: 42px;
@@ -212,7 +212,7 @@
       height: 100%;
       content: "";
       display: block;
-      background: #FFFFFF;
+      background: $brand-background;
       opacity: .93;
     }
   }
@@ -324,19 +324,19 @@
     }
   }
   &[data-background-color="black"] {
-    @include sidebar-background-color($brand-disabled, #fff);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($brand-disabled, #fff);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color($brand-disabled, #fff);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
@@ -360,11 +360,11 @@
     @include set-background-color-button($brand-info);
   }
   &[data-color="white"] {
-    @include set-background-color-button(#fff);
+    @include set-background-color-button($brand-background);
     @include sidebar-active-color(#000);
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($brand-danger, #fff);
+    @include sidebar-background-color($brand-danger, $brand-background);
     .user,
     .logo,
     .nav li.separator {
@@ -380,7 +380,7 @@
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color(mat-color($app-primary, 800), #fff);
+    @include sidebar-background-color(mat-color($app-primary, 800), $brand-background);
     .user,
     .logo,
     .nav li.separator {

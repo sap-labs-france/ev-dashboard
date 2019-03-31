@@ -3,7 +3,7 @@
   border-radius: $border-radius-base;
   padding: 0.625rem 0;
   margin-bottom: 20px;
-  @include navbar-colors(#fff, $navbar-color);
+  @include navbar-colors($brand-background, $navbar-color);
 
   &.fixed-top {
     border-radius: 0;
@@ -124,29 +124,29 @@
   }
 
   &.bg-primary {
-    @include navbar-colors($bg-primary, #fff);
+    @include navbar-colors($bg-primary, $brand-background);
   }
   &.bg-info {
-    @include navbar-colors($bg-info, #fff);
+    @include navbar-colors($bg-info, $brand-background);
   }
 
   &.bg-warning {
-    @include navbar-colors($bg-warning, #fff);
+    @include navbar-colors($bg-warning, $brand-background);
   }
 
   &.bg-rose {
-    @include navbar-colors($bg-rose, #fff);
+    @include navbar-colors($bg-rose, $brand-background);
   }
 
   &.bg-danger {
-    @include navbar-colors($bg-danger, #fff);
+    @include navbar-colors($bg-danger, $brand-background);
   }
 
   &.bg-success {
-    @include navbar-colors($bg-success, #fff);
+    @include navbar-colors($bg-success, $brand-background);
   }
   &.bg-dark {
-    @include navbar-colors($brand-disabled, #fff);
+    @include navbar-colors($brand-disabled, $brand-background);
   }
 
   &.navbar-transparent {
@@ -159,7 +159,7 @@
   .notification {
     position: absolute;
     top: 5px;
-    border: 1px solid #FFF;
+    border: 1px solid $brand-background;
     right: 10px;
     font-size: 9px;
     background: $brand-danger;

@@ -12,6 +12,7 @@ $brand-disabled: mat-color($app-foreground, disabled) !default;
 $brand-text: mat-color($app-foreground, text) !default;
 $brand-hover: mat-color($app-background, hover) !default;
 $brand-background: mat-color($app-background, background) !default;
+$brand-default: $brand-primary !default;
 // End of Light Theme ---------------------------------
 
 // Dark Theme ---------------------------------
@@ -26,4 +27,5 @@ $brand-background: mat-color($app-background, background) !default;
 // $brand-text: mat-color($app-foreground, text) !default;
 // $brand-hover: mat-color($app-background, hover) !default;
 // $brand-background: mat-color($app-background, background) !default;
+// $brand-default: $brand-primary !default;
 // End of Dark Theme ---------------------------------

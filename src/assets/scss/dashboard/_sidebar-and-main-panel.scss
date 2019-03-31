@@ -138,7 +138,7 @@
       & .dropdown-menu a:focus,
       &.active > [data-toggle="collapse"] {
         background-color: rgba(200, 200, 200, 0.2);
-        color: #000;
+        color:$brand-text;
         box-shadow: none;
       }
       &.active > [data-toggle="collapse"] {
@@ -189,7 +189,7 @@
   .nav li .dropdown-menu a {
     margin: 10px 15px 0;
     border-radius: $border-radius-base;
-    color: #000;
+    color:$brand-text;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
@@ -264,7 +264,7 @@
       padding: $padding-small-vertical $padding-zero;
       display: inline-block;
       font-size: 18px;
-      color: #000;
+      color:$brand-text;
       white-space: nowrap;
       font-weight: $font-weight-default;
       line-height: 30px;
@@ -300,7 +300,7 @@
       }
     }
     a {
-      color: #000;
+      color:$brand-text;
       padding: $padding-base-vertical $padding-large-vertical;
       white-space: nowrap;
     }
@@ -361,7 +361,7 @@
   }
   &[data-color="white"] {
     @include set-background-color-button($brand-background);
-    @include sidebar-active-color(#000);
+    @include sidebar-active-color($brand-text);
   }
   &[data-background-color="red"] {
     @include sidebar-background-color($brand-danger, $brand-background);

@@ -9,7 +9,7 @@ $bmd-readonly-underline: $input-border-color !default;
 //-- unverified below here
 $bmd-brand-inverse: $brand-background !default;
 // Typography elements FIXME: review to see if we actually need these
-$icon-color: rgba(#000, 0.5) !default;
+$icon-color: rgba($brand-text, 0.5) !default;
 
 // --------------------
 // inputs
@@ -207,8 +207,8 @@ $social-behance: #1769ff;
 
 // Variables for checkboxes
 
-$mdb-label-color: unquote("rgba(#000, 0.26)") !default;
-$mdb-label-color-toggle-focus: unquote("rgba(#000, .54)") !default;
+$mdb-label-color: unquote("rgba($brand-text, 0.26)") !default;
+$mdb-label-color-toggle-focus: unquote("rgba($brand-text, .54)") !default;
 
 $mdb-checkbox-size: 20px !default;
 $mdb-checkbox-animation-ripple: 500ms !default;

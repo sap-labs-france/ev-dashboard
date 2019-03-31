@@ -737,7 +737,7 @@ tr:first-child > td > .fc-day-grid-event {
   bottom: -1px;
   left: -1px;
   /* darkening effect */
-  background: #000;
+  background:$brand-text;
   opacity: .25;
 }
 

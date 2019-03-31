@@ -141,7 +141,7 @@
   }
 
   .form-check-input[disabled] ~ .form-check-sign .check {
-    border-color: #000;
+    border-color:$brand-text;
     opacity: .26;
   }
 
@@ -151,7 +151,7 @@
   }
 
   .form-check-input[disabled][checked] + .form-check-sign .check {
-    background-color: #000;
+    background-color:$brand-text;
   }
 }
 

@@ -210,7 +210,7 @@ agm-map {
 
     &[data-color="white"] {
         @include set-background-color-button($brand-background);
-        @include sidebar-active-color(#000);
+        @include sidebar-active-color($brand-text);
     }
 
     &[data-background-color="red"] {

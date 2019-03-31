@@ -70,10 +70,10 @@
   .form-check-input[disabled] {
 
     // light theme spec: Disabled: #000000, Opacity  26%
-    @include radio-color($black, 0.26);
+    @include radio-color(#000, 0.26);
 
     & + .circle .check {
-      background-color: $black;
+      background-color: #000;
     }
   }
 

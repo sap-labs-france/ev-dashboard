@@ -4,18 +4,18 @@
   padding: 70px 0 30px;
 
   .icon {
-    color: $gray-color;
+    color: $brand-disabled;
 
     > i {
       font-size: 3.85rem;
     }
   }
   .info-title {
-    color: $black-color;
+    color: #000;
     margin: 0.875rem * 2 0 0.875rem;
   }
   p {
-    color: $gray-color;
+    color: $brand-disabled;
   }
 }
 

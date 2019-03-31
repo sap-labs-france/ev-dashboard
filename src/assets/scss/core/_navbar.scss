@@ -3,7 +3,7 @@
   border-radius: $border-radius-base;
   padding: 0.625rem 0;
   margin-bottom: 20px;
-  @include navbar-colors($white-color, $navbar-color);
+  @include navbar-colors(#fff, $navbar-color);
 
   &.fixed-top {
     border-radius: 0;
@@ -124,29 +124,29 @@
   }
 
   &.bg-primary {
-    @include navbar-colors($bg-primary, $white-color);
+    @include navbar-colors($bg-primary, #fff);
   }
   &.bg-info {
-    @include navbar-colors($bg-info, $white-color);
+    @include navbar-colors($bg-info, #fff);
   }
 
   &.bg-warning {
-    @include navbar-colors($bg-warning, $white-color);
+    @include navbar-colors($bg-warning, #fff);
   }
 
   &.bg-rose {
-    @include navbar-colors($bg-rose, $white-color);
+    @include navbar-colors($bg-rose, #fff);
   }
 
   &.bg-danger {
-    @include navbar-colors($bg-danger, $white-color);
+    @include navbar-colors($bg-danger, #fff);
   }
 
   &.bg-success {
-    @include navbar-colors($bg-success, $white-color);
+    @include navbar-colors($bg-success, #fff);
   }
   &.bg-dark {
-    @include navbar-colors($grey-900, $white-color);
+    @include navbar-colors($brand-disabled, #fff);
   }
 
   &.navbar-transparent {

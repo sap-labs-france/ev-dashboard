@@ -54,7 +54,7 @@ h6, .h6 {
 
   &,
   a {
-    color: $black-color;
+    color: #000;
     text-decoration: none;
   }
 }
@@ -70,7 +70,7 @@ h2.title {
 .description,
 .card-description,
 .footer-big p {
-  color: $gray-light;
+  color: $brand-disabled;
 }
 
 .text-warning {
@@ -98,5 +98,5 @@ h2.title {
 }
 
 .text-gray {
-  color: $gray-color !important;
+  color: $brand-disabled !important;
 }

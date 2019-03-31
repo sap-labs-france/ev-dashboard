@@ -36,23 +36,23 @@
   }
 
   &.popover-primary {
-    @include popover-color($primary-color, $white-color);
+    @include popover-color($primary-color, #fff);
   }
 
   &.popover-info {
-    @include popover-color($info-color, $white-color);
+    @include popover-color($info-color, #fff);
   }
 
   &.popover-warning {
-    @include popover-color($warning-color, $white-color);
+    @include popover-color($warning-color, #fff);
   }
 
   &.popover-danger {
-    @include popover-color($danger-color, $white-color);
+    @include popover-color($danger-color, #fff);
   }
 
   &.popover-success {
-    @include popover-color($success-color, $white-color);
+    @include popover-color($success-color, #fff);
   }
 }
 

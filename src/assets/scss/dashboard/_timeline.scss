@@ -17,7 +17,7 @@
   }
 
   h6 {
-    color: $gray-dark;
+    color: $brand-disabled;
     font-weight: 400;
     margin: 10px 0px 0px;
   }
@@ -85,8 +85,8 @@
       right: -14px;
       display: inline-block;
       border-top: 14px solid transparent;
-      border-left: 14px solid $white-color;
-      border-right: 0 solid $white-color;
+      border-left: 14px solid #fff;
+      border-right: 0 solid #fff;
       border-bottom: 14px solid transparent;
       content: " ";
     }

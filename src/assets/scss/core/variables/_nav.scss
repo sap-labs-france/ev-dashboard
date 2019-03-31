@@ -1,7 +1,7 @@
 // Navs https://www.google.com/design/spec/components/tabs.html#tabs-specs
 
-$nav-disabled-link-color: $gray-light !default;
-$nav-disabled-link-hover-color: $gray-light !default;
+$nav-disabled-link-color: $brand-disabled !default;
+$nav-disabled-link-hover-color: $brand-disabled !default;
 
 $bmd-navbar-link-font-weight: $bmd-font-weight-base !default; //
 $bmd-navbar-link-font-size: .875rem !default; // 14
@@ -15,8 +15,8 @@ $bmd-nav-tabs-pills-link-padding: 1.4286em .8575em !default; // spec // was .5em
 // tabs only
 $bmd-nav-tabs-border-size: .214rem !default; // 3px
 
-$bmd-nav-tabs-color: $gray !default;
-$bmd-nav-tabs-active-color: $gray-dark !default;
+$bmd-nav-tabs-color: $brand-disabled !default;
+$bmd-nav-tabs-active-color: $brand-disabled !default;
 $bmd-nav-tabs-active-border-color: $brand-text !default;
 $bmd-nav-tabs-disabled-link-color: $nav-disabled-link-color !default;
 $bmd-nav-tabs-disabled-link-color-hover: $nav-disabled-link-hover-color !default;
@@ -37,16 +37,16 @@ $bmd-nav-tabs-inverse-disabled-link-color-hover: $bmd-inverse-light !default;
 
 //$bmd-nav-link-line-height:                  1 !default; // makes it easier to line up with the spec
 //$nav-link-padding:                          .5em 1em !default; // changing this for tabs alters generic navbars, so do it elsewhere with higher specificity
-//$nav-link-hover-bg:                         $gray-lighter !default;
+//$nav-link-hover-bg:                         ($brand-disabled !default;
 
 //
 //$nav-tabs-border-color:                     #ddd !default;
 //
 //$nav-tabs-link-border-width:                $border-width !default;
-//$nav-tabs-link-hover-border-color:          $gray-lighter !default;
+//$nav-tabs-link-hover-border-color:          ($brand-disabled !default;
 //
 $nav-tabs-active-link-hover-bg: transparent !default; // $body-bg
-//$nav-tabs-active-link-hover-color:          $gray !default;
+//$nav-tabs-active-link-hover-color:          $brand-disabled !default;
 //$nav-tabs-active-link-hover-border-color:   #ddd !default;
 //
 //$nav-tabs-justified-link-border-color:            #ddd !default;

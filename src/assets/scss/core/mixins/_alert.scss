@@ -67,7 +67,7 @@
 
     $args-extra: map-merge($args, (
       variation-color: $brand-text,
-      variation-color-text: $gray
+      variation-color-text: $brand-disabled
     ));
     @include call-variations-content-mixin($args-extra);
   }

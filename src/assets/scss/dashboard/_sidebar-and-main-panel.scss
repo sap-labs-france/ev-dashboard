@@ -11,7 +11,7 @@
   left: 0;
   z-index: 2;
   width: 260px;
-  background: $white-color;
+  background: #fff;
   @include shadow-big();
   .logo-img {
     width: 42px;
@@ -138,7 +138,7 @@
       & .dropdown-menu a:focus,
       &.active > [data-toggle="collapse"] {
         background-color: rgba(200, 200, 200, 0.2);
-        color: $black-color;
+        color: #000;
         box-shadow: none;
       }
       &.active > [data-toggle="collapse"] {
@@ -189,7 +189,7 @@
   .nav li .dropdown-menu a {
     margin: 10px 15px 0;
     border-radius: $border-radius-base;
-    color: $black-color;
+    color: #000;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
@@ -264,7 +264,7 @@
       padding: $padding-small-vertical $padding-zero;
       display: inline-block;
       font-size: 18px;
-      color: $black-color;
+      color: #000;
       white-space: nowrap;
       font-weight: $font-weight-default;
       line-height: 30px;
@@ -300,7 +300,7 @@
       }
     }
     a {
-      color: $black-color;
+      color: #000;
       padding: $padding-base-vertical $padding-large-vertical;
       white-space: nowrap;
     }
@@ -324,19 +324,19 @@
     }
   }
   &[data-background-color="black"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, #fff);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, #fff);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, #fff);
     .nav li .dropdown-menu .dropdown-item {
       color: $brand-text;
     }
@@ -360,11 +360,11 @@
     @include set-background-color-button($brand-info);
   }
   &[data-color="white"] {
-    @include set-background-color-button($white-color);
-    @include sidebar-active-color($black-color);
+    @include set-background-color-button(#fff);
+    @include sidebar-active-color(#000);
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($brand-danger, $white-color);
+    @include sidebar-background-color($brand-danger, #fff);
     .user,
     .logo,
     .nav li.separator {
@@ -380,7 +380,7 @@
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color(mat-color($app-primary, 800), $white-color);
+    @include sidebar-background-color(mat-color($app-primary, 800), #fff);
     .user,
     .logo,
     .nav li.separator {

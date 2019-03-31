@@ -40,7 +40,7 @@ body .fc { /* extra precedence to overcome jqui */
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-popover .fc-header,
 .fc-unthemed .fc-list-heading td {
-  background: $gray-light;
+  background: $brand-disabled;
 }
 
 .fc-unthemed .fc-popover .fc-header .fc-close {
@@ -542,8 +542,8 @@ temporary rendered events).
     @include shadow-big-color($brand-info);
   }
   &.event-default {
-    background-color: $gray-light;
-    @include shadow-big-color($gray-light);
+    background-color: $brand-disabled;
+    @include shadow-big-color(($brand-disabled);
   }
 }
 
@@ -571,7 +571,7 @@ temporary rendered events).
 
 .fc-event .fc-bg { /* the generic .fc-bg already does position */
   z-index: 1;
-  background: $white-color;
+  background: #fff;
   opacity: .25;
 }
 
@@ -1468,7 +1468,7 @@ be a descendant of the grid when it is being dragged.
 
   .fc th {
     text-align: right;
-    color: $gray-light;
+    color: $brand-disabled;
   }
 
   .title {

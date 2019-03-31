@@ -57,7 +57,7 @@
   border-radius: 100%;
   transition: all 0.2s ease-out;
   border: 1px solid;
-  background: $white-color;
+  background: #fff;
 
   @include shadow-2dp();
 }

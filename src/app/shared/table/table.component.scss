@@ -4,9 +4,9 @@
 @import "../../../assets/scss/core/mixins/animations";
 @import "../../../assets/scss/core/misc";
 
-$medium-spinner: $blue !default;
-$inner-spinner: $yellow !default;
-$outer-spinner: $red !default;
+$medium-spinner: $brand-success !default;
+$inner-spinner: $brand-warning !default;
+$outer-spinner: $brand-danger !default;
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: $font-size-sm !important;

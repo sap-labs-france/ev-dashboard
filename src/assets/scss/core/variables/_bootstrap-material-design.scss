@@ -7,9 +7,9 @@ $bmd-readonly-underline: $input-border-color !default;
 
 //---
 //-- unverified below here
-$bmd-brand-inverse: $indigo !default;
+$bmd-brand-inverse: $brand-background !default;
 // Typography elements FIXME: review to see if we actually need these
-$icon-color: rgba($black, 0.5) !default;
+$icon-color: rgba(#000, 0.5) !default;
 
 // --------------------
 // inputs
@@ -56,7 +56,7 @@ $checkboxes-text-color: $brand-text !default;
 
 $bmd-checkbox-border-size: .0625rem !default;
 $bmd-checkbox-border-color: $bmd-label-color-inner-focus !default;
-$bmd-checkbox-border-color-disabled: $gray-lighter !default; //#bdbdbd !default;
+$bmd-checkbox-border-color-disabled: $brand-disabled !default; //#bdbdbd !default;
 
 // Toggle
 $mdb-toggle-label-color: $mdb-label-color !default;
@@ -68,7 +68,7 @@ $pale-bg: #F9F7F3 !default;
 
 $font-color: #66615b !default;
 
-$black-color: #3C4858 !default;
+$black: #3C4858 !default;
 
 // Dropdowns
 
@@ -88,12 +88,12 @@ $bmd-switch-handle-size: 1.25rem !default; // 20px (was 18px)
 $bmd-switch-handle-checked-bg: $brand-primary !default;
 $bmd-switch-handle-unchecked-bg: #f1f1f1 !default;
 $bmd-switch-handle-disabled-bg: #bdbdbd !default;
-$bmd-switch-unchecked-bg: $gray-lighter !default;
+$bmd-switch-unchecked-bg: $brand-disabled !default;
 $bmd-switch-checked-bg: desaturate(
     lighten($bmd-switch-handle-checked-bg, 28%),
     32%
 ); // kind of magic recipe
-$bmd-switch-disabled-bg: $gray-lighter !default;
+$bmd-switch-disabled-bg: $brand-disabled !default;
 
 // Popovers and Popups
 $bmd-popover-background: rgba(101, 101, 101, 0.9) !default;
@@ -107,18 +107,18 @@ $bmd-radio-label-padding: .3125rem !default; // 5px
 
 $bmd-radio-color-off: $bmd-label-color-inner-focus !default;
 $bmd-radio-color-on: $brand-primary !default;
-$bmd-radio-color-disabled: $gray-lighter; //
+$bmd-radio-color-disabled: $brand-disabled; //
 $bmd-radio-color-disabled-inverse: rgba(
-    $white,
+    #fff,
     0.30
 ); // dark theme spec: Disabled: #FFFFFF, Opacity  30%
 
-$white-color: #fff !default;
+$white: #fff !default;
 $navbar-color: #555 !default;
 $pills-color: $navbar-color !default;
-$black-color: #3C4858 !default;
+$black: #3C4858 !default;
 $link-color: $brand-text;
-$white-transparent: rgba($white-color, .8);
+$white-transparent: rgba(#fff, .8);
 $transparent: transparent;
 
 //Popovers
@@ -134,7 +134,7 @@ $bg-warning: $brand-warning;
 $bg-info: $brand-info;
 $bg-rose: $brand-info;
 $bg-success: $brand-success;
-$bg-dark: $grey-900;
+$bg-dark: $brand-disabled;
 
 //Paddings
 $padding-general-y: 0.625rem !default;
@@ -207,8 +207,8 @@ $social-behance: #1769ff;
 
 // Variables for checkboxes
 
-$mdb-label-color: unquote("rgba(#{$rgb-black}, 0.26)") !default;
-$mdb-label-color-toggle-focus: unquote("rgba(#{$rgb-black}, .54)") !default;
+$mdb-label-color: unquote("rgba(#000, 0.26)") !default;
+$mdb-label-color-toggle-focus: unquote("rgba(#000, .54)") !default;
 
 $mdb-checkbox-size: 20px !default;
 $mdb-checkbox-animation-ripple: 500ms !default;

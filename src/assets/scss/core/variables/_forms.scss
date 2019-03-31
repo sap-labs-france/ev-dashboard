@@ -1,10 +1,10 @@
 // Forms
 
 //
-$input-bg: rgba($black, 0) !default; // #fff !default;
-$input-bg-disabled: rgba($black, 0) !default; // $gray-lighter !default;
+$input-bg: rgba(#000, 0) !default; // #fff !default;
+$input-bg-disabled: rgba(#000, 0) !default; // ($brand-disabled !default;
 //
-//$input-color:                    $gray !default;
+//$input-color:                    $brand-disabled !default;
 $input-border-color: #d2d2d2 !default; // #ccc !default;
 $input-border-color-white: #FFFFFF !default;
 

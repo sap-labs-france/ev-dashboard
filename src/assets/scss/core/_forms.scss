@@ -101,7 +101,7 @@ form {
 }
 
 .has-white {
-  @include bmd-form-color($white-color, $white-color, $white-color, $input-border-color-white);
+  @include bmd-form-color(#fff, #fff, #fff, $input-border-color-white);
 
   .form-control {
     &:focus {

@@ -50,13 +50,13 @@
       color: $brand-text;
       text-align: center;
       padding: 12px 0;
-      border-bottom: 1px solid rgba($gray-color, .3);
+      border-bottom: 1px solid rgba($brand-disabled, .3);
 
       &:last-child {
         border: 0;
       }
       b {
-        color: $black-color;
+        color: #000;
       }
       i {
         top: 6px;
@@ -70,7 +70,7 @@
     ul {
       li {
         color: $brand-text;
-        border-color: rgba($white-color, .3);
+        border-color: rgba(#fff, .3);
 
         b {
           color: $brand-text;

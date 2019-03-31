@@ -29,33 +29,24 @@
     background-color: rgba(0, 0, 0, .5);
   }
 
-  &[filter-color="purple"],
-  &[filter-color="primary"] {
-    &:after {
-      @include linear-gradient(rgba($purple-100, .56), rgba($purple-300, .95));
-
-    }
-    @include lock-page-input-color($brand-primary);
-
-  }
   &[filter-color="blue"],
   &[filter-color="info"] {
     &:after {
-      @include linear-gradient(rgba($cyan-100, .56), rgba($cyan-300, .95));
+      @include linear-gradient(rgba(mat-color($app-primary, lighter), .56), rgba(mat-color($app-primary, darker), .95));
     }
     @include lock-page-input-color($brand-info);
   }
   &[filter-color="green"],
   &[filter-color="success"] {
     &:after {
-      @include linear-gradient(rgba($green-200, .56), rgba($green-400, .95));
+      @include linear-gradient(rgba(mat-color($app-success, lighter), .56), rgba(mat-color($app-success, darker), .95));
     }
     @include lock-page-input-color($brand-success);
   }
   &[filter-color="orange"],
   &[filter-color="warning"] {
     &:after {
-      @include linear-gradient(rgba($orange-100, .56), rgba($orange-300, .95));
+      @include linear-gradient(rgba(mat-color($app-warning, lighter), .56), rgba(mat-color($app-warning, darker), .95));
     }
     @include lock-page-input-color($brand-warning);
   }
@@ -63,15 +54,9 @@
   &[filter-color="red"],
   &[filter-color="danger"] {
     &:after {
-      @include linear-gradient(rgba($red-200, .56), rgba($red-400, .95));
+      @include linear-gradient(rgba(mat-color($app-danger, lighter), .56), rgba(mat-color($app-danger, darker), .95));
     }
     @include lock-page-input-color($brand-danger);
-  }
-  &[filter-color="rose"] {
-    &:after {
-      @include linear-gradient(rgba($pink-100, .56), rgba($pink-300, .95));
-    }
-    @include lock-page-input-color($brand-info);
   }
 
   &[data-image]:after {

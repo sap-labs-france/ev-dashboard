@@ -14,9 +14,9 @@ svg {
   // design changed by www.creative-tim.com
   position: absolute;
   display: none;
-  color: $gray;
+  color: $brand-disabled;
   line-height: 1.5em;
-  background: $white-color;
+  background: #fff;
   border: none;
   border-radius: $border-radius-extreme;
   @include shadow-8dp();

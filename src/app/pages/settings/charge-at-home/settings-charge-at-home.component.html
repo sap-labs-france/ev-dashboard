@@ -132,6 +132,38 @@
           </mat-form-field>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field>
+            <input appSetAutoFocus matInput type="text" [formControl]="concurPolicyId"
+                   placeholder="{{'settings.chargeathome.concur.policy_id' | translate}}"
+                   required>
+            <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
+              | translate}}</mat-error>
+            <mat-error *ngIf="concurPaymentTypeId.hasError('maxlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+            </mat-error>
+            <mat-error *ngIf="concurPaymentTypeId.hasError('minlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <input appSetAutoFocus matInput type="text" [formControl]="concurReportName"
+                   placeholder="{{'settings.chargeathome.concur.report_name' | translate}}"
+                   required>
+            <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"
+              | translate}}</mat-error>
+            <mat-error *ngIf="concurExpenseTypeCode.hasError('maxlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+            </mat-error>
+            <mat-error *ngIf="concurExpenseTypeCode.hasError('minlength')">
+              <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div class="card-footer text-center">
       <span class="toolbar-spacer"></span>

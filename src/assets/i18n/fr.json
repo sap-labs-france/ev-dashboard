@@ -872,6 +872,8 @@
         "client_secret": "Client Secret",
         "payment_type_id": "Payment Type ID",
         "expense_type_code": "Expense Type Code",
+        "policy_id": "Policy ID",
+        "report_name": "Nom de note de frais",
         "link_success": "Votre compte a été lié avec succès à Concur",
         "link_error": "Une erreur est survenue durant la connexion avec Concur"
       }

@@ -25,6 +25,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   public concurClientSecret: AbstractControl;
   public concurPaymentTypeId: AbstractControl;
   public concurExpenseTypeCode: AbstractControl;
+  public concurPolicyId: AbstractControl;
+  public concurReportName: AbstractControl;
 
   private currentSettingID;
 
@@ -78,6 +80,18 @@ export class SettingsChargeAtHomeComponent implements OnInit {
             Validators.maxLength(100)
           ])
         ),
+        'policyId': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        ),
+        'reportName': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        ),
       })
     });
 
@@ -88,6 +102,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     this.concurClientSecret = this.concur.controls['clientSecret'];
     this.concurPaymentTypeId = this.concur.controls['paymentTypeId'];
     this.concurExpenseTypeCode = this.concur.controls['expenseTypeCode'];
+    this.concurPolicyId = this.concur.controls['policyId'];
+    this.concurReportName = this.concur.controls['reportName'];
 
     this.loadConfiguration();
   }
@@ -108,6 +124,8 @@ export class SettingsChargeAtHomeComponent implements OnInit {
           this.concurClientSecret.setValue(config.concur.clientSecret ? config.concur.clientSecret : '');
           this.concurPaymentTypeId.setValue(config.concur.paymentTypeId ? config.concur.paymentTypeId : '');
           this.concurExpenseTypeCode.setValue(config.concur.expenseTypeCode ? config.concur.expenseTypeCode : '');
+          this.concurPolicyId.setValue(config.concur.policyId ? config.concur.policyId : '');
+          this.concurReportName.setValue(config.concur.reportName ? config.concur.reportName : '');
         }
       }
       this.formGroup.markAsPristine();

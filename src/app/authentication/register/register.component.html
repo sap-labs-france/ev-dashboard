@@ -6,7 +6,7 @@
       <div class="col-md-6 ml-auto mr-auto">
         <form class="form" [formGroup]="formGroup" (ngSubmit)="register(formGroup.value)">
           <div class="card card-login card-hidden">
-            <div class="card-header card-header-info text-center h-25">
+            <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
                 <img class="w-50 mb-2" src="/assets/img/logo-low.gif"/>
               </div>
@@ -89,7 +89,7 @@
                 </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="register-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.register" |
+              <button id="register-button" mat-raised-button class="btn btn-inverse" type="submit" [disabled]="!formGroup.valid">{{"authentication.register" |
                 translate}}
               </button>
             </div>

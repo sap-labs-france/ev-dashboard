@@ -23,10 +23,7 @@ export class OcpiendpointPatchJobResultComponent extends ChipComponent {
     this.type = 'chip-width-10em ';
     this.text = '0 / 0';
 
-    if (!this.row.backgroundPatchJob) {
-      this.type += TYPE_DEFAULT;
-      this.text = this.translateService.instant('ocpiendpoints.status_inactive');
-    } else if (this.row.lastPatchJobResult) {
+    if (this.row.lastPatchJobResult) {
       const totalEVSEs = this.row.lastPatchJobResult.successNbr + this.row.lastPatchJobResult.failureNbr;
       this.text = `${this.row.lastPatchJobResult.successNbr} / ${totalEVSEs}`
       if (this.row.lastPatchJobResult.successNbr === 0 && this.row.lastPatchJobResult.failureNbr > 0) {

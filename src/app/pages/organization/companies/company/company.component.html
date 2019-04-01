@@ -15,17 +15,13 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <button *ngIf="this.isAdmin" class="btn btn-info mat-raised-button" (click)="saveCompany(formGroup.value)"
+                                        <button mat-raised-button *ngIf="this.isAdmin" class="btn btn-link" (click)="saveCompany(formGroup.value)"
                                             [disabled]="!formGroup.valid || !formGroup.dirty">
-                                            <span class="mat-button-wrapper">
-                                                <i class="material-icons mr-2">save</i>
-                                                <span class="btn-label">{{'general.save' | translate}}</span>
-                                            </span>
+                                          <i class="material-icons mr-2">save</i>
+                                          {{'general.save' | translate}}
                                         </button>
-                                        <button *ngIf="isOpenInDialog()" class="btn btn-info mat-raised-button" (click)="onClose()">
-                                            <span class="mat-button-wrapper">
-                                                <i class="material-icons">close</i>
-                                            </span>
+                                        <button mat-raised-button *ngIf="isOpenInDialog()" class="btn btn-link" (click)="onClose()">
+                                          <i class="material-icons">close</i>
                                         </button>
                                     </ul>
                                 </div>

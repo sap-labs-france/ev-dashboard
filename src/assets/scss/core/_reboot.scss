@@ -1,5 +1,5 @@
 body {
-  background-color: $brand-primary;
+  background-color: $brand-text;
 }
 
 a {
@@ -16,7 +16,7 @@ button:focus {
 
 //// Prevent highlight on mobile
 //* {
-//  -webkit-tap-highlight-color: rgba($white, 0);
+//  -webkit-tap-highlight-color: rgba($brand-background, 0);
 //  -webkit-tap-highlight-color: transparent;
 //  &:focus {
 //    outline: 0;

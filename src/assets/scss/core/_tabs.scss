@@ -6,7 +6,7 @@
 
   .nav-item {
     .nav-link {
-      color: $brand-inverse;
+      color: $brand-text;
       border: 0;
       margin: 0;
       border-radius: $border-radius-base;
@@ -24,7 +24,7 @@
     .nav-link:hover,
     .nav-link:focus {
       border: 0 !important;
-      color: $brand-inverse !important;
+      color: $brand-background !important;
       font-weight: $font-weight-bold;
     }
     &.disabled .nav-link,
@@ -37,7 +37,7 @@
     }
 
     .nav-link.active {
-      background-color: $brand-inverse;
+      background-color: $brand-background;
       color: $brand-primary !important;
       transition: 0.3s background-color 0.2s;
     }
@@ -71,10 +71,10 @@
 
 .mat-tab-labels {
   padding: 10px;
-  color: $brand-inverse !important;
+  color: $brand-background !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $brand-info;
+  background: $brand-primary;
   @include shadow-big-color($brand-info);
 }
 
@@ -94,7 +94,7 @@
 
 .mat-tab-label {
   opacity: 1 !important;
-  color: $brand-inverse !important;
+  color: $brand-background !important;
   border: 0;
   margin: 0;
   min-width: 9em !important;
@@ -107,12 +107,10 @@
   text-transform: uppercase;
   &:focus {
     border: 0 !important;
-    color: $brand-primary !important;
     font-weight: $font-weight-bold;
   }
-  disabled,
   &:hover {
-    color: rgba(255, 255, 255, 0.5) !important;
+    background-color: rgba($brand-background, .1);
   }
 }
 
@@ -123,16 +121,16 @@
 
 .mat-tab-label-active {
   color: $brand-primary !important;
+  background-color: $brand-background;
   border: 0;
   margin: 0;
   border-radius: $border-radius-base;
   line-height: $mdb-btn-font-size-base * 2;
   font-size: $mdb-btn-font-size-base;
   padding: 10px 15px;
-  background-color: $brand-inverse;
   transition: 0.3s background-color 0.2s;
   &:hover {
-    color: $brand-primary !important;
+    background-color: $brand-background;
   }
 }
 

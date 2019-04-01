@@ -53,10 +53,10 @@
 @mixin badges-color($color) {
   .tag {
     background-color: $color;
-    color: $brand-primary;
+    color: $brand-text;
 
     .tagsinput-remove-link {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   // .tagsinput-add{
@@ -82,13 +82,13 @@
     @include badges-color($brand-danger);
   }
   &.rose-badge {
-    @include badges-color($brand-rose);
+    @include badges-color($brand-info);
   }
 }
 
 @mixin badge-color() {
   &.badge-primary {
-    background-color: $brand-primary;
+    background-color: $brand-text;
   }
   &.badge-info {
     background-color: $brand-info;
@@ -103,9 +103,9 @@
     background-color: $brand-danger;
   }
   &.badge-rose {
-    background-color: $brand-rose;
+    background-color: $brand-info;
   }
   &.badge-default {
-    background-color: $gray-light;
+    background-color: $brand-disabled;
   }
 }

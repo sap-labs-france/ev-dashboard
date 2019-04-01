@@ -1,9 +1,9 @@
 import { TranslateService } from '@ngx-translate/core';
-import { ActionResponse, Ocpiendpoint, OcpiendpointDetail, TableActionDef, TableColumnDef, TableDef, User } from 'app/common.types';
+import { Ocpiendpoint, OcpiendpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ConfigService } from 'app/services/config.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'app/services/message.service';
@@ -19,10 +19,12 @@ import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { Utils } from 'app/utils/Utils';
 import { Constants } from 'app/utils/Constants';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
-import { OcpiendpointPatchJobStatusComponent } from '../formatters/ocpi-endpoint-patch-job-status.component';
+import { OcpiendpointDetailPatchJobStatusComponent } from '../formatters/ocpi-endpoint-detail-patch-job-status.component';
+import { OcpiendpointDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
+import { OcpiendpointDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
+import { OcpiendpointDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
 
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDetail> {
@@ -108,9 +110,9 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointPatchJobStatusComponent,
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        angularComponentName: OcpiendpointDetailPatchJobStatusComponent,
+        headerClass: 'text-center',
+        class: '',
         sortable: false
       },
       {
@@ -118,8 +120,8 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         type: 'date',
         formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
         name: 'ocpiendpoints.lastPatchJobOn',
-        headerClass: 'col-30',
-        class: 'text-left col-30p',
+        headerClass: 'col-40p',
+        class: 'text-left col-40p',
         sorted: true,
         direction: 'desc',
         sortable: false
@@ -128,31 +130,31 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         id: 'totalNbr',
         type: 'integer',
         name: 'ocpiendpoints.totalChargePoints',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        direction: 'desc',
-        sortable: false
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointDetailTotalEvsesStatusComponent,
+        headerClass: 'text-center col-10p',
+        class: '',
+        sorted: false
       },
       {
         id: 'successNbr',
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        direction: 'desc',
-        sortable: false
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointDetailSuccessEvsesStatusComponent,
+        headerClass: 'text-center col-10p',
+        class: '',
+        sorted: false
       },
       {
         id: 'failureNbr',
         type: 'integer',
         name: 'ocpiendpoints.failed',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        direction: 'desc',
-        sortable: false
+        isAngularComponent: true,
+        angularComponentName: OcpiendpointDetailFailureEvsesStatusComponent,
+        headerClass: 'text-center col-10p',
+        class: '',
+        sorted: false
       }
     ];
   }

@@ -66,12 +66,14 @@
     </div>
   </div>
   <div class="col-md-2" align="left" *ngIf="!hideGeoLocation">
-      <button class="btn btn-info btn-round mat-raised-button app-btn-min-width" (click)="showPlace()">
-        <span class="mat-button-wrapper">
+      <button mat-raised-button class="btn btn-info btn-round app-btn-min-width" (click)="showPlace()">
+        <!-- <span class="mat-button-wrapper"> -->
           <i class="material-icons mr-2">location_on</i>
-          <span class="btn-label">{{'general.show_place'
-            | translate}}</span>
-        </span>
+          <!-- <span class="btn-label"> -->
+            {{'general.show_place'
+            | translate}}
+          <!-- </span> -->
+        <!-- </span> -->
       </button>
   </div>
 </div>

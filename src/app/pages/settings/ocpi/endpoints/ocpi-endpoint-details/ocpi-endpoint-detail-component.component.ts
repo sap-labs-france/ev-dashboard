@@ -4,7 +4,7 @@ import {DetailComponent} from 'app/shared/table/detail-component/detail-componen
 import {OcpiendpointDetailDataSource} from './ocpi-endpoint-detail-data-source-table';
 
 @Component({
-  template: '<app-table [dataSource]="ocpiendpointDetailDataSource"></app-table>',
+  template: '<app-table class="endpoint-details" [dataSource]="ocpiendpointDetailDataSource"></app-table>',
   providers: [
     OcpiendpointDetailDataSource
   ]

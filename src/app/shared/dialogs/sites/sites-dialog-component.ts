@@ -4,6 +4,7 @@ import {SitesDataSource} from './sites-data-source-table';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {TranslateService} from '@ngx-translate/core';
+import {SpinnerService} from 'app/services/spinner.service';
 import {Router} from '@angular/router';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue, Site} from '../../../common.types';
@@ -17,6 +18,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private spinnerService: SpinnerService,
     protected dialogRef: MatDialogRef<SitesDialogComponent>,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
@@ -31,7 +33,8 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
       this.messageService,
       this.translateService,
       this.router,
-      this.centralServerService);
+      this.centralServerService,
+      this.spinnerService);
     // Set static filter
     this.dialogDataSource.setStaticFilters([
       {'ExcludeSitesOfUserID': data.userID}

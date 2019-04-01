@@ -52,7 +52,7 @@ form {
 
   .has-white & {
     @include material-placeholder() {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 }
@@ -101,11 +101,11 @@ form {
 }
 
 .has-white {
-  @include bmd-form-color($white-color, $white-color, $white-color, $input-border-color-white);
+  @include bmd-form-color($brand-background, $brand-background, $brand-background, $input-border-color-white);
 
   .form-control {
     &:focus {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 }
@@ -119,7 +119,7 @@ form {
 }
 
 .has-rose {
-  @include bmd-form-color($brand-rose, $brand-rose, $brand-rose, $input-border-color);
+  @include bmd-form-color($brand-info, $brand-info, $brand-info, $input-border-color);
 }
 
 // Reference http://www.google.com/design/spec/components/text-fields.html
@@ -368,10 +368,10 @@ fieldset[disabled] .form-group .form-control {
 .mat-form-field {
   &.mat-focused {
     .mat-form-field-ripple {
-      background-color: $brand-primary;
+      background-color: $brand-text;
     }
     .mat-form-field-label {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 }

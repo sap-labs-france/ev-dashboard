@@ -8,8 +8,8 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button *ngIf="buttonValidateID" class="mat-raised-button" [class.mat-primary]="buttonValidateID" (click)="validate()">{{buttonValidateName}}</button>
-  <button *ngIf="buttonNoID" class="mat-raised-button" [class.mat-primary]="!buttonValidateID" (click)="no()">{{buttonNoName}}</button>
-  <button *ngIf="buttonCancelID" class="mat-raised-button" (click)="cancel()">{{buttonCancelName}}</button>
+<mat-dialog-actions align="end" (document:keyup.enter)="onEnter()"  (document:keyup.esc)="onEscape()">
+  <button mat-raised-button *ngIf="buttonValidateID" [class]="'btn ' + buttonValidateClass" (click)="validate()">{{buttonValidateName}}</button>
+  <button mat-raised-button *ngIf="buttonNoID" [class]="'btn ' + buttonNoClass" (click)="no()">{{buttonNoName}}</button>
+  <button mat-raised-button *ngIf="buttonCancelID" class="btn btn-inverse" (click)="cancel()">{{buttonCancelName}}</button>
 </mat-dialog-actions>

@@ -272,8 +272,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getTableActionsDef(): TableActionDef[] {
     // Return default
-    if ((this.filtersDef && this.filtersDef.length > 0) ||
-        (this.tableDef && this.tableDef.search && this.tableDef.search.enabled)) {
+    if (this.filtersDef && this.filtersDef.length > 0) {
       return [
         new TableResetFiltersAction().getActionDef()
       ];

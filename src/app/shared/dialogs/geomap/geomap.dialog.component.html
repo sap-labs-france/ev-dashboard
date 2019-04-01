@@ -1,59 +1,64 @@
-<div class="dialog-header">
-  <h2 class="dialog-title" mat-dialog-title>
-    <span>
-      {{dialogTitle}}
-    </span>
-    <span class="app-spacer"></span>
-    <button mat-raised-button class="btn btn-just-icon btn-link" mat-dialog-close>
-      <i class="material-icons">close</i>
-    </button>
-  </h2>
-</div>
+<div class="card">
+  <div class="card-header card-header-tabs card-header-info">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title">{{dialogTitle | translate}}</h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button class="btn btn-link mat-raised-button mt-1" mat-dialog-close>
+          <span class="mat-button-wrapper">
+            <i class="material-icons">close</i>
+          </span>
+        </button>
+      </ul>
+    </div>
+  </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <mat-form-field *ngIf="!displayOnly" style="padding-left: 10px;padding-right: 10px">
-      <input ngx-google-places-autocomplete #placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}"
-        matInput (onAddressChange)="setAddress($event)">
-      <button mat-button matSuffix mat-icon-button aria-label="Search">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field *ngIf="!displayOnly" style="padding-left: 10px;padding-right: 10px">
+          <input ngx-google-places-autocomplete #placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}"
+            matInput (onAddressChange)="setAddress($event)">
+          <button mat-button matSuffix mat-icon-button aria-label="Search">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <agm-map [streetViewControl]="false" [zoom]="zoom" [latitude]="mapLatitude" [longitude]="mapLongitude"
+        (mapReady)="mapReady($event)" (mapTypeIdChange)="mapTypeIdChange($event)" (mapClick)="mapClick($event)"
+        [disableDefaultUI]="true" [mapTypeControl]="true" class="app-shadow">
+        <ng-container *ngIf="markers && markers.length > 0; else elseTemplate">
+          <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"
+            [label]="marker.labelFormatted" [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)"
+            [iconUrl]="icon">
+          </agm-marker>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <agm-marker [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted"
+            [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)" [iconUrl]="icon">
+          </agm-marker>
+        </ng-template>
+      </agm-map>
+    </div>
+  </div>
+
+
+  <div class="card-footer mat-dialog-actions">
+    <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="minZoom()">
+      <i class="material-icons mr-2">zoom_out</i>
+      {{'geomap.min_zoom' | translate}}
+    </button>
+    <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="maxZoom()">
+      <i class="material-icons mr-2">zoom_in</i>
+      {{'geomap.max_zoom' | translate}}
+    </button>
+    <span class="app-spacer"></span>
+    <button mat-raised-button class="btn btn-info" (click)="validate()">
+      {{"general.set_coordinates" | translate}}
+    </button>
+    <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
+      cdkFocusInitial>{{"general.cancel" | translate}}</button>
   </div>
 </div>
-<div>
-  <mat-dialog-content>
-    <agm-map [streetViewControl]="false" [zoom]="zoom" [latitude]="mapLatitude" [longitude]="mapLongitude"
-      (mapReady)="mapReady($event)" (mapTypeIdChange)="mapTypeIdChange($event)" (mapClick)="mapClick($event)"
-      [disableDefaultUI]="true" [mapTypeControl]="true" class="app-shadow">
-      <ng-container *ngIf="markers && markers.length > 0; else elseTemplate">
-        <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"
-          [label]="marker.labelFormatted" [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)"
-          [iconUrl]="icon">
-        </agm-marker>
-      </ng-container>
-      <ng-template #elseTemplate>
-        <agm-marker [latitude]="markerLatitude" [longitude]="markerLongitude" [label]="labelFormatted"
-          [markerDraggable]="true && !displayOnly" (dragEnd)="mapClick($event)" [iconUrl]="icon">
-        </agm-marker>
-      </ng-template>
-    </agm-map>
-  </mat-dialog-content>
-</div>
-
-<mat-dialog-actions align="end">
-  <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="minZoom()">
-    <i class="material-icons mr-2">zoom_out</i>
-    {{'geomap.min_zoom' | translate}}
-  </button>
-  <button mat-raised-button class="btn btn-info app-btn-min-max-width" (click)="maxZoom()">
-    <i class="material-icons mr-2">zoom_in</i>
-    {{'geomap.max_zoom' | translate}}
-  </button>
-  <span class="app-spacer"></span>
-  <button mat-raised-button class="btn btn-info" (click)="validate()">
-    {{"general.set_coordinates" | translate}}
-  </button>
-  <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
-    cdkFocusInitial>{{"general.cancel" | translate}}</button>
-</mat-dialog-actions>

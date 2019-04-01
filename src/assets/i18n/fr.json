@@ -994,8 +994,11 @@
     }
   },
   "sac": {
-    "title": "Analytics",
-    "description": "Analytics Interface"
+    "title": "Analytique",
+    "description": "Interface Analytique",
+    "mainurl": "URL d'acceuil SAP Analytics Cloud",
+    "timezone": "Fuseau horaire utilisé dans SAP Analytics Cloud",
+    "links": "SAP Analytics Cloud Links"
   },
   "chargeathome": {
     "title": "Remboursement",

@@ -23,10 +23,10 @@
         border-radius: $border-radius-base;
         line-height: 20px;
         margin-left: 5px;
-        color: $brand-inverse;
+        color: $brand-background;
 
         .nav-item.active .nav-link {
-          color: $brand-primary;
+          color: $brand-background;
         }
 
         &:not(.btn-just-icon) .fa {
@@ -68,16 +68,18 @@
           font-size: 12px;
           text-transform: uppercase;
           border-radius: 3px;
-          color: $brand-inverse;
+          color: $brand-background;
           margin: 0 15px;
-
           &:hover {
             background: rgba(200, 200, 200, 0.2);
           }
         }
       }
       .nav-item.active .nav-link {
-        color: $brand-primary;
+        color: $brand-text;
+        &:hover {
+          background: $brand-background;
+        }
       }
     }
   }

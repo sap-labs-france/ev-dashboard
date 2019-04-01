@@ -3,7 +3,7 @@
   border-radius: $border-radius-base;
   padding: 0.625rem 0;
   margin-bottom: 20px;
-  @include navbar-colors($white-color, $navbar-color);
+  @include navbar-colors($brand-background, $navbar-color);
 
   &.fixed-top {
     border-radius: 0;
@@ -12,7 +12,7 @@
   .navbar-nav {
     .nav-item .nav-link {
       position: relative;
-      color: $brand-inverse;
+      color: $brand-text;
       padding: $padding-general-x;
       font-weight: $font-weight-default;
       font-size: $mdb-btn-font-size-base;
@@ -68,8 +68,8 @@
       &,
       &:hover,
       &:focus {
-        color: $brand-primary;
-        background-color: $brand-inverse;
+        color: $brand-text;
+        background-color: $brand-background;
       }
     }
   }
@@ -124,34 +124,33 @@
   }
 
   &.bg-primary {
-    @include navbar-colors($bg-primary, $white-color);
+    @include navbar-colors($bg-primary, $brand-background);
   }
   &.bg-info {
-    @include navbar-colors($bg-info, $white-color);
+    @include navbar-colors($bg-info, $brand-background);
   }
 
   &.bg-warning {
-    @include navbar-colors($bg-warning, $white-color);
+    @include navbar-colors($bg-warning, $brand-background);
   }
 
   &.bg-rose {
-    @include navbar-colors($bg-rose, $white-color);
+    @include navbar-colors($bg-rose, $brand-background);
   }
 
   &.bg-danger {
-    @include navbar-colors($bg-danger, $white-color);
+    @include navbar-colors($bg-danger, $brand-background);
   }
 
   &.bg-success {
-    @include navbar-colors($bg-success, $white-color);
+    @include navbar-colors($bg-success, $brand-background);
   }
   &.bg-dark {
-    @include navbar-colors($grey-900, $white-color);
+    @include navbar-colors($brand-disabled, $brand-background);
   }
 
   &.navbar-transparent {
     background-color: transparent !important;
-    // background: linear-gradient(60deg, $blue-700, $blue-800);
     opacity: 0.9;
     box-shadow: none;
     padding-top: 25px;
@@ -160,11 +159,11 @@
   .notification {
     position: absolute;
     top: 5px;
-    border: 1px solid #FFF;
+    border: 1px solid $brand-background;
     right: 10px;
     font-size: 9px;
     background: $brand-danger;
-    color: $brand-inverse;
+    color: $brand-text;
     min-width: 20px;
     padding: 0px 5px;
     height: 20px;

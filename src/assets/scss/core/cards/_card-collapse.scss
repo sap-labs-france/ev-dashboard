@@ -13,17 +13,17 @@
     padding: 25px 10px 5px 0px;
     margin: 0;
     box-shadow: none !important;
-    background: $white;
+    background: $brand-background;
 
     a {
-      color: $black-color;
+      color:$brand-text;
       font-size: 0.9375rem;
       display: block;
 
       &:hover,
       &:active,
       &[aria-expanded="true"] {
-        color: $brand-rose;
+        color: $brand-info;
       }
 
       i {

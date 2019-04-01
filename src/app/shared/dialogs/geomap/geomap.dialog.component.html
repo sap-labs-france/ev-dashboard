@@ -4,7 +4,7 @@
       <h4 class="nav-tabs-title">{{dialogTitle | translate}}</h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <span class="toolbar-spacer"></span>
-        <button class="btn btn-info mat-raised-button" mat-dialog-close>
+        <button class="btn btn-link mat-raised-button mt-1" mat-dialog-close>
           <span class="mat-button-wrapper">
             <i class="material-icons">close</i>
           </span>
@@ -60,5 +60,5 @@
     </button>
     <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
       cdkFocusInitial>{{"general.cancel" | translate}}</button>
-    </div>
+  </div>
 </div>

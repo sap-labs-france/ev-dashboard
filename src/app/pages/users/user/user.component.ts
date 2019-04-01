@@ -22,7 +22,6 @@ import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-user-cmp',
@@ -346,7 +345,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.controls.locale.setValue(user.locale);
       }
       if (user.tagIDs && user.tagIDs.length > 0) {
-        this.formGroup.controls.tagIDs.setValue(user.tagIDs);
+        this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
       } else {
         this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
         this.formGroup.markAsDirty();
@@ -444,10 +443,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public clearImage() {
-    // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
     this.image = Constants.USER_NO_PICTURE;
-    // Set form dirty
     this.formGroup.markAsDirty();
   }
 

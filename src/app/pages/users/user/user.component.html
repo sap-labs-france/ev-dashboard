@@ -10,30 +10,54 @@
           </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="name" appSetAutoFocus
-                           matInput placeholder="{{'users.name' | translate}}"
-                           required (input)="toUpperCase(name)"
-                           type="text">
-                    <mat-error *ngIf="name.hasError('required')">
-                      {{"general.mandatory_field" | translate}}
-                    </mat-error>
-                  </mat-form-field>
+              <div class="col-md-2 my-auto">
+                <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                  <div class="card card-rotate card-background img-thumbnail m-0"  style="height: 100px">
+                    <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                      </div>
+                    </div>
+                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                        <div class="justify-content-center">
+                          <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
+                            <i class="material-icons" (click)="file.click()">mode_edit</i>
+                            <div style="display:none">
+                              <input type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize" name="..." (change)="imageChanged($event)"
+                                     #file>
+                            </div>
+                          </a>
+                          <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
+                            <i class="material-icons" (click)="clearImage()">delete</i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="firstName" matInput
-                           placeholder="{{'users.first_name' | translate}}" required
-                           type="text">
-                    <mat-error *ngIf="firstName.hasError('required')">
-                      {{"general.mandatory_field" | translate}}
-                    </mat-error>
-                  </mat-form-field>
-                </div>
+              <div class="col-md-10">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input [formControl]="name" appSetAutoFocus
+                             matInput placeholder="{{'users.name' | translate}}"
+                             required (input)="toUpperCase(name)"
+                             type="text">
+                      <mat-error *ngIf="name.hasError('required')">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input [formControl]="firstName" matInput
+                             placeholder="{{'users.first_name' | translate}}" required
+                             type="text">
+                      <mat-error *ngIf="firstName.hasError('required')">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
@@ -134,20 +158,6 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
-            <div class="card-avatar">
-              <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
-                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                  <img [src]="image" alt="..." class="">
-                </div>
-                <div style="display:none">
-                  <input (change)="imageChanged($event)" name="..." type="file" accept=".jpg, .jpeg, .png, .gif"
-                         [maxLength]="maxSize">
-                </div>
-              </div>
-              <button (click)="clearImage()"
-                      class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"
-                      href="javascript:void(0)"></button>
             </div>
           </div>
         </mat-tab>

@@ -1,39 +1,63 @@
 <div class="main-content">
-  <form [formGroup]="formGroup" class="form">
-    <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                   animationDuration="0ms" disableRipple="true" class="mat-tab-info">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">portrait</mat-icon>
-          {{name.value}} {{firstName.value}}
-        </ng-template>
-        <div class="card card-profile card-testimonial">
+  <div class="card card-profile card-testimonial">
+    <form [formGroup]="formGroup" class="form">
+      <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
+                     animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">portrait</mat-icon>
+            {{name.value}} {{firstName.value}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="name" appSetAutoFocus
-                           matInput placeholder="{{'users.name' | translate}}"
-                           required
-                           type="text">
-                    <mat-error *ngIf="name.hasError('required')">
-                      {{"general.mandatory_field" | translate}}
-                    </mat-error>
-                  </mat-form-field>
+              <div class="col-md-2 my-auto">
+                <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                  <div class="card card-rotate card-background img-thumbnail m-0"  style="height: 100px">
+                    <div class="front front-background bg-transparent" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                      </div>
+                    </div>
+                    <div class="back back-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                        <div class="justify-content-center">
+                          <a href="javascript:void(0)" class="btn btn-success btn-just-icon btn-fill btn-round btn-wd">
+                            <i class="material-icons" (click)="file.click()">mode_edit</i>
+                            <div style="display:none">
+                              <input type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize" name="..." (change)="imageChanged($event)"
+                                     #file>
+                            </div>
+                          </a>
+                          <a href="javascript:void(0)" class="btn btn-danger btn-just-icon btn-fill btn-round">
+                            <i class="material-icons" (click)="clearImage()">delete</i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input [formControl]="firstName" matInput
-                           placeholder="{{'users.first_name' | translate}}" required
-                           type="text">
-                    <mat-error *ngIf="firstName.hasError('required')">
-                      {{"general.mandatory_field" | translate}}
-                    </mat-error>
-                  </mat-form-field>
-                </div>
+              <div class="col-md-10">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input [formControl]="name" appSetAutoFocus
+                             matInput placeholder="{{'users.name' | translate}}"
+                             required (input)="toUpperCase(name)"
+                             type="text">
+                      <mat-error *ngIf="name.hasError('required')">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input [formControl]="firstName" matInput
+                             placeholder="{{'users.first_name' | translate}}" required
+                             type="text">
+                      <mat-error *ngIf="firstName.hasError('required')">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
@@ -135,39 +159,22 @@
                 </div>
               </div>
             </div>
-            <div class="card-avatar">
-              <div class="fileinput fileinput-exists card-avatar-change" data-provides="fileinput">
-                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                  <img [src]="image" alt="..." class="">
-                </div>
-                <div style="display:none">
-                  <input (change)="imageChanged($event)" name="..." type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize">
-                </div>
-              </div>
-              <button (click)="clearImage()"
-                      class="btn btn-danger btn-round fileinput-exists card-image-remove fa fa-times"
-                      href="javascript:void(0)"></button>
-            </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">location_on</mat-icon>
-          {{'general.address' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">location_on</mat-icon>
+            {{'general.address' | translate}}
+          </ng-template>
           <div class="card-body">
             <app-address-cmp [formGroup]="formGroup" [hideGeoLocation]="true"></app-address-cmp>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">lock</mat-icon>
-          {{'authentication.password' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">lock</mat-icon>
+            {{'authentication.password' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -216,14 +223,12 @@
               </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">link</mat-icon>
-          {{'general.connectors' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">link</mat-icon>
+            {{'general.connectors' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-4">
@@ -238,7 +243,7 @@
                   <div class="card-footer">
                     <div class="d-flex flex-row align-items-center justify-content-between">
                       <div
-                        *ngIf="concurConnection && concurConnection.createdAt">{{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
+                          *ngIf="concurConnection && concurConnection.createdAt">{{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
                       </div>
                       <a href="https://www.concursolutions.com" target="_blank">
                         <i class="material-icons">launch</i>
@@ -256,14 +261,12 @@
               </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-2">more_horiz</mat-icon>
-          {{'users.miscs' | translate}}
-        </ng-template>
-        <div class="card">
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">more_horiz</mat-icon>
+            {{'users.miscs' | translate}}
+          </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
@@ -299,23 +302,23 @@
             </div>
 
           </div>
-        </div>
-      </mat-tab>
-      <!--<span class="toolbar-spacer"></span>-->
-      <mat-tab disabled>
-        <ng-template mat-tab-label>
+        </mat-tab>
+        <!--<span class="toolbar-spacer"></span>-->
+        <mat-tab disabled>
+          <ng-template mat-tab-label>
           <button mat-raised-button (click)="saveUser(formGroup.value)"
-                  [disabled]="!formGroup.valid || !formGroup.dirty"
+                    [disabled]="!formGroup.valid || !formGroup.dirty"
                   class="btn btn-link">
-            <i class="material-icons">save</i>
+              <i class="material-icons">save</i>
             {{'general.save' | translate}}
-          </button>
+            </button>
           <button mat-raised-button *ngIf="inDialog" class="btn btn-info btn-just-icon"
-                  mat-dialog-close>
-            <i class="material-icons">close</i>
-          </button>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </form>
+                    mat-dialog-close>
+              <i class="material-icons">close</i>
+            </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </div>
 </div>

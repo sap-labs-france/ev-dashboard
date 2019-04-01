@@ -31,53 +31,53 @@
   }
 
   &.bs-tether-element-attached-top:after {
-    border-bottom-color: $brand-primary;
+    border-bottom-color: $brand-text;
     top: -9px;
   }
 
   &.popover-primary {
-    @include popover-color($primary-color, $white-color);
+    @include popover-color($primary-color, $brand-background);
   }
 
   &.popover-info {
-    @include popover-color($info-color, $white-color);
+    @include popover-color($info-color, $brand-background);
   }
 
   &.popover-warning {
-    @include popover-color($warning-color, $white-color);
+    @include popover-color($warning-color, $brand-background);
   }
 
   &.popover-danger {
-    @include popover-color($danger-color, $white-color);
+    @include popover-color($danger-color, $brand-background);
   }
 
   &.popover-success {
-    @include popover-color($success-color, $white-color);
+    @include popover-color($success-color, $brand-background);
   }
 }
 
 /*.tooltip {
   &.bs-tooltip-right .arrow:before {
-    border-right-color: $brand-primary;
+    border-right-color: $brand-text;
   }
 
   &.bs-tooltip-top .arrow:before {
-    border-top-color: $brand-primary;
+    border-top-color: $brand-text;
   }
 
   &.bs-tooltip-bottom .arrow:before {
-    border-bottom-color: $brand-primary;
+    border-bottom-color: $brand-text;
   }
 
   &.bs-tooltip-left .arrow:before {
-    border-left-color: $brand-primary;
+    border-left-color: $brand-text;
   }
 }
 
 .tooltip-inner {
   padding: $padding-base-vertical $padding-base-horizontal;
   min-width: 130px;
-  background-color: $brand-inverse;
+  background-color: $brand-text;
   font-size: $font-size-base;
   color: inherit;
   box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);

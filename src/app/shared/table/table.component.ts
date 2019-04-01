@@ -64,7 +64,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     protected localService: LocaleService,
-    protected spinnerService: SpinnerService,
+    public spinnerService: SpinnerService,
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');

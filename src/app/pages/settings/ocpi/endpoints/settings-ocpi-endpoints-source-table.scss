@@ -13,8 +13,17 @@
     }
   }
 
+::ng-deep .chip-width-4em {
+  max-width: 4em;
+  min-width: 4em;
+}
+
+::ng-deep .chip-width-5em {
+  min-width: 4em;
+}
+
 ::ng-deep .chip-width-8em {
-  min-width: 4em
+  min-width: 4em;
 }
 
 ::ng-deep .chip-width-10em {

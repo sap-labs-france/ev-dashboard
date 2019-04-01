@@ -113,7 +113,8 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
-      "organization": "Organisation"
+      "organization": "Organisation",
+      "template": "Modeles"
     },
     "tooltips": {
       "assign_site_area": "Assigner un site",
@@ -282,7 +283,7 @@
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "select_companies": "Selection Entreprises"
+    "select_companies": "Selection Entreprise"
   },
   "sites": {
     "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
@@ -291,7 +292,7 @@
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
     "no_sites": "Aucun site n'a été trouvé",
-    "select_sites": "Selection Sites",
+    "select_sites": "Selection Site",
     "site": "Site",
     "assigned_users_to_site": "Utilisateurs assignés à {{siteName}}",
     "unassigned": "Non assigné",
@@ -469,7 +470,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
     "public_url": "URL Publique",
-    "select_chargers": "Selection Bornes",
+    "select_chargers": "Selection Borne",
     "serial_number": "No Série",
     "last_reboot": "Dernier Redémarrage",
     "unassigned": "Non Assignée",
@@ -516,6 +517,7 @@
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
+    "soft_reset_title": "Effacer le cache",
     "dialog": {
       "export": {
         "title": "Exporter les bornes",
@@ -819,7 +821,7 @@
     "create_success": "L'utilisateur {{userFullName}} a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'utilisateur",
     "no_users": "Aucun utilisateur n'a été trouvé",
-    "select_users": "Selection Utilisateurs"
+    "select_users": "Selection Utilisateur"
   },
   "tenants": {
     "title": "Tenant",

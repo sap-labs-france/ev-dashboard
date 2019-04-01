@@ -17,7 +17,7 @@
   }
 
   h6 {
-    color: $gray-dark;
+    color: $brand-disabled;
     font-weight: 400;
     margin: 10px 0px 0px;
   }
@@ -85,15 +85,15 @@
       right: -14px;
       display: inline-block;
       border-top: 14px solid transparent;
-      border-left: 14px solid $white-color;
-      border-right: 0 solid $white-color;
+      border-left: 14px solid $brand-background;
+      border-right: 0 solid $brand-background;
       border-bottom: 14px solid transparent;
       content: " ";
     }
   }
 
   > li > .timeline-badge {
-    color: $brand-primary;
+    color: $brand-text;
     width: 50px;
     height: 50px;
     line-height: 51px;
@@ -139,7 +139,7 @@
 
   > li.timeline-inverted > .timeline-panel {
     float: right;
-    background-color: $brand-primary;
+    background-color: $brand-text;
 
     &:before {
       border-left-width: 0;

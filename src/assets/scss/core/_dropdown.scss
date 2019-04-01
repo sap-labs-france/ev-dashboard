@@ -114,8 +114,8 @@
   a:focus,
   a:active {
     @include shadow-small-color($brand-primary);
-    background-color: $brand-primary;
-    color: $brand-primary;
+    background-color: $brand-text;
+    color: $brand-text;
   }
 }
 

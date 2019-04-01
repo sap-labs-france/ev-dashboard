@@ -15,7 +15,7 @@
     min-width: 30px;
     height: 30px;
     line-height: 30px;
-    color: $gray-color;
+    color: $brand-disabled;
     font-weight: $font-weight-default;
     font-size: $mdb-btn-font-size-base;
     text-transform: uppercase;
@@ -24,7 +24,7 @@
 
     &:hover,
     &:focus {
-      color: $gray-color;
+      color: $brand-disabled;
     }
   }
 
@@ -36,14 +36,14 @@
   > .page-item.active > a.mat-button,
   > .page-item.active > span,
   .paginate_button.active a {
-    color: $gray-color;
+    color: $brand-disabled;
 
     &,
     &:focus,
     &:hover {
-      background-color: $brand-primary;
-      border-color: $brand-primary;
-      color: $brand-primary;
+      background-color: $brand-text;
+      border-color: $brand-text;
+      color: $brand-text;
       @include shadow-4dp-color($brand-primary);
     }
 

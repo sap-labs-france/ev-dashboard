@@ -1,12 +1,10 @@
 @import "../../../../../assets/scss/core/variables";
 
 .connector-card {
-    background: $blue-50; //linear-gradient($brand-info 0%, lighten($brand-info, 45%) 5%, lighten($brand-info, 45%) 95%, $brand-info 100%);
-    // background-image: radial-gradient(circle, lighten($brand-info, 45%), lighten($brand-info, 30%) 98%, $brand-info 100%);
+    background: rgba($brand-primary, 0.1);
 }
 
 .connector-row {
-    // background: $brand-background;
 }
 
 .component-invisible {

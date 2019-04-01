@@ -21,7 +21,7 @@ export const CONNECTED_PHASE_MAP =
   [
     { key: 1, description: 'chargers.single_phase' },
     { key: 3, description: 'chargers.tri_phases' },
-    { key: 9, description: 'chargers.direct_current' }
+    { key: 0, description: 'chargers.direct_current' }
   ]
 
 export const POWER_UNIT_MAP =
@@ -203,7 +203,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
         // this.formGroup.controls.chargingStationURL.updateValueAndValidity();
       }
-      if (this.charger.numberOfConnectedPhase) {
+      if (this.charger.numberOfConnectedPhase >= 0 ) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
       }
       if (this.charger.cannotChargeInParallel) {
@@ -425,4 +425,5 @@ export class ChargingStationParametersComponent implements OnInit {
       this.closeDialog();
     }
   }
+
 }

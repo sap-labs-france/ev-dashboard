@@ -74,7 +74,7 @@
   color: $brand-background !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $brand-primary;
+  background: $brand-accent;
   @include shadow-big-color($brand-info);
 }
 

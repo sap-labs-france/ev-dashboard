@@ -164,17 +164,13 @@
 }
 
 @mixin bmd-raised-button-variant($color, $background, $border) {
-  // FIXME: SPEC - this should be the 600 color, how can we get that programmatically if at all? Or are we limited to the color palette only?
   $focus-background: contrast-color(
-      $background,
-      darken($background, 3%),
-      lighten($background, 3%)
+    $background,
+    darken($background, 3%),
+    lighten($background, 3%)
   );
-  //$focus-background: darken($background, 10%);  // default bootstrap
   $focus-border: darken($border, 12%);
-
   $active-background: $focus-background;
-  //$active-background: darken($background, 17%);
   $active-border: darken($border, 25%);
 
   @include bmd-button-variant(
@@ -186,28 +182,27 @@
     $focus-border,
     $active-border);
 
-  @include shadow-2dp-color($background);
+  @include shadow-4dp-color($color);
 
   &:focus,
   &:active,
   &:hover {
-    // remove this line if you want black shadows
-    @include button-shadow-color($background);
+    @include button-shadow-color($color);
   }
 
   &.btn-link {
     background-color: transparent;
     color: $background;
     box-shadow: none;
+    margin: 0;
 
     &:hover,
     &:focus,
     &:active {
       background-color: transparent;
-      color: darken($background, 20%);
+      color: rgba($background, 0.8);
     }
   }
-
 }
 
 @mixin bmd-raised-button-color() {
@@ -232,6 +227,12 @@
   &.btn-danger {
     @include bmd-raised-button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border-color);
   }
+  &.btn-inverse {
+    @include bmd-raised-button-variant($btn-inverse-color, $btn-inverse-bg, $btn-inverse-border-color);
+    box-shadow: 0 2px 2px 0 rgba($btn-inverse-color, $bmd-shadow-penumbra-opacity),
+          0 3px 1px -2px rgba($btn-inverse-color, $bmd-shadow-umbra-opacity),
+          0 1px 5px 0 rgba($btn-inverse-color, $bmd-shadow-ambient-opacity);
+  }
   &.btn-rose {
     @include bmd-raised-button-variant($btn-rose-color, $btn-rose-bg, $btn-rose-border-color);
   }
@@ -243,40 +244,40 @@
 
 @mixin bmd-social-buttons() {
   &.btn-facebook {
-    @include bmd-raised-button-variant($white, $social-facebook, $social-facebook);
+    @include bmd-raised-button-variant($brand-background, $social-facebook, $social-facebook);
   }
   &.btn-twitter {
-    @include bmd-raised-button-variant($white, $social-twitter, $social-twitter);
+    @include bmd-raised-button-variant($brand-background, $social-twitter, $social-twitter);
   }
   &.btn-pinterest {
-    @include bmd-raised-button-variant($white, $social-pinterest, $social-pinterest);
+    @include bmd-raised-button-variant($brand-background, $social-pinterest, $social-pinterest);
   }
   &.btn-google {
-    @include bmd-raised-button-variant($white, $social-google, $social-google);
+    @include bmd-raised-button-variant($brand-background, $social-google, $social-google);
   }
   &.btn-linkedin {
-    @include bmd-raised-button-variant($white, $social-linkedin, $social-linkedin);
+    @include bmd-raised-button-variant($brand-background, $social-linkedin, $social-linkedin);
   }
   &.btn-dribbble {
-    @include bmd-raised-button-variant($white, $social-dribbble, $social-dribbble);
+    @include bmd-raised-button-variant($brand-background, $social-dribbble, $social-dribbble);
   }
   &.btn-github {
-    @include bmd-raised-button-variant($white, $social-github, $social-github);
+    @include bmd-raised-button-variant($brand-background, $social-github, $social-github);
   }
   &.btn-youtube {
-    @include bmd-raised-button-variant($white, $social-youtube, $social-youtube);
+    @include bmd-raised-button-variant($brand-background, $social-youtube, $social-youtube);
   }
   &.btn-instagram {
-    @include bmd-raised-button-variant($white, $social-instagram, $social-instagram);
+    @include bmd-raised-button-variant($brand-background, $social-instagram, $social-instagram);
   }
   &.btn-reddit {
-    @include bmd-raised-button-variant($white, $social-reddit, $social-reddit);
+    @include bmd-raised-button-variant($brand-background, $social-reddit, $social-reddit);
   }
   &.btn-tumblr {
-    @include bmd-raised-button-variant($white, $social-tumblr, $social-tumblr);
+    @include bmd-raised-button-variant($brand-background, $social-tumblr, $social-tumblr);
   }
   &.btn-behance {
-    @include bmd-raised-button-variant($white, $social-behance, $social-behance);
+    @include bmd-raised-button-variant($brand-background, $social-behance, $social-behance);
   }
 }
 
@@ -347,7 +348,7 @@ $opacity-2: rgba(255, 255, 255, .2) !default;
   .open > &.dropdown-toggle:focus,
   .open > &.dropdown-toggle:hover {
     background-color: $btn-color;
-    color: $brand-primary;
+    color: $brand-text;
   }
 
   &:focus,

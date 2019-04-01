@@ -50,14 +50,14 @@
   box-sizing: border-box;
   width: 14px;
   height: 14px;
-  border-color: $brand-primary;
+  border-color: $brand-text;
   left: -10px;
   top: -6px;
   cursor: pointer;
   border-radius: 100%;
   transition: all 0.2s ease-out;
   border: 1px solid;
-  background: $white-color;
+  background: $brand-background;
 
   @include shadow-2dp();
 }
@@ -86,7 +86,7 @@
   height: 2px;
   background: #c8c8c8;
   &[style^="left: 0"] .noUi-handle {
-    background-color: $brand-primary;
+    background-color: $brand-text;
     border: 2px solid #c8c8c8;
     &.noUi-active {
       border-width: 1px;
@@ -154,11 +154,11 @@
 .slider {
 
   &.noUi-connect {
-    background-color: $brand-primary;
+    background-color: $brand-text;
   }
 
   .noUi-handle {
-    border-color: $brand-primary;
+    border-color: $brand-text;
   }
 
   &.slider-info {
@@ -213,7 +213,7 @@
   display: block;
   position: absolute;
   border-radius: 3px;
-  color: $brand-inverse;
+  color: $brand-text;
   padding: 0px;
   text-align: center;
 }

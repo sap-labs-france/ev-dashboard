@@ -23,22 +23,16 @@
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
-                    <button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty"
-                            class="btn btn-info mat-raised-button">
-                                            <span class="mat-button-wrapper">
+                    <button mat-raised-button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty"
+                            class="btn btn-info">
                                                 <i class="material-icons mr-2">save</i>
-                                                <span class="btn-label">{{'general.save' | translate}}</span>
-                                            </span>
+                                                  {{'general.save' | translate}}
                     </button>
-                    <button (click)="refresh()" *ngIf="id.value" class="btn btn-info mat-raised-button">
-                                            <span class="mat-button-wrapper">
+                    <button mat-raised-button (click)="refresh()" *ngIf="id.value" class="btn btn-info ">
                                                 <i class="material-icons">refresh</i>
-                                            </span>
                     </button>
-                    <button class="btn btn-info mat-raised-button" mat-dialog-close>
-                                            <span class="mat-button-wrapper">
+                    <button mat-raised-button class="btn btn-info " mat-dialog-close>
                                                 <i class="material-icons">close</i>
-                                            </span>
                     </button>
                   </ul>
                 </div>

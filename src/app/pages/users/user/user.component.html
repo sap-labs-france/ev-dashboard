@@ -253,7 +253,7 @@
 
                   <div *ngIf="!alreadyLinkedToConcur()"
                        class="card-img-overlay card-disabled d-inline-flex justify-content-end">
-                    <button (click)="linkConcurAccount()" class="btn btn-info align-self-end">
+                    <button mat-raised-button (click)="linkConcurAccount()" class="btn btn-info align-self-end">
                       <i class="material-icons mr-2">launch</i>Connect
                     </button>
                   </div>
@@ -295,7 +295,7 @@
             </div>
             <div class="row">
               <div class="col-md-6">
-                <button (click)="getInvoice()" class="btn btn-info align-self-end">
+                <button mat-raised-button (click)="getInvoice()" class="btn btn-info align-self-end">
                   <i class="material-icons mr-2">receipt</i>View invoice
                 </button>
               </div>
@@ -306,16 +306,13 @@
         <!--<span class="toolbar-spacer"></span>-->
         <mat-tab disabled>
           <ng-template mat-tab-label>
-            <button (click)="saveUser(formGroup.value)"
+          <button mat-raised-button (click)="saveUser(formGroup.value)"
                     [disabled]="!formGroup.valid || !formGroup.dirty"
-                    class="btn btn-just-icon btn-link btn-icon-white">
+                  class="btn btn-link">
               <i class="material-icons">save</i>
+            {{'general.save' | translate}}
             </button>
-            <button (click)="refresh()" *ngIf="currentUserID"
-                    class="btn btn-just-icon btn-link btn-icon-white">
-              <i class="material-icons">refresh</i>
-            </button>
-            <button *ngIf="inDialog" class="btn btn-just-icon btn-link btn-icon-white"
+          <button mat-raised-button *ngIf="inDialog" class="btn btn-info btn-just-icon"
                     mat-dialog-close>
               <i class="material-icons">close</i>
             </button>

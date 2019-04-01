@@ -11,8 +11,8 @@
   vertical-align: middle;
   letter-spacing: 0;
   cursor: pointer;
-  color: $brand-inverse;
-  background: rgba(255,255,255,0.2);
+  color: $brand-text;
+  background-color: $brand-background;
   border: 0;
   border-radius: $border-radius-base;
   outline: 0;
@@ -31,11 +31,11 @@
     &,
     &:focus,
     &:hover {
-      background-color: $brand-primary;
-      color: $gray-color;
+      background-color: $brand-text;
+      color: $brand-accent;
     }
     &.btn-link {
-      color: $brand-primary;
+      color: $brand-text;
       background: transparent;
       box-shadow: none;
     }

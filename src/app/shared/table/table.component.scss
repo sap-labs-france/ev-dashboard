@@ -4,9 +4,9 @@
 @import "../../../assets/scss/core/mixins/animations";
 @import "../../../assets/scss/core/misc";
 
-$medium-spinner: $blue !default;
-$inner-spinner: $yellow !default;
-$outer-spinner: $red !default;
+$medium-spinner: $brand-success !default;
+$inner-spinner: $brand-warning !default;
+$outer-spinner: $brand-danger !default;
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: $font-size-sm !important;
@@ -16,10 +16,6 @@ $outer-spinner: $red !default;
 table {
   width: 100%;
   border-collapse: collapse;
-}
-
-th {
-  padding: 5px !important;
 }
 
 td {
@@ -36,7 +32,13 @@ td a i {
 }
 
 th {
-  font-size: $font-size-sm;
+  font-size: $font-size-sm !important;
+  padding: 5px !important;
+  
+  mat-checkbox {
+    display: inline-block;
+    padding-top: 6px;
+  }
 }
 
 tr.mat-row {
@@ -52,7 +54,6 @@ th:last-child, td:last-child {
 }
 
 th:nth-child(n+2), td:nth-child(n+2) {
-  //padding-right: 20px;
 }
 
 @mixin col-fixsize($width) {
@@ -131,7 +132,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
   white-space: nowrap;
   height: 200px;
   min-height: 100px;
-  background-color: $brand-inverse;
+  background-color: mat-color($app-background, dialog);
 }
 
 .table-dialog-list {
@@ -142,6 +143,13 @@ th:nth-child(n+2), td:nth-child(n+2) {
   height: calc(100vh - (0.7 * 100vh));
   background-color: transparent;
   white-space: nowrap;
+}
+
+.table-no-record-found {
+  padding: 13%;
+  white-space: normal;
+  font-size: large;
+  font-weight: bold;
 }
 
 .form-field-popup {
@@ -164,12 +172,13 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
+  background: mat-color($app-background, dialog);
   padding: 0 15px;
 }
 
 .mat-toolbar-row {
   align-items: center;
-  padding: 10px 0 0 0;
+  padding: 5px 0;
 }
 
 .details-row {

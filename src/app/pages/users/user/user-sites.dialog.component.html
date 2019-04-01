@@ -1,10 +1,17 @@
-<div class="dialog-header">
-  <h2 class="dialog-title" mat-dialog-title>{{'users.sites' | translate}}</h2>
-  <button class="dialog-icon-right mat-icon-button" mat-dialog-close>
-    <i class="material-icons">close</i>
-  </button>
+<div class="card">
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title">{{'users.sites' | translate}}</h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button class="btn btn-just-icon btn-link" mat-dialog-close>
+          <i class="material-icons">close</i>
+        </button>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-table [dataSource]="userSitesDataSource"></app-table>
+  </div>
+  <div class="card-footer"></div>
 </div>
-
-<mat-dialog-content>
-  <app-table [dataSource]="userSitesDataSource"></app-table>
-</mat-dialog-content>

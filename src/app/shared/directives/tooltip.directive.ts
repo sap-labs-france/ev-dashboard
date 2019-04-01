@@ -23,7 +23,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    jQuery(this.elementRef.nativeElement).tooltip('dispose');
+    jQuery(this.elementRef.nativeElement).tooltip('hide');
   }
 
 }

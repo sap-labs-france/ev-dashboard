@@ -11,17 +11,13 @@
             </div>
             <div class="card-body">
                 <div class="row col-md-12 text-left">
-                    <button class="btn btn-info mat-raised-button" (click)="resetSlots()">
-                        <span class="mat-button-wrapper">
+                    <button mat-raised-button class="btn btn-info " (click)="resetSlots()">
                             <i class="material-icons mr-2">clear</i>
-                            <span class="btn-label">{{'chargers.smart_charging.reset_button' | translate}}</span>
-                        </span>
+                            {{'chargers.smart_charging.reset_button' | translate}}
                     </button>
-                    <button class="btn btn-info mat-raised-button" (click)="applyPowerLimit()">
-                        <span class="mat-button-wrapper">
+                    <button mat-raised-button class="btn btn-info" (click)="applyPowerLimit()">
                             <i class="material-icons mr-2">save</i>
-                            <span class="btn-label">{{'general.apply' | translate}}</span>
-                        </span>
+                            {{'general.apply' | translate}}
                     </button>
                 </div>
                 <div class="row col-md-12 text-left">
@@ -122,12 +118,10 @@
                                 </div>
                             </ng-container>
                             <div class="col-md-12 text-left">
-                                <button class="btn btn-info mat-raised-button" (click)="addSlot()">
-                                    <span class="mat-button-wrapper">
+                                <button mat-raised-button class="btn btn-info " (click)="addSlot()">
                                         <i class="material-icons mr-2">add</i>
-                                        <span class="btn-label">{{'chargers.smart_charging.add_slot_button' |
-                                            translate}}</span>
-                                    </span>
+                                        {{'chargers.smart_charging.add_slot_button' |
+                                            translate}}
                                 </button>
                             </div>
                         </div>

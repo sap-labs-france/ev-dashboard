@@ -20,7 +20,8 @@ import {ComponentEnum, ComponentService} from '../../../../services/component.se
 export const CONNECTED_PHASE_MAP =
   [
     { key: 1, description: 'chargers.single_phase' },
-    { key: 3, description: 'chargers.tri_phases' }
+    { key: 3, description: 'chargers.tri_phases' },
+    { key: 0, description: 'chargers.direct_current' }
   ]
 
 export const POWER_UNIT_MAP =
@@ -202,7 +203,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
         // this.formGroup.controls.chargingStationURL.updateValueAndValidity();
       }
-      if (this.charger.numberOfConnectedPhase) {
+      if (this.charger.numberOfConnectedPhase >= 0 ) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
       }
       if (this.charger.cannotChargeInParallel) {
@@ -303,7 +304,8 @@ export class ChargingStationParametersComponent implements OnInit {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '70vw';
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
+    dialogConfig.panelClass = 'transparent-dialog-container';
 
     // get latitud/longitude from form
     let latitude = this.formGroup.controls.latitude.value;
@@ -423,4 +425,5 @@ export class ChargingStationParametersComponent implements OnInit {
       this.closeDialog();
     }
   }
+
 }

@@ -31,7 +31,7 @@
 @mixin shadow-navbar-color($color) {
   // new box shadow optimized for Tablets and Phones
 
-  @if ($color == $white-color) {
+  @if ($color == $brand-background) {
     box-shadow: 0 4px 18px 0px rgba(0, 0, 0, .12),
     0 7px 10px -5px rgba(0, 0, 0, 0.15);
   } @else {

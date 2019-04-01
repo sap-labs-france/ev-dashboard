@@ -11,7 +11,7 @@
   left: 0;
   z-index: 2;
   width: 260px;
-  background: $white-color;
+  background: $brand-background;
   @include shadow-big();
   .logo-img {
     width: 42px;
@@ -42,7 +42,7 @@
     background-color: #e53935;
   }
   &[data-background-color="blue"] {
-    background-color: $blue-900;
+    background-color: mat-color($app-primary, 900);
   }
   .sidebar-wrapper {
     position: relative;
@@ -138,7 +138,7 @@
       & .dropdown-menu a:focus,
       &.active > [data-toggle="collapse"] {
         background-color: rgba(200, 200, 200, 0.2);
-        color: $black-color;
+        color:$brand-text;
         box-shadow: none;
       }
       &.active > [data-toggle="collapse"] {
@@ -148,7 +148,7 @@
       }
       &.active > a,
       &.active > a i {
-        color: $brand-primary;
+        color: $brand-text;
       }
       &.separator {
         margin: 15px 0;
@@ -189,7 +189,7 @@
   .nav li .dropdown-menu a {
     margin: 10px 15px 0;
     border-radius: $border-radius-base;
-    color: $black-color;
+    color:$brand-text;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
@@ -212,7 +212,7 @@
       height: 100%;
       content: "";
       display: block;
-      background: #FFFFFF;
+      background: $brand-background;
       opacity: .93;
     }
   }
@@ -256,7 +256,7 @@
       float: left;
       font-size: 20px;
       margin: 10px 10px;
-      color: $brand-primary;
+      color: $brand-text;
       line-height: 20px;
     }
     .simple-text {
@@ -264,7 +264,7 @@
       padding: $padding-small-vertical $padding-zero;
       display: inline-block;
       font-size: 18px;
-      color: $black-color;
+      color:$brand-text;
       white-space: nowrap;
       font-weight: $font-weight-default;
       line-height: 30px;
@@ -300,7 +300,7 @@
       }
     }
     a {
-      color: $black-color;
+      color:$brand-text;
       padding: $padding-base-vertical $padding-large-vertical;
       white-space: nowrap;
     }
@@ -324,21 +324,21 @@
     }
   }
   &[data-background-color="black"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color($gray-base, $white-color);
+    @include sidebar-background-color($brand-disabled, $brand-background);
     .nav li .dropdown-menu .dropdown-item {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
   &[data-color="purple"] {
@@ -357,14 +357,14 @@
     @include set-background-color-button($brand-danger);
   }
   &[data-color="rose"] {
-    @include set-background-color-button($brand-rose);
+    @include set-background-color-button($brand-info);
   }
   &[data-color="white"] {
-    @include set-background-color-button($white-color);
-    @include sidebar-active-color($black-color);
+    @include set-background-color-button($brand-background);
+    @include sidebar-active-color($brand-text);
   }
   &[data-background-color="red"] {
-    @include sidebar-background-color($brand-danger, $white-color);
+    @include sidebar-background-color($brand-danger, $brand-background);
     .user,
     .logo,
     .nav li.separator {
@@ -380,7 +380,7 @@
     }
   }
   &[data-background-color="blue"] {
-    @include sidebar-background-color($blue-800, $white-color);
+    @include sidebar-background-color(mat-color($app-primary, 800), $brand-background);
     .user,
     .logo,
     .nav li.separator {
@@ -405,7 +405,7 @@
   .nav {
     > li > a,
     > li > a:hover {
-      color: $brand-primary;
+      color: $brand-text;
       margin: 0 15px;
     }
     > li > a:focus,
@@ -426,8 +426,7 @@
     content: "";
     width: 100%;
     height: 100%;
-    background: $blue-50;
-    // background: url(/assets/img/sky-bg.jpg) round;
+    background: $brand-background;
     background-size: cover;
     will-change: transform;
     z-index: 0;

@@ -165,7 +165,7 @@ export class ConsumptionChartComponent implements OnInit {
           ticks: {
             callback: (value, index, values) => `${value}€`,
             min: 0,
-            fontColor: '#0d47a1'
+            fontColor: '#fff'
           }
         });
     }

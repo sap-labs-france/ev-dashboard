@@ -1,4 +1,4 @@
-@import "../../../assets/scss/core/variables";
+@import "../../../assets/scss/material-dashboard.scss";
 
 @keyframes status-blinking {
   50% {
@@ -39,7 +39,6 @@
 
   .charger-heartbeat-error {
     color: $state-danger-bg;
-    @include anim-status-blinking();
   }
 
   .charger-heartbeat-date-error {
@@ -69,7 +68,7 @@
   padding-top: .13rem;
 
   .charger-connector-type-active-text {
-    color: $brand-primary;
+    color: $brand-text;
   }
 }
 

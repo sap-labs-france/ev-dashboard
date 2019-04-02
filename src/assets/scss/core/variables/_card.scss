@@ -3,18 +3,18 @@
 //$card-spacer-y:            .75rem !default;
 //$card-border-width:        1px !default;
 //$card-border-radius:       $border-radius !default;
-$card-border-color: $gray-lighter !default; // #e5e5e5
+$card-border-color: $brand-disabled !default; // #e5e5e5
 //$card-border-radius-inner: $card-border-radius !default;
-$card-bg: #fff !default;
+$card-bg: $brand-background !default;
 $card-cap-bg: $card-bg !default; // #f5f5f5
 //
-//$card-link-hover-color:    #fff !default;
+//$card-link-hover-color:    $brand-background !default;
 //
 //$card-deck-margin:         .625rem !default;
 // Card
 $mdb-card-body-text: $mdb-text-color-primary !default;
-$mdb-card-body-background: #fff !default;
-$mdb-card-image-headline: #fff !default;
+$mdb-card-body-background: $brand-background !default;
+$mdb-card-image-headline: $brand-background !default;
 
 $text-disabled: #a8a8a8 !default;
 $background-disabled: #eaeaea !default;

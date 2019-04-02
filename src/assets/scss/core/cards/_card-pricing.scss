@@ -47,16 +47,16 @@
     margin: 10px auto;
 
     li {
-      color: $brand-primary;
+      color: $brand-text;
       text-align: center;
       padding: 12px 0;
-      border-bottom: 1px solid rgba($gray-color, .3);
+      border-bottom: 1px solid rgba($brand-disabled, .3);
 
       &:last-child {
         border: 0;
       }
       b {
-        color: $black-color;
+        color:$brand-text;
       }
       i {
         top: 6px;
@@ -69,18 +69,18 @@
   &[class*="bg-"] {
     ul {
       li {
-        color: $brand-primary;
-        border-color: rgba($white-color, .3);
+        color: $brand-text;
+        border-color: rgba($brand-background, .3);
 
         b {
-          color: $brand-primary;
+          color: $brand-text;
           font-weight: 700;
         }
       }
     }
     [class*="text-"],
     .card-category {
-      color: $brand-primary !important;
+      color: $brand-text !important;
     }
   }
 

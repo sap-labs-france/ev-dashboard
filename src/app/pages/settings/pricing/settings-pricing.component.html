@@ -1,5 +1,5 @@
 <div *ngIf="!isActive" class="card">
-  <div class="card-header card-header-icon card-header-primary">
+  <div class="card-header card-header-icon card-header-info">
     <div class="card-icon">
       <i class="material-icons">info</i>
     </div>
@@ -18,7 +18,7 @@
 <div *ngIf="isActive && pricingType==='pricing_simple'">
   <form class="form" [formGroup]="formGroup">
     <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
+      <div class="card-header card-header-icon card-header-info">
         <div class="card-icon">
           <i class="material-icons">business</i>
         </div>
@@ -61,19 +61,11 @@
           </div>
         </div>
       </div>
-      <div class="card-footer text-center">
-        <span class="toolbar-spacer"></span>
-        <button mat-raised-button class="btn btn-info pull-right" (click)="save(formGroup.value)"
-                [disabled]="!formGroup.valid || !formGroup.dirty">
-            <i class="material-icons mr-2">save</i>
-                {{'general.save' | translate}}
-        </button>
-      </div>
     </div>
   </form>
 
   <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
+    <div class="card-header card-header-icon card-header-info">
       <div class="card-icon">
         <i class="material-icons">info</i>
       </div>
@@ -90,7 +82,7 @@
 
 <form *ngIf="isActive && pricingType==='pricing_convergentCharging'" class="form" [formGroup]="formGroup">
   <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
+    <div class="card-header card-header-icon card-header-info">
       <div class="card-icon">
         <i class="material-icons">business</i>
       </div>

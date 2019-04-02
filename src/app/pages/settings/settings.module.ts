@@ -23,7 +23,7 @@ import {OcpiendpointDetailSuccessEvsesStatusComponent} from './ocpi/endpoints/fo
 import {OcpiendpointDetailFailureEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import {OcpiendpointDetailComponent} from './ocpi/endpoints/ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
 import {OcpiendpointPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
-import {SettingsChargeAtHomeComponent} from './charge-at-home/settings-charge-at-home.component';
+import {SettingsChargeAtHomeComponent} from './refund/settings-refund.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
 import {SettingsSacComponent} from './sac/settings-sac.component';
 

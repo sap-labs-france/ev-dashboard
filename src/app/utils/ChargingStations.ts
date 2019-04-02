@@ -153,8 +153,10 @@ export class ChargingStations {
 
   public static convertAmpToW(numberOfConnectedPhase, maxIntensityInAmper) {
     // Compute it
-    if (numberOfConnectedPhase > 1) {
-      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(numberOfConnectedPhase));
+    if (numberOfConnectedPhase === 0 ) {
+      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
+    } else if (numberOfConnectedPhase === 3 ) {
+      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
     } else {
       return Math.floor(230 * maxIntensityInAmper);
     }
@@ -162,8 +164,10 @@ export class ChargingStations {
 
   public static convertWToAmp(numberOfConnectedPhase, maxIntensityInW) {
     // Compute it
-    if (numberOfConnectedPhase > 1) {
-      return Math.round(maxIntensityInW / (400 * Math.sqrt(numberOfConnectedPhase)));
+    if (numberOfConnectedPhase === 0) {
+      return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
+    } else if ( numberOfConnectedPhase === 3) {
+      return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
     } else {
       return Math.round(maxIntensityInW / 230);
     }

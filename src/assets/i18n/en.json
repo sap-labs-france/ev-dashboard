@@ -283,7 +283,7 @@
     "create_success": "The company '{{companyName}}' has been created successfully",
     "create_error": "Error occurred while creating the company",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "select_companies": "Select Companies"
+    "select_companies": "Select Company"
   },
   "sites": {
     "allow_all_users": "Allow users to stop the sessions of any users on this site",
@@ -292,7 +292,7 @@
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
     "no_sites": "No sites found",
-    "select_sites": "Select Sites",
+    "select_sites": "Select Site",
     "site": "Site",
     "assigned_users_to_site": "Users assigned to {{siteName}}",
     "unassigned": "Unassigned",
@@ -337,7 +337,7 @@
     "charger_list_target_title": "Assigned",
     "number_of_charging_stations": "Nb Chargers",
     "site_area_not_found": "Site Area not found",
-    "select_site_areas": "Select Site Areas",
+    "select_site_areas": "Select Site Area",
     "unassigned": "Unassigned",
     "image": "Image",
     "assigned_chargers": "Charging Stations",
@@ -470,7 +470,7 @@
     "nb_connected_phase": "Number of Connected Phase",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
     "public_url": "Public URL",
-    "select_chargers": "Select Chargers",
+    "select_chargers": "Select Charging Station",
     "serial_number": "Serial Number",
     "last_reboot": "Last Reboot",
     "unassigned": "Unassigned",
@@ -517,6 +517,7 @@
     "status_error_weak_signal": "Weak Signal",
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
+    "soft_reset_title": "Reset Charging Station",
     "dialog": {
       "export": {
         "title": "Export charging stations",
@@ -820,7 +821,7 @@
     "create_success": "The user {{userFullName}} has been created successfully",
     "create_error": "Error occurred while creating the user",
     "no_users": "No users found",
-    "select_users": "Select Users"
+    "select_users": "Select User"
   },
   "tenants": {
     "title": "Tenant",

@@ -1,0 +1,46 @@
+// Create Material custom theme 
+@import '~@angular/material/theming';
+@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+
+// Material Theming
+@include mat-core();
+
+// Light Theme ---------------------------------
+// Define colors with mat palette
+$app-primary: mat-palette($mat-blue, 700);
+$app-accent: mat-palette($mat-blue, 500);
+$app-success: mat-palette($mat-green, 700);
+$app-warning: mat-palette($mat-orange, 700);
+$app-danger: mat-palette($mat-red, 700);
+// Create the theme for materials
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-danger);
+// Bg/Fg
+$app-foreground: map-get($app-theme, foreground);
+$app-background: map-get($app-theme, background);
+
+// Use it
+@include angular-material-theme($app-theme);
+// Datetime picker
+@include mat-datetimepicker-theme($app-theme);
+// End of Light Theme ---------------------------------
+
+// Dark Theme ---------------------------------
+.dark-theme {
+  // // Define colors with mat palette
+  // $app-primary: mat-palette($mat-grey, 600);
+  // $app-accent: mat-palette($mat-grey, A200, A100, A400);
+  // $app-success: mat-palette($mat-green, 300);
+  // $app-warning: mat-palette($mat-orange, 300);
+  // $app-danger: mat-palette($mat-red, 300);
+  // // Create the theme for materials
+  // $app-theme: mat-dark-theme($app-primary, $app-accent, $app-danger);
+  // // Bg/Fg
+  // $app-foreground: map-get($app-theme, foreground);
+  // $app-background: map-get($app-theme, background);
+  
+  // // Use it
+  // @include angular-material-theme($app-theme);
+  // // Datetime picker
+  // @include mat-datetimepicker-theme($app-theme);
+  // End of Dark Theme ---------------------------------
+}

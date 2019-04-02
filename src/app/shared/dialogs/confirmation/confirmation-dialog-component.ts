@@ -18,12 +18,14 @@ export class ConfirmationDialogComponent {
   public buttonNoName = '';
   public buttonCancelID = '';
   public buttonCancelName = '';
-
+  private canCancelDialog = false;
 
   constructor(
-    private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data) {
+      private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+      private translateService: TranslateService,
+      @Inject(MAT_DIALOG_DATA) data) {
+    // Decal cancel dialog
+    setTimeout(() => this.canCancelDialog = true, 250);
     // Set
     this.title = data.title;
     this.message = data.message;
@@ -120,6 +122,9 @@ export class ConfirmationDialogComponent {
   }
 
   onEscape() {
+    if (!this.canCancelDialog) {
+      return;
+    }
     if (this.buttonCancelName === null) {
       if (this.buttonNoName === null) {
         this.validate();

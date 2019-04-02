@@ -47,7 +47,7 @@
       height: 100%;
       width: 100%;
       position: absolute;
-      background-color: $brand-primary;
+      background-color: $brand-text;
       display: block;
       content: "";
       z-index: 1;
@@ -65,7 +65,7 @@
 
       .nav-item {
         .nav-link {
-          color: $black-color;
+          color:$brand-text;
           margin: 5px 15px;
         }
 
@@ -150,7 +150,7 @@
   .navbar.navbar-transparent {
     .navbar-toggler {
       .navbar-toggler-icon {
-        background-color: $brand-primary;
+        background-color: $brand-text;
       }
     }
   }

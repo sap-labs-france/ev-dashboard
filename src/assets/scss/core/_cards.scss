@@ -5,14 +5,14 @@
   border: 0;
   margin-bottom: 30px;
   margin-top: 30px;
-  color: $brand-primary;
-  background: $brand-inverse;
+  color: $brand-text;
+  background: mat-color($app-background, dialog);
   width: 100%;
   font-size: 0.9rem;
   border-radius: 0;
 
   .card-category:not([class*="text-"]) {
-    color: $brand-primary;
+    color: $brand-text;
   }
   .card-category {
     margin-top: 10px;
@@ -72,7 +72,7 @@
     }
 
     .stats {
-      color: $brand-primary;
+      color: $brand-text;
 
       .material-icons {
         position: relative;
@@ -101,7 +101,7 @@
     background: transparent;
     box-shadow: none;
     .title {
-      color: $brand-primary;
+      color: $brand-text;
     }
 
     &:not([class*="card-header-"]) {
@@ -131,7 +131,7 @@
         position: absolute;
         bottom: 15px;
         left: 15px;
-        color: $brand-primary;
+        color: $brand-text;
         font-size: $font-size-h4;
         text-shadow: 0 2px 5px rgba(33, 33, 33, 0.5);
       }
@@ -169,7 +169,7 @@
   &.bg-primary,
   &.card-rotate.bg-primary .front,
   &.card-rotate.bg-primary .back {
-    background: $brand-info;
+    background: $brand-primary;
   }
   .card-header-info .card-icon,
   .card-header-info .card-text,
@@ -210,17 +210,17 @@
   &.bg-rose,
   &.card-rotate.bg-rose .front,
   &.card-rotate.bg-rose .back {
-    background: $brand-rose;
+    background: $brand-info;
   }
 
   [class*="card-header-"],
   &[class*="bg-"] {
-    color: $brand-inverse;
+    color: $brand-text;
 
     .card-title a,
     .card-title,
     .icon i {
-      color: $brand-inverse;
+      color: $brand-background;
       font-weight: 500;
     }
 
@@ -231,14 +231,14 @@
     .stats,
     .card-category,
     .card-description {
-      color: $brand-primary;
+      color: $brand-text;
     }
 
     .author a {
       &:hover,
       &:focus,
       &:active {
-        color: $brand-primary;
+        color: $brand-text;
       }
     }
   }
@@ -253,7 +253,7 @@
     }
 
     a {
-      color: $black-color;
+      color:$brand-text;
       text-decoration: none;
 
       .ripple-container {
@@ -285,13 +285,13 @@
     h2,
     h3 {
       small {
-        color: $brand-primary;
+        color: $brand-text;
       }
     }
   }
 
   .card-stats {
-    background: $brand-inverse;
+    background: rgba($brand-primary, 0.1);
     display: flex;
 
     .author,
@@ -302,7 +302,7 @@
 }
 
 .card-settings {
-  background: $brand-inverse;
+  background: rgba($brand-primary, 0.1);
 }
 
 .card-plain {
@@ -315,7 +315,7 @@
 
     .card-category,
     .card-description {
-      color: $brand-primary;
+      color: $brand-text;
     }
   }
 

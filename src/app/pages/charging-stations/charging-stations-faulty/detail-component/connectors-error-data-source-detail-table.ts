@@ -102,15 +102,6 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
         angularComponentName: ConnectorAvailibilityComponent,
         sortable: false
       },
-/*      {
-        id: 'type',
-        name: 'chargers.connector_type',
-        formatter: (type) => {
-          const imageUrl = new AppConnectorTypePipe().transform(type, true);
-          return `<img class="charger-connector-type" src="${imageUrl}"/>`;
-        },
-        sortable: false
-      },*/
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',

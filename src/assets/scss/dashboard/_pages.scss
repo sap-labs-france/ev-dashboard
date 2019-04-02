@@ -29,33 +29,24 @@
     background-color: rgba(0, 0, 0, .5);
   }
 
-  &[filter-color="purple"],
-  &[filter-color="primary"] {
-    &:after {
-      @include linear-gradient(rgba($purple-100, .56), rgba($purple-300, .95));
-
-    }
-    @include lock-page-input-color($brand-primary);
-
-  }
   &[filter-color="blue"],
   &[filter-color="info"] {
     &:after {
-      @include linear-gradient(rgba($cyan-100, .56), rgba($cyan-300, .95));
+      @include linear-gradient(rgba(mat-color($app-primary, lighter), .56), rgba(mat-color($app-primary, darker), .95));
     }
     @include lock-page-input-color($brand-info);
   }
   &[filter-color="green"],
   &[filter-color="success"] {
     &:after {
-      @include linear-gradient(rgba($green-200, .56), rgba($green-400, .95));
+      @include linear-gradient(rgba(mat-color($app-success, lighter), .56), rgba(mat-color($app-success, darker), .95));
     }
     @include lock-page-input-color($brand-success);
   }
   &[filter-color="orange"],
   &[filter-color="warning"] {
     &:after {
-      @include linear-gradient(rgba($orange-100, .56), rgba($orange-300, .95));
+      @include linear-gradient(rgba(mat-color($app-warning, lighter), .56), rgba(mat-color($app-warning, darker), .95));
     }
     @include lock-page-input-color($brand-warning);
   }
@@ -63,15 +54,9 @@
   &[filter-color="red"],
   &[filter-color="danger"] {
     &:after {
-      @include linear-gradient(rgba($red-200, .56), rgba($red-400, .95));
+      @include linear-gradient(rgba(mat-color($app-danger, lighter), .56), rgba(mat-color($app-danger, darker), .95));
     }
     @include lock-page-input-color($brand-danger);
-  }
-  &[filter-color="rose"] {
-    &:after {
-      @include linear-gradient(rgba($pink-100, .56), rgba($pink-300, .95));
-    }
-    @include lock-page-input-color($brand-rose);
   }
 
   &[data-image]:after {
@@ -104,7 +89,7 @@
   .footer nav > ul a:not(.btn),
   .footer,
   .footer .copyright a {
-    color: $brand-primary;
+    color: $brand-text;
   }
 
 }
@@ -135,8 +120,7 @@
   overflow: auto;
   height: 90vh;
   padding-top: 0 !important;
-  color: $brand-inverse;
-  background: rgba(0,0,0,0.3);
+  color: $brand-background;
 }
 
 .login-page {
@@ -146,7 +130,7 @@
     @include transform-translate-y(0);
     @extend .animation-transition-general;
 
-    background: $brand-inverse;
+    background: $brand-background;
     opacity: 0.9;
 
     &.card-hidden {
@@ -193,7 +177,7 @@
   .card-profile {
     width: 240px;
     margin: 60px auto 0;
-    color: $brand-primary;
+    color: $brand-text;
     left: 0;
     right: 0;
     display: block;
@@ -233,15 +217,15 @@
 
   .footer {
     z-index: 1;
-    color: $brand-primary;
+    color: $brand-text;
 
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -281,7 +265,7 @@
         padding-right: 20px;
       }
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
       }
     }
@@ -298,7 +282,7 @@
         }
 
         &.icon-primary {
-          color: $brand-primary;
+          color: $brand-text;
         }
         &.icon-info {
           color: $brand-info;
@@ -313,7 +297,7 @@
           color: $brand-danger;
         }
         &.icon-rose {
-          color: $brand-rose;
+          color: $brand-info;
         }
       }
 
@@ -334,18 +318,18 @@
   }
 
   .footer {
-    color: $brand-primary;
+    color: $brand-text;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -367,7 +351,7 @@
   padding: 0 !important;
 
   .title {
-    color: $brand-primary;
+    color: $brand-text;
     margin-top: 5vh;
   }
 
@@ -379,12 +363,12 @@
   .card-plain {
     .icon i,
     .card-title {
-      color: $brand-primary;
+      color: $brand-background;
     }
   }
 
   .description {
-    color: $brand-primary;
+    color: $brand-text;
   }
   &.full-page:before {
     background-color: rgba(0, 0, 0, 0.65);
@@ -392,18 +376,18 @@
 
   .footer {
     z-index: 2;
-    color: $brand-primary;
+    color: $brand-text;
 
     .container {
       padding: 0;
     }
     .copyright {
       a {
-        color: $brand-primary;
+        color: $brand-text;
         font-weight: 500;
 
         &:hover {
-          color: $brand-primary;
+          color: $brand-text;
         }
       }
     }
@@ -412,14 +396,14 @@
 
 .off-canvas-sidebar {
   .navbar-toggler .navbar-toggler-icon {
-    background-color: $brand-primary !important;
+    background-color: $brand-text !important;
   }
 
   .navbar-collapse {
     .nav {
       > li > a,
       > li > a:hover {
-        color: $brand-primary;
+        color: $brand-text;
         margin: 0 15px;
       }
 
@@ -437,7 +421,7 @@
 .offline-doc {
   .navbar .navbar-nav {
     .nav-item .nav-link {
-      color: $brand-primary;
+      color: $brand-background;
     }
   }
 }
@@ -460,7 +444,7 @@
     }
     .copyright,
     a {
-      color: $brand-primary;
+      color: $brand-text;
       font-weight: 500;
     }
   }

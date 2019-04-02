@@ -1,13 +1,29 @@
-// Bootstrap brand color customization
+// Light Theme ---------------------------------
+// Set Bootstrap theme according Material theme
+$brand-primary: mat-color($app-primary) !default;
+$brand-accent: mat-color($app-accent) !default;
+$brand-info: mat-color($app-accent) !default;
+$brand-success: mat-color($app-success) !default;
+$brand-warning: mat-color($app-warning) !default;
+$brand-danger: mat-color($app-danger) !default;
+$brand-disabled: mat-color($app-foreground, disabled) !default;
+$brand-text: mat-color($app-foreground, text) !default;
+$brand-hover: mat-color($app-background, hover) !default;
+$brand-background: mat-color($app-background, background) !default;
+$brand-default: $brand-primary !default;
+// End of Light Theme ---------------------------------
 
-/*     brand Colors              */
-
-$brand-primary: $blue-900 !default;
-$brand-info: $blue-600 !default;
-$brand-success: $green-600 !default;
-$brand-warning: $orange-600 !default;
-$brand-danger: $red-600 !default;
-$brand-purple: $purple-600 !default;
-$brand-rose: $pink-600 !default;
-$brand-disabled: $grey-600 !default;
-$brand-inverse: $white !default;
+// Dark Theme ---------------------------------
+// // Set Bootstrap theme according Material theme
+// $brand-primary: mat-color($app-primary) !default;
+// $brand-accent: mat-color($app-accent) !default;
+// $brand-info: mat-color($app-accent) !default;
+// $brand-success: mat-color($app-success) !default;
+// $brand-warning: mat-color($app-warning) !default;
+// $brand-danger: mat-color($app-danger) !default;
+// $brand-disabled: mat-color($app-foreground, disabled) !default;
+// $brand-text: mat-color($app-foreground, text) !default;
+// $brand-hover: mat-color($app-background, hover) !default;
+// $brand-background: mat-color($app-background, background) !default;
+// $brand-default: $brand-primary !default;
+// End of Dark Theme ---------------------------------

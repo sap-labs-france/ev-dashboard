@@ -91,7 +91,7 @@
   .td-name {
     font-size: 1.5em;
     small {
-      color: $gray-light;
+      color: $brand-disabled;
       font-size: 0.75em;
     }
   }
@@ -102,11 +102,11 @@
     min-width: 200px;
 
     a {
-      color: $black-color;
+      color:$brand-text;
 
       &:hover,
       &:focus {
-        color: $brand-primary;
+        color: $brand-text;
       }
     }
   }

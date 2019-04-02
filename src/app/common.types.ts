@@ -471,7 +471,7 @@ export interface User {
   name: string;
   firstName: string;
   fullName: string;
-  tagIDs: string;
+  tagIDs: string[];
   plateID: string;
   email: string;
   phone: Date;

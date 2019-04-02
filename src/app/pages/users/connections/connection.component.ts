@@ -48,19 +48,19 @@ export class ConnectionComponent extends AbstractTabComponent {
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
+            this.messageService.showSuccessMessage('settings.refund.concur.link_success');
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.chargeathome.concur.link_error');
+              this.messageService, 'settings.refund.concur.link_error');
           }
         }, (error) => {
           Utils.handleError(JSON.stringify(error),
-            this.messageService, 'settings.chargeathome.concur.link_error');
+            this.messageService, 'settings.refund.concur.link_error');
         }
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
-        this.messageService, 'settings.chargeathome.concur.link_error');
+        this.messageService, 'settings.refund.concur.link_error');
     }
     this.router.navigate([`/users/${state.userId}#connectors`])
   }

@@ -22,6 +22,7 @@ import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
+import {ComponentEnum} from '../../../services/component.service';
 
 @Component({
   selector: 'app-user-cmp',
@@ -65,7 +66,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
-  public chargeAtHomeSetting: any;
+  public refundSetting: any;
   public integrationConnections: any;
   public concurConnection: any;
 
@@ -442,15 +443,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   linkConcurAccount() {
-    if (!this.chargeAtHomeSetting || !this.chargeAtHomeSetting.content || !this.chargeAtHomeSetting.content.concur) {
+    if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
       this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
-      const concurSetting = this.chargeAtHomeSetting.content.concur;
+      const concurSetting = this.refundSetting.content.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       // const returnedUrl = 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections';
       const state = {
         connector: 'concur',
-        appId: this.chargeAtHomeSetting.id,
+        appId: this.refundSetting.id,
         userId: this.currentUserID
       };
       this.document.location.href = `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
@@ -484,9 +485,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.chargeAtHomeSetting = settingResult.result[0];
+          this.refundSetting = settingResult.result[0];
         }
       });
       if (this.currentUserID) {

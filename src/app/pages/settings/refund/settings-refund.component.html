@@ -7,7 +7,7 @@
   </div>
   <div class="card-body">
     <h4 align="justify">
-      {{'settings.chargeathome.description' | translate}}
+      {{'settings.refund.description' | translate}}
     </h4>
     <h4 *ngIf="!isActive" align="justify">
       <br>
@@ -23,7 +23,7 @@
       <div class="card-icon">
         <i class="material-icons">business</i>
       </div>
-      <h3 class="card-title">{{'settings.chargeathome.concur.title' | translate}}</h3>
+      <h3 class="card-title">{{'settings.refund.concur.title' | translate}}</h3>
     </div>
 
     <div class="card-body">
@@ -40,7 +40,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurAuthenticationUrl"
-                   placeholder="{{'settings.chargeathome.concur.authentication_url' | translate}}"
+                   placeholder="{{'settings.refund.concur.authentication_url' | translate}}"
                    required>
             <mat-error *ngIf="concurAuthenticationUrl.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -55,7 +55,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurApiUrl"
-                   placeholder="{{'settings.chargeathome.concur.api_url' | translate}}"
+                   placeholder="{{'settings.refund.concur.api_url' | translate}}"
                    required>
             <mat-error *ngIf="concurAuthenticationUrl.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -72,7 +72,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurClientId"
-                   placeholder="{{'settings.chargeathome.concur.client_id' | translate}}"
+                   placeholder="{{'settings.refund.concur.client_id' | translate}}"
                    required>
             <mat-error *ngIf="concurClientId.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -87,7 +87,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="password" [formControl]="concurClientSecret"
-                   placeholder="{{'settings.chargeathome.concur.client_secret' | translate}}"
+                   placeholder="{{'settings.refund.concur.client_secret' | translate}}"
                    required>
             <mat-error *ngIf="concurClientSecret.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -104,7 +104,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurPaymentTypeId"
-                   placeholder="{{'settings.chargeathome.concur.payment_type_id' | translate}}"
+                   placeholder="{{'settings.refund.concur.payment_type_id' | translate}}"
                    required>
             <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -119,7 +119,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurExpenseTypeCode"
-                   placeholder="{{'settings.chargeathome.concur.expense_type_code' | translate}}"
+                   placeholder="{{'settings.refund.concur.expense_type_code' | translate}}"
                    required>
             <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -136,7 +136,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurPolicyId"
-                   placeholder="{{'settings.chargeathome.concur.policy_id' | translate}}"
+                   placeholder="{{'settings.refund.concur.policy_id' | translate}}"
                    required>
             <mat-error *ngIf="concurPaymentTypeId.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
@@ -151,7 +151,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="concurReportName"
-                   placeholder="{{'settings.chargeathome.concur.report_name' | translate}}"
+                   placeholder="{{'settings.refund.concur.report_name' | translate}}"
                    required>
             <mat-error *ngIf="concurExpenseTypeCode.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>

@@ -13,7 +13,7 @@ import {ComponentEnum, ComponentService} from '../../../services/component.servi
   selector: 'app-settings-refund',
   templateUrl: 'settings-refund.component.html'
 })
-export class SettingsChargeAtHomeComponent implements OnInit {
+export class SettingsRefundComponent implements OnInit {
   public isAdmin;
   public formGroup: FormGroup;
   public isActive = false;
@@ -38,7 +38,7 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     private messageService: MessageService,
     private router: Router
   ) {
-    this.isActive = componentService.isActive(ComponentEnum.CHARGE_AT_HOME);
+    this.isActive = componentService.isActive(ComponentEnum.REFUND);
   }
 
   ngOnInit(): void {
@@ -109,7 +109,7 @@ export class SettingsChargeAtHomeComponent implements OnInit {
   }
 
   loadConfiguration() {
-    this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe((setting) => {
+    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((setting) => {
       this.spinnerService.hide();
 
       // takes the first one
@@ -135,7 +135,7 @@ export class SettingsChargeAtHomeComponent implements OnInit {
       switch (error.status) {
         case 550:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.chargeathome.setting_not_found');
+            'settings.refund.setting_not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -160,7 +160,7 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': this.currentSettingID,
-      'identifier': Constants.SETTINGS_CHARGE_AT_HOME,
+      'identifier': ComponentEnum.REFUND,
       'content': content
     };
 
@@ -168,20 +168,20 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     this.centralServerService.updateSetting(setting).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.chargeathome.update_success');
+        this.messageService.showSuccessMessage('settings.refund.update_success');
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.chargeathome.update_error');
+          this.messageService, 'settings.refund.update_error');
       }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          this.messageService.showErrorMessage('settings.chargeathome.setting_do_not_exist');
+          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.chargeathome.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.update_error');
       }
     });
   }
@@ -190,27 +190,27 @@ export class SettingsChargeAtHomeComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': null,
-      'identifier': Constants.SETTINGS_CHARGE_AT_HOME,
+      'identifier': ComponentEnum.REFUND,
       'content': content
     };
     this.spinnerService.show();
     this.centralServerService.createSetting(setting).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.chargeathome.create_success');
+        this.messageService.showSuccessMessage('settings.refund.create_success');
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.chargeathome.create_error');
+          this.messageService, 'settings.refund.create_error');
       }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          this.messageService.showErrorMessage('settings.chargeathome.setting_do_not_exist');
+          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.chargeathome.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.create_error');
       }
     });
   }

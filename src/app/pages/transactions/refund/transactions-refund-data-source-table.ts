@@ -40,6 +40,7 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum} from '../../../services/component.service';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -318,7 +319,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   private chechConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.hasConcurConnectionConfigured = true;
         }

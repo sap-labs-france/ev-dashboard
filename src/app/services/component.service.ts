@@ -4,8 +4,8 @@ import {CentralServerService} from './central-server.service';
 export enum ComponentEnum {
   OCPI = 'ocpi',
   ORGANIZATION = 'organization',
-  CHARGE_AT_HOME = 'chargeathome',
   PRICING = 'pricing',
+  REFUND = 'refund',
   SAC = 'sac'
 }
 

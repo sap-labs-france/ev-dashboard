@@ -32,11 +32,11 @@
         </ng-template>
       </mat-tab>
     </ng-container>
-    <ng-container *ngIf="canAccessChargeAtHome()">
+    <ng-container *ngIf="canAccessRefund()">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="mr-2">money</mat-icon>
-          {{'transactions.tabs.charge_at_home' | translate}}
+          {{'transactions.tabs.refund' | translate}}
         </ng-template>
         <ng-template matTabContent>
           <app-transactions-refund></app-transactions-refund>

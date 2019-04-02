@@ -761,8 +761,8 @@ export class CentralServerService {
     if (token) {
       // Decode the token
       this.currentUser = new JwtHelperService().decodeToken(token);
-      this.currentUserSubject.next(this.currentUser);
     }
+    this.currentUserSubject.next(this.currentUser);
     // Write?
     if (writeInLocalStorage) {
       // Set the token

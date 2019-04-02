@@ -15,7 +15,11 @@ export class ComponentService {
 
   constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe(user => {
-      this.activeComponents = user.activeComponents;
+      if (user) {
+        this.activeComponents = user.activeComponents;
+      } else {
+        this.activeComponents = null;
+      }
     });
   }
 

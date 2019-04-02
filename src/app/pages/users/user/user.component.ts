@@ -22,6 +22,7 @@ import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
+import {ComponentEnum} from '../../../services/component.service';
 
 @Component({
   selector: 'app-user-cmp',
@@ -65,7 +66,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
-  public chargeAtHomeSetting: any;
+  public refundSetting: any;
   public integrationConnections: any;
   public concurConnection: any;
 
@@ -87,7 +88,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'address', 'password', 'miscs', 'applications'], false);
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'miscs'], false);
 
     this.maxSize = this.configService.getUser().maxPictureKb;
 
@@ -105,12 +106,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    if (this.activatedRoute.snapshot.queryParams['state']) {
-      const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
-      if (state.connector === 'concur') {
-        this._createConcurConnection(state);
-      }
-    }
   }
 
   updateRoute(event: number) {
@@ -448,18 +443,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   linkConcurAccount() {
-    if (!this.chargeAtHomeSetting || !this.chargeAtHomeSetting.content || !this.chargeAtHomeSetting.content.concur) {
+    if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
       this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
-      const concurSetting = this.chargeAtHomeSetting.content.concur;
-      // const returnedUrl = `${this.document.location.origin}/users/${this.currentUserID}`;
-      const returnedUrl = 'https://slfcah.cfapps.eu10.hana.ondemand.com';
+      const concurSetting = this.refundSetting.content.concur;
+      const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
+      // const returnedUrl = 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections';
       const state = {
         connector: 'concur',
-        appId: this.chargeAtHomeSetting.id,
+        appId: this.refundSetting.id,
         userId: this.currentUserID
       };
-      this.document.location.href = `${concurSetting.url}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+      this.document.location.href = `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 
@@ -490,9 +485,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(Constants.SETTINGS_CHARGE_AT_HOME).subscribe(settingResult => {
+      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.chargeAtHomeSetting = settingResult.result[0];
+          this.refundSetting = settingResult.result[0];
         }
       });
       if (this.currentUserID) {
@@ -507,38 +502,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           }
         });
       }
-    }
-  }
-
-  private _createConcurConnection(state) {
-    if (this.activatedRoute.snapshot.queryParams['code']) {
-      const payload = {
-        settingId: state.appId,
-        userId: state.userId,
-        connectorId: 'concur',
-        data:
-          {
-            code: this.activatedRoute.snapshot.queryParams['code'],
-            redirectUri: 'https://slfcah.cfapps.eu10.hana.ondemand.com'
-          }
-      };
-      this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            // Ok
-            this.messageService.showSuccessMessage('settings.chargeathome.concur.link_success');
-            this.loadApplicationSettings();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.chargeathome.concur.link_error');
-          }
-        }, (error) => {
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, 'settings.chargeathome.concur.link_error');
-        }
-      );
-    } else if (this.activatedRoute.snapshot.queryParams['error']) {
-      Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
-        this.messageService, 'settings.chargeathome.concur.link_error');
     }
   }
 

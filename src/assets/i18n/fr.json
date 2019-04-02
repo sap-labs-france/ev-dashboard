@@ -845,7 +845,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Itinérance",
-      "chargeathome": "Remboursement",
+      "refund": "Remboursement",
       "pricing": "Pricing",
       "sac": "Analytics"
     },
@@ -858,7 +858,7 @@
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI",
       "description": "E-Mobility fournit des APIs standards et certifiées permettant de se connecter à une plate-forme d'itinérance externe. Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité de la borne de recharge via le protocole standard OCPI (Open Charge Point Interface). E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
-    "chargeathome": {
+    "refund": {
       "description": "L'application Remboursement permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
       "not_found": "La configuration Remboursement n'est pas disponible",
       "create_success": "La configuration Remboursement a été créé avec succès",
@@ -867,11 +867,14 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
       "concur": {
         "title": "Concur",
-        "url": "Url",
+        "authentication_url": "Url d'authentification",
+        "api_url": "Url d'api",
         "client_id": "Client ID",
         "client_secret": "Client Secret",
         "payment_type_id": "Payment Type ID",
         "expense_type_code": "Expense Type Code",
+        "policy_id": "Policy ID",
+        "report_name": "Nom de note de frais",
         "link_success": "Votre compte a été lié avec succès à Concur",
         "link_error": "Une erreur est survenue durant la connexion avec Concur"
       }
@@ -998,7 +1001,7 @@
     "title": "Analytics",
     "description": "Analytics Interface"
   },
-  "chargeathome": {
+  "refund": {
     "title": "Remboursement",
     "description": "Interface de Remboursement"
   },
@@ -1077,7 +1080,7 @@
       "history": "Historique",
       "in_progress": "En cours",
       "in_error": "Défectueuse",
-      "charge_at_home": "Remboursement"
+      "refund": "Remboursement"
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",

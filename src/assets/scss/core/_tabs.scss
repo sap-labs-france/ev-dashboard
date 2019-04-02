@@ -69,6 +69,18 @@
   }
 }
 
+.mat-tab-header-pagination {
+  background: $brand-info;
+  box-shadow: initial;
+}
+
+.mat-tab-header-pagination-chevron {
+  border-color: $brand-background;
+}
+.mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+  border-color: $brand-background;
+}
+
 .mat-tab-labels {
   padding: 10px;
   color: $brand-background !important;

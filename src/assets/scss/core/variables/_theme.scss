@@ -7,11 +7,11 @@
 
 // Light Theme ---------------------------------
 // Define colors with mat palette
-$app-primary: mat-palette($mat-blue, 500);
-$app-accent: mat-palette($mat-blue, 400);
-$app-success: mat-palette($mat-green, 500);
-$app-warning: mat-palette($mat-orange, 500);
-$app-danger: mat-palette($mat-red, 500);
+$app-primary: mat-palette($mat-blue, 700);
+$app-accent: mat-palette($mat-blue, 500);
+$app-success: mat-palette($mat-green, 700);
+$app-warning: mat-palette($mat-orange, 700);
+$app-danger: mat-palette($mat-red, 700);
 // Create the theme for materials
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-danger);
 // Bg/Fg

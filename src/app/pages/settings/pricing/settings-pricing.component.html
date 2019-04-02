@@ -1,5 +1,5 @@
 <div *ngIf="!isActive" class="card">
-  <div class="card-header card-header-icon card-header-primary">
+  <div class="card-header card-header-icon card-header-info">
     <div class="card-icon">
       <i class="material-icons">info</i>
     </div>
@@ -18,7 +18,7 @@
 <div *ngIf="isActive && pricingType==='pricing_simple'">
   <form class="form" [formGroup]="formGroup">
     <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
+      <div class="card-header card-header-icon card-header-info">
         <div class="card-icon">
           <i class="material-icons">business</i>
         </div>
@@ -65,7 +65,7 @@
   </form>
 
   <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
+    <div class="card-header card-header-icon card-header-info">
       <div class="card-icon">
         <i class="material-icons">info</i>
       </div>
@@ -82,7 +82,7 @@
 
 <form *ngIf="isActive && pricingType==='pricing_convergentCharging'" class="form" [formGroup]="formGroup">
   <div class="card">
-    <div class="card-header card-header-icon card-header-primary">
+    <div class="card-header card-header-icon card-header-info">
       <div class="card-icon">
         <i class="material-icons">business</i>
       </div>

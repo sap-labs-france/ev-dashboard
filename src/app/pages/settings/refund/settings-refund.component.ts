@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Component({
-  selector: 'app-settings-charge-at-home',
-  templateUrl: 'settings-charge-at-home.component.html'
+  selector: 'app-settings-refund',
+  templateUrl: 'settings-refund.component.html'
 })
 export class SettingsChargeAtHomeComponent implements OnInit {
   public isAdmin;

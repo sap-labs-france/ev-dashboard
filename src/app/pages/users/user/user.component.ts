@@ -17,12 +17,11 @@ import {Users} from '../../../utils/Users';
 import {Utils} from '../../../utils/Utils';
 import {UserRoles, userStatuses} from '../users.model';
 import {DOCUMENT} from '@angular/common';
-import {ActionResponse} from '../../../common.types';
+import {ActionResponse, User} from '../../../common.types';
 import {WindowService} from '../../../services/window.service';
 import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-user-cmp',
@@ -151,6 +150,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         ])),
       'tagIDs': new FormControl('',
         Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
           Validators.pattern('^[a-zA-Z0-9,]*$')
         ])),
       'plateID': new FormControl('',
@@ -313,7 +314,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.controls.id.setValue(user.id);
       }
       if (user.name) {
-        this.formGroup.controls.name.setValue(user.name);
+        this.formGroup.controls.name.setValue(user.name.toUpperCase());
       }
       if (user.firstName) {
         this.formGroup.controls.firstName.setValue(user.firstName);
@@ -343,8 +344,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.locale) {
         this.formGroup.controls.locale.setValue(user.locale);
       }
-      if (user.tagIDs) {
-        this.formGroup.controls.tagIDs.setValue(user.tagIDs);
+      if (user.tagIDs && user.tagIDs.length > 0) {
+        this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
+      } else {
+        this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
+        this.formGroup.markAsDirty();
       }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
@@ -439,10 +443,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public clearImage() {
-    // Clear
-    jQuery('.fileinput-preview img')[0]['src'] = Constants.USER_NO_PICTURE;
     this.image = Constants.USER_NO_PICTURE;
-    // Set form dirty
     this.formGroup.markAsDirty();
   }
 
@@ -494,16 +495,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.chargeAtHomeSetting = settingResult.result[0];
         }
       });
-      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
-        if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
-          for (const connection of connectionResult.result) {
-            if (connection.connectorId === 'concur') {
-              this.concurConnection = connection;
+      if (this.currentUserID) {
+        this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+          if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+            for (const connection of connectionResult.result) {
+              if (connection.connectorId === 'concur') {
+                this.concurConnection = connection;
+              }
             }
+            this.integrationConnections = connectionResult.result;
           }
-          this.integrationConnections = connectionResult.result;
-        }
-      });
+        });
+      }
     }
   }
 
@@ -620,5 +623,24 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
+  }
+
+  toUpperCase(control: AbstractControl) {
+    console.log('toUpperCase');
+    control.setValue(control.value.toUpperCase());
+  }
+
+  private generateTagID(user: User) {
+    let tagID = '';
+    if (user) {
+      if (user.name && user.name.length > 0) {
+        tagID += user.name[0];
+      }
+      if (user.firstName && user.firstName.length > 0) {
+        tagID += user.firstName[0];
+      }
+      tagID += Math.floor((Math.random() * 2147483648) + 1);
+    }
+    return tagID;
   }
 }

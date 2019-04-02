@@ -1,0 +1,91 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form" [formGroup]="formGroup">
+                    <div class="card card-profile card-testimonial">
+                        <div class="card-header card-header-tabs card-header-info">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#profile" data-toggle="tab">
+                                                <i class="material-icons">link</i> {{name.value}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <span class="toolbar-spacer"></span>
+                                        <!-- <button mat-raised-button class="btn btn-link" (click)="save(formGroup.value)"
+                                            [disabled]="!formGroup.valid || !formGroup.dirty">
+                                                <i class="material-icons mr-2">save</i>
+                                                    {{'general.save' | translate}}
+                                        </button> -->
+                                        <button mat-raised-button class="btn btn-link" (click)="cancel()">
+                                                <i class="material-icons">close</i>
+                                        </button>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="profile">
+                                    <div class="row">
+                                        <!-- SAC Link - Name -->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="{{'sac.link.name' | translate}}"
+                                                        type="text" [formControl]="name" required>
+                                                    <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                                                    <mat-error *ngIf="name.hasError('maxlength')">
+                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <!-- SAC Link - Description -->
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input appSetAutoFocus matInput placeholder="{{'sac.link.description' | translate}}"
+                                                        type="text" [formControl]="description">
+                                                    <mat-error *ngIf="description.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <!-- SAC Link - Url -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <mat-form-field>
+                                                    <input appSetAutoFocus matInput placeholder="{{'sac.link.url' | translate}}"
+                                                        type="text" [formControl]="url" required>
+                                                    <mat-error *ngIf="url.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                                                    <mat-error *ngIf="url.hasError('pattern')">
+                                                        <div [translate]="'general.error_url_pattern'"></div>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer mat-dialog-actions" align="end">
+                            <span class="app-spacer"></span>
+                            <button mat-raised-button appSetAutoFocus class="btn btn-info" [disabled]="!formGroup.valid || !formGroup.dirty" (click)="setLink(formGroup.value)">
+                              {{"sac.set_link" | translate}}
+                            </button>
+                            <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
+                              cdkFocusInitial>{{"general.cancel" | translate}}</button>
+                          </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1002,7 +1002,13 @@
     "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
     "timezone": "Timezone used in SAP Analytics Cloud",
-    "links": "Liens vers SAP Analytics Cloud"
+    "links": "SAP Analytics Cloud Links",
+    "set_link": "Set Link",
+    "link": {
+      "name": "Name",
+      "description": "Description",
+      "url": "URL"
+    }
   },
   "chargeathome": {
     "title": "Refunding",

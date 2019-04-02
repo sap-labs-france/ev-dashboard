@@ -11,10 +11,14 @@ import {Constants} from 'app/utils/Constants';
 import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from 'app/utils/Utils';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import {SacLinksDataSource} from './sac-links/settings-sac-links-source-table';
 
 @Component({
   selector: 'app-settings-sac',
-  templateUrl: 'settings-sac.component.html'
+  templateUrl: 'settings-sac.component.html',
+  providers: [
+    SacLinksDataSource
+  ]
 })
 export class SettingsSacComponent implements OnInit {
   public isAdmin;
@@ -35,7 +39,8 @@ export class SettingsSacComponent implements OnInit {
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    public sacLinksDataSource: SacLinksDataSource
   ) {
     this.isSacActive = componentService.isActive(ComponentEnum.SAC);
 
@@ -65,7 +70,7 @@ export class SettingsSacComponent implements OnInit {
       this.spinnerService.hide();
 
       // get SAC configuration
-      let sacContent = { mainUrl: '', timezone: ''};
+      let sacContent = { mainUrl: '', timezone: '', links: []};
       if (sacConfiguration && sacConfiguration.count > 0 && sacConfiguration.result[0].content) {
         // define setting ID
         this.currentSettingID = sacConfiguration.result[0].id;
@@ -78,6 +83,10 @@ export class SettingsSacComponent implements OnInit {
       if (sacContent.mainUrl) {
         this.mainUrl.setValue(sacContent.mainUrl);
       }
+
+      // set SAC Links Data Source
+      this.sacLinksDataSource.setSacSettings(sacContent);
+      this.sacLinksDataSource.loadData();
 
       this.formGroup.markAsPristine();
 

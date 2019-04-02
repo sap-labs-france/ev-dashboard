@@ -1130,8 +1130,8 @@
         "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
         "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
         "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
-        "error": "Une erreur est survenue pendant la demande de remboursement",
-        "concur_connection_invalid": "Votre connection à Concur n'est pas configurée correctement",
+        "error": "L'application E-Mobility n'a pas pu se connecter à Concur.  Veuillez contacter un administrateur de l'application E-Mobility.",
+        "concur_connection_invalid": "Votre connection à Concur n'est pas configurée correctement. Veuillez contacter un administrateur de l'application E-Mobility.",
         "tenant_concur_connection_invalid": "La configuration Concur de votre tenant n'est pas complète. Contactez votre administrateur pour plus d'informations."
       }
     },

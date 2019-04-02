@@ -1135,8 +1135,8 @@
         "partial": "{{inError}} of {{total}} refund requested failed",
         "forbidden_refund_another_user": "You cannot refund another user's transaction",
         "not_authorized": "You are not authorized to perform this request",
-        "error": "An error occurred during refund request",
-        "concur_connection_invalid": "Your Concur connection is not configured",
+        "error": "The E-Mobility application couldn't connect to Concur. Please contact your E-Mobility administrator.",
+        "concur_connection_invalid": "Your Concur connection is not configured correctly. Please contact your E-Mobility administrator.",
         "tenant_concur_connection_invalid": "The Tenant Concur configuration is not implemented. Please, contact your administrator"
       }
     },

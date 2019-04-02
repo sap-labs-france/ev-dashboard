@@ -867,7 +867,7 @@
       "update_error": "Error occurred while updating the Refunding settings",
       "concur": {
         "title": "Concur",
-        "authentication_url": "Authtentication Url",
+        "authentication_url": "Authentication Url",
         "api_url": "API Url",
         "client_id": "Client ID",
         "client_secret": "Client Secret",

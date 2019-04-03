@@ -103,7 +103,7 @@ agm-map {
     align-items: center;
     top: 0;
     z-index: 2;
-    background: $brand-background;
+    background-color: $brand-primary;
 
     .caret {
         display: inline-block;
@@ -115,18 +115,6 @@ agm-map {
         border-top: 4px solid;
         border-right: 4px solid transparent;
         border-left: 4px solid transparent;
-    }
-
-    &[data-background-color="black"] {
-        background-color: #191919;
-    }
-
-    &[data-background-color="red"] {
-        background-color: $brand-danger;
-    }
-
-    &[data-background-color="blue"] {
-      background-color: $brand-primary;
     }
 
     .sidebar-background {
@@ -151,74 +139,12 @@ agm-map {
         }
     }
 
-    &[data-background-color="black"] {
-        @include sidebar-background-color($brand-disabled, $brand-background);
-        h1, h2, h3, h4, div, span, p {
-          color: $brand-text;
-          font-weight: 500; 
-          font-size: 1.5rem !important;
-          padding: 14px 0px;
-          background: $brand-text;
-        }
-    }
-
-    &[data-background-color="red"] {
-      @include sidebar-background-color($brand-disabled, $brand-background);
-      h1, h2, h3, h4, div, span, p {
-        color: $brand-text;
-        font-weight: 500; 
-        font-size: 1.5rem !important;
-        padding: 14px 0px;
-        background-color: $brand-danger;
-      }
-    }
-
-    &[data-background-color="blue"] {
-      @include sidebar-background-color($brand-disabled, $brand-background);
-      h1, h2, h3, h4, div, span, p {
-        color: $brand-background;
-        font-weight: 500; 
-        font-size: 1.5rem !important;
-        padding: 14px 0px;
-        background-color: $brand-primary;
-      }
-    }
-
-    &[data-color="purple"] {
-        @include set-background-color-button($brand-primary);
-    }
-
-    &[data-color="azure"] {
-        @include set-background-color-button($brand-info);
-    }
-
-    &[data-color="green"] {
-        @include set-background-color-button($brand-success);
-    }
-
-    &[data-color="o range"] {
-        @include set-background-color-button($brand-warning);
-    }
-
-    &[data-color="danger"] {
-        @include set-background-color-button($brand-danger);
-    }
-
-    &[data-color="rose"] {
-        @include set-background-color-button($brand-info);
-    }
-
-    &[data-color="white"] {
-        @include set-background-color-button($brand-background);
-        @include sidebar-active-color($brand-text);
-    }
-
-    &[data-background-color="red"] {
-        @include sidebar-background-color($brand-danger, $brand-background);
-    }
-
-    &[data-background-color="blue"] {
-      @include sidebar-background-color(mat-color($app-primary, 900), $brand-background);
+    h1, h2, h3, h4, div, span, p {
+      color: $brand-background;
+      font-weight: 500; 
+      font-size: 1.5rem !important;
+      padding: 14px 0px;
+      background-color: $brand-primary;
     }
 
     &[data-image]:after,

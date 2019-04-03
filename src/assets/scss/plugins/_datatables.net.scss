@@ -377,7 +377,7 @@ table.dataTable.dtr-inline.collapsed {
   > tbody > tr.parent > th:first-child {
     &:before {
       content: '-';
-      color: $brand-danger;
+      color: $brand-warn;
     }
   }
 
@@ -914,7 +914,7 @@ div.dtr-modal {
 //     > tbody > tr.parent > th:first-child{
 //         &:before{
 //             content: '-';
-//             color: $brand-danger;
+//             color: $brand-warn;
 //         }
 //     }
 //

@@ -6,7 +6,7 @@
 
 $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
-$outer-spinner: $brand-danger !default;
+$outer-spinner: $brand-warn !default;
 
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: $font-size-sm !important;
@@ -148,8 +148,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 .table-no-record-found {
   padding: 13%;
   white-space: normal;
-  font-size: large;
-  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .form-field-popup {

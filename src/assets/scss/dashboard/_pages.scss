@@ -29,36 +29,6 @@
     background-color: rgba(0, 0, 0, .5);
   }
 
-  &[filter-color="blue"],
-  &[filter-color="info"] {
-    &:after {
-      @include linear-gradient(rgba(mat-color($app-primary, lighter), .56), rgba(mat-color($app-primary, darker), .95));
-    }
-    @include lock-page-input-color($brand-info);
-  }
-  &[filter-color="green"],
-  &[filter-color="success"] {
-    &:after {
-      @include linear-gradient(rgba(mat-color($app-success, lighter), .56), rgba(mat-color($app-success, darker), .95));
-    }
-    @include lock-page-input-color($brand-success);
-  }
-  &[filter-color="orange"],
-  &[filter-color="warning"] {
-    &:after {
-      @include linear-gradient(rgba(mat-color($app-warning, lighter), .56), rgba(mat-color($app-warning, darker), .95));
-    }
-    @include lock-page-input-color($brand-warning);
-  }
-
-  &[filter-color="red"],
-  &[filter-color="danger"] {
-    &:after {
-      @include linear-gradient(rgba(mat-color($app-danger, lighter), .56), rgba(mat-color($app-danger, darker), .95));
-    }
-    @include lock-page-input-color($brand-danger);
-  }
-
   &[data-image]:after {
     opacity: .8;
   }
@@ -294,7 +264,7 @@
           color: $brand-warning;
         }
         &.icon-danger {
-          color: $brand-danger;
+          color: $brand-warn;
         }
         &.icon-rose {
           color: $brand-info;

@@ -59,7 +59,7 @@
       bottom: 0;
       height: 50px;
       margin: auto;
-      color: $brand-danger
+      color: $brand-warn
     }
   }
   .carousel-indicators {
@@ -76,7 +76,7 @@
       height: 5px;
       text-indent: -999px;
       cursor: pointer;
-      border: 1px solid $brand-danger;
+      border: 1px solid $brand-warn;
       border-radius: 10px;
       background: $brand-background;
       @include shadow-2dp();

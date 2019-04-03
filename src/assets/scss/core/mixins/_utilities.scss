@@ -79,7 +79,7 @@
     @include badges-color($brand-warning);
   }
   &.danger-badge {
-    @include badges-color($brand-danger);
+    @include badges-color($brand-warn);
   }
   &.rose-badge {
     @include badges-color($brand-info);
@@ -100,7 +100,7 @@
     background-color: $brand-warning;
   }
   &.badge-danger {
-    background-color: $brand-danger;
+    background-color: $brand-warn;
   }
   &.badge-rose {
     background-color: $brand-info;

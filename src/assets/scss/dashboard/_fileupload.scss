@@ -115,11 +115,11 @@
 }
 
 .form-group.has-error .fileinput .fileinput-preview {
-  color: $brand-danger;
+  color: $brand-warn;
 }
 
 .form-group.has-error .fileinput .thumbnail {
-  border-color: $brand-danger;
+  border-color: $brand-warn;
 }
 
 .form-group.has-success .fileinput .fileinput-preview {

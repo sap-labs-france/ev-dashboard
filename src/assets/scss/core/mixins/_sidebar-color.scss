@@ -1,38 +1,3 @@
-@mixin sidebar-background-color($background-color, $font-color) {
-  .nav {
-    .nav-item {
-      .nav-link {
-        color: $font-color;
-      }
-      i {
-        color: rgba($font-color, .8);
-      }
-
-      &.active,
-      &:hover {
-        [data-toggle="collapse"] {
-          color: $font-color;
-          i {
-            color: rgba($font-color, .8);
-          }
-        }
-      }
-    }
-  }
-  .user {
-    a {
-      color: $font-color;
-    }
-  }
-  .simple-text {
-    color: $font-color;
-  }
-  .sidebar-background:after {
-    background: $background-color;
-    opacity: .8;
-  }
-}
-
 @mixin sidebar-active-color($font-color) {
   .nav {
     .nav-item {
@@ -46,13 +11,5 @@
         }
       }
     }
-  }
-}
-
-@mixin set-background-color-button($color) {
-
-  li.active > a {
-    background-color: $color;
-    @include shadow-big-color($color);
   }
 }

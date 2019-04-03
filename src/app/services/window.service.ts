@@ -24,6 +24,10 @@ export class WindowService {
     return this.window.location.pathname;
   }
 
+  getOrigin(): string {
+    return this.window.location.origin;
+  }
+
   getHash(): string {
     return this.window.location.hash.substring(1);
   }

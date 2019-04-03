@@ -4,8 +4,8 @@ import {CentralServerService} from './central-server.service';
 export enum ComponentEnum {
   OCPI = 'ocpi',
   ORGANIZATION = 'organization',
-  CHARGE_AT_HOME = 'chargeathome',
   PRICING = 'pricing',
+  REFUND = 'refund',
   SAC = 'sac'
 }
 
@@ -15,7 +15,11 @@ export class ComponentService {
 
   constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe(user => {
-      this.activeComponents = user.activeComponents;
+      if (user) {
+        this.activeComponents = user.activeComponents;
+      } else {
+        this.activeComponents = null;
+      }
     });
   }
 

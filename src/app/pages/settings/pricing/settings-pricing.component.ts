@@ -38,7 +38,7 @@ export class SettingsPricingComponent implements OnInit {
     private router: Router
   ) {
     this.isActive = componentService.isActive(ComponentEnum.PRICING);
-    this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(Constants.SETTINGS_PRICING + '_'));
+    this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(ComponentEnum.PRICING + '_'));
   }
 
   ngOnInit(): void {
@@ -102,7 +102,7 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   loadConfiguration() {
-    this.centralServerService.getSettings(Constants.SETTINGS_PRICING).subscribe((setting) => {
+    this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((setting) => {
       this.spinnerService.hide();
 
       // takes the first one
@@ -154,7 +154,7 @@ export class SettingsPricingComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': this.currentSettingID,
-      'identifier': Constants.SETTINGS_PRICING,
+      'identifier': ComponentEnum.PRICING,
       'content': content
     };
 
@@ -184,7 +184,7 @@ export class SettingsPricingComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': null,
-      'identifier': Constants.SETTINGS_PRICING,
+      'identifier': ComponentEnum.PRICING,
       'content': content
     };
     this.spinnerService.show();

@@ -135,16 +135,6 @@ export class Constants {
   public static DIALOG_TYPE_INVALID_CHANGE: DialogType = 'INVALID_CHANGE';
   public static DIALOG_TYPE_DIRTY_CHANGE: DialogType = 'DIRTY_CHANGE';
 
-  /* Tenant Components */
-  public static COMPONENTS_LIST = ['ocpi', 'chargeathome', 'pricing', 'organization', 'sac'];
-
-  /* Settings */
-  public static SETTINGS_OCPI = 'ocpi';
-  public static SETTINGS_ORGANIZATION = 'organization';
-  public static SETTINGS_CHARGE_AT_HOME = 'chargeathome';
-  public static SETTINGS_PRICING = 'pricing';
-  public static SETTINGS_SAC = 'sac';
-
   /* OCPP Informations */
   public static OCPP_VERSION_12 = '1.2';
   public static OCPP_VERSION_15 = '1.5';

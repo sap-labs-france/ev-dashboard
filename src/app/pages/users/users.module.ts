@@ -18,6 +18,7 @@ import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {UserStatusComponent} from './formatters/user-status.component';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
+import {ConnectionComponent} from './connections/connection.component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
     UserComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
+    ConnectionComponent,
     UserRolePipe,
     UserStatusPipe
   ],

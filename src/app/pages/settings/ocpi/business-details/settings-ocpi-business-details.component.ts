@@ -8,6 +8,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
 import { Constants } from '../../../../utils/Constants';
+import {ComponentEnum} from '../../../../services/component.service';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -139,7 +140,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getSettings(Constants.SETTINGS_OCPI).subscribe((ocpiConfiguration) => {
+    this.centralServerService.getSettings(ComponentEnum.OCPI).subscribe((ocpiConfiguration) => {
       this.spinnerService.hide();
 
       // initialize empty
@@ -222,7 +223,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': null,
-      'identifier': Constants.SETTINGS_OCPI,
+      'identifier': ComponentEnum.OCPI,
       'content': content
     };
 
@@ -263,7 +264,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': this.currentSettingID,
-      'identifier': Constants.SETTINGS_OCPI,
+      'identifier': ComponentEnum.OCPI,
       'content': content
     };
     // Show

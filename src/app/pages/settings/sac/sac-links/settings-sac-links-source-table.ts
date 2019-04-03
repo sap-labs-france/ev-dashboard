@@ -63,6 +63,10 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     }
   }
 
+  public getPaginatorPageSizes() {
+    return [];
+  }
+
   public loadData() {
     setTimeout(() => {
       // Set number of records
@@ -70,9 +74,12 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       if (this.sacSettings) {
         // setTimeout(() => {
         if (this.sacSettings.links) {
+          this.sacSettings.links = _.orderBy(this.sacSettings.links, 'name', 'asc');
           const links = [];
           for (let index = 0; index < this.sacSettings.links.length; index++) {
-            links.push(this.sacSettings.links[index]);
+            const _link = this.sacSettings.links[index];
+            _link.id = index;
+            links.push(_link);
           }
           // Update nbr records
           this.setNumberOfRecords(links.length);
@@ -91,7 +98,10 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       },
       design: {
         flat: true
-      }
+      },
+      footer: {
+        enabled: false
+      },
     };
   }
 
@@ -101,25 +111,25 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       {
         id: 'name',
         name: 'sac.link.name',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: false
       },
       {
         id: 'description',
         name: 'sac.link.description',
-        headerClass: 'col-25p',
-        class: 'col-25p',
-        sortable: true
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sortable: false
       },
       {
         id: 'url',
         name: 'sac.link.url',
-        headerClass: 'col-40p',
-        class: 'col-40p',
-        sortable: true
+        headerClass: 'col-45p',
+        class: 'col-45p',
+        sortable: false
       }
     ];
   }
@@ -185,14 +195,22 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     const dialogRef = this.dialog.open(SacLinkDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.sacSettings.links.push(result);
+        // find object
+        const index = _.findIndex(this.sacSettings.links, { 'id': result.id});
+        console.log('index:' + index);
+        if (index >= 0) {
+          this.sacSettings.links.splice(index, 1, result);
+        } else {
+          this.sacSettings.links.push(result);
+        }
+
         this.loadData();
       }
     });
   }
 
   private _deleteSacLinks(sacLink) {
-    this.sacSettings.links = _.dropWhile(this.sacSettings.links, { 'id': sacLink.id });
+    _.remove(this.sacSettings.links, function(o: SacLink) { return (o.id === sacLink.id) });
     this.loadData();
   }
 }

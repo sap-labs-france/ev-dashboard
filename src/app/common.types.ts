@@ -271,7 +271,7 @@ export interface SettingResult {
 }
 
 export interface SacLink {
-  id: string;
+  id: number;
   name: string;
   description: string;
   url: string;

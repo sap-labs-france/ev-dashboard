@@ -10,8 +10,7 @@ import {Constants} from '../../../utils/Constants';
 import {ComponentEnum} from '../../../services/component.service';
 
 @Component({
-  templateUrl: './tenant.dialog.component.html',
-  styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
+  templateUrl: './tenant.dialog.component.html'
 })
 export class TenantDialogComponent implements OnInit {
   public formGroup: FormGroup;

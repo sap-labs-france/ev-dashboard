@@ -5,7 +5,6 @@ import {EndpointsDataSource} from './settings-ocpi-endpoints-source-table';
 @Component({
   selector: 'app-settings-ocpi-endpoints',
   templateUrl: 'settings-ocpi-endpoints.component.html',
-  styleUrls: ['./settings-ocpi-endpoints-source-table.scss'],
   providers: [
     EndpointsDataSource
   ]

@@ -9,11 +9,15 @@ dashboard:
 
 all: dashboard
 
-clean-images:
-	docker image prune -f
-
 clean-containers:
 	-docker-compose -p $(PROJECT_NAME) down
 
-dist-clean: clean-containers
+clean-images:
+	-docker rmi $(PROJECT_NAME)_dashboard
+
+clean: clean-containers clean-images
+
+dist-clean-images:
 	docker image prune -a -f
+
+dist-clean: clean-containers dist-clean-images

@@ -129,7 +129,7 @@
       }
       &.active > a,
       &.active > a i {
-        color: black !important;
+        color: mat-color($app-foreground, base) !important;
       }
       &.separator {
         margin: 15px 0;
@@ -318,7 +318,7 @@
     }
   }
   .sidebar-background:after {
-    background: mat-color($app-primary, darker);
+    background: $brand-primary;
     opacity: .7;
   }
 

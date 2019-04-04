@@ -13,7 +13,6 @@ export interface PropertyDisplay {
 
 @Component({
   selector: 'app-charger-properties',
-  styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
   templateUrl: './charging-station-properties.html'
 })
 @Injectable()

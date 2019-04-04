@@ -1,4 +1,3 @@
-@import "../../../assets/scss/material-dashboard.scss";
 
 @keyframes status-blinking {
   50% {
@@ -10,11 +9,11 @@
   animation: status-blinking 2s ease-in-out infinite;
 }
 
-::ng-deep .charger-not-assigned {
+.charger-not-assigned {
   color: $state-danger-bg;
 }
 
-::ng-deep .charger-heartbeat {
+.charger-heartbeat {
   .charger-heartbeat-date {
   }
 
@@ -47,7 +46,7 @@
   }
 }
 
-::ng-deep .power-bar-text {
+.power-bar-text {
   text-align: center;
   font-size: 0.9rem;
 
@@ -57,7 +56,7 @@
 
 }
 
-::ng-deep .charger-connector-type {
+.charger-connector-type {
   text-align: center;
   width: 30px;
   height: 30px;
@@ -82,15 +81,15 @@
   height: 25px;
 }
 
-::ng-deep .fulldetails {
+.fulldetails {
   width: 100%;
 }
 
-::ng-deep .power-progress-bar {
+.power-progress-bar {
   min-width: 140px;
 }
 
-::ng-deep .connectors-details {
+.connectors-details {
     .mat-chip-list-wrapper { 
       justify-content: center 
     }

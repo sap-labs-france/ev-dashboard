@@ -11,7 +11,6 @@ import {UsersDataSource} from '../users/users-data-source-table';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  styleUrls: ['../dialogs.component.scss'],
   providers: [
     ChargersDataSource
   ]

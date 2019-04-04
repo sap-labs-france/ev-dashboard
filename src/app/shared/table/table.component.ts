@@ -22,7 +22,6 @@ const DEFAULT_POLLING = 10000;
  */
 @Component({
   selector: 'app-table',
-  styleUrls: ['table.component.scss'],
   templateUrl: 'table.component.html',
   animations: [
     trigger('detailExpand', [

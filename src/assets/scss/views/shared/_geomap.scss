@@ -1,6 +1,3 @@
-@import "../../../../assets/scss/material-dashboard.scss";
-@import "../../../../assets/scss/core/variables";
-
 
 .mat-dialog-content {
   padding: 4px 24px;
@@ -43,12 +40,12 @@ agm-map {
   flex: 1 1 auto;
 }
 
-::ng-deep agm-map.app-shadow div[tabindex] div:last-child {
+agm-map.app-shadow div[tabindex] div:last-child {
   color: white !important;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;
 }
 
-::ng-deep .app-btn-min-max-width {
+.app-btn-min-max-width {
   min-width: 10em !important;
   max-width: 12em !important;
 }

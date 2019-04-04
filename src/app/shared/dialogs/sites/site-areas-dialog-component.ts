@@ -10,8 +10,7 @@ import {KeyValue, SiteArea} from '../../../common.types';
 import {SiteAreasDataSourceTable} from './site-areas-data-source-table';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  styleUrls: ['../dialogs.component.scss'],
+  templateUrl: '../dialog-table-data-component.html'
 })
 export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea> {
   constructor(

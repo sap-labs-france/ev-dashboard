@@ -11,11 +11,11 @@ import { AuthorizationService } from '../../../../services/authorization-service
 import { MessageService } from '../../../../services/message.service';
 import { Utils } from '../../../../utils/Utils';
 import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
-import { SiteAreaDialogComponent } from '../site-area/site-area.dialog.component';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
+import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/sites/site-areas-filter-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -286,17 +286,20 @@ export class ChargingStationParametersComponent implements OnInit {
   public assignSiteArea() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    if (this.charger) {
-      dialogConfig.data = this.charger;
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'chargers.assign_site_area',
+      validateButtonTitle: 'general.select'
     }
     // Open
-    this.dialog.open(SiteAreaDialogComponent, dialogConfig)
+    this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        this.charger.siteArea = <SiteArea>result[0];
-        // tslint:disable-next-line:max-line-length
-        this.formGroup.markAsDirty();
-        this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
-        // this.formGroup.controls.siteArea.markAsPending();
+        if (result.length > 0 && result[0] && result[0].objectRef) {
+          this.charger.siteArea = <SiteArea>(result[0].objectRef);
+          this.formGroup.markAsDirty();
+          this.formGroup.controls.siteArea.setValue(
+            `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
+        }
       });
   }
 

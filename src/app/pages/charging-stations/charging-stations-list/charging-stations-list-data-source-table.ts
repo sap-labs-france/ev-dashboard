@@ -34,7 +34,6 @@ import {ChargingStationMoreActionsDialogComponent} from '../more-actions/chargin
 import {TableEditAction} from 'app/shared/table/actions/table-edit-action';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
-import {SiteAreaDialogComponent} from '../charging-station-settings/site-area/site-area.dialog.component';
 import {TableChargerRebootAction} from '../other-actions-button/table-charger-reboot-action';
 import {TableOpenInMapsAction} from 'app/shared/table/actions/table-open-in-maps-action';
 import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-component';
@@ -508,19 +507,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Open
       const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
     }
-  }
-
-  private _assignSiteArea(charger: Charger) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    if (charger) {
-      dialogConfig.data = charger;
-    }
-    // Open
-    this.dialog.open(SiteAreaDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
-      //        this.charger.siteArea = <SiteArea>result[0];
-    });
   }
 
   specificRowActions(charger: Charger) {

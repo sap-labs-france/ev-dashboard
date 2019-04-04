@@ -10,7 +10,6 @@ import {DialogsModule} from 'app/shared/dialogs/dialogs.module';
 import {FormattersModule} from 'app/shared/formatters/formatters.module';
 import {ChargingStationSettingsComponent} from './charging-station-settings.component';
 import {ChargingStationComponent} from './charging-station.component';
-import {SiteAreaDialogComponent} from './site-area/site-area.dialog.component';
 import {ChargingStationPropertiesComponent} from './properties/charging-station-properties.component';
 import {ChargingStationOCPPConfigurationComponent} from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import {ChargingStationParametersComponent} from './charger-parameters/charging-station-parameters.component';
@@ -37,7 +36,6 @@ import {ChartModule} from 'angular2-chartjs';
   entryComponents: [
     ChargingStationComponent,
     ChargingStationSettingsComponent,
-    SiteAreaDialogComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent,
@@ -46,14 +44,12 @@ import {ChartModule} from 'angular2-chartjs';
   declarations: [
     ChargingStationComponent,
     ChargingStationSettingsComponent,
-    SiteAreaDialogComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOCPPConfigurationComponent,
     ChargingStationParametersComponent
   ],
   exports: [
-    ChargingStationSettingsComponent,
-    SiteAreaDialogComponent
+    ChargingStationSettingsComponent
   ],
   providers: [
     ChargingStationComponent

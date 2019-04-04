@@ -16,8 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-site-cmp',
-  templateUrl: 'site.component.html',
-  styleUrls: ['./site.component.scss']
+  templateUrl: 'site.component.html'
 })
 export class SiteComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();

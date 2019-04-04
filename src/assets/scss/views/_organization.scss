@@ -1,0 +1,38 @@
+
+// Common
+input.app-organization-name-bold {
+  font-size: 2em;
+}
+
+div.app-organization-align-center {
+  align-items: center;
+}
+
+div.app-organization-image-border {
+  @include shadow-2dp();
+  border-radius: $border-radius-large;
+}
+
+// Company View
+div.app-company-image-padding {
+  padding: 5px;
+}
+
+.app-companies-logo {
+  max-width:  3em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Site
+div.app-site-image-padding {
+  padding: 10px;
+}
+
+// Site Area
+div.app-site-area-image-padding {
+  padding: 10px;
+}
+
+

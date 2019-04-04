@@ -21,7 +21,7 @@
                                                     {{'general.save' | translate}}
                                         </button> -->
                                         <button mat-raised-button class="btn btn-link" (click)="cancel()">
-                                                <i class="material-icons">close</i>
+                                            <i class="material-icons">close</i>
                                         </button>
                                     </ul>
                                 </div>
@@ -40,7 +40,8 @@
                                                     <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
                                                     <mat-error *ngIf="name.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                                                        <div [translate]="'general.error_max_length'"
+                                                            [translateParams]="{length: 100}"></div>
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -49,8 +50,9 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'sac.link.description' | translate}}"
-                                                        type="text" [formControl]="description">
+                                                    <input appSetAutoFocus matInput
+                                                        placeholder="{{'sac.link.description' | translate}}" type="text"
+                                                        [formControl]="description" required>
                                                     <mat-error *ngIf="description.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
                                                 </mat-form-field>
@@ -60,13 +62,18 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'sac.link.url' | translate}}"
-                                                        type="text" [formControl]="url" required>
+                                                    <input appSetAutoFocus matInput 
+                                                        placeholder="{{'sac.link.url' | translate}}" type="text"
+                                                        [formControl]="url" required>
                                                     <mat-error *ngIf="url.hasError('required')">{{"general.mandatory_field"
                                                         | translate}}</mat-error>
                                                     <mat-error *ngIf="url.hasError('pattern')">
                                                         <div [translate]="'general.error_url_pattern'"></div>
                                                     </mat-error>
+                                                    <button mat-button matSuffix mat-icon-button aria-label="View"
+                                                        (click)="openUrl()" [disabled]="url.hasError('pattern')">
+                                                        <mat-icon>remove_red_eye</mat-icon>
+                                                    </button>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -77,12 +84,13 @@
                         </div>
                         <div class="card-footer mat-dialog-actions" align="end">
                             <span class="app-spacer"></span>
-                            <button mat-raised-button appSetAutoFocus class="btn btn-info" [disabled]="!formGroup.valid || !formGroup.dirty" (click)="setLink(formGroup.value)">
-                              {{"sac.set_link" | translate}}
+                            <button mat-raised-button appSetAutoFocus class="btn btn-info"
+                                [disabled]="!formGroup.valid || !formGroup.dirty" (click)="setLink(formGroup.value)">
+                                {{"sac.set_link" | translate}}
                             </button>
                             <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
-                              cdkFocusInitial>{{"general.cancel" | translate}}</button>
-                          </div>
+                                cdkFocusInitial>{{"general.cancel" | translate}}</button>
+                        </div>
                     </div>
                 </form>
             </div>

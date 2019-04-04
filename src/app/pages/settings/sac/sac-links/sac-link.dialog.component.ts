@@ -55,15 +55,26 @@ export class SacLinkDialogComponent implements OnInit {
           Validators.required,
           Validators.maxLength(100)
         ])),
-      'description': new FormControl(this.currentSacLink.description),
+      'description': new FormControl(this.currentSacLink.description, Validators.required),
       'url': new FormControl(this.currentSacLink.url,
-        Validators.pattern(this.urlPattern))
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(this.urlPattern)
+        ]))
     });
 
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.description = this.formGroup.controls['description'];
     this.url = this.formGroup.controls['url'];
+
+    // listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 
   cancel() {
@@ -74,11 +85,14 @@ export class SacLinkDialogComponent implements OnInit {
     this.dialogRef.close(sacLink);
   }
 
+  openUrl() {
+    window.open(this.url.value);
+  }
   // public closeDialog() {
   //     this.dialogRef.close();
   // }
 
-  // public onClose() {
-  //   this.dialogRef.close();
-  // }
+  public onClose() {
+    this.dialogRef.close();
+  }
 }

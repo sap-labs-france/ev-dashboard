@@ -30,8 +30,8 @@
       <div class="mat-toolbar-row">
         <button mat-raised-button class="btn btn-danger" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-            <i class="material-icons mr-2">save</i>
-              {{'general.save' | translate}}
+          <i class="material-icons mr-2">save</i>
+          {{'general.save' | translate}}
         </button>
       </div>
       <div class="row">
@@ -59,7 +59,9 @@
         </div>
       </div>
       <!-- SAC Links -->
-      <legend>{{'sac.links' | translate}}</legend>
+      <div style="margin-top: 1em">
+        <legend>{{'sac.links' | translate}}</legend>
+      </div>
       <app-table [dataSource]="sacLinksDataSource"></app-table>
     </div>
   </div>

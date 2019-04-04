@@ -85,7 +85,7 @@ export class SettingsSacComponent implements OnInit {
       }
 
       // set SAC Links Data Source
-      this.sacLinksDataSource.setSacSettings(sacContent);
+      this.sacLinksDataSource.initSacLinks(sacContent.links, this.formGroup);
       this.sacLinksDataSource.loadData();
 
       this.formGroup.markAsPristine();
@@ -116,6 +116,10 @@ export class SettingsSacComponent implements OnInit {
   }
 
   public save(content) {
+    // add links to content
+    content.links = this.sacLinksDataSource.getSacLinks();
+
+    // create or update
     if (this.currentSettingID) {
       this._updateSACConfiguration(content);
     } else {

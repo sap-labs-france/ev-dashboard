@@ -1,5 +1,5 @@
 import {OcpiendpointDetail} from 'app/common.types';
-import {ChipComponent, TYPE_DEFAULT, TYPE_DANGER} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_GREY, TYPE_DANGER} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
 
@@ -19,7 +19,7 @@ export class OcpiendpointDetailFailureEvsesStatusComponent extends ChipComponent
     if (this.row.failureNbr > 0) {
       this.type += TYPE_DANGER;
     } else {
-      this.type += TYPE_DEFAULT;
+      this.type += TYPE_GREY;
     }
   }
 }

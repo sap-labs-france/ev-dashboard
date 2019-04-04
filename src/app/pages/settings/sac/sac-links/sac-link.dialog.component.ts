@@ -11,8 +11,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  templateUrl: './sac-link.dialog.component.html',
-  styleUrls: [ '../../../../shared/dialogs/dialogs.component.scss']
+  templateUrl: './sac-link.dialog.component.html'
 })
 export class SacLinkDialogComponent implements OnInit {
   public formGroup: FormGroup;

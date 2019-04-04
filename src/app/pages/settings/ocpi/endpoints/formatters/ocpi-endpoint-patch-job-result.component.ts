@@ -1,5 +1,5 @@
 import {Ocpiendpoint} from '../../../../../common.types';
-import {ChipComponent, TYPE_DANGER, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -39,7 +39,7 @@ export class OcpiendpointPatchJobResultComponent extends ChipComponent {
         this.text = this.translateService.instant('general.success');
       }
     } else {
-      this.type += TYPE_DEFAULT;
+      this.type += TYPE_GREY;
       this.text = this.translateService.instant('ocpiendpoints.background_job_no_run');
     }
   }

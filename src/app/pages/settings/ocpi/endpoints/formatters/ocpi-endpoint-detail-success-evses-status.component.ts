@@ -1,5 +1,5 @@
 import {OcpiendpointDetail} from 'app/common.types';
-import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_SUCCESS, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
 
@@ -19,7 +19,7 @@ export class OcpiendpointDetailSuccessEvsesStatusComponent extends ChipComponent
     if (this.row.successNbr > 0) {
       this.type += TYPE_SUCCESS;
     } else {
-      this.type += TYPE_DEFAULT;
+      this.type += TYPE_SUCCESS;
     }
   }
 }

@@ -10,7 +10,7 @@
           <!-- Action Button -->
           <button mat-raised-button (click)="actionTriggered(actionDef)"
                   *ngIf="actionDef.type === 'button'"
-                  [class]="(actionDef.class ? actionDef.class + ' btn btn-info' : 'btn btn-info')"
+                  [class]="(actionDef.class ? actionDef.class + ' btn btn-primary' : 'btn btn-primary')"
                   appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
               <!-- <span class="mat-button-wrapper"> -->
                 <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
@@ -81,7 +81,7 @@
             <!-- Refresh Action Button -->
             <button mat-raised-button (click)="actionTriggered(actionRightDef)"
                     *ngIf="actionRightDef.id === 'refresh'"
-                    [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info' : 'btn btn-info')"
+                    [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-primary' : 'btn btn-primary')"
                     appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
@@ -98,7 +98,7 @@
               <button mat-raised-button
                   (click)="actionTriggered(actionRightDef)"
                   *ngIf="actionRightDef.type === 'button'"
-                  [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info' : 'btn btn-info')"
+                  [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-primary' : 'btn btn-primary')"
                   [class.btn-just-icon]="!actionRightDef.name"
                   appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <!-- <span *ngIf="actionRightDef.name" class="mat-button-wrapper"> -->

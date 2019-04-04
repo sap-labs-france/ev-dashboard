@@ -70,7 +70,7 @@
 }
 
 .mat-tab-header-pagination {
-  background: $brand-info;
+  background: $brand-primary;
   box-shadow: initial;
 }
 
@@ -90,7 +90,7 @@
   color: $brand-background !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $brand-info;
+  background: $brand-primary;
   @include shadow-big-color($brand-info);
 }
 
@@ -140,7 +140,7 @@
 }
 
 .mat-tab-label-active {
-  color: $brand-text !important;
+  color: $brand-primary !important;
   background-color: $brand-background !important;
   border: 0;
   margin: 0;

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="form-group">
             <div class="card">
-                <div class="card-header card-header-info card-header-icon">
+                <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
                         <i class="material-icons">settings_power</i>
                     </div>
@@ -17,7 +17,7 @@
                             textPosition="bottom"></app-smart-charging-power-slider>
                     </div>
                     <div class="col-md-12 text-right">
-                        <button mat-raised-button class="btn btn-info" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
+                        <button mat-raised-button class="btn btn-primary" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
                             (click)="applyPowerLimit()">
                             <!-- <span class="mat-button-wrapper"> -->
                                 <i class="material-icons mr-2">save</i>

@@ -1,11 +1,11 @@
 <div [class]="'card ' + (cardClass ? cardClass : 'card-stats')" >
-    <div [class]="'card-header card-header-icon ' + ( headerClass ? headerClass : 'card-header-info')">
+    <div [class]="'card-header card-header-icon ' + ( headerClass ? headerClass : 'card-header-primary')">
         <div class="card-icon">
             <i class="material-icons">{{cardIcon}}</i>
         </div>
         <h4 *ngIf="cardTitle" [class]="'card-title ' + titleClass">{{ cardTitle | translate }}</h4>
         <div [class]="'card-category btn-group ' + categoryClass">
-            <button mat-raised-button *ngFor="let button of chartButtons" class="btn btn-info" (click)="nextChart(button.name)"
+            <button mat-raised-button *ngFor="let button of chartButtons" class="btn btn-primary" (click)="nextChart(button.name)"
                 [class.app-card-stats]="chartActiveButton.name === button.name" [disabled]="chartActiveButton.name === button.name || animationOngoing">
                 {{button.title | translate}}
             </button>

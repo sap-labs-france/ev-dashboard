@@ -95,7 +95,7 @@
                     <div [class.col]="charger.connectors.length <= 1" [class.col-6]="charger.connectors.length >= 2" 
                         [class.mb-4]="charger.connectors.length > 2" class="charger-dialog-connector">
                         <div class="card card-settings connector-card pt-2">
-                            <div class="card-header card-header-info card-header-icon">
+                            <div class="card-header card-header-primary card-header-icon">
                                 <div class="card-icon">
                                     <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
                                         <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value"></mat-icon>

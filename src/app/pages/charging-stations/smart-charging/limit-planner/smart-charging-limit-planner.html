@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="formGroup">
     <div class="form-group">
         <div class="card">
-            <div class="card-header card-header-info card-header-icon">
+            <div class="card-header card-header-primary card-header-icon">
                 <div class="card-icon">
                     <i class="material-icons">schedule</i>
                 </div>
@@ -11,11 +11,11 @@
             </div>
             <div class="card-body">
                 <div class="row col-md-12 text-left">
-                    <button mat-raised-button class="btn btn-info " (click)="resetSlots()">
+                    <button mat-raised-button class="btn btn-primary " (click)="resetSlots()">
                             <i class="material-icons mr-2">clear</i>
                             {{'chargers.smart_charging.reset_button' | translate}}
                     </button>
-                    <button mat-raised-button class="btn btn-info" (click)="applyPowerLimit()">
+                    <button mat-raised-button class="btn btn-primary" (click)="applyPowerLimit()">
                             <i class="material-icons mr-2">save</i>
                             {{'general.apply' | translate}}
                     </button>
@@ -118,7 +118,7 @@
                                 </div>
                             </ng-container>
                             <div class="col-md-12 text-left">
-                                <button mat-raised-button class="btn btn-info " (click)="addSlot()">
+                                <button mat-raised-button class="btn btn-primary " (click)="addSlot()">
                                         <i class="material-icons mr-2">add</i>
                                         {{'chargers.smart_charging.add_slot_button' |
                                             translate}}

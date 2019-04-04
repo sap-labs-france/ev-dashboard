@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <form class="form" [formGroup]="formGroup">
                     <div class="card card-profile card-testimonial">
-                        <div class="card-header card-header-tabs card-header-info">
+                        <div class="card-header card-header-tabs card-header-primary">
                             <div class="nav-tabs-navigation">
                                 <div class="nav-tabs-wrapper">
                                     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -104,7 +104,7 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <div align="right" pull-right>
-                                                    <button mat-raised-button class="btn btn-info btn-round endpoint-dialog-btn-min-width"
+                                                    <button mat-raised-button class="btn btn-primary btn-round endpoint-dialog-btn-min-width"
                                                         (click)="generateLocalToken(formGroup.value)">
                                                             <i class="material-icons mr-2">vpn_key</i>
                                                                 {{'ocpiendpoints.generateNewToken'
@@ -124,7 +124,7 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <div align="right" pull-right>
-                                                    <button mat-raised-button class="btn btn-info btn-round endpoint-dialog-btn-min-width"
+                                                    <button mat-raised-button class="btn btn-primary btn-round endpoint-dialog-btn-min-width"
                                                         (click)="testConnection(formGroup.value)" [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
                                                             <i class="material-icons mr-2">touch_app</i>
                                                                 {{'ocpiendpoints.testConnection'

@@ -33,8 +33,6 @@ export const POWER_UNIT_MAP =
 const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
-  styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss',
-    './charging-station-parameters.scss'],
   templateUrl: './charging-station-parameters.html'
 })
 @Injectable()

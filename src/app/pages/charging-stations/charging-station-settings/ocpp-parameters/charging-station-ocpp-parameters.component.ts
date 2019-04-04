@@ -15,7 +15,6 @@ import { DialogService } from 'app/services/dialog.service';
 
 @Component({
   selector: 'app-charger-ocpp-configuration',
-  styleUrls: ['../../charging-stations-data-source-table.scss', '../../../../shared/table/table.component.scss'],
   templateUrl: './charging-station-ocpp-parameters.html'
 })
 @Injectable()

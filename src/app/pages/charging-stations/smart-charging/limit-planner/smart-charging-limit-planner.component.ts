@@ -36,8 +36,7 @@ export const PROFILE_TYPE_MAP =
 
 @Component({
   selector: 'app-smart-charging-limit-planner',
-  templateUrl: 'smart-charging-limit-planner.html',
-  styleUrls: ['smart-charging-limit-planner-chart.component.scss']
+  templateUrl: 'smart-charging-limit-planner.html'
 })
 export class SmartChargingLimitPlannerComponent implements OnInit {
   @Input() charger: Charger;

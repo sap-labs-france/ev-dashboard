@@ -9,8 +9,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import {} from '@agm/core'
 
 @Component({
-  templateUrl: './geomap.dialog.component.html',
-  styleUrls: ['./geomap.dialog.component.scss'],
+  templateUrl: './geomap.dialog.component.html'
 })
 export class GeoMapDialogComponent {
   private map: any;

@@ -10,7 +10,6 @@ import { KeyValue, User } from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  styleUrls: ['../dialogs.component.scss'],
   providers: [
     UsersDataSource
   ]

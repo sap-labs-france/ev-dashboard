@@ -14,8 +14,7 @@ const LARGE_SLIDER_STEP = 1000;
 
 @Component({
   selector: 'app-smart-charging-power-slider',
-  templateUrl: 'smart-charging-power-slider.component.html',
-  styleUrls: ['../../../shared/table/table.component.scss', './smart-charging-power-slider.component.scss']
+  templateUrl: 'smart-charging-power-slider.component.html'
 })
 @Injectable()
 export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit {

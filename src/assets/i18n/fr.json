@@ -656,7 +656,7 @@
     "single_phase": "Courant Alternatif - Monophasé",
     "tri_phases": "Courant Alternatif - Triphasé",
     "site_area": "Site - Zone",
-    "assign_site_area": "Assigner une zone à",
+    "assign_site_area": "Assigner une zone",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "URL Invalide",

@@ -33,8 +33,8 @@
                                 <div class="tab-pane active" id="profile">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <div class="rotating-card-container app-image-border" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
-                                                <div class="card card-rotate card-background app-image-padding" style="margin-top: 0px;">
+                                            <div class="rotating-card-container app-organization-image-border" [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                                                <div class="card card-rotate card-background app-site-image-padding" style="margin-top: 0px;">
                                                     <div class="front front-background" [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                                                         <div class="card-body">
                                                         </div>
@@ -65,7 +65,7 @@
                                             <div class="form-group">
                                                 <mat-form-field>
                                                     <input appSetAutoFocus matInput placeholder="{{'sites.name' | translate}}"
-                                                        class="app-site-name-bold" type="text" [formControl]="name"
+                                                        class="app-organization-name-bold" type="text" [formControl]="name"
                                                         required>
                                                     <mat-error *ngIf="name.hasError('required')">
                                                         {{"general.mandatory_field" | translate}}

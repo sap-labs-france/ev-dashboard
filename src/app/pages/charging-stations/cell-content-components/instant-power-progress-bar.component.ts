@@ -3,7 +3,6 @@ import {Charger, Connector} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerW === 0">

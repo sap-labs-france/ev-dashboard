@@ -49,7 +49,7 @@ $btn-info-color: $brand-background !default;
 $btn-info-bg: $brand-info !default;
 $btn-info-border-color: $btn-info-bg !default;
 //
-$btn-icon-white-color: $brand-primary !default;
+$btn-icon-white-color: $brand-text !default;
 $btn-icon-white-bg: $brand-background !default;
 $btn-icon-white-border-color: $brand-background !default;
 //
@@ -62,18 +62,18 @@ $btn-warning-bg: $brand-warning !default;
 $btn-warning-border-color: $btn-warning-bg !default;
 //
 $btn-danger-color: $brand-background !default;
-$btn-danger-bg: $brand-danger !default;
+$btn-danger-bg: $brand-warn !default;
 $btn-danger-border-color: $btn-danger-bg !default;
 
 $btn-rose-color: $brand-background !default;
 $btn-rose-bg: $brand-info !default;
 $btn-rose-border-color: $btn-rose-bg !default;
 
-$btn-default-color: $brand-primary !default;
+$btn-default-color: $brand-text !default;
 $btn-default-bg: $brand-background !default;
 $btn-default-border-color: $brand-primary !default;
 
-$btn-inverse-color: $brand-primary !default;
+$btn-inverse-color: $brand-text !default;
 $btn-inverse-bg: $brand-background !default;
 $btn-inverse-border-color: $brand-primary !default;
 

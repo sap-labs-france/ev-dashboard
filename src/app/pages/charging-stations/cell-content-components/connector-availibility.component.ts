@@ -4,7 +4,6 @@ import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WAR
 
 @Component({
   selector: 'app-connector-availability',
-  styleUrls: ['../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../shared/component/chip/chip.component.html'
 })
 export class ConnectorAvailibilityComponent extends ChipComponent {

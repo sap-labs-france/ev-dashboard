@@ -368,6 +368,20 @@ export class CentralServerService {
       );
   }
 
+  public getCharger(id: string) : Observable<Charger> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
+      {
+        headers: this._buildHttpHeaders(),
+        params: {ID : id}
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   // tslint:disable-next-line:max-line-length
   public getChargersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerInErrorResult> {
     // Verify init

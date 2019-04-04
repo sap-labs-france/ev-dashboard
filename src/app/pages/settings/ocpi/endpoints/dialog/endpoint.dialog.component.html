@@ -94,9 +94,6 @@
                                         </div>
 
                                         <!-- OCPI Endpoint - Local Token -->
-                                        <!-- <div class="col-md-12" pull-left> -->
-                                        <!-- <legend>{{'ocpiendpoints.tokens' | translate}}</legend> -->
-                                        <!-- </div> -->
                                         <div class="col-md-12">
                                             <div class="form-group flex-nowrap">
                                                 <mat-form-field class="endpoint-dialog-no-padding-bottom">
@@ -107,7 +104,7 @@
                                                     </mat-error>
                                                 </mat-form-field>
                                                 <div align="right" pull-right>
-                                                    <button mat-raised-button class="btn btn-info btn-round endpoint-dialog--btn-min-width"
+                                                    <button mat-raised-button class="btn btn-info btn-round endpoint-dialog-btn-min-width"
                                                         (click)="generateLocalToken(formGroup.value)">
                                                             <i class="material-icons mr-2">vpn_key</i>
                                                                 {{'ocpiendpoints.generateNewToken'
@@ -116,19 +113,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-12">
-                                            <button class="btn btn-danger btn-round mat-raised-button" (click)="generateLocalToken(formGroup.value)">
-                                                <span class="mat-button-wrapper">
-                                                    <i class="material-icons mr-2">vpn_key</i>
-                                                    <span class="btn-label">{{'ocpiendpoints.generateNewToken' |
-                                                        translate}}</span>
-                                                </span>
-                                            </button>
-                                        </div> -->
                                         <!-- OCPI Endpoint - Token -->
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <mat-form-field class="endpoint-dialog--no-padding-bottom">
+                                                <mat-form-field class="endpoint-dialog-no-padding-bottom">
                                                     <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.token' | translate}}"
                                                         type="text" [formControl]="token">
                                                     <mat-error *ngIf="token.hasError('maxlength')">
@@ -145,14 +133,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Tache de mis a jour-->
-                                        <!-- <div class="col-md-12">
-                                            <div class="form-group" style="text-align: left">
-                                                <mat-checkbox [formControl]="isBackgroundPatchJobActive">
-                                                    {{'ocpiendpoints.patchJobCheckbox' | translate}}
-                                                </mat-checkbox>
-                                            </div>
-                                        </div> -->
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>

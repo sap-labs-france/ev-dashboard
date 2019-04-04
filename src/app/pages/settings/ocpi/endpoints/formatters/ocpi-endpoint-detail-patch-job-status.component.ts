@@ -1,5 +1,5 @@
 import {OcpiendpointDetail} from 'app/common.types';
-import {ChipComponent, TYPE_DEFAULT, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_GREY, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
 
@@ -20,7 +20,7 @@ export class OcpiendpointDetailPatchJobStatusComponent extends ChipComponent {
       this.type += TYPE_SUCCESS;
     } else {
       this.text = 'ocpiendpoints.status_inactive';
-      this.type += TYPE_DEFAULT;
+      this.type += TYPE_GREY;
     }
   }
 }

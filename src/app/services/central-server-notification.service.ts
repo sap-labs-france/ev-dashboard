@@ -30,6 +30,7 @@ export class CentralServerNotificationService {
   private subjectSetting = new Subject<SubjectInfo>();
   private subjectOcpiendpoints = new Subject<SubjectInfo>();
   private subjectOcpiendpoint = new Subject<SubjectInfo>();
+  private subjectSacLinks = new Subject<SubjectInfo>();
   private socket;
 
   constructor() {
@@ -125,6 +126,10 @@ export class CentralServerNotificationService {
 
   public getSubjectOcpiendpoints(): Observable<SubjectInfo> {
     return this.subjectOcpiendpoints.asObservable();
+  }
+
+  public getSubjectSacLinks(): Observable<SubjectInfo> {
+    return this.subjectSacLinks.asObservable();
   }
 
   public getSubjectOcpiendpoint(): Observable<SubjectInfo> {

@@ -1,6 +1,6 @@
 import {KeyValue, Ocpiendpoint} from '../../../../../common.types';
 import {Constants} from '../../../../../utils/Constants';
-import {ChipComponent, TYPE_DEFAULT, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
+import {ChipComponent, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
 @Component({
@@ -31,7 +31,7 @@ export class OcpiendpointStatusComponent extends ChipComponent {
         this.type += TYPE_WARNING;
         break;
       default:
-        this.type += TYPE_DEFAULT;
+        this.type += TYPE_GREY;
     }
   }
 }

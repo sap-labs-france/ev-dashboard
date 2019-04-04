@@ -37,7 +37,7 @@ th {
 }
 
 tr.mat-row {
-  height: initial;
+  height: initial !important;
 }
 
 th:first-child, td:first-child {

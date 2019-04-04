@@ -129,6 +129,10 @@
 .mat-tab-disabled {
   margin-left: auto !important;
   padding: 0 !important;
+
+  &:hover {
+    background: transparent;
+  }
 }
 
 .mat-tab-label-active {

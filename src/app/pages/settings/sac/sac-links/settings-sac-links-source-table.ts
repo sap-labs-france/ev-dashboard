@@ -8,13 +8,11 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, SacLink } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { FormGroup } from '@angular/forms';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Utils } from 'app/utils/Utils';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
@@ -22,8 +20,6 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
-import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { SacLinkDialogComponent } from './sac-link.dialog.component';
 
@@ -178,7 +174,6 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
 
   public getTableActionsRightDef(): TableActionDef[] {
     return [
-      // new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }

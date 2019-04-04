@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form class="form" [formGroup]="formGroup">
+                <form class="form" [formGroup]="formGroup" (keydown.enter)="$event.preventDefault()">
                     <div class="card card-profile card-testimonial">
                         <div class="card-header card-header-tabs card-header-info">
                             <div class="nav-tabs-navigation">
@@ -15,11 +15,6 @@
                                             </a>
                                         </li>
                                         <span class="toolbar-spacer"></span>
-                                        <!-- <button mat-raised-button class="btn btn-link" (click)="save(formGroup.value)"
-                                            [disabled]="!formGroup.valid || !formGroup.dirty">
-                                                <i class="material-icons mr-2">save</i>
-                                                    {{'general.save' | translate}}
-                                        </button> -->
                                         <button mat-raised-button class="btn btn-link" (click)="cancel()">
                                             <i class="material-icons">close</i>
                                         </button>
@@ -84,12 +79,11 @@
                         </div>
                         <div class="card-footer mat-dialog-actions" align="end">
                             <span class="app-spacer"></span>
-                            <button mat-raised-button appSetAutoFocus class="btn btn-info"
-                                [disabled]="!formGroup.valid || !formGroup.dirty" (click)="setLink(formGroup.value)">
+                            <button mat-raised-button appSetAutoFocus class="btn btn-info" (click)="setLink(formGroup.value)"
+                                [disabled]="!formGroup.valid || !formGroup.dirty" cdkFocusInitial>
                                 {{"sac.set_link" | translate}}
                             </button>
-                            <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
-                                cdkFocusInitial>{{"general.cancel" | translate}}</button>
+                            <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()">{{"general.cancel" | translate}}</button>
                         </div>
                     </div>
                 </form>

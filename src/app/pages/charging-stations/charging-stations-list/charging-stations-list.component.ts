@@ -24,7 +24,7 @@ export class ChargingStationsListComponent implements OnInit {
   ngOnInit(): void {
     this.chargingStationID = this.activatedRoute.snapshot.queryParams['ChargingStationID'];
     if(this.chargingStationID){
-      this.centralServerService.getChargingStation(this.chargingStationID).subscribe(chargingStation => {
+      this.centralServerService.getCharger(this.chargingStationID).subscribe(chargingStation => {
         if(chargingStation) {
           this.chargingStationsListDataSource.showChargingStationDialog(chargingStation);
         }

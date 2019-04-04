@@ -368,7 +368,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStation(id: string) : Observable<Charger> {
+  public getCharger(id: string) : Observable<Charger> {
     // Verify init
     this._checkInit();
     // Execute the REST service

@@ -18,7 +18,6 @@ const FADE_OUT_CLASS = 'fade-out';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.scss'],
   animations: [
     trigger('SlideChangeStart', [ // used for first half of the animation before changing model data
       transition(':enter', []),

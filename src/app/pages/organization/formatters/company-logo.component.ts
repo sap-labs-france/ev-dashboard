@@ -4,10 +4,9 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
 
 @Component({
   selector: 'app-company-logo',
-  styleUrls: ['company-logo.component.scss'],
   template: `
     <div class="logo-container">
-      <img *ngIf="row.logo" class="companies-logo" [src]='row.logo'>
+      <img *ngIf="row.logo" class="app-companies-logo" [src]='row.logo'>
     </div>
   `
 })

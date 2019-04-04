@@ -21,12 +21,12 @@
                   <strong>{{item.key | translate}}</strong>
                 </td>
                 <td class="d-flex flex-grow-1 justif-content-center">
-                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-info btn-just-icon"
+                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-primary btn-just-icon"
                       (click)="changeParameter(item)"
                       appTooltip data-toggle="tooltip" [title]="item.tooltip | translate">
                       <i class="material-icons">{{item.icon}}</i>
                     </button>
-                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-info btn-just-icon"
+                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-primary btn-just-icon"
                       (click)="clearParameter(item)" [hidden]="item.icon === 'edit'"
                       appTooltip data-toggle="tooltip" [title]="'general.cancel' | translate">
                       <i class="material-icons">clear</i>

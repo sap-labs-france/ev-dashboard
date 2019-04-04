@@ -128,6 +128,10 @@
   &:hover {
     background-color: rgba($brand-background, .1);
   }
+
+  .btn-link {
+    color: white !important;
+  }
 }
 
 .mat-tab-disabled {

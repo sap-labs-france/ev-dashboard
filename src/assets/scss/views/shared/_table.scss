@@ -184,7 +184,6 @@ tr.mat-header-row {
 }
 
 .details-column-row i {
-  padding-top: 5px;
   cursor: pointer;
 }
 
@@ -265,6 +264,14 @@ tr.element-row:not(.expanded-row):active {
 
 .refresh-icon {
   min-height: 24px;
+}
+
+.mat-slide-toggle.mat-checked {
+  .mat-slide-toggle-thumb {
+    background-color: $brand-primary;
+  }
+  .mat-slide-toggle-bar {
+  }
 }
 
 .auto-refresh-slider {

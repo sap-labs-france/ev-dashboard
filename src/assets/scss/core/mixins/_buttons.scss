@@ -182,12 +182,9 @@
     $focus-border,
     $active-border);
 
-  @include shadow-4dp-color($color);
-
   &:focus,
   &:active,
   &:hover {
-    @include button-shadow-color($color);
   }
 
   &.btn-link {

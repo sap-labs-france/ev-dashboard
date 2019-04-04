@@ -16,8 +16,6 @@
   border: 0;
   border-radius: $border-radius-base;
   outline: 0;
-  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: box-shadow, transform;
   @include undo-bs-tab-focus();
   @media screen and (max-width: $res435) {
     width: 100%;
@@ -35,7 +33,7 @@
       color: $brand-accent;
     }
     &.btn-link {
-      color: $brand-text;
+      color: white;
       background: transparent;
       box-shadow: none;
     }
@@ -52,9 +50,6 @@
   // btn-raised
   &.btn-raised,
   .btn-group-raised & {
-    // baseline shadow
-    // @include box-shadow($bmd-shadow-2dp);
-
     // reverse any of the above for links
     &.btn-link {
       box-shadow: none;
@@ -190,8 +185,6 @@
     .bg-inverse & {
       color: $bmd-inverse-btn-disabled;
     }
-
-    // flat buttons shouldn't lose transparency on disabled hover/focus
   }
 }
 
@@ -201,22 +194,8 @@
   position: relative;
   margin: 10px 1px;
 
-  // spec: https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons
-  //&.open {
-  //  .dropdown-toggle {
-  //  }
-  //
-  //  > .dropdown-toggle.btn {
-  //    @include bmd-raised-button-color-bg();
-  //  }
-  //}
-
   .dropdown-menu {
     border-radius: 0 0 $border-radius $border-radius;
-  }
-
-  &.btn-group-raised {
-    @include box-shadow($bmd-shadow-2dp);
   }
 
   .mat-raised-button.btn + .mat-raised-button.btn,

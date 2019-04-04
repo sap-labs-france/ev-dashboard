@@ -22,7 +22,11 @@ $foreground-props: base, divider, dividers, disabled, disabled-button, disabled-
 .color-fore {
   width: 425px;
   color: white;
-} 
+}
+
+.color-bg-primary {
+  background: $brand-primary;
+}
 
 @mixin palette($app-palette, $palette-name) {
   @each $palette-level in $palette-levels {

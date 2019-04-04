@@ -43,7 +43,7 @@
 }
 
 .mat-option.mat-selected:not(.mat-option-multiple) {
-  background: $brand-info !important;
+  background: $brand-primary !important;
   .mat-option-text {
     color: $brand-background !important;
   }
@@ -54,7 +54,7 @@
   transition: all 150ms linear;
 
   &:hover {
-    background: $brand-info !important;
+    background: $brand-primary !important;
     .mat-option-text {
       color: $brand-background !important;
     }

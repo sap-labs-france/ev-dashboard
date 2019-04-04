@@ -3,7 +3,6 @@ import { TableDef } from 'app/common.types';
 import { DetailComponent } from 'app/shared/table/detail-component/detail-component.component';
 import { ConnectorsErrorDataSource } from './connectors-error-data-source-detail-table';
 @Component({
-  styleUrls: ['../../charging-stations-data-source-table.scss'],
   template: '<app-table class="connectors-details" [dataSource]="connectorsErrorDataSource"></app-table>',
   providers: [
     ConnectorsErrorDataSource

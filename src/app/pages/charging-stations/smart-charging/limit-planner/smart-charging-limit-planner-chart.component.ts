@@ -12,7 +12,6 @@ import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component'
 
 @Component({
   selector: 'app-limit-planner-chart',
-  styleUrls: ['smart-charging-limit-planner-chart.component.scss'],
   template: `
     <div class="chart-container">
       <div class="chart">

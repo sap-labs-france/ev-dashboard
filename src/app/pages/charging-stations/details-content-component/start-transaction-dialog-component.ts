@@ -7,8 +7,7 @@ export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
 export const BUTTON_SELECT_USER = 'SELECT_USER';
 
 @Component({
-  templateUrl: './start-transaction-dialog-component.html',
-  styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
+  templateUrl: './start-transaction-dialog-component.html'
 })
 export class StartTransactionDialogComponent {
   public title = '';

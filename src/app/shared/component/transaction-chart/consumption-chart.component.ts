@@ -10,7 +10,6 @@ import {ConsumptionValue} from '../../../common.types';
 
 @Component({
   selector: 'app-transaction-chart',
-  styleUrls: ['consumption-chart.component.scss'],
   templateUrl: 'consumption-chart.component.html'
 })
 

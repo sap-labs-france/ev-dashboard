@@ -1,8 +1,3 @@
-@import "../../../assets/scss/core/variables";
-@import "../../../assets/scss/core/mixins/colored-shadows";
-@import "../../../assets/scss/core/mixins/vendor-prefixes";
-@import "../../../assets/scss/core/mixins/animations";
-@import "../../../assets/scss/core/misc";
 
 $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
@@ -272,7 +267,7 @@ tr.element-row:not(.expanded-row):active {
   min-height: 24px;
 }
 
-::ng-deep .auto-refresh-slider {
+.auto-refresh-slider {
     margin-right: 0.5rem !important;
       & .mat-slide-toggle-label .mat-slide-toggle-bar  {
         margin-right: 4px !important;

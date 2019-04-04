@@ -10,8 +10,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
  */
 @Component({
   selector: 'app-card-keyfigure',
-  templateUrl: './card-keyfigure.component.html',
-  styleUrls: ['./card-keyfigure.scss'],
+  templateUrl: './card-keyfigure.component.html'
 })
 export class CardKeyfigureComponent implements OnChanges {
 

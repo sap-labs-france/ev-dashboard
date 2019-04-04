@@ -4,7 +4,6 @@ import {ChargingStationsListDataSource} from './charging-stations-list-data-sour
 @Component({
   selector: 'app-charging-stations-list',
   templateUrl: 'charging-stations-list.component.html',
-  styleUrls: ['../charging-stations-data-source-table.scss'],
   styles: ['.fulldetails app-detail-component-container{width: 100%}'],
   providers: [
     ChargingStationsListDataSource

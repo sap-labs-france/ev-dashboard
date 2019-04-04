@@ -137,7 +137,7 @@
 
 .mat-tab-label-active {
   color: $brand-primary !important;
-  background-color: $brand-background;
+  background-color: $brand-background !important;
   border: 0;
   margin: 0;
   border-radius: $border-radius-base;

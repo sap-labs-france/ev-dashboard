@@ -9,14 +9,14 @@
     </div>
   </div>
   <div class="d-inline-flex align-items-center navigation-button">
-    <button mat-raised-button (click)="changeSite('prev')" class="d-flex mx-1 btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button">
+    <button mat-raised-button (click)="changeSite('prev')" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab-mini btn-round prev-next-button">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-raised-button (click)="pauseSlide()" class="d-flex mx-1 btn btn-info btn-just-icon btn-fab btn-round play-button">
+    <button mat-raised-button (click)="pauseSlide()" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab btn-round play-button">
       <mat-icon *ngIf="!isCarouselPaused">pause</mat-icon>
       <mat-icon *ngIf="isCarouselPaused">play_arrow</mat-icon>
     </button>
-    <button mat-raised-button (click)="changeSite('next')" class="d-flex mx-1 btn btn-info btn-just-icon btn-fab-mini btn-round prev-next-button">
+    <button mat-raised-button (click)="changeSite('next')" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab-mini btn-round prev-next-button">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>
@@ -32,7 +32,7 @@
                 style="min-height:320px">
                 <div class="d-flex col-md-4 mx-1">
                   <div class="card card-stats gauge-card">
-                    <div class="card-header fade-out-text card-header-info card-header-icon">
+                    <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
                         <i class="material-icons">ev_station</i>
                       </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="d-flex col-md-4 mx-1">
                   <div class="d-flex card  card-stats ">
-                    <div class="card-header fade-out-text card-header-info card-header-icon">
+                    <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
                         <i class="material-icons">location_on</i>
                       </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="d-flex col-md-4 mx-1  ">
                   <div class="d-flex card  card-stats gauge-card">
-                    <div class="card-header fade-out-text card-header-info card-header-icon">
+                    <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
                         <i class="material-icons">flash_on</i>
                       </div>
@@ -120,33 +120,33 @@
                 <div class="d-flex col-md-6 mx-1">
                   <app-card-chart class="col d-flex px-0" #realtimeChart chartType="line" cardIcon="flash_on" [cardTitle]="'dashboard.realtime_title'"
                     [chartButtons]="buttonsRealtimeChart" [cardFooter]="chartRealtimeFooter" [rotationInterval]="realtimeInterval"
-                    headerClass="fade-out-text card-header-info" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
+                    headerClass="fade-out-text card-header-primary" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
                 </div>
                 <div class="d-flex col-md-6 mx-1">
                   <app-card-chart class="d-flex col px-0" #statisticsChart chartType="bar" cardIcon="history" [cardTitle]="'dashboard.statistics_title'"
                     [chartButtons]="buttonsStatisticsChart" [cardFooter]="chartDeliveredFooter" [rotationInterval]="statisticsInterval"
-                    headerClass="fade-out-text card-header-info" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
+                    headerClass="fade-out-text card-header-primary" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
                 </div>
               </div>
               <!-- Row for sustainability -->
               <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch justify-content-around mb-3">
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="directions" iconClass="fade-out-text"
-                  headerClass="card-header-info"
+                  headerClass="card-header-primary"
                   cardCategory="dashboard.km_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 100 | number:'1.0-0') + ' km'" 
                   [titleClass]="dynamicFadeInOutClass"
                   cardFooter="dashboard.km_footer"></app-card-keyfigure>
                 </div>
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="cloud_off" iconClass="fade-out-text"
-                    headerClass="card-header-info"
+                    headerClass="card-header-primary"
                     cardCategory="dashboard.co2_title" [cardTitle]="((currentMetrics.totalConsumption / 1000 / 18 * 120) / 1000 | number:'1.0-0') + ' kg'" 
                     [titleClass]="dynamicFadeInOutClass"
                     cardFooter="dashboard.co2_footer"></app-card-keyfigure>
                 </div>
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="opacity" iconClass="fade-out-text"
-                  headerClass="card-header-info"
+                  headerClass="card-header-primary"
                   cardCategory="dashboard.gas_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 8 | number:'1.0-0') + ' Liters'" 
                   [titleClass]="dynamicFadeInOutClass"
                   cardFooter="dashboard.gas_footer"></app-card-keyfigure>

@@ -99,9 +99,9 @@
       &,
       &:focus,
       &:hover {
-        background-color: $brand-danger;
-        border-color: $brand-danger;
-        @include shadow-4dp-color($brand-danger);
+        background-color: $brand-warn;
+        border-color: $brand-warn;
+        @include shadow-4dp-color($brand-warn);
       }
     }
   }

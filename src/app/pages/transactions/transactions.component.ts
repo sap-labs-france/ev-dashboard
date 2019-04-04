@@ -17,14 +17,14 @@ export class TransactionsComponent extends AbstractTabComponent implements OnIni
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
-    super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'chargeathome']);
+    super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'refund']);
   }
 
   ngOnInit() {
   }
 
-  canAccessChargeAtHome() {
-    return this.componentService.isActive(ComponentEnum.CHARGE_AT_HOME);
+  canAccessRefund() {
+    return this.componentService.isActive(ComponentEnum.REFUND);
   }
 
   canAccessInErrorTab() {

@@ -11,7 +11,6 @@
   left: 0;
   z-index: 2;
   width: 260px;
-  background: $brand-background;
   @include shadow-big();
   .logo-img {
     width: 42px;
@@ -34,15 +33,6 @@
   ;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
-  }
-  &[data-background-color="black"] {
-    background-color: #191919;
-  }
-  &[data-background-color="red"] {
-    background-color: #e53935;
-  }
-  &[data-background-color="blue"] {
-    background-color: mat-color($app-primary, 900);
   }
   .sidebar-wrapper {
     position: relative;
@@ -123,32 +113,23 @@
       right: 6px;
     }
     li {
-      > a {
-        &:hover,
-        &:focus {
-          background-color: transparent;
-          outline: none;
-        }
-      }
       &:first-child > a {
         margin: 0 15px;
       }
-      &:hover > a,
+      &:hover:not(.active) > a,
       & .dropdown-menu a:hover,
-      & .dropdown-menu a:focus,
-      &.active > [data-toggle="collapse"] {
-        background-color: rgba(200, 200, 200, 0.2);
-        color:$brand-text;
+      & .dropdown-menu a:focus {
+        background-color: rgba($brand-background, 0.2);
         box-shadow: none;
       }
       &.active > [data-toggle="collapse"] {
         i {
-          color: #a9afbb;
+          color: $brand-disabled;
         }
       }
       &.active > a,
       &.active > a i {
-        color: $brand-text;
+        color: mat-color($app-foreground, base) !important;
       }
       &.separator {
         margin: 15px 0;
@@ -182,14 +163,13 @@
       line-height: 30px;
       width: 30px;
       text-align: center;
-      color: #a9afbb;
     }
   }
   .nav li a,
   .nav li .dropdown-menu a {
     margin: 10px 15px 0;
     border-radius: $border-radius-base;
-    color:$brand-text;
+    color: white;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
@@ -252,23 +232,37 @@
       width: calc(100% - 30px);
       background-color: rgba(180, 180, 180, .3);
     }
-    p {
-      float: left;
-      font-size: 20px;
-      margin: 10px 10px;
-      color: $brand-text;
-      line-height: 20px;
-    }
     .simple-text {
+      color: white;
       text-transform: uppercase;
       padding: $padding-small-vertical $padding-zero;
       display: inline-block;
       font-size: 18px;
-      color:$brand-text;
       white-space: nowrap;
       font-weight: $font-weight-default;
       line-height: 30px;
       overflow: hidden;
+    }
+    .app-title {
+      color: white;
+      font-size: 1.2rem;
+      text-transform: initial;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .app-version {
+      color: white;
+      font-size: 0.9rem;
+      text-transform: initial;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    a.app-version {
+      &:hover {
+        color: $brand-text;
+      }
     }
   }
   .user {
@@ -300,7 +294,7 @@
       }
     }
     a {
-      color:$brand-text;
+      color: white;
       padding: $padding-base-vertical $padding-large-vertical;
       white-space: nowrap;
     }
@@ -323,76 +317,30 @@
       }
     }
   }
-  &[data-background-color="black"] {
-    @include sidebar-background-color($brand-disabled, $brand-background);
-    .nav li .dropdown-menu .dropdown-item {
-      color: $brand-text;
+  .sidebar-background:after {
+    background: $brand-primary;
+    opacity: .7;
+  }
+
+  li.active > a {
+    background-color: $brand-background;
+    @include shadow-big-color($brand-background);
+  }
+
+  .user,
+  .logo,
+  .nav li.separator {
+    &:after {
+      background-color: white;
     }
   }
-  &[data-background-color="red"] {
-    @include sidebar-background-color($brand-disabled, $brand-background);
-    .nav li .dropdown-menu .dropdown-item {
-      color: $brand-text;
-    }
+  .nav li .dropdown-menu .dropdown-item {
+    color: $brand-text;
   }
-  &[data-background-color="blue"] {
-    @include sidebar-background-color($brand-disabled, $brand-background);
-    .nav li .dropdown-menu .dropdown-item {
-      color: $brand-text;
-    }
-  }
-  &[data-color="purple"] {
-    @include set-background-color-button($brand-primary);
-  }
-  &[data-color="azure"] {
-    @include set-background-color-button($brand-info);
-  }
-  &[data-color="green"] {
-    @include set-background-color-button($brand-success);
-  }
-  &[data-color="orange"] {
-    @include set-background-color-button($brand-warning);
-  }
-  &[data-color="danger"] {
-    @include set-background-color-button($brand-danger);
-  }
-  &[data-color="rose"] {
-    @include set-background-color-button($brand-info);
-  }
-  &[data-color="white"] {
-    @include set-background-color-button($brand-background);
-    @include sidebar-active-color($brand-text);
-  }
-  &[data-background-color="red"] {
-    @include sidebar-background-color($brand-danger, $brand-background);
-    .user,
-    .logo,
-    .nav li.separator {
-      &:after {
-        background-color: rgba(255, 255, 255, .3);
-      }
-    }
-    .nav {
-      li:hover:not(.active) > a,
-      li.active > [data-toggle="collapse"] {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-  &[data-background-color="blue"] {
-    @include sidebar-background-color(mat-color($app-primary, 800), $brand-background);
-    .user,
-    .logo,
-    .nav li.separator {
-      &:after {
-        background-color: rgba(255, 255, 255, .3);
-      }
-    }
-    .nav {
-      li:hover:not(.active) > a,
-      li.active > [data-toggle="collapse"] {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
+  .nav {
+    li:hover:not(.active) > a,
+    li.active > [data-toggle="collapse"] {
+      background-color: rgba($brand-background, 0.2);
     }
   }
   &[data-image]:after,
@@ -405,12 +353,14 @@
   .nav {
     > li > a,
     > li > a:hover {
-      color: $brand-text;
+      color: $brand-background;
       margin: 0 15px;
     }
-    > li > a:focus,
+    > li > a:focus {
+      background: rgba($brand-text, 0.4);
+    }
     > li > a:hover {
-      background: rgba(200, 200, 200, 0.2);
+      background: rgba($brand-text, 0.2);
     }
   }
 }

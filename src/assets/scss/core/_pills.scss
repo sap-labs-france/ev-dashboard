@@ -104,8 +104,8 @@
         &,
         &:focus,
         &:hover {
-          background-color: $brand-danger;
-          @include shadow-big-color($brand-danger);
+          background-color: $brand-warn;
+          @include shadow-big-color($brand-warn);
           color: $brand-text;
         }
       }

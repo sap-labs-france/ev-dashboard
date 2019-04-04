@@ -12,6 +12,7 @@ import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TemplateComponent } from './template.component';
 import {TemplateRoutes} from './template.routing';
 import {ButtonsTemplateComponent} from './buttons/buttons.component';
+import {ColorsTemplateComponent} from './colors/colors.component';
 import { FormsTemplateComponent } from './forms/forms.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs.component';
 import { TableTemplateComponent } from './table-template/table-template.component';
@@ -34,6 +35,7 @@ import { BasicTableComponent } from './table-template/basic-table/basic-table.co
   declarations: [
     TemplateComponent,
     ButtonsTemplateComponent,
+    ColorsTemplateComponent,
     FormsTemplateComponent,
     DialogsTemplateComponent,
     TableTemplateComponent,
@@ -41,6 +43,7 @@ import { BasicTableComponent } from './table-template/basic-table/basic-table.co
   ],
   entryComponents: [
     ButtonsTemplateComponent,
+    ColorsTemplateComponent,
     FormsTemplateComponent,
     DialogsTemplateComponent,
     TableTemplateComponent

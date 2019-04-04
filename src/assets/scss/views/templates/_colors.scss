@@ -1,0 +1,58 @@
+
+$palette-levels: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700;
+$background-props: status-bar, app-bar, background, hover, card, dialog, disabled-button, raised-button,
+  focused-button, selected-button, selected-disabled-button, disabled-button-toggle;
+$foreground-props: base, divider, dividers, disabled, disabled-button, disabled-text,
+  hint-text, secondary-text, icon, icons, text, slider-off, slider-off-active;
+
+.color {
+  width: 350px;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  padding: 15px 10px;
+}
+
+.color-back {
+  width: 425px;
+  color: black;
+} 
+
+.color-fore {
+  width: 425px;
+  color: white;
+}
+
+.color-bg-primary {
+  background: $brand-primary;
+}
+
+@mixin palette($app-palette, $palette-name) {
+  @each $palette-level in $palette-levels {
+    .color-#{$palette-name}-#{$palette-level} {
+      background-color: mat-color($app-palette, $palette-level);
+    }
+  }
+  .color-#{$palette-name} {
+    background-color: mat-color($app-palette);
+  }
+}
+
+@include palette($app-primary, "primary");
+@include palette($app-accent, "accent");
+@include palette($app-warn, "warn");
+@include palette($app-warning, "warning");
+@include palette($app-success, "success");
+
+@each $background-prop in $background-props {
+  .color-background-#{$background-prop} {
+    background-color: mat-color($app-background, $background-prop);
+  }
+}
+
+@each $foreground-prop in $foreground-props {
+  .color-foreground-#{$foreground-prop} {
+    background-color: mat-color($app-foreground, $foreground-prop);
+  }
+}

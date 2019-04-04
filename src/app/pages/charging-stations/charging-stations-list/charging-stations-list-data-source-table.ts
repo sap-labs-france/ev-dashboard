@@ -303,7 +303,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: Charger, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showChargingStationDialog(rowItem);
+        this.showChargingStationDialog(rowItem);
         break;
       case 'reboot':
         this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
@@ -415,7 +415,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  private _showChargingStationDialog(chargingStation?: Charger) {
+  public showChargingStationDialog(chargingStation?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';

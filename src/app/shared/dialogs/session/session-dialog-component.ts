@@ -10,8 +10,7 @@ import {LocaleService} from '../../../services/locale.service';
 import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
-  templateUrl: './session.dialog.component.html',
-  styleUrls: ['./session.dialog.component.scss'],
+  templateUrl: './session.dialog.component.html'
 })
 export class SessionDialogComponent implements OnInit {
   public transaction: Transaction = undefined;

@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header card-header-tabs card-header-info">
+  <div class="card-header card-header-tabs card-header-primary">
     <div class="nav-tabs-navigation">
       <h4 class="nav-tabs-title" >{{title | translate}}</h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
@@ -22,7 +22,7 @@
       (document:keyup.esc)="cancel()">
     <span class="toolbar-spacer"></span>
 
-    <button mat-raised-button class="btn btn-info" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
+    <button mat-raised-button class="btn btn-primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
       {{buttonTitle | translate}}
     </button>
     <button mat-raised-button class="btn btn-inverse" (click)="cancel()">{{"general.cancel" | translate}}</button>

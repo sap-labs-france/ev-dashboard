@@ -4,8 +4,7 @@ import {Constants} from '../../../utils/Constants';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  templateUrl: './confirmation-dialog-component.html',
-  styleUrls: ['../dialogs.component.scss'],
+  templateUrl: './confirmation-dialog-component.html'
 })
 export class ConfirmationDialogComponent {
   public title = '';

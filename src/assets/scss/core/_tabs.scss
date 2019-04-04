@@ -70,15 +70,19 @@
 }
 
 .mat-tab-header-pagination {
-  background: $brand-info;
+  background: $brand-primary;
   box-shadow: initial;
 }
 
 .mat-tab-header-pagination-chevron {
-  border-color: $brand-background;
+  border-color: $brand-background !important;
 }
 .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
-  border-color: $brand-background;
+  border-color: $brand-background !important;
+}
+
+.mat-tab-header-pagination {
+  box-shadow: initial !important;
 }
 
 .mat-tab-labels {
@@ -86,13 +90,13 @@
   color: $brand-background !important;
 }
 .mat-tab-info .mat-tab-labels {
-  background: $brand-info;
+  background: $brand-primary;
   @include shadow-big-color($brand-info);
 }
 
 .mat-tab-danger .mat-tab-labels {
-  background: $brand-danger;
-  @include shadow-big-color($brand-danger);
+  background: $brand-warn;
+  @include shadow-big-color($brand-warn);
 }
 
 .mat-ink-bar {
@@ -124,16 +128,24 @@
   &:hover {
     background-color: rgba($brand-background, .1);
   }
+
+  .btn-link {
+    color: white !important;
+  }
 }
 
 .mat-tab-disabled {
   margin-left: auto !important;
   padding: 0 !important;
+
+  &:hover {
+    background: transparent;
+  }
 }
 
 .mat-tab-label-active {
   color: $brand-primary !important;
-  background-color: $brand-background;
+  background-color: $brand-background !important;
   border: 0;
   margin: 0;
   border-radius: $border-radius-base;

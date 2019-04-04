@@ -9,11 +9,10 @@ dashboard:
 
 all: dashboard
 
-clean-images:
-	docker image prune -f
-
 clean-containers:
 	docker stack rm $(PROJECT_NAME)
 
-dist-clean: clean-containers
+dist-clean-images:
 	docker image prune -a -f
+
+dist-clean: clean-containers dist-clean-images

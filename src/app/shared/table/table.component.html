@@ -10,7 +10,7 @@
           <!-- Action Button -->
           <button mat-raised-button (click)="actionTriggered(actionDef)"
                   *ngIf="actionDef.type === 'button'"
-                  [class]="(actionDef.class ? actionDef.class + ' btn btn-info' : 'btn btn-info')"
+                  [class]="(actionDef.class ? 'btn btn-primary ' + actionDef.class : 'btn btn-primary')"
                   appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
               <!-- <span class="mat-button-wrapper"> -->
                 <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
@@ -29,7 +29,7 @@
             <!-- Create Filters -->
             <!-- <div class="d-flex filter-row"> -->
             <div *ngFor="let filterDef of filtersDef; let i=index"
-                 [class]="(filterDef.class ? filterDef.class + ' d-flex': 'd-flex col')">
+                 [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
               <!-- Dropdown Filter -->
               <mat-form-field *ngIf="filterDef.type === 'dropdown'">
                 <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
@@ -81,7 +81,7 @@
             <!-- Refresh Action Button -->
             <button mat-raised-button (click)="actionTriggered(actionRightDef)"
                     *ngIf="actionRightDef.id === 'refresh'"
-                    [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info' : 'btn btn-info')"
+                    [class]="(actionRightDef.class ? 'btn btn-primary ' + actionRightDef.class : 'btn btn-primary')"
                     appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
@@ -98,7 +98,7 @@
               <button mat-raised-button
                   (click)="actionTriggered(actionRightDef)"
                   *ngIf="actionRightDef.type === 'button'"
-                  [class]="(actionRightDef.class ? actionRightDef.class + ' btn btn-info' : 'btn btn-info')"
+                  [class]="(actionRightDef.class ? 'btn btn-primary ' + actionRightDef.class : 'btn btn-primary')"
                   [class.btn-just-icon]="!actionRightDef.name"
                   appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <!-- <span *ngIf="actionRightDef.name" class="mat-button-wrapper"> -->
@@ -312,7 +312,7 @@
                   </ng-template>
                 </mat-menu>
                 <button mat-raised-button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
-                        [class]="(rowAction.class ? rowAction.class : '') + ' btn btn-link btn-info btn-just-icon'"
+                        [class]="'btn btn-link btn-primary btn-just-icon ' + (rowAction.class ? rowAction.class : '')"
                         [matMenuTriggerFor]="rowActionMenu"
                         appTooltip="" data-placement="bottom" data-toggle="tooltip" [title]="rowAction.tooltip | translate">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
@@ -322,7 +322,7 @@
                 <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip" [title]="rowAction.tooltip | translate">
                 <button mat-raised-button
                         (click)="rowActionTriggered(rowAction, actionCell['data'])"
-                        [class]="(rowAction.class ? rowAction.class : '') + ' btn btn-link btn-info btn-just-icon'"
+                        [class]="'btn btn-link btn-primary btn-just-icon ' + (rowAction.class ? rowAction.class : '')"
                         [disabled]="rowAction.disabled"
                         ><i
                     class="material-icons">{{rowAction.icon}}</i></button>

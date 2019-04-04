@@ -95,8 +95,8 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       {
         id: 'logo',
         name: 'companies.logo',
-        headerClass: 'col-10p',
-        class: 'col-10p',
+        headerClass: 'text-center col-8p',
+        class: 'col-8p',
         isAngularComponent: true,
         angularComponentName: CompanyLogoComponent
       },

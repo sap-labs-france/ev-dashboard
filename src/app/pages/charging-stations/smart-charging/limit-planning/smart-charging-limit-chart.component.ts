@@ -11,7 +11,6 @@ import { ChartComponent } from 'angular2-chartjs';
 
 @Component({
   selector: 'app-limit-planning-chart',
-  styleUrls: ['smart-charging-limit-chart.component.scss'],
   template: `
     <div class="chart-container">
       <div class="chart">

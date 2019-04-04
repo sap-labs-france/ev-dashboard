@@ -7,10 +7,10 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {Constants} from '../../../utils/Constants';
+import {ComponentEnum} from '../../../services/component.service';
 
 @Component({
-  templateUrl: './tenant.dialog.component.html',
-  styleUrls: ['../../../shared/dialogs/dialogs.component.scss'],
+  templateUrl: './tenant.dialog.component.html'
 })
 export class TenantDialogComponent implements OnInit {
   public formGroup: FormGroup;
@@ -73,7 +73,7 @@ export class TenantDialogComponent implements OnInit {
 
     // add available components
     this.components = <FormGroup>this.formGroup.controls['components'];
-    for (const componentIdentifier of Constants.COMPONENTS_LIST) {
+    for (const componentIdentifier of Object.values(ComponentEnum)) {
       // check if value is available
       let activeFlag = false;
       if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {

@@ -194,11 +194,11 @@
   &.slider-danger {
     & .noUi-connect,
     &.noUi-connect {
-      background-color: $brand-danger;
+      background-color: $brand-warn;
     }
 
     .noUi-handle {
-      border-color: $brand-danger;
+      border-color: $brand-warn;
     }
   }
 

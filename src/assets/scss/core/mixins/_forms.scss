@@ -391,7 +391,7 @@
     @include tag-color($brand-warning);
   }
   &.tag-danger {
-    @include tag-color($brand-danger);
+    @include tag-color($brand-warn);
   }
   &.tag-rose {
     @include tag-color($brand-info);

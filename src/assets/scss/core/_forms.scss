@@ -115,7 +115,7 @@ form {
 }
 
 .has-danger {
-  @include bmd-form-color($brand-danger, $brand-danger, $brand-danger, $input-border-color);
+  @include bmd-form-color($brand-warn, $brand-warn, $brand-warn, $input-border-color);
 }
 
 .has-rose {
@@ -397,12 +397,12 @@ fieldset[disabled] .form-group .form-control {
 .has-danger {
   .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
   .mat-form-field-empty.mat-form-field-label {
-    color: $brand-danger;
+    color: $brand-warn;
   }
   &.mat-focused {
     .mat-input-underline {
       .mat-input-ripple {
-        background-color: $brand-danger;
+        background-color: $brand-warn;
       }
     }
   }
@@ -410,7 +410,7 @@ fieldset[disabled] .form-group .form-control {
 
 .ng-invalid {
   &.mat-focused .mat-form-field-label {
-    color: $brand-danger;
+    color: $brand-warn;
   }
 }
 

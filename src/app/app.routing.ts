@@ -9,6 +9,7 @@ import {NotFoundComponent} from './pages/notfound/not-found.component';
 import {TenantGuard} from './guard/tenant.guard';
 import {DevEnvGuard} from './guard/development.guard';
 import {Constants} from './utils/Constants';
+import {ComponentEnum} from './services/component.service';
 
 
 export const AppRoutes: Routes = [
@@ -28,7 +29,7 @@ export const AppRoutes: Routes = [
   {
     path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
     children: [
-      
+
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
       {
         path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: {
@@ -108,7 +109,7 @@ export const AppRoutes: Routes = [
             icon: 'business',
             path: '/organization'
           },
-          component: Constants.SETTINGS_ORGANIZATION
+          component: ComponentEnum.ORGANIZATION
         }
       },
       {
@@ -142,9 +143,9 @@ export const AppRoutes: Routes = [
         data: {forAdminOnly: true, forSuperAdminOnly: true}
       },
       {
-        path: 'template', 
-        canLoad: [DevEnvGuard], 
-        loadChildren: './pages/template/template.module#TemplateModule', 
+        path: 'template',
+        canLoad: [DevEnvGuard],
+        loadChildren: './pages/template/template.module#TemplateModule',
         data: {
           menu: {
             title: 'template',
@@ -160,7 +161,7 @@ export const AppRoutes: Routes = [
             onlyDev: true
           }
         },
-        
+
       },
     ]
   },

@@ -66,7 +66,7 @@ export class SettingsSacComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getSettings(Constants.SETTINGS_SAC).subscribe((sacConfiguration) => {
+    this.centralServerService.getSettings(ComponentEnum.SAC).subscribe((sacConfiguration) => {
       this.spinnerService.hide();
 
       // get SAC configuration
@@ -127,7 +127,7 @@ export class SettingsSacComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': null,
-      'identifier': Constants.SETTINGS_SAC,
+      'identifier': ComponentEnum.SAC,
       'content': content
     };
 
@@ -168,7 +168,7 @@ export class SettingsSacComponent implements OnInit {
     // build setting payload
     const setting = {
       'id': this.currentSettingID,
-      'identifier': Constants.SETTINGS_SAC,
+      'identifier': ComponentEnum.SAC,
       'content': content
     };
     // Show

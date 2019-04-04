@@ -5,7 +5,6 @@ import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.p
 
 @Component({
   selector: 'app-connector-id-cell',
-  styleUrls: ['./connector-cell.scss'],
   templateUrl: './connector-cell.component.html'
 })
 

@@ -75,10 +75,14 @@
 }
 
 .mat-tab-header-pagination-chevron {
-  border-color: $brand-background;
+  border-color: $brand-background !important;
 }
 .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
-  border-color: $brand-background;
+  border-color: $brand-background !important;
+}
+
+.mat-tab-header-pagination {
+  box-shadow: initial !important;
 }
 
 .mat-tab-labels {
@@ -91,8 +95,8 @@
 }
 
 .mat-tab-danger .mat-tab-labels {
-  background: $brand-danger;
-  @include shadow-big-color($brand-danger);
+  background: $brand-warn;
+  @include shadow-big-color($brand-warn);
 }
 
 .mat-ink-bar {
@@ -129,10 +133,14 @@
 .mat-tab-disabled {
   margin-left: auto !important;
   padding: 0 !important;
+
+  &:hover {
+    background: transparent;
+  }
 }
 
 .mat-tab-label-active {
-  color: $brand-primary !important;
+  color: $brand-text !important;
   background-color: $brand-background;
   border: 0;
   margin: 0;

@@ -74,7 +74,6 @@ interface ChartDataLocal {
 @Component({
   selector: 'app-card-chart',
   templateUrl: './card-chart.component.html',
-  styleUrls: ['./card-chart.scss'],
   animations: [
     trigger('ChartFade', [
       transition('false => true', [

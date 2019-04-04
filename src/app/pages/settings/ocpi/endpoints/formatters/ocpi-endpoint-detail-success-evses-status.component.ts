@@ -5,7 +5,6 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-log-level-chip',
-  styleUrls: ['../../../../../shared/component/chip/chip.component.scss'],
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
 export class OcpiendpointDetailSuccessEvsesStatusComponent extends ChipComponent {

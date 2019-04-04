@@ -17,8 +17,7 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
   selector: 'app-charging-station-cmp',
-  templateUrl: 'charging-station.component.html',
-  styleUrls: ['../charging-stations-data-source-table.scss']
+  templateUrl: 'charging-station.component.html'
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();

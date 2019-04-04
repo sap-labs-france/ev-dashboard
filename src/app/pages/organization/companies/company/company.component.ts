@@ -17,8 +17,7 @@ import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-company-cmp',
-  templateUrl: 'company.component.html',
-  styleUrls: ['./company.component.scss']
+  templateUrl: 'company.component.html'
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();

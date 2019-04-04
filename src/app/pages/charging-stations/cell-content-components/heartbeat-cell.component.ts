@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 
 @Component({
-  styleUrls: ['../charging-stations-data-source-table.scss'],
   template: `
       <span class="charger-heartbeat" appTooltip data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip" [attr.data-original-title]="tooltip">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>

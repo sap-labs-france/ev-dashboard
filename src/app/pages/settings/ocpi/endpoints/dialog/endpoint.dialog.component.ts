@@ -11,8 +11,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  templateUrl: './endpoint.dialog.component.html',
-  styleUrls: ['./endpoint.dialog.component.scss', '../../../../../shared/dialogs/dialogs.component.scss']
+  templateUrl: './endpoint.dialog.component.html'
 })
 export class EndpointDialogComponent implements OnInit {
   public formGroup: FormGroup;

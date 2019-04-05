@@ -191,7 +191,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         });
         break;
       case 'open':
-        this._openSession(transaction);
+        this.openSession(transaction);
         break;
       default:
         super.rowActionTriggered(actionDef, transaction);
@@ -257,7 +257,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     }
   }
 
-  private _openSession(transaction: Transaction) {
+  public openSession(transaction: Transaction) {
     this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
         const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
         const dialogConfig = new MatDialogConfig();

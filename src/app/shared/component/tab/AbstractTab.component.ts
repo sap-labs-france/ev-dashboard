@@ -27,6 +27,7 @@ export class AbstractTabComponent implements OnDestroy {
     if (this.synchronizeRouting) {
       if (this.hashArray && index < this.hashArray.length) {
         this.windowService.setHash(this.hashArray[index]);
+        this.windowService.setSearch('');
       }
     }
   }

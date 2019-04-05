@@ -12,7 +12,7 @@ import { CentralServerService } from 'app/services/central-server.service';
   ]
 })
 export class ChargingStationsListComponent implements OnInit {
-  private chargingStationID;
+  private _chargingStationID;
 
   constructor(
     public chargingStationsListDataSource: ChargingStationsListDataSource,
@@ -21,9 +21,9 @@ export class ChargingStationsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.chargingStationID = this.activatedRoute.snapshot.queryParams['ChargingStationID'];
-    if(this.chargingStationID){
-      this.centralServerService.getCharger(this.chargingStationID).subscribe(chargingStation => {
+    this._chargingStationID = this.activatedRoute.snapshot.queryParams['ChargingStationID'];
+    if(this._chargingStationID){
+      this.centralServerService.getCharger(this._chargingStationID).subscribe(chargingStation => {
         if(chargingStation) {
           this.chargingStationsListDataSource.showChargingStationDialog(chargingStation);
         }

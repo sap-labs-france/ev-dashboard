@@ -270,6 +270,13 @@ export interface SettingResult {
   result: Setting[]
 }
 
+export interface SacLink {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+}
+
 export interface Ocpiendpoint {
   id: string;
   name: string;

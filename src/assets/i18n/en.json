@@ -656,7 +656,7 @@
     "single_phase": "Alternative Current - Single-phase",
     "tri_phases": "Alternative Current - Three phases",
     "site_area": "Site - Site Area",
-    "assign_site_area": "Assign Site Area to",
+    "assign_site_area": "Assign Site Area",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
@@ -1004,7 +1004,14 @@
     "title": "Analytics",
     "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
-    "timezone": "Timezone used in SAP Analytics Cloud"
+    "timezone": "Timezone used in SAP Analytics Cloud",
+    "links": "SAP Analytics Cloud Links",
+    "set_link": "Set Link",
+    "link": {
+      "name": "Name",
+      "description": "Description",
+      "url": "URL"
+    }
   },
   "refund": {
     "title": "Refunding",

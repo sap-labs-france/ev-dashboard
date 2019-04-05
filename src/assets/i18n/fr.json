@@ -656,7 +656,7 @@
     "single_phase": "Courant Alternatif - Monophasé",
     "tri_phases": "Courant Alternatif - Triphasé",
     "site_area": "Site - Zone",
-    "assign_site_area": "Assigner une zone à",
+    "assign_site_area": "Assigner une zone",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "URL Invalide",
@@ -908,7 +908,8 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
       "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud",
-      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de transaction via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur "
+      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de transaction via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
+      "settings": "Configuration"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
@@ -998,8 +999,17 @@
     }
   },
   "sac": {
-    "title": "Analytics",
-    "description": "Analytics Interface"
+    "title": "Analytique",
+    "description": "Interface Analytique",
+    "mainurl": "URL d'acceuil SAP Analytics Cloud",
+    "timezone": "Fuseau horaire utilisé dans SAP Analytics Cloud",
+    "links": "Liens vers SAP Analytics Cloud",
+    "set_link": "Définir le Lien",
+    "link": {
+      "name": "Nom",
+      "description": "Description",
+      "url": "URL"
+    }
   },
   "refund": {
     "title": "Remboursement",

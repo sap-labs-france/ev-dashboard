@@ -6,7 +6,6 @@ import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 import {ModuleWithProviders} from '@angular/core';
 import {NotFoundComponent} from './pages/notfound/not-found.component';
-import {TenantGuard} from './guard/tenant.guard';
 import {DevEnvGuard} from './guard/development.guard';
 import {Constants} from './utils/Constants';
 import {ComponentEnum} from './services/component.service';
@@ -14,11 +13,11 @@ import {ComponentEnum} from './services/component.service';
 
 export const AppRoutes: Routes = [
   {
-    path: 'auth', component: AuthLayoutComponent, canActivateChild: [TenantGuard],
+    path: 'auth', component: AuthLayoutComponent,
     loadChildren: './authentication/authentication.module#AuthenticationModule'
   },
   {
-    path: 'not-found', component: NotFoundComponent, canActivate: [TenantGuard]
+    path: 'not-found', component: NotFoundComponent
   },
   {
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
@@ -27,7 +26,7 @@ export const AppRoutes: Routes = [
     path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent, canActivateChild: [TenantGuard],
+    path: '', component: AdminLayoutComponent,
     children: [
 
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},

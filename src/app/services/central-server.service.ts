@@ -644,19 +644,6 @@ export class CentralServerService {
       );
   }
 
-  public verifyTenant(): Observable<any> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/VerifyTenant`,
-      {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
   public getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
     // Verify init
     this._checkInit();

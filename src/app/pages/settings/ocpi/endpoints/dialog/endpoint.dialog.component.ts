@@ -99,6 +99,14 @@ export class EndpointDialogComponent implements OnInit {
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
     this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
+
+    // listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onClose();
+      }
+    });
   }
 
   cancel() {
@@ -205,7 +213,7 @@ export class EndpointDialogComponent implements OnInit {
   }
 
   public closeDialog() {
-      this.dialogRef.close();
+    this.dialogRef.close();
   }
 
   public onClose() {

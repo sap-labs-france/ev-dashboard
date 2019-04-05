@@ -91,12 +91,10 @@
 }
 .mat-tab-info .mat-tab-labels {
   background: $brand-primary;
-  @include shadow-big-color($brand-info);
 }
 
 .mat-tab-danger .mat-tab-labels {
   background: $brand-warn;
-  @include shadow-big-color($brand-warn);
 }
 
 .mat-ink-bar {

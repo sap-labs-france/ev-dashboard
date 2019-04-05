@@ -1,34 +1,30 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="form-group">
-            <div class="card">
-                <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">settings_power</i>
-                    </div>
-                    <h3 class="card-title text-left">
-                        {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="row col-md-12">
-                        <app-smart-charging-power-slider class="col-md-12" #powerSlider [maximumPower]="charger.maximumPower"
-                            [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
-                            textPosition="bottom"></app-smart-charging-power-slider>
-                    </div>
-                    <div class="col-md-12 text-right">
-                        <button mat-raised-button class="btn btn-primary" [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)"
-                            (click)="applyPowerLimit()">
-                            <!-- <span class="mat-button-wrapper"> -->
-                                <i class="material-icons mr-2">save</i>
-                                <!-- <span class="btn-label"> -->
-                                    {{'general.apply' | translate}}
-                                <!-- </span> -->
-                            <!-- </span> -->
-                        </button>
-                    </div>
-                </div>
-            </div>
+  <div class="container-fluid">
+    <div class="form-group">
+      <div class="card">
+        <div class="card-header card-header-primary card-header-icon">
+          <div class="card-icon">
+            <i class="material-icons">settings_power</i>
+          </div>
+          <h3 class="card-title text-left">
+            {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
+          </h3>
         </div>
+        <div class="card-body">
+          <div class="row col-md-12">
+            <app-smart-charging-power-slider class="col-md-12" #powerSlider [maximumPower]="charger.maximumPower"
+              [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase" textPosition="bottom">
+            </app-smart-charging-power-slider>
+          </div>
+          <div class="col-md-12 text-right">
+            <button mat-raised-button color="primary"
+              [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)" (click)="applyPowerLimit()">
+              <i class="material-icons mr-2">save</i>
+              {{'general.apply' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

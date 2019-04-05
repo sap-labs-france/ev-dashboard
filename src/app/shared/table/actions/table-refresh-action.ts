@@ -1,11 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableRefreshAction implements TableAction {
   private action: TableActionDef = {
     id: 'refresh',
     type: 'button',
     icon: 'refresh',
+    color: ButtonColor.primary,
     name: '',
     tooltip: 'general.tooltips.refresh'
   };

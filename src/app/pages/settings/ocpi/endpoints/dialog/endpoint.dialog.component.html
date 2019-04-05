@@ -1,148 +1,147 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form" [formGroup]="formGroup">
-                    <div class="card card-profile card-testimonial">
-                        <div class="card-header card-header-tabs card-header-primary">
-                            <div class="nav-tabs-navigation">
-                                <div class="nav-tabs-wrapper">
-                                    <ul class="nav nav-tabs" data-tabs="tabs">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#profile" data-toggle="tab">
-                                                <i class="material-icons">call_split</i> {{name.value}}
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
-                                        <span class="toolbar-spacer"></span>
-                                        <button mat-raised-button class="btn btn-link" (click)="save(formGroup.value)"
-                                            [disabled]="!formGroup.valid || !formGroup.dirty">
-                                                <i class="material-icons mr-2">save</i>
-                                                    {{'general.save' | translate}}
-                                        </button>
-                                        <button mat-raised-button class="btn btn-link" (click)="onClose()">
-                                                <i class="material-icons">close</i>
-                                        </button>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="profile">
-                                    <div class="row">
-                                        <!-- OCPI Endpoint - Name -->
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.name' | translate}}"
-                                                        type="text" [formControl]="name" required>
-                                                    <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="name.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <!-- OCPI Endpoint - URL -->
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
-                                                        type="text" [formControl]="baseUrl" required>
-                                                    <mat-error *ngIf="baseUrl.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="baseUrl.hasError('pattern')">
-                                                        <div [translate]="'general.error_url_pattern'"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <!-- OCPI Endpoint - Country Code / Party id-->
-                                        <div class="col-md-6">
-                                            <div class="form-group" *ngIf="!currentEndpoint.id">
-                                                <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
-                                                        type="text" [formControl]="countryCode">
-                                                    <mat-error *ngIf="countryCode.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="countryCode.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
-                                                    </mat-error>
-                                                    <mat-error *ngIf="countryCode.hasError('minlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group" *ngIf="!currentEndpoint.id">
-                                                <mat-form-field>
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
-                                                        type="text" [formControl]="partyId">
-                                                    <mat-error *ngIf="partyId.hasError('required')">{{"general.mandatory_field"
-                                                        | translate}}</mat-error>
-                                                    <mat-error *ngIf="partyId.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
-                                                    </mat-error>
-                                                    <mat-error *ngIf="partyId.hasError('minlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-
-                                        <!-- OCPI Endpoint - Local Token -->
-                                        <div class="col-md-12">
-                                            <div class="form-group flex-nowrap">
-                                                <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.localToken' | translate}}"
-                                                        type="text" [formControl]="localToken">
-                                                    <mat-error *ngIf="localToken.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                                <div align="right" pull-right>
-                                                    <button mat-raised-button class="btn btn-primary btn-round endpoint-dialog-btn-min-width"
-                                                        (click)="generateLocalToken(formGroup.value)">
-                                                            <i class="material-icons mr-2">vpn_key</i>
-                                                                {{'ocpiendpoints.generateNewToken'
-                                                                | translate}}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- OCPI Endpoint - Token -->
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                                                    <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.token' | translate}}"
-                                                        type="text" [formControl]="token">
-                                                    <mat-error *ngIf="token.hasError('maxlength')">
-                                                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
-                                                    </mat-error>
-                                                </mat-form-field>
-                                                <div align="right" pull-right>
-                                                    <button mat-raised-button class="btn btn-primary btn-round endpoint-dialog-btn-min-width"
-                                                        (click)="testConnection(formGroup.value)" [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
-                                                            <i class="material-icons mr-2">touch_app</i>
-                                                                {{'ocpiendpoints.testConnection'
-                                                                | translate}}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                        </div>
-                    </div>
-                </form>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <form class="form" [formGroup]="formGroup">
+          <div class="card card-profile card-testimonial">
+            <div class="card-header card-header-tabs card-header-primary">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#profile" data-toggle="tab">
+                        <i class="material-icons">call_split</i> {{name.value}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <span class="toolbar-spacer"></span>
+                    <button mat-button (click)="save(formGroup.value)"
+                      [disabled]="!formGroup.valid || !formGroup.dirty">
+                      <i class="material-icons mr-2">save</i>
+                      {{'general.save' | translate}}
+                    </button>
+                    <button mat-icon-button (click)="onClose()">
+                      <i class="material-icons">close</i>
+                    </button>
+                  </ul>
+                </div>
+              </div>
             </div>
-        </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="profile">
+                  <div class="row">
+                    <!-- OCPI Endpoint - Name -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.name' | translate}}" type="text"
+                            [formControl]="name" required>
+                          <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                          <mat-error *ngIf="name.hasError('maxlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!-- OCPI Endpoint - URL -->
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
+                            type="text" [formControl]="baseUrl" required>
+                          <mat-error *ngIf="baseUrl.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                          <mat-error *ngIf="baseUrl.hasError('pattern')">
+                            <div [translate]="'general.error_url_pattern'"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!-- OCPI Endpoint - Country Code / Party id-->
+                    <div class="col-md-6">
+                      <div class="form-group" *ngIf="!currentEndpoint.id">
+                        <mat-form-field>
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
+                            type="text" [formControl]="countryCode">
+                          <mat-error *ngIf="countryCode.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                          <mat-error *ngIf="countryCode.hasError('maxlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                          </mat-error>
+                          <mat-error *ngIf="countryCode.hasError('minlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group" *ngIf="!currentEndpoint.id">
+                        <mat-form-field>
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
+                            type="text" [formControl]="partyId">
+                          <mat-error *ngIf="partyId.hasError('required')">{{"general.mandatory_field"
+                                                        | translate}}</mat-error>
+                          <mat-error *ngIf="partyId.hasError('maxlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                          </mat-error>
+                          <mat-error *ngIf="partyId.hasError('minlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <!-- OCPI Endpoint - Local Token -->
+                    <div class="col-md-12">
+                      <div class="form-group flex-nowrap">
+                        <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.localToken' | translate}}"
+                            type="text" [formControl]="localToken">
+                          <mat-error *ngIf="localToken.hasError('maxlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                        <div align="right" pull-right>
+                          <button mat-raised-button color="primary"
+                            (click)="generateLocalToken(formGroup.value)">
+                            <i class="material-icons">vpn_key</i>
+                            {{'ocpiendpoints.generateNewToken' | translate}}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- OCPI Endpoint - Token -->
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                          <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.token' | translate}}"
+                            type="text" [formControl]="token">
+                          <mat-error *ngIf="token.hasError('maxlength')">
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                        <div align="right" pull-right>
+                          <button mat-raised-button color="primary"
+                            (click)="testConnection(formGroup.value)"
+                            [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
+                            <i class="material-icons">touch_app</i>
+                            {{'ocpiendpoints.testConnection' | translate}}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

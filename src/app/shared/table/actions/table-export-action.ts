@@ -1,5 +1,5 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {
@@ -7,6 +7,7 @@ export class TableExportAction implements TableAction {
     type: 'button',
     icon: 'cloud_download',
     name: 'general.export',
+    color: ButtonColor.primary,
     tooltip: 'general.tooltips.export'
   }
 

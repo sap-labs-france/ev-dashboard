@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableEditChargersAction implements TableAction {
   private action: TableActionDef = {
     id: 'edit_chargers',
     type: 'button',
     icon: 'ev_station',
-    class: 'btn-info',
+    color: ButtonColor.primary,
     name: 'general.edit',
     tooltip: 'general.tooltips.edit_chargers'
   };

@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableSendAction implements TableAction {
   private action: TableActionDef = {
     id: 'send',
     type: 'button',
     icon: 'cast',
-    class: 'btn-info',
+    color: ButtonColor.primary,
     name: 'general.send_evses_update',
     tooltip: 'general.tooltips.send'
   }

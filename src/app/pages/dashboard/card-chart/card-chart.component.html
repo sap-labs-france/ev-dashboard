@@ -5,7 +5,7 @@
         </div>
         <h4 *ngIf="cardTitle" [class]="'card-title ' + titleClass">{{ cardTitle | translate }}</h4>
         <div [class]="'card-category btn-group ' + categoryClass">
-            <button mat-raised-button *ngFor="let button of chartButtons" class="btn btn-primary" (click)="nextChart(button.name)"
+            <button mat-raised-button *ngFor="let button of chartButtons" color="primary" (click)="nextChart(button.name)"
                 [class.app-card-stats]="chartActiveButton.name === button.name" [disabled]="chartActiveButton.name === button.name || animationOngoing">
                 {{button.title | translate}}
             </button>

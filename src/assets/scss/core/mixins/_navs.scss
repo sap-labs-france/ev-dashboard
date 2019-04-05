@@ -25,7 +25,6 @@
 
   .moving-tab {
     background-color: $color;
-    @include shadow-big-color($color);
   }
 
   .picture {

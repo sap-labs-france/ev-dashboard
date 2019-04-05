@@ -9,7 +9,7 @@ import {CentralServerService} from 'app/services/central-server.service';
 @Component({
   template: `
     <button *ngIf="row.activeTransactionID > 0 && displaySessionAuthorized"
-            class="btn-info action-icon-large btn btn-link btn-info btn-just-icon no-margin"
+            mat-icon-button color="primary"
             (click)="showSessionDialog()"><i class="material-icons">open_in_new</i></button>
   `,
   styles: [`.no-margin {

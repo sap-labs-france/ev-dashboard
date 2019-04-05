@@ -291,6 +291,9 @@ tr.element-row:not(.expanded-row):active {
   > button:first-child {
     margin-left: 0;
   }
+  > button {
+    margin-right: 5px;
+  }
 }
 
 .spinner-autorefresh2 {

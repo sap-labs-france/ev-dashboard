@@ -324,7 +324,6 @@
 
   li.active > a {
     background-color: $brand-background;
-    @include shadow-big-color($brand-background);
   }
 
   .user,

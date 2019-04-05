@@ -15,15 +15,10 @@ import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component'
   template: `
     <div class="chart-container">
       <div class="chart">
-        <chart #chart *ngIf="data"
-               type="line"
-               [data]="data"
-               [options]="options"></chart>
+        <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
       </div>
       <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
-        <a
-          [class]="'btn btn-link btn-just-icon'"
-          (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
+        <a mat-icon-button (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
       </div>
     </div>
   `

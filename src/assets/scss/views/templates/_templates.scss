@@ -5,6 +5,16 @@ $background-props: status-bar, app-bar, background, hover, card, dialog, disable
 $foreground-props: base, divider, dividers, disabled, disabled-button, disabled-text,
   hint-text, secondary-text, icon, icons, text, slider-off, slider-off-active;
 
+pre {
+  display: inline-block;
+  margin-left: -100px;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  overflow-y: hidden;
+  margin-top: 15px;
+}
+
 .color {
   width: 350px;
   height: 50px;
@@ -26,6 +36,14 @@ $foreground-props: base, divider, dividers, disabled, disabled-button, disabled-
 
 .color-bg-primary {
   background: $brand-primary;
+  margin-bottom: 10px;
+}
+
+.color-bg-light {
+  background: mat-color($app-primary, 50);
+  button, a {
+    font-size: 1rem !important;
+  }
 }
 
 @mixin palette($app-palette, $palette-name) {

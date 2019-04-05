@@ -1,11 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableRefundAction implements TableAction {
   private action: TableActionDef = {
     id: 'refund',
     type: 'button',
     icon: 'local_atm',
+    color: ButtonColor.primary,
     name: 'general.refund',
     tooltip: 'general.tooltips.refund'
   };

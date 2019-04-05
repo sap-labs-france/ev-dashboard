@@ -25,7 +25,6 @@
 @import "core/badges";
 @import "dashboard/alerts";
 @import "core/pagination";
-@import "core/pills";
 @import "core/info-areas";
 @import "core/type";
 @import "core/tabs";
@@ -47,7 +46,6 @@
 @import "dashboard/misc";
 @import "dashboard/pages";
 // Components for PRO
-@import "dashboard/social-buttons";
 @import "dashboard/fileupload";
 //plugin css
 @import "plugins/animate";
@@ -62,7 +60,7 @@
 
 
 // Views
-@import "views/templates/colors";
+@import "views/templates/templates";
 
 @import "views/dashboard/card-chart";
 @import "views/dashboard/card-keyfigure";

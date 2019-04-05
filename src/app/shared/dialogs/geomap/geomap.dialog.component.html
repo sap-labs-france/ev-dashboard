@@ -4,10 +4,8 @@
       <h4 class="nav-tabs-title">{{dialogTitle | translate}}</h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <span class="toolbar-spacer"></span>
-        <button class="btn btn-link mat-raised-button mt-1" mat-dialog-close>
-          <span class="mat-button-wrapper">
-            <i class="material-icons">close</i>
-          </span>
+        <button mat-icon-button mat-dialog-close>
+          <i class="material-icons">close</i>
         </button>
       </ul>
     </div>
@@ -46,19 +44,20 @@
 
 
   <div class="card-footer mat-dialog-actions">
-    <button mat-raised-button class="btn btn-primary app-btn-min-max-width" (click)="minZoom()">
+    <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="minZoom()">
       <i class="material-icons mr-2">zoom_out</i>
       {{'geomap.min_zoom' | translate}}
     </button>
-    <button mat-raised-button class="btn btn-primary app-btn-min-max-width" (click)="maxZoom()">
+    <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="maxZoom()">
       <i class="material-icons mr-2">zoom_in</i>
       {{'geomap.max_zoom' | translate}}
     </button>
     <span class="app-spacer"></span>
-    <button mat-raised-button class="btn btn-primary" (click)="validate()">
+    <button mat-raised-button color="primary" (click)="validate()">
       {{"general.set_coordinates" | translate}}
     </button>
-    <button mat-raised-button *ngIf="!displayOnly" class="btn btn-inverse" (click)="cancel()"
-      cdkFocusInitial>{{"general.cancel" | translate}}</button>
+    <button mat-raised-button *ngIf="!displayOnly" (click)="cancel()">
+      {{"general.cancel" | translate}}
+    </button>
   </div>
 </div>

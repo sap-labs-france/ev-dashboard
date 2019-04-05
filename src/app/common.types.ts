@@ -35,13 +35,19 @@ export interface DropdownItem {
   tooltip: string;
 }
 
+export enum ButtonColor {
+  primary = 'primary',
+  accent = 'accent',
+  warn = 'warn'
+}
+
 export interface TableActionDef {
   id: string;
   type: ActionType;
   currentValue?: any;
   name: string;
   icon?: string;
-  class?: string;
+  color?: ButtonColor;
   disabled?: boolean;
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[],

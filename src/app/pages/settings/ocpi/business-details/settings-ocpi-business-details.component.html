@@ -8,10 +8,10 @@
     </div>
     <div class="card-body">
       <div class="mat-toolbar-row">
-          <button mat-raised-button class="btn btn-danger" (click)="save(formGroup.value)"
+          <button mat-raised-button color="warn" (click)="save(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
               <i class="material-icons mr-2">save</i>
-                {{'general.save' | translate}}
+              {{'general.save' | translate}}
           </button>
       </div>
       <!-- CPO identifier COUNTRY_CODE/PARTY_ID -->

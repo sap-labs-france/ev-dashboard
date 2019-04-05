@@ -140,10 +140,11 @@ export class UserSitesDataSource extends TableDataSource<Site> {
 
   public _showAddSitesDialog() {
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
       userID: this.user.id
-    }
+    };
     // Show
     const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
     // Register to the answer

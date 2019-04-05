@@ -5,8 +5,12 @@ import {OnDestroy} from '@angular/core';
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
 
-  constructor(protected activatedRoute: ActivatedRoute, protected windowService: WindowService,
-              protected hashArray: string[], protected synchronizeRouting: boolean = true, protected defaultIndex: number = 0) {
+  constructor(
+      protected activatedRoute: ActivatedRoute,
+      protected windowService: WindowService,
+      protected hashArray: string[],
+      protected synchronizeRouting: boolean = true,
+      protected defaultIndex: number = 0) {
     const currentHash = this.windowService.getHash();
     if (currentHash) {
       const indexOf = this.hashArray.indexOf(currentHash);
@@ -27,7 +31,6 @@ export class AbstractTabComponent implements OnDestroy {
     if (this.synchronizeRouting) {
       if (this.hashArray && index < this.hashArray.length) {
         this.windowService.setHash(this.hashArray[index]);
-        this.windowService.setSearch('');
       }
     }
   }

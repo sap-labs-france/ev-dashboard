@@ -38,8 +38,8 @@ export class TransactionsInProgressComponent implements OnInit {
         // Not Found
         this.messageService.showErrorMessage('transactions.transaction_id_not_found', {'sessionID': transactionId});
       });
-      // Clean URL
-      this.windowService.setSearch('');
+      // Clear Search
+      this.windowService.clearSearch();
     }
   }
 }

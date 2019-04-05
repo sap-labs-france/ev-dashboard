@@ -34,8 +34,8 @@ export class ChargingStationsListComponent implements OnInit {
         // Not Found
         this.messageService.showErrorMessage('chargers.charger_id_not_found', {'chargerID': chargingStationID});
       });
-      // Clean URL
-      this.windowService.setSearch('');
+      // Clear Search
+      this.windowService.clearSearch();
     }
   }
 }

@@ -91,6 +91,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.fragment) {
       this.returnUrl += `#${this.route.snapshot.fragment}`;
     }
+    //Auto Logon in case of demo users
+    let _email = this.route.snapshot.queryParamMap.get('email');
+    let _password = this.route.snapshot.queryParamMap.get('password');
+    if (_email === 'demo.demo@sap.com' && _password) {
+      this.email.setValue(_email);
+      this.password.setValue(_password);
+      this.acceptEula.setValue('true');
+      this.login(this.formGroup.value);
+    }       
   }
 
   sidebarToggle() {

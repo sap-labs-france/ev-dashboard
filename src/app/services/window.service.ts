@@ -50,9 +50,19 @@ export class WindowService {
     return false;
   }
 
-  setHash(hash): void {
+  setHash(hash: string): void {
     if (this.getHash() !== hash) {
       this.window.location.hash = hash;
     }
+  }
+
+  setSearch(query: string): void {
+    if (this.getSearch() !== query) {
+      this.window.location.search = query;
+    }
+  }
+
+  getSearch(): string {
+    return this.window.location.search.substring(1);
   }
 }

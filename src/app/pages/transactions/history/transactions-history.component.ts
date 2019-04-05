@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TransactionsHistoryComponent implements OnInit {
   public isAdmin;
-  private transactionId;
+  private _transactionId;
 
   constructor(
     public transactionsHistoryDataSource: TransactionsHistoryDataSource,
@@ -26,9 +26,9 @@ export class TransactionsHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    this.transactionId = this.activatedRoute.snapshot.queryParams['TransactionID'];
-    if(this.transactionId){
-      this.centralServerService.getTransaction(this.transactionId).subscribe(transaction => {
+    this._transactionId = this.activatedRoute.snapshot.queryParams['TransactionID'];
+    if(this._transactionId){
+      this.centralServerService.getTransaction(this._transactionId).subscribe(transaction => {
         if(transaction) {
           this.transactionsHistoryDataSource.openSession(transaction);
         }

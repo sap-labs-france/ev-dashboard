@@ -58,7 +58,14 @@ export class WindowService {
 
   setSearch(query: string): void {
     if (this.getSearch() !== query) {
-      this.window.location.search = query;
+      if (history.pushState) {
+        // tslint:disable-next-line:max-line-length
+        const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${query ? '?' + query : ''}${window.location.hash}`;
+        console.log(newURL);
+        window.history.pushState({path: newURL}, '' , newURL);
+      } else {
+        this.window.location.search = query;
+      }
     }
   }
 

@@ -10,18 +10,17 @@
                   <ul class="nav nav-tabs" data-tabs="tabs">
                     <li class="nav-item">
                       <a class="nav-link active" href="#profile" data-toggle="tab">
-                        <i class="material-icons">call_split</i> {{name.value}}
+                        <mat-icon class="mr-1">call_split</mat-icon>{{name.value}}
                         <div class="ripple-container"></div>
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
                     <button mat-button (click)="save(formGroup.value)"
                       [disabled]="!formGroup.valid || !formGroup.dirty">
-                      <i class="material-icons mr-2">save</i>
-                      {{'general.save' | translate}}
+                      <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
                     </button>
                     <button mat-icon-button (click)="onClose()">
-                      <i class="material-icons">close</i>
+                      <mat-icon>close</mat-icon>
                     </button>
                   </ul>
                 </div>
@@ -106,8 +105,7 @@
                         <div align="right" pull-right>
                           <button mat-raised-button color="primary"
                             (click)="generateLocalToken(formGroup.value)">
-                            <i class="material-icons">vpn_key</i>
-                            {{'ocpiendpoints.generateNewToken' | translate}}
+                            <mat-icon class="mr-1">vpn_key</mat-icon>{{'ocpiendpoints.generateNewToken' | translate}}
                           </button>
                         </div>
                       </div>
@@ -126,8 +124,7 @@
                           <button mat-raised-button color="primary"
                             (click)="testConnection(formGroup.value)"
                             [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
-                            <i class="material-icons">touch_app</i>
-                            {{'ocpiendpoints.testConnection' | translate}}
+                            <mat-icon class="mr-1">touch_app</mat-icon>{{'ocpiendpoints.testConnection' | translate}}
                           </button>
                         </div>
                       </div>

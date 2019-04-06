@@ -17,7 +17,7 @@
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
-                        <i class="material-icons">account_circle</i>
+                        <mat-icon>account_circle</mat-icon>
                       </span>
                       <mat-form-field>
                         <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
@@ -34,7 +34,7 @@
                     </div>
                     <div class="input-group-prepend">
                       <span class="input-group-text">
-                        <i class="material-icons">email</i>
+                        <mat-icon>email</mat-icon>
                       </span>
                       <mat-form-field>
                         <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
@@ -45,14 +45,14 @@
                     </div>
                     <div class="input-group-prepend">
                       <span class="input-group-text">
-                        <i class="material-icons">lock_outline</i>
+                        <mat-icon>lock_outline</mat-icon>
                       </span>
                       <mat-form-field>
                         <input id="password-field" matInput type="password" autocomplete="new-password"
                                placeholder="{{'authentication.password' | translate}}"
                                [type]="hidePassword ? 'password' : 'text'"
                                [formControl]="password" required>
-                        <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-icon matSuffix class="mr-1 icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
                         <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         <mat-error
                           *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
@@ -66,7 +66,7 @@
                                placeholder="{{'authentication.repeat_password' | translate}}"
                                [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
                                [errorStateMatcher]="parentErrorStateMatcher" required>
-                        <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-icon matSuffix class="mr-1 icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
                         <mat-error
                           *ngIf="repeatPassword.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
                         <mat-error *ngIf="!repeatPassword.hasError('required') && passwords.hasError('notEqual')">{{"authentication.password_not_equal" | translate}}</mat-error>

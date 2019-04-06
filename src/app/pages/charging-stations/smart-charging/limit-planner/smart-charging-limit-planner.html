@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <i class="material-icons">schedule</i>
+          <mat-icon>schedule</mat-icon>
         </div>
         <h3 class="card-title text-left">
           {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
@@ -12,12 +12,10 @@
       <div class="card-body">
         <div class="row col-md-12 text-left">
           <button mat-raised-button color="primary" class="mr-2" (click)="resetSlots()">
-            <i class="material-icons mr-2">clear</i>
-            {{'chargers.smart_charging.reset_button' | translate}}
+            <mat-icon class="mr-1">clear</mat-icon>{{'chargers.smart_charging.reset_button' | translate}}
           </button>
           <button mat-raised-button color="primary" (click)="applyPowerLimit()">
-            <i class="material-icons mr-2">save</i>
-            {{'general.apply' | translate}}
+            <mat-icon class="mr-1">save</mat-icon>{{'general.apply' | translate}}
           </button>
         </div>
         <div class="row col-md-12 text-left">
@@ -119,8 +117,7 @@
               </ng-container>
               <div class="col-md-12 text-left">
                 <button mat-raised-button color="primary" (click)="addSlot()">
-                  <i class="material-icons mr-2">add</i>
-                  {{'chargers.smart_charging.add_slot_button' | translate}}
+                  <mat-icon class="mr-1">add</mat-icon>{{'chargers.smart_charging.add_slot_button' | translate}}
                 </button>
               </div>
             </div>

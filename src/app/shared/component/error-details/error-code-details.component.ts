@@ -6,7 +6,7 @@ import {ErrorCodeDetailsDialogComponent} from '../../dialogs/error-details/error
 @Component({
   template: `
     <button mat-icon-button color="primary" (click)="showHelpDialog()">
-      <i class="material-icons">info_outline</i>
+      <mat-icon>info_outline</mat-icon>
     </button>
   `,
   styles: [`.no-margin {

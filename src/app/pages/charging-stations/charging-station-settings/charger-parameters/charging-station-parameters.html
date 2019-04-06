@@ -99,11 +99,9 @@
                                 <div class="card-icon">
                                     <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
                                         <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value"></mat-icon>
-                                        <!-- <img width="25" height="25" class="charger-dialog-connector-type-icon" src="{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType}}"> -->
                                     </ng-container>
                                     <ng-template #elseTemplate>
                                         <mat-icon>not_interested</mat-icon>
-                                        <!-- <img width="25" height="25" class="charger-dialog-connector-type-icon" src="{{'unknown' | appConnectorType}}"> -->
                                     </ng-template>
                                 </div>
                                 <h4 class="card-title text-left">

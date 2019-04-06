@@ -5,7 +5,7 @@
       <ul class="nav nav-tabs" data-tabs="tabs">
         <span class="toolbar-spacer"></span>
         <button mat-icon-button mat-dialog-close>
-          <i class="material-icons">close</i>
+          <mat-icon>close</mat-icon>
         </button>
       </ul>
     </div>
@@ -45,12 +45,10 @@
 
   <div class="card-footer mat-dialog-actions">
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="minZoom()">
-      <i class="material-icons mr-2">zoom_out</i>
-      {{'geomap.min_zoom' | translate}}
+      <mat-icon class="mr-1">zoom_out</mat-icon>{{'geomap.min_zoom' | translate}}
     </button>
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="maxZoom()">
-      <i class="material-icons mr-2">zoom_in</i>
-      {{'geomap.max_zoom' | translate}}
+      <mat-icon class="mr-1">zoom_in</mat-icon>{{'geomap.max_zoom' | translate}}
     </button>
     <span class="app-spacer"></span>
     <button mat-raised-button color="primary" (click)="validate()">

@@ -145,7 +145,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
-    console.log('get table column def');
     let tableColumns: TableColumnDef[] = [
       {
         id: 'id',

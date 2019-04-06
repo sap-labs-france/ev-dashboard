@@ -18,7 +18,7 @@ import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component'
         <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
       </div>
       <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
-        <a mat-icon-button (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
+        <a mat-icon-button (click)="resetZoom()"><mat-icon class="mr-1">zoom_out_map</mat-icon></a>
       </div>
     </div>
   `

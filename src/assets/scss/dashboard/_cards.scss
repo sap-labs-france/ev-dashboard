@@ -191,7 +191,7 @@
     padding: 0;
 
     &:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
-      border-radius: $border-radius-base;
+      border-radius: 0;
       margin-top: -20px;
       padding: 10px 15px 10px 15px;
     }

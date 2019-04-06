@@ -16,17 +16,17 @@
       <ul class="navbar-nav">
         <li id="sign-in-link" class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/auth/login']">
-            <i class="material-icons">fingerprint</i> {{'authentication.sign_in' | translate}}
+            <mat-icon>fingerprint</mat-icon> {{'authentication.sign_in' | translate}}
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a id="register-link" class="nav-link" [routerLink]="['/auth/register']">
-            <i class="material-icons">person_add</i> {{'authentication.sign_up' | translate}}
+            <mat-icon>person_add</mat-icon> {{'authentication.sign_up' | translate}}
           </a>
         </li>
         <li id="retrieve-password-link" class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/auth/retrieve-password']">
-            <i class="material-icons">lock_open</i> {{'authentication.forgot_password' | translate}}
+            <mat-icon>lock_open</mat-icon> {{'authentication.forgot_password' | translate}}
           </a>
         </li>
       </ul>

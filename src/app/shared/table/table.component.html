@@ -10,7 +10,7 @@
           <button mat-raised-button *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)"
             [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
             data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
-            <i *ngIf="actionDef.icon" class="material-icons mr-2">{{actionDef.icon}}</i>
+            <mat-icon class="mr-1" *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             {{actionDef.name | translate}}
           </button>
         </ng-container>
@@ -62,7 +62,7 @@
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
           <ng-container *ngFor="let actionRightDef of actionsRightDef; let i=index">
             <!-- Refresh Action Button -->
-            <button mat-raised-button (click)="actionTriggered(actionRightDef)" *ngIf="actionRightDef.id === 'refresh'"
+            <button mat-raised-button class="button-refresh" (click)="actionTriggered(actionRightDef)" *ngIf="actionRightDef.id === 'refresh'"
               [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip="" data-toggle="tooltip"
               data-placement="bottom" [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
@@ -70,7 +70,7 @@
                 </div>
               </div>
               <div *ngIf="!ongoingManualRefresh" class="refresh-icon">
-                <i *ngIf="actionRightDef.icon" class="material-icons">{{actionRightDef.icon}}</i>
+                <mat-icon class="mr-1" *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
               </div>
             </button>
             <!-- Action Button -->
@@ -79,7 +79,7 @@
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
                 appTooltip="" data-placement="bottom" data-toggle="tooltip"
                 [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
-                <i *ngIf="actionRightDef.icon" class="material-icons mr-2">{{actionRightDef.icon}}</i>
+                <mat-icon class="mr-1" *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
                   {{actionRightDef.name | translate}}
                 </ng-container>
@@ -207,11 +207,9 @@
       <ng-container matColumnDef="details">
         <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
-          <i (click)="showHideDetailsClicked(row['data'])"
+          <mat-icon (click)="showHideDetailsClicked(row['data'])"
             *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true"
-            class="material-icons">{{row['data'].isExpanded ?
-          'keyboard_arrow_down' :
-          'keyboard_arrow_right'}}</i>
+            >{{row['data'].isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
         </td>
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell></td>
       </ng-container>
@@ -250,7 +248,7 @@
                         [disabled]="dropdownItem.disabled"
                         appTooltip data-placement="bottom" data-toggle="tooltip"
                         [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                        <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
+                        <mat-icon class="mr-1" *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                         {{dropdownItem.name | translate}}
                       </button>
                     </ng-container>
@@ -268,7 +266,7 @@
                   <button mat-icon-button
                     [color]="(rowAction.color ? rowAction.color : '')" 
                     (click)="rowActionTriggered(rowAction, actionCell['data'])"
-                    [disabled]="rowAction.disabled"><i class="material-icons">{{rowAction.icon}}</i></button>
+                    [disabled]="rowAction.disabled"><mat-icon>{{rowAction.icon}}</mat-icon></button>
                 </div>
               </ng-container>
             </ng-container>

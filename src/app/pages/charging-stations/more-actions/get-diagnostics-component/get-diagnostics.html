@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header card-header-primary card-header-icon">
           <div class="card-icon">
-            <i class="material-icons">list</i>
+            <mat-icon>list</mat-icon>
           </div>
           <h3 class="card-title text-left">
             {{'chargers.more_actions.get_diagnostics_title' | translate: {chargeBoxID: charger.id} }}
@@ -19,12 +19,10 @@
           </div>
           <div class="col-md-12 text-right">
             <button mat-button (click)="triggerAction()">
-              <i class="material-icons mr-2">save</i>
-              {{'chargers.more_actions.get_diagnostics_download_button' | translate}}
+              <mat-icon class="mr-1">save</mat-icon>{{'chargers.more_actions.get_diagnostics_download_button' | translate}}
             </button>
           </div>
-          <div class="row col-md-12">
-            Check for file: {{fileName}}
+          <div class="row col-md-12">Check for file: {{fileName}}
           </div>
         </div>
       </div>

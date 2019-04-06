@@ -9,18 +9,17 @@
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
                     <a class="nav-link active" href="#smartCharging" data-toggle="tab)">
-                      <i class="material-icons">battery_charging_full</i> {{charger.id}}
+                      <mat-icon class="mr-1">battery_charging_full</mat-icon> {{charger.id}}
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <span class="toolbar-spacer"></span>
                   <button mat-button (click)="clearProfiles()"
                     [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
-                    <i class="material-icons">delete_sweep</i>
-                    {{'chargers.smart_charging.clear_profiles_button' | translate}}
+                    <mat-icon class="mr-1">delete_sweep</mat-icon>{{'chargers.smart_charging.clear_profiles_button' | translate}}
                   </button>
                   <button mat-icon-button mat-dialog-close>
-                    <i class="material-icons">close</i>
+                    <mat-icon>close</mat-icon>
                   </button>
                 </ul>
               </div>

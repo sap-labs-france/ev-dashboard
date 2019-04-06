@@ -6,7 +6,7 @@
     // margin-top: 2px !important;
   }
   .mat-button[disabled][disabled] {
-    color: white !important;
+    color: darken(white, 25%) !important;
   }
 }
 
@@ -17,8 +17,11 @@
   }
 }
 
-button {
+.button-refresh {
   min-width: 45px !important;
-  min-height: 35px !important;
-  padding: 0 8px !important;
+  min-height: 36px !important;
 }
+
+.mat-button-focus-overlay {
+  background-color:transparent !important;
+ }

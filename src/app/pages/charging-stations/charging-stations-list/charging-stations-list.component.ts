@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChargingStationsListDataSource } from './charging-stations-list-data-source-table';
-import { ActivatedRoute } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
+import { WindowService } from '../../../services/window.service';
+import {MessageService} from '../../../services/message.service';
 
 @Component({
   selector: 'app-charging-stations-list',
@@ -12,22 +13,27 @@ import { CentralServerService } from 'app/services/central-server.service';
   ]
 })
 export class ChargingStationsListComponent implements OnInit {
-  private chargingStationID;
 
   constructor(
     public chargingStationsListDataSource: ChargingStationsListDataSource,
+    private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private activatedRoute: ActivatedRoute
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
-    this.chargingStationID = this.activatedRoute.snapshot.queryParams['ChargingStationID'];
-    if(this.chargingStationID){
-      this.centralServerService.getCharger(this.chargingStationID).subscribe(chargingStation => {
-        if(chargingStation) {
-          this.chargingStationsListDataSource.showChargingStationDialog(chargingStation);
-        }
-      })
+    // Check if transaction ID id provided
+    const chargingStationID = this.windowService.getSearch('ChargingStationID');
+    if (chargingStationID) {
+      this.centralServerService.getCharger(chargingStationID).subscribe(chargingStation => {
+        // Found
+        this.chargingStationsListDataSource.showChargingStationDialog(chargingStation);
+      }, (error) => {
+        // Not Found
+        this.messageService.showErrorMessage('chargers.charger_id_not_found', {'chargerID': chargingStationID});
+      });
+      // Clear Search
+      this.windowService.deleteSearch('ChargingStationID');
     }
   }
 }

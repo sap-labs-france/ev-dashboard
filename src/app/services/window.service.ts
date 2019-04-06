@@ -50,9 +50,61 @@ export class WindowService {
     return false;
   }
 
-  setHash(hash): void {
+  setHash(hash: string): void {
     if (this.getHash() !== hash) {
       this.window.location.hash = hash;
+    }
+  }
+
+  getSearch(name: string): string {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  getSearches(name: string): string[] {
+    return new URLSearchParams(window.location.search).getAll(name);
+  }
+
+  appendSearch(name: string, value: string) {
+    // Parse the query string
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    // Add
+    urlSearchParams.append(name, value);
+    // Set it back
+    this._setSearchQueryParams(urlSearchParams.toString());
+  }
+
+  setSearch(name: string, value: string): void {
+    // Parse the query string
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    // Set
+    urlSearchParams.set(name, value);
+    // Set it back
+    this._setSearchQueryParams(urlSearchParams.toString());
+  }
+
+  deleteSearch(name: string): void {
+    // Parse the query string
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    // Delete
+    urlSearchParams.delete(name);
+    // Set it back
+    this._setSearchQueryParams(urlSearchParams.toString());
+  }
+
+  clearSearch() {
+    this._setSearchQueryParams(null);
+  }
+
+  private _setSearchQueryParams(queryParams) {
+    // Set the Query params
+    if (history.pushState) {
+      // Without page reload
+      // tslint:disable-next-line:max-line-length
+      const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
+      window.history.pushState({path: newURL}, '' , newURL);
+    } else {
+      // With page reload
+      this.window.location.search = queryParams;
     }
   }
 }

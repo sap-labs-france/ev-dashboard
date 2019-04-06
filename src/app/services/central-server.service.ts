@@ -473,6 +473,20 @@ export class CentralServerService {
       );
   }
 
+  public getTransaction(id: string): Observable<Transaction> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Transaction`,
+      {
+        headers: this._buildHttpHeaders(),
+        params : { ID: id }
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public exportLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
     this._buildPaging(paging, params);
@@ -624,19 +638,6 @@ export class CentralServerService {
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public verifyTenant(): Observable<any> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/VerifyTenant`,
-      {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
       })
       .pipe(
         catchError(this._handleHttpError)

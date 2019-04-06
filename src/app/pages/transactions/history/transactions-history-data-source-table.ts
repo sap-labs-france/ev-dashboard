@@ -236,7 +236,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         });
         break;
       case 'open':
-        this._openSession(transaction);
+        this.openSession(transaction);
         break;
       default:
         super.rowActionTriggered(actionDef, transaction);
@@ -306,7 +306,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       });
   }
 
-  private _openSession(transaction: Transaction) {
+  public openSession(transaction: Transaction) {
 
     this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
         const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);

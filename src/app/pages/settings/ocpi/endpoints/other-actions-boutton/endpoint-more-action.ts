@@ -1,5 +1,5 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { TableActionDef } from 'app/common.types';
+import { TableActionDef, ButtonColor } from 'app/common.types';
 
 export const ACTION_SEND = 'send';
 export const ACTION_STOP_START_JOB = 'stop_start_job';
@@ -9,7 +9,7 @@ export class EndpointMoreAction implements TableAction {
     id: 'more',
     type: 'button',
     icon: 'more_horiz',
-    class: 'btn-info',
+    color: ButtonColor.primary,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

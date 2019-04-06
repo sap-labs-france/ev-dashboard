@@ -131,7 +131,7 @@
     ~ .dropdown-menu {
       &.dropdown-menu-top-left,
       &.dropdown-menu-top-right {
-        bottom: $bmd-btn-icon-size; // push up the bottom of the menu the height of the button
+        bottom: 2rem; // push up the bottom of the menu the height of the button
       }
     }
   }
@@ -149,7 +149,7 @@
     ~ .dropdown-menu {
       &.dropdown-menu-top-left,
       &.dropdown-menu-top-right {
-        bottom: $bmd-btn-fab-size-sm; // push up the bottom of the menu the height of the button
+        bottom: 2.5rem; // push up the bottom of the menu the height of the button
       }
     }
   }

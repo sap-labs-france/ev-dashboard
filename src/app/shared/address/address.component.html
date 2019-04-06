@@ -65,15 +65,9 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-2" align="left" *ngIf="!hideGeoLocation">
-      <button mat-raised-button class="btn btn-primary btn-round app-btn-min-width" (click)="showPlace()">
-        <!-- <span class="mat-button-wrapper"> -->
-          <i class="material-icons mr-2">location_on</i>
-          <!-- <span class="btn-label"> -->
-            {{'general.show_place'
-            | translate}}
-          <!-- </span> -->
-        <!-- </span> -->
-      </button>
+  <div class="col-md-1" class="align-self-center" *ngIf="!hideGeoLocation">
+    <button mat-raised-button color="primary" (click)="showPlace()">
+      <mat-icon class="mr-1">location_on</mat-icon>{{'general.show_place' | translate}}
+    </button>
   </div>
 </div>

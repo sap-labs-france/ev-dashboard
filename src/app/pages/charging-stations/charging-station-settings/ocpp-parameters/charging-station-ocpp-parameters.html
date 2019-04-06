@@ -1,52 +1,42 @@
 <div class="main-content">
   <div class="d-flex-row justify-content-start pb-2">
-    <button mat-raised-button class="btn btn-primary pull-left" (click)="getConfiguration()" [disabled]="!isGetConfigurationActive">
-              <i class="material-icons mr-2">get_app</i>
-                {{'chargers.button_get_configuration' | translate}}
+    <button mat-raised-button color="primary" class="pull-left" (click)="getConfiguration()"
+      [disabled]="!isGetConfigurationActive">
+      <mat-icon class="mr-1">get_app</mat-icon>{{'chargers.button_get_configuration' | translate}}
     </button>
   </div>
   <div class="d-flex-row">
-    <!-- <mat-dialog-content> -->
     <form class="form" [formGroup]="formGroup" class="w-100">
-      <!-- <div class="card"> -->
-        <!-- <div class="card-body"> -->
-            
-          <div class="table-responsive flex-grow-1">
-              <mat-dialog-content>
-            <table class="mat-table d-flex">
-              
-              <tbody class="w-100">
+      <div class="table-responsive flex-grow-1">
+        <mat-dialog-content>
+          <table class="mat-table d-flex">
+            <tbody class="w-100">
               <tr *ngFor="let item of chargerConfiguration" class="mat-row" role="row">
                 <td class="text-left">
                   <strong>{{item.key | translate}}</strong>
                 </td>
                 <td class="d-flex flex-grow-1 justif-content-center">
-                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-primary btn-just-icon"
-                      (click)="changeParameter(item)"
-                      appTooltip data-toggle="tooltip" [title]="item.tooltip | translate">
-                      <i class="material-icons">{{item.icon}}</i>
-                    </button>
-                    <button mat-raised-button *ngIf="!item.readonly" class="btn btn-link btn-primary btn-just-icon"
-                      (click)="clearParameter(item)" [hidden]="item.icon === 'edit'"
-                      appTooltip data-toggle="tooltip" [title]="'general.cancel' | translate">
-                      <i class="material-icons">clear</i>
-                   </button>
-                  </td>
+                  <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="changeParameter(item)"
+                    appTooltip data-toggle="tooltip" [title]="item.tooltip | translate">
+                    <mat-icon>{{item.icon}}</mat-icon>
+                  </button>
+                  <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="clearParameter(item)"
+                    [hidden]="item.icon === 'edit'" appTooltip data-toggle="tooltip"
+                    [title]="'general.cancel' | translate">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </td>
                 <td class="text-left" [class.py-2]="item.readonly" class="text-left w-100">
-                  <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput
-                        [formControlName]="item.key" [value]="item.value">
+                  <input [id]="item.key" #parameter *ngIf="!item.readonly" matInput [formControlName]="item.key"
+                    [value]="item.value">
                   <ng-container *ngIf="item.readonly">{{item.value}}</ng-container>
                 </td>
               </tr>
-              </tbody>
-              
-            </table>
-          </mat-dialog-content>
-          <!-- </div> -->
-        <!-- </div> -->
+            </tbody>
+          </table>
+        </mat-dialog-content>
       </div>
-    
+
     </form>
-  <!-- </mat-dialog-content> -->
   </div>
 </div>

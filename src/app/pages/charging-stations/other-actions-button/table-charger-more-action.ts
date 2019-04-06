@@ -1,5 +1,5 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { TableActionDef } from 'app/common.types';
+import { TableActionDef, ButtonColor } from 'app/common.types';
 
 export const ACTION_REBOOT = 'REBOOT';
 export const ACTION_SOFT_RESET = 'SOFT_RESET';
@@ -11,8 +11,8 @@ export class TableChargerMoreAction implements TableAction {
   private action: TableActionDef = {
     id: 'more',
     type: 'button',
+    color: ButtonColor.primary,
     icon: 'more_horiz',
-    class: 'btn-info',
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

@@ -1,21 +1,21 @@
 <div class="card">
-    <div class="card-header card-header-tabs card-header-primary">
-        <div class="nav-tabs-navigation">
-            <h4 class="nav-tabs-title">{{this.dialogTitle}}</h4>
-            <ul class="nav nav-tabs" data-tabs="tabs">
-                <span class="toolbar-spacer"></span>
-                <button mat-raised-button class="btn btn-just-icon btn-link" mat-dialog-close>
-                  <i class="material-icons">close</i>
-                </button>
-            </ul>
-        </div>
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title">{{this.dialogTitle}}</h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </ul>
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <app-table [dataSource]="siteUsersDataSource"></app-table>
-            </div>
-        </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <app-table [dataSource]="siteUsersDataSource"></app-table>
+      </div>
     </div>
-    <div class="card-footer"></div>
+  </div>
+  <div class="card-footer"></div>
 </div>

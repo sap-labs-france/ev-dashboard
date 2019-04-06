@@ -1,5 +1,5 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { TableActionDef } from 'app/common.types';
+import { TableActionDef, ButtonColor } from 'app/common.types';
 import { ACTION_SMART_CHARGING } from './table-charger-more-action';
 
 export class TableChargerSmartChargingAction implements TableAction {
@@ -9,7 +9,7 @@ export class TableChargerSmartChargingAction implements TableAction {
     name: 'chargers.more_actions_items.smart_charging_item',
     icon: 'battery_charging_full',
     tooltip: 'general.tooltips.smart_charging',
-    class: 'btn-success'
+    color: ButtonColor.accent
   };
 
   public getActionDef(): TableActionDef {

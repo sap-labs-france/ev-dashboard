@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableSettingsAction implements TableAction {
   private action: TableActionDef = {
     id: 'settings',
     type: 'button',
     icon: 'settings',
-    class: 'btn-info',
+    color: ButtonColor.primary,
     name: 'general.edit',
     tooltip: 'general.tooltips.settings'
   };

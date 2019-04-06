@@ -1,40 +1,40 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-profile card-testimonial">
-                    <div class="card-header card-header-tabs card-header-primary">
-                        <div class="nav-tabs-navigation">
-                            <div class="nav-tabs-wrapper">
-                                <ul class="nav nav-tabs" data-tabs="tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#getDiagnostics" data-toggle="tab)">
-                                            <i class="material-icons">battery_charging_full</i> {{charger.id}}
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                    </li>
-                                    <span class="toolbar-spacer"></span>
-                                    <button mat-raised-button class="btn btn-link" mat-dialog-close>
-                                        <i class="material-icons mr-2">close</i>
-                                    </button>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="getDiagnostics">
-                                <mat-dialog-content>
-                                    <div class="col-md-6">
-                                        <app-get-diagnostics [charger]="charger"></app-get-diagnostics>
-                                    </div>
-                                </mat-dialog-content>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer"></div>
-                </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-profile card-testimonial">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#getDiagnostics" data-toggle="tab)">
+                      <mat-icon class="mr-1">battery_charging_full</mat-icon>{{charger.id}}
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <span class="toolbar-spacer"></span>
+                  <button mat-icon-button mat-dialog-close>
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </ul>
+              </div>
             </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="getDiagnostics">
+                <mat-dialog-content>
+                  <div class="col-md-6">
+                    <app-get-diagnostics [charger]="charger"></app-get-diagnostics>
+                  </div>
+                </mat-dialog-content>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer"></div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

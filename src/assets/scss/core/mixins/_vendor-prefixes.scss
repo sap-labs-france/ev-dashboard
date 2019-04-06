@@ -304,7 +304,6 @@
 
 @mixin timeline-badge-color($color) {
   background-color: $color;
-  @include shadow-big-color($color);
 }
 
 @mixin lock-page-input-color($color) {

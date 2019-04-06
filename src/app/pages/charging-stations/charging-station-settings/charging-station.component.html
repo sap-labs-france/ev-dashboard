@@ -1,74 +1,63 @@
-<!-- <div class="main-content">
-  <div class="container-fluid"> -->
-    <!-- <div class="row">
-      <div class="col-md-12"> -->
-        <div class="card card-profile card-testimonial" style="min-height:60%">
-          <div class="card-header card-header-tabs card-header-primary">
-            <div class="nav-tabs-navigation">
-              <div class="nav-tabs-wrapper">
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" [attr.href]="(isChargerPaneDisabled ? null : '#charger')"
-                       [attr.data-toggle]="(isChargerPaneDisabled ? null : 'tab')"
-                       (click)="changeActivePane('chargers', isChargerPaneDisabled)">
-                      <i class="material-icons">ev_station</i> {{currentCharger.id}}
-                      <div class="ripple-container"></div>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" [attr.href]="(isPropertiesPaneDisabled ? null : '#properties')"
-                       [attr.data-toggle]="(isPropertiesPaneDisabled ? null : 'tab')"
-                       (click)="changeActivePane('properties', isPropertiesPaneDisabled)">
-                      <i class="material-icons">info</i> {{'chargers.properties_title' |
-                    translate}}
-                      <div class="ripple-container"></div>
-                    </a>
-                  </li>
-                  <ng-container *ngIf="isAdmin">
-                    <li class="nav-item">
-                      <a class="nav-link" [attr.href]="(isOCPPParametersPaneDisabled ? null : '#ocppparameters')"
-                         [attr.data-toggle]="(isOCPPParametersPaneDisabled ? null : 'tab')"
-                         (click)="changeActivePane('ocppParameters', isOCPPParametersPaneDisabled)">
-                        <i class="material-icons">build</i> {{'chargers.ocpp_parameters_title'
-                      | translate}}
-                        <div class="ripple-container"></div>
-                      </a>
-                    </li>
-                  </ng-container>
-                  <span class="toolbar-spacer"></span>
-                  <button mat-raised-button class="btn btn-link" (click)="save()" [disabled]="isSaveButtonDisabled"
-                          [hidden]="isSaveButtonHidden">
-                                            <i class="material-icons mr-2">save</i>
-                                              {{'chargers.save_charger' | translate}}
-                  </button>
-                  <button mat-raised-button class="btn btn-link btn-just-icon" (click)="onClose()">
-                                        <i class="material-icons mr-2">close</i>
-                  </button>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
+<div class="card card-profile card-testimonial" style="min-height:60%">
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul class="nav nav-tabs" data-tabs="tabs">
+          <li class="nav-item">
+            <a class="nav-link active" [attr.href]="(isChargerPaneDisabled ? null : '#charger')"
+              [attr.data-toggle]="(isChargerPaneDisabled ? null : 'tab')"
+              (click)="changeActivePane('chargers', isChargerPaneDisabled)">
+              <mat-icon class="mr-1">ev_station</mat-icon>{{currentCharger.id}}
+              <div class="ripple-container"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [attr.href]="(isPropertiesPaneDisabled ? null : '#properties')"
+              [attr.data-toggle]="(isPropertiesPaneDisabled ? null : 'tab')"
+              (click)="changeActivePane('properties', isPropertiesPaneDisabled)">
+              <mat-icon class="mr-1">info</mat-icon>{{'chargers.properties_title' | translate}}
+              <div class="ripple-container"></div>
+            </a>
+          </li>
+          <ng-container *ngIf="isAdmin">
+            <li class="nav-item">
+              <a class="nav-link" [attr.href]="(isOCPPParametersPaneDisabled ? null : '#ocppparameters')"
+                [attr.data-toggle]="(isOCPPParametersPaneDisabled ? null : 'tab')"
+                (click)="changeActivePane('ocppParameters', isOCPPParametersPaneDisabled)">
+                <mat-icon class="mr-1">build</mat-icon>{{'chargers.ocpp_parameters_title' | translate}}
+                <div class="ripple-container"></div>
+              </a>
+            </li>
+          </ng-container>
+          <span class="toolbar-spacer"></span>
+          <button mat-button 
+            (click)="save()" [disabled]="isSaveButtonDisabled"
+            [hidden]="isSaveButtonHidden">
+            <mat-icon class="mr-1">save</mat-icon>{{'chargers.save_charger' | translate}}
+          </button>
+          <button mat-icon-button (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
 
-              <div class="tab-content">
-                <div class="tab-pane active" id="charger">
-                  <app-charging-station-parameters #chargerParameters
-                                                   [charger]='currentCharger' [dialogRef]="dialogRef"></app-charging-station-parameters>
-                </div>
-                <div class="tab-pane" id="properties">
-                  <app-charger-properties [charger]='currentCharger'></app-charger-properties>
-                </div>
-                <ng-container *ngIf="isAdmin">
-                  <div class="tab-pane" id="ocppparameters">
-                    <app-charger-ocpp-configuration #ocppParameters
-                                                    [charger]='currentCharger'></app-charger-ocpp-configuration>
-                  </div>
-                </ng-container>
-              </div>
-          </div>
-          <div class="card-footer"></div>
+    <div class="tab-content">
+      <div class="tab-pane active" id="charger">
+        <app-charging-station-parameters #chargerParameters [charger]='currentCharger' [dialogRef]="dialogRef">
+        </app-charging-station-parameters>
+      </div>
+      <div class="tab-pane" id="properties">
+        <app-charger-properties [charger]='currentCharger'></app-charger-properties>
+      </div>
+      <ng-container *ngIf="isAdmin">
+        <div class="tab-pane" id="ocppparameters">
+          <app-charger-ocpp-configuration #ocppParameters [charger]='currentCharger'></app-charger-ocpp-configuration>
         </div>
-      <!-- </div>
-    </div> -->
-  <!-- </div>
-</div> -->
+      </ng-container>
+    </div>
+  </div>
+  <div class="card-footer"></div>
+</div>

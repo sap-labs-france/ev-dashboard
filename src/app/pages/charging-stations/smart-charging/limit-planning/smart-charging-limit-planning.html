@@ -1,97 +1,85 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div *ngIf="charger.maximumPower" class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <div class="card">
-                        <div class="card-header card-header-primary card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">calendar_today</i>
-                            </div>
-                            <h3 class="card-title text-left">
-                                {{'chargers.smart_charging.current_limit' | translate}}
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row col-md-12">
-                                <ng-container *ngIf="hasNoActivePlanning || hasNoCompositeResultAccepted; else elseTemplate">
-                                    {{'chargers.smart_charging.no_current_limit' | translate}}
-                                </ng-container>
-                                <ng-template #elseTemplate>
-                                    <div class="row col-md-12">
-                                        <div class="row col-md-8">
-                                            <div class="row col-md-12">{{'chargers.smart_charging.from_date' |
-                                                translate}}: {{startScheduleDate | date: 'long'}}</div>
-                                            <div class="row col-md-12">{{'chargers.smart_charging.to_date' |
-                                                translate}}: {{endScheduleDate | date: 'long'}}</div>
-                                            <div *ngIf="minChargingRate > 0" class="row col-md-12">minChargingRate:
-                                                {{minChargingRate}}</div>
-                                            <div class="row col-md-12">{{'chargers.smart_charging.current_limit_title'
-                                                | translate}}: {{currentDisplayedLimit}}</div>
-                                        </div>
-                                        <div class="row col-md-4 text-right">
-                                            <div class="row col-md-12"></div>
-                                            <div class="row col-md-12"></div>
-                                            <div class="row col-md-12">
-                                                <button mat-raised-button class="btn btn-primary" (click)="getCompositeSchedule()">
-                                                    <!-- <span class="mat-button-wrapper"> -->
-                                                        <i class="material-icons mr-2">refresh</i>
-                                                        <!-- <span class="btn-label"> -->
-                                                            {{'general.refresh' | translate}}
-                                                        <!-- </span> -->
-                                                    <!-- </span> -->
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 text-right">
-                                        <app-limit-planning-chart #limitChart [limitPlanning]="limitPlanning" ratio="4"></app-limit-planning-chart>
-                                    </div>
-                                    <mat-dialog-content>
-                                        <ng-container *ngFor="let connectorPlanning of limitPlanning">
-                                            <div class="col-md-12 text-left">
-                                                <button mat-raised-button class="btn btn-just-icon" (click)="showHideConnectorPlanning(connectorPlanning)">
-                                                    <mat-icon class="material-icons">{{connectorPlanning.isExpanded ?
-                                                        'keyboard_arrow_down' :
-                                                        'keyboard_arrow_right'}}</mat-icon>
-                                                </button>
-                                                Connector {{connectorPlanning.connectorId | appConnectorId}}
-                                            </div>
-                                            <div class="col-md-12">
-                                                <table [hidden]="!connectorPlanning.isExpanded" mat-table [dataSource]="connectorPlanning.slots">
-                                                    <!-- Startdate Column -->
-                                                    <ng-container matColumnDef="from">
-                                                        <th mat-header-cell *matHeaderCellDef class="col-9em">{{'chargers.smart_charging.from_date'
-                                                            | translate}}</th>
-                                                        <td mat-cell *matCellDef="let element" class="col-9em">
-                                                            {{element.start | date: 'long'}} </td>
-                                                    </ng-container>
-                                                    <!-- toDate Column -->
-                                                    <ng-container matColumnDef="to">
-                                                        <th mat-header-cell *matHeaderCellDef class="col-9em">{{'chargers.smart_charging.to_date'
-                                                            | translate}}</th>
-                                                        <td mat-cell *matCellDef="let element" class="col-9em">{{element.end
-                                                            | date: 'long'}} </td>
-                                                    </ng-container>
-                                                    <!-- limit Column -->
-                                                    <ng-container matColumnDef="limit">
-                                                        <th mat-header-cell *matHeaderCellDef class="col-3em">{{'chargers.smart_charging.limit_title'
-                                                            | translate}}</th>
-                                                        <td mat-cell *matCellDef="let element" class="col-3em">
-                                                            {{element.limit}} </td>
-                                                    </ng-container>
-                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                                                </table>
-                                            </div>
-                                        </ng-container>
-                                    </mat-dialog-content>
-                                </ng-template>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="container-fluid">
+    <div *ngIf="charger.maximumPower" class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="card">
+            <div class="card-header card-header-primary card-header-icon">
+              <div class="card-icon">
+                <mat-icon>calendar_today</mat-icon>
+              </div>
+              <h3 class="card-title text-left">
+                {{'chargers.smart_charging.current_limit' | translate}}
+              </h3>
             </div>
+            <div class="card-body">
+              <div class="row col-md-12">
+                <ng-container *ngIf="hasNoActivePlanning || hasNoCompositeResultAccepted; else elseTemplate">
+                  {{'chargers.smart_charging.no_current_limit' | translate}}
+                </ng-container>
+                <ng-template #elseTemplate>
+                  <div class="row col-md-12">
+                    <div class="row col-md-8">
+                      <div class="row col-md-12">{{'chargers.smart_charging.from_date' | translate}}: {{startScheduleDate | date: 'long'}}</div>
+                      <div class="row col-md-12">{{'chargers.smart_charging.to_date' | translate}}: {{endScheduleDate | date: 'long'}}</div>
+                      <div *ngIf="minChargingRate > 0" class="row col-md-12">minChargingRate:
+                        {{minChargingRate}}</div>
+                      <div class="row col-md-12">{{'chargers.smart_charging.current_limit_title' | translate}}: {{currentDisplayedLimit}}</div>
+                    </div>
+                    <div class="row col-md-4 text-right">
+                      <div class="row col-md-12"></div>
+                      <div class="row col-md-12"></div>
+                      <div class="row col-md-12">
+                        <button mat-raised-button class="primary" (click)="getCompositeSchedule()">
+                          <mat-icon class="mr-1">refresh</mat-icon>{{'general.refresh' | translate}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 text-right">
+                    <app-limit-planning-chart #limitChart [limitPlanning]="limitPlanning" ratio="4">
+                    </app-limit-planning-chart>
+                  </div>
+                  <mat-dialog-content>
+                    <ng-container *ngFor="let connectorPlanning of limitPlanning">
+                      <div class="col-md-12 text-left">
+                        <button mat-icon-button (click)="showHideConnectorPlanning(connectorPlanning)">
+                          <mat-icon>{{connectorPlanning.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
+                        </button>
+                        Connector {{connectorPlanning.connectorId | appConnectorId}}
+                      </div>
+                      <div class="col-md-12">
+                        <table [hidden]="!connectorPlanning.isExpanded" mat-table
+                          [dataSource]="connectorPlanning.slots">
+                          <!-- Startdate Column -->
+                          <ng-container matColumnDef="from">
+                            <th mat-header-cell *matHeaderCellDef class="col-9em">{{'chargers.smart_charging.from_date' | translate}}</th>
+                            <td mat-cell *matCellDef="let element" class="col-9em">
+                              {{element.start | date: 'long'}} </td>
+                          </ng-container>
+                          <!-- toDate Column -->
+                          <ng-container matColumnDef="to">
+                            <th mat-header-cell *matHeaderCellDef class="col-9em">{{'chargers.smart_charging.to_date' | translate}}</th>
+                            <td mat-cell *matCellDef="let element" class="col-9em">{{element.end | date: 'long'}} </td>
+                          </ng-container>
+                          <!-- limit Column -->
+                          <ng-container matColumnDef="limit">
+                            <th mat-header-cell *matHeaderCellDef class="col-3em">{{'chargers.smart_charging.limit_title' | translate}}</th>
+                            <td mat-cell *matCellDef="let element" class="col-3em">
+                              {{element.limit}} </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                      </div>
+                    </ng-container>
+                  </mat-dialog-content>
+                </ng-template>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

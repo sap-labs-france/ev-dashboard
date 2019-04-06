@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableNoAction implements TableAction {
   private action: TableActionDef = {
     id: 'block',
     type: 'button',
     icon: 'block',
-    class: '',
+    color: ButtonColor.primary,
     name: 'general.no_action',
     tooltip: 'general.tooltips.no_action'
   }

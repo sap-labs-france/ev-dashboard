@@ -1,13 +1,12 @@
 <div [class]="'card ' + (cardClass ? cardClass : 'card-stats')">
     <div [class]="'card-header card-header-icon ' + ( headerClass ? headerClass : 'card-header-primary')">
         <div [class]="'card-icon ' + (iconClass ? iconClass : '')">
-            <i class="material-icons">{{cardIcon}}</i>
+            <mat-icon>{{cardIcon}}</mat-icon>
         </div>
         <p [class]="'card-category btn-group ' + (categoryClass ? categoryClass : '')">{{cardCategory | translate }}</p>
 
         <div class="card-nooverflow">
             <div *ngIf="withTrend" [class]="'d-flex align-items-center justify-content-end trending-stat ' + (trendClass ? trendClass : '')">
-                <!-- <i class="material-icons trending-icon" [ngStyle]="{'transform': trendingRotation}" [title]="trendTitle">trending_flat</i> -->
                 <h3 [class]="'card-title ' + (titleClass ? titleClass : '')">{{cardTitle | translate}}
                 </h3>
             </div>

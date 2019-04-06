@@ -1,7 +1,7 @@
 <div *ngIf="!isSacActive" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
-      <i class="material-icons">info</i>
+      <mat-icon class="mr-1">info</mat-icon>
     </div>
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
@@ -21,17 +21,16 @@
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
-        <i class="material-icons">settings</i>
+        <mat-icon>settings</mat-icon>
       </div>
       <h3 class="card-title">{{'settings.sac.settings' | translate}}</h3>
     </div>
 
     <div class="card-body">
       <div class="mat-toolbar-row">
-        <button mat-raised-button class="btn btn-danger" (click)="save(formGroup.value)"
+        <button mat-raised-button color="warn" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-          <i class="material-icons mr-2">save</i>
-          {{'general.save' | translate}}
+          <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
         </button>
       </div>
       <div class="row">

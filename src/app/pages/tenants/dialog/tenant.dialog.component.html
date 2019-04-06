@@ -10,25 +10,23 @@
                   <ul class="nav nav-tabs" data-tabs="tabs">
                     <li class="nav-item">
                       <a class="nav-link active" data-toggle="tab" href="#profile">
-                        <i class="material-icons">account_balance</i> {{name.value}}
+                        <mat-icon class="mr-1">account_balance</mat-icon>{{name.value}}
                         <div class="ripple-container"></div>
                       </a>
                     </li>
                     <li *ngIf="id.value" class="nav-item">
                       <a class="nav-link" data-toggle="tab" href="#components">
-                        <i class="material-icons">settings_input_component</i>
-                        {{'general.menu.components' | translate}}
+                        <mat-icon class="mr-1">settings_input_component</mat-icon>{{'general.menu.components' | translate}}
                         <div class="ripple-container"></div>
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
-                    <button mat-raised-button (click)="save(formGroup.value)"
-                      [disabled]="!formGroup.valid || !formGroup.dirty" class="btn btn-link">
-                      <i class="material-icons mr-2">save</i>
-                      {{'general.save' | translate}}
+                    <button mat-button (click)="save(formGroup.value)"
+                      [disabled]="!formGroup.valid || !formGroup.dirty">
+                      <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
                     </button>
-                    <button mat-raised-button class="btn btn-link" mat-dialog-close>
-                      <i class="material-icons">close</i>
+                    <button mat-icon-button mat-dialog-close>
+                      <mat-icon>close</mat-icon>
                     </button>
                   </ul>
                 </div>

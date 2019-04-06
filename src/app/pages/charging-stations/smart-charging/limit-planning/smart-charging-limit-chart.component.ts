@@ -22,7 +22,7 @@ import { ChartComponent } from 'angular2-chartjs';
       <div *ngIf="limitPlanning && limitPlanning.length > 0" class="icon-left">
         <a
           [class]="'btn btn-link btn-just-icon'"
-          (click)="resetZoom()"><i class="material-icons">zoom_out_map</i></a>
+          (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
     </div>
   `

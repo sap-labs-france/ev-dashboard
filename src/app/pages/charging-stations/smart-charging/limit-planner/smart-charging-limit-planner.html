@@ -79,9 +79,14 @@
                                         <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlot">
                                             <!-- Date selector -->
                                             <mat-form-field>
-                                                <input matInput type="datetime-local" (input)="changeStartSlotDate($event, slot)"
+                                                <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1"></mat-datetimepicker>
+                                                <mat-datetimepicker-toggle  [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                                                <input matInput
+                                                    (dateChange)="changeStartSlotDate($event, slot)"
                                                     [placeholder]="'chargers.smart_charging.start_date' | translate"
-                                                    [value]="slot.displayedStartValue">
+                                                    [matDatetimepicker]="picker"
+                                                    [value]="slot.displayedStartValue"
+                                                    required autocomplete="false">
                                             </mat-form-field>
                                         </ng-container>
                                         <ng-template #elseSlot>

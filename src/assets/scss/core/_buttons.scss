@@ -2,9 +2,6 @@
   button {
     color: white !important;
   }
-  .mat-icon-button {
-    // margin-top: 2px !important;
-  }
   .mat-button[disabled][disabled] {
     color: darken(white, 25%) !important;
   }
@@ -18,8 +15,13 @@
 }
 
 .button-refresh {
-  min-width: 45px !important;
-  min-height: 36px !important;
+  min-width: 50px !important;
+  min-height: 40px !important;
+  padding: 0px 10px !important;
+}
+
+.mat-button:not(.mat-icon-button), .mat-raised-button {
+  min-height: 40px !important;
 }
 
 .mat-button-focus-overlay {

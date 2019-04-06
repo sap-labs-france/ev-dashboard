@@ -36,8 +36,10 @@
   vertical-align: middle;
 }
 
-agm-map {
-  height: 500px;
+.mat-dialog-container {
+  agm-map {
+    height: 500px !important;
+  }
 }
 
 .app-spacer {

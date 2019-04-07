@@ -170,7 +170,7 @@
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
       </ng-container>
       <!-- Columns -->
-      <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
+      <ng-container *ngFor="let columnDef of this.dataSource.tableColumnDefs, index as i" [matColumnDef]="columnDef.id">
         <ng-container *ngIf="columnDef.sortable; else noSort">
           <th *matHeaderCellDef
             [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"

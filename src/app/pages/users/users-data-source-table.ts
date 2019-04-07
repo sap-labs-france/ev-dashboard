@@ -36,22 +36,24 @@ export class UsersDataSource extends TableDataSource<User> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private componentService: ComponentService,
-    private userRolePipe: UserRolePipe,
-    private userStatusPipe: UserStatusPipe,
-    private userNamePipe: AppUserNamePipe,
-    private arrayToStringPipe: AppArrayToStringPipe,
-    private datePipe: AppDatePipe) {
+      private localeService: LocaleService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private componentService: ComponentService,
+      private userRolePipe: UserRolePipe,
+      private userStatusPipe: UserStatusPipe,
+      private userNamePipe: AppUserNamePipe,
+      private arrayToStringPipe: AppArrayToStringPipe,
+      private datePipe: AppDatePipe) {
     super();
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -91,7 +93,7 @@ export class UsersDataSource extends TableDataSource<User> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [

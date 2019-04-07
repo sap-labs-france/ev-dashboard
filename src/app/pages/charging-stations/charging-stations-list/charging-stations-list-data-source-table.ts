@@ -75,6 +75,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     private dialogService: DialogService
   ) {
     super();
+    // Init
+    this.initDataSource();
     this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
@@ -142,7 +144,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     let tableColumns: TableColumnDef[] = [

@@ -35,19 +35,22 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
   private ocpiendpoint: Ocpiendpoint;
   private isInitialized = false;
 
-  constructor(private configService: ConfigService,
-    private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private appUnitPipe: AppUnitPipe,
-    private dialog: MatDialog,
-    private authorizationService: AuthorizationService,
-    private spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private router: Router,
-    private dialogService: DialogService,
-    private datePipe: AppDatePipe) {
+  constructor(
+      private configService: ConfigService,
+      private centralServerService: CentralServerService,
+      private translateService: TranslateService,
+      private localeService: LocaleService,
+      private appUnitPipe: AppUnitPipe,
+      private dialog: MatDialog,
+      private authorizationService: AuthorizationService,
+      private spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private router: Router,
+      private dialogService: DialogService,
+      private datePipe: AppDatePipe) {
     super();
+    // Init
+    this.initDataSource();
     this.noAction.getActionDef().disabled = true;
   }
 
@@ -103,7 +106,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {

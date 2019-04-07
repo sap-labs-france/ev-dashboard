@@ -15,7 +15,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public tableDef: TableDef;
   public filtersDef: TableFilterDef[];
   public actionsRightDef: TableActionDef[];
-  public tableColumnDef: TableColumnDef[];
+  public tableColumnDefs: TableColumnDef[];
   public selection: SelectionModel<any>;
 
   public hasActions: boolean;
@@ -218,7 +218,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       ]
     } else {
       // Find Sorted columns
-      const columnDef = this.tableColumnDef.find((column) => column.sorted === true);
+      const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
       // Found?
       if (columnDef) {
         // Yes: Set Sorting
@@ -554,16 +554,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Should be implemented in implementation
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
-    console.log('table-data-source - getTableColumnDefs');
-    if (!this.tableColumnDef) {
-      // Get table column defs
-      this.tableColumnDef = this.buildTableColumnDefs();
-    }
-    return this.tableColumnDef;
-  }
-
-  abstract buildTableColumnDefs(): TableColumnDef[];
+  abstract getTableColumnDefs(): TableColumnDef[];
 
   abstract loadData(refreshAction?: boolean);
 
@@ -620,7 +611,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   _formatRow(row): any[] {
     console.log('table-data-source - _formatRow');
     const formattedRow = [];
-    this.tableColumnDef.forEach((columnDef) => {
+    this.tableColumnDefs.forEach((columnDef) => {
       formattedRow.push(this._buildCellValue(row, columnDef));
     });
     formattedRow['data'] = row;
@@ -653,7 +644,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this._checkKnownActions(this.actionsRightDef);
     this.rowActionsDef = this.getTableRowActions();
     this._checkKnownActions(this.rowActionsDef);
-    this.tableColumnDef = this.getTableColumnDefs();
+    this.tableColumnDefs = this.getTableColumnDefs();
     this.selection = this.getSelectionModel();
 
     // Init vars

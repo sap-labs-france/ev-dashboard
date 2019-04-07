@@ -42,24 +42,26 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   private dialogRefSession;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
-    private percentPipe: PercentPipe,
-    private appUnitPipe: AppUnitPipe,
-    private appBatteryPercentagePipe: AppBatteryPercentagePipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
+      private appDatePipe: AppDatePipe,
+      private percentPipe: PercentPipe,
+      private appUnitPipe: AppUnitPipe,
+      private appBatteryPercentagePipe: AppBatteryPercentagePipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe,
+      private appDurationPipe: AppDurationPipe) {
     super();
+    // Init
+    this.initDataSource();
     this.setPollingInterval(POLL_INTERVAL);
   }
 
@@ -98,7 +100,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
     const columns = [

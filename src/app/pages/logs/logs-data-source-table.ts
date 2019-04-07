@@ -121,8 +121,8 @@ export class LogsDataSource extends TableDataSource<Log> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
-    console.log('logs-data-source-table - buildTableColumnDefs');
+  public getTableColumnDefs(): TableColumnDef[] {
+    console.log('logs-data-source-table - getTableColumnDefs');
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {

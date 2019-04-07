@@ -18,13 +18,15 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   private _site: Site;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private dialog: MatDialog,
+      private dialogService: DialogService,
+      private centralServerService: CentralServerService) {
     super();
+    // Init
+    this.initDataSource();
   }
 
   public loadData() {
@@ -64,7 +66,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

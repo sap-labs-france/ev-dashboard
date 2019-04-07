@@ -20,14 +20,16 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public isAdmin = false;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private dialog: MatDialog,
+      private dialogService: DialogService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
     super();
+    // Init
+    this.initDataSource();
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
@@ -81,7 +83,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

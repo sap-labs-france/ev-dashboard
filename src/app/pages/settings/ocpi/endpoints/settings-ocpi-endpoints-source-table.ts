@@ -35,17 +35,19 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+      private localeService: LocaleService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private datePipe: AppDatePipe) {
     super();
+    // Init
+    this.initDataSource();
     this.setPollingInterval(POLL_INTERVAL);
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
@@ -96,7 +98,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {

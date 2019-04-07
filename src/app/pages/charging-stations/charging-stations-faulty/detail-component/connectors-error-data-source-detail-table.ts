@@ -24,18 +24,21 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   private charger: Charger;
   private connectorTransactionAuthorization;
 
-  constructor(private configService: ConfigService,
-              private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private localeService: LocaleService,
-              private appUnitPipe: AppUnitPipe,
-              private dialog: MatDialog,
-              private authorizationService: AuthorizationService,
-              private spinnerService: SpinnerService,
-              private messageService: MessageService,
-              private router: Router,
-              private dialogService: DialogService) {
+  constructor(
+      private configService: ConfigService,
+      private centralServerService: CentralServerService,
+      private translateService: TranslateService,
+      private localeService: LocaleService,
+      private appUnitPipe: AppUnitPipe,
+      private dialog: MatDialog,
+      private authorizationService: AuthorizationService,
+      private spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private router: Router,
+      private dialogService: DialogService) {
     super();
+    // Init
+    this.initDataSource();
   }
 
   public loadData() {
@@ -82,7 +85,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'connectorId',

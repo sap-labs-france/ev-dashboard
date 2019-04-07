@@ -11,12 +11,14 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UsersDataSource extends DialogTableDataSource<User> {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private centralServerService: CentralServerService,
-    private spinnerService: SpinnerService) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private centralServerService: CentralServerService,
+      private spinnerService: SpinnerService) {
     super();
+    // Init
+    this.initDataSource();
   }
 
   loadData() {
@@ -40,7 +42,7 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       });
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

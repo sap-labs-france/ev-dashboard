@@ -4,6 +4,8 @@ import {TableDef, TableActionDef} from '../../common.types';
 export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
   constructor() {
     super();
+    // Init
+    this.initDataSource();
   }
 
   getTableDef(): TableDef {

@@ -44,19 +44,20 @@ const TEST_DATA = [
 export class BasicTableDataSource extends TableDataSource<any> {
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private componentService: ComponentService,
-    private dialog: MatDialog,
-    private dialogService: DialogService
-  ) {
+      private localeService: LocaleService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private router: Router,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
+      private componentService: ComponentService,
+      private dialog: MatDialog,
+      private dialogService: DialogService) {
     super();
+    // Init
+    this.initDataSource();
     this.setStaticFilters([{'WithSite': true}]);
   }
 
@@ -98,7 +99,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     return [

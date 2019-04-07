@@ -33,7 +33,6 @@ const DEFAULT_POLLING = 10000;
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-  public columnDefs = [];
   public columns: string[];
   public pageSizes = [];
   public searchPlaceholder = '';
@@ -77,10 +76,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Get Selection Model
     this.selection = this.dataSource.getSelectionModel();
-    // Get column defs
-    this.columnDefs = this.dataSource.getTableColumnDefs();
     // Get columns
-    this.columns = this.columnDefs.map((column) => column.id);
+    this.columns = this.dataSource.tableColumnDefs.map((column) => column.id);
     // Row Selection enabled?
     if (this.dataSource.isRowSelectionEnabled()) {
       // Yes: Add Select column
@@ -152,7 +149,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set Paginator
     this.dataSource.setPaginator(this.paginator);
     // Find Sorted columns
-    const columnDef = this.columnDefs.find((column) => column.sorted === true);
+    const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
     // Found?
     if (columnDef) {
       // Yes: Set Sorting

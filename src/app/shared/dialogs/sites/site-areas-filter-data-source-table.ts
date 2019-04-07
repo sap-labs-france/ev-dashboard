@@ -9,12 +9,14 @@ import {DialogTableDataSource} from '../dialog-table-data-source';
 
 export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteArea> {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private centralServerService: CentralServerService,
-    private spinnerService: SpinnerService) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private centralServerService: CentralServerService,
+      private spinnerService: SpinnerService) {
     super();
+    // Init
+    this.initDataSource();
   }
 
   loadData() {
@@ -52,7 +54,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

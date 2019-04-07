@@ -44,23 +44,25 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   private dialogRefSession;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private appDatePipe: AppDatePipe,
-    private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe,
-    private  currencyPipe: CurrencyPipe) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private appDatePipe: AppDatePipe,
+      private appUnitPipe: AppUnitPipe,
+      private percentPipe: PercentPipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe,
+      private appDurationPipe: AppDurationPipe,
+      private  currencyPipe: CurrencyPipe) {
     super();
+    // Init
+    this.initDataSource();
     this.setPollingInterval(POLL_INTERVAL);
   }
 
@@ -98,7 +100,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [
       {

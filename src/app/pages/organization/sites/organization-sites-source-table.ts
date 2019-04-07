@@ -33,17 +33,19 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public isAdmin = false;
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+      private localeService: LocaleService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
     super();
+    // Init
+    this.initDataSource();
     this.setStaticFilters([{ 'WithCompany': true }]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
@@ -84,7 +86,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

@@ -27,18 +27,19 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private windowService: WindowService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
+      private localeService: LocaleService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private spinnerService: SpinnerService,
+      private dialogService: DialogService,
+      private windowService: WindowService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService) {
     super();
-
+    // Init
+    this.initDataSource();
     this.tableActionsRow = [
       new TableOpenAction().getActionDef(),
       new TableEditAction().getActionDef(),
@@ -79,7 +80,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     };
   }
 
-  public buildTableColumnDefs(): TableColumnDef[] {
+  public getTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

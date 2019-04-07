@@ -30,7 +30,7 @@
         <div class="mat-toolbar-row">
           <button mat-raised-button color="warn" (click)="save(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
-            <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+            <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
           </button>
         </div>
         <div class="row" style="margin-top: 1em">
@@ -90,7 +90,7 @@
       <div class="mat-toolbar-row">
         <button mat-raised-button color="warn" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-          <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+          <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
         </button>
       </div>
       <div class="row" style="margin-top: 1em">
@@ -155,7 +155,7 @@
       <span class="toolbar-spacer"></span>
       <button mat-icon-button (click)="save(formGroup.value)"
         [disabled]="!formGroup.valid || !formGroup.dirty">
-        <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
       </button>
     </div>
   </div>

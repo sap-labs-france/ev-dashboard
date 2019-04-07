@@ -7,7 +7,7 @@
             <a class="nav-link active" [attr.href]="(isChargerPaneDisabled ? null : '#charger')"
               [attr.data-toggle]="(isChargerPaneDisabled ? null : 'tab')"
               (click)="changeActivePane('chargers', isChargerPaneDisabled)">
-              <mat-icon class="mr-1">ev_station</mat-icon>{{currentCharger.id}}
+              <mat-icon>ev_station</mat-icon><span>{{currentCharger.id}}</span>
               <div class="ripple-container"></div>
             </a>
           </li>
@@ -15,7 +15,7 @@
             <a class="nav-link" [attr.href]="(isPropertiesPaneDisabled ? null : '#properties')"
               [attr.data-toggle]="(isPropertiesPaneDisabled ? null : 'tab')"
               (click)="changeActivePane('properties', isPropertiesPaneDisabled)">
-              <mat-icon class="mr-1">info</mat-icon>{{'chargers.properties_title' | translate}}
+              <mat-icon>info</mat-icon><span>{{'chargers.properties_title' | translate}}</span>
               <div class="ripple-container"></div>
             </a>
           </li>
@@ -24,7 +24,7 @@
               <a class="nav-link" [attr.href]="(isOCPPParametersPaneDisabled ? null : '#ocppparameters')"
                 [attr.data-toggle]="(isOCPPParametersPaneDisabled ? null : 'tab')"
                 (click)="changeActivePane('ocppParameters', isOCPPParametersPaneDisabled)">
-                <mat-icon class="mr-1">build</mat-icon>{{'chargers.ocpp_parameters_title' | translate}}
+                <mat-icon>build</mat-icon><span>{{'chargers.ocpp_parameters_title' | translate}}</span>
                 <div class="ripple-container"></div>
               </a>
             </li>
@@ -33,7 +33,7 @@
           <button mat-button 
             (click)="save()" [disabled]="isSaveButtonDisabled"
             [hidden]="isSaveButtonHidden">
-            <mat-icon class="mr-1">save</mat-icon>{{'chargers.save_charger' | translate}}
+            <mat-icon>save</mat-icon><span>{{'chargers.save_charger' | translate}}</span>
           </button>
           <button mat-icon-button (click)="onClose()">
             <mat-icon>close</mat-icon>

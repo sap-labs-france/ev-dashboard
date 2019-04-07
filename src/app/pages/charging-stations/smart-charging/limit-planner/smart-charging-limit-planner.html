@@ -12,10 +12,10 @@
       <div class="card-body">
         <div class="row col-md-12 text-left">
           <button mat-raised-button color="primary" class="mr-2" (click)="resetSlots()">
-            <mat-icon class="mr-1">clear</mat-icon>{{'chargers.smart_charging.reset_button' | translate}}
+            <mat-icon>clear</mat-icon><span>{{'chargers.smart_charging.reset_button' | translate}}</span>
           </button>
           <button mat-raised-button color="primary" (click)="applyPowerLimit()">
-            <mat-icon class="mr-1">save</mat-icon>{{'general.apply' | translate}}
+            <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
           </button>
         </div>
         <div class="row col-md-12 text-left">
@@ -117,7 +117,7 @@
               </ng-container>
               <div class="col-md-12 text-left">
                 <button mat-raised-button color="primary" (click)="addSlot()">
-                  <mat-icon class="mr-1">add</mat-icon>{{'chargers.smart_charging.add_slot_button' | translate}}
+                  <mat-icon>add</mat-icon><span>{{'chargers.smart_charging.add_slot_button' | translate}}</span>
                 </button>
               </div>
             </div>

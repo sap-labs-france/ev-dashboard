@@ -10,8 +10,7 @@
           <button mat-raised-button *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)"
             [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
             data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
-            <mat-icon class="mr-1" *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
-            {{actionDef.name | translate}}
+            <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon><span>{{actionDef.name | translate}}</span>
           </button>
         </ng-container>
         <span *ngIf="dataSource.actionsDef.length > 0" class="toolbar-spacer"></span>
@@ -68,7 +67,7 @@
                 </div>
               </div>
               <div *ngIf="!ongoingManualRefresh" class="refresh-icon">
-                <mat-icon class="mr-1" *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
               </div>
             </button>
             <!-- Action Button -->
@@ -77,9 +76,9 @@
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
                 appTooltip="" data-placement="bottom" data-toggle="tooltip"
                 [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
-                <mat-icon class="mr-1" *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
-                  {{actionRightDef.name | translate}}
+                  <span>{{actionRightDef.name | translate}}</span>
                 </ng-container>
               </button>
             </ng-container>
@@ -247,8 +246,7 @@
                         [disabled]="dropdownItem.disabled"
                         appTooltip data-placement="bottom" data-toggle="tooltip"
                         [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                        <mat-icon class="mr-1" *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
-                        {{dropdownItem.name | translate}}
+                        <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon><span>{{dropdownItem.name | translate}}</span>
                       </button>
                     </ng-container>
                   </ng-template>
@@ -265,7 +263,8 @@
                   <button mat-icon-button
                     [color]="(rowAction.color ? rowAction.color : '')" 
                     (click)="rowActionTriggered(rowAction, actionCell['data'])"
-                    [disabled]="rowAction.disabled"><mat-icon>{{rowAction.icon}}</mat-icon></button>
+                    [disabled]="rowAction.disabled"><mat-icon>{{rowAction.icon}}</mat-icon>
+                  </button>
                 </div>
               </ng-container>
             </ng-container>

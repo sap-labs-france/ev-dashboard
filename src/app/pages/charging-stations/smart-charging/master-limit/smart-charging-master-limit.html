@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header card-header-primary card-header-icon">
           <div class="card-icon">
-            <mat-icon class="mr-1">settings_power</mat-icon>
+            <mat-icon>settings_power</mat-icon>
           </div>
           <h3 class="card-title text-left">
             {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
@@ -19,7 +19,7 @@
           <div class="col-md-12 text-right">
             <button mat-raised-button color="primary"
               [disabled]="(powerSliderComponent ? powerSliderComponent.isNotValid : false)" (click)="applyPowerLimit()">
-              <mat-icon class="mr-1">save</mat-icon>{{'general.apply' | translate}}
+              <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
           </div>
         </div>

@@ -10,14 +10,14 @@
                   <ul class="nav nav-tabs" data-tabs="tabs">
                     <li class="nav-item">
                       <a class="nav-link active" href="#profile" data-toggle="tab">
-                        <mat-icon class="mr-1">call_split</mat-icon>{{name.value}}
+                        <mat-icon>call_split</mat-icon><span>{{name.value}}</span>
                         <div class="ripple-container"></div>
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
                     <button mat-button (click)="save(formGroup.value)"
                       [disabled]="!formGroup.valid || !formGroup.dirty">
-                      <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+                      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
                     </button>
                     <button mat-icon-button (click)="onClose()">
                       <mat-icon>close</mat-icon>
@@ -105,7 +105,7 @@
                         <div align="right" pull-right>
                           <button mat-raised-button color="primary"
                             (click)="generateLocalToken(formGroup.value)">
-                            <mat-icon class="mr-1">vpn_key</mat-icon>{{'ocpiendpoints.generateNewToken' | translate}}
+                            <mat-icon>vpn_key</mat-icon><span>{{'ocpiendpoints.generateNewToken' | translate}}</span>
                           </button>
                         </div>
                       </div>
@@ -124,7 +124,7 @@
                           <button mat-raised-button color="primary"
                             (click)="testConnection(formGroup.value)"
                             [disabled]="!token.value || baseUrl.hasError('required') || baseUrl.hasError('pattern')">
-                            <mat-icon class="mr-1">touch_app</mat-icon>{{'ocpiendpoints.testConnection' | translate}}
+                            <mat-icon>touch_app</mat-icon><span>{{'ocpiendpoints.testConnection' | translate}}</span>
                           </button>
                         </div>
                       </div>

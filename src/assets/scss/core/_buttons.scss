@@ -20,10 +20,6 @@
   padding: 0px 10px !important;
 }
 
-.mat-button:not(.mat-icon-button), .mat-raised-button {
-  min-height: 40px !important;
-}
-
 .mat-button-focus-overlay {
   background-color:transparent !important;
  }
@@ -31,4 +27,12 @@
 .button-details {
   padding: 0 !important;
   min-width: 15px !important;
+}
+
+.mat-icon {
+  font-size: 1.4rem;
+  &+span {
+    display: inline-block;
+    margin-left: 5px;
+  }
 }

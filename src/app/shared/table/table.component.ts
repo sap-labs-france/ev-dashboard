@@ -2,7 +2,6 @@ import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryLis
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {SelectionModel} from '@angular/cdk/collections';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject, Subscription} from 'rxjs';
 import {DropdownItem, TableActionDef, TableDef, TableFilterDef} from '../../common.types';
@@ -17,9 +16,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 const DEFAULT_POLLING = 10000;
 
-/**
- * @title Data table with sorting, pagination, and filtering.
- */
 @Component({
   selector: 'app-table',
   templateUrl: 'table.component.html',
@@ -50,7 +46,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private manualRefreshObserver: Subscription;
   private rowRefreshObserver: Subscription;
   private displayDetailObserver: Subscription;
-  private selection: SelectionModel<any>;
   private footer = false;
   private filters: TableFilter[] = [];
 
@@ -68,15 +63,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     console.log('table.component - ngOnInit');
-    const locale = this.localService.getCurrentFullLocaleForJS();
-    this.dataSource.changeLocaleTo(locale);
+    // Handle locale (local service available only in component not possible in data-source)
+    this.dataSource.changeLocaleTo(this.localService.getCurrentFullLocaleForJS());
+    // Handle Poll (config service available only in component not possible in data-source)
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
-    // Get Selection Model
-    this.selection = this.dataSource.getSelectionModel();
-    // Get columns
+    // Extract columns for the template
     this.columns = this.dataSource.tableColumnDefs.map((column) => column.id);
     // Row Selection enabled?
     if (this.dataSource.isRowSelectionEnabled()) {
@@ -90,7 +84,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Check if detail display columns must be displayed
       this.displayDetailObserver = this.dataSource.subscribeDisplayDetailsColumn((displayDetails) => {
         if (!displayDetails) {
-          // Remove details column
+          // Hide details column
           const indexDetails = this.columns.findIndex((element) => element === 'details');
           if (indexDetails >= 0) {
             this.columns.splice(indexDetails, 1);
@@ -106,25 +100,27 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Is there specific row actions ?
     if (this.dataSource.hasRowActions) {
+      // Yes add a new column actions
       this.columns = [...this.columns, 'actions'];
     }
-    // Paginator
+    // Init paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
+    // Search?
     if (this.dataSource.tableDef.search) {
-      // Listen to Search change
+      // Yes: Listen to Search change
       this.searchSourceSubject.pipe(
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged()).subscribe(() => {
           // Reset paginator
           this.paginator.pageIndex = 0;
-          // Load data
+          // Trigger load data
           this.loadData();
         }
       );
     }
     // Load the data
     this.loadData();
-
+    // Auto Refresh Actions?
     if (this.dataSource.getTableActionsRightDef().findIndex(action => action.id === 'auto-refresh') >= 0) {
       // subscribe to auto-refresh
       this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
@@ -137,7 +133,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ongoingManualRefresh = value
       );
     }
-    // subscribe to row-refresh
+    // Subscribe to row-refresh
     this.rowRefreshObserver = this.dataSource.subscribeRowRefresh(row => {
       this._rowRefresh(row);
     });
@@ -146,8 +142,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     console.log('table.component - ngAfterViewInit');
-    // Set Paginator
+    // Assign the Paginator
     this.dataSource.setPaginator(this.paginator);
+    // Init the sorting coloumn
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
     // Found?
@@ -158,11 +155,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Set Sort
     this.dataSource.setSort(this.sort);
-    // Set Search
+    // Set the Search input
     this.dataSource.setSearchInput(this.searchInput);
-    this.selection.clear();
-    // console.log(`${new Date().toISOString()} AfterViwInit ${this.constructor.name}`);
-    // this.dataSource.registerToDataChange();
+    // Clear the selection
+    this.dataSource.selectionModel.clear();
   }
 
   ngOnDestroy() {
@@ -186,9 +182,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected() {
     console.log('table.component - isAllSelected');
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.getData().length;
-    return numSelected === numRows;
+    return (this.dataSource.selectionModel.selected.length === this.dataSource.data.length);
   }
 
   public filterChanged(filterDef: TableFilterDef, event) {
@@ -285,10 +279,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public masterSelectToggle() {
     console.log('table.component - masterSelectToggle');
     this.isAllSelected() ?
-      this.selection.clear() :
+      this.dataSource.selectionModel.clear() :
       this.dataSource.getFormattedData().forEach(row => {
         if (this.dataSource.isSelectable(row['data'])) {
-          this.selection.select(row);
+          this.dataSource.selectionModel.select(row);
         }
       });
   }
@@ -298,7 +292,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Clear Selection
-    this.selection.clear();
+    this.dataSource.selectionModel.clear();
     // Load data
     this.loadData();
   }
@@ -311,7 +305,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public handlePageChanged() {
     console.log('table.component - handlePageChanged');
     // Clear Selection
-    this.selection.clear();
+    this.dataSource.selectionModel.clear();
     // Load data
     this.loadData();
   }
@@ -371,9 +365,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  /*  public isDetailedTableEnable(): Boolean {
-      return this.dataSource.tableDef && this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.detailDataTable;
-    }*/
   canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
     console.log('table.component - canDisplayRowAction');
     return this.dataSource.canDisplayRowAction(rowAction, rowItem);

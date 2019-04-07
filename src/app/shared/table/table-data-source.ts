@@ -1,11 +1,13 @@
 import {BehaviorSubject, interval, Observable, of, Subject, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
+import {ConfigService} from '../../services/config.service';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
+import {LocaleService} from '../../services/locale.service';
 
 import * as _ from 'lodash';
 import {takeWhile} from 'rxjs/operators';
@@ -16,7 +18,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public filtersDef: TableFilterDef[];
   public actionsRightDef: TableActionDef[];
   public tableColumnDefs: TableColumnDef[];
-  public selection: SelectionModel<any>;
+  public selectionModel: SelectionModel<any>;
+  public data: any[] = [];
 
   public hasActions: boolean;
   public hasFilters: boolean;
@@ -33,8 +36,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private sort: MatSort;
   private numberOfRecords = 0;
   private actionsDef: TableActionDef[];
-  private selectionModel: SelectionModel<any>;
-  private data: any[] = [];
   private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
@@ -43,6 +44,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
   private _rowRefresh = new Subject<any>();
   private _isDestroyed = false;
+
+
+  constructor(
+      private configService: ConfigService,
+      protected localService: LocaleService) {
+  }
 
   public setPollingInterval(pollingInterval: number) {
     console.log('table-data-source - setPollingInterval');
@@ -81,11 +88,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getSelectionModel(): SelectionModel<any> {
     console.log('table-data-source - getSelectionModel');
-    if (!this.selectionModel) {
-      this.selectionModel = new SelectionModel<any>(
-        this.isMultiSelectionEnabled(), []);
-    }
-    return this.selectionModel;
+    return new SelectionModel<any>(this.isMultiSelectionEnabled(), []);
   }
 
   public getSelectedRows(): T[] {
@@ -563,6 +566,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     const freshFormattedData = [];
     const rowRefreshed = [];
     freshData.forEach((freshRow) => {
+      // Init Row Action Authorization
+      if (this.hasRowActions) {
+        // Check if authorized
+        this.rowActionsDef.forEach((rowActionDef) => {
+          // Set
+          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
+        });
+      }
       const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
       const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
       if (index !== -1) {
@@ -645,7 +656,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.rowActionsDef = this.getTableRowActions();
     this._checkKnownActions(this.rowActionsDef);
     this.tableColumnDefs = this.getTableColumnDefs();
-    this.selection = this.getSelectionModel();
+    this.selectionModel = this.getSelectionModel();
 
     // Init vars
     this.hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);

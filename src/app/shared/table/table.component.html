@@ -152,14 +152,14 @@
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
           <mat-checkbox (change)="$event ? masterSelectToggle() : null"
-            [checked]="dataSource.selection.hasValue() && isAllSelected()" [hidden]="!dataSource.isRowSelectionEnabled()"
-            [indeterminate]="dataSource.selection.hasValue() && !isAllSelected()">
+            [checked]="dataSource.selectionModel.hasValue() && (dataSource.selectionModel.selected.length === dataSource.data.length)" [hidden]="!dataSource.isRowSelectionEnabled()"
+            [indeterminate]="dataSource.selectionModel.hasValue() && !(dataSource.selectionModel.selected.length === dataSource.data.length)">
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
           <ng-container *ngIf="isSelectable(row.data)">
-            <mat-checkbox (change)="$event ? dataSource.selection.toggle(row) : null" (click)="$event.stopPropagation()"
-              [checked]="dataSource.selection.isSelected(row)">
+            <mat-checkbox (change)="$event ? dataSource.selectionModel.toggle(row) : null" (click)="$event.stopPropagation()"
+              [checked]="dataSource.selectionModel.isSelected(row)">
             </mat-checkbox>
           </ng-container>
           <ng-container *ngIf="!isSelectable(row.data)">
@@ -236,7 +236,7 @@
         <td *matCellDef="let actionCell" [class]="'action-cell text-center'" mat-cell>
           <ng-container
             *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
-            <ng-container *ngIf="canDisplayRowAction(rowAction, actionCell['data'])">
+            <ng-container *ngIf="actionCell['data']['canDisplayRowAction-' + rowAction.id]">
               <ng-container *ngIf="rowAction.isDropdownMenu">
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>

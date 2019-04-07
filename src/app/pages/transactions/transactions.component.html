@@ -4,8 +4,7 @@
                  disableRipple="true">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="mr-2">history</mat-icon>
-        {{'transactions.tabs.history' | translate}}
+        <mat-icon>history</mat-icon><span>{{'transactions.tabs.history' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-transactions-history></app-transactions-history>
@@ -14,8 +13,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="mr-2">flash_on</mat-icon>
-        {{'transactions.tabs.in_progress' | translate}}
+        <mat-icon>flash_on</mat-icon><span>{{'transactions.tabs.in_progress' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-transactions-in-progress></app-transactions-in-progress>
@@ -24,8 +22,7 @@
     <ng-container *ngIf="canAccessInErrorTab()">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="mr-2">warning</mat-icon>
-          {{'transactions.tabs.in_error' | translate}}
+          <mat-icon>warning</mat-icon><span>{{'transactions.tabs.in_error' | translate}}</span>
         </ng-template>
         <ng-template matTabContent>
           <app-transactions-in-error></app-transactions-in-error>
@@ -35,8 +32,7 @@
     <ng-container *ngIf="canAccessRefund()">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="mr-2">money</mat-icon>
-          {{'transactions.tabs.refund' | translate}}
+          <mat-icon>money</mat-icon><span>{{'transactions.tabs.refund' | translate}}</span>
         </ng-template>
         <ng-template matTabContent>
           <app-transactions-refund></app-transactions-refund>

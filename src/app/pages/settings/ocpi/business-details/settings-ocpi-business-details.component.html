@@ -10,7 +10,7 @@
       <div class="mat-toolbar-row">
           <button mat-raised-button color="warn" (click)="save(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
-              <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+              <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
           </button>
       </div>
       <!-- CPO identifier COUNTRY_CODE/PARTY_ID -->

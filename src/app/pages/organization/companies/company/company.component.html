@@ -10,14 +10,14 @@
                   <ul class="nav nav-tabs" data-tabs="tabs">
                     <li class="nav-item">
                       <a class="nav-link active" href="#company" data-toggle="tab">
-                        <mat-icon class="mr-1">portrait</mat-icon>{{name.value}}
+                        <mat-icon>portrait</mat-icon><span>{{name.value}}</span>
                         <div class="ripple-container"></div>
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
                     <button mat-button *ngIf="this.isAdmin" (click)="saveCompany(formGroup.value)"
                       [disabled]="!formGroup.valid || !formGroup.dirty">
-                      <mat-icon class="mr-1">save</mat-icon>{{'general.save' | translate}}
+                      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
                     </button>
                     <button mat-icon-button *ngIf="isOpenInDialog()" (click)="onClose()">
                       <mat-icon>close</mat-icon>

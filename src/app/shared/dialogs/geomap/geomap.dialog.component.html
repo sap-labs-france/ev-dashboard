@@ -45,10 +45,10 @@
 
   <div class="card-footer mat-dialog-actions">
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="minZoom()">
-      <mat-icon class="mr-1">zoom_out</mat-icon>{{'geomap.min_zoom' | translate}}
+      <mat-icon>zoom_out</mat-icon><span>{{'geomap.min_zoom' | translate}}</span>
     </button>
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="maxZoom()">
-      <mat-icon class="mr-1">zoom_in</mat-icon>{{'geomap.max_zoom' | translate}}
+      <mat-icon>zoom_in</mat-icon><span>{{'geomap.max_zoom' | translate}}</span>
     </button>
     <span class="app-spacer"></span>
     <button mat-raised-button color="primary" (click)="validate()">

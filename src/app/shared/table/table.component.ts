@@ -33,7 +33,6 @@ const DEFAULT_POLLING = 10000;
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-
   public columnDefs = [];
   public columns: string[];
   public pageSizes = [];
@@ -53,8 +52,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private rowRefreshObserver: Subscription;
   private displayDetailObserver: Subscription;
   private selection: SelectionModel<any>;
-  private filtersDef: TableFilterDef[] = [];
-  private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
 
@@ -78,10 +75,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
-    // Get Filters def
-    this.filtersDef = this.dataSource.getTableFiltersDef();
-    // Get Actions Right def
-    this.actionsRightDef = this.dataSource.getTableActionsRightDef();
     // Get Selection Model
     this.selection = this.dataSource.getSelectionModel();
     // Get column defs
@@ -115,19 +108,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
     // Is there specific row actions ?
-    if (this.dataSource._hasRowActions) {
+    if (this.dataSource.hasRowActions) {
       this.columns = [...this.columns, 'actions'];
     }
     // Paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
-    // Find Sorted columns
-    const columnDef = this.columnDefs.find((column) => column.sorted === true);
-    // Found?
-    if (columnDef) {
-      // Yes: Set Sorting
-      this.sort.active = columnDef.id;
-      this.sort.direction = columnDef.direction;
-    }
     if (this.dataSource.tableDef.search) {
       // Listen to Search change
       this.searchSourceSubject.pipe(
@@ -143,13 +128,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Load the data
     this.loadData();
 
-    if (this.actionsRightDef.findIndex(action => action.id === 'auto-refresh') >= 0) {
+    if (this.dataSource.getTableActionsRightDef().findIndex(action => action.id === 'auto-refresh') >= 0) {
       // subscribe to auto-refresh
       this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
         this.ongoingManualRefresh = value
       );
     }
-    if (this.actionsRightDef.findIndex(action => action.id === 'refresh') >= 0) {
+    if (this.dataSource.getTableActionsRightDef().findIndex(action => action.id === 'refresh') >= 0) {
       // subscribe to manual-refresh
       this.manualRefreshObserver = this.dataSource.subscribeManualRefresh(value =>
         this.ongoingManualRefresh = value
@@ -166,6 +151,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - ngAfterViewInit');
     // Set Paginator
     this.dataSource.setPaginator(this.paginator);
+    // Find Sorted columns
+    const columnDef = this.columnDefs.find((column) => column.sorted === true);
+    // Found?
+    if (columnDef) {
+      // Yes: Set Sorting
+      this.sort.active = columnDef.id;
+      this.sort.direction = columnDef.direction;
+    }
     // Set Sort
     this.dataSource.setSort(this.sort);
     // Set Search
@@ -267,7 +260,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Reset paginator
       this.paginator.pageIndex = 0;
       // Reset all filter fields
-      this.filtersDef.forEach((filterDef: TableFilterDef) => {
+      this.dataSource.getTableFiltersDef().forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case 'dropdown':
             filterDef.currentValue = null;

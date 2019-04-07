@@ -1,9 +1,9 @@
-<div class="h-100 d-flex flex-column">
-  <ng-container *ngIf="dataSource && dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
+<div *ngIf="dataSource" class="h-100 d-flex flex-column">
+  <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
     <!-- Toolbar -->
-    <div *ngIf="_hasActions || _hasFilters || _isSearchEnabled" class="mat-toolbar">
+    <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
       <!-- Actions Row -->
-      <div *ngIf="_hasActions" class="left-actions d-flex flex-row mat-toolbar-row ">
+      <div *ngIf="dataSource.hasActions" class="left-actions d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.actionsDef; let i=index">
           <!-- Action Button -->
@@ -16,10 +16,10 @@
         <span *ngIf="dataSource.actionsDef.length > 0" class="toolbar-spacer"></span>
         <ng-container *ngIf="dataSource.actionsDef.length === 0">
           <!-- Filters Row as there is no left actions -->
-          <div *ngIf="_hasFilters || _isSearchEnabled"
+          <div *ngIf="dataSource.hasFilters || dataSource.isSearchEnabled"
             class="d-flex flex-wrap col filter-row filter-row-with-action">
             <!-- Create Filters -->
-            <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
+            <div *ngFor="let filterDef of dataSource.filtersDef; let i=index" [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
               <!-- Dropdown Filter -->
               <mat-form-field *ngIf="filterDef.type === 'dropdown'">
                 <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
@@ -47,7 +47,7 @@
               </mat-form-field>
             </div>
             <!-- Search -->
-            <div *ngIf="_isSearchEnabled" class="col search-form">
+            <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
               <mat-form-field>
                 <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
                   [placeholder]="searchPlaceholder | translate" matInput>
@@ -57,7 +57,7 @@
         </ng-container>
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-          <ng-container *ngFor="let actionRightDef of actionsRightDef; let i=index">
+          <ng-container *ngFor="let actionRightDef of dataSource.actionsRightDef; let i=index">
             <!-- Refresh Action Button -->
             <button mat-raised-button class="button-refresh" (click)="actionTriggered(actionRightDef)" *ngIf="actionRightDef.id === 'refresh'"
               [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip="" data-toggle="tooltip"
@@ -102,10 +102,10 @@
       </div>
       <!-- Filters Row -->
       <div
-        *ngIf="(_hasFilters || _isSearchEnabled) && (!_hasActions || dataSource.actionsDef.length > 0) "
+        *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled) && (!dataSource.hasActions || dataSource.actionsDef.length > 0) "
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
-        <div *ngFor="let filterDef of filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
+        <div *ngFor="let filterDef of dataSource.filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown'">
             <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
@@ -134,7 +134,7 @@
           </mat-form-field>
         </div>
         <!-- Search -->
-        <div *ngIf="_isSearchEnabled" class="col search-form">
+        <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
             <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
               [placeholder]="searchPlaceholder | translate" matInput>
@@ -145,21 +145,21 @@
     </div>
   </ng-container>
   <!-- Table -->
-  <div [class]="(dataSource && dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
-    <table (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId" mat-table matSort
-      matSortDisableClear multiTemplateDataRows>
+  <div [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
+    <table mat-table matSort matSortDisableClear multiTemplateDataRows
+        (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
           <mat-checkbox (change)="$event ? masterSelectToggle() : null"
-            [checked]="selection.hasValue() && isAllSelected()" [hidden]="dataSource && !dataSource.isRowSelectionEnabled()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()">
+            [checked]="dataSource.selection.hasValue() && isAllSelected()" [hidden]="!dataSource.isRowSelectionEnabled()"
+            [indeterminate]="dataSource.selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
           <ng-container *ngIf="isSelectable(row.data)">
-            <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
-              [checked]="selection.isSelected(row)">
+            <mat-checkbox (change)="$event ? dataSource.selection.toggle(row) : null" (click)="$event.stopPropagation()"
+              [checked]="dataSource.selection.isSelected(row)">
             </mat-checkbox>
           </ng-container>
           <ng-container *ngIf="!isSelectable(row.data)">
@@ -167,7 +167,7 @@
             </mat-checkbox>
           </ng-container>
         </td>
-        <td *matFooterCellDef [hidden]="dataSource && !dataSource._isFooterEnabled" mat-footer-cell></td>
+        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
       </ng-container>
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of columnDefs, index as i" [matColumnDef]="columnDef.id">
@@ -196,7 +196,7 @@
             [innerHtml]="row[i] | translate" mat-cell>
           </td>
         </ng-container>
-        <td *matFooterCellDef [hidden]="dataSource && !dataSource._isFooterEnabled" mat-footer-cell>
+        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell>
           {{columnDef.footerName | translate}}
         </td>
       </ng-container>
@@ -205,31 +205,31 @@
         <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
           <button mat-button (click)="showHideDetailsClicked(row['data'])" class="button-details"
-            *ngIf="dataSource && dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row['data'][dataSource.tableDef.rowDetails.hideShowField] : true">
+            *ngIf="dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row['data'][dataSource.tableDef.rowDetails.hideShowField] : true">
             <mat-icon>{{row['data'].isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
           </button>
         </td>
-        <td *matFooterCellDef [hidden]="dataSource && !dataSource._isFooterEnabled" mat-footer-cell></td>
+        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
       </ng-container>
       <!-- Detailed Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="rowDetails">
         <td *matCellDef="let rowDetail" [attr.colspan]="columns.length" mat-cell>
           <div [@detailExpand]="(rowDetail['data'].isExpanded ? 'expanded' : 'collapsed')" class="element-details">
             <ng-container
-              *ngIf="dataSource && dataSource.tableDef.rowDetails && !dataSource.tableDef.rowDetails.isDetailComponent && rowDetail['data'][dataSource.tableDef.rowDetails.detailsField]">
+              *ngIf="dataSource.tableDef.rowDetails && !dataSource.tableDef.rowDetails.isDetailComponent && rowDetail['data'][dataSource.tableDef.rowDetails.detailsField]">
               <div [innerHtml]="(dataSource.tableDef.rowDetails ? rowDetail['data'][dataSource.tableDef.rowDetails.detailsField] : '')">
                 ...
               </div>
             </ng-container>
-            <ng-container *ngIf="dataSource && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.isDetailComponent">
-              <app-detail-component-container [parentRow]="rowDetail['data']" [tableDef]="dataSource && dataSource.tableDef" class="col-md-12">
+            <ng-container *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.isDetailComponent">
+              <app-detail-component-container [parentRow]="rowDetail['data']" [tableDef]="dataSource.tableDef" class="col-md-12">
               </app-detail-component-container>
             </ng-container>
           </div>
         </td>
       </ng-container>
       <!-- Actions Column -->
-      <ng-container matColumnDef="actions" ng-if="dataSource && dataSource._hasRowActions">
+      <ng-container matColumnDef="actions" ng-if="dataSource.hasRowActions">
         <th *matHeaderCellDef class="table-header text-center col-5em" mat-header-cell>{{'general.actions' |
         translate}}
         </th>
@@ -270,20 +270,20 @@
             </ng-container>
           </ng-container>
         </td>
-        <td *matFooterCellDef [hidden]="dataSource && !dataSource._isFooterEnabled" mat-footer-cell></td>
+        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
       </ng-container>
       <!-- Rows -->
-      <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: columns;" [class.example-expanded-row]="true" mat-row></tr>
-      <tr *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row" mat-row></tr>
-      <tr *matFooterRowDef="columns; sticky: true" [hidden]="dataSource && !dataSource._isFooterEnabled" mat-footer-row></tr>
+      <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;" [class.example-expanded-row]="true"></tr>
+      <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
+      <tr mat-footer-row *matFooterRowDef="columns; sticky: true" [hidden]="!dataSource.isFooterEnabled"></tr>
     </table>
-    <div *ngIf="dataSource && dataSource.data.length === 0 && !spinnerService.isVisible()"
+    <div *ngIf="dataSource.data.length === 0 && !spinnerService.isVisible()"
       class="ml-4 text-center table-no-record-found">{{'general.no_record_found' | translate}}
     </div>
   </div>
   <!-- Paginator: can show showFirstLastButtons -->
-  <ng-container *ngIf="dataSource && dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
+  <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
     <mat-paginator #paginator (page)="handlePageChanged()" [pageSizeOptions]="pageSizes"></mat-paginator>
   </ng-container>
 </div>

@@ -13,11 +13,16 @@ import {takeWhile} from 'rxjs/operators';
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
   public tableDef: TableDef;
-  public _hasActions: boolean;
-  public _hasFilters: boolean;
-  public _isSearchEnabled: boolean;
-  public _isFooterEnabled: boolean;
-  public _hasRowActions: boolean;
+  public filtersDef: TableFilterDef[];
+  public actionsRightDef: TableActionDef[];
+  public tableColumnDef: TableColumnDef[];
+  public selection: SelectionModel<any>;
+
+  public hasActions: boolean;
+  public hasFilters: boolean;
+  public isSearchEnabled: boolean;
+  public isFooterEnabled: boolean;
+  public hasRowActions: boolean;
 
   protected formattedData = [];
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
@@ -27,10 +32,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private paginator: MatPaginator;
   private sort: MatSort;
   private numberOfRecords = 0;
-  private tableColumnDef: TableColumnDef[];
   private actionsDef: TableActionDef[];
-  private actionsRightDef: TableActionDef[];
-  private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
   private locale;
@@ -555,6 +557,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public getTableColumnDefs(): TableColumnDef[] {
     console.log('table-data-source - getTableColumnDefs');
     if (!this.tableColumnDef) {
+      // Get table column defs
       this.tableColumnDef = this.buildTableColumnDefs();
     }
     return this.tableColumnDef;
@@ -642,45 +645,23 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   protected initDataSource(): any {
     console.log('table-data-source - initDataSource');
-    // Check
-    if (!this.tableDef) {
-      console.log('table-data-source - initDataSource - tableDef');
-      this.tableDef = this.getTableDef();
-    }
-    if (!this.filtersDef) {
-      console.log('table-data-source - initDataSource - filtersDef');
-      this.filtersDef = this.getTableFiltersDef();
-    }
-    if (!this.actionsDef) {
-      console.log('table-data-source - initDataSource - actionsDef');
-      this.actionsDef = this.getTableActionsDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsDef);
-    }
-    if (!this.actionsRightDef) {
-      console.log('table-data-source - initDataSource - actionsRightDef');
-      // Get
-      this.actionsRightDef = this.getTableActionsRightDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsRightDef);
-    }
-    if (!this.rowActionsDef) {
-      console.log('table-data-source - initDataSource - rowActionsDef');
-      this.rowActionsDef = this.getTableRowActions();
-      // Check known actions
-      this._checkKnownActions(this.rowActionsDef);
-    }
-    if (!this.tableColumnDef) {
-      console.log('table-data-source - initDataSource - tableColumnDef');
-      this.tableColumnDef = this.buildTableColumnDefs();
-    }
+    this.tableDef = this.getTableDef();
+    this.filtersDef = this.getTableFiltersDef();
+    this.actionsDef = this.getTableActionsDef();
+    this._checkKnownActions(this.actionsDef);
+    this.actionsRightDef = this.getTableActionsRightDef();
+    this._checkKnownActions(this.actionsRightDef);
+    this.rowActionsDef = this.getTableRowActions();
+    this._checkKnownActions(this.rowActionsDef);
+    this.tableColumnDef = this.getTableColumnDefs();
+    this.selection = this.getSelectionModel();
+
     // Init vars
-    this._hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
-    this._hasFilters = (this.filtersDef && this.filtersDef.length > 0);
-    this._isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-    this._isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this._hasRowActions = this.rowActionsDef && this.rowActionsDef.length > 0;
-    console.log(`table-data-source - initDataSource - tableColumnDef - _hasActions=${this._hasActions} - _hasFilters=${this._hasFilters} - _isSearchEnabled=${this._isSearchEnabled}`);
+    this.hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
+    this.hasFilters = (this.filtersDef && this.filtersDef.length > 0);
+    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions = this.rowActionsDef && this.rowActionsDef.length > 0;
   }
 
   private _checkKnownActions(actionsDef: TableActionDef[]): any {

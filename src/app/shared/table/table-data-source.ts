@@ -12,108 +12,73 @@ import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
+  public tableDef: TableDef;
+  public _hasActions: boolean;
+  public _hasFilters: boolean;
+  public _isSearchEnabled: boolean;
+  public _isFooterEnabled: boolean;
+  public _hasRowActions: boolean;
+
+  protected formattedData = [];
+  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
+
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
   private paginator: MatPaginator;
   private sort: MatSort;
   private numberOfRecords = 0;
-  private tableDef: TableDef;
   private tableColumnDef: TableColumnDef[];
   private actionsDef: TableActionDef[];
   private actionsRightDef: TableActionDef[];
   private filtersDef: TableFilterDef[];
   private selectionModel: SelectionModel<any>;
   private data: any[] = [];
-  protected formattedData = [];
   private locale;
   private dataChangeSubscription: Subscription;
-  // private _refreshInterval;
   private staticFilters = [];
   private pollingInterval = 0;
   private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
   private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
   private _rowRefresh = new Subject<any>();
-  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
   private _isDestroyed = false;
 
   public setPollingInterval(pollingInterval: number) {
+    console.log('table-data-source - setPollingInterval');
     this.pollingInterval = pollingInterval;
   }
 
-  public isEmpty(): boolean {
-    // Empty?
-    return this.data.length === 0;
-  }
-
-  public hasActions(): boolean {
-    this._checkInitialized();
-    return (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
-  }
-
-  public hasRowActions(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.rowActionsDef && this.rowActionsDef.length > 0;
-  }
-
-  public hasFilters(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.filtersDef && this.filtersDef.length > 0;
-  }
-
   public isRowSelectionEnabled(): boolean {
-    // Check
-    this._checkInitialized();
+    console.log('table-data-source - isRowSelectionEnabled');
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    // Check
-    this._checkInitialized();
+    console.log('table-data-source - isRowDetailsEnabled');
     // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    // Check
-    this._checkInitialized();
+    console.log('table-data-source - hasRowDetailsHideShowField');
     // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('hideShowField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    // Check
-    this._checkInitialized();
+    console.log('table-data-source - isMultiSelectionEnabled');
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
-  public isFooterEnabled(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-  }
-
-  public isSearchEnabled(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-  }
-
   public isDesignFlat(): boolean {
-    // Check
-    this._checkInitialized();
+    console.log('table-data-source - isDesignFlat');
     // Return
     return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
   }
 
   public getSelectionModel(): SelectionModel<any> {
+    console.log('table-data-source - getSelectionModel');
     if (!this.selectionModel) {
       this.selectionModel = new SelectionModel<any>(
         this.isMultiSelectionEnabled(), []);
@@ -122,47 +87,58 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getSelectedRows(): T[] {
+    console.log('table-data-source - getSelectedRows');
     return this.getSelectionModel().selected.map(element => element['data']);
   }
 
   public hasSelectedRows(): boolean {
+    console.log('table-data-source - hasSelectedRows');
     return this.getSelectionModel().hasValue();
   }
 
   public clearSelectedRows() {
+    console.log('table-data-source - clearSelectedRows');
     return this.getSelectionModel().clear();
   }
 
   public getDataSubjet(): BehaviorSubject<T[]> {
+    console.log('table-data-source - getDataSubjet');
     return this.dataSubject;
   }
 
   public setPaginator(paginator: MatPaginator) {
+    console.log('table-data-source - setPaginator');
     this.paginator = paginator;
   }
 
   public getPaginator(): MatPaginator {
+    console.log('table-data-source - getPaginator');
     // Return one of them
     return this.paginator;
   }
 
   public setSort(sort: MatSort) {
+    console.log('table-data-source - setSort');
     this.sort = sort;
   }
 
   public getSort(): MatSort {
+    console.log('table-data-source - getSort');
     return this.sort;
   }
 
   public setSearchInput(searchInput: ElementRef) {
+    console.log('table-data-source - setSearchInput');
     this.searchInput = searchInput;
   }
 
   public setSearchValue(searchValue: String) {
+    console.log('table-data-source - setSearchValue');
     this.searchInput.nativeElement.value = searchValue;
   }
 
   public getSearchValue(): string {
+    console.log('table-data-source - getSearchValue');
     // Check
     if (this.searchInput) {
       return this.searchInput.nativeElement.value;
@@ -171,6 +147,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public connect(collectionViewer: CollectionViewer): Observable<T[]> {
+    console.log('table-data-source - connect');
     this._isDestroyed = false;
     if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
       this.dataSubject = new BehaviorSubject<any[]>([]);
@@ -179,6 +156,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
+    console.log('table-data-source - disconnect');
     this._isDestroyed = true;
     if (this._displayDetailsColumns) {
       this._displayDetailsColumns.complete();
@@ -204,16 +182,19 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public updatePaginator() {
+    console.log('table-data-source - updatePaginator');
     if (this.paginator) { // Might happen in case destroy occurs before the end of the loadData
       this.paginator.length = this.getNumberOfRecords();
     }
   }
 
   public getPaginatorPageSizes() {
+    console.log('table-data-source - getPaginatorPageSizes');
     return [50, 100, 250, 500];
   }
 
   public getPaging(): Paging {
+    console.log('table-data-source - getPaging');
     if (this.getPaginator()) {
       return {
         skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
@@ -228,6 +209,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getOrdering(): Ordering[] {
+    console.log('table-data-source - getOrdering');
     if (this.getSort()) {
       return [
         {field: this.getSort().active, direction: this.getSort().direction}
@@ -250,27 +232,33 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public setNumberOfRecords(numberOfRecords: number) {
+    console.log('table-data-source - setNumberOfRecords');
     this.numberOfRecords = numberOfRecords;
   }
 
   public getNumberOfRecords(): number {
+    console.log('table-data-source - getNumberOfRecords');
     return this.numberOfRecords;
   }
 
   public setData(data: T[]) {
+    console.log('table-data-source - setData');
     this.refreshData(data);
     this.dataSubject.next(this.formattedData);
   }
 
   public getData(): any[] {
+    console.log('table-data-source - getData');
     return this.data;
   }
 
   public getFormattedData(): any[] {
+    console.log('table-data-source - getFormattedData');
     return this.formattedData;
   }
 
   public getTableActionsDef(): TableActionDef[] {
+    console.log('table-data-source - getTableActionsDef');
     // Return default
     if (this.filtersDef && this.filtersDef.length > 0) {
       return [
@@ -282,29 +270,35 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
+    console.log('table-data-source - getTableActionsRightDef');
     // Return default
     return [];
   }
 
   public getTableRowActions(item?: T): TableActionDef[] {
+    console.log('table-data-source - getTableRowActions');
     // Return default
     return [];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
+    console.log('table-data-source - getTableFiltersDef');
     // Return default
     return [];
   }
 
   public getTableDef(): TableDef {
+    console.log('table-data-source - getTableDef');
     return {rowFieldNameIdentifier: ''};
   }
 
   public setTableDef(tableDef: TableDef) {
+    console.log('table-data-source - setTableDef');
     this.tableDef = tableDef;
   }
 
   public filterChanged(filter: TableFilterDef) {
+    console.log('table-data-source - filterChanged');
     // Update Filter
     const foundFilter = this.filtersDef.find((filterDef) => {
       return filterDef.id === filter.id;
@@ -316,6 +310,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public reset() {
+    console.log('table-data-source - reset');
     this.unregisterToDataChange();
     this.resetFilters();
     this.tableDef = null;
@@ -326,6 +321,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public resetFilters() {
+    console.log('table-data-source - resetFilters');
     if (this.filtersDef) {
       this.filtersDef.forEach((filterDef: TableFilterDef) => {
         filterDef.reset();
@@ -334,6 +330,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public actionTriggered(actionDef: TableActionDef) {
+    console.log('table-data-source - actionTriggered');
     // Check common actions
     switch (actionDef.id) {
       case 'refresh':
@@ -360,14 +357,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+    console.log('table-data-source - rowActionTriggered');
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
+    console.log('table-data-source - getDataChangeSubject');
     // Return
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
   public subscribeAutoRefresh(fn): Subscription {
+    console.log('table-data-source - subscribeAutoRefresh');
     if (!this._ongoingAutoRefresh || this._ongoingAutoRefresh.isStopped) {
       // restart observable
       this._ongoingAutoRefresh = new BehaviorSubject(false);
@@ -376,6 +376,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeManualRefresh(fn): Subscription {
+    console.log('table-data-source - subscribeManualRefresh');
     if (!this._ongoingManualRefresh || this._ongoingManualRefresh.isStopped) {
       // restart observable
       this._ongoingManualRefresh = new BehaviorSubject(false);
@@ -384,6 +385,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeRowRefresh(fn): Subscription {
+    console.log('table-data-source - subscribeRowRefresh');
     if (!this._rowRefresh || this._rowRefresh.isStopped) {
       // restart observable
       this._rowRefresh = new Subject();
@@ -392,6 +394,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public subscribeDisplayDetailsColumn(fn): Subscription {
+    console.log('table-data-source - subscribeDisplayDetailsColumn');
     if (!this._displayDetailsColumns || this._displayDetailsColumns.isStopped) {
       this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
     }
@@ -399,6 +402,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public registerToDataChange() {
+    console.log('table-data-source - registerToDataChange');
     if (!this._isDestroyed && !this.dataChangeSubscription) {
       if (this.pollingInterval > 1000) {
         this.dataChangeSubscription = interval(this.pollingInterval).pipe(takeWhile(() => !this._isDestroyed)).subscribe((occurrence) => {
@@ -419,6 +423,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   refreshReload() {
+    console.log('table-data-source - refreshReload');
     let refreshStatus;
     if (this._ongoingManualRefresh) {
       this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -444,6 +449,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   private _manualRefreshReload() {
+    console.log('table-data-source - _manualRefreshReload');
     // check if there is not already an ongoing refresh
     let refreshStatus;
     this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
@@ -472,6 +478,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
 
   public unregisterToDataChange() {
+    console.log('table-data-source - unregisterToDataChange');
     if (this.dataChangeSubscription) {
       this.dataChangeSubscription.unsubscribe();
       this.dataChangeSubscription = null;
@@ -479,6 +486,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getFilterValues(withSearch: boolean = true) {
+    console.log('table-data-source - getFilterValues');
     let filterJson = {};
     // Parse filters
     if (this.filtersDef) {
@@ -523,24 +531,29 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public getRowDetails(row: T): Observable<String> {
+    console.log('table-data-source - getRowDetails');
     return of('getRowDetails() not implemented in your data source!');
   }
 
   public setStaticFilters(staticFilters) {
+    console.log('table-data-source - setStaticFilters');
     // Keep it
     this.staticFilters = staticFilters;
   }
 
   public getStaticFilters() {
+    console.log('table-data-source - getStaticFilters');
     // Keep it
     return this.staticFilters;
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
+    console.log('table-data-source - onRowActionMenuOpen');
     // Should be implemented in implementation
   }
 
   public getTableColumnDefs(): TableColumnDef[] {
+    console.log('table-data-source - getTableColumnDefs');
     if (!this.tableColumnDef) {
       this.tableColumnDef = this.buildTableColumnDefs();
     }
@@ -552,6 +565,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   abstract loadData(refreshAction?: boolean);
 
   refreshData(freshData: any[]) {
+    console.log('table-data-source - refreshData');
     const freshFormattedData = [];
     const rowRefreshed = [];
     freshData.forEach((freshRow) => {
@@ -601,6 +615,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   _formatRow(row): any[] {
+    console.log('table-data-source - _formatRow');
     const formattedRow = [];
     this.tableColumnDef.forEach((columnDef) => {
       formattedRow.push(this._buildCellValue(row, columnDef));
@@ -610,6 +625,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   changeLocaleTo(locale: string) {
+    console.log('table-data-source - changeLocaleTo');
     if (this.locale !== locale) {
       this.locale = locale;
       this.formattedData = [];
@@ -620,39 +636,55 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+    console.log('table-data-source - canDisplayRowAction');
     return true;
   }
 
-  private _checkInitialized(): any {
+  protected initDataSource(): any {
+    console.log('table-data-source - initDataSource');
     // Check
     if (!this.tableDef) {
+      console.log('table-data-source - initDataSource - tableDef');
       this.tableDef = this.getTableDef();
     }
     if (!this.filtersDef) {
+      console.log('table-data-source - initDataSource - filtersDef');
       this.filtersDef = this.getTableFiltersDef();
     }
     if (!this.actionsDef) {
+      console.log('table-data-source - initDataSource - actionsDef');
       this.actionsDef = this.getTableActionsDef();
       // Check known actions
       this._checkKnownActions(this.actionsDef);
     }
     if (!this.actionsRightDef) {
+      console.log('table-data-source - initDataSource - actionsRightDef');
       // Get
       this.actionsRightDef = this.getTableActionsRightDef();
       // Check known actions
       this._checkKnownActions(this.actionsRightDef);
     }
     if (!this.rowActionsDef) {
+      console.log('table-data-source - initDataSource - rowActionsDef');
       this.rowActionsDef = this.getTableRowActions();
       // Check known actions
       this._checkKnownActions(this.rowActionsDef);
     }
     if (!this.tableColumnDef) {
+      console.log('table-data-source - initDataSource - tableColumnDef');
       this.tableColumnDef = this.buildTableColumnDefs();
     }
+    // Init vars
+    this._hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
+    this._hasFilters = (this.filtersDef && this.filtersDef.length > 0);
+    this._isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
+    this._isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
+    this._hasRowActions = this.rowActionsDef && this.rowActionsDef.length > 0;
+    console.log(`table-data-source - initDataSource - tableColumnDef - _hasActions=${this._hasActions} - _hasFilters=${this._hasFilters} - _isSearchEnabled=${this._isSearchEnabled}`);
   }
 
   private _checkKnownActions(actionsDef: TableActionDef[]): any {
+    console.log('table-data-source - _checkKnownActions');
     // Check
     if (actionsDef) {
       // Check
@@ -676,6 +708,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   private findPropertyValue(columnDef, propertyName, source) {
+    console.log('table-data-source - findPropertyValue');
     let propertyValue = null;
     propertyValue = source[propertyName];
     if (propertyName.indexOf('.') > 0) {
@@ -703,6 +736,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   private _buildCellValue(row: any, columnDef: TableColumnDef) {
+    console.log('table-data-source - _buildCellValue');
     let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
     // Type?
     switch (columnDef.type) {
@@ -734,11 +768,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
    * @memberof TableDataSource
    */
   specificRowActions(row: T): TableActionDef[] {
+    console.log('table-data-source - specificRowActions');
     return [];
   }
 
-
   isSelectable(row: T) {
+    console.log('table-data-source - isSelectable');
     return true;
   }
 }

@@ -33,27 +33,27 @@ const DEFAULT_POLLING = 10000;
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
+
   public columnDefs = [];
   public columns: string[];
   public pageSizes = [];
   public searchPlaceholder = '';
   public searchSourceSubject: Subject<string> = new Subject();
-  public tableDef: TableDef;
   public autoRefeshChecked = true;
   public ongoingAutoRefresh = false;
   public ongoingManualRefresh = false;
+
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
+
   private autoRefreshObserver: Subscription;
   private manualRefreshObserver: Subscription;
   private rowRefreshObserver: Subscription;
   private displayDetailObserver: Subscription;
-  // private _detailComponentId: number;
   private selection: SelectionModel<any>;
   private filtersDef: TableFilterDef[] = [];
-  private actionsLeftDef: TableActionDef[] = [];
   private actionsRightDef: TableActionDef[] = [];
   private footer = false;
   private filters: TableFilter[] = [];
@@ -67,23 +67,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
+    console.log('table.component - constructor');
   }
 
   ngOnInit() {
+    console.log('table.component - ngOnInit');
     const locale = this.localService.getCurrentFullLocaleForJS();
     this.dataSource.changeLocaleTo(locale);
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
-    // Get Table def
-    this.tableDef = this.dataSource.getTableDef();
     // Get Filters def
-    if (this.dataSource.hasFilters()) {
-      this.filtersDef = this.dataSource.getTableFiltersDef();
-    }
-    // Get Actions def
-    this.actionsLeftDef = this.dataSource.getTableActionsDef();
+    this.filtersDef = this.dataSource.getTableFiltersDef();
     // Get Actions Right def
     this.actionsRightDef = this.dataSource.getTableActionsRightDef();
     // Get Selection Model
@@ -119,7 +115,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
     // Is there specific row actions ?
-    if (this.dataSource.hasRowActions()) {
+    if (this.dataSource._hasRowActions) {
       this.columns = [...this.columns, 'actions'];
     }
     // Paginator
@@ -132,7 +128,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
-    if (this.tableDef.search) {
+    if (this.dataSource.tableDef.search) {
       // Listen to Search change
       this.searchSourceSubject.pipe(
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
@@ -167,6 +163,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    console.log('table.component - ngAfterViewInit');
     // Set Paginator
     this.dataSource.setPaginator(this.paginator);
     // Set Sort
@@ -179,6 +176,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('table.component - ngOnDestroy');
     // Unregister
     this.dataSource.reset();
     if (this.manualRefreshObserver) {
@@ -197,12 +195,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected() {
+    console.log('table.component - isAllSelected');
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.getData().length;
     return numSelected === numRows;
   }
 
   public filterChanged(filterDef: TableFilterDef, event) {
+    console.log('table.component - filterChanged');
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Get Actions def
@@ -210,6 +210,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
+    console.log('table.component - dateFilterChanged');
     // Date?
     if (filterDef.type === 'date') {
       // Date is one way binding: update the value manually
@@ -221,6 +222,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
+    console.log('table.component - resetDialogTableFilter');
     // Reset paginator if field is not empty
     if (filterDef.currentValue !== null) {
       this.paginator.pageIndex = 0;
@@ -230,6 +232,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
+    console.log('table.component - showDialogTableFilter');
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -253,6 +256,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public actionTriggered(actionDef: TableActionDef, event?) {
+    console.log('table.component - actionTriggered');
     // Slide?
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
@@ -282,12 +286,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+    console.log('table.component - rowActionTriggered');
     // Get Actions def
     this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
   // Selects all rows if they are not all selected; otherwise clear selection.
   public masterSelectToggle() {
+    console.log('table.component - masterSelectToggle');
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.getFormattedData().forEach(row => {
@@ -298,6 +304,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public handleSortChanged() {
+    console.log('table.component - handleSortChanged');
     // Reset paginator
     this.paginator.pageIndex = 0;
     // Clear Selection
@@ -307,10 +314,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public trackByObjectId(index: number, item: any): any {
+    console.log('table.component - trackByObjectId');
     return item ? item.id : null;
   }
 
   public handlePageChanged() {
+    console.log('table.component - handlePageChanged');
     // Clear Selection
     this.selection.clear();
     // Load data
@@ -318,20 +327,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
+    console.log('table.component - loadData');
     // Load data source
     this.dataSource.loadData(false);
   }
 
   public showHideDetailsClicked(row) {
+    console.log('table.component - showHideDetailsClicked');
     // Already Expanded
     if (!row.isExpanded) {
       // Already loaded?
-      if (this.tableDef.rowDetails.enabled && !row[this.tableDef.rowDetails.detailsField]) {
-        if (!this.tableDef.rowDetails.isDetailComponent) {
+      if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        if (!this.dataSource.tableDef.rowDetails.isDetailComponent) {
           // No: Load details from data source
           this.dataSource.getRowDetails(row).subscribe((details) => {
             // Set details
-            row[this.tableDef.rowDetails.detailsField] = details;
+            row[this.dataSource.tableDef.rowDetails.detailsField] = details;
             // No: Expand it!
             row.isExpanded = true;
           });
@@ -360,51 +371,50 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
    * @rowDetails
    */
   public setReferenceRow(row, rowDetails) {
+    console.log('table.component - setReferenceRow');
     rowDetails.parentRow = row;
     return true;
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row) {
+    console.log('table.component - onRowActionMenuOpen');
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
   /*  public isDetailedTableEnable(): Boolean {
-      return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailDataTable;
+      return this.dataSource.tableDef && this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.detailDataTable;
     }*/
   canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
+    console.log('table.component - canDisplayRowAction');
     return this.dataSource.canDisplayRowAction(rowAction, rowItem);
   }
 
-  /*  public setDetailedDataSource(row){
-      this.detailDataSource.setDetailedDataSource(row);
-    }*/
-
-  /**
-   * isDetailedTableEnable
-   */
-
   isSelectable(row: any) {
+    console.log('table.component - isSelectable');
     return this.dataSource.isSelectable(row);
   }
 
   isPaginatorUseless() {
+    console.log('table.component - isPaginatorUseless');
     return Array.isArray(this.pageSizes) && this.dataSource.getNumberOfRecords() < this.pageSizes[0];
   }
 
   private _rowRefresh(compositeValue) {
+    console.log('table.component - _rowRefresh');
     if (compositeValue) {
       const data = compositeValue.newValue['data'];
       // Refresh details component
       if (data.isExpanded) {
-        if (data[this.tableDef.rowDetails.detailsField]) {
+        if (data[this.dataSource.tableDef.rowDetails.detailsField]) {
           // Simple fields
           this.dataSource.getRowDetails(data).subscribe((details) => {
             // Set details
-            data[this.tableDef.rowDetails.detailsField] = details;
+            data[this.dataSource.tableDef.rowDetails.detailsField] = details;
           });
         } else {
           this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
-            const identifierFieldname = (this.tableDef.rowFieldNameIdentifier ? this.tableDef.rowFieldNameIdentifier : 'id');
+            // tslint:disable-next-line:max-line-length
+            const identifierFieldname = (this.dataSource.tableDef.rowFieldNameIdentifier ? this.dataSource.tableDef.rowFieldNameIdentifier : 'id');
             if (detailComponentContainer.parentRow[identifierFieldname] === data[identifierFieldname]) {
               detailComponentContainer.parentRow = data;
               detailComponentContainer.refresh(data, compositeValue.isAutoRefresh);

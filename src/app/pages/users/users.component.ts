@@ -17,7 +17,6 @@ import { CentralServerService } from 'app/services/central-server.service';
 })
 export class UsersComponent extends AbstractTabComponent implements OnInit {
   public isAdmin;
-  private _userId;
 
   constructor(
     public usersDataSource: UsersDataSource,
@@ -32,13 +31,18 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._userId = this.activatedRoute.snapshot.queryParams['UserID'];
-    if(this._userId){
-      this.centralServerService.getUser(this._userId).subscribe(user => {
-        if(user) {
-          this.usersInErrorDataSource.showUserDialog(user);
-        }
-      })
+    // Check if User ID id provided
+    const userId = this.windowService.getSearch('UserID');
+    if (userId) {
+      this.centralServerService.getUser(userId).subscribe(user => {
+        // Found
+        this.usersInErrorDataSource.showUserDialog(user);
+      }, (error) => {
+        // Not Found
+        this.messageService.showErrorMessage('chargers.charger_id_not_found', {'UserID': userId});
+      });
+      // Clear Search
+      this.windowService.deleteSearch('UserID');
     }
-  }
+  }    
 }

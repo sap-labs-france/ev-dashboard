@@ -71,29 +71,29 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
     // Extract columns for the template
-    this.columns = this.dataSource.tableColumnDefs.map((column) => column.id);
+    let columns = this.dataSource.tableColumnDefs.map((column) => column.id);
     // Row Selection enabled?
     if (this.dataSource.isRowSelectionEnabled()) {
       // Yes: Add Select column
-      this.columns = ['select', ...this.columns];
+      columns = ['select', ...columns];
     }
     // Row Detailed enabled?
     if (this.dataSource.isRowDetailsEnabled()) {
       // Yes: Add Details column
-      this.columns = ['details', ...this.columns];
+      columns = ['details', ...columns];
       // Check if detail display columns must be displayed
       this.displayDetailObserver = this.dataSource.subscribeDisplayDetailsColumn((displayDetails) => {
         if (!displayDetails) {
           // Hide details column
-          const indexDetails = this.columns.findIndex((element) => element === 'details');
+          const indexDetails = columns.findIndex((element) => element === 'details');
           if (indexDetails >= 0) {
-            this.columns.splice(indexDetails, 1);
+            columns.splice(indexDetails, 1);
           }
         } else {
           // Add details column
-          const indexDetails = this.columns.findIndex((element) => element === 'details');
+          const indexDetails = columns.findIndex((element) => element === 'details');
           if (indexDetails === -1) {
-            this.columns = ['details', ...this.columns];
+            columns = ['details', ...columns];
           }
         }
       });
@@ -101,8 +101,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Is there specific row actions ?
     if (this.dataSource.hasRowActions) {
       // Yes add a new column actions
-      this.columns = [...this.columns, 'actions'];
+      columns = [...columns, 'actions'];
     }
+    this.columns = columns;
+    console.log(columns);
     // Init paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Search?
@@ -144,7 +146,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - ngAfterViewInit');
     // Assign the Paginator
     this.dataSource.setPaginator(this.paginator);
-    // Init the sorting coloumn
+    // Init the sorting column
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
     // Found?
@@ -287,8 +289,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - masterSelectToggle');
     this.isAllSelected() ?
       this.dataSource.selectionModel.clear() :
-      this.dataSource.getFormattedData().forEach(row => {
-        if (this.dataSource.isSelectable(row['data'])) {
+      this.dataSource.data.forEach(row => {
+        if (row.isSelectable) {
           this.dataSource.selectionModel.select(row);
         }
       });

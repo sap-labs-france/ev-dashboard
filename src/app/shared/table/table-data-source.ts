@@ -220,10 +220,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         return [
           {field: columnDef.id, direction: columnDef.direction}
         ]
-      } else {
-        return [
-          // { field: 'id', direction: 'asc' }
-        ]
       }
     }
   }
@@ -240,18 +236,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public setData(data: T[]) {
     console.log('table-data-source - setData');
-    this.refreshData(data);
-    this.dataSubject.next(this.formattedData);
+    // Format the data
+    this.formatData(data);
+    // this.dataSubject.next(this.formattedData);
   }
 
   public getData(): any[] {
     console.log('table-data-source - getData');
     return this.data;
-  }
-
-  public getFormattedData(): any[] {
-    console.log('table-data-source - getFormattedData');
-    return this.formattedData;
   }
 
   public getTableActionsDef(): TableActionDef[] {
@@ -553,67 +545,71 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   abstract loadData(refreshAction?: boolean);
 
-  refreshData(freshData: any[]) {
-    console.log('table-data-source - refreshData');
-    const freshFormattedData = [];
-    const rowRefreshed = [];
-    freshData.forEach((freshRow) => {
-      // Init Row Action Authorization
-      if (this.hasRowActions) {
-        // Check if authorized
-        this.rowActionsDef.forEach((rowActionDef) => {
-          // Set
-          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
-        });
-      }
-      // Handle is Selectable
-      if (this.isRowSelectionEnabled()) {
-        // Check
-        freshRow.isSelectable = this.isSelectable(freshRow);
-      }
-      const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
-      const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
-      if (index !== -1) {
-        if (_.isEqual(this.data[index], freshRow)) {
-          freshFormattedData.push(this.formattedData[index]);
-        } else {
-          const formattedRow = this._formatRow(freshRow);
-          if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-            (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
-            // Check if row is expanded
-            if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
-              formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
-            }
-          }
-          // Update specific row actions
-          const specificRowActions = this.specificRowActions(formattedRow['data']);
-          if (specificRowActions.length > 0) {
-            formattedRow['specificRowActions'] = specificRowActions;
-          }
-          freshFormattedData.push(formattedRow);
-          rowRefreshed.push({
-            newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-            isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-              (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
-          });
-        }
-      } else {
-        const formattedRow = this._formatRow(freshRow);
-        // Update specific row actions
-        const specificRowActions = this.specificRowActions(formattedRow['data']);
-        if (specificRowActions.length > 0) {
-          formattedRow['specificRowActions'] = specificRowActions;
-        }
-        freshFormattedData.push(formattedRow);
-      }
-    });
-    this.formattedData = freshFormattedData;
+  formatData(freshData: any[]) {
+    console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
+    // this.formattedData = freshData;
     this.data = freshData;
-    if (this._rowRefresh) {
-      rowRefreshed.forEach((row) => {
-        this._rowRefresh.next(row);
-      })
-    }
+    console.log(this.data);
+    // const freshFormattedData = [];
+    // const rowRefreshed = [];
+    // freshData.forEach((freshRow) => {
+    //   // Init Row Action Authorization
+    //   if (this.hasRowActions) {
+    //     // Check if authorized
+    //     this.rowActionsDef.forEach((rowActionDef) => {
+    //       // Set
+    //       freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
+    //     });
+    //   }
+    //   // Handle is Selectable
+    //   if (this.isRowSelectionEnabled()) {
+    //     // Check
+    //     freshRow.isSelectable = this.isSelectable(freshRow);
+    //   }
+    //   const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
+    //   const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
+    //   if (index !== -1) {
+    //     if (_.isEqual(this.data[index], freshRow)) {
+    //       freshFormattedData.push(this.formattedData[index]);
+    //     } else {
+    //       const formattedRow = this._formatRow(freshRow);
+    //       // Auto/Manual Refesh active?
+    //       if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+    //           (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
+    //         // Check if row is expanded
+    //         if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
+    //           formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+    //         }
+    //       }
+    //       // Update specific row actions
+    //       const specificRowActions = this.specificRowActions(formattedRow['data']);
+    //       if (specificRowActions.length > 0) {
+    //         formattedRow['specificRowActions'] = specificRowActions;
+    //       }
+    //       freshFormattedData.push(formattedRow);
+    //       rowRefreshed.push({
+    //         newValue: formattedRow, previousValue: this.formattedData[index]['data'],
+    //         isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+    //           (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
+    //       });
+    //     }
+    //   } else {
+    //     const formattedRow = this._formatRow(freshRow);
+    //     // Update specific row actions
+    //     const specificRowActions = this.specificRowActions(formattedRow['data']);
+    //     if (specificRowActions.length > 0) {
+    //       formattedRow['specificRowActions'] = specificRowActions;
+    //     }
+    //     freshFormattedData.push(formattedRow);
+    //   }
+    // });
+    // this.formattedData = freshFormattedData;
+    // this.data = freshData;
+    // if (this._rowRefresh) {
+    //   rowRefreshed.forEach((row) => {
+    //     this._rowRefresh.next(row);
+    //   })
+    // }
   }
 
   _formatRow(row): any[] {
@@ -624,6 +620,40 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     });
     formattedRow['data'] = row;
     return formattedRow;
+  }
+
+  private _buildCellValue(row: any, columnDef: TableColumnDef) {
+    console.log('table-data-source - _buildCellValue');
+    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
+    // Type?
+    switch (columnDef.type) {
+      // Date
+      case 'date':
+        propertyValue = Utils.convertToDate(propertyValue);
+        break;
+      // Integer
+      case 'integer':
+        propertyValue = Utils.convertToInteger(propertyValue);
+        break;
+      // Float
+      case 'float':
+        propertyValue = Utils.convertToFloat(propertyValue);
+        break;
+    }
+
+    if (columnDef.formatter) {
+      propertyValue = columnDef.formatter(propertyValue, row);
+    }
+    // Return the property
+    return `${propertyValue ? propertyValue : ''}`;
+  }
+
+  /**
+   * Used to retrieve individual line actions instead of general action table
+   */
+  specificRowActions(row: T): TableActionDef[] {
+    console.log('table-data-source - specificRowActions');
+    return [];
   }
 
   changeLocaleTo(locale: string) {
@@ -713,43 +743,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       );
     }
     return propertyValue;
-  }
-
-  private _buildCellValue(row: any, columnDef: TableColumnDef) {
-    console.log('table-data-source - _buildCellValue');
-    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-    // Type?
-    switch (columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
-    }
-
-    if (columnDef.formatter) {
-      propertyValue = columnDef.formatter(propertyValue, row);
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
-  }
-
-  /**
-   * Used to retrieve individual line actions instead of general action table
-   *
-   * @param {*} row
-   * @memberof TableDataSource
-   */
-  specificRowActions(row: T): TableActionDef[] {
-    console.log('table-data-source - specificRowActions');
-    return [];
   }
 
   isSelectable(row: T) {

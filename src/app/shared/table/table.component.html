@@ -146,7 +146,7 @@
   <!-- Table -->
   <div [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table mat-table matSort matSortDisableClear multiTemplateDataRows
-        (matSortChange)="handleSortChanged()" [dataSource]="dataSource" [trackBy]="trackByObjectId">
+        (matSortChange)="handleSortChanged()" [dataSource]="dataSource.data" [trackBy]="trackByObjectId">
       <!-- Checkbox Select Column -->
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
@@ -156,12 +156,12 @@
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
-          <ng-container *ngIf="row.data.isSelectable">
+          <ng-container *ngIf="row.isSelectable">
             <mat-checkbox (change)="toggleRowSelection(row)" (click)="$event.stopPropagation()"
               [checked]="row.selected">
             </mat-checkbox>
           </ng-container>
-          <ng-container *ngIf="!row.data.isSelectable">
+          <ng-container *ngIf="!row.isSelectable">
             <mat-checkbox disabled="true" ngModel="">
             </mat-checkbox>
           </ng-container>
@@ -170,32 +170,37 @@
       </ng-container>
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of this.dataSource.tableColumnDefs, index as i" [matColumnDef]="columnDef.id">
-        <ng-container *ngIf="columnDef.sortable; else noSort">
-          <th *matHeaderCellDef
-            [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
-            mat-header-cell mat-sort-header>{{columnDef.name | translate}}
+        <!-- Header Columns -->
+        <!-- Sortable Column -->
+        <ng-container *ngIf="columnDef.sortable">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef
+              [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')">
+            {{columnDef.name | translate}}
           </th>
         </ng-container>
-        <ng-template #noSort>
-          <th *matHeaderCellDef
-            [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')"
-            mat-header-cell>{{columnDef.name | translate}}
+        <!-- Non-Sortable Column -->
+        <ng-template *ngIf="!columnDef.sortable">
+          <th mat-header-cell *matHeaderCellDef
+              [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')">
+            {{columnDef.name | translate}}
           </th>
         </ng-template>
+        <!-- Cell Columns -->
+        <!-- Angular Component Column -->
         <ng-container *ngIf="columnDef.isAngularComponent">
-          <td *matCellDef="let row"
-            [class]="(columnDef.class ? columnDef.class : '')"
-            mat-cell>
-            <app-cell-component-container [columnDef]="columnDef" [row]="row['data']"></app-cell-component-container>
+          <td mat-cell *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : '')">
+            <app-cell-component-container [columnDef]="columnDef" [row]="row"></app-cell-component-container>
           </td>
         </ng-container>
+        <!-- Usual Column -->
         <ng-container *ngIf="!columnDef.isAngularComponent">
-          <td *matCellDef="let row"
+          <td mat-cell *matCellDef="let row"
             [class]="(columnDef.class ? columnDef.class : '')"
-            [innerHtml]="row[i] | translate" mat-cell>
+            [innerHtml]="row[i] | translate">
           </td>
         </ng-container>
-        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell>
+        <!-- Footer Column -->
+        <td mat-footer-cell *matFooterCellDef [hidden]="!dataSource.isFooterEnabled">
           {{columnDef.footerName | translate}}
         </td>
       </ng-container>
@@ -203,9 +208,9 @@
       <ng-container matColumnDef="details">
         <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
-          <button mat-button (click)="showHideDetailsClicked(row['data'])" class="button-details"
-            *ngIf="dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row['data'][dataSource.tableDef.rowDetails.hideShowField] : true">
-            <mat-icon>{{row['data'].isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
+          <button mat-button (click)="showHideDetailsClicked(row)" class="button-details"
+            *ngIf="dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row[dataSource.tableDef.rowDetails.hideShowField] : true">
+            <mat-icon>{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
           </button>
         </td>
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
@@ -213,15 +218,15 @@
       <!-- Detailed Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="rowDetails">
         <td *matCellDef="let rowDetail" [attr.colspan]="columns.length" mat-cell>
-          <div [@detailExpand]="(rowDetail['data'].isExpanded ? 'expanded' : 'collapsed')" class="element-details">
+          <div [@detailExpand]="(rowDetail.isExpanded ? 'expanded' : 'collapsed')" class="element-details">
             <ng-container
-              *ngIf="dataSource.tableDef.rowDetails && !dataSource.tableDef.rowDetails.isDetailComponent && rowDetail['data'][dataSource.tableDef.rowDetails.detailsField]">
-              <div [innerHtml]="(dataSource.tableDef.rowDetails ? rowDetail['data'][dataSource.tableDef.rowDetails.detailsField] : '')">
+              *ngIf="dataSource.tableDef.rowDetails && !dataSource.tableDef.rowDetails.isDetailComponent && rowDetail[dataSource.tableDef.rowDetails.detailsField]">
+              <div [innerHtml]="(dataSource.tableDef.rowDetails ? rowDetail[dataSource.tableDef.rowDetails.detailsField] : '')">
                 ...
               </div>
             </ng-container>
             <ng-container *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.isDetailComponent">
-              <app-detail-component-container [parentRow]="rowDetail['data']" [tableDef]="dataSource.tableDef" class="col-md-12">
+              <app-detail-component-container [parentRow]="rowDetail" [tableDef]="dataSource.tableDef" class="col-md-12">
               </app-detail-component-container>
             </ng-container>
           </div>
@@ -235,13 +240,13 @@
         <td *matCellDef="let actionCell" [class]="'action-cell text-center'" mat-cell>
           <ng-container
             *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
-            <ng-container *ngIf="actionCell['data']['canDisplayRowAction-' + rowAction.id]">
+            <ng-container *ngIf="actionCell['canDisplayRowAction-' + rowAction.id]">
               <ng-container *ngIf="rowAction.isDropdownMenu">
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
                       <button mat-menu-item
-                        (click)="rowActionTriggered(rowAction, actionCell['data'], dropdownItem)"
+                        (click)="rowActionTriggered(rowAction, actionCell, dropdownItem)"
                         [disabled]="dropdownItem.disabled"
                         appTooltip data-placement="bottom" data-toggle="tooltip"
                         [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
@@ -250,7 +255,7 @@
                     </ng-container>
                   </ng-template>
                 </mat-menu>
-                <button mat-icon-button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell['data'])"
+                <button mat-icon-button (menuOpened)="onRowActionMenuOpen(rowAction, actionCell)"
                   [matMenuTriggerFor]="rowActionMenu" appTooltip="" data-placement="bottom" data-toggle="tooltip"
                   [title]="rowAction.tooltip | translate">
                   <mat-icon>{{rowAction.icon}}</mat-icon>
@@ -261,7 +266,7 @@
                   [title]="rowAction.tooltip | translate">
                   <button mat-icon-button
                     [color]="(rowAction.color ? rowAction.color : '')" 
-                    (click)="rowActionTriggered(rowAction, actionCell['data'])"
+                    (click)="rowActionTriggered(rowAction, actionCell)"
                     [disabled]="rowAction.disabled"><mat-icon>{{rowAction.icon}}</mat-icon>
                   </button>
                 </div>

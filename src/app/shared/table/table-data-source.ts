@@ -12,10 +12,10 @@ import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
   public tableRowActionsDef: TableActionDef[];
-  public tableDef: TableDef = {};
+  public tableDef: TableDef;
   public tableFiltersDef: TableFilterDef[];
   public tableActionsRightDef: TableActionDef[];
-  public tableColumnDefs: TableColumnDef[] = [];
+  public tableColumnDefs: TableColumnDef[];
   public selectionModel: SelectionModel<any>;
   public data: any[] = [];
 
@@ -294,6 +294,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableRowActionsDef;
   }
 
+  public buildTableFiltersDef(): TableFilterDef[] {
+    return [];
+  }
+
   public getTableFiltersDef(): TableFilterDef[] {
     console.log('table-data-source - getTableFiltersDef');
     if (!this.tableFiltersDef) {
@@ -301,6 +305,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
     return this.tableFiltersDef;
   }
+
+  abstract buildTableDef(): TableDef;
 
   public getTableDef(): TableDef {
     console.log('table-data-source - getTableDef');
@@ -409,14 +415,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this._rowRefresh = new Subject();
     }
     return this._rowRefresh.subscribe(fn);
-  }
-
-  public subscribeDisplayDetailsColumn(fn): Subscription {
-    console.log('table-data-source - subscribeDisplayDetailsColumn');
-    if (!this._displayDetailsColumns || this._displayDetailsColumns.isStopped) {
-      this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
-    }
-    return this._displayDetailsColumns.subscribe(fn);
   }
 
   public registerToDataChange() {
@@ -570,20 +568,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Should be implemented in implementation
   }
 
+  abstract buildTableColumnDefs(): TableColumnDef[];
+
   public getTableColumnDefs(): TableColumnDef[] {
-    if (this.tableColumnDefs) {
+    console.log('table-data-source - getTableColumnDefs');
+    if (!this.tableColumnDefs) {
       this.tableColumnDefs = this.buildTableColumnDefs();
     }
     return this.tableColumnDefs;
   }
 
-  abstract buildTableColumnDefs(): TableColumnDef[];
-  abstract buildTableDef(): TableDef;
   abstract loadData(refreshAction?: boolean);
-
-  public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
-  }
 
   formatData(freshData: any[]) {
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
@@ -688,15 +683,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [];
   }
 
-  changeLocaleTo(locale: string) {
-    console.log('table-data-source - changeLocaleTo');
-    if (this.locale !== locale) {
-      this.locale = locale;
-      this.formattedData = [];
-      const toRefresh = this.data;
-      this.data = [];
-      this.setData(toRefresh);
-    }
+  setLocale(locale: string) {
+    console.log('table-data-source - setLocale');
+    this.locale = locale;
   }
 
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {

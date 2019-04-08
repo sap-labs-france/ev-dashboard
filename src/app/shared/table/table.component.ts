@@ -64,7 +64,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     console.log('table.component - ngOnInit');
     // Handle locale (local service available only in component not possible in data-source)
-    this.dataSource.changeLocaleTo(this.localService.getCurrentFullLocaleForJS());
+    this.dataSource.setLocale(this.localService.getCurrentFullLocaleForJS());
     // Handle Poll (config service available only in component not possible in data-source)
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
@@ -81,22 +81,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.isRowDetailsEnabled()) {
       // Yes: Add Details column
       columns = ['details', ...columns];
-      // Check if detail display columns must be displayed
-      this.displayDetailObserver = this.dataSource.subscribeDisplayDetailsColumn((displayDetails) => {
-        if (!displayDetails) {
-          // Hide details column
-          const indexDetails = columns.findIndex((element) => element === 'details');
-          if (indexDetails >= 0) {
-            columns.splice(indexDetails, 1);
-          }
-        } else {
-          // Add details column
-          const indexDetails = columns.findIndex((element) => element === 'details');
-          if (indexDetails === -1) {
-            columns = ['details', ...columns];
-          }
-        }
-      });
     }
     // Is there specific row actions ?
     if (this.dataSource.hasRowActions) {
@@ -330,6 +314,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!row.isExpanded) {
       // Already loaded?
       if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        // Component?
         if (!this.dataSource.tableDef.rowDetails.isDetailComponent) {
           // No: Load details from data source
           this.dataSource.getRowDetails(row).subscribe((details) => {
@@ -339,7 +324,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             row.isExpanded = true;
           });
         } else {
-          // find the container related to the row
+          // Yes: Find the container related to the row
           this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
             if (detailComponentContainer.parentRow === row) {
               detailComponentContainer.loadComponent();

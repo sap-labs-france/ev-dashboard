@@ -45,11 +45,11 @@ export class LogsDataSource extends TableDataSource<Log> {
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe) {
     super();
+    console.log('logs-data-source-table - constructor');
     // Init
     this.initDataSource();
     // Set polling interval
     this.setPollingInterval(POLL_INTERVAL);
-    console.log('logs-data-source-table - constructor');
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -175,7 +175,7 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   buildTableActionsDef(): TableActionDef[] {
-    console.log('logs-data-source-table - getTableActionsDef');
+    console.log('logs-data-source-table - buildTableActionsDef');
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -205,7 +205,7 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    console.log('logs-data-source-table - getTableActionsRightDef');
+    console.log('logs-data-source-table - buildTableActionsRightDef');
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

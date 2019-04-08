@@ -547,31 +547,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       }
       // Format the row
       this._formatRow(freshRow);
-      // // Auto/Manual Refesh active?
-      // if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-      //     (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
-      //   // Check if row is expanded
-      //   if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
-      //     formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
-      //   }
-      // }
-      // // Update specific row actions
-      // const specificRowActions = this.specificRowActions(formattedRow['data']);
-      // if (specificRowActions.length > 0) {
-      //   formattedRow['specificRowActions'] = specificRowActions;
-      // }
-      // freshFormattedData.push(formattedRow);
-      // rowRefreshed.push({
-      //   newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-      //   isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-      //     (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
-      // });
     }
-    // if (this._rowRefresh) {
-    //   rowRefreshed.forEach((row) => {
-    //     this._rowRefresh.next(row);
-    //   })
-    // }
     // Set it
     this.data = freshData;
   }

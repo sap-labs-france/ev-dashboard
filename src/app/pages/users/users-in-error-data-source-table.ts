@@ -175,7 +175,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     // Action
     switch (actionDef.id) {
       case 'create':
-        this._showUserDialog();
+        this.showUserDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -185,7 +185,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showUserDialog(rowItem);
+        this.showUserDialog(rowItem);
         break;
       case 'assign_site':
         this._showSitesDialog(rowItem);
@@ -211,7 +211,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     ];
   }
 
-  private _showUserDialog(user?: User) {
+  public showUserDialog(user?: User) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';

@@ -426,7 +426,6 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  dynamicClass?: Function;
   formatter?: Function,
   sortable?: boolean,
   sorted?: boolean;

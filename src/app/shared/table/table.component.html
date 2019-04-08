@@ -140,7 +140,6 @@
               [placeholder]="searchPlaceholder | translate" matInput>
           </mat-form-field>
         </div>
-        <!-- </div> -->
       </div>
     </div>
   </ng-container>
@@ -152,17 +151,17 @@
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
           <mat-checkbox (change)="$event ? masterSelectToggle() : null"
-            [checked]="dataSource.selectionModel.hasValue() && (dataSource.selectionModel.selected.length === dataSource.data.length)" [hidden]="!dataSource.isRowSelectionEnabled()"
-            [indeterminate]="dataSource.selectionModel.hasValue() && !(dataSource.selectionModel.selected.length === dataSource.data.length)">
+            [checked]="(dataSource.selectionModel.selected.length === dataSource.data.length)" [hidden]="!dataSource.tableDef.rowSelection.enabled"
+            [indeterminate]="!(dataSource.selectionModel.selected.length === dataSource.data.length)">
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
-          <ng-container *ngIf="isSelectable(row.data)">
-            <mat-checkbox (change)="$event ? dataSource.selectionModel.toggle(row) : null" (click)="$event.stopPropagation()"
-              [checked]="dataSource.selectionModel.isSelected(row)">
+          <ng-container *ngIf="row.data.isSelectable">
+            <mat-checkbox (change)="toggleRowSelection(row)" (click)="$event.stopPropagation()"
+              [checked]="row.selected">
             </mat-checkbox>
           </ng-container>
-          <ng-container *ngIf="!isSelectable(row.data)">
+          <ng-container *ngIf="!row.data.isSelectable">
             <mat-checkbox disabled="true" ngModel="">
             </mat-checkbox>
           </ng-container>
@@ -185,14 +184,14 @@
         </ng-template>
         <ng-container *ngIf="columnDef.isAngularComponent">
           <td *matCellDef="let row"
-            [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+            [class]="(columnDef.class ? columnDef.class : '')"
             mat-cell>
             <app-cell-component-container [columnDef]="columnDef" [row]="row['data']"></app-cell-component-container>
           </td>
         </ng-container>
         <ng-container *ngIf="!columnDef.isAngularComponent">
           <td *matCellDef="let row"
-            [class]="(columnDef.class ? columnDef.class : (columnDef.dynamicClass ? columnDef.dynamicClass(row['data']) : ''))"
+            [class]="(columnDef.class ? columnDef.class : '')"
             [innerHtml]="row[i] | translate" mat-cell>
           </td>
         </ng-container>
@@ -278,7 +277,7 @@
       <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
       <tr mat-footer-row *matFooterRowDef="columns; sticky: true" [hidden]="!dataSource.isFooterEnabled"></tr>
     </table>
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.isVisible()"
+    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
       class="ml-4 text-center table-no-record-found">{{'general.no_record_found' | translate}}
     </div>
   </div>

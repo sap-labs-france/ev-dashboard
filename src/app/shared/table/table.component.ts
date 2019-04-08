@@ -205,6 +205,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterChanged(filterDef, event);
   }
 
+  toggleSelectionRow(row) {
+    // Select
+    this.dataSource.selectionModel.toggle(row);
+    // Toggle
+    row.selected = !row.selected;
+  }
+
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     console.log('table.component - resetDialogTableFilter');
     // Reset paginator if field is not empty
@@ -368,11 +375,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   canDisplayRowAction(rowAction: TableActionDef, rowItem: any) {
     console.log('table.component - canDisplayRowAction');
     return this.dataSource.canDisplayRowAction(rowAction, rowItem);
-  }
-
-  isSelectable(row: any) {
-    console.log('table.component - isSelectable');
-    return this.dataSource.isSelectable(row);
   }
 
   isPaginatorUseless() {

@@ -198,9 +198,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
               } else {
                 return value;
               }
-            },
-            dynamicClass: (row: Charger) => {
-              return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
             }
           },
           {
@@ -215,9 +212,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
               } else {
                 return value;
               }
-            },
-            dynamicClass: (row: Charger) => {
-              return (row.siteArea ? '' : 'charger-not-assigned') + ' d-none d-xl-table-cell';
             }
           }
         ]

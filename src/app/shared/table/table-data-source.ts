@@ -1,13 +1,11 @@
 import {BehaviorSubject, interval, Observable, of, Subject, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
-import {ConfigService} from '../../services/config.service';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
-import {LocaleService} from '../../services/locale.service';
 
 import * as _ from 'lodash';
 import {takeWhile} from 'rxjs/operators';
@@ -44,12 +42,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
   private _rowRefresh = new Subject<any>();
   private _isDestroyed = false;
-
-
-  constructor(
-      private configService: ConfigService,
-      protected localService: LocaleService) {
-  }
 
   public setPollingInterval(pollingInterval: number) {
     console.log('table-data-source - setPollingInterval');
@@ -573,6 +565,11 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           // Set
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
+      }
+      // Handle is Selectable
+      if (this.isRowSelectionEnabled()) {
+        // Check
+        freshRow.isSelectable = this.isSelectable(freshRow);
       }
       const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
       const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);

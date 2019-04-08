@@ -7,14 +7,12 @@ import {Router} from '@angular/router';
 import {MessageService} from 'app/services/message.service';
 import {DialogService} from 'app/services/dialog.service';
 import {ConnectorAvailibilityComponent} from '../../cell-content-components/connector-availibility.component';
-import {AppConnectorTypePipe} from 'app/shared/formatters/app-connector-type.pipe';
 import {AppConnectorErrorCodePipe} from 'app/shared/formatters/app-connector-error-code.pipe';
 import {ConnectorCellComponent} from 'app/shared/component/connector/connector-cell.component';
 import {LocaleService} from 'app/services/locale.service';
 import {AppUnitPipe} from 'app/shared/formatters/app-unit.pipe';
 import {SpinnerService} from 'app/services/spinner.service';
 import {AuthorizationService} from 'app/services/authorization-service';
-import {Utils} from 'app/utils/Utils';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
 

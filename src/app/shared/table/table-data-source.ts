@@ -547,105 +547,97 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   formatData(freshData: any[]) {
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
-    // this.formattedData = freshData;
-    this.data = freshData;
-    console.log(this.data);
-    // const freshFormattedData = [];
-    // const rowRefreshed = [];
-    // freshData.forEach((freshRow) => {
-    //   // Init Row Action Authorization
-    //   if (this.hasRowActions) {
-    //     // Check if authorized
-    //     this.rowActionsDef.forEach((rowActionDef) => {
-    //       // Set
-    //       freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
-    //     });
-    //   }
-    //   // Handle is Selectable
-    //   if (this.isRowSelectionEnabled()) {
-    //     // Check
-    //     freshRow.isSelectable = this.isSelectable(freshRow);
-    //   }
-    //   const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
-    //   const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
-    //   if (index !== -1) {
-    //     if (_.isEqual(this.data[index], freshRow)) {
-    //       freshFormattedData.push(this.formattedData[index]);
-    //     } else {
-    //       const formattedRow = this._formatRow(freshRow);
-    //       // Auto/Manual Refesh active?
-    //       if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-    //           (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
-    //         // Check if row is expanded
-    //         if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
-    //           formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
-    //         }
-    //       }
-    //       // Update specific row actions
-    //       const specificRowActions = this.specificRowActions(formattedRow['data']);
-    //       if (specificRowActions.length > 0) {
-    //         formattedRow['specificRowActions'] = specificRowActions;
-    //       }
-    //       freshFormattedData.push(formattedRow);
-    //       rowRefreshed.push({
-    //         newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-    //         isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-    //           (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
-    //       });
-    //     }
-    //   } else {
-    //     const formattedRow = this._formatRow(freshRow);
-    //     // Update specific row actions
-    //     const specificRowActions = this.specificRowActions(formattedRow['data']);
-    //     if (specificRowActions.length > 0) {
-    //       formattedRow['specificRowActions'] = specificRowActions;
-    //     }
-    //     freshFormattedData.push(formattedRow);
-    //   }
-    // });
-    // this.formattedData = freshFormattedData;
-    // this.data = freshData;
+    for (let i = 0; i < freshData.length; i++) {
+      const freshRow = freshData[i];
+      // Check Row Action Authorization
+      if (this.hasRowActions) {
+        // Check if authorized
+        this.rowActionsDef.forEach((rowActionDef) => {
+          // Set if authorized
+          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
+        });
+      }
+      // Check if Row can be selected
+      if (this.isRowSelectionEnabled()) {
+        // Check
+        freshRow.isSelectable = this.isSelectable(freshRow);
+      }
+      // Set row ID
+      if (!freshRow.id) {
+        // Get row ID
+        const rowID = this.getTableDef().rowFieldNameIdentifier;
+        // Trigger exception
+        if (!rowID) {
+          throw new Error('Table Def has no row ID defined!');
+        }
+        // Set the ID
+        freshRow.id = freshRow[rowID];
+      }
+      // Format the row
+      this._formatRow(freshRow);
+      // // Auto/Manual Refesh active?
+      // if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+      //     (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
+      //   // Check if row is expanded
+      //   if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
+      //     formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+      //   }
+      // }
+      // // Update specific row actions
+      // const specificRowActions = this.specificRowActions(formattedRow['data']);
+      // if (specificRowActions.length > 0) {
+      //   formattedRow['specificRowActions'] = specificRowActions;
+      // }
+      // freshFormattedData.push(formattedRow);
+      // rowRefreshed.push({
+      //   newValue: formattedRow, previousValue: this.formattedData[index]['data'],
+      //   isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
+      //     (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
+      // });
+    }
     // if (this._rowRefresh) {
     //   rowRefreshed.forEach((row) => {
     //     this._rowRefresh.next(row);
     //   })
     // }
+    // Set it
+    this.data = freshData;
   }
 
-  _formatRow(row): any[] {
+  _formatRow(row) {
     console.log('table-data-source - _formatRow');
-    const formattedRow = [];
-    this.tableColumnDefs.forEach((columnDef) => {
-      formattedRow.push(this._buildCellValue(row, columnDef));
-    });
-    formattedRow['data'] = row;
-    return formattedRow;
-  }
-
-  private _buildCellValue(row: any, columnDef: TableColumnDef) {
-    console.log('table-data-source - _buildCellValue');
-    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-    // Type?
-    switch (columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
+    // For each columns
+    for (let i = 0; i < this.tableColumnDefs.length; i++) {
+      // Get
+      const tableColumnDef = this.tableColumnDefs[i];
+      // Formatter provided?
+      if (!tableColumnDef.formatter) {
+        // No need to format
+        continue;
+      }
+      // Value provided?
+      let propertyValue = row[tableColumnDef.id];
+      if (!propertyValue) {
+        continue;
+      }
+      // Convert to primitive/object first
+      switch (tableColumnDef.type) {
+        // Date
+        case 'date':
+          propertyValue = Utils.convertToDate(propertyValue);
+          break;
+        // Integer
+        case 'integer':
+          propertyValue = Utils.convertToInteger(propertyValue);
+          break;
+        // Float
+        case 'float':
+          propertyValue = Utils.convertToFloat(propertyValue);
+          break;
+      }
+      // Format + Override
+      row[tableColumnDef.id] = tableColumnDef.formatter(propertyValue, row);
     }
-
-    if (columnDef.formatter) {
-      propertyValue = columnDef.formatter(propertyValue, row);
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
   }
 
   /**

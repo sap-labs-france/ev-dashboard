@@ -104,7 +104,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       columns = [...columns, 'actions'];
     }
     this.columns = columns;
-    console.log(columns);
     // Init paginator
     this.pageSizes = this.dataSource.getPaginatorPageSizes();
     // Search?

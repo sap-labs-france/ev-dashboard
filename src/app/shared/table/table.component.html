@@ -147,15 +147,17 @@
   <div [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table mat-table matSort matSortDisableClear multiTemplateDataRows
         (matSortChange)="handleSortChanged()" [dataSource]="dataSource.data" [trackBy]="trackByObjectId">
-      <!-- Checkbox Select Column -->
+      <!-- Selection Column -->
       <ng-container matColumnDef="select">
-        <th *matHeaderCellDef class="text-left col-5em pt-2" mat-header-cell>
+        <!-- Header -->
+        <th mat-header-cell *matHeaderCellDef class="text-left col-5em pt-2">
           <mat-checkbox (change)="$event ? masterSelectToggle() : null"
             [checked]="(dataSource.selectionModel.selected.length === dataSource.data.length)" [hidden]="!dataSource.tableDef.rowSelection.enabled"
             [indeterminate]="!(dataSource.selectionModel.selected.length === dataSource.data.length)">
           </mat-checkbox>
         </th>
-        <td *matCellDef="let row" class="text-left col-5em col-select pt-2" mat-cell>
+        <!-- Cell -->
+        <td mat-cell *matCellDef="let row" class="text-left col-5em col-select pt-2">
           <ng-container *ngIf="row.isSelectable">
             <mat-checkbox (change)="toggleRowSelection(row)" (click)="$event.stopPropagation()"
               [checked]="row.selected">
@@ -170,54 +172,56 @@
       </ng-container>
       <!-- Columns -->
       <ng-container *ngFor="let columnDef of this.dataSource.tableColumnDefs, index as i" [matColumnDef]="columnDef.id">
-        <!-- Header Columns -->
-        <!-- Sortable Column -->
+        <!-- Headers -->
+        <!-- Sortable Header -->
         <ng-container *ngIf="columnDef.sortable">
           <th mat-header-cell mat-sort-header *matHeaderCellDef
               [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')">
             {{columnDef.name | translate}}
           </th>
         </ng-container>
-        <!-- Non-Sortable Column -->
+        <!-- Non-Sortable Header -->
         <ng-template *ngIf="!columnDef.sortable">
           <th mat-header-cell *matHeaderCellDef
               [ngClass]="(columnDef.headerClass ? columnDef.headerClass + ' table-header' : 'table-header')">
             {{columnDef.name | translate}}
           </th>
         </ng-template>
-        <!-- Cell Columns -->
-        <!-- Angular Component Column -->
+        <!-- Cells -->
+        <!-- Angular Component Cell -->
         <ng-container *ngIf="columnDef.isAngularComponent">
           <td mat-cell *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : '')">
             <app-cell-component-container [columnDef]="columnDef" [row]="row"></app-cell-component-container>
           </td>
         </ng-container>
-        <!-- Usual Column -->
+        <!-- Usual Cell -->
         <ng-container *ngIf="!columnDef.isAngularComponent">
           <td mat-cell *matCellDef="let row"
-            [class]="(columnDef.class ? columnDef.class : '')"
-            [innerHtml]="row[i] | translate">
-          </td>
+            [class]="(columnDef.class ? columnDef.class : '')">{{row[columnDef.id]}}</td>
         </ng-container>
-        <!-- Footer Column -->
+        <!-- Footer Cell -->
         <td mat-footer-cell *matFooterCellDef [hidden]="!dataSource.isFooterEnabled">
           {{columnDef.footerName | translate}}
         </td>
       </ng-container>
-      <!-- Detailed Icon Column -->
+      <!-- Details Column -->
       <ng-container matColumnDef="details">
-        <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
-        <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
+        <!-- Header -->
+        <th mat-header-cell *matHeaderCellDef class="col-3em details-column-header"></th>
+        <!-- Cell -->
+        <td mat-cell *matCellDef="let row" [class]="'col-3em details-column-row'">
           <button mat-button (click)="showHideDetailsClicked(row)" class="button-details"
             *ngIf="dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row[dataSource.tableDef.rowDetails.hideShowField] : true">
             <mat-icon>{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
           </button>
         </td>
+        <!-- Footer -->
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
       </ng-container>
-      <!-- Detailed Column - The detail row is made up of this one column that spans across all columns -->
+      <!-- Details Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="rowDetails">
-        <td *matCellDef="let rowDetail" [attr.colspan]="columns.length" mat-cell>
+        <!-- Cell -->
+        <td mat-cell *matCellDef="let rowDetail" [attr.colspan]="columns.length">
           <div [@detailExpand]="(rowDetail.isExpanded ? 'expanded' : 'collapsed')" class="element-details">
             <ng-container
               *ngIf="dataSource.tableDef.rowDetails && !dataSource.tableDef.rowDetails.isDetailComponent && rowDetail[dataSource.tableDef.rowDetails.detailsField]">
@@ -234,13 +238,14 @@
       </ng-container>
       <!-- Actions Column -->
       <ng-container matColumnDef="actions" ng-if="dataSource.hasRowActions">
-        <th *matHeaderCellDef class="table-header text-center col-5em" mat-header-cell>{{'general.actions' |
-        translate}}
-        </th>
-        <td *matCellDef="let actionCell" [class]="'action-cell text-center'" mat-cell>
-          <ng-container
-            *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
+        <!-- Header -->
+        <th mat-header-cell *matHeaderCellDef class="table-header text-center col-5em">{{'general.actions' | translate}}</th>
+        <!-- Cell -->
+        <td mat-cell *matCellDef="let actionCell" [class]="'action-cell text-center'">
+          <!-- Actions -->
+          <ng-container *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
             <ng-container *ngIf="actionCell['canDisplayRowAction-' + rowAction.id]">
+              <!-- Drop Down Action -->
               <ng-container *ngIf="rowAction.isDropdownMenu">
                 <mat-menu #rowActionMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
@@ -261,6 +266,7 @@
                   <mat-icon>{{rowAction.icon}}</mat-icon>
                 </button>
               </ng-container>
+              <!-- Button Action -->
               <ng-container *ngIf="!rowAction.isDropdownMenu">
                 <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip"
                   [title]="rowAction.tooltip | translate">
@@ -274,19 +280,25 @@
             </ng-container>
           </ng-container>
         </td>
-        <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>
+        <!-- Footer Cell -->
+        <td mat-footer-cell *matFooterCellDef [hidden]="!dataSource.isFooterEnabled"></td>
       </ng-container>
       <!-- Rows -->
+      <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns;" [class.example-expanded-row]="true"></tr>
+      <!-- Data Row -->
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+      <!-- Details Row -->
       <tr mat-row *matRowDef="let rowDetail; columns: ['rowDetails']" class="details-row"></tr>
+      <!-- Footer Row -->
       <tr mat-footer-row *matFooterRowDef="columns; sticky: true" [hidden]="!dataSource.isFooterEnabled"></tr>
     </table>
+    <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
       class="ml-4 text-center table-no-record-found">{{'general.no_record_found' | translate}}
     </div>
   </div>
-  <!-- Paginator: can show showFirstLastButtons -->
+  <!-- Paginator -->
   <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
     <mat-paginator #paginator (page)="handlePageChanged()" [pageSizeOptions]="pageSizes"></mat-paginator>
   </ng-container>

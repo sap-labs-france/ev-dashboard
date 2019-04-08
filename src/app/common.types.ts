@@ -119,6 +119,7 @@ export interface ConsumptionValue {
   stateOfCharge: number;
   unroundedAmount: number;
   cumulatedAmount: number;
+  currencyCode: string;
   pricingSource: string;
 }
 
@@ -453,6 +454,8 @@ export interface Transaction {
   user: User;
   tagID: string;
   status: string;
+  price: number;
+  priceUnit: string;
   refundData: {
     refundId: string;
     refundedAt: Date;

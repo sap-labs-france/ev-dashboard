@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableRegisterAction implements TableAction {
   private action: TableActionDef = {
     id: 'register',
     type: 'button',
     icon: 'swap_horiz',
-    class: 'btn-info action-icon-large',
+    color: ButtonColor.primary,
     name: 'general.register',
     tooltip: 'general.tooltips.register'
   }

@@ -1,73 +1,55 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-profile card-testimonial">
-                    <div class="card-header card-header-tabs card-header-primary">
-                        <div class="nav-tabs-navigation">
-                            <div class="nav-tabs-wrapper">
-                                <ul class="nav nav-tabs" data-tabs="tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#smartCharging" data-toggle="tab)">
-                                            <i class="material-icons">battery_charging_full</i> {{charger.id}}
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                    </li>
-                                    <!--                                            <li class="nav-item">
-                                                <a class="nav-link" href="#smartCharging" data-toggle="tab">
-                                                    <i class="material-icons">info</i> {{'chargers.properties_title' |
-                                                    translate}}
-                                                    <div class="ripple-container"></div>
-                                                </a>
-                                            </li>
--->
-                                    <span class="toolbar-spacer"></span>
-                                    <button mat-raised-button class="btn btn-primary" (click)="clearProfiles()" [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
-                                        <!-- <span class="mat-button-wrapper"> -->
-                                            <i class="material-icons mr-2">delete_sweep</i>
-                                            <!-- <span class="btn-label"> -->
-                                                {{'chargers.smart_charging.clear_profiles_button' |
-                                                translate}}
-                                            <!-- </span> -->
-                                        <!-- </span> -->
-                                    </button>
-                                    <button mat-raised-button class="btn btn-primary" mat-dialog-close>
-                                        <!-- <span class="mat-button-wrapper"> -->
-                                            <i class="material-icons mr-2">close</i>
-                                            <!-- <span class="btn-label"> -->
-                                                {{'general.close' | translate}}
-                                            <!-- </span> -->
-                                        <!-- </span> -->
-                                    </button>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="smartCharging">
-                                <mat-dialog-content>
-                                    <div *ngIf="charger.maximumPower" class="row">
-                                        <div class="col-md-6">
-                                            <app-smart-charging-limit-planning #limitPlanning [charger]="charger"
-                                                (onLimitChange)="limitChange($event)"></app-smart-charging-limit-planning>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <app-smart-charging-master-limit #masterLimit [charger]="charger"
-                                                (onApplyPlanning)="planningChanged($event)"></app-smart-charging-master-limit>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <app-smart-charging-limit-planner #limitPlanner [charger]="charger"
-                                                (onApplyPlanning)="planningChanged($event)"></app-smart-charging-limit-planner>
-                                        </div>
-                                    </div>
-                                </mat-dialog-content>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer"></div>
-                </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-profile card-testimonial">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#smartCharging" data-toggle="tab)">
+                      <mat-icon>battery_charging_full</mat-icon><span>{{charger.id}}</span>
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <span class="toolbar-spacer"></span>
+                  <button mat-button (click)="clearProfiles()"
+                    [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
+                    <mat-icon>delete_sweep</mat-icon><span>{{'chargers.smart_charging.clear_profiles_button' | translate}}</span>
+                  </button>
+                  <button mat-icon-button mat-dialog-close>
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </ul>
+              </div>
             </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="smartCharging">
+                <mat-dialog-content>
+                  <div *ngIf="charger.maximumPower" class="row">
+                    <div class="col-md-6">
+                      <app-smart-charging-limit-planning #limitPlanning [charger]="charger"
+                        (onLimitChange)="limitChange($event)"></app-smart-charging-limit-planning>
+                    </div>
+                    <div class="col-md-6">
+                      <app-smart-charging-master-limit #masterLimit [charger]="charger"
+                        (onApplyPlanning)="planningChanged($event)"></app-smart-charging-master-limit>
+                    </div>
+                    <div class="col-md-12">
+                      <app-smart-charging-limit-planner #limitPlanner [charger]="charger"
+                        (onApplyPlanning)="planningChanged($event)"></app-smart-charging-limit-planner>
+                    </div>
+                  </div>
+                </mat-dialog-content>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer"></div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

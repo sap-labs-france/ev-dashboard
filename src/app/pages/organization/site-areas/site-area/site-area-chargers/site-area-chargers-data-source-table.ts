@@ -158,6 +158,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
 
   public _showAddChargersDialog() {
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
       withNoSiteArea: true,
@@ -171,7 +172,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           enabled: true
         }
       }
-    }
+    };
     // Show
     const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
     // Register to the answer

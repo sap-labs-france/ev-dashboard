@@ -13,8 +13,6 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // Wait for Dom Element rendering, then elementRef represent DOM element from where Directive is bootstraped.
-    console.log('call directive');
     let place: Placement = 'left';
     if (this.elementRef.nativeElement.attributes && this.elementRef.nativeElement.attributes['data-placement']) {
       place = this.elementRef.nativeElement.attributes['data-placement'].value;

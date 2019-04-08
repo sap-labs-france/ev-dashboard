@@ -518,6 +518,7 @@
     "status_error_unknown": "Inconnu",
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
+    "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
     "dialog": {
       "export": {
         "title": "Exporter les bornes",
@@ -1071,6 +1072,7 @@
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Conso. Totale",
     "transaction_not_found": "Session inconnue",
+    "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
     "load_transactions_error": "Une erreur est survenue pendant le remboursement de la session",
     "total_duration": "Durée Totale",
     "hours": "heure(s)",
@@ -1158,7 +1160,7 @@
         "title": "Consommation trop Importante",
         "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
         "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
-        }
+      }
     }
   },
   "geomap": {

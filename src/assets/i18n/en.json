@@ -518,6 +518,7 @@
     "status_error_unknown": "Unknown",
     "reboot_title": "Reboot Charging Station",
     "soft_reset_title": "Reset Charging Station",
+    "charger_id_not_found": "Charging Station ID '{{chargerID}}' has not been found",
     "dialog": {
       "export": {
         "title": "Export charging stations",
@@ -1073,6 +1074,7 @@
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Total Consumption",
     "transaction_not_found": "Session not found",
+    "transaction_id_not_found": "Session ID '{{sessionID}}' has not been found",
     "load_transactions_error": "Error occurred while retrieving the sessions",
     "total_duration": "Total Duration",
     "hours": "hour(s)",

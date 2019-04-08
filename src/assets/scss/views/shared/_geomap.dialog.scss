@@ -21,7 +21,11 @@
 }
 
 .mat-dialog-actions {
-  padding-bottom: 15px;
+  padding: 15px 0 !important;
+}
+
+.mat-dialog-container {
+  padding-top: 15px !important;
 }
 
 .mat-dialog-title {
@@ -32,8 +36,10 @@
   vertical-align: middle;
 }
 
-agm-map {
-  height: 500px;
+.mat-dialog-container {
+  agm-map {
+    height: 500px !important;
+  }
 }
 
 .app-spacer {

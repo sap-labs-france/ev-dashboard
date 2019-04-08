@@ -1,6 +1,11 @@
 // Menus https://www.google.com/design/spec/components/menus.html#menus-specs
 // Dropdown buttons (mobile and desktop) https://www.google.com/design/spec/components/buttons.html#buttons-dropdown-buttons
 
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $brand-background;
+  background: $brand-primary;
+}
+
 .dropdown-menu {
   display: none;
   padding: $bmd-dropdown-margin-y 0;
@@ -131,7 +136,7 @@
     ~ .dropdown-menu {
       &.dropdown-menu-top-left,
       &.dropdown-menu-top-right {
-        bottom: $bmd-btn-icon-size; // push up the bottom of the menu the height of the button
+        bottom: 2rem; // push up the bottom of the menu the height of the button
       }
     }
   }
@@ -149,7 +154,7 @@
     ~ .dropdown-menu {
       &.dropdown-menu-top-left,
       &.dropdown-menu-top-right {
-        bottom: $bmd-btn-fab-size-sm; // push up the bottom of the menu the height of the button
+        bottom: 2.5rem; // push up the bottom of the menu the height of the button
       }
     }
   }

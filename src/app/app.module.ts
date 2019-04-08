@@ -64,8 +64,6 @@ import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
 import {AppRouting} from './app.routing';
 import {WINDOW_PROVIDERS} from './providers/window.provider';
 import {WindowService} from './services/window.service';
-import {NotFoundComponent} from './pages/notfound/not-found.component';
-import {TenantGuard} from './guard/tenant.guard';
 import {DevEnvGuard} from './guard/development.guard';
 import {ChartModule} from 'angular2-chartjs';
 import {AgmCoreModule} from '@agm/core';
@@ -172,7 +170,6 @@ export function localeFactory(
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    NotFoundComponent,
     ReleaseNotesComponent,
     // TooltipDirective,
   ],
@@ -185,7 +182,6 @@ export function localeFactory(
     CentralServerNotificationService,
     AuthorizationService,
     ComponentService,
-    TenantGuard,
     DevEnvGuard,
     RouteGuardService,
     SpinnerService,

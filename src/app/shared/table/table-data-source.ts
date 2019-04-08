@@ -602,7 +602,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   _formatRow(row): any[] {
     const formattedRow = [];
-    console.log('format row');
     this.tableColumnDef.forEach((columnDef) => {
       formattedRow.push(this._buildCellValue(row, columnDef));
     });

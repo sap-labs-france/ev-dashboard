@@ -4,8 +4,6 @@
       &.active > a:not([data-toggle="collapse"]) {
         color: $font-color;
         opacity: 1;
-        @include shadow-big-color($font-color);
-
         i {
           color: rgba($font-color, .8);
         }

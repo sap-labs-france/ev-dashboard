@@ -17,7 +17,7 @@
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
-                        <i class="material-icons">email</i>
+                        <mat-icon>email</mat-icon>
                       </span>
                       <mat-form-field>
                         <input matInput type="text" placeholder="{{'authentication.email' | translate}}" [formControl]="email"
@@ -34,8 +34,7 @@
                 </span>
             </div>
             <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">
-              <button mat-raised-button class="btn btn-inverse" type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" |
-                translate}}
+              <button mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" | translate}}
               </button>
             </div>
           </div>

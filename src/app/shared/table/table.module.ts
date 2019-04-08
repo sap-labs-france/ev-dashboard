@@ -18,7 +18,7 @@ import { CommonDirectivesModule } from '../directives/common-directives.module';
     FormattersModule,
     CellContentTemplateModule,
     DetailComponentModule,
-    CommonDirectivesModule 
+    CommonDirectivesModule
   ],
   declarations: [
     TableComponent

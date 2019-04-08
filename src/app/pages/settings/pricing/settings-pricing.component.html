@@ -1,14 +1,15 @@
 <div *ngIf="!isActive" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
-      <i class="material-icons">info</i>
+      <mat-icon>info</mat-icon>
     </div>
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
     <h4 align="justify">
-      {{'settings.pricing.full_description_part_1' | translate}}  <a
-      href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a>.
+      {{'settings.pricing.full_description_part_1' | translate}} <a
+        href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent
+          Charging</u></a>.
     </h4>
     <h4 align="justify">
       {{'settings.pricing.full_description_part_2' | translate}}
@@ -20,27 +21,23 @@
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
-          <i class="material-icons">business</i>
+          <mat-icon>business</mat-icon>
         </div>
         <h3 class="card-title">{{'settings.pricing.simple.title' | translate}}</h3>
       </div>
 
       <div class="card-body">
         <div class="mat-toolbar-row">
-          <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
+          <button mat-raised-button color="warn" (click)="save(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
-            <span class="mat-button-wrapper">
-              <i class="material-icons mr-2">save</i>
-              <span class="btn-label">{{'general.save' | translate}}</span>
-            </span>
+            <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
           </button>
         </div>
         <div class="row" style="margin-top: 1em">
           <div class="col-md-6">
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="price"
-                     placeholder="{{'settings.pricing.simple.price' | translate}}"
-                     required>
+                placeholder="{{'settings.pricing.simple.price' | translate}}" required>
               <mat-error *ngIf="price.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="price.hasError('pattern')">{{"general.error_not_a_number" | translate}}</mat-error>
               <mat-error *ngIf="price.hasError('maxlength')">
@@ -51,8 +48,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="currency"
-                     placeholder="{{'settings.pricing.simple.currency' | translate}}"
-                     required>
+                placeholder="{{'settings.pricing.simple.currency' | translate}}" required>
               <mat-error *ngIf="currency.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="currency.hasError('maxlength')">
                 <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
@@ -67,14 +63,15 @@
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
-        <i class="material-icons">info</i>
+        <mat-icon>info</mat-icon>
       </div>
       <h3 class="card-title">{{'settings.information' | translate}}</h3>
     </div>
     <div class="card-body">
       <h4 align="justify">
-        {{'settings.pricing.convergentcharging.description' | translate}}  <a
-        href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a>.
+        {{'settings.pricing.convergentcharging.description' | translate}} <a
+          href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent
+            Charging</u></a>.
       </h4>
     </div>
   </div>
@@ -84,27 +81,23 @@
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
-        <i class="material-icons">business</i>
+        <mat-icon>business</mat-icon>
       </div>
       <h3 class="card-title">{{'settings.pricing.convergentcharging.title' | translate}}</h3>
     </div>
 
     <div class="card-body">
       <div class="mat-toolbar-row">
-        <button class="btn btn-danger mat-raised-button btn-theme" (click)="save(formGroup.value)"
+        <button mat-raised-button color="warn" (click)="save(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
-          <span class="mat-button-wrapper">
-            <i class="material-icons mr-2">save</i>
-            <span class="btn-label">{{'general.save' | translate}}</span>
-          </span>
+          <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
         </button>
       </div>
       <div class="row" style="margin-top: 1em">
-      <div class="col-md-6">
+        <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
-                   placeholder="{{'settings.pricing.convergentcharging.url' | translate}}"
-                   required>
+              placeholder="{{'settings.pricing.convergentcharging.url' | translate}}" required>
             <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
             <mat-error *ngIf="convergentChargingUrl.hasError('maxlength')">
@@ -118,8 +111,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
-                   placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}"
-                   required>
+              placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}" required>
             <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
             <mat-error *ngIf="convergentChargingUrl.hasError('maxlength')">
@@ -132,8 +124,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
-                   placeholder="{{'settings.pricing.convergentcharging.user' | translate}}"
-                   required>
+              placeholder="{{'settings.pricing.convergentcharging.user' | translate}}" required>
             <mat-error *ngIf="convergentChargingUser.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
             <mat-error *ngIf="convergentChargingUser.hasError('maxlength')">
@@ -147,8 +138,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <input appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
-                   placeholder="{{'settings.pricing.convergentcharging.password' | translate}}"
-                   required>
+              placeholder="{{'settings.pricing.convergentcharging.password' | translate}}" required>
             <mat-error *ngIf="convergentChargingPassword.hasError('required')">{{"general.mandatory_field"
               | translate}}</mat-error>
             <mat-error *ngIf="convergentChargingPassword.hasError('maxlength')">
@@ -163,10 +153,9 @@
     </div>
     <div class="card-footer text-center">
       <span class="toolbar-spacer"></span>
-      <button mat-raised-button class="btn btn-primary pull-right" (click)="save(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
-                      <i class="material-icons mr-2">save</i>
-                        {{'general.save' | translate}}
+      <button mat-icon-button (click)="save(formGroup.value)"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
       </button>
     </div>
   </div>

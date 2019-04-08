@@ -17,7 +17,7 @@
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <i class="material-icons">email</i>
+                      <mat-icon>email</mat-icon>
                     </span>
                     <mat-form-field>
                       <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}" autocomplete="username"
@@ -28,7 +28,7 @@
                   </div>
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <i class="material-icons">lock_outline</i>
+                      <mat-icon>lock_outline</mat-icon>
                     </span>
                     <mat-form-field>
                       <input id="password-field" matInput type="password" placeholder="{{'authentication.password' | translate}}" autocomplete="current-password"
@@ -51,8 +51,7 @@
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="sign-in-button" mat-raised-button class="btn btn-inverse" type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" |
-                translate}}
+              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}
               </button>
             </div>
           </div>

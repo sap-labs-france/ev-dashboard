@@ -1008,6 +1008,8 @@
     "timezone": "Timezone used in SAP Analytics Cloud",
     "links": "SAP Analytics Cloud Links",
     "set_link": "Set Link",
+    "delete_title": "Delete link",
+    "delete_confirm": "Do you really want to delete the link '{{linkName}}'?",
     "link": {
       "name": "Name",
       "description": "Description",

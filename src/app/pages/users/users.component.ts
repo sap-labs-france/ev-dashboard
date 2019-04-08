@@ -6,6 +6,7 @@ import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.compo
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 
 @Component({
   selector: 'app-users-cmp',
@@ -23,6 +24,7 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
     public usersInErrorDataSource: UsersInErrorDataSource,
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
     private centralServerService: CentralServerService,
     windowService: WindowService) {
     super(activatedRoute, windowService, ['all', 'inerror']);
@@ -39,7 +41,7 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
         this.usersInErrorDataSource.showUserDialog(user);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('chargers.charger_id_not_found', {'UserID': userId});
+        this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
       });
       // Clear Search
       this.windowService.deleteSearch('UserID');

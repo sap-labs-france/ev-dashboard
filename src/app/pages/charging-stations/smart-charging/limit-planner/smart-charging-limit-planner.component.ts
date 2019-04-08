@@ -14,6 +14,7 @@ import { Utils } from 'app/utils/Utils';
 import { SmartChargingLimitPlannerChartComponent } from './smart-charging-limit-planner-chart.component';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
+import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 
 interface DisplayedSlot extends ScheduleSlot {
   displayedLimitInkW: number,

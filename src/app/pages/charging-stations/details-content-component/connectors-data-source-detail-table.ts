@@ -117,7 +117,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     }
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-detailed-list',
       rowSelection: {
@@ -143,7 +143,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'connectorId',

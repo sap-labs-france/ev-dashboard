@@ -85,7 +85,7 @@ export class UsersDataSource extends TableDataSource<User> {
     });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -93,7 +93,7 @@ export class UsersDataSource extends TableDataSource<User> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
@@ -220,7 +220,7 @@ export class UsersDataSource extends TableDataSource<User> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef()

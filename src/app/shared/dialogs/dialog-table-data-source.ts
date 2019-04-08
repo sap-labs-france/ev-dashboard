@@ -8,7 +8,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
     this.initDataSource();
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {

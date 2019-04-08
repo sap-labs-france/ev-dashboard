@@ -72,7 +72,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -80,7 +80,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',
@@ -162,7 +162,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 

@@ -41,7 +41,7 @@ export class SiteAreasDataSourceTable extends DialogTableDataSource<SiteArea> {
       });
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

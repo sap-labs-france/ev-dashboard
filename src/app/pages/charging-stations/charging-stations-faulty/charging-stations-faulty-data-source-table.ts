@@ -132,7 +132,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     return null;
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -150,7 +150,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     return [
       {
@@ -302,7 +302,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     });
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const errorTypes = Object.keys(en.chargers.errors).map(key => ({key: key, value: `chargers.errors.${key}.title`}));
 
     return [

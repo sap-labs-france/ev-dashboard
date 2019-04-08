@@ -57,7 +57,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     if (this.isAdmin) {
       return {
         class: 'table-dialog-list',
@@ -83,7 +83,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

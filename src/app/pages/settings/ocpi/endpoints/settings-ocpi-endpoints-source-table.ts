@@ -82,7 +82,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: false
@@ -98,7 +98,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -214,7 +214,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 

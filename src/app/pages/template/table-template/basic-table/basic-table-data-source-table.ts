@@ -84,7 +84,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     }, 800)
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -99,7 +99,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     return [
@@ -194,7 +194,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     }
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
       return [
         new ChargerTableFilter().getFilterDef(),
         new SitesTableFilter().getFilterDef(),

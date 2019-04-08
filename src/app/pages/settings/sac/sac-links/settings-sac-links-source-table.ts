@@ -92,7 +92,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     }, 1);
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: false
@@ -106,7 +106,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -180,7 +180,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 

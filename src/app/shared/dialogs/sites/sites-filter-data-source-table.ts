@@ -40,7 +40,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
       });
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -53,7 +53,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

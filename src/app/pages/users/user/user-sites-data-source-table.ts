@@ -53,7 +53,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -66,7 +66,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

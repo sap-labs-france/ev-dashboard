@@ -87,7 +87,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     }
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-detailed-list',
       rowSelection: {
@@ -106,7 +106,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {

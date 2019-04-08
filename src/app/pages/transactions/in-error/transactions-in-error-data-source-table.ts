@@ -92,7 +92,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -100,7 +100,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [
       {
@@ -162,7 +162,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return this.currencyPipe.transform(price, priceUnit);
   }
 
-  getTableFiltersDef(): TableFilterDef[] {
+  buildTableFiltersDef(): TableFilterDef[] {
     const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
 
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),

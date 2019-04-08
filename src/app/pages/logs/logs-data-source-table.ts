@@ -107,8 +107,8 @@ export class LogsDataSource extends TableDataSource<Log> {
       map(log => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
-  public getTableDef(): TableDef {
-    console.log('logs-data-source-table - getTableDef');
+  public buildTableDef(): TableDef {
+    console.log('logs-data-source-table - buildTableDef');
     return {
       search: {
         enabled: true
@@ -121,8 +121,8 @@ export class LogsDataSource extends TableDataSource<Log> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
-    console.log('logs-data-source-table - getTableColumnDefs');
+  public buildTableColumnDefs(): TableColumnDef[] {
+    console.log('logs-data-source-table - buildTableColumnDefs');
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -212,8 +212,8 @@ export class LogsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
-    console.log('logs-data-source-table - getTableFiltersDef');
+  public buildTableFiltersDef(): TableFilterDef[] {
+    console.log('logs-data-source-table - buildTableFiltersDef');
     if (this.authorizationService.isSuperAdmin()) {
       return [
         new LogDateTableFilter().getFilterDef(),

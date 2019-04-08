@@ -12,10 +12,10 @@ import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
   public rowActionsDef: TableActionDef[];
-  public tableDef: TableDef;
-  public filtersDef: TableFilterDef[];
+  public tableDef: TableDef = {};
+  public tableFiltersDef: TableFilterDef[];
   public actionsRightDef: TableActionDef[];
-  public tableColumnDefs: TableColumnDef[];
+  public tableColumnDefs: TableColumnDef[] = [];
   public selectionModel: SelectionModel<any>;
   public data: any[] = [];
 
@@ -78,9 +78,12 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
   }
 
-  public getSelectionModel(): SelectionModel<any> {
+  private getSelectionModel(): SelectionModel<any> {
     console.log('table-data-source - getSelectionModel');
-    return new SelectionModel<any>(this.isMultiSelectionEnabled(), []);
+    if (!this.selectionModel) {
+      this.selectionModel = new SelectionModel<any>(this.isMultiSelectionEnabled(), []);
+    }
+    return this.selectionModel;
   }
 
   public getSelectedRows(): T[] {
@@ -249,7 +252,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public getTableActionsDef(): TableActionDef[] {
     console.log('table-data-source - getTableActionsDef');
     // Return default
-    if (this.filtersDef && this.filtersDef.length > 0) {
+    if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
         new TableResetFiltersAction().getActionDef()
       ];
@@ -272,13 +275,18 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public getTableFiltersDef(): TableFilterDef[] {
     console.log('table-data-source - getTableFiltersDef');
-    // Return default
-    return [];
+    if (!this.tableFiltersDef) {
+      this.tableFiltersDef = this.buildTableFiltersDef();
+    }
+    return this.tableFiltersDef;
   }
 
   public getTableDef(): TableDef {
     console.log('table-data-source - getTableDef');
-    return {rowFieldNameIdentifier: ''};
+    if (!this.tableDef) {
+      this.tableDef = this.buildTableDef();
+    }
+    return this.tableDef;
   }
 
   public setTableDef(tableDef: TableDef) {
@@ -289,7 +297,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public filterChanged(filter: TableFilterDef) {
     console.log('table-data-source - filterChanged');
     // Update Filter
-    const foundFilter = this.filtersDef.find((filterDef) => {
+    const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
     });
     // Update value
@@ -303,7 +311,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.unregisterToDataChange();
     this.resetFilters();
     this.tableDef = null;
-    this.filtersDef = null;
+    this.tableFiltersDef = null;
     this.actionsDef = null;
     this.actionsRightDef = null;
     this.rowActionsDef = null;
@@ -311,8 +319,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   public resetFilters() {
     console.log('table-data-source - resetFilters');
-    if (this.filtersDef) {
-      this.filtersDef.forEach((filterDef: TableFilterDef) => {
+    if (this.tableFiltersDef) {
+      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         filterDef.reset();
       });
     }
@@ -478,8 +486,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     console.log('table-data-source - getFilterValues');
     let filterJson = {};
     // Parse filters
-    if (this.filtersDef) {
-      this.filtersDef.forEach((filterDef) => {
+    if (this.tableFiltersDef) {
+      this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
           if (filterDef.type === 'date') {
@@ -541,9 +549,20 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Should be implemented in implementation
   }
 
-  abstract getTableColumnDefs(): TableColumnDef[];
+  public getTableColumnDefs(): TableColumnDef[] {
+    if (this.tableColumnDefs) {
+      this.tableColumnDefs = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDefs;
+  }
 
+  abstract buildTableColumnDefs(): TableColumnDef[];
+  abstract buildTableDef(): TableDef;
   abstract loadData(refreshAction?: boolean);
+
+  public buildTableFiltersDef(): TableFilterDef[] {
+    return [];
+  }
 
   formatData(freshData: any[]) {
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
@@ -666,75 +685,21 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   protected initDataSource(): any {
     console.log('table-data-source - initDataSource');
-    this.tableDef = this.getTableDef();
-    this.filtersDef = this.getTableFiltersDef();
+    // Init data from sub-classes
+    this.getTableColumnDefs();
+    this.getTableDef();
+    this.getTableFiltersDef();
     this.actionsDef = this.getTableActionsDef();
-    this._checkKnownActions(this.actionsDef);
     this.actionsRightDef = this.getTableActionsRightDef();
-    this._checkKnownActions(this.actionsRightDef);
     this.rowActionsDef = this.getTableRowActions();
-    this._checkKnownActions(this.rowActionsDef);
-    this.tableColumnDefs = this.getTableColumnDefs();
-    this.selectionModel = this.getSelectionModel();
+    this.getSelectionModel();
 
     // Init vars
     this.hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
-    this.hasFilters = (this.filtersDef && this.filtersDef.length > 0);
+    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
     this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = this.rowActionsDef && this.rowActionsDef.length > 0;
-  }
-
-  private _checkKnownActions(actionsDef: TableActionDef[]): any {
-    console.log('table-data-source - _checkKnownActions');
-    // Check
-    if (actionsDef) {
-      // Check
-      actionsDef.forEach((actionDef) => {
-        // Check known actions
-        switch (actionDef.id) {
-          // Auto Refresh
-          case 'auto-refresh':
-            // Check Change Listener
-            if (actionDef.currentValue) {
-              // Activate
-              this.registerToDataChange();
-            } else {
-              // Disable
-              this.unregisterToDataChange();
-            }
-            break;
-        }
-      });
-    }
-  }
-
-  private findPropertyValue(columnDef, propertyName, source) {
-    console.log('table-data-source - findPropertyValue');
-    let propertyValue = null;
-    propertyValue = source[propertyName];
-    if (propertyName.indexOf('.') > 0) {
-      propertyValue = source;
-      propertyName.split('.').forEach((key) => {
-          if (propertyValue.hasOwnProperty(key)) {
-            propertyValue = propertyValue[key];
-          } else if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
-          }
-        }
-      );
-    }
-    return propertyValue;
   }
 
   isSelectable(row: T) {

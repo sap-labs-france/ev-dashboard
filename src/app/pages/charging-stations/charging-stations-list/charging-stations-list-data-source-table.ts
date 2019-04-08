@@ -127,7 +127,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return null;
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -144,7 +144,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     let tableColumns: TableColumnDef[] = [
@@ -366,7 +366,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         });*/
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
         //      new ChargerTableFilter().getFilterDef(),

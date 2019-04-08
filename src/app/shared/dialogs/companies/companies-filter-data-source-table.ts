@@ -40,7 +40,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
       });
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -53,7 +53,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

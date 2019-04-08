@@ -83,7 +83,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -91,7 +91,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'logo',
@@ -210,7 +210,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 

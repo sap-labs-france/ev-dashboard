@@ -93,7 +93,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -106,7 +106,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
     const columns = [
@@ -184,7 +184,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return this.currencyPipe.transform(price, priceUnit);
   }
 
-  getTableFiltersDef(): TableFilterDef[] {
+  buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),

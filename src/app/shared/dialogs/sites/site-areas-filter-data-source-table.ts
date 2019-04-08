@@ -41,7 +41,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       });
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -54,7 +54,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
     };
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

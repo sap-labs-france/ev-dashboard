@@ -87,7 +87,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: false
@@ -100,7 +100,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
     const columns = [
@@ -201,7 +201,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
 
-  getTableFiltersDef(): TableFilterDef[] {
+  buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       new ChargerTableFilter().getFilterDef(),
       new SiteAreasTableFilter().getFilterDef()];

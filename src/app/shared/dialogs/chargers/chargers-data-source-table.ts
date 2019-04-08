@@ -42,7 +42,7 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
       });
   }
 
-  getTableColumnDefs(): TableColumnDef[] {
+  buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

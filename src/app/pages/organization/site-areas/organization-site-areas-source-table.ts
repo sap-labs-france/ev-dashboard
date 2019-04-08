@@ -78,7 +78,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -86,7 +86,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
@@ -211,7 +211,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new SitesTableFilter().getFilterDef()
     ];

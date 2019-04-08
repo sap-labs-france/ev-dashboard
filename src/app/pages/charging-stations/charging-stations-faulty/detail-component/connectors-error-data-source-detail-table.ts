@@ -43,7 +43,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     // Set number of records
     this.setNumberOfRecords(this.getData().length);
     // // Return connector
-    if (this.charger && this.getTableColumnDefs()) {
+    if (this.charger && this.buildTableColumnDefs()) {
       this.setData(this.charger.connectors);
     }
   }
@@ -60,7 +60,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     }
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-detailed-list',
       rowSelection: {
@@ -83,7 +83,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'connectorId',

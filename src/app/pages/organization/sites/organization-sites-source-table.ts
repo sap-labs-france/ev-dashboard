@@ -78,7 +78,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -86,7 +86,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     };
   }
 
-  public getTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
@@ -209,7 +209,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new CompaniesTableFilter().getFilterDef()
     ];

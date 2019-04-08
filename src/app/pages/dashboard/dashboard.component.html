@@ -9,14 +9,14 @@
     </div>
   </div>
   <div class="d-inline-flex align-items-center navigation-button">
-    <button mat-raised-button (click)="changeSite('prev')" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab-mini btn-round prev-next-button">
+    <button mat-raised-button color="primary" (click)="changeSite('prev')" class="prev-next-button">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-raised-button (click)="pauseSlide()" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab btn-round play-button">
+    <button mat-raised-button color="primary" (click)="pauseSlide()" class="play-button">
       <mat-icon *ngIf="!isCarouselPaused">pause</mat-icon>
       <mat-icon *ngIf="isCarouselPaused">play_arrow</mat-icon>
     </button>
-    <button mat-raised-button (click)="changeSite('next')" class="d-flex mx-1 btn btn-primary btn-just-icon btn-fab-mini btn-round prev-next-button">
+    <button mat-raised-button color="primary" (click)="changeSite('next')" class="prev-next-button">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>
@@ -28,13 +28,12 @@
           <div class="w-100">
             <div class="d-flex flex-column w-100 justify-content-center">
               <!-- First for with 2 gauges and central card for site -->
-              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3"
-                style="min-height:320px">
+              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3" style="min-height:320px">
                 <div class="d-flex col-md-4 mx-1">
                   <div class="card card-stats gauge-card">
                     <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
-                        <i class="material-icons">ev_station</i>
+                        <mat-icon>ev_station</mat-icon>
                       </div>
                       <p class="card-category"></p>
                       <h3 class="card-title">{{'dashboard.occupied_charging_points_gauge_title' | translate }}</h3>
@@ -56,7 +55,7 @@
                   <div class="d-flex card  card-stats ">
                     <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
-                        <i class="material-icons">location_on</i>
+                        <mat-icon>location_on</mat-icon>
                       </div>
                       <h3 class="card-title">{{'dashboard.location' | translate}}</h3>
                       <p class="card-category">{{currentMetrics.company.name}}</p>
@@ -74,7 +73,7 @@
                   <div class="d-flex card  card-stats gauge-card">
                     <div class="card-header fade-out-text card-header-primary card-header-icon">
                       <div class="card-icon">
-                        <i class="material-icons">flash_on</i>
+                        <mat-icon>flash_on</mat-icon>
                       </div>
                       <p class="card-category"></p>
                       <h3 class="card-title">{{'dashboard.consumption_title' | translate }}</h3>

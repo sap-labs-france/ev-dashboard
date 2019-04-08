@@ -3,8 +3,7 @@
                  animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="mr-2">ev_station</mat-icon>
-        {{'chargers.tabs.list' | translate}}
+        <mat-icon>ev_station</mat-icon><span>{{'chargers.tabs.list' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-charging-stations-list></app-charging-stations-list>
@@ -12,8 +11,7 @@
     </mat-tab>
     <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
-        <mat-icon class="mr-2">warning</mat-icon>
-        {{'chargers.tabs.in_error' | translate}}
+        <mat-icon>warning</mat-icon><span>{{'chargers.tabs.in_error' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-charging-stations-faulty></app-charging-stations-faulty>

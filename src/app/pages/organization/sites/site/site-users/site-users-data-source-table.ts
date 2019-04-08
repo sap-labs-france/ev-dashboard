@@ -142,6 +142,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
 
   public _showAddUsersDialog() {
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
       excludeUsersOfSiteID: this._site.id,
@@ -155,7 +156,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           enabled: true
         }
       }
-    }
+    };
     // Show
     const dialogRef = this.dialog.open(UsersDialogComponent, dialogConfig);
     // Register to the answer

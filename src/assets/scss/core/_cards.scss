@@ -104,10 +104,6 @@
       color: $brand-text;
     }
 
-    &:not([class*="card-header-"]) {
-      // @include shadow-big();
-    }
-
     .nav-tabs {
       padding: 0;
     }

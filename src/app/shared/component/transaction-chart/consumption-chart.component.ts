@@ -2,11 +2,12 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {CentralServerService} from '../../../services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../services/locale.service';
-import {DecimalPipe} from '@angular/common';
+import {CurrencyPipe, DecimalPipe} from '@angular/common';
 import {AppDatePipe} from '../../formatters/app-date.pipe';
 import * as moment from 'moment';
 import {Chart} from 'chart.js';
 import {ConsumptionValue} from '../../../common.types';
+import {AppDurationPipe} from '../../formatters/app-duration.pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -17,6 +18,7 @@ export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;
   @Input() consumptions: ConsumptionValue[];
   graphCreated = false;
+  currencyCode: string;
   private lineTension = 0;
   @Input() ratio: number;
   @ViewChild('chart') ctx: ElementRef;
@@ -44,18 +46,15 @@ export class ConsumptionChartComponent implements OnInit {
               private translateService: TranslateService,
               private localeService: LocaleService,
               private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe) {
+              private decimalPipe: DecimalPipe,
+              private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
     } else {
-      this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
-        .subscribe(transaction => {
-          this.consumptions = transaction.values;
-          this.prepareOrUpdateGraph();
-        });
+      this.refresh();
     }
   }
 
@@ -67,6 +66,9 @@ export class ConsumptionChartComponent implements OnInit {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
       .subscribe(transaction => {
         this.consumptions = transaction.values;
+        if (transaction.priceUnit) {
+          this.currencyCode = transaction.priceUnit;
+        }
         this.prepareOrUpdateGraph();
       });
   }
@@ -162,7 +164,7 @@ export class ConsumptionChartComponent implements OnInit {
             color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
-            callback: (value, index, values) => `${value}€`,
+            callback: (value, index, values) => this.currencyPipe.transform(value, this.currencyCode),
             min: 0,
             fontColor: '#fff'
           }
@@ -189,22 +191,23 @@ export class ConsumptionChartComponent implements OnInit {
       this.getDataSet('instantPower').data.push(consumption.value);
       this.getDataSet('cumulatedConsumption').data.push(consumption.cumulated);
       if (this.getDataSet('cumulatedAmount')) {
+        const dataSet = this.getDataSet('cumulatedAmount').data;
         if (consumption.cumulatedAmount !== undefined) {
-          this.getDataSet('cumulatedAmount').data.push(consumption.cumulatedAmount);
+          dataSet.push(consumption.cumulatedAmount);
         } else {
-          this.getDataSet('cumulatedAmount').data.push(0);
+          dataSet.push(dataSet.length > 0 ? dataSet[dataSet.length - 1] : 0);
         }
       }
       if (this.getDataSet('stateOfCharge')) {
+        const dataSet = this.getDataSet('stateOfCharge').data;
         if (consumption.stateOfCharge !== undefined) {
-          this.getDataSet('stateOfCharge').data.push(consumption.stateOfCharge);
+          dataSet.push(consumption.stateOfCharge);
         } else {
-          this.getDataSet('stateOfCharge').data.push(0);
+          dataSet.push(dataSet.length > 0 ? dataSet[dataSet.length - 1] : 0);
         }
       }
     }
   }
-
 
   createOptions() {
     this.options = {
@@ -241,9 +244,9 @@ export class ConsumptionChartComponent implements OnInit {
               case 'stateOfCharge':
                 return ` ${value}%`;
               case 'amount':
-                return ` ${value}€`;
+                return this.currencyPipe.transform(value, this.currencyCode);
               case 'cumulatedAmount':
-                return ` ${value}€`;
+                return this.currencyPipe.transform(value, this.currencyCode);
               default:
                 return value;
             }

@@ -16,12 +16,12 @@
   @include alert-variations(unquote(".alert"), unquote(""), $mdb-text-color-light);
 
   &-info, &-danger, &-warning, &-success {
-    color: $mdb-text-color-light;
+    color: white;
   }
 
   &-default {
     a, .alert-link {
-      color: $mdb-text-color-primary;
+      color: white;
     }
   }
 
@@ -38,7 +38,7 @@
   }
   .mat-button.close {
     min-width: auto;
-    color: $brand-text;
+    color: White;
     text-shadow: none;
     opacity: .9;
 

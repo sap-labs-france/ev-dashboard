@@ -15,6 +15,6 @@ export class AppLogLevelIconPipe implements PipeTransform {
         classNames += ' icon-danger';
         break;
     }
-    return `<i class="material-icons card-icon ${classNames}">fiber_manual_record</i>`;
+    return `<mat-icon class="card-icon ${classNames}">fiber_manual_record</mat-icon>`;
   }
 }

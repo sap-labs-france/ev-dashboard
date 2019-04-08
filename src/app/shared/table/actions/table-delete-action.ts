@@ -1,12 +1,12 @@
 import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableDeleteAction implements TableAction {
   private action: TableActionDef = {
     id: 'delete',
     type: 'button',
     icon: 'delete',
-    class: 'btn-danger',
+    color: ButtonColor.warn,
     name: 'general.remove',
     tooltip: 'general.tooltips.delete'
   };

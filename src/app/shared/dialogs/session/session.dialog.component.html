@@ -1,23 +1,15 @@
-<!-- Updates : -->
-<!-- 19/03/19 - JPD - increase bottom margin of card-body and move tooltips below -->
 <div *ngIf="transaction" class="main-content">
   <div class="container-fluid ">
     <div class="card">
       <!-- header -->
       <div class="card-header card-header-tabs card-header-primary">
         <div class="nav-tabs-navigation">
-          <h4 class="nav-tabs-title text-uppercase">{{transaction.chargeBoxID}} - {{transaction.connectorId | appConnectorId}}  </h4>
+          <h4 class="nav-tabs-title text-uppercase">{{transaction.chargeBoxID}} -
+            {{transaction.connectorId | appConnectorId}} </h4>
           <ul class="nav nav-tabs" data-tabs="tabs">
             <span class="toolbar-spacer"></span>
-            <!--<button class="btn btn-primary mat-raised-button">-->
-            <!--<span class="mat-button-wrapper">-->
-            <!--<i class="material-icons">refresh</i>-->
-            <!--</span>-->
-            <!--</button>-->
-            <button mat-raised-button class="btn btn-link btn-just-icon mt-1" mat-dialog-close>
-                  <!-- <span class="mat-button-wrapper"> -->
-                   <i class="material-icons">close</i>
-                  <!-- </span> -->
+            <button mat-icon-button mat-dialog-close>
+              <mat-icon>close</mat-icon>
             </button>
           </ul>
         </div>
@@ -27,63 +19,53 @@
         <!-- general section -->
         <div class="d-flex justify-content-around mb-3">
           <div class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3" />
             <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
             <div class="text-nowrap second-text">({{transaction.tagID}})</div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center "
-                appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
-              <i class="material-icons">money</i>
-              <span
-                class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency: transaction.stop.priceUnit) : '--'}}</span>
+            <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
+              data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
+              <mat-icon>money</mat-icon><span class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency: transaction.stop.priceUnit) : '--'}}</span>
             </div>
-            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center"
-                appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
-              <mat-icon>flash_on</mat-icon>
-              <span class="first-text">{{transaction.currentConsumption | appUnit:'W':'kW'}}</span>
+            <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
+              data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
+              <mat-icon>flash_on</mat-icon><span class="first-text">{{transaction.currentConsumption | appUnit:'W':'kW'}}</span>
             </div>
-            <div class="d-flex flex-column align-items-center"
-                appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
-              <i class="material-icons">timelapse</i>
-              <span
-                class="first-text">{{transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
-              </span>
+            <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+              title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
+              <mat-icon>timelapse</mat-icon><span class="first-text">{{transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div class="d-flex flex-column mb-3 align-items-center"
-              appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
-              <i class="material-icons">ev_station</i>
-              <span class="first-text">{{totalConsumption | appUnit:'Wh':'kWh'}}</span>
+            <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toogle="tooltip"
+              title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
+              <mat-icon>ev_station</mat-icon><span class="first-text">{{totalConsumption | appUnit:'Wh':'kWh'}}</span>
             </div>
-            <div class="d-flex flex-column align-items-center"
-              appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
-              <i class="material-icons">timer</i>
-              <span class="first-text">{{totalDurationSecs | appDuration: true }}</span>
+            <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+              title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
+              <mat-icon>timer</mat-icon><span class="first-text">{{totalDurationSecs | appDuration: true }}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
-            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center"
-              appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
-              <i class="material-icons">battery_charging_full</i>
-              <span class="first-text">{{stateOfCharge| appBatteryPercentage: endStateOfCharge }}</span>
+            <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
+              data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
+              <mat-icon>battery_charging_full</mat-icon><span class="first-text">{{stateOfCharge| appBatteryPercentage: endStateOfCharge }}</span>
             </div>
-            <div class="d-flex flex-column align-items-center"
-            appTooltip data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
-              <i class="material-icons">timer_off</i>
-              <span class="first-text">{{totalInactivitySecs | appDuration: true }}</span>
+            <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
+              title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
+              <mat-icon>timer_off</mat-icon><span class="first-text">{{totalInactivitySecs | appDuration: true }}</span>
             </div>
           </div>
           <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">
-            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3"/>
+            <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3" />
             <div class="text-nowrap first-text">Tesla S 90D</div>
             <div class="text-nowrap second-text">(AA-543-BN)</div>
           </div>
         </div>
         <!-- chart -->
-        <app-transaction-chart #chartConsumption [consumptions]="transaction.values" [transactionId]="transaction.id" class="w-100"
-                               ratio="4"></app-transaction-chart>
+        <app-transaction-chart #chartConsumption [consumptions]="transaction.values" [transactionId]="transaction.id"
+          class="w-100" ratio="4"></app-transaction-chart>
       </div>
       <div class="card-footer">
       </div>

@@ -43,6 +43,25 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private _rowRefresh = new Subject<any>();
   private _isDestroyed = false;
 
+  public connect(collectionViewer: CollectionViewer): Observable<T[]> {
+    console.log('table-data-source - connect');
+    this._isDestroyed = false;
+    if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
+      this.dataSubject = new BehaviorSubject<any[]>([]);
+    }
+    return this.dataSubject.asObservable();
+  }
+
+  public disconnect(collectionViewer: CollectionViewer): void {
+    console.log('table-data-source - disconnect');
+    this._isDestroyed = true;
+    this.paginator = null;
+    this.sort = null;
+
+    this.dataSubject.complete();
+  }
+
+
   public setPollingInterval(pollingInterval: number) {
     console.log('table-data-source - setPollingInterval');
     this.pollingInterval = pollingInterval;
@@ -146,41 +165,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return '';
   }
 
-  public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    console.log('table-data-source - connect');
-    this._isDestroyed = false;
-    if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
-      this.dataSubject = new BehaviorSubject<any[]>([]);
-    }
-    return this.dataSubject.asObservable();
-  }
-
-  public disconnect(collectionViewer: CollectionViewer): void {
-    console.log('table-data-source - disconnect');
-    this._isDestroyed = true;
-    if (this._displayDetailsColumns) {
-      this._displayDetailsColumns.complete();
-      this._displayDetailsColumns = null;
-    }
-    if (this._rowRefresh) {
-      this._rowRefresh.complete();
-      this._rowRefresh = null;
-    }
-    if (this._ongoingAutoRefresh) {
-      this._ongoingAutoRefresh.complete();
-      this._ongoingAutoRefresh = null;
-    }
-    if (this._ongoingManualRefresh) {
-      this._ongoingManualRefresh.complete();
-      this._ongoingManualRefresh = null;
-    }
-    this.unregisterToDataChange();
-    this.paginator = null;
-    this.sort = null;
-
-    this.dataSubject.complete();
-  }
-
   public updatePaginator() {
     console.log('table-data-source - updatePaginator');
     if (this.paginator) { // Might happen in case destroy occurs before the end of the loadData
@@ -193,7 +177,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return [50, 100, 250, 500];
   }
 
-  public getPaging(): Paging {
+  public buildPaging(): Paging {
     console.log('table-data-source - getPaging');
     if (this.getPaginator()) {
       return {
@@ -333,17 +317,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.loadData(false);
   }
 
-  public reset() {
-    console.log('table-data-source - reset');
-    this.unregisterToDataChange();
-    this.resetFilters();
-    this.tableDef = null;
-    this.tableFiltersDef = null;
-    this.tableActionsDef = null;
-    this.tableActionsRightDef = null;
-    this.tableRowActionsDef = null;
-  }
-
   public resetFilters() {
     console.log('table-data-source - resetFilters');
     if (this.tableFiltersDef) {
@@ -364,13 +337,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       // Auto Refresh
       case 'auto-refresh':
         // Check Change Listener
-        if (actionDef.currentValue) {
-          // Activate
-          this.registerToDataChange();
-        } else {
-          // Disable
-          this.unregisterToDataChange();
-        }
         break;
       case 'reset_filters':
         this.setSearchValue('');
@@ -415,27 +381,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this._rowRefresh = new Subject();
     }
     return this._rowRefresh.subscribe(fn);
-  }
-
-  public registerToDataChange() {
-    console.log('table-data-source - registerToDataChange');
-    if (!this._isDestroyed && !this.dataChangeSubscription) {
-      if (this.pollingInterval > 1000) {
-        this.dataChangeSubscription = interval(this.pollingInterval).pipe(takeWhile(() => !this._isDestroyed)).subscribe((occurrence) => {
-          if (this._isDestroyed) {
-            this.dataChangeSubscription.unsubscribe();
-          } else {
-            this.refreshReload();
-          }
-        });
-      } else {
-        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
-          this._ongoingAutoRefresh.next(true);
-          this.loadData(true);
-          this._ongoingAutoRefresh.next(false);
-        });
-      }
-    }
   }
 
   refreshReload() {
@@ -489,15 +434,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
           this._ongoingManualRefresh.next(false);
         }
       }, 1000 - (endDate - startDate));
-    }
-  }
-
-
-  public unregisterToDataChange() {
-    console.log('table-data-source - unregisterToDataChange');
-    if (this.dataChangeSubscription) {
-      this.dataChangeSubscription.unsubscribe();
-      this.dataChangeSubscription = null;
     }
   }
 

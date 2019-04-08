@@ -78,7 +78,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public loadData() {
     this.spinnerService.show();
-    this.centralServerService.getTransactions(this.getFilterValues(), this.getPaging(), this.getOrdering())
+    this.centralServerService.getTransactions(this.getFilterValues(), this.buildPaging(), this.getOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);

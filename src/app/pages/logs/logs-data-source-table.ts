@@ -65,7 +65,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     }
     // Get data
     this.centralServerService.getLogs(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((logs) => {
+      this.buildPaging(), this.getOrdering()).subscribe((logs) => {
       if (!refreshAction) {
         // Show
         this.spinnerService.hide();

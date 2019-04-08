@@ -63,7 +63,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     }
     // Get the Tenants
     this.centralServerService.getUsersInError(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((users) => {
+      this.buildPaging(), this.getOrdering()).subscribe((users) => {
       // Update nbr records
       this.setNumberOfRecords(users.count);
       // Update Paginator

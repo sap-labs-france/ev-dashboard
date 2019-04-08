@@ -24,7 +24,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     this.spinnerService.show();
     // Get data
     this.centralServerService.getCompanies(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((companies) => {
+      this.buildPaging(), this.getOrdering()).subscribe((companies) => {
         // Hide spinner
         this.spinnerService.hide();
         // Set number of records

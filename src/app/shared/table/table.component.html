@@ -19,7 +19,7 @@
           <div *ngIf="dataSource.hasFilters || dataSource.isSearchEnabled"
             class="d-flex flex-wrap col filter-row filter-row-with-action">
             <!-- Create Filters -->
-            <div *ngFor="let filterDef of dataSource.filtersDef; let i=index" [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
+            <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index" [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
               <!-- Dropdown Filter -->
               <mat-form-field *ngIf="filterDef.type === 'dropdown'">
                 <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
@@ -105,7 +105,7 @@
         *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled) && (!dataSource.hasActions || dataSource.tableActionsDef.length > 0) "
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
-        <div *ngFor="let filterDef of dataSource.filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
+        <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown'">
             <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"

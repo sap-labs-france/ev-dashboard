@@ -34,7 +34,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     if (this._site) {
       // Yes: Get data
       this.centralServerService.getUsers(this.getFilterValues(),
-        this.getPaging(), this.getOrdering()).subscribe((users) => {
+        this.buildPaging(), this.getOrdering()).subscribe((users) => {
         // Set number of records
         this.setNumberOfRecords(users.count);
         // Update Paginator

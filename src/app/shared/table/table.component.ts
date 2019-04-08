@@ -27,7 +27,7 @@ const DEFAULT_POLLING = 10000;
     ])
   ]
 })
-export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource: TableDataSource<any>;
   public columns: string[];
   public pageSizes = [];
@@ -42,10 +42,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
 
-  private autoRefreshObserver: Subscription;
-  private manualRefreshObserver: Subscription;
-  private rowRefreshObserver: Subscription;
-  private displayDetailObserver: Subscription;
   private footer = false;
   private filters: TableFilter[] = [];
 
@@ -105,24 +101,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Load the data
     this.loadData();
-    // Auto Refresh Actions?
-    if (this.dataSource.getTableActionsRightDef().findIndex(action => action.id === 'auto-refresh') >= 0) {
-      // subscribe to auto-refresh
-      this.autoRefreshObserver = this.dataSource.subscribeAutoRefresh(value =>
-        this.ongoingManualRefresh = value
-      );
-    }
-    if (this.dataSource.getTableActionsRightDef().findIndex(action => action.id === 'refresh') >= 0) {
-      // subscribe to manual-refresh
-      this.manualRefreshObserver = this.dataSource.subscribeManualRefresh(value =>
-        this.ongoingManualRefresh = value
-      );
-    }
-    // Subscribe to row-refresh
-    this.rowRefreshObserver = this.dataSource.subscribeRowRefresh(row => {
-      this._rowRefresh(row);
-    });
-
   }
 
   ngAfterViewInit() {
@@ -144,24 +122,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSearchInput(this.searchInput);
     // Clear the selection
     this.dataSource.selectionModel.clear();
-  }
-
-  ngOnDestroy() {
-    console.log('table.component - ngOnDestroy');
-    // Unregister
-    this.dataSource.reset();
-    if (this.manualRefreshObserver) {
-      this.manualRefreshObserver.unsubscribe();
-    }
-    if (this.autoRefreshObserver) {
-      this.autoRefreshObserver.unsubscribe();
-    }
-    if (this.rowRefreshObserver) {
-      this.rowRefreshObserver.unsubscribe();
-    }
-    if (this.displayDetailObserver) {
-      this.displayDetailObserver.unsubscribe();
-    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -291,7 +251,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public trackByObjectId(index: number, item: any): any {
     console.log('table.component - trackByObjectId');
-    return item ? item.id : null;
+    return item.id;
   }
 
   public handlePageChanged() {

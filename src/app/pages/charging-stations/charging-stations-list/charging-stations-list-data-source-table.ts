@@ -94,7 +94,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
     // Get data
     this.centralServerService.getChargers(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((chargers) => {
+      this.buildPaging(), this.getOrdering()).subscribe((chargers) => {
       if (!refreshAction) {
         // Show
         this.spinnerService.hide();

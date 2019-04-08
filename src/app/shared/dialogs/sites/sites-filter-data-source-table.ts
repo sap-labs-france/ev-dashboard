@@ -24,7 +24,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     this.spinnerService.show();
     // Get data
     this.centralServerService.getSites(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((sites) => {
+      this.buildPaging(), this.getOrdering()).subscribe((sites) => {
         // Hide spinner
         this.spinnerService.hide();
         // Set number of records

@@ -244,15 +244,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
         // new TableOpenInMapsAction().getActionDef(),
@@ -264,7 +264,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return DEFAULT_ADMIN_ROW_ACTIONS;
     } else if (this.authorizationService.isDemo()) {

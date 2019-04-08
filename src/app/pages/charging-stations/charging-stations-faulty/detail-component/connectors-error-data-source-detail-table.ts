@@ -124,15 +124,15 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [];
   }
 
-  public getTableRowActions(rowItem: Connector): TableActionDef[] {
+  public buildTableRowActions(rowItem: Connector): TableActionDef[] {
     return [];
   }
 

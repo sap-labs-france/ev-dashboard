@@ -115,8 +115,8 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     this.siteArea = siteArea;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableAddAction().getActionDef(),

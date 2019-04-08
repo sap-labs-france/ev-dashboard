@@ -159,11 +159,11 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
       new TableAssignSiteAction().getActionDef(),
@@ -198,7 +198,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

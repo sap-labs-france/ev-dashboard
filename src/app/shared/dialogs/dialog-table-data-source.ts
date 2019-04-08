@@ -21,7 +21,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
     };
   }
 
-  public getTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     return [];
   }
 

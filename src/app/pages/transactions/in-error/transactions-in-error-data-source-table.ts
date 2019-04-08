@@ -181,7 +181,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return filters;
   }
 
-  getTableRowActions(): TableActionDef[] {
+  buildTableRowActions(): TableActionDef[] {
     return [new TableOpenAction().getActionDef(), new TableDeleteAction().getActionDef()];
   }
 
@@ -205,7 +205,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

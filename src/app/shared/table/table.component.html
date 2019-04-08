@@ -5,7 +5,7 @@
       <!-- Actions Row -->
       <div *ngIf="dataSource.hasActions" class="left-actions d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
-        <ng-container *ngFor="let actionDef of dataSource.actionsDef; let i=index">
+        <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
           <button mat-raised-button *ngIf="actionDef.type === 'button'" (click)="actionTriggered(actionDef)"
             [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
@@ -13,8 +13,8 @@
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon><span>{{actionDef.name | translate}}</span>
           </button>
         </ng-container>
-        <span *ngIf="dataSource.actionsDef.length > 0" class="toolbar-spacer"></span>
-        <ng-container *ngIf="dataSource.actionsDef.length === 0">
+        <span *ngIf="dataSource.tableActionsDef.length > 0" class="toolbar-spacer"></span>
+        <ng-container *ngIf="dataSource.tableActionsDef.length === 0">
           <!-- Filters Row as there is no left actions -->
           <div *ngIf="dataSource.hasFilters || dataSource.isSearchEnabled"
             class="d-flex flex-wrap col filter-row filter-row-with-action">
@@ -57,7 +57,7 @@
         </ng-container>
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-          <ng-container *ngFor="let actionRightDef of dataSource.actionsRightDef; let i=index">
+          <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Refresh Action Button -->
             <button mat-raised-button class="button-refresh" (click)="actionTriggered(actionRightDef)" *ngIf="actionRightDef.id === 'refresh'"
               [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip="" data-toggle="tooltip"
@@ -102,7 +102,7 @@
       </div>
       <!-- Filters Row -->
       <div
-        *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled) && (!dataSource.hasActions || dataSource.actionsDef.length > 0) "
+        *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled) && (!dataSource.hasActions || dataSource.tableActionsDef.length > 0) "
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <div *ngFor="let filterDef of dataSource.filtersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
@@ -243,7 +243,7 @@
         <!-- Cell -->
         <td mat-cell *matCellDef="let actionCell" [class]="'action-cell text-center'">
           <!-- Actions -->
-          <ng-container *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.rowActionsDef)">
+          <ng-container *ngFor="let rowAction of (actionCell['specificRowActions'] ? actionCell['specificRowActions'] : dataSource.tableRowActionsDef)">
             <ng-container *ngIf="actionCell['canDisplayRowAction-' + rowAction.id]">
               <!-- Drop Down Action -->
               <ng-container *ngIf="rowAction.isDropdownMenu">

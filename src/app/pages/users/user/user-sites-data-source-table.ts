@@ -101,8 +101,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     this.user = user;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableAddAction().getActionDef(),
       new TableRemoveAction().getActionDef(),

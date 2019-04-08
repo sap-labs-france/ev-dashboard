@@ -174,9 +174,9 @@ export class LogsDataSource extends TableDataSource<Log> {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  getTableActionsDef(): TableActionDef[] {
+  buildTableActionsDef(): TableActionDef[] {
     console.log('logs-data-source-table - getTableActionsDef');
-    const tableActionsDef = super.getTableActionsDef();
+    const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
         new TableExportAction().getActionDef(),
@@ -204,7 +204,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     super.actionTriggered(actionDef);
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     console.log('logs-data-source-table - getTableActionsRightDef');
     return [
       new TableAutoRefreshAction(false).getActionDef(),

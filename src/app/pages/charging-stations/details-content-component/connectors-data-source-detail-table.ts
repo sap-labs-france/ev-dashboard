@@ -207,18 +207,18 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableRowActions(rowItem: Connector): TableActionDef[] {
+  public buildTableRowActions(rowItem: Connector): TableActionDef[] {
     if (rowItem && !this.charger.inactive) {
       // Check active transaction and authorization to stop
       if (rowItem && rowItem.activeTransactionID &&

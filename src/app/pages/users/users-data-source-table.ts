@@ -163,15 +163,15 @@ export class UsersDataSource extends TableDataSource<User> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
       ...tableActionsDef
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       return [
         new TableEditAction().getActionDef(),
@@ -213,7 +213,7 @@ export class UsersDataSource extends TableDataSource<User> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

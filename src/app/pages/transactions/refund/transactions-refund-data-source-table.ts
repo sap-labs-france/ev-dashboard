@@ -209,12 +209,12 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   }
 
-  getTableRowActions(): TableActionDef[] {
+  buildTableRowActions(): TableActionDef[] {
     return [];
   }
 
-  getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableRefundAction().getActionDef(),
       ...tableActionsDef
@@ -257,7 +257,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

@@ -127,8 +127,8 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef(),
@@ -139,7 +139,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     if (this.isAdmin) {
       return [
         new TableEditAction().getActionDef(),
@@ -203,7 +203,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

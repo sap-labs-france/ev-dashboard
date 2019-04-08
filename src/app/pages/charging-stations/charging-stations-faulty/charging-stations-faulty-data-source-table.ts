@@ -226,18 +226,18 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    return super.buildTableActionsDef();
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     if (this.authorizationService.isAdmin()) {
       return [
         new TableChargerMoreAction().getActionDef(),

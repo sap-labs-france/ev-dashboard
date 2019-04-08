@@ -162,18 +162,18 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     return [];
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
+  public buildTableRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
     return [
       this.noAction.getActionDef()
     ];

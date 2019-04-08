@@ -11,10 +11,10 @@ import * as _ from 'lodash';
 import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
-  public rowActionsDef: TableActionDef[];
+  public tableRowActionsDef: TableActionDef[];
   public tableDef: TableDef = {};
   public tableFiltersDef: TableFilterDef[];
-  public actionsRightDef: TableActionDef[];
+  public tableActionsRightDef: TableActionDef[];
   public tableColumnDefs: TableColumnDef[] = [];
   public selectionModel: SelectionModel<any>;
   public data: any[] = [];
@@ -33,7 +33,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private paginator: MatPaginator;
   private sort: MatSort;
   private numberOfRecords = 0;
-  private actionsDef: TableActionDef[];
+  private tableActionsDef: TableActionDef[];
   private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
@@ -249,8 +249,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.data;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    console.log('table-data-source - getTableActionsDef');
+  public buildTableActionsDef(): TableActionDef[] {
     // Return default
     if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
@@ -261,16 +260,38 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
+  public getTableActionsDef(): TableActionDef[] {
+    console.log('table-data-source - getTableActionsDef');
+    if (!this.tableActionsDef) {
+      this.tableActionsDef = this.buildTableActionsDef();
+    }
+    return this.tableActionsDef;
+  }
+
+  public buildTableActionsRightDef(): TableActionDef[] {
+    // Return default
+    return [];
+  }
+
   public getTableActionsRightDef(): TableActionDef[] {
     console.log('table-data-source - getTableActionsRightDef');
+    if (!this.tableActionsRightDef) {
+      this.tableActionsRightDef = this.buildTableActionsRightDef();
+    }
+    return this.tableActionsRightDef;
+  }
+
+  public buildTableRowActions(item?: T): TableActionDef[] {
     // Return default
     return [];
   }
 
   public getTableRowActions(item?: T): TableActionDef[] {
     console.log('table-data-source - getTableRowActions');
-    // Return default
-    return [];
+    if (!this.tableRowActionsDef) {
+      this.tableRowActionsDef = this.buildTableRowActions();
+    }
+    return this.tableRowActionsDef;
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
@@ -312,9 +333,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.resetFilters();
     this.tableDef = null;
     this.tableFiltersDef = null;
-    this.actionsDef = null;
-    this.actionsRightDef = null;
-    this.rowActionsDef = null;
+    this.tableActionsDef = null;
+    this.tableActionsRightDef = null;
+    this.tableRowActionsDef = null;
   }
 
   public resetFilters() {
@@ -571,7 +592,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       // Check Row Action Authorization
       if (this.hasRowActions) {
         // Check if authorized
-        this.rowActionsDef.forEach((rowActionDef) => {
+        this.tableRowActionsDef.forEach((rowActionDef) => {
           // Set if authorized
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
@@ -689,17 +710,18 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.getTableColumnDefs();
     this.getTableDef();
     this.getTableFiltersDef();
-    this.actionsDef = this.getTableActionsDef();
-    this.actionsRightDef = this.getTableActionsRightDef();
-    this.rowActionsDef = this.getTableRowActions();
+    this.getTableActionsDef();
+    this.getTableActionsRightDef();
+    this.getTableRowActions();
     this.getSelectionModel();
 
     // Init vars
-    this.hasActions = (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
+    // tslint:disable-next-line:max-line-length
+    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) || (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
     this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = this.rowActionsDef && this.rowActionsDef.length > 0;
+    this.hasRowActions = this.tableRowActionsDef && this.tableRowActionsDef.length > 0;
   }
 
   isSelectable(row: T) {

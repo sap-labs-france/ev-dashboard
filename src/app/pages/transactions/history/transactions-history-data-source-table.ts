@@ -203,7 +203,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return filters;
   }
 
-  getTableRowActions(): TableActionDef[] {
+  buildTableRowActions(): TableActionDef[] {
     const rowActions = [new TableOpenAction().getActionDef()];
     if (this.isAdmin) {
       rowActions.push(new TableDeleteAction().getActionDef());
@@ -245,15 +245,15 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
         new TableExportAction().getActionDef(),

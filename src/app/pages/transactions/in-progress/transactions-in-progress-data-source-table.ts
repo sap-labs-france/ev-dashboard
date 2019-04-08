@@ -216,13 +216,13 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return filters;
   }
 
-  getTableRowActions(): TableActionDef[] {
+  buildTableRowActions(): TableActionDef[] {
     const rowActions = [new TableOpenAction().getActionDef()];
     rowActions.push(new TableStopAction().getActionDef());
     return rowActions;
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()

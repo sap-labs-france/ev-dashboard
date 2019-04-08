@@ -115,15 +115,15 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
       ...tableActionsDef
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     return this.tableActionsRow;
   }
 
@@ -155,7 +155,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef()

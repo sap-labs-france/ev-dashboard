@@ -168,15 +168,15 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
       ...tableActionsDef
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     return this.tableActionsRow;
   }
 
@@ -207,7 +207,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()

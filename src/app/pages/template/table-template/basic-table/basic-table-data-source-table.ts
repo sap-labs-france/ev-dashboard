@@ -144,7 +144,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     return [50, 100, 250, 500, 1000, 2000];
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableDeleteAction().getActionDef(),
       new TableAutoRefreshAction().getActionDef(),
@@ -152,8 +152,8 @@ export class BasicTableDataSource extends TableDataSource<any> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       // new TableOpenInMapsAction().getActionDef(),
       new TableExportAction().getActionDef(),
@@ -162,7 +162,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
       return DEFAULT_ROW_ACTIONS;
   }
 

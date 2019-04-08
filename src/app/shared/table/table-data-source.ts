@@ -517,6 +517,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   abstract loadData(refreshAction?: boolean);
 
   formatData(freshData: any[]) {
+    const isRowSelectionEnabled = this.isRowSelectionEnabled()
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
@@ -529,7 +530,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
         });
       }
       // Check if Row can be selected
-      if (this.isRowSelectionEnabled()) {
+      if (isRowSelectionEnabled) {
         // Check
         freshRow.isSelectable = this.isSelectable(freshRow);
       }
@@ -576,7 +577,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   _formatRow(row) {
-    console.log('table-data-source - _formatRow');
     // For each columns
     for (let i = 0; i < this.tableColumnDefs.length; i++) {
       // Get

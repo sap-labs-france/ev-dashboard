@@ -66,8 +66,8 @@ export class UsersDataSource extends TableDataSource<User> {
       this.spinnerService.show();
     }
     // Get the Tenants
-    this.centralServerService.getUsers(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((users) => {
+    this.centralServerService.getUsers(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((users) => {
       // Update nbr records
       this.setNumberOfRecords(users.count);
       // Update Paginator

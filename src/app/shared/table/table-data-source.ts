@@ -192,7 +192,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
-  public getOrdering(): Ordering[] {
+  public buildOrdering(): Ordering[] {
     console.log('table-data-source - getOrdering');
     if (this.getSort()) {
       return [
@@ -219,18 +219,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public getNumberOfRecords(): number {
     console.log('table-data-source - getNumberOfRecords');
     return this.numberOfRecords;
-  }
-
-  public setData(data: T[]) {
-    console.log('table-data-source - setData');
-    // Format the data
-    this.formatData(data);
-    // this.dataSubject.next(this.formattedData);
-  }
-
-  public getData(): any[] {
-    console.log('table-data-source - getData');
-    return this.data;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -437,7 +425,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
-  public getFilterValues(withSearch: boolean = true) {
+  public buildFilterValues(withSearch: boolean = true) {
     console.log('table-data-source - getFilterValues');
     let filterJson = {};
     // Parse filters
@@ -516,7 +504,19 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   abstract loadData(refreshAction?: boolean);
 
-  formatData(freshData: any[]) {
+  public setData(data: T[]) {
+    console.log('table-data-source - setData');
+    // Format the data
+    this._formatData(data);
+    // this.dataSubject.next(this.formattedData);
+  }
+
+  public getData(): any[] {
+    console.log('table-data-source - getData');
+    return this.data;
+  }
+
+  _formatData(freshData: any[]) {
     const isRowSelectionEnabled = this.isRowSelectionEnabled()
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
@@ -549,7 +549,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this._formatRow(freshRow);
     }
     // Set it
-    this.data = freshData;
+    this.data.length = 0;
+    this.data.push(...freshData);
   }
 
   _formatRow(row) {

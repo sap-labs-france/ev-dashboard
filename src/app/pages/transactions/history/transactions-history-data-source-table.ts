@@ -77,7 +77,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     if (!refreshAction) {
       this.spinnerService.show();
     }
-    this.centralServerService.getTransactions(this.getFilterValues(), this.buildPaging(), this.getOrdering())
+    this.centralServerService.getTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
       .subscribe((transactions) => {
         if (!refreshAction) {
           this.spinnerService.hide();
@@ -296,10 +296,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   private exportTransactions() {
-    this.centralServerService.exportTransactions(this.getFilterValues(), {
+    this.centralServerService.exportTransactions(this.buildFilterValues(), {
       limit: this.getNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.getOrdering())
+    }, this.buildOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportTransactions.csv');
       }, (error) => {

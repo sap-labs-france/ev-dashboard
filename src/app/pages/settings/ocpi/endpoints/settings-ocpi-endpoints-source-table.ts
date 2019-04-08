@@ -64,8 +64,8 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     // Show
     this.spinnerService.show();
     // Get the OCPI Endpoints
-    this.centralServerService.getOcpiEndpoints(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((ocpiendpoints) => {
+    this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((ocpiendpoints) => {
         // Hide
         this.spinnerService.hide();
         // Update nbr records

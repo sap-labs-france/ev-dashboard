@@ -3,16 +3,15 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatPaginator, MatSort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Subject, Subscription} from 'rxjs';
+import {Subject} from 'rxjs';
 import {DropdownItem, TableActionDef, TableDef, TableFilterDef} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
-import {CentralServerService} from '../../services/central-server.service';
 import {TableDataSource} from './table-data-source';
-import {TableFilter} from './filters/table-filter';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import {MatTable} from '@angular/material';
 
 const DEFAULT_POLLING = 10000;
 
@@ -37,17 +36,14 @@ export class TableComponent implements OnInit, AfterViewInit {
   public ongoingAutoRefresh = false;
   public ongoingManualRefresh = false;
 
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChildren(DetailComponentContainer) detailComponentContainers: QueryList<DetailComponentContainer>;
 
-  private footer = false;
-  private filters: TableFilter[] = [];
-
   constructor(
     private configService: ConfigService,
-    private centralServerService: CentralServerService,
     private translateService: TranslateService,
     protected localService: LocaleService,
     public spinnerService: SpinnerService,
@@ -99,8 +95,6 @@ export class TableComponent implements OnInit, AfterViewInit {
         }
       );
     }
-    // Load the data
-    this.loadData();
   }
 
   ngAfterViewInit() {
@@ -122,6 +116,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.setSearchInput(this.searchInput);
     // Clear the selection
     this.dataSource.selectionModel.clear();
+    // Load the data
+    this.loadData();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -266,6 +262,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     console.log('table.component - loadData');
     // Load data source
     this.dataSource.loadData(false);
+    // Refresh table
+    this.table.renderRows();
   }
 
   public showHideDetailsClicked(row) {

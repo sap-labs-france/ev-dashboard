@@ -37,8 +37,8 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     // siteArea provided?
     if (this.siteArea) {
       // Yes: Get data
-      this.centralServerService.getChargers(this.getFilterValues(),
-        this.buildPaging(), this.getOrdering()).subscribe((chargers) => {
+      this.centralServerService.getChargers(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
           // Set number of records
           this.setNumberOfRecords(chargers.count);
           // Update Paginator

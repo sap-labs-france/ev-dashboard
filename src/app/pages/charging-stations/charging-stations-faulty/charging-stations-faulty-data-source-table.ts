@@ -97,8 +97,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       this.spinnerService.show();
     }
     // Get data
-    this.centralServerService.getChargersInError(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((chargers) => {
+    this.centralServerService.getChargersInError(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
         if (!refreshAction) {
           // Show
           this.spinnerService.hide();

@@ -22,10 +22,10 @@ export class SiteAreasDataSourceTable extends DialogTableDataSource<SiteArea> {
   loadData() {
     // Show spinner
     this.spinnerService.show();
-    const filterValues = this.getFilterValues();
+    const filterValues = this.buildFilterValues();
     filterValues['WithSite'] = true;
     this.centralServerService.getSiteAreas(filterValues,
-      this.buildPaging(), this.getOrdering()).subscribe((siteAreas) => {
+      this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
         // Hide spinner
         this.spinnerService.hide();
         // Set number of records

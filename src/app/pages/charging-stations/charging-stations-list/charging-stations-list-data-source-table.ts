@@ -93,8 +93,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       this.spinnerService.show();
     }
     // Get data
-    this.centralServerService.getChargers(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((chargers) => {
+    this.centralServerService.getChargers(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
       if (!refreshAction) {
         // Show
         this.spinnerService.hide();
@@ -529,10 +529,10 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   private exportChargingStations() {
-    this.centralServerService.exportChargingStations(this.getFilterValues(), {
+    this.centralServerService.exportChargingStations(this.buildFilterValues(), {
       limit: this.getNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.getOrdering())
+    }, this.buildOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportChargingStations.csv');
       }, (error) => {

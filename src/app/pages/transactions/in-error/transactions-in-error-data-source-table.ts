@@ -74,7 +74,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     if (!refreshAction) {
       this.spinnerService.show();
     }
-    this.centralServerService.getTransactionsInError(this.getFilterValues(), this.buildPaging(), this.getOrdering())
+    this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
       .subscribe((transactions) => {
         if (!refreshAction) {
           this.spinnerService.hide();

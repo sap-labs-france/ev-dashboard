@@ -58,8 +58,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     // Show
     this.spinnerService.show();
     // Get Site Areas
-    this.centralServerService.getSiteAreas(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((siteAreas) => {
+    this.centralServerService.getSiteAreas(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
         // Hide
         this.spinnerService.hide();
         // Update nbr records

@@ -300,6 +300,6 @@
   </div>
   <!-- Paginator -->
   <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
-    <mat-paginator #paginator (page)="handlePageChanged()" [pageSizeOptions]="pageSizes"></mat-paginator>
+    <mat-paginator (page)="handlePageChanged()" [pageSizeOptions]="pageSizes"></mat-paginator>
   </ng-container>
 </div>

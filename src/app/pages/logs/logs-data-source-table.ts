@@ -64,8 +64,8 @@ export class LogsDataSource extends TableDataSource<Log> {
       this.spinnerService.show();
     }
     // Get data
-    this.centralServerService.getLogs(this.getFilterValues(),
-      this.buildPaging(), this.getOrdering()).subscribe((logs) => {
+    this.centralServerService.getLogs(this.buildFilterValues(),
+      this.buildPaging(), this.buildOrdering()).subscribe((logs) => {
       if (!refreshAction) {
         // Show
         this.spinnerService.hide();
@@ -236,10 +236,10 @@ export class LogsDataSource extends TableDataSource<Log> {
 
   private exportLogs() {
     console.log('logs-data-source-table - exportLogs');
-    this.centralServerService.exportLogs(this.getFilterValues(), {
+    this.centralServerService.exportLogs(this.buildFilterValues(), {
       limit: this.getNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.getOrdering())
+    }, this.buildOrdering())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {

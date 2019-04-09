@@ -153,7 +153,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn, locale),
+        formatter: (createdOn) => this.datePipe.transform(createdOn, locale, 'datetimeshort'),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true

@@ -5,8 +5,6 @@ import { MessageService } from 'app/services/message.service';
 import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Utils } from 'app/utils/Utils';
-import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -25,13 +23,6 @@ export class SacLinkDialogComponent implements OnInit {
   public currentSacLink: any;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private translateService: TranslateService,
-    private router: Router,
     protected dialogRef: MatDialogRef<SacLinkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
@@ -88,9 +79,6 @@ export class SacLinkDialogComponent implements OnInit {
   openUrl() {
     window.open(this.url.value);
   }
-  // public closeDialog() {
-  //     this.dialogRef.close();
-  // }
 
   public onClose() {
     this.dialogRef.close();

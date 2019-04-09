@@ -662,6 +662,8 @@
     "site": "Site",
     "invalid_url": "Invalid URL",
     "invalid_power_value": "Power value must be a positive whole number",
+    "invalid_voltage": "Voltage value must be a positive whole number",
+    "invalid_amperage": "Amperage value must be a positive whole number",
     "unsaved_title": "Unsaved changes",
     "unsaved_confirmed": "Do you want to save changes?",
     "changes_cancelled": "Changes have been cancelled",
@@ -677,6 +679,8 @@
     "power_limit_unit": "Unit used for power limitation",
     "watt": "Watt",
     "amper": "Ampere",
+    "voltage": "Voltage (V)",
+    "amperage": "Amperage (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",

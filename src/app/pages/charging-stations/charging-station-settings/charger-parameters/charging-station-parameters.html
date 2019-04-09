@@ -131,6 +131,22 @@
                                             | translate}}</mat-error>
                                     </mat-form-field>
                                 </div>
+                                <div *ngIf="this.isOCPIActive" class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field>
+                                            <input matInput placeholder="{{'chargers.voltage' | translate}}" required [formControlName]="'connectorVoltage' + connector.connectorId" [readOnly]="!isAdmin" >
+                                            <mat-error *ngIf="formGroup.controls['connectorVoltage' + connector.connectorId].invalid">{{'chargers.invalid_voltage'
+                                                    | translate}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field>
+                                            <input matInput placeholder="{{'chargers.amperage' | translate}}" required [formControlName]="'connectorAmperage' + connector.connectorId" [readOnly]="!isAdmin" >
+                                            <mat-error *ngIf="formGroup.controls['connectorAmperage' + connector.connectorId].invalid">{{'chargers.invalid_amperage'
+                                                    | translate}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

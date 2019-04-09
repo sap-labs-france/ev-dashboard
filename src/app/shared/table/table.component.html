@@ -206,9 +206,11 @@
       <ng-container matColumnDef="details">
         <th *matHeaderCellDef class="col-3em details-column-header" mat-header-cell></th>
         <td *matCellDef="let row" [class]="'col-3em details-column-row'" mat-cell>
-          <mat-icon (click)="showHideDetailsClicked(row['data'])"
-            *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true"
-            >{{row['data'].isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
+          <button mat-icon-button (click)="showHideDetailsClicked(row['data'])">
+            <mat-icon
+              *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true">
+            {{row['data'].isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
+          </button>
         </td>
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled()" mat-footer-cell></td>
       </ng-container>

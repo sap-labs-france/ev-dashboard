@@ -146,6 +146,8 @@ export interface Connector {
   currentConsumption: number;
   totalConsumption: number;
   power: number;
+  voltage: number;
+  amperage: number;
   status: string;
   activeForUser: boolean;
   activeTransactionID: number;

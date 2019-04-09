@@ -14,7 +14,7 @@ import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component'
   selector: 'app-limit-planner-chart',
   template: `
     <div class="chart-container">
-      <div class="chart">
+      <div class="smart-charging-limit-chart">
         <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
       </div>
       <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">

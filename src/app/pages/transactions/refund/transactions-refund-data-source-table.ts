@@ -1,16 +1,7 @@
 import {Observable} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {
-  ActionResponse,
-  ActionsResponse,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  Transaction
-} from '../../../common.types';
+import {ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -37,7 +28,6 @@ import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 import {TransactionsTypeFilter} from './transactions-type-filter';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum} from '../../../services/component.service';
@@ -69,7 +59,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     super();
     // Init
     this.initDataSource();
-    this.chechConcurConnection();
+    this.checkConcurConnection();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -78,7 +68,9 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public loadData() {
     this.spinnerService.show();
-    this.centralServerService.getTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
+    const filters = this.buildFilterValues();
+    filters['UserID'] = this.centralServerService.getLoggedUser().id;
+    this.centralServerService.getTransactions(filters, this.buildPaging(), this.buildOrdering())
       .subscribe((transactions) => {
         this.spinnerService.hide();
         this.setNumberOfRecords(transactions.count);
@@ -112,20 +104,20 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
     const columns = [];
     columns.push({
-      id: 'timestamp',
-      name: 'transactions.started_at',
-      class: 'text-left',
-      sorted: true,
-      sortable: true,
-      direction: 'desc',
-      formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-    },
-    {
-      id: 'user',
-      name: 'transactions.user',
-      class: 'text-left',
-      formatter: (value) => this.appUserNamePipe.transform(value)
-    });
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        class: 'text-left',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+      },
+      {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      });
     columns.push(
       {
         id: 'stop.totalDurationSecs',
@@ -157,7 +149,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       name: 'transactions.total_consumption',
       formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
     });
-  if (this.isAdmin) {
+    if (this.isAdmin) {
       columns.push({
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
@@ -192,10 +184,12 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
+      moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsTypeFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef()];
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -203,7 +197,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         filters.push(new SiteAreasTableFilter().getFilterDef());
-        filters.push(new UserTableFilter().getFilterDef());
     }
     return filters;
 
@@ -225,10 +218,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     switch (actionDef.id) {
       case 'delete':
       case 'refund':
-        if (transaction.hasOwnProperty('refund')) {
-          return false;
-        }
-        return true;
+        return !transaction.hasOwnProperty('refund');
       default:
         return true;
     }
@@ -272,17 +262,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     this.isAdmin = isAdmin
   }
 
-  protected _deleteTransaction(transaction: Transaction) {
-    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
-    });
-  }
-
   protected _refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
@@ -307,19 +286,22 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
       switch (error.status) {
         case 560: // not authorized
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.not_authorized');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.not_authorized');
           break;
         case 551: // cannot refund another user transactions
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.error');
           break;
       }
     });
   }
 
-  private chechConcurConnection() {
+  private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {

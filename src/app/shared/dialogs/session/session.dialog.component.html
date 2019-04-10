@@ -26,7 +26,7 @@
           <div class="d-flex flex-column justify-content-around">
             <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
-              <mat-icon>money</mat-icon><span class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency: transaction.stop.priceUnit) : '--'}}</span>
+              <mat-icon>money</mat-icon><span class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.price | currency:transaction.stop.priceUnit:undefined:undefined:locale) : '--'}}</span>
             </div>
             <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
@@ -34,7 +34,7 @@
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
-              <mat-icon>timelapse</mat-icon><span class="first-text">{{transaction.timestamp | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+              <mat-icon>timelapse</mat-icon><span class="first-text">{{transaction.timestamp | appDate:locale:'datetime'}}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">

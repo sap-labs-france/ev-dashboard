@@ -19,6 +19,7 @@ export class ConsumptionChartComponent implements OnInit {
   @Input() consumptions: ConsumptionValue[];
   graphCreated = false;
   currencyCode: string;
+  locale: string;
   private lineTension = 0;
   @Input() ratio: number;
   @ViewChild('chart') ctx: ElementRef;
@@ -51,6 +52,7 @@ export class ConsumptionChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.locale = this.localeService.getCurrentFullLocaleForJS();
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
     } else {
@@ -164,7 +166,7 @@ export class ConsumptionChartComponent implements OnInit {
             color: 'rgba(0,0,0,0.2)'
           },
           ticks: {
-            callback: (value, index, values) => this.currencyPipe.transform(value, this.currencyCode),
+            callback: (value, index, values) => this.currencyPipe.transform(value, this.currencyCode, undefined, undefined, this.locale),
             min: 0,
             fontColor: '#fff'
           }
@@ -244,9 +246,9 @@ export class ConsumptionChartComponent implements OnInit {
               case 'stateOfCharge':
                 return ` ${value}%`;
               case 'amount':
-                return this.currencyPipe.transform(value, this.currencyCode);
+                return this.currencyPipe.transform(value, this.currencyCode, undefined, undefined, this.locale);
               case 'cumulatedAmount':
-                return this.currencyPipe.transform(value, this.currencyCode);
+                return this.currencyPipe.transform(value, this.currencyCode, undefined, undefined, this.locale);
               default:
                 return value;
             }
@@ -255,7 +257,7 @@ export class ConsumptionChartComponent implements OnInit {
             const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
 
-            return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
+            return this.datePipe.transform(currentDate, this.locale, 'time') +
               ' - ' + (<any>moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', {trim: false});
           }
         }

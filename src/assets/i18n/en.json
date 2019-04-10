@@ -761,6 +761,7 @@
     "role_demo": "Demo",
     "role_invalid": "Invalid role",
     "user_not_found": "User not found",
+    "user_id_not_found": "User '{{userId}}' not found",
     "invalid_phone_number": "Invalid phone number",
     "invalid_tag_ids": "Only letters and numbers allowed",
     "invalid_plate_id": "Only capital letters, numbers and '-' are allowed",

@@ -12,6 +12,7 @@ import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
 import {DialogService} from 'app/services/dialog.service';
 import {Constants} from 'app/utils/Constants';
 import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
@@ -29,28 +30,34 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     this.initDataSource();
   }
 
-  public loadData() {
-    // Site provided?
-    if (this._site) {
-      // Yes: Get data
-      this.centralServerService.getUsers(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((users) => {
-        // Set number of records
-        this.setNumberOfRecords(users.count);
-        // Update Paginator
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Site provided?
+      if (this._site) {
+        // Yes: Get data
+        this.centralServerService.getUsers(this.buildFilterValues(),
+          this.buildPaging(), this.buildOrdering()).subscribe((users) => {
+          // Set number of records
+          this.setNumberOfRecords(users.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(users.result);
+          // Ok
+          observer.next(users.result);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+      } else {
         this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(users.result);
-        // Set the data
-        this.setData(users.result);
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
-    } else {
-      this.updatePaginator();
-        this.setData([]);
-    }
+        observer.next([]);
+        observer.complete();
+      }
+    });
   }
 
   public buildTableDef(): TableDef {

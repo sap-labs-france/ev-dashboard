@@ -57,46 +57,52 @@ export class LogsDataSource extends TableDataSource<Log> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadData(refreshAction: boolean) {
+  public loadData(refreshAction = false): Observable<any> {
     console.log('logs-data-source-table - loadData');
-    if (!refreshAction) {
-      // Show
-      this.spinnerService.show();
-    }
-    // Get data
-    this.centralServerService.getLogs(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((logs) => {
+    return new Observable((observer) => {
       if (!refreshAction) {
         // Show
-        this.spinnerService.hide();
+        this.spinnerService.show();
       }
-      // Set number of records
-      this.setNumberOfRecords(logs.count);
-      // Update page length
-      this.updatePaginator();
-      // Add the users in the message
-      logs.result.map((log) => {
-        let user;
-        // Set User
-        if (log.user) {
-          user = log.user;
+      // Get data
+      this.centralServerService.getLogs(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((logs) => {
+        if (!refreshAction) {
+          // Show
+          this.spinnerService.hide();
         }
-        // Set Action On User
-        if (log.actionOnUser) {
-          user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
-        }
-        // Set
-        if (user) {
-          log.message = `${user} > ${log.message}`;
-        }
-        return log;
+        // Set number of records
+        this.setNumberOfRecords(logs.count);
+        // Update page length
+        this.updatePaginator();
+        // Add the users in the message
+        logs.result.map((log) => {
+          let user;
+          // Set User
+          if (log.user) {
+            user = log.user;
+          }
+          // Set Action On User
+          if (log.actionOnUser) {
+            user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
+          }
+          // Set
+          if (user) {
+            log.message = `${user} > ${log.message}`;
+          }
+          return log;
+        });
+        // Ok
+        observer.next(logs.result);
+        observer.complete();
+      }, (error) => {
+        // Show
+        this.spinnerService.hide();
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
-      this.setData(logs.result);
-    }, (error) => {
-      // Show
-      this.spinnerService.hide();
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 

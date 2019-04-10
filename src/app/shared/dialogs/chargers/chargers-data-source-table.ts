@@ -21,7 +21,7 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
     this.initDataSource();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     // Show spinner
     this.spinnerService.show();
     // Get data

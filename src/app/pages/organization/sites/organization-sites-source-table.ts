@@ -54,28 +54,33 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get Sites
-    this.centralServerService.getSites(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(sites.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(sites.result);
-        // Set the data
-        this.setData(sites.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Show
+      this.spinnerService.show();
+      // Get Sites
+      this.centralServerService.getSites(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
+          // Hide
+          this.spinnerService.hide();
+          // Update nbr records
+          this.setNumberOfRecords(sites.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(sites.result);
+          // Ok
+          observer.next(sites.result);
+          observer.complete();
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   public buildTableDef(): TableDef {

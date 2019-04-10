@@ -66,7 +66,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
+  public loadData(refreshAction = false): Observable<any> {
     this.spinnerService.show();
     const filters = this.buildFilterValues();
     filters['UserID'] = this.centralServerService.getLoggedUser().id;

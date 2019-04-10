@@ -21,7 +21,7 @@ export class UsersDataSource extends DialogTableDataSource<User> {
     this.initDataSource();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     // Show spinner
     this.spinnerService.show();
     // Get data

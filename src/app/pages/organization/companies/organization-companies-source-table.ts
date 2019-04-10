@@ -52,36 +52,39 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     return this.centralServerNotificationService.getSubjectCompany();
   }
 
-  public loadData() {
-    // show
-    this.spinnerService.show();
-
-    // get companies
-    this.centralServerService.getCompanies(this.buildFilterValues(), this.buildPaging(), this.buildOrdering()).subscribe((companies) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(companies.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(companies.result);
-        // lookup for logo otherwise assign default
-        for (let i = 0; i < companies.result.length; i++) {
-          if (!companies.result[i].logo) {
-            companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // show
+      this.spinnerService.show();
+      // get companies
+      this.centralServerService.getCompanies(this.buildFilterValues(), this.buildPaging(), this.buildOrdering()).subscribe((companies) => {
+          // Hide
+          this.spinnerService.hide();
+          // Update nbr records
+          this.setNumberOfRecords(companies.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(companies.result);
+          // lookup for logo otherwise assign default
+          for (let i = 0; i < companies.result.length; i++) {
+            if (!companies.result[i].logo) {
+              companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+            }
           }
-        }
-
-        // Set the data
-        this.setData(companies.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Ok
+          observer.next(companies.result);
+          observer.complete();
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       });
-  }
+    }
 
   public buildTableDef(): TableDef {
     return {

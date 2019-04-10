@@ -19,7 +19,7 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
     this.initDataSource();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     // Show spinner
     this.spinnerService.show();
     // Get data

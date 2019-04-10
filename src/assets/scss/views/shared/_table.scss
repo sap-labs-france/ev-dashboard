@@ -36,8 +36,8 @@ th {
   }
 }
 
-tr.mat-row {
-  height: initial !important;
+tr.mat-row:not(.details-row) {
+  height: 35px !important;
 }
 
 th:first-child, td:first-child {

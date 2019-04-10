@@ -143,7 +143,10 @@ export class TableComponent implements OnInit, AfterViewInit {
         filterDef.currentValue = event.value;
       }
     }
+    // Update filter
     this.filterChanged(filterDef, event);
+    // Reload data
+    this.loadData();
   }
 
   toggleSelectionRow(row) {
@@ -246,7 +249,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public trackByObjectId(index: number, item: any): any {
-    console.log('table.component - trackByObjectId');
+    // console.log('table.component - trackByObjectId');
     return item.id;
   }
 
@@ -258,12 +261,15 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  public loadData() {
+  public loadData(refreshAction = false)) {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadData(false);
-    // Refresh table
-    this.table.renderRows();
+    this.dataSource.loadDataFromUI(false).subscribe((data) => {
+      // Refresh table
+      this.table.renderRows();
+    }, (error) => {
+      // handle errors
+    });
   }
 
   public showHideDetailsClicked(row) {

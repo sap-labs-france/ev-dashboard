@@ -74,24 +74,28 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public loadData(refreshAction = false) {
-    if (!refreshAction) {
-      this.spinnerService.show();
-    }
-    this.centralServerService.getTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
-      .subscribe((transactions) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
-        this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
-        this.setData(transactions.result);
-      }, (error) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+    return new Observable((observer) => {
+      if (!refreshAction) {
+        this.spinnerService.show();
+      }
+      this.centralServerService.getTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
+        .subscribe((transactions) => {
+          if (!refreshAction) {
+            this.spinnerService.hide();
+          }
+          this.setNumberOfRecords(transactions.count);
+          this.updatePaginator();
+          this.setData(transactions.result);
+        }, (error) => {
+          if (!refreshAction) {
+            this.spinnerService.hide();
+          }
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       });
-  }
+    }
 
   public buildTableDef(): TableDef {
     return {

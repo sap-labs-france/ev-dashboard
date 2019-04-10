@@ -25,6 +25,7 @@ import { OcpiendpointDetailPatchJobStatusComponent } from '../formatters/ocpi-en
 import { OcpiendpointDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
 import { OcpiendpointDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
 import { OcpiendpointDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDetail> {
@@ -54,25 +55,29 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     this.noAction.getActionDef().disabled = true;
   }
 
-  public loadData() {
-    // Set number of records
-    this.setNumberOfRecords(this.getData().length);
-    // Return connector
-    if (this.ocpiendpoint) {
-      setTimeout(() => {
-        const ocpiendpointDetail = <OcpiendpointDetail> {
-          id: this.ocpiendpoint.id,
-          ocpiendpoint: this.ocpiendpoint,
-          successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
-          failureNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.failureNbr : 0,
-          totalNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.totalNbr : 0,
-          lastPatchJobOn: this.ocpiendpoint.lastPatchJobOn ? this.ocpiendpoint.lastPatchJobOn : null
-        }
-        this.setData([ocpiendpointDetail]);
-        // this.setNumberOfRecords(1);
-        this.isInitialized = true;
-      }, 1);
-    }
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Set number of records
+      this.setNumberOfRecords(this.getData().length);
+      // Return connector
+      if (this.ocpiendpoint) {
+        setTimeout(() => {
+          const ocpiendpointDetail = <OcpiendpointDetail> {
+            id: this.ocpiendpoint.id,
+            ocpiendpoint: this.ocpiendpoint,
+            successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
+            failureNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.failureNbr : 0,
+            totalNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.totalNbr : 0,
+            lastPatchJobOn: this.ocpiendpoint.lastPatchJobOn ? this.ocpiendpoint.lastPatchJobOn : null
+          }
+          // Ok
+          observer.next(ocpiendpointDetail);
+          observer.complete();
+          // this.setNumberOfRecords(1);
+          this.isInitialized = true;
+        }, 1);
+      }
+    });
   }
 
   public setEndpoint(ocpiendpoint: Ocpiendpoint) {

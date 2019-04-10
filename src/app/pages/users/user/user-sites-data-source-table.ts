@@ -29,7 +29,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public loadData() {
+  public loadData(refreshAction = false): Observable<any> {
     // User provided?
     if (this.user) {
       // Yes: Get data

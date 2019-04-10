@@ -28,6 +28,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {ConnectorConsumptionChartDetailComponent} from './consumption-chart-detail.component';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -62,44 +63,50 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.noAction.getActionDef().disabled = true;
   }
 
-  public loadData() {
-    // Set number of records
-    this.setNumberOfRecords(this.getData().length);
-    // Return connector
-    if (this.charger) {
-      // Check authorizations
-      this.centralServerService.getIsAuthorized('ConnectorsAction', this.charger.id).subscribe((result) => {
-        this.connectorTransactionAuthorization = result;
-        // Update authorization on individual connectors
-        for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
-          this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].isStopAuthorized;
-          this.charger.connectors[index].isStartAuthorized = this.connectorTransactionAuthorization[index].isStartAuthorized;
-          this.charger.connectors[index].isTransactionDisplayAuthorized = this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
-        }
-        this.setData(this.charger.connectors);
-        // Update specific row actions
-        if (this.formattedData) {
-          this.formattedData.forEach(row => {
-            row.specificRowActions = this.specificRowActions(row['data']);
-          });
-        }
-        let hasSomeDetails = false;
-        // Check connectors details status
-        this.getData().forEach((connector: Connector) => {
-          // If user can stop transaction he can also see details except user demo that can also see details
-          connector.hasDetails = connector.activeTransactionID > 0 &&
-            (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
-          if (connector.hasDetails) {
-            hasSomeDetails = true;
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Set number of records
+      this.setNumberOfRecords(this.getData().length);
+      // Return connector
+      if (this.charger) {
+        // Check authorizations
+        this.centralServerService.getIsAuthorized('ConnectorsAction', this.charger.id).subscribe((result) => {
+          this.connectorTransactionAuthorization = result;
+          // Update authorization on individual connectors
+          for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
+            this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].isStopAuthorized;
+            this.charger.connectors[index].isStartAuthorized = this.connectorTransactionAuthorization[index].isStartAuthorized;
+            this.charger.connectors[index].isTransactionDisplayAuthorized = this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
           }
+          // Ok
+          observer.next(this.charger.connectors);
+          // Update specific row actions
+          if (this.formattedData) {
+            this.formattedData.forEach(row => {
+              row.specificRowActions = this.specificRowActions(row['data']);
+            });
+          }
+          let hasSomeDetails = false;
+          // Check connectors details status
+          this.getData().forEach((connector: Connector) => {
+            // If user can stop transaction he can also see details except user demo that can also see details
+            connector.hasDetails = connector.activeTransactionID > 0 &&
+              (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
+            if (connector.hasDetails) {
+              hasSomeDetails = true;
+            }
+          });
+          this._displayDetailsColumns.next(hasSomeDetails);
+          this.isInitialized = true;
+          observer.complete();
+        }, (error) => {
+          // Authorization issue!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
         });
-        this._displayDetailsColumns.next(hasSomeDetails);
-        this.isInitialized = true;
-      }, (error) => {
-        // Authorization issue!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
-    }
+      }
+    });
   }
 
   public setCharger(charger: Charger) {

@@ -51,24 +51,30 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get the Tenants
-    this.centralServerService.getTenants(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((tenants) => {
-      // Hide
-      this.spinnerService.hide();
-      // Update nbr records
-      this.setNumberOfRecords(tenants.count);
-      // Update Paginator
-      this.updatePaginator();
-      this.setData(tenants.result);
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Show error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Show
+      this.spinnerService.show();
+      // Get the Tenants
+      this.centralServerService.getTenants(this.buildFilterValues(),
+          this.buildPaging(), this.buildOrdering()).subscribe((tenants) => {
+        // Hide
+        this.spinnerService.hide();
+        // Update nbr records
+        this.setNumberOfRecords(tenants.count);
+        // Update Paginator
+        this.updatePaginator();
+        // Ok
+        observer.next(tenants.result);
+        observer.complete();
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

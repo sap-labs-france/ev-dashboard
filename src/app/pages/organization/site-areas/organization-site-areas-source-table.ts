@@ -54,28 +54,33 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get Site Areas
-    this.centralServerService.getSiteAreas(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(siteAreas.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(siteAreas.result);
-        // Set the data
-        this.setData(siteAreas.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Show
+      this.spinnerService.show();
+      // Get Site Areas
+      this.centralServerService.getSiteAreas(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
+          // Hide
+          this.spinnerService.hide();
+          // Update nbr records
+          this.setNumberOfRecords(siteAreas.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(siteAreas.result);
+          // Ok
+          observer.next(siteAreas.result);
+          observer.complete();
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   public buildTableDef(): TableDef {

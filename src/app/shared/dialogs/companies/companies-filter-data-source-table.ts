@@ -19,7 +19,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     this.initDataSource();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     // Show spinner
     this.spinnerService.show();
     // Get data

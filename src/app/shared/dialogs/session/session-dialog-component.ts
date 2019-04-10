@@ -47,7 +47,7 @@ export class SessionDialogComponent implements OnInit {
     this.chartComponent.refresh();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
       if (transaction.stop) {

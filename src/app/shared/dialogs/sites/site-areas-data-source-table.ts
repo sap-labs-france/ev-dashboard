@@ -19,7 +19,7 @@ export class SiteAreasDataSourceTable extends DialogTableDataSource<SiteArea> {
     this.initDataSource();
   }
 
-  loadData() {
+ public loadData(refreshAction = false): Observable<any> {
     // Show spinner
     this.spinnerService.show();
     const filterValues = this.buildFilterValues();

@@ -69,7 +69,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction: boolean) {
+  public loadData(refreshAction = false): Observable<any> {
     if (!refreshAction) {
       this.spinnerService.show();
     }

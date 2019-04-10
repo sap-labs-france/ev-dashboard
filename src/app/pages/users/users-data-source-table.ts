@@ -60,7 +60,7 @@ export class UsersDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadData(refreshAction: boolean = false) {
+  public loadData(refreshAction = false)refreshAction: boolean = false) {
     if (!refreshAction) {
       // Show
       this.spinnerService.show();

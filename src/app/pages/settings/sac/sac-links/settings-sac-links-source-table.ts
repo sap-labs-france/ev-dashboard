@@ -71,26 +71,30 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return [];
   }
 
-  public loadData() {
-    setTimeout(() => {
-      // Set number of records
-      this.setNumberOfRecords(this.getData().length);
-      // setTimeout(() => {
-      if (this.sacLinks) {
-        this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
-        const links = [];
-        for (let index = 0; index < this.sacLinks.length; index++) {
-          const _link = this.sacLinks[index];
-          _link.id = index;
-          links.push(_link);
-        }
-        // Update nbr records
-        this.setNumberOfRecords(links.length);
-        // Update Paginator
-        this.updatePaginator();
-        this.setData(links);
-      }
-    }, 1);
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      setTimeout(() => {
+        // Set number of records
+        this.setNumberOfRecords(this.getData().length);
+          // setTimeout(() => {
+          if (this.sacLinks) {
+            this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
+            const links = [];
+            for (let index = 0; index < this.sacLinks.length; index++) {
+              const _link = this.sacLinks[index];
+              _link.id = index;
+              links.push(_link);
+            }
+            // Update nbr records
+            this.setNumberOfRecords(links.length);
+            // Update Paginator
+            this.updatePaginator();
+            // Ok
+            observer.next(links);
+            observer.complete();
+          }
+      }, 1);
+    });
   }
 
   public buildTableDef(): TableDef {

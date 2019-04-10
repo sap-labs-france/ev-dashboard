@@ -15,6 +15,7 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {AuthorizationService} from 'app/services/authorization-service';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
@@ -39,13 +40,17 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     this.initDataSource();
   }
 
-  public loadData() {
-    // Set number of records
-    this.setNumberOfRecords(this.getData().length);
-    // // Return connector
-    if (this.charger && this.buildTableColumnDefs()) {
-      this.setData(this.charger.connectors);
-    }
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Set number of records
+      this.setNumberOfRecords(this.getData().length);
+      // // Return connector
+      if (this.charger && this.buildTableColumnDefs()) {
+        // Ok
+        observer.next(this.charger.connectors);
+      }
+      observer.complete();
+    });
   }
 
   public setCharger(charger: Charger) {
@@ -56,7 +61,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     if (autoRefresh) {
       this.refreshReload(); // will call loadData
     } else {
-      this.loadData();
+      this.loadData().subscribe();
     }
   }
 

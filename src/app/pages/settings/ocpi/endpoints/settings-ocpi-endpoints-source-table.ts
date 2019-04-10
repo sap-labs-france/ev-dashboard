@@ -60,26 +60,31 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
     return this.centralServerNotificationService.getSubjectOcpiendpoints();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get the OCPI Endpoints
-    this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((ocpiendpoints) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(ocpiendpoints.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Set the data
-        this.setData(ocpiendpoints.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // Show
+      this.spinnerService.show();
+      // Get the OCPI Endpoints
+      this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((ocpiendpoints) => {
+          // Hide
+          this.spinnerService.hide();
+          // Update nbr records
+          this.setNumberOfRecords(ocpiendpoints.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Ok
+          observer.next(ocpiendpoints.result);
+          observer.complete();
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   public buildTableDef(): TableDef {

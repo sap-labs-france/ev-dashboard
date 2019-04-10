@@ -301,8 +301,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     });
     // Update value
     foundFilter.currentValue = filter.currentValue;
-    // Reload data
-    this.loadData(false);
   }
 
   public resetFilters() {
@@ -502,13 +500,28 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableColumnDefs;
   }
 
-  abstract loadData(refreshAction?: boolean);
+  loadDataFromUI(refreshAction: boolean): Observable<any> {
+    console.log('table-data-source - loadDataFromUI');
+    return new Observable((observer) => {
+      // Load data source
+      this.loadData(false).subscribe((data) => {
+        // Ok
+        this.setData(data);
+        // Notify
+        observer.next(data);
+        observer.complete();
+      }, (error) => {
+        // handle errors
+      });
+    });
+  }
+
+  abstractpublic loadData(refreshAction = false): Observable<any>;
 
   public setData(data: T[]) {
     console.log('table-data-source - setData');
     // Format the data
     this._formatData(data);
-    // this.dataSubject.next(this.formattedData);
   }
 
   public getData(): any[] {

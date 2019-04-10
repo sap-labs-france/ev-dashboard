@@ -65,23 +65,27 @@ export class BasicTableDataSource extends TableDataSource<any> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadData(refreshAction: boolean) {
-    if (!refreshAction) {
-      // Show
-      this.spinnerService.show();
-    }
-    // Get data
-    setTimeout(() => {
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
       if (!refreshAction) {
-        // Hide
-        this.spinnerService.hide();
+        // Show
+        this.spinnerService.show();
       }
-      // Set number of records
-      this.setNumberOfRecords(TEST_DATA.length);
-      // Update page length
-      this.updatePaginator();
-      this.setData(TEST_DATA);
-    }, 800)
+      // Get data
+      setTimeout(() => {
+        if (!refreshAction) {
+          // Hide
+          this.spinnerService.hide();
+        }
+        // Set number of records
+        this.setNumberOfRecords(TEST_DATA.length);
+        // Update page length
+        this.updatePaginator();
+        // Ok
+        observer.next(TEST_DATA);
+        observer.complete();
+      }, 800);
+    });
   }
 
   public buildTableDef(): TableDef {

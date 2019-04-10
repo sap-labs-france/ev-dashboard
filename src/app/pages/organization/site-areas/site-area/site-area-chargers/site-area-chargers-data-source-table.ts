@@ -13,6 +13,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { Constants } from 'app/utils/Constants';
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
@@ -33,28 +34,35 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  public loadData() {
-    // siteArea provided?
-    if (this.siteArea) {
-      // Yes: Get data
-      this.centralServerService.getChargers(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
-          // Set number of records
-          this.setNumberOfRecords(chargers.count);
-          // Update Paginator
-          this.updatePaginator();
-          // Notify
-          this.getDataSubjet().next(chargers.result);
-          // Set the data
-          this.setData(chargers.result);
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        });
-    } else {
-      this.updatePaginator();
-      this.setData([]);
-    }
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
+      // siteArea provided?
+      if (this.siteArea) {
+        // Yes: Get data
+        this.centralServerService.getChargers(this.buildFilterValues(),
+          this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+            // Set number of records
+            this.setNumberOfRecords(chargers.count);
+            // Update Paginator
+            this.updatePaginator();
+            // Notify
+            this.getDataSubjet().next(chargers.result);
+            // Ok
+            observer.next(chargers.result);
+            observer.complete();
+          }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            // Error
+            observer.error(error);
+          });
+      } else {
+        this.updatePaginator();
+        // Ok
+        observer.next([]);
+        observer.complete();
+      }
+    });
   }
 
   public buildTableDef(): TableDef {

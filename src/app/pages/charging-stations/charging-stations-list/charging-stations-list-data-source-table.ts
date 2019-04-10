@@ -87,34 +87,40 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadData(refreshAction: boolean) {
-    if (!refreshAction) {
-      // Show
-      this.spinnerService.show();
-    }
-    // Get data
-    this.centralServerService.getChargers(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
       if (!refreshAction) {
         // Show
-        this.spinnerService.hide();
+        this.spinnerService.show();
       }
-      // Set number of records
-      this.setNumberOfRecords(chargers.count);
-      // Update details status
-      chargers.result.forEach(charger => {
-        charger.connectors.forEach(connector => {
-          connector.hasDetails = connector.activeTransactionID > 0;
+      // Get data
+      this.centralServerService.getChargers(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+        if (!refreshAction) {
+          // Show
+          this.spinnerService.hide();
+        }
+        // Set number of records
+        this.setNumberOfRecords(chargers.count);
+        // Update details status
+        chargers.result.forEach(charger => {
+          charger.connectors.forEach(connector => {
+            connector.hasDetails = connector.activeTransactionID > 0;
+          });
         });
+        // Update page length
+        this.updatePaginator();
+        // Ok
+        observer.next(chargers.result);
+        observer.complete();
+      }, (error) => {
+        // Show
+        this.spinnerService.hide();
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
-      // Update page length
-      this.updatePaginator();
-      this.setData(chargers.result);
-    }, (error) => {
-      // Show
-      this.spinnerService.hide();
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 

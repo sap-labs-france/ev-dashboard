@@ -10,6 +10,9 @@ export class AppDatePipe implements PipeTransform {
       case 'datetime':
         displayFormat = 'L LTS';
         break;
+      case 'datetimeshort':
+        displayFormat = 'L LT';
+        break;
       case 'time':
         displayFormat = 'LTS';
         break;

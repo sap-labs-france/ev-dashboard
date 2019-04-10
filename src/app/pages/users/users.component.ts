@@ -36,13 +36,30 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
     // Check if User ID id provided
     const userId = this.windowService.getSearch('UserID');
     if (userId) {
-      this.centralServerService.getUser(userId).subscribe(user => {
-        // Found
-        this.usersInErrorDataSource.showUserDialog(user);
-      }, (error) => {
-        // Not Found
-        this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
-      });
+      // Route to the correct datasource relative to the page fragment (Hash)
+      switch (this.windowService.getHash()) {
+        case 'all':
+          this.centralServerService.getUser(userId).subscribe(user => {
+            // Found
+            this.usersDataSource.showUserDialog(user);
+          }, (error) => {
+            // Not Found
+            this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+          });
+          break;
+        case 'inerror':
+          this.centralServerService.getUser(userId).subscribe(user => {
+            // Found
+            this.usersInErrorDataSource.showUserDialog(user);
+          }, (error) => {
+            // Not Found
+            this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+          });
+          break;
+        default:
+          this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+          break;
+      }   
       // Clear Search
       this.windowService.deleteSearch('UserID');
     }

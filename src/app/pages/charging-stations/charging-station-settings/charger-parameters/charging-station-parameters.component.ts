@@ -61,6 +61,7 @@ export class ChargingStationParametersComponent implements OnInit {
   public chargingStationURLTooltip: string;
 
   public isOrganizationComponentActive: boolean;
+  public isOCPIActive: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -84,6 +85,7 @@ export class ChargingStationParametersComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.formGroup = new FormGroup({});
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);
   }
 
   ngOnInit(): void {
@@ -162,8 +164,22 @@ export class ChargingStationParametersComponent implements OnInit {
     for (const connector of this.charger.connectors) {
       const connectorTypeId = `connectorType${connector.connectorId}`;
       const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
+      const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
+      const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
       this.formGroup.addControl(connectorTypeId, new FormControl(''));
       this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$')
+        ])));
+      this.formGroup.addControl(connectorVoltageId, new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$')
+        ])));
+      this.formGroup.addControl(connectorAmperageId, new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.min(1),
@@ -172,6 +188,10 @@ export class ChargingStationParametersComponent implements OnInit {
       if (!this.isAdmin) {
         this.formGroup.controls[connectorTypeId].disable();
         this.formGroup.controls[connectorMaxPowerId].disable();
+      }
+      if (!this.isAdmin || !this.isOCPIActive) {
+        this.formGroup.controls[connectorVoltageId].disable();
+        this.formGroup.controls[connectorAmperageId].disable();
       }
     }
     if (this.charger.id) {
@@ -239,8 +259,12 @@ export class ChargingStationParametersComponent implements OnInit {
       for (const connector of this.charger.connectors) {
         const connectorTypeId = `connectorType${connector.connectorId}`;
         const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
+        const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
+        const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
         this.formGroup.controls[connectorTypeId].setValue(connector.type);
         this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
+        this.formGroup.controls[connectorVoltageId].setValue(connector.voltage);
+        this.formGroup.controls[connectorAmperageId].setValue(connector.amperage);
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -276,6 +300,8 @@ export class ChargingStationParametersComponent implements OnInit {
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;
         connector.power = this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].value;
+        connector.voltage = this.formGroup.controls[`connectorVoltage${connector.connectorId}`].value;
+        connector.amperage = this.formGroup.controls[`connectorAmperage${connector.connectorId}`].value;
       }
       this._updateChargeBoxID();
     }

@@ -766,6 +766,7 @@
     "role_demo": "Démo",
     "role_invalid": "Role invalide",
     "user_not_found": "Utilisateur inconnu",
+    "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
     "invalid_tag_ids": "Seulement les lettres et les nombres sont autorisés",
     "invalid_plate_id": "Seulement les lettres majuscules, les nombres et '-' sont autorisés",

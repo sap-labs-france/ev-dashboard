@@ -44,7 +44,7 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
             this.usersDataSource.showUserDialog(user);
           }, (error) => {
             // Not Found
-            this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+            this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
           });
           break;
         case 'inerror':
@@ -53,11 +53,11 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
             this.usersInErrorDataSource.showUserDialog(user);
           }, (error) => {
             // Not Found
-            this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+            this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
           });
           break;
         default:
-          this.messageService.showErrorMessage('users.user_not_found', {'UserID': userId});
+          this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
           break;
       }   
       // Clear Search

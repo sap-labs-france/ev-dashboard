@@ -7,6 +7,7 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargersDataSource extends DialogTableDataSource<Charger> {
@@ -22,24 +23,30 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
   }
 
  public loadData(refreshAction = false): Observable<any> {
-    // Show spinner
-    this.spinnerService.show();
-    // Get data
-    this.centralServerService.getChargers(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // Set number of records
-        this.setNumberOfRecords(chargers.count);
-        // Update page length (number of sites is in User)
-        this.updatePaginator();
-        this.setData(chargers.result);
-      }, (error) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+    return new Observable((observer) => {
+      // Show spinner
+      this.spinnerService.show();
+      // Get data
+      this.centralServerService.getChargers(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+          // Hide spinner
+          this.spinnerService.hide();
+          // Set number of records
+          this.setNumberOfRecords(chargers.count);
+          // Update page length (number of sites is in User)
+          this.updatePaginator();
+          // Ok
+          observer.next(chargers.result);
+          observer.complete();
+        }, (error) => {
+          // Hide spinner
+          this.spinnerService.hide();
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   buildTableColumnDefs(): TableColumnDef[] {

@@ -12,6 +12,7 @@ import {TableRemoveAction} from '../../../shared/table/actions/table-remove-acti
 import {DialogService} from '../../../services/dialog.service';
 import {Constants} from '../../../utils/Constants';
 import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserSitesDataSource extends TableDataSource<Site> {
@@ -30,27 +31,33 @@ export class UserSitesDataSource extends TableDataSource<Site> {
   }
 
   public loadData(refreshAction = false): Observable<any> {
-    // User provided?
-    if (this.user) {
-      // Yes: Get data
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
-        // Set number of records
-        this.setNumberOfRecords(sites.count);
-        // Update Paginator
+    return new Observable((observer) => {
+      // User provided?
+      if (this.user) {
+        // Yes: Get data
+        this.centralServerService.getSites(this.buildFilterValues(),
+          this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
+          // Set number of records
+          this.setNumberOfRecords(sites.count);
+          // Update Paginator
+          this.updatePaginator();
+          // Notify
+          this.getDataSubjet().next(sites.result);
+          // Ok
+          observer.next(sites.result);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+      } else {
         this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(sites.result);
-        // Set the data
-        this.setData(sites.result);
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
-    } else {
-      this.updatePaginator();
-        this.setData([]);
-    }
+        observer.next([]);
+        observer.complete();
+      }
+    });
   }
 
   public buildTableDef(): TableDef {

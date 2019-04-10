@@ -76,6 +76,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
             this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].isStopAuthorized;
             this.charger.connectors[index].isStartAuthorized = this.connectorTransactionAuthorization[index].isStartAuthorized;
+            // tslint:disable-next-line:max-line-length
             this.charger.connectors[index].isTransactionDisplayAuthorized = this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
           }
           // Ok

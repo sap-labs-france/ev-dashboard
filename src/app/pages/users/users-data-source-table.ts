@@ -60,28 +60,34 @@ export class UsersDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadData(refreshAction = false)refreshAction: boolean = false) {
-    if (!refreshAction) {
-      // Show
-      this.spinnerService.show();
-    }
-    // Get the Tenants
-    this.centralServerService.getUsers(this.buildFilterValues(),
-      this.buildPaging(), this.buildOrdering()).subscribe((users) => {
-      // Update nbr records
-      this.setNumberOfRecords(users.count);
-      // Update Paginator
-      this.updatePaginator();
-      this.setData(users.result);
+  public loadData(refreshAction = false): Observable<any> {
+    return new Observable((observer) => {
       if (!refreshAction) {
+        // Show
+        this.spinnerService.show();
+      }
+      // Get the Tenants
+      this.centralServerService.getUsers(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((users) => {
+        // Update nbr records
+        this.setNumberOfRecords(users.count);
+        // Update Paginator
+        this.updatePaginator();
+        // Ok
+        observer.next(users.result);
+        observer.complete();
+        if (!refreshAction) {
+          // Hide
+          this.spinnerService.hide();
+        }
+      }, (error) => {
         // Hide
         this.spinnerService.hide();
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Show error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

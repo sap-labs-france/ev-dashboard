@@ -500,7 +500,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableColumnDefs;
   }
 
-  loadDataFromUI(refreshAction: boolean): Observable<any> {
+  public loadDataFromUI(refreshAction: boolean): Observable<any> {
     console.log('table-data-source - loadDataFromUI');
     return new Observable((observer) => {
       // Load data source
@@ -516,7 +516,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     });
   }
 
-  abstractpublic loadData(refreshAction = false): Observable<any>;
+  abstract loadData(refreshAction): Observable<any>;
 
   public setData(data: T[]) {
     console.log('table-data-source - setData');

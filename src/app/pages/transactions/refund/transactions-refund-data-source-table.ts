@@ -67,19 +67,25 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   public loadData(refreshAction = false): Observable<any> {
-    this.spinnerService.show();
-    const filters = this.buildFilterValues();
-    filters['UserID'] = this.centralServerService.getLoggedUser().id;
-    this.centralServerService.getTransactions(filters, this.buildPaging(), this.buildOrdering())
-      .subscribe((transactions) => {
-        this.spinnerService.hide();
-        this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
-        this.setData(transactions.result);
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+    return new Observable((observer) => {
+      this.spinnerService.show();
+      const filters = this.buildFilterValues();
+      filters['UserID'] = this.centralServerService.getLoggedUser().id;
+      this.centralServerService.getTransactions(filters, this.buildPaging(), this.buildOrdering())
+        .subscribe((transactions) => {
+          this.spinnerService.hide();
+          this.setNumberOfRecords(transactions.count);
+          this.updatePaginator();
+          // Ok
+          observer.next(transactions.result);
+          observer.complete();
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   public buildTableDef(): TableDef {

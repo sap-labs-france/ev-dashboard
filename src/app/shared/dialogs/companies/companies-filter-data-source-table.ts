@@ -6,6 +6,7 @@ import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
+import { Observable } from 'rxjs';
 
 export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
   constructor(
@@ -20,6 +21,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
   }
 
  public loadData(refreshAction = false): Observable<any> {
+  return new Observable((observer) => {
     // Show spinner
     this.spinnerService.show();
     // Get data
@@ -31,13 +33,18 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
         this.setNumberOfRecords(companies.count);
         // Update page length
         this.updatePaginator();
-        this.setData(companies.result);
+        // Ok
+        observer.next(companies.result);
+        observer.complete();
       }, (error) => {
         // Hide spinner
         this.spinnerService.hide();
         // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
+    });
   }
 
   buildTableDef(): TableDef {

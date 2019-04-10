@@ -261,7 +261,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  public loadData(refreshAction = false)) {
+  public loadData() {
     console.log('table.component - loadData');
     // Load data source
     this.dataSource.loadDataFromUI(false).subscribe((data) => {

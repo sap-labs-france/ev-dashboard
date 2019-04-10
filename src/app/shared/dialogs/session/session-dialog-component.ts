@@ -1,13 +1,13 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {Constants} from '../../../utils/Constants';
-import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
-import {LocaleService} from '../../../services/locale.service';
-import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Constants } from '../../../utils/Constants';
+import { Connector, Image, SiteArea, Transaction } from '../../../common.types';
+import { LocaleService } from '../../../services/locale.service';
+import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -47,7 +47,7 @@ export class SessionDialogComponent implements OnInit {
     this.chartComponent.refresh();
   }
 
- public loadData(refreshAction = false): Observable<any> {
+  loadData() {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.transaction = transaction;
       if (transaction.stop) {
@@ -88,5 +88,4 @@ export class SessionDialogComponent implements OnInit {
       });
     });
   }
-
 }

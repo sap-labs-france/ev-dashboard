@@ -70,21 +70,27 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public loadData(refreshAction = false): Observable<any> {
-    if (!refreshAction) {
-      this.spinnerService.show();
-    }
-    this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
-      .subscribe((transactions) => {
-        if (!refreshAction) {
+    return new Observable((observer) => {
+      if (!refreshAction) {
+        this.spinnerService.show();
+      }
+      this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
+        .subscribe((transactions) => {
+          if (!refreshAction) {
+            this.spinnerService.hide();
+          }
+          this.setNumberOfRecords(transactions.count);
+          this.updatePaginator();
+          // Ok
+          observer.next(transactions.result);
+          observer.complete();
+        }, (error) => {
           this.spinnerService.hide();
-        }
-        this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
-        this.setData(transactions.result);
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   public buildTableDef(): TableDef {
@@ -236,6 +242,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData(false);
     }, (error) => {
+      // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
@@ -247,6 +254,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
       this.loadData(false);
     }, (error) => {
+      // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }

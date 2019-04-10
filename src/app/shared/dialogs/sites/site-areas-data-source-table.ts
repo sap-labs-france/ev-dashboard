@@ -6,6 +6,7 @@ import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
+import { Observable } from 'rxjs';
 
 export class SiteAreasDataSourceTable extends DialogTableDataSource<SiteArea> {
   constructor(
@@ -20,25 +21,31 @@ export class SiteAreasDataSourceTable extends DialogTableDataSource<SiteArea> {
   }
 
  public loadData(refreshAction = false): Observable<any> {
-    // Show spinner
-    this.spinnerService.show();
-    const filterValues = this.buildFilterValues();
-    filterValues['WithSite'] = true;
-    this.centralServerService.getSiteAreas(filterValues,
-      this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // Set number of records
-        this.setNumberOfRecords(siteAreas.count);
-        // Update page length (number of sites is in User)
-        this.updatePaginator();
-        this.setData(siteAreas.result);
-      }, (error) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+    return new Observable((observer) => {
+      // Show spinner
+      this.spinnerService.show();
+      const filterValues = this.buildFilterValues();
+      filterValues['WithSite'] = true;
+      this.centralServerService.getSiteAreas(filterValues,
+        this.buildPaging(), this.buildOrdering()).subscribe((siteAreas) => {
+          // Hide spinner
+          this.spinnerService.hide();
+          // Set number of records
+          this.setNumberOfRecords(siteAreas.count);
+          // Update page length (number of sites is in User)
+          this.updatePaginator();
+          // Ok
+          observer.next(siteAreas.result);
+          observer.complete();
+        }, (error) => {
+          // Hide spinner
+          this.spinnerService.hide();
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
   buildTableColumnDefs(): TableColumnDef[] {

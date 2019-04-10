@@ -143,7 +143,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 .table-no-record-found {
   padding: 10px;
   white-space: normal;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .form-field-popup {
@@ -155,7 +155,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 }
 
 tr.mat-header-row {
-  height: 40px;
+  height: 40px !important;
 }
 
 .col-select {

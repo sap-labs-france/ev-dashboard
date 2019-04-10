@@ -53,16 +53,18 @@ export class ConnectionComponent extends AbstractTabComponent {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'settings.refund.concur.link_error');
           }
+          this.router.navigate([`/users/${state.userId}#connectors`]);
         }, (error) => {
           Utils.handleError(JSON.stringify(error),
             this.messageService, 'settings.refund.concur.link_error');
+          this.router.navigate([`/users/${state.userId}#connectors`]);
         }
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
         this.messageService, 'settings.refund.concur.link_error');
+      this.router.navigate([`/users/${state.userId}#connectors`]);
     }
-    this.router.navigate([`/users/${state.userId}#connectors`])
   }
 
 }

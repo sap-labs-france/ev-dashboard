@@ -827,7 +827,17 @@
     "create_success": "The user {{userFullName}} has been created successfully",
     "create_error": "Error occurred while creating the user",
     "no_users": "No users found",
-    "select_users": "Select User"
+    "select_users": "Select User",
+    "connectors": {
+      "connect": "Connect",
+      "revoke": "Revoke"
+    },
+    "invoicing": {
+      "errors": {
+        "no_invoice_found": "No invoice available for your account",
+        "unable_to_get_invoice": "Error occurred while retrieving your invoice"
+      }
+    }
   },
   "tenants": {
     "title": "Tenant",
@@ -882,7 +892,9 @@
         "policy_id": "Policy ID",
         "report_name": "Report Name",
         "link_success": "Your account has been successfully linked with Concur",
-        "link_error": "Error occurred while linking your account with Concur"
+        "link_error": "Error occurred while linking your account with Concur",
+        "revoke_success": "Your connection with Concur has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Concur"
       }
     },
     "pricing": {

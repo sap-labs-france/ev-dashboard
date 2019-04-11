@@ -2,31 +2,32 @@
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-        animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+                     animationDuration="0ms" disableRipple="true" class="mat-tab-info">
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>portrait</mat-icon><span>{{name.value}} {{firstName.value}}</span>
+            <mat-icon>portrait</mat-icon>
+            <span>{{name.value}} {{firstName.value}}</span>
           </ng-template>
           <div class="card-body">
             <div class="row">
               <div class="col-md-2 my-auto">
                 <div class="rotating-card-container img-fluid"
-                  [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                     [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                   <div class="card card-rotate card-background img-thumbnail m-0" style="height: 100px">
                     <div class="front front-background bg-transparent"
-                      [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                       <div class="card-body">
                       </div>
                     </div>
                     <div class="back back-background"
-                      [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                       <div class="card-body">
                         <div class="justify-content-center">
                           <button mat-flat-button color="primary">
                             <mat-icon (click)="file.click()">mode_edit</mat-icon>
                             <div style="display:none">
                               <input type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize" name="..."
-                                (change)="imageChanged($event)" #file>
+                                     (change)="imageChanged($event)" #file>
                             </div>
                           </button>
                           <button mat-flat-button color="warn">
@@ -42,7 +43,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="name" appSetAutoFocus matInput placeholder="{{'users.name' | translate}}"
-                      required (input)="toUpperCase(name)" type="text">
+                           required (input)="toUpperCase(name)" type="text">
                     <mat-error *ngIf="name.hasError('required')">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -51,7 +52,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="firstName" matInput placeholder="{{'users.first_name' | translate}}" required
-                      type="text">
+                           type="text">
                     <mat-error *ngIf="firstName.hasError('required')">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -62,7 +63,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="email" matInput placeholder="{{'users.email' | translate}}" required
-                      type="text">
+                           type="text">
                     <mat-error *ngIf="email.hasError('email')">
                       {{"authentication.invalid_email" | translate}}
                     </mat-error>
@@ -151,7 +152,8 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>location_on</mat-icon><span>{{'general.address' | translate}}</span>>
+            <mat-icon>location_on</mat-icon>
+            <span>{{'general.address' | translate}}</span>
           </ng-template>
           <div class="card-body">
             <app-address-cmp [formGroup]="formGroup" [hideGeoLocation]="true"></app-address-cmp>
@@ -159,7 +161,8 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>lock</mat-icon><span>{{'authentication.password' | translate}}</span>
+            <mat-icon>lock</mat-icon>
+            <span>{{'authentication.password' | translate}}</span>
           </ng-template>
           <div class="card-body">
             <div class="row">
@@ -167,8 +170,9 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'" matInput
-                      placeholder="{{'authentication.password' | translate}}" type="password">
-                    <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable" matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
+                           placeholder="{{'authentication.password' | translate}}" type="password">
+                    <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
+                              matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
                     <mat-error *ngIf="password.hasError('noSpace')">
                       {{"authentication.no_space_in_password" | translate}}
@@ -183,8 +187,8 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [errorStateMatcher]="parentErrorStateMatcher" [formControl]="repeatPassword"
-                      [type]="hideRepeatPassword ? 'password' : 'text'" matInput
-                      placeholder="{{'authentication.repeat_password' | translate}}" type="password">
+                           [type]="hideRepeatPassword ? 'password' : 'text'" matInput
+                           placeholder="{{'authentication.repeat_password' | translate}}" type="password">
                     <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword" class="icon-clickable" matSuffix>
                       {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
@@ -199,34 +203,41 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>link</mat-icon><span>{{'general.connectors' | translate}}</span>
+            <mat-icon>link</mat-icon>
+            <span>{{'general.connectors' | translate}}</span>
           </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
-                    <div class="d-flex flex-row align-items-center">
-                      <img src="/assets/img/integrations/concur-logo.png" class="card-logo img-thumbnail mr-3" />
-                      <h2 class="card-title">Concur</h2>
-                    </div>
+                    <a [attr.href]="getConcurUrl()" target="_blank">
+                      <div class="d-flex flex-row align-items-center">
+                        <img src="/assets/img/integrations/concur-logo.png" class="card-logo img-thumbnail mr-3"/>
+                        <h2 class="card-title">Concur</h2>
+                      </div>
+                    </a>
                   </div>
                   <div class="card-footer">
-                    <div class="d-flex flex-row align-items-center justify-content-between">
-                      <div *ngIf="concurConnection && concurConnection.createdAt">
-                        {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
+                    <div *ngIf="alreadyLinkedToConcur()"
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <div class="d-flex flex-column align-items-start">
+                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
                       </div>
-                      <a href="https://www.concursolutions.com" target="_blank">
-                        <mat-icon>launch</mat-icon>
-                      </a>
+                      <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{'users.connectors.revoke' | translate}}</span>
+                      </button>
                     </div>
-                  </div>
-
-                  <div *ngIf="!alreadyLinkedToConcur()"
-                    class="card-img-overlay card-disabled d-inline-flex justify-content-end">
-                    <button mat-raised-button color="primary" (click)="linkConcurAccount()" class="align-self-end mr-2 mb-2">
-                      <mat-icon>launch</mat-icon><span>Connect</span>
-                    </button>
+                    <div *ngIf="!alreadyLinkedToConcur()"
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <span>{{'users.connectors.not_connected' | translate}} </span>
+                      <button mat-raised-button color="primary" (click)="linkConcurAccount()">
+                        <mat-icon>launch</mat-icon>
+                        <span>{{'users.connectors.connect' | translate}}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -235,7 +246,8 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>more_horiz</mat-icon><span>{{'users.miscs' | translate}}</span>
+            <mat-icon>more_horiz</mat-icon>
+            <span>{{'users.miscs' | translate}}</span>
           </ng-template>
           <div class="card-body">
             <div class="row">
@@ -253,7 +265,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="costCenter" matInput placeholder="{{'users.cost_center' | translate}}"
-                      type="text">
+                           type="text">
                     <mat-error *ngIf="costCenter.hasError('pattern')">
                       {{"general.invalid_value" | translate}}
                     </mat-error>
@@ -264,7 +276,8 @@
             <div class="row">
               <div class="col-md-1">
                 <button mat-raised-button color="primary" (click)="getInvoice()">
-                  <mat-icon>receipt</mat-icon><span>View invoice</span>
+                  <mat-icon>receipt</mat-icon>
+                  <span>View invoice</span>
                 </button>
               </div>
             </div>
@@ -274,8 +287,9 @@
         <mat-tab disabled>
           <ng-template mat-tab-label>
             <button mat-button (click)="saveUser(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
-              <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+                    [disabled]="!formGroup.valid || !formGroup.dirty">
+              <mat-icon>save</mat-icon>
+              <span>{{'general.save' | translate}}</span>
             </button>
             <button mat-icon-button *ngIf="inDialog" mat-dialog-close>
               <mat-icon>close</mat-icon>

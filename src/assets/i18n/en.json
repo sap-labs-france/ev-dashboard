@@ -766,6 +766,7 @@
     "role_demo": "Demo",
     "role_invalid": "Invalid role",
     "user_not_found": "User not found",
+    "user_id_not_found": "User '{{userId}}' not found",
     "invalid_phone_number": "Invalid phone number",
     "invalid_tag_ids": "Only letters and numbers allowed",
     "invalid_plate_id": "Only capital letters, numbers and '-' are allowed",
@@ -827,7 +828,20 @@
     "create_success": "The user {{userFullName}} has been created successfully",
     "create_error": "Error occurred while creating the user",
     "no_users": "No users found",
-    "select_users": "Select User"
+    "select_users": "Select User",
+    "connectors": {
+      "connect": "Connect",
+      "revoke": "Revoke",
+      "created_on": "Created on",
+      "expired_on": "Expires on",
+      "not_connected": "Not connected"
+    },
+    "invoicing": {
+      "errors": {
+        "no_invoice_found": "No invoice available for your account",
+        "unable_to_get_invoice": "Error occurred while retrieving your invoice"
+      }
+    }
   },
   "tenants": {
     "title": "Tenant",
@@ -865,7 +879,7 @@
       "description": "E-Mobility provides standard and certified APIs to connect to an external E-Roaming Platform. This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface). E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
     },
     "refund": {
-      "description": "The Refunding interface allows users to be refunded for the transactions made at home.",
+      "description": "E-Mobility provides Refunds APIs for an external expense system.<br/>This feature allow the Electric Vehicle driver to push any sessions he has done to an expense system and get reimbursed of the electricity he consumed.<br/><br/>E-Mobility is currently using SAP Concur. More technical information <a href='https://www.concur.com/' target='_blank'><u>here</u></a>.",
       "not_found": "Refunding settings not found",
       "create_success": "Refunding settings have been created successfully",
       "create_error": "Error occurred while creating the Refunding settings",
@@ -882,7 +896,9 @@
         "policy_id": "Policy ID",
         "report_name": "Report Name",
         "link_success": "Your account has been successfully linked with Concur",
-        "link_error": "Error occurred while linking your account with Concur"
+        "link_error": "Error occurred while linking your account with Concur",
+        "revoke_success": "Your connection with Concur has been successfully revoked",
+        "revoke_error": "Error occurred while revoking your connection with Concur"
       }
     },
     "pricing": {

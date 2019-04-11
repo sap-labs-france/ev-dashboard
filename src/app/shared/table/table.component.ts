@@ -152,9 +152,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Date?
     if (filterDef.type === 'date') {
       // Date is one way binding: update the value manually
-      if (event.value) {
-        filterDef.currentValue = event.value;
-      }
+      filterDef.currentValue = event.value;
     }
     // Update filter
     this.filterChanged(filterDef, event);

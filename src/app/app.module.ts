@@ -112,7 +112,6 @@ registerLocaleData(localeFr, 'fr');
     // MatTooltipModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: 'fr'},
     {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter}
   ],
 })

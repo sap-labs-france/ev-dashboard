@@ -6,8 +6,7 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <h4 align="justify">
-      {{'settings.refund.description' | translate}}
+    <h4 align="justify" [innerHTML]="'settings.refund.description' | translate">
     </h4>
     <h4 *ngIf="!isActive" align="justify">
       <br>

@@ -35,7 +35,6 @@ import {
   UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
-import {DialogService} from './dialog.service';
 import {MatDialog} from '@angular/material';
 
 @Injectable()
@@ -375,7 +374,7 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
         headers: this._buildHttpHeaders(),
-        params: {ID : id}
+        params: {ID: id}
       })
       .pipe(
         catchError(this._handleHttpError)
@@ -480,7 +479,7 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
         headers: this._buildHttpHeaders(),
-        params : { ID: id }
+        params: {ID: id}
       })
       .pipe(
         catchError(this._handleHttpError)
@@ -1551,6 +1550,17 @@ export class CentralServerService {
   public createIntegrationConnection(payload: any) {
     this._checkInit();
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, payload,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteIntegrationConnection(userId: string, connectorId: string): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
       {
         headers: this._buildHttpHeaders()
       })

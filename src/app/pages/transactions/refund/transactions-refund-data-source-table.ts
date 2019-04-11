@@ -165,7 +165,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',
-        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit, locale)
       });
     }
 
@@ -185,8 +185,8 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  formatPrice(price, priceUnit): string {
-    return this.currencyPipe.transform(price, priceUnit);
+  formatPrice(price, priceUnit, locale): string {
+    return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

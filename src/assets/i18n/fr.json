@@ -830,8 +830,11 @@
     "no_users": "Aucun utilisateur n'a été trouvé",
     "select_users": "Selection Utilisateur",
     "connectors": {
-      "connect": "Connexion",
-      "revoke": "Suppression"
+      "connect": "Connecter",
+      "revoke": "Révoquer",
+      "created_on": "Créé le",
+      "expired_on": "Expire le",
+      "not_connected": "Non connecté"
     },
     "invoicing": {
       "errors": {
@@ -876,7 +879,7 @@
       "description": "E-Mobility fournit des APIs standards et certifiées permettant de se connecter à une plate-forme d'itinérance externe. Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité de la borne de recharge via le protocole standard OCPI (Open Charge Point Interface). E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
     "refund": {
-      "description": "L'application Remboursement permet aux utilisateurs de se faire rembourser les transactions réalisées à leur domicile.",
+      "description": "E-Mobility fournit des APIs de remboursement pour des systèmes externes.<br/> Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.<br/><br/>E-Mobility utilise actuellement SAP Concur. De plus amples informations techniques sont disponibles <a href='https://www.concur.com/' target='_blank'><u>ici</u></a>.",
       "not_found": "La configuration Remboursement n'est pas disponible",
       "create_success": "La configuration Remboursement a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",

@@ -22,6 +22,7 @@ export class SessionDialogComponent implements OnInit {
   private totalConsumption: number;
   private totalInactivitySecs: number;
   private totalDurationSecs: number;
+  private locale: string;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
@@ -33,6 +34,7 @@ export class SessionDialogComponent implements OnInit {
     private router: Router,
     protected dialogRef: MatDialogRef<SessionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
+    this.locale = localeService.getCurrentFullLocaleForJS();
     if (data) {
       this.transactionId = data.transactionId;
     }

@@ -12,13 +12,12 @@ import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {CurrencyPipe, PercentPipe} from '@angular/common';
+import {PercentPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {LocaleService} from '../../../services/locale.service';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
@@ -57,9 +56,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe,
-    private  currencyPipe: CurrencyPipe) {
+    private appUserNamePipe: AppUserNamePipe) {
     super();
     this.setPollingInterval(POLL_INTERVAL);
   }
@@ -146,18 +143,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs, row) {
-    const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
-    return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '1.0-0')})`
-  }
-
   formatChargingStation(chargingStation, row) {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
-  }
-
-  formatPrice(price, priceUnit): string {
-    return this.currencyPipe.transform(price, priceUnit);
   }
 
   getTableFiltersDef(): TableFilterDef[] {

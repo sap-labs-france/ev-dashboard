@@ -161,7 +161,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           name: 'transactions.price',
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
-          formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit)
+          formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit, locale)
         });
       }
     }
@@ -178,8 +178,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  formatPrice(price, priceUnit): string {
-    return this.currencyPipe.transform(price, priceUnit);
+  formatPrice(price, priceUnit, locale): string {
+    return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
   }
 
   getTableFiltersDef(): TableFilterDef[] {

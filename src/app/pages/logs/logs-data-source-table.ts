@@ -14,7 +14,8 @@ import {LogLevelTableFilter} from './filters/log-level-filter';
 import {Formatters} from '../../utils/Formatters';
 import {Utils} from '../../utils/Utils';
 import {LogActionTableFilter} from './filters/log-action-filter';
-import {LogDateTableFilter} from './filters/log-date-filter';
+import {LogDateFromTableFilter} from './filters/log-date-from-filter';
+import {LogDateUntilTableFilter} from './filters/log-date-until-filter';
 import {UserTableFilter} from '../../shared/table/filters/user-filter';
 import {AppDatePipe} from '../../shared/formatters/app-date.pipe';
 import {LogLevelComponent} from './formatters/log-level.component';
@@ -202,14 +203,16 @@ export class LogsDataSource extends TableDataSource<Log> {
   public getTableFiltersDef(): TableFilterDef[] {
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new LogDateTableFilter().getFilterDef(),
+        new LogDateFromTableFilter().getFilterDef(),
+        new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
     } else if (this.authorizationService.isAdmin()) {
       return [
-        new LogDateTableFilter().getFilterDef(),
+        new LogDateFromTableFilter().getFilterDef(),
+        new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),

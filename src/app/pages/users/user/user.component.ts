@@ -442,6 +442,23 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
+  revokeConcurAccount() {
+    this.centralServerService.deleteIntegrationConnection(this.currentUserID, 'concur').subscribe((response: ActionResponse) => {
+        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          this.messageService.showSuccessMessage('settings.refund.concur.revoke_success');
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'settings.refund.concur.revoke_error');
+        }
+        this.loadApplicationSettings();
+      }, (error) => {
+        Utils.handleError(JSON.stringify(error),
+          this.messageService, 'settings.refund.concur.revoke_error');
+        this.loadApplicationSettings();
+      }
+    );
+  }
+
   linkConcurAccount() {
     if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
       this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
@@ -455,6 +472,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href = `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+    }
+  }
+
+  getConcurUrl(): string {
+    if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
+      return this.refundSetting.content.concur.apiUrl;
     }
   }
 
@@ -492,6 +515,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
       if (this.currentUserID) {
         this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+          this.integrationConnections = undefined;
+          this.concurConnection = undefined;
           if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
             for (const connection of connectionResult.result) {
               if (connection.connectorId === 'concur') {

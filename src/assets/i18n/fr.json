@@ -828,7 +828,17 @@
     "create_success": "L'utilisateur {{userFullName}} a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'utilisateur",
     "no_users": "Aucun utilisateur n'a été trouvé",
-    "select_users": "Selection Utilisateur"
+    "select_users": "Selection Utilisateur",
+    "connectors": {
+      "connect": "Connexion",
+      "revoke": "Suppression"
+    },
+    "invoicing": {
+      "errors": {
+        "no_invoice_found": "Aucune facture disponible pour votre compte",
+        "unable_to_get_invoice": "Une erreur est survenue pendant la récupération de votre facture"
+      }
+    }
   },
   "tenants": {
     "title": "Tenant",
@@ -883,7 +893,9 @@
         "policy_id": "Policy ID",
         "report_name": "Nom de note de frais",
         "link_success": "Votre compte a été lié avec succès à Concur",
-        "link_error": "Une erreur est survenue durant la connexion avec Concur"
+        "link_error": "Une erreur est survenue durant la connexion avec Concur",
+        "revoke_success": "Votre connexion à Concur a été supprimée avec succès",
+        "revoke_error": "Une erreur est survenue durant la suppression de votre connexion avec Concur"
       }
     },
     "pricing": {

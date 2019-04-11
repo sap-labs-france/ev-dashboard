@@ -153,7 +153,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>location_on</mat-icon>
-            <span>{{'general.address' | translate}}</span>>
+            <span>{{'general.address' | translate}}</span>
           </ng-template>
           <div class="card-body">
             <app-address-cmp [formGroup]="formGroup" [hideGeoLocation]="true"></app-address-cmp>
@@ -208,31 +208,32 @@
           </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
-                    <div class="d-flex flex-row align-items-center">
-                      <img src="/assets/img/integrations/concur-logo.png" class="card-logo img-thumbnail mr-3"/>
-                      <h2 class="card-title">Concur</h2>
-                    </div>
+                    <a [attr.href]="getConcurUrl()" target="_blank">
+                      <div class="d-flex flex-row align-items-center">
+                        <img src="/assets/img/integrations/concur-logo.png" class="card-logo img-thumbnail mr-3"/>
+                        <h2 class="card-title">Concur</h2>
+                      </div>
+                    </a>
                   </div>
                   <div class="card-footer">
-                    <div *ngIf="concurConnection && concurConnection.createdAt"
+                    <div *ngIf="alreadyLinkedToConcur()"
                          class="d-flex flex-row align-items-center justify-content-between">
-                      <a [href]="getConcurUrl()" target="_blank">
-                        <mat-icon>launch</mat-icon>
-                        {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}
-                      </a>
-                      <button mat-raised-button color="warn" (click)="revokeConcurAccount()"
-                              class="align-self-end">
+                      <div class="d-flex flex-column align-items-start">
+                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                      </div>
+                      <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
                         <mat-icon>delete</mat-icon>
                         <span>{{'users.connectors.revoke' | translate}}</span>
                       </button>
                     </div>
                     <div *ngIf="!alreadyLinkedToConcur()"
-                         class="card-img-overlay card-disabled d-flex flex-row align-items-center justify-content-end">
-                      <button mat-raised-button color="primary" (click)="linkConcurAccount()"
-                              class="align-self-end mr-2 mb-2">
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <span>{{'users.connectors.not_connected' | translate}} </span>
+                      <button mat-raised-button color="primary" (click)="linkConcurAccount()">
                         <mat-icon>launch</mat-icon>
                         <span>{{'users.connectors.connect' | translate}}</span>
                       </button>

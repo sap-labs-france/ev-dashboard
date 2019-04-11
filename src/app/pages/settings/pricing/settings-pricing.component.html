@@ -47,7 +47,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field>
-                <mat-label for="inputPriceUnit" required>{{'pricing.price_unit_label' | translate}}</mat-label>
+                <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>
                 <mat-select appSetAutoFocus id="inputPriceUnit" [formControl]="currency">
                   <mat-option value="AUD">Australian Dollar</mat-option>
                   <mat-option value="BRL">Brazilian Real </mat-option>

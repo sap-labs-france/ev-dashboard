@@ -85,7 +85,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           }
           this.setNumberOfRecords(transactions.count);
           this.updatePaginator();
-          this.setData(transactions.result);
+          // Ok
+          observer.next(transactions.result);
+          observer.complete();
         }, (error) => {
           if (!refreshAction) {
             this.spinnerService.hide();

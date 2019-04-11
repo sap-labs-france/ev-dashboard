@@ -191,13 +191,14 @@
         <!-- Angular Component Cell -->
         <ng-container *ngIf="columnDef.isAngularComponent">
           <td mat-cell *matCellDef="let row" [class]="(columnDef.class ? columnDef.class : '')">
-            <app-cell-component-container [columnDef]="columnDef" [row]="row"></app-cell-component-container>
+            <!-- <app-cell-component-container [columnDef]="columnDef" [row]="row"></app-cell-component-container> -->
+            <mat-chip color="primary" selected>Primary fish</mat-chip>
           </td>
         </ng-container>
         <!-- Usual Cell -->
         <ng-container *ngIf="!columnDef.isAngularComponent">
           <td mat-cell *matCellDef="let row"
-            [class]="(columnDef.class ? columnDef.class : '')">{{row[columnDef.id]}}</td>
+            [class]="(columnDef.class ? columnDef.class : '')" [innerHTML]="row[columnDef.id]"></td>
         </ng-container>
         <!-- Footer Cell -->
         <td mat-footer-cell *matFooterCellDef [hidden]="!dataSource.isFooterEnabled">

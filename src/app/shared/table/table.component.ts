@@ -54,6 +54,19 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // setInterval(() => {
+    //   if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 15) {
+    //     // Change
+    //     const index = Math.trunc(Math.random() * 15);
+    //     console.log(this.dataSource.data[index].message);
+    //     const newData = Array.from(this.dataSource.data);
+    //     newData[index].message = 'FUCK';
+    //     this.dataSource.data.length = 0;
+    //     this.dataSource.data.push(...newData);
+    //     // Refresh table
+    //     this.table.renderRows();
+    //   }
+    // }, 2000);
     console.log('table.component - ngOnInit');
     // Handle locale (local service available only in component not possible in data-source)
     this.dataSource.setLocale(this.localService.getCurrentFullLocaleForJS());

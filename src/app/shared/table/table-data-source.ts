@@ -518,7 +518,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   abstract loadData(refreshAction): Observable<any>;
 
-  public setData(data: T[]) {
+  private setData(data: T[]) {
     console.log('table-data-source - setData');
     // Format the data
     this._formatData(data);

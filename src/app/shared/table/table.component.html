@@ -43,7 +43,7 @@
               <mat-form-field *ngIf="filterDef.type === 'date'">
                 <input matInput [placeholder]="filterDef.name | translate"
                   (dateChange)="filterChanged(filterDef, $event)" [value]="filterDef.currentValue"
-                  [matDatetimepicker]="picker" required autocomplete="false">
+                  [matDatetimepicker]="picker" autocomplete="false">
                 <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
                 <mat-datetimepicker #picker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
               </mat-form-field>
@@ -132,7 +132,7 @@
             <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
             <input matInput [placeholder]="filterDef.name | translate"
               (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
-              [value]="filterDef.currentValue" required autocomplete="false">
+              [value]="filterDef.currentValue" autocomplete="false">
           </mat-form-field>
         </div>
         <!-- Search -->

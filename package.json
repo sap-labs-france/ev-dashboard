@@ -8,6 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng serve --configuration=development",
+    "start:prod": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng serve --prod",
     "start:ssl": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng serve --configuration=development --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "npm run build:dev",
     "build:prod": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" ng build --prod",

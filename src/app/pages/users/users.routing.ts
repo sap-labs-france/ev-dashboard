@@ -23,5 +23,12 @@ export const UserRoutes: Routes = [
       }
     }
   },
-  {path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {forAdminOnly: true, forSuperAdminOnly: true}},
+  {
+    path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
+      auth: {
+        entity: Constants.ENTITY_USERS,
+        action: Constants.ACTION_LIST
+      }
+    }
+  },
 ];

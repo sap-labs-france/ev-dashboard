@@ -211,10 +211,10 @@
         <th mat-header-cell *matHeaderCellDef class="col-3em details-column-header"></th>
         <!-- Cell -->
         <td mat-cell *matCellDef="let row" [class]="'col-3em details-column-row'">
-          <button mat-button (click)="showHideDetailsClicked(row)" class="button-details"
-            *ngIf="dataSource.tableDef && dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row[dataSource.tableDef.rowDetails.hideShowField] : true">
-            <mat-icon>{{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
-          </button>
+          <mat-icon (click)="showHideDetailsClicked(row['data'])"
+            *ngIf="this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hideShowField ? row['data'][this.tableDef.rowDetails.hideShowField] : true">
+            {{row.isExpanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
+          </mat-icon>
         </td>
         <!-- Footer -->
         <td *matFooterCellDef [hidden]="!dataSource.isFooterEnabled" mat-footer-cell></td>

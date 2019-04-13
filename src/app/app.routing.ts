@@ -34,6 +34,10 @@ export const AppRoutes: Routes = [
             icon: 'dashboard',
             path: '/dashboard'
           },
+          auth: {
+            entity: Constants.ENTITY_CHARGING_STATIONS,
+            action: Constants.ACTION_LIST
+          },
           options: {
             onlyDev: true
           }
@@ -104,19 +108,26 @@ export const AppRoutes: Routes = [
             icon: 'business',
             path: '/organization'
           },
+          auth: {
+            entity: Constants.ENTITY_COMPANIES,
+            action: Constants.ACTION_LIST
+          },
           component: ComponentEnum.ORGANIZATION
         }
       },
       {
         path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule',
-         data: {
+        data: {
           menu: {
             title: 'settings',
             type: 'link',
             icon: 'settings',
             path: '/settings'
           },
-          forAdminOnly: true
+          auth: {
+            entity: Constants.ENTITY_SETTINGS,
+            action: Constants.ACTION_LIST
+          }
         }
       },
       {
@@ -135,7 +146,12 @@ export const AppRoutes: Routes = [
       },
       {
         path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
-        data: {forAdminOnly: true, forSuperAdminOnly: true}
+        data: {
+          auth: {
+            entity: Constants.ENTITY_LOGGINGS,
+            action: Constants.ACTION_LIST
+          }
+        }
       },
       {
         path: 'template',

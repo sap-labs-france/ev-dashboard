@@ -38,7 +38,9 @@ export class SettingsPricingComponent implements OnInit {
     private router: Router
   ) {
     this.isActive = componentService.isActive(ComponentEnum.PRICING);
-    this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(ComponentEnum.PRICING + '_'));
+    if (this.isActive) {
+      this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(ComponentEnum.PRICING + '_'));
+    }
   }
 
   ngOnInit(): void {

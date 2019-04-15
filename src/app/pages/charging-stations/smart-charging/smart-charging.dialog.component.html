@@ -1,3 +1,45 @@
+<!-- Potential mat-tab-structure -->
+<!-- <div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+            <mat-icon>battery_charging_full</mat-icon>
+            <span>{{charger.id}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div *ngIf="charger.maximumPower" class="row">
+            <div class="col-md-6">
+              <app-smart-charging-limit-planning #limitPlanning [charger]="charger"
+                (onLimitChange)="limitChange($event)"></app-smart-charging-limit-planning>
+            </div>
+            <div class="col-md-6">
+              <app-smart-charging-master-limit #masterLimit [charger]="charger"
+                (onApplyPlanning)="planningChanged($event)"></app-smart-charging-master-limit>
+            </div>
+            <div class="col-md-12">
+              <app-smart-charging-limit-planner #limitPlanner [charger]="charger"
+                (onApplyPlanning)="planningChanged($event)"></app-smart-charging-limit-planner>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-label>
+          <button mat-button (click)="clearProfiles()"
+            [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
+            <mat-icon>delete_sweep</mat-icon>
+            <span>{{'chargers.smart_charging.clear_profiles_button' | translate}}</span>
+          </button>
+          <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div> -->
+
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">

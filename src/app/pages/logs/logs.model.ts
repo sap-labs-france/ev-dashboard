@@ -35,6 +35,7 @@ export const logActions: KeyValue[] = [
   {key: 'NotifyTransactionStarted', value: 'NotifyTransactionStarted'},
   {key: 'NotifyUnknownUserBadged', value: 'NotifyUnknownUserBadged'},
   {key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged'},
+  {key: 'OCPIPatchLocations', value: 'OCPIPatchLocations'},
   {key: 'PricingUpdate', value: 'PricingUpdate'},
   {key: 'RegisterUser', value: 'RegisterUser'},
   {key: 'VerifyEmail', value: 'VerifyEmail'},

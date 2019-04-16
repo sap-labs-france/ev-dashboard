@@ -111,7 +111,6 @@
   border: 0;
   margin: 0;
   min-width: 9em !important;
-  justify-content: end !important;
   border-radius: $border-radius-base;
   line-height: $mdb-btn-font-size-base * 2;
   font-size: $mdb-btn-font-size-base;
@@ -130,11 +129,13 @@
   .btn-link {
     color: white !important;
   }
+
 }
 
 .mat-tab-disabled {
   margin-left: auto !important;
   padding: 0 !important;
+  justify-content: end !important;
 
   &:hover {
     background: transparent;

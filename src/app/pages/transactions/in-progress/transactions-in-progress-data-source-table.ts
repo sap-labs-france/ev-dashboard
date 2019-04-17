@@ -32,6 +32,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 
 const POLL_INTERVAL = 10000;
@@ -51,6 +52,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private appDatePipe: AppDatePipe,
     private percentPipe: PercentPipe,
@@ -201,8 +203,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   getTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new ChargerTableFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()];
+      new ChargerTableFilter().getFilterDef()
+    ];
+
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+      filters.push(new SiteAreasTableFilter().getFilterDef());
+    }
+    
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:

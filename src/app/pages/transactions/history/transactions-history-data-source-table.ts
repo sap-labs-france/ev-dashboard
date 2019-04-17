@@ -186,9 +186,13 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new ChargerTableFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()
+      new ChargerTableFilter().getFilterDef()
     ];
+
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+      filters.push(new SiteAreasTableFilter().getFilterDef());
+    }
 
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:

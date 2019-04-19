@@ -266,8 +266,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public openSession(transaction: Transaction) {
-    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
-        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
         const dialogConfig = new MatDialogConfig();
         dialogConfig.minWidth = '80vw';
         dialogConfig.minHeight = '80vh';
@@ -276,15 +274,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.panelClass = 'transparent-dialog-container';
         dialogConfig.data = {
           transactionId: transaction.id,
-          siteArea: siteArea,
-          connector: chargeBox.connectors[transaction.connectorId],
         };
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
         this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
-
-      }
-    )
   }
-
 }

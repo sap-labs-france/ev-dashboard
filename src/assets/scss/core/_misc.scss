@@ -60,7 +60,6 @@ a {
   z-index: 3;
 }
 
-.form-check,
 label {
   font-size: 14px;
   line-height: 1.42857;
@@ -91,37 +90,8 @@ label {
 .animation-transition-fast,
 .navbar,
 .bootstrap-tagsinput .tag,
-.bootstrap-tagsinput [data-role="remove"],
-.card-collapse .card-header a i {
+.bootstrap-tagsinput [data-role="remove"] {
   @include transitions($fast-transition-time, $transition-ease);
-}
-
-.signup-page {
-  .card-signup {
-    form {
-      .form-check {
-        padding-left: 20px;
-        .form-check-label {
-          padding-left: 35px;
-        }
-      }
-    }
-  }
-}
-
-// style for index.html (free version)
-.section-signup {
-  .card-signup {
-    .card-header {
-      width: auto;
-    }
-    .card-body {
-      .input-group {
-        padding-bottom: 7px;
-        margin: 27px 0 0 0;
-      }
-    }
-  }
 }
 
 // offline-doc

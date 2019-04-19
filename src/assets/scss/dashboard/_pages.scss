@@ -199,83 +199,6 @@
 
 .register-page {
 
-  .card-signup {
-    border-radius: $border-radius-base * 2;
-    @include shadow-16dp();
-    margin-bottom: 100px;
-    padding: 40px 0px;
-    margin-top: 15vh;
-
-    .info {
-      max-width: 360px;
-      margin: 0 auto;
-      padding: 0px;
-
-      .info-title {
-        color: #3C4858;
-        margin: 30px 0 15px;
-      }
-    }
-
-    .form-check {
-      margin-top: 20px;
-      margin-bottom: 0;
-
-      label {
-        margin-left: 27px;
-      }
-
-      .checkbox-material {
-        padding-right: 20px;
-      }
-      a {
-        color: $brand-text;
-        font-weight: 500;
-      }
-    }
-
-    .info-horizontal {
-
-      .icon {
-        float: left;
-        margin-top: 24px;
-        margin-right: 10px;
-
-        i {
-          font-size: 2.6em;
-        }
-
-        &.icon-primary {
-          color: $brand-text;
-        }
-        &.icon-info {
-          color: $brand-info;
-        }
-        &.icon-success {
-          color: $brand-success;
-        }
-        &.icon-warning {
-          color: $brand-warning;
-        }
-        &.icon-danger {
-          color: $brand-warn;
-        }
-        &.icon-rose {
-          color: $brand-info;
-        }
-      }
-
-      .description {
-        overflow: hidden;
-      }
-    }
-
-    .form-group {
-      margin: 27px 0 0 7px;
-      padding-bottom: 0;
-    }
-  }
-
   .container {
     position: relative;
     z-index: 3;
@@ -298,17 +221,6 @@
       }
     }
   }
-
-  .form-check {
-    label {
-      margin-left: 27px;
-    }
-    .form-check-label {
-      padding-left: 34px;
-    }
-
-  }
-
 }
 
 .off-canvas-sidebar {

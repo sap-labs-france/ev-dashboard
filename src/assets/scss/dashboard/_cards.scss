@@ -2,11 +2,6 @@
 // cards
 @import "../core/cards/card-testimonials";
 @import "../core/cards/card-profile";
-@import "../core/cards/card-blog";
-@import "../core/cards/card-product";
-@import "../core/cards/card-pricing";
-@import "../core/cards/card-signup";
-@import "../core/cards/card-form-horizontal";
 @import "../core/cards/card-background";
 
 // dashboard Cards
@@ -106,15 +101,6 @@
         .btn-link {
           color: white !important;
         }
-      }
-    }
-  }
-
-  &.card-plain {
-    .card-header {
-      &.card-header-icon + .card-body .card-title,
-      &.card-header-icon + .card-body .card-category {
-        margin-top: -20px;
       }
     }
   }
@@ -320,9 +306,5 @@
 
   .card-body.table-full-width {
     padding: 0;
-  }
-
-  .card-plain .card-header-icon {
-    margin-right: 15px !important;
   }
 }

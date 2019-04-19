@@ -415,22 +415,8 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.visible-on-sidebar-regular {
-  display: inline-block !important;
-}
-
-.visible-on-sidebar-mini {
-  display: none !important;
-}
-
 @media (min-width: 991px) {
   .sidebar-mini {
-    .visible-on-sidebar-regular {
-      display: none !important;
-    }
-    .visible-on-sidebar-mini {
-      display: inline-block !important;
-    }
     .sidebar,
     .sidebar .sidebar-wrapper {
       width: 80px;

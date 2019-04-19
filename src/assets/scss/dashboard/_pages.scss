@@ -64,12 +64,6 @@
 
 }
 
-.clear-filter {
-  &:before {
-    display: none;
-  }
-}
-
 .login-page,
 .lock-page {
   > .content {
@@ -317,53 +311,6 @@
 
 }
 
-.pricing-page {
-  padding: 0 !important;
-
-  .title {
-    color: $brand-text;
-    margin-top: 5vh;
-  }
-
-  .section-space {
-    display: block;
-    height: 70px;
-  }
-
-  .card-plain {
-    .icon i,
-    .card-title {
-      color: $brand-background;
-    }
-  }
-
-  .description {
-    color: $brand-text;
-  }
-  &.full-page:before {
-    background-color: rgba(0, 0, 0, 0.65);
-  }
-
-  .footer {
-    z-index: 2;
-    color: $brand-text;
-
-    .container {
-      padding: 0;
-    }
-    .copyright {
-      a {
-        color: $brand-text;
-        font-weight: 500;
-
-        &:hover {
-          color: $brand-text;
-        }
-      }
-    }
-  }
-}
-
 .off-canvas-sidebar {
   .navbar-toggler .navbar-toggler-icon {
     background-color: $brand-text !important;
@@ -384,14 +331,6 @@
     }
     &:after {
       background-color: #282828;
-    }
-  }
-}
-
-.offline-doc {
-  .navbar .navbar-nav {
-    .nav-item .nav-link {
-      color: $brand-background;
     }
   }
 }

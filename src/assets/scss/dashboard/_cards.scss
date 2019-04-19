@@ -5,7 +5,6 @@
 @import "../core/cards/card-blog";
 @import "../core/cards/card-product";
 @import "../core/cards/card-pricing";
-@import "../core/cards/card-collapse";
 @import "../core/cards/card-signup";
 @import "../core/cards/card-form-horizontal";
 @import "../core/cards/card-background";
@@ -141,17 +140,6 @@
     .fix-broken-card {
       position: absolute;
       top: -65px;
-    }
-  }
-
-  &.card-chart {
-    .card-footer i:nth-child(1n+2) {
-      width: 18px;
-      text-align: center;
-    }
-
-    .card-category {
-      margin: 0;
     }
   }
 
@@ -336,75 +324,5 @@
 
   .card-plain .card-header-icon {
     margin-right: 15px !important;
-  }
-}
-
-.table-sales {
-  margin-top: 40px;
-}
-
-.iframe-container {
-  margin: 0 -20px 0;
-
-  iframe {
-    width: 100%;
-    height: 500px;
-    border: 0;
-    @include shadow-big();
-  }
-}
-
-.card-wizard {
-  .nav.nav-pills {
-    .nav-item {
-      margin: 0;
-
-      .nav-link {
-        padding: 6px 15px !important;
-      }
-    }
-  }
-  .mat-form-field {
-    width: 80%;
-    font-size: 14px;
-    top: 3px;
-  }
-  .nav-pills:not(.flex-column) .nav-item + .nav-item:not(:first-child) {
-    margin-left: 0;
-  }
-
-  .nav-item .nav-link.active,
-  .nav-item .nav-link:hover,
-  .nav-item .nav-link:focus {
-    background-color: inherit !important;
-    box-shadow: none !important;
-  }
-
-  .input-group-text {
-    padding: 6px 15px 0px !important;
-  }
-  .card-footer {
-    border-top: none !important;
-  }
-}
-
-.card-chart,
-.card-product {
-  .card-body + .card-footer {
-    border-top: 1px solid #eee;
-  }
-}
-
-.card-product {
-  .price {
-    color: inherit;
-  }
-}
-
-.card-collapse {
-  margin-bottom: 15px;
-
-  .card .card-header a[aria-expanded="true"] {
-    color: #e91e63;
   }
 }

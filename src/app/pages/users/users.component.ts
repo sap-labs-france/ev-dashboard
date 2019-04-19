@@ -59,9 +59,9 @@ export class UsersComponent extends AbstractTabComponent implements OnInit {
         default:
           this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
           break;
-      }   
+      }
       // Clear Search
       this.windowService.deleteSearch('UserID');
     }
-  }    
+  }
 }

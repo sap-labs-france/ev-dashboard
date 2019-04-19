@@ -406,6 +406,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   private _startTransactionAsAdmin(connector: Connector): boolean {
     // Create dialog data
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
       title: 'chargers.start_transaction_admin_title',

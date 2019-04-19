@@ -101,7 +101,14 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     const locale = this.localeService.getCurrentFullLocaleForJS();
 
     const columns = [];
-    columns.push({
+    columns.push(
+      {
+        id: 'refundData.refundedAt',
+        name: 'transactions.refundDate',
+        sortable: true,
+        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+      },
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -148,12 +155,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
     });
     if (this.isAdmin) {
-      columns.push({
-        id: 'refundData.refundedAt',
-        name: 'transactions.refundDate',
-        sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
-      });
       columns.push({
         id: 'stop.price',
         name: 'transactions.price',

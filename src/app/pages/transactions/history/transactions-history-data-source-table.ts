@@ -311,36 +311,39 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public openSession(transaction: Transaction) {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '80vh';
-    dialogConfig.width = '80vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-
-    console.log(`LoggedUser : ${JSON.stringify(this.centralServerService.getLoggedUser())}`)
 
     // If Organization is active then get site area informations
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
       this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
         const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.minWidth = '80vw';
+        dialogConfig.minHeight = '80vh';
+        dialogConfig.height = '80vh';
+        dialogConfig.width = '80vw';
+        dialogConfig.panelClass = 'transparent-dialog-container';
         dialogConfig.data = {
           transactionId: transaction.id,
           siteArea: siteArea,
           connector: chargeBox.connectors[transaction.connectorId],
         };
-    // Open the session's detail dialog
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
-
+        // Open
+        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+        this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
       })
     } else {
-      dialogConfig.data = { transactionId: transaction.id };
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.minWidth = '80vw';
+      dialogConfig.minHeight = '80vh';
+      dialogConfig.height = '80vh';
+      dialogConfig.width = '80vw';
+      dialogConfig.panelClass = 'transparent-dialog-container';
+      dialogConfig.data = {
+        transactionId: transaction.id
+      };
+      // Open
+      this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+      this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
     }
-    console.log(`dialogConfig : ${JSON.stringify(dialogConfig)}`)
-    
-    // Open the session's detail dialog
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
   }
 }

@@ -2,6 +2,11 @@
 // Modals
 // Material Design element Dialogs
 // --------------------------------------------------
+
+.cdk-overlay-container {
+  z-index:9999 !important
+}
+
 .dialog-title {
   border-bottom-width: 1px;
   border-bottom-style: solid;

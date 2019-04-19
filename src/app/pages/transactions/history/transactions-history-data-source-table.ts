@@ -311,7 +311,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public openSession(transaction: Transaction) {
-    let chargeBox;
     let dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
@@ -319,19 +318,26 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     dialogConfig.width = '80vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
 
+    console.log(`LoggedUser : ${JSON.stringify(this.centralServerService.getLoggedUser())}`)
+
     // If Organization is active then get site area informations
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
       this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
-        chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
+        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
         dialogConfig.data = {
           transactionId: transaction.id,
           siteArea: siteArea,
           connector: chargeBox.connectors[transaction.connectorId],
         };
+    // Open the session's detail dialog
+    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
+
       })
     } else {
       dialogConfig.data = { transactionId: transaction.id };
     }
+    console.log(`dialogConfig : ${JSON.stringify(dialogConfig)}`)
     
     // Open the session's detail dialog
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);

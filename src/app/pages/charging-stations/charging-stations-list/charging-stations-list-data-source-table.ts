@@ -93,27 +93,35 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         // Show
         this.spinnerService.show();
       }
-      // Set number of records
-      this.setNumberOfRecords(chargers.count);
-      // Update details status
-      chargers.result.forEach(charger => {
-        // At first filter out the connectors that are null
-        charger.connectors = charger.connectors.filter(connector => connector != null);
-        charger.connectors.forEach(connector => {
-          connector.hasDetails = connector.activeTransactionID > 0;
+      // Get data
+      this.centralServerService.getChargers(this.buildFilterValues(),
+        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+        if (!refreshAction) {
+          // Show
+          this.spinnerService.hide();
+        }
+        // Set number of records
+        this.setNumberOfRecords(chargers.count);
+        // Update details status
+        chargers.result.forEach(charger => {
+          // At first filter out the connectors that are null
+          charger.connectors = charger.connectors.filter(connector => connector != null);
+          charger.connectors.forEach(connector => {
+            connector.hasDetails = connector.activeTransactionID > 0;
+          });
+          // Update page length
+          this.updatePaginator();
+          // Ok
+          observer.next(chargers.result);
+          observer.complete();
+        }, (error) => {
+          // Show
+          this.spinnerService.hide();
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
         });
-        // Update page length
-        this.updatePaginator();
-        // Ok
-        observer.next(chargers.result);
-        observer.complete();
-      }, (error) => {
-        // Show
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
       });
     });
   }

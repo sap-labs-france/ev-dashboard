@@ -11,8 +11,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {PercentPipe} from '@angular/common';
+import {CurrencyPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
@@ -56,6 +55,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private appDatePipe: AppDatePipe,
+    private currencyPipe: CurrencyPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe) {
     super();
@@ -74,24 +74,24 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         this.spinnerService.show();
       }
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
-        .subscribe((transactions) => {
-          if (!refreshAction) {
-            this.spinnerService.hide();
-          }
-          this.formatErrorMessages(transactions.result);
-          this.setNumberOfRecords(transactions.count);
-          this.updatePaginator();
-          // Ok
-          observer.next(transactions.result);
-          observer.complete();
-        }, (error) => {
-          if (!refreshAction) {
-            this.spinnerService.hide();
-          }
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+          .subscribe((transactions) => {
+        if (!refreshAction) {
+          this.spinnerService.hide();
+        }
+        this.formatErrorMessages(transactions.result);
+        this.setNumberOfRecords(transactions.count);
+        this.updatePaginator();
+        // Ok
+        observer.next(transactions.result);
+        observer.complete();
+      }, (error) => {
+        if (!refreshAction) {
+          this.spinnerService.hide();
+        }
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 

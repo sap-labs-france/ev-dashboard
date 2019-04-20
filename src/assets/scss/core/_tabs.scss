@@ -129,11 +129,13 @@
   .btn-link {
     color: white !important;
   }
+
 }
 
 .mat-tab-disabled {
   margin-left: auto !important;
   padding: 0 !important;
+  justify-content: end !important;
 
   &:hover {
     background: transparent;

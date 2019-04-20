@@ -16,7 +16,6 @@ import {DialogService} from '../../../services/dialog.service';
 import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
-import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {ConnectorCellComponent} from '../../../shared/component/connector/connector-cell.component';
@@ -32,6 +31,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 
 const POLL_INTERVAL = 10000;
@@ -42,23 +42,23 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   private dialogRefSession;
 
   constructor(
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private spinnerService: SpinnerService,
-      private dialogService: DialogService,
-      private localeService: LocaleService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private appDatePipe: AppDatePipe,
-      private percentPipe: PercentPipe,
-      private appUnitPipe: AppUnitPipe,
-      private appBatteryPercentagePipe: AppBatteryPercentagePipe,
-      private appConnectorIdPipe: AppConnectorIdPipe,
-      private appUserNamePipe: AppUserNamePipe,
-      private appDurationPipe: AppDurationPipe) {
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private localeService: LocaleService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
+    private appDatePipe: AppDatePipe,
+    private percentPipe: PercentPipe,
+    private appUnitPipe: AppUnitPipe,
+    private appBatteryPercentagePipe: AppBatteryPercentagePipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe) {
     super();
     // Init
     this.initDataSource();
@@ -209,8 +209,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new ChargerTableFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()];
+      new ChargerTableFilter().getFilterDef()
+    ];
+
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+      filters.push(new SiteAreasTableFilter().getFilterDef());
+    }
+    
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -268,8 +274,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public openSession(transaction: Transaction) {
-    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
-        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
         const dialogConfig = new MatDialogConfig();
         dialogConfig.minWidth = '80vw';
         dialogConfig.minHeight = '80vh';
@@ -278,15 +282,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.panelClass = 'transparent-dialog-container';
         dialogConfig.data = {
           transactionId: transaction.id,
-          siteArea: siteArea,
-          connector: chargeBox.connectors[transaction.connectorId],
         };
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
         this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
-
-      }
-    )
   }
-
 }

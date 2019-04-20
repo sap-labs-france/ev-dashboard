@@ -41,8 +41,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     // Init
     this.initDataSource();
     this.tableActionsRow = [
-      new TableOpenAction().getActionDef(),
       new TableEditAction().getActionDef(),
+      new TableOpenAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ];
   }

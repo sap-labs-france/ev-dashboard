@@ -33,8 +33,6 @@ export class UsersDataSource extends DialogTableDataSource<User> {
           this.spinnerService.hide();
           // Set number of records
           this.setNumberOfRecords(users.count);
-          // Update page length (number of sites is in User)
-          this.updatePaginator();
           // Ok
           observer.next(users.result);
           observer.complete();

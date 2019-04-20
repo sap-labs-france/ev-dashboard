@@ -71,8 +71,6 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
           this.spinnerService.hide();
           // Update nbr records
           this.setNumberOfRecords(ocpiendpoints.count);
-          // Update Paginator
-          this.updatePaginator();
           // Ok
           observer.next(ocpiendpoints.result);
           observer.complete();

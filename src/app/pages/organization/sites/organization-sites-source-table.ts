@@ -65,8 +65,6 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
           this.spinnerService.hide();
           // Update nbr records
           this.setNumberOfRecords(sites.count);
-          // Update Paginator
-          this.updatePaginator();
           // Notify
           this.getDataSubjet().next(sites.result);
           // Ok

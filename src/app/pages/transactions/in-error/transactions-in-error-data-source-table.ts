@@ -80,7 +80,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         }
         this.formatErrorMessages(transactions.result);
         this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
         // Ok
         observer.next(transactions.result);
         observer.complete();

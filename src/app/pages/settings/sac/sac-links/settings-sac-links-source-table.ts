@@ -87,8 +87,6 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
             }
             // Update nbr records
             this.setNumberOfRecords(links.length);
-            // Update Paginator
-            this.updatePaginator();
             // Ok
             observer.next(links);
             observer.complete();

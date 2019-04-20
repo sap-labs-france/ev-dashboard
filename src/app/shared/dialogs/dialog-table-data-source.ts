@@ -12,7 +12,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
     return {
       class: 'table-dialog-list',
       rowSelection: {
-        enabled: true,
+        enabled: false,
         multiple: false
       },
       search: {

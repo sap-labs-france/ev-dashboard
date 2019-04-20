@@ -67,8 +67,6 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
         this.buildPaging(), this.buildOrdering()).subscribe((users) => {
         // Update nbr records
         this.setNumberOfRecords(users.count);
-        // Update Paginator
-        this.updatePaginator();
         // Ok
         observer.next(users.result);
         observer.complete();

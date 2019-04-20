@@ -74,8 +74,6 @@ export class LogsDataSource extends TableDataSource<Log> {
         }
         // Set number of records
         this.setNumberOfRecords(logs.count);
-        // Update page length
-        this.updatePaginator();
         // Add the users in the message
         logs.result.map((log) => {
           let user;

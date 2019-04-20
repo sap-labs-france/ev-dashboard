@@ -76,7 +76,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         .subscribe((transactions) => {
           this.spinnerService.hide();
           this.setNumberOfRecords(transactions.count);
-          this.updatePaginator();
           // Ok
           observer.next(transactions.result);
           observer.complete();

@@ -1,14 +1,11 @@
-import {BehaviorSubject, interval, Observable, of, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
-import {MatPaginator, MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
-
 import * as _ from 'lodash';
-import {takeWhile} from 'rxjs/operators';
 
 export abstract class TableDataSource<T> implements DataSource<T> {
   public tableRowActionsDef: TableActionDef[];
@@ -30,8 +27,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchInput: ElementRef;
-  private paginator: MatPaginator;
-  private sort: MatSort;
   private numberOfRecords = 0;
   private tableActionsDef: TableActionDef[];
   private locale;
@@ -55,8 +50,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public disconnect(collectionViewer: CollectionViewer): void {
     console.log('table-data-source - disconnect');
     this._isDestroyed = true;
-    this.paginator = null;
-    this.sort = null;
 
     this.dataSubject.complete();
   }
@@ -125,27 +118,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.dataSubject;
   }
 
-  public setPaginator(paginator: MatPaginator) {
-    console.log('table-data-source - setPaginator');
-    this.paginator = paginator;
-  }
-
-  public getPaginator(): MatPaginator {
-    console.log('table-data-source - getPaginator');
-    // Return one of them
-    return this.paginator;
-  }
-
-  public setSort(sort: MatSort) {
-    console.log('table-data-source - setSort');
-    this.sort = sort;
-  }
-
-  public getSort(): MatSort {
-    console.log('table-data-source - getSort');
-    return this.sort;
-  }
-
   public setSearchInput(searchInput: ElementRef) {
     console.log('table-data-source - setSearchInput');
     this.searchInput = searchInput;
@@ -165,50 +137,43 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return '';
   }
 
-  public updatePaginator() {
-    console.log('table-data-source - updatePaginator');
-    if (this.paginator) { // Might happen in case destroy occurs before the end of the loadData
-      this.paginator.length = this.getNumberOfRecords();
-    }
-  }
-
-  public getPaginatorPageSizes() {
-    console.log('table-data-source - getPaginatorPageSizes');
-    return [50, 100, 250, 500];
-  }
-
   public buildPaging(): Paging {
     console.log('table-data-source - getPaging');
-    if (this.getPaginator()) {
-      return {
-        skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-        limit: this.getPaginator().pageSize
-      };
-    } else {
-      return {
-        skip: 0,
-        limit: this.getPaginatorPageSizes()[0]
-      };
+    return {
+      skip: 0,
+      limit: 100
     }
+    // if (this.getPaginator()) {
+    //   return {
+    //     skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
+    //     limit: this.getPaginator().pageSize
+    //   };
+    // } else {
+    //   return {
+    //     skip: 0,
+    //     limit: this.getPaginatorPageSizes()[0]
+    //   };
+    // }
   }
 
   public buildOrdering(): Ordering[] {
     console.log('table-data-source - getOrdering');
-    if (this.getSort()) {
-      return [
-        {field: this.getSort().active, direction: this.getSort().direction}
-      ]
-    } else {
-      // Find Sorted columns
-      const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
-      // Found?
-      if (columnDef) {
-        // Yes: Set Sorting
-        return [
-          {field: columnDef.id, direction: columnDef.direction}
-        ]
-      }
-    }
+    return [];
+    // if (this.getSort()) {
+    //   return [
+    //     {field: this.getSort().active, direction: this.getSort().direction}
+    //   ]
+    // } else {
+    //   // Find Sorted columns
+    //   const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
+    //   // Found?
+    //   if (columnDef) {
+    //     // Yes: Set Sorting
+    //     return [
+    //       {field: columnDef.id, direction: columnDef.direction}
+    //     ]
+    //   }
+    // }
   }
 
   public setNumberOfRecords(numberOfRecords: number) {
@@ -327,7 +292,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       case 'reset_filters':
         this.setSearchValue('');
         this.resetFilters();
-        this.loadData(false);
+        this.loadDataAndFormat(false).subscribe();
         break;
     }
   }
@@ -381,7 +346,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
     this._ongoingAutoRefresh.next(true);
     const startDate = new Date().getTime();
-    this.loadData(true);
+    this.loadDataAndFormat(true).subscribe();
     const endDate = new Date().getTime();
     // display the spinner at min 1s
     if (endDate - startDate > 1000) {
@@ -409,7 +374,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // Start manual refresh
     this._ongoingManualRefresh.next(true);
     const startDate = new Date().getTime();
-    this.loadData(true);
+    this.loadDataAndFormat(true).subscribe();
     const endDate = new Date().getTime();
     // display the spinner for min 1s
     if (endDate - startDate > 1000) {
@@ -500,8 +465,8 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public loadDataFromUI(refreshAction: boolean): Observable<any> {
-    console.log('table-data-source - loadDataFromUI');
+  public loadDataAndFormat(refreshAction: boolean): Observable<any> {
+    console.log('table-data-source - loadDataAndFormat');
     return new Observable((observer) => {
       // Load data source
       this.loadData(false).subscribe((data) => {

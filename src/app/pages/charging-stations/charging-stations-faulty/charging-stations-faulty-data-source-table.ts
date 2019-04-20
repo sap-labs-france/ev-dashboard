@@ -115,8 +115,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
               connector.hasDetails = connector.activeTransactionID > 0;
             });
           });
-          // Update page length
-          this.updatePaginator();
           // Ok
           observer.next(chargers.result);
           observer.complete();

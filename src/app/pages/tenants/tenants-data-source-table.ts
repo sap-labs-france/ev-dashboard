@@ -62,8 +62,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
         this.spinnerService.hide();
         // Update nbr records
         this.setNumberOfRecords(tenants.count);
-        // Update Paginator
-        this.updatePaginator();
         // Ok
         observer.next(tenants.result);
         observer.complete();

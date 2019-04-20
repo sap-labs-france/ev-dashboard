@@ -39,8 +39,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
           // Set number of records
           this.setNumberOfRecords(sites.count);
-          // Update Paginator
-          this.updatePaginator();
           // Notify
           this.getDataSubjet().next(sites.result);
           // Ok
@@ -53,7 +51,6 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           observer.error(error);
         });
       } else {
-        this.updatePaginator();
         observer.next([]);
         observer.complete();
       }

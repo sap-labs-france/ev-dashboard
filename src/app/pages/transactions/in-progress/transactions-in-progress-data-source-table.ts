@@ -80,7 +80,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
             this.spinnerService.hide();
           }
           this.setNumberOfRecords(transactions.count);
-          this.updatePaginator();
           // Ok
           observer.next(transactions.result);
           observer.complete();

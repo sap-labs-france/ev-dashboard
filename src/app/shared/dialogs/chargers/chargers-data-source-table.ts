@@ -33,8 +33,6 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
           this.spinnerService.hide();
           // Set number of records
           this.setNumberOfRecords(chargers.count);
-          // Update page length (number of sites is in User)
-          this.updatePaginator();
           // Ok
           observer.next(chargers.result);
           observer.complete();

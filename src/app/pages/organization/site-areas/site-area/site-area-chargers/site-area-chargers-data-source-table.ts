@@ -43,8 +43,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
             // Set number of records
             this.setNumberOfRecords(chargers.count);
-            // Update Paginator
-            this.updatePaginator();
             // Notify
             this.getDataSubjet().next(chargers.result);
             // Ok
@@ -57,7 +55,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
             observer.error(error);
           });
       } else {
-        this.updatePaginator();
         // Ok
         observer.next([]);
         observer.complete();

@@ -32,8 +32,6 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
           this.spinnerService.hide();
           // Set number of records
           this.setNumberOfRecords(siteAreas.count);
-          // Update page length (number of sites is in User)
-          this.updatePaginator();
           // Ok
           observer.next(siteAreas.result);
           observer.complete();

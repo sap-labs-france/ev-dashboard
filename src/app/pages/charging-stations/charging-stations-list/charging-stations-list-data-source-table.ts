@@ -109,8 +109,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           charger.connectors.forEach(connector => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
-          // Update page length
-          this.updatePaginator();
           // Ok
           observer.next(chargers.result);
           observer.complete();

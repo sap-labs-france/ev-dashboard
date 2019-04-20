@@ -31,8 +31,6 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
         this.spinnerService.hide();
         // Set number of records
         this.setNumberOfRecords(companies.count);
-        // Update page length
-        this.updatePaginator();
         // Ok
         observer.next(companies.result);
         observer.complete();

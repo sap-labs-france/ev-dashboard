@@ -16,7 +16,6 @@ import {ColorsTemplateComponent} from './colors/colors.component';
 import { FormsTemplateComponent } from './forms/forms.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs.component';
 import { TableTemplateComponent } from './table-template/table-template.component';
-import { BasicTableComponent } from './table-template/basic-table/basic-table.component';
 
 @NgModule({
   imports: [
@@ -39,7 +38,6 @@ import { BasicTableComponent } from './table-template/basic-table/basic-table.co
     FormsTemplateComponent,
     DialogsTemplateComponent,
     TableTemplateComponent,
-    BasicTableComponent
   ],
   entryComponents: [
     ButtonsTemplateComponent,

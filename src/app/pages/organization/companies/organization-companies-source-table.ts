@@ -62,8 +62,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
           this.spinnerService.hide();
           // Update nbr records
           this.setNumberOfRecords(companies.count);
-          // Update Paginator
-          this.updatePaginator();
           // Notify
           this.getDataSubjet().next(companies.result);
           // lookup for logo otherwise assign default

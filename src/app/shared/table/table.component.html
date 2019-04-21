@@ -19,7 +19,8 @@
           <div *ngIf="dataSource.hasFilters || dataSource.isSearchEnabled"
             class="d-flex flex-wrap col filter-row filter-row-with-action">
             <!-- Create Filters -->
-            <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index" [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
+            <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
+              [class]="(filterDef.class ? 'd-flex ' + filterDef.class: 'd-flex col')">
               <!-- Dropdown Filter -->
               <mat-form-field *ngIf="filterDef.type === 'dropdown'">
                 <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
@@ -59,9 +60,9 @@
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
           <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Refresh Action Button -->
-            <button mat-raised-button class="button-refresh" (click)="actionTriggered(actionRightDef)" *ngIf="actionRightDef.id === 'refresh'"
-              [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip="" data-toggle="tooltip"
-              data-placement="bottom" [title]="actionRightDef.tooltip | translate">
+            <button mat-raised-button class="button-refresh" (click)="actionTriggered(actionRightDef)"
+              *ngIf="actionRightDef.id === 'refresh'" [color]="(actionRightDef.color ? actionRightDef.color : '')"
+              appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingManualRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
                 <div class="loader">
                 </div>
@@ -105,7 +106,8 @@
         *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled) && (!dataSource.hasActions || dataSource.tableActionsDef.length > 0) "
         class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
-        <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index" [class]="(filterDef.class ? filterDef.class : '')">
+        <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
+          [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown'">
             <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
@@ -144,33 +146,59 @@
     </div>
   </ng-container>
   <!-- Table -->
-  <div [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
+  <div *ngIf="dataSource.tableDef"
+      [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table class="table">
       <!-- Headers -->
       <thead *ngIf="dataSource.tableColumnDefs">
         <tr>
+          <!-- Detail Header -->
+          <th *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
+            class="col-3em details-column-header">
+            <!-- Empty -->
+          </th>
+          <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
-              [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')">
+            [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')">
             {{tableColumnDef.name | translate}}
           </th>
         </tr>
       </thead>
       <!-- Rows -->
       <tbody *ngIf="dataSource.data.length > 0">
-        <tr *ngFor="let row of dataSource.data">
-          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-            <!-- Text Cell -->
-            <td *ngIf="!tableColumnDef.isAngularComponent"
-                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              {{row[tableColumnDef.id]}}
+        <ng-template ngFor let-row [ngForOf]="dataSource.data">
+          <tr>
+            <!-- Detail Cell -->
+            <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
+              (click)="showHideDetailsClicked(row)" class="col-3em details-column-row">
+              <mat-icon
+                *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.hideShowField ? row[dataSource.tableDef.rowDetails.hideShowField] : true">
+                {{row.isExpanded ? "expand_more" : "chevron_right"}}
+              </mat-icon>
             </td>
-            <!-- Angular Component Cell -->
-            <td *ngIf="tableColumnDef.isAngularComponent"
+            <!-- Cells -->
+            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+              <!-- Text Cell -->
+              <td *ngIf="!tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
+                {{row[tableColumnDef.id]}}
+              </td>
+              <!-- Angular Component Cell -->
+              <td *ngIf="tableColumnDef.isAngularComponent"
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
+                <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
+              </td>
+            </ng-template>
+          </tr>
+          <!-- Detail Row -->
+          <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
+            <td class="col-3em details-column-row"></td>
+            <td [attr.colspan]="dataSource.tableColumnDefs.length">
+              <div [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')">
+              </div>
             </td>
-          </ng-template>
-        </tr>
+          </tr>
+        </ng-template>
       </tbody>
       <tfoot>
         <tr>
@@ -181,8 +209,8 @@
       </tfoot>
     </table>
     <!-- Message for no data in table -->
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
-      class="ml-4 text-center table-no-record-found">{{'general.no_record_found' | translate}}
+    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
+      {{'general.no_record_found' | translate}}
     </div>
   </div>
 </div>

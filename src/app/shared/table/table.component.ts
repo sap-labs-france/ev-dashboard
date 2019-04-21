@@ -219,37 +219,37 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.loadDataAndFormat(false).subscribe();
   }
 
-  // public showHideDetailsClicked(row) {
-  //   console.log('table.component - showHideDetailsClicked');
-  //   // Already Expanded
-  //   if (!row.isExpanded) {
-  //     // Already loaded?
-  //     if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
-  //       // Component?
-  //       if (!this.dataSource.tableDef.rowDetails.isDetailComponent) {
-  //         // No: Load details from data source
-  //         this.dataSource.getRowDetails(row).subscribe((details) => {
-  //           // Set details
-  //           row[this.dataSource.tableDef.rowDetails.detailsField] = details;
-  //           // No: Expand it!
-  //           row.isExpanded = true;
-  //         });
-  //       } else {
-  //         // // Yes: Find the container related to the row
-  //         // this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
-  //         //   if (detailComponentContainer.parentRow === row) {
-  //         //     detailComponentContainer.loadComponent();
-  //         //   }
-  //         // });
-  //         row.isExpanded = true;
-  //       }
-  //     } else {
-  //       // No: Expand it!
-  //       row.isExpanded = true;
-  //     }
-  //   } else {
-  //     // Fold it
-  //     row.isExpanded = false;
-  //   }
-  // }
+  public showHideDetailsClicked(row) {
+    console.log('table.component - showHideDetailsClicked');
+    // Already Expanded
+    if (!row.isExpanded) {
+      // Already loaded?
+      if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        // Component?
+        if (!this.dataSource.tableDef.rowDetails.isDetailComponent) {
+          // No: Load details from data source
+          this.dataSource.getRowDetails(row).subscribe((details) => {
+            // Set details
+            row[this.dataSource.tableDef.rowDetails.detailsField] = details;
+            // No: Expand it!
+            row.isExpanded = true;
+          });
+        } else {
+          // // Yes: Find the container related to the row
+          // this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
+          //   if (detailComponentContainer.parentRow === row) {
+          //     detailComponentContainer.loadComponent();
+          //   }
+          // });
+          row.isExpanded = true;
+        }
+      } else {
+        // Yes: Expand it!
+        row.isExpanded = true;
+      }
+    } else {
+      // Fold it
+      row.isExpanded = false;
+    }
+  }
 }

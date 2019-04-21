@@ -30,7 +30,7 @@ import {TransactionsTypeFilter} from './transactions-type-filter';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
-import {ComponentEnum} from '../../../services/component.service';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -48,6 +48,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private appDatePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
@@ -194,7 +195,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         break;
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
-        filters.push(new SiteAreasTableFilter().getFilterDef());
+        // Show Site Area Filter If Organization component is active
+        if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+          filters.push(new SiteAreasTableFilter().getFilterDef());
+        }
     }
     return filters;
 

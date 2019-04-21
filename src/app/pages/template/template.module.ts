@@ -15,7 +15,6 @@ import {ButtonsTemplateComponent} from './buttons/buttons.component';
 import {ColorsTemplateComponent} from './colors/colors.component';
 import { FormsTemplateComponent } from './forms/forms.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs.component';
-import { TableTemplateComponent } from './table-template/table-template.component';
 
 @NgModule({
   imports: [
@@ -37,14 +36,12 @@ import { TableTemplateComponent } from './table-template/table-template.componen
     ColorsTemplateComponent,
     FormsTemplateComponent,
     DialogsTemplateComponent,
-    TableTemplateComponent,
   ],
   entryComponents: [
     ButtonsTemplateComponent,
     ColorsTemplateComponent,
     FormsTemplateComponent,
     DialogsTemplateComponent,
-    TableTemplateComponent
   ],
   providers: []
 })

@@ -16,14 +16,7 @@ const DEFAULT_POLLING = 10000;
 
 @Component({
   selector: 'app-table',
-  templateUrl: 'table.component.html',
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
-  ]
+  templateUrl: 'table.component.html'
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource: TableDataSource<any>;
@@ -216,7 +209,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public loadData() {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadDataAndFormat(false).subscribe();
+    this.dataSource.loadDataAndFormat(false).subscribe(() => {console.log('Data Loaded')});
   }
 
   public showHideDetailsClicked(row) {

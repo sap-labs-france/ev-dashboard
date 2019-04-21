@@ -141,7 +141,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     console.log('table-data-source - getPaging');
     return {
       skip: 0,
-      limit: 100
+      limit: 1000
     }
     // if (this.getPaginator()) {
     //   return {

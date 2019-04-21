@@ -1,5 +1,6 @@
 import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
+import {MatSort} from '@angular/material';
 import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
@@ -29,6 +30,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   private searchInput: ElementRef;
   private numberOfRecords = 0;
   private tableActionsDef: TableActionDef[];
+  public sort: MatSort = new MatSort();
   private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
@@ -141,7 +143,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     console.log('table-data-source - getPaging');
     return {
       skip: 0,
-      limit: 1000
+      limit: 100
     }
     // if (this.getPaginator()) {
     //   return {
@@ -156,24 +158,33 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     // }
   }
 
+  public setSort(sort: MatSort) {
+    console.log('table-data-source - setSort');
+    this.sort = sort;
+  }
+
+  public getSort(): MatSort {
+    console.log('table-data-source - getSort');
+    return this.sort;
+  }
+
   public buildOrdering(): Ordering[] {
     console.log('table-data-source - getOrdering');
-    return [];
-    // if (this.getSort()) {
-    //   return [
-    //     {field: this.getSort().active, direction: this.getSort().direction}
-    //   ]
-    // } else {
-    //   // Find Sorted columns
-    //   const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
-    //   // Found?
-    //   if (columnDef) {
-    //     // Yes: Set Sorting
-    //     return [
-    //       {field: columnDef.id, direction: columnDef.direction}
-    //     ]
-    //   }
-    // }
+    if (this.getSort()) {
+      return [
+        {field: this.getSort().active, direction: this.getSort().direction}
+      ]
+    } else {
+      // Find Sorted columns
+      const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
+      // Found?
+      if (columnDef) {
+        // Yes: Set Sorting
+        return [
+          {field: columnDef.id, direction: columnDef.direction}
+        ]
+      }
+    }
   }
 
   public setNumberOfRecords(numberOfRecords: number) {

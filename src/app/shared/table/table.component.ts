@@ -1,10 +1,9 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatSort, Sort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {DropdownItem, TableActionDef, TableDef, TableFilterDef} from '../../common.types';
+import {DropdownItem, TableActionDef, TableDef, TableFilterDef, TableColumnDef} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {TableDataSource} from './table-data-source';
 import {DetailComponentContainer} from './detail-component/detail-component-container.component';
@@ -25,6 +24,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public autoRefeshChecked = true;
   public ongoingAutoRefresh = false;
   public ongoingManualRefresh = false;
+  public sort: MatSort = new MatSort();
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -75,6 +75,18 @@ export class TableComponent implements OnInit, AfterViewInit {
         }
       );
     }
+
+    // Init Sort
+    // Find Sorted columns
+    const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
+    // Found?
+    if (columnDef) {
+      // Yes: Set Sorting
+      this.sort.active = columnDef.id;
+      this.sort.direction = columnDef.direction;
+    }
+    // Set Sort
+    this.dataSource.setSort(this.sort);
   }
 
   ngAfterViewInit() {
@@ -98,6 +110,21 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
     // Reload data
+    this.loadData();
+  }
+
+  public sortChanged(tableColumnDef: TableColumnDef) {
+    console.log('table.component - handleSortChanged');
+    // Check
+    if (this.sort.active === tableColumnDef.id) {
+      // Reverse
+      this.sort.direction = (this.sort.direction === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New Sort
+      this.sort.active = tableColumnDef.id;
+      this.sort.direction = tableColumnDef.direction;
+    }
+    // Load data
     this.loadData();
   }
 

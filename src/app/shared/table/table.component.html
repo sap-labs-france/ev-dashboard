@@ -159,8 +159,13 @@
           </th>
           <!-- Text Header -->
           <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
-            [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')">
+            (click)="sortChanged(tableColumnDef)"
+            [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
+            [class.sortable]="tableColumnDef.sortable">
             {{tableColumnDef.name | translate}}
+            <mat-icon *ngIf="sort.active === tableColumnDef.id">
+              {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
+            </mat-icon>
           </th>
         </tr>
       </thead>

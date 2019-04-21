@@ -12,6 +12,7 @@
   }
   > thead > tr:first-child > th {
     border-top: none;
+    cursor: default;
   }
 
   .tab-pane & {
@@ -30,6 +31,10 @@
     .icons {
       position: relative;
     }
+  }
+
+  .sortable {
+    cursor: pointer !important;
   }
 
   > thead > tr > th {

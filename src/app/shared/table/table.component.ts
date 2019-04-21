@@ -89,7 +89,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Set Sort
     this.dataSource.setSort(this.sort);
     console.log(this.dataSource.tableDef);
-    
   }
 
   requestNumberOfRecords() {
@@ -116,7 +115,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  public filterChanged(filterDef: TableFilterDef, event) {
+  public filterChanged(filterDef: TableFilterDef) {
     console.log('table.component - filterChanged');
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
@@ -147,20 +146,13 @@ export class TableComponent implements OnInit, AfterViewInit {
       filterDef.currentValue = event.value;
     }
     // Update filter
-    this.filterChanged(filterDef, event);
+    this.filterChanged(filterDef);
   }
-
-  // toggleSelectionRow(row) {
-  //   // Select
-  //   this.dataSource.selectionModel.toggle(row);
-  //   // Toggle
-  //   row.selected = !row.selected;
-  // }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     console.log('table.component - resetDialogTableFilter');
     filterDef.currentValue = null;
-    this.dataSource.filterChanged(filterDef)
+    this.filterChanged(filterDef)
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
@@ -180,7 +172,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         filterDef.currentValue = data;
-        this.dataSource.filterChanged(filterDef)
+        this.filterChanged(filterDef);
       }
     });
   }

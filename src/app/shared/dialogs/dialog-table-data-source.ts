@@ -12,7 +12,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
     return {
       class: 'table-dialog-list',
       rowSelection: {
-        enabled: false,
+        enabled: true,
         multiple: false
       },
       search: {
@@ -23,9 +23,5 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
 
   public buildTableActionsDef(): TableActionDef[] {
     return [];
-  }
-
-  public getPaginatorPageSizes() {
-    return [50, 100, 200];
   }
 }

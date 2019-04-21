@@ -174,11 +174,6 @@ export class LogsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public getPaginatorPageSizes() {
-    console.log('logs-data-source-table - getPaginatorPageSizes');
-    return [50, 100, 250, 500, 1000, 2000];
-  }
-
   buildTableActionsDef(): TableActionDef[] {
     console.log('logs-data-source-table - buildTableActionsDef');
     const tableActionsDef = super.buildTableActionsDef();

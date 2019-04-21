@@ -228,10 +228,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     });
   }
 
-  public getPaginatorPageSizes() {
-    return [50, 100, 250, 500, 1000, 2000];
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),

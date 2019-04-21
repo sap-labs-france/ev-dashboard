@@ -27,7 +27,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   public ongoingManualRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = MAX_RECORD;
-
   @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(
@@ -89,6 +88,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     // Set Sort
     this.dataSource.setSort(this.sort);
+    console.log(this.dataSource.tableDef);
+    
   }
 
   requestNumberOfRecords() {
@@ -111,17 +112,9 @@ export class TableComponent implements OnInit, AfterViewInit {
     console.log('table.component - ngAfterViewInit');
     // Set the Search input
     this.dataSource.setSearchInput(this.searchInput);
-    // Clear the selection
-    this.dataSource.selectionModel.clear();
     // Load the data
     this.loadData();
   }
-
-  // /** Whether the number of selected elements matches the total number of rows. */
-  // public isAllSelected() {
-  //   console.log('table.component - isAllSelected');
-  //   return (this.dataSource.selectionModel.selected.length === this.dataSource.data.length);
-  // }
 
   public filterChanged(filterDef: TableFilterDef, event) {
     console.log('table.component - filterChanged');
@@ -170,27 +163,27 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.filterChanged(filterDef)
   }
 
-  // public showDialogTableFilter(filterDef: TableFilterDef) {
-  //   console.log('table.component - showDialogTableFilter');
-  //   // Disable outside click close
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.disableClose = true;
-  //   // Set Validate button title to 'Set Filter'
-  //   dialogConfig.data = {
-  //     validateButtonTitle : 'general.set_filter'
-  //   };
-  //   // Render the Dialog Container transparent
-  //   dialogConfig.panelClass = 'transparent-dialog-container';
-  //   // Show
-  //   const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
-  //   // Add sites
-  //   dialogRef.afterClosed().subscribe(data => {
-  //     if (data) {
-  //       filterDef.currentValue = data;
-  //       this.dataSource.filterChanged(filterDef)
-  //     }
-  //   });
-  // }
+  public showDialogTableFilter(filterDef: TableFilterDef) {
+    console.log('table.component - showDialogTableFilter');
+    // Disable outside click close
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    // Set Validate button title to 'Set Filter'
+    dialogConfig.data = {
+      validateButtonTitle : 'general.set_filter'
+    };
+    // Render the Dialog Container transparent
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Show
+    const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
+    // Add sites
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        filterDef.currentValue = data;
+        this.dataSource.filterChanged(filterDef)
+      }
+    });
+  }
 
   public actionTriggered(actionDef: TableActionDef, event?) {
     console.log('table.component - actionTriggered');
@@ -226,17 +219,13 @@ export class TableComponent implements OnInit, AfterViewInit {
   //   this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   // }
 
-  // // Selects all rows if they are not all selected; otherwise clear selection.
-  // public masterSelectToggle() {
-  //   console.log('table.component - masterSelectToggle');
-  //   this.isAllSelected() ?
-  //     this.dataSource.selectionModel.clear() :
-  //     this.dataSource.data.forEach(row => {
-  //       if (row.isSelectable) {
-  //         this.dataSource.selectionModel.select(row);
-  //       }
-  //     });
-  // }
+  public toggleRowSelection(row) {
+    this.dataSource.toggleRowSelection(row);
+  }
+
+  public toggleMasterSelect() {
+    this.dataSource.toggleMasterSelect();
+  }
 
   // public trackByObjectId(index: number, item: any): any {
   //   // console.log('table.component - trackByObjectId');

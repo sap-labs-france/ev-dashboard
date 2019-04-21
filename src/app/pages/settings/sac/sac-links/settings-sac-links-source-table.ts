@@ -67,10 +67,6 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return this.sacLinks;
   }
 
-  public getPaginatorPageSizes() {
-    return [];
-  }
-
   public loadData(refreshAction = false): Observable<any> {
     return new Observable((observer) => {
       setTimeout(() => {

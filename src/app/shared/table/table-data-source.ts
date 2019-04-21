@@ -14,7 +14,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public tableFiltersDef: TableFilterDef[];
   public tableActionsRightDef: TableActionDef[];
   public tableColumnDefs: TableColumnDef[];
-  public selectionModel: SelectionModel<any>;
   public data: any[] = [];
 
   public hasActions: boolean;
@@ -22,6 +21,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public isSearchEnabled: boolean;
   public isFooterEnabled: boolean;
   public hasRowActions: boolean;
+  public selectedRows = 0;
+  public maxSelectableRows = 0;
+  public lastSelectedRow;
 
   protected formattedData = [];
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
@@ -92,27 +94,73 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
   }
 
-  private getSelectionModel(): SelectionModel<any> {
-    console.log('table-data-source - getSelectionModel');
-    if (!this.selectionModel) {
-      this.selectionModel = new SelectionModel<any>(this.isMultiSelectionEnabled(), []);
-    }
-    return this.selectionModel;
-  }
-
   public getSelectedRows(): T[] {
     console.log('table-data-source - getSelectedRows');
-    return this.getSelectionModel().selected.map(element => element['data']);
+    return this.data.filter((row) => row.selected);
   }
 
   public hasSelectedRows(): boolean {
     console.log('table-data-source - hasSelectedRows');
-    return this.getSelectionModel().hasValue();
+    return (this.selectedRows > 0)
   }
 
   public clearSelectedRows() {
     console.log('table-data-source - clearSelectedRows');
-    return this.getSelectionModel().clear();
+    // Clear
+    this.selectedRows = 0;
+    this.data.forEach((row) => {
+      if (row.isSelectable) {
+        row.selected = false;
+      }
+    })
+  }
+
+  public selectAllRows() {
+    console.log('table-data-source - selectAllRows');
+    // Select All
+    this.selectedRows = 0;
+    this.data.forEach((row) => {
+      // Check
+      if (row.isSelectable) {
+        row.selected = true;
+        this.selectedRows++;
+      }
+    })
+  }
+
+  public toggleMasterSelect() {
+    console.log('table-data-source - masterSelectToggle');
+    if (this.isAllSelected()) {
+      // Unselect All
+      this.clearSelectedRows();
+    } else {
+      // Select All
+      this.selectAllRows();
+    }
+  }
+public toggleRowSelection(row) {
+    console.log(`Before ${row.selected} - ${this.selectedRows} - ${this.maxSelectableRows}`);
+    // Invert
+    row.selected = !row.selected;
+    // Adjust number of selected rows
+    if (row.selected) {
+      this.selectedRows++
+      // Single Select?
+      if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
+        // Unselect last row
+        this.lastSelectedRow.selected = false;
+      }
+      this.lastSelectedRow = row;
+    } else {
+      this.selectedRows--
+      this.lastSelectedRow = null;
+    }
+    console.log(`After ${row.selected} - ${this.selectedRows}`);
+  }
+
+  public isAllSelected() {
+    console.log('table-data-source - isAllSelected');
+    return (this.selectedRows === this.maxSelectableRows);
   }
 
   public getDataSubjet(): BehaviorSubject<T[]> {
@@ -525,6 +573,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       if (isRowSelectionEnabled) {
         // Check
         freshRow.isSelectable = this.isSelectable(freshRow);
+        if (freshRow.isSelectable) {
+          this.maxSelectableRows++;
+        }
       }
       // Set row ID
       if (!freshRow.id) {
@@ -607,7 +658,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     this.getTableActionsDef();
     this.getTableActionsRightDef();
     this.getTableRowActions();
-    this.getSelectionModel();
 
     // Init vars
     // tslint:disable-next-line:max-line-length

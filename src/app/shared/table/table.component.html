@@ -152,6 +152,15 @@
       <!-- Headers -->
       <thead *ngIf="dataSource.tableColumnDefs">
         <tr>
+          <!-- Select Header -->
+          <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
+              class="text-left col-5em pt-2">
+            <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
+              *ngIf="dataSource.tableDef.rowSelection.multiple"
+              [checked]="(dataSource.selectedRows === dataSource.data.length)"
+              [indeterminate]="(dataSource.selectedRows > 0) && dataSource.selectedRows !== dataSource.data.length">
+            </mat-checkbox>
+          </th>
           <!-- Detail Header -->
           <th *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
             class="col-3em details-column-header">
@@ -173,6 +182,13 @@
       <tbody *ngIf="dataSource.data.length > 0">
         <ng-template ngFor let-row [ngForOf]="dataSource.data">
           <tr>
+            <!-- Select Cell -->
+            <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
+                class="text-left col-5em col-select pt-2">
+              <mat-checkbox (change)="toggleRowSelection(row)" (click)="$event.stopPropagation()"
+                [checked]="row.selected">
+              </mat-checkbox>
+            </td>
             <!-- Detail Cell -->
             <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
               (click)="showHideDetailsClicked(row)" class="col-3em details-column-row">
@@ -208,7 +224,7 @@
       <tfoot>
         <tr>
           <td class="nbr-of-records"
-              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0)">
+              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0) + (dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled ? 1 : 0)">
             <ng-template [ngIf]="dataSource.numberOfRecords === maxRecords">
               {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
             </ng-template>

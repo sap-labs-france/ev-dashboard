@@ -207,9 +207,15 @@
       </tbody>
       <tfoot>
         <tr>
-          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-            <td></td>
-          </ng-template>
+          <td class="nbr-of-records"
+              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0)">
+            <ng-template [ngIf]="dataSource.numberOfRecords === maxRecords">
+              {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
+            </ng-template>
+            <ng-template [ngIf]="dataSource.numberOfRecords !== maxRecords">
+              {{'general.nbr_of_records' | translate}}: {{dataSource.numberOfRecords | number}}
+            </ng-template>
+          </td>
         </tr>
       </tfoot>
     </table>

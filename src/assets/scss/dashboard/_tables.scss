@@ -37,6 +37,14 @@
     cursor: pointer !important;
   }
 
+  .nbr-of-records {
+    text-align: right;
+  }
+
+  .query-nbr-of-records {
+    cursor: pointer !important;
+  }
+
   > thead > tr > th {
     position: sticky;
     top: 0px;

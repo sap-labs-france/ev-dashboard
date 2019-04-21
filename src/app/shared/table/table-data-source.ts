@@ -407,8 +407,10 @@ export abstract class TableDataSource<T> implements DataSource<T> {
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+          // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+          // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -424,6 +426,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
                 }
               }
             }
+          // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;

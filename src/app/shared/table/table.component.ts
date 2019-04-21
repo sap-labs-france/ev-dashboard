@@ -12,6 +12,7 @@ import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import { SpinnerService } from 'app/services/spinner.service';
 
 const DEFAULT_POLLING = 10000;
+const MAX_RECORD = 2000;
 
 @Component({
   selector: 'app-table',
@@ -25,6 +26,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public ongoingAutoRefresh = false;
   public ongoingManualRefresh = false;
   public sort: MatSort = new MatSort();
+  public maxRecords = MAX_RECORD;
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -89,6 +91,22 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.setSort(this.sort);
   }
 
+  requestNumberOfRecords() {
+    // Add only record count
+    const staticFilters = [
+      ...this.dataSource.getStaticFilters(),
+      { 'OnlyRecordCount': true}
+    ];
+    // Set
+    this.dataSource.setStaticFilters(staticFilters);
+    // Load data
+    this.dataSource.loadData(false).subscribe();
+    // Remove OnlyRecordCount
+    staticFilters.splice(staticFilters.length - 1, 1)
+    // Reset static filter
+    this.dataSource.setStaticFilters(staticFilters);
+  }
+
   ngAfterViewInit() {
     console.log('table.component - ngAfterViewInit');
     // Set the Search input
@@ -122,22 +140,22 @@ export class TableComponent implements OnInit, AfterViewInit {
     } else {
       // New Sort
       this.sort.active = tableColumnDef.id;
-      this.sort.direction = tableColumnDef.direction;
+      this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
     }
     // Load data
     this.loadData();
   }
 
-  // public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
-  //   console.log('table.component - dateFilterChanged');
-  //   // Date?
-  //   if (filterDef.type === 'date') {
-  //     // Date is one way binding: update the value manually
-  //     filterDef.currentValue = event.value;
-  //   }
-  //   // Update filter
-  //   this.filterChanged(filterDef, event);
-  // }
+  public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
+    console.log('table.component - dateFilterChanged');
+    // Date?
+    if (filterDef.type === 'date') {
+      // Date is one way binding: update the value manually
+      filterDef.currentValue = event.value;
+    }
+    // Update filter
+    this.filterChanged(filterDef, event);
+  }
 
   // toggleSelectionRow(row) {
   //   // Select
@@ -146,11 +164,11 @@ export class TableComponent implements OnInit, AfterViewInit {
   //   row.selected = !row.selected;
   // }
 
-  // public resetDialogTableFilter(filterDef: TableFilterDef) {
-  //   console.log('table.component - resetDialogTableFilter');
-  //   filterDef.currentValue = null;
-  //   this.dataSource.filterChanged(filterDef)
-  // }
+  public resetDialogTableFilter(filterDef: TableFilterDef) {
+    console.log('table.component - resetDialogTableFilter');
+    filterDef.currentValue = null;
+    this.dataSource.filterChanged(filterDef)
+  }
 
   // public showDialogTableFilter(filterDef: TableFilterDef) {
   //   console.log('table.component - showDialogTableFilter');
@@ -220,14 +238,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   //     });
   // }
 
-  // public handleSortChanged() {
-  //   console.log('table.component - handleSortChanged');
-  //   // Clear Selection
-  //   this.dataSource.selectionModel.clear();
-  //   // Load data
-  //   this.loadData();
-  // }
-
   // public trackByObjectId(index: number, item: any): any {
   //   // console.log('table.component - trackByObjectId');
   //   return item.id;
@@ -236,7 +246,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public loadData() {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadDataAndFormat(false).subscribe(() => {console.log('Data Loaded')});
+    this.dataSource.loadDataAndFormat(false).subscribe();
   }
 
   public showHideDetailsClicked(row) {

@@ -176,6 +176,10 @@
               {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
             </mat-icon>
           </th>
+          <!-- Actions Header -->
+          <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
+            {{'general.actions' | translate}}
+          </th>
         </tr>
       </thead>
       <!-- Rows -->
@@ -210,6 +214,45 @@
                 <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
               </td>
             </ng-template>
+            <!-- Action Cell -->
+            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
+              <ng-container *ngFor="let rowAction of (row['buildSpecificRowActions'] ? row['buildSpecificRowActions'] : dataSource.tableRowActionsDef)">
+                <ng-container *ngIf="row['canDisplayRowAction-' + rowAction.id]">
+                  <!-- Drop Down Action -->
+                  <ng-container *ngIf="rowAction.isDropdownMenu">
+                    <mat-menu #rowActionMenu="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
+                          <button mat-menu-item
+                            (click)="rowActionTriggered(rowAction, row, dropdownItem)"
+                            [disabled]="dropdownItem.disabled"
+                            appTooltip data-placement="bottom" data-toggle="tooltip"
+                            [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
+                            <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon><span>{{dropdownItem.name | translate}}</span>
+                          </button>
+                        </ng-container>
+                      </ng-template>
+                    </mat-menu>
+                    <button mat-icon-button (menuOpened)="onRowActionMenuOpen(rowAction, row)"
+                      [matMenuTriggerFor]="rowActionMenu" appTooltip="" data-placement="bottom" data-toggle="tooltip"
+                      [title]="rowAction.tooltip | translate">
+                      <mat-icon>{{rowAction.icon}}</mat-icon>
+                    </button>
+                  </ng-container>
+                  <!-- Button Action -->
+                  <ng-container *ngIf="!rowAction.isDropdownMenu">
+                    <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip"
+                      [title]="rowAction.tooltip | translate">
+                      <button mat-icon-button
+                        [color]="(rowAction.color ? rowAction.color : '')" 
+                        (click)="rowActionTriggered(rowAction, row)"
+                        [disabled]="rowAction.disabled"><mat-icon>{{rowAction.icon}}</mat-icon>
+                      </button>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </td>
           </tr>
           <!-- Detail Row -->
           <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
@@ -224,7 +267,7 @@
       <tfoot>
         <tr>
           <td class="nbr-of-records"
-              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0) + (dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled ? 1 : 0)">
+              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0) + (dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled ? 1 : 0) + (dataSource.hasRowActions ? 1 : 0)">
             <ng-template [ngIf]="dataSource.numberOfRecords === maxRecords">
               {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
             </ng-template>

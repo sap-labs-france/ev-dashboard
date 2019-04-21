@@ -155,7 +155,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  specificRowActions(company: Company) {
+  buildSpecificRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
 
     // check if GPs are available

@@ -184,7 +184,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     ];
   }
 
-  public specificRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
+  public buildSpecificRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
     const _actionRowButtons = [];
     if (rowItem && rowItem.ocpiendpoint) {
       // add send all EVSE Statuses

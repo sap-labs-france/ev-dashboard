@@ -506,7 +506,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  specificRowActions(charger: Charger) {
+  buildSpecificRowActions(charger: Charger) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     let actionTable: any[];
     // check if GPs are available

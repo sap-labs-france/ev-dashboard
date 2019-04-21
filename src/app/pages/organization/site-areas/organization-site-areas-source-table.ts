@@ -153,7 +153,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  specificRowActions(siteArea: SiteArea) {
+  buildSpecificRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
 
     // check if GPs are available

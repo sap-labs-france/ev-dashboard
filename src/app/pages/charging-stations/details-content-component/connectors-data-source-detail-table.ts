@@ -84,7 +84,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           // Update specific row actions
           if (this.formattedData) {
             this.formattedData.forEach(row => {
-              row.specificRowActions = this.specificRowActions(row['data']);
+              row.buildSpecificRowActions = this.buildSpecificRowActions(row);
             });
           }
           let hasSomeDetails = false;
@@ -257,7 +257,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  specificRowActions(rowItem: Connector): TableActionDef[] {
+  buildSpecificRowActions(rowItem: Connector): TableActionDef[] {
     const actionAuthorize = [];
     if (rowItem && rowItem.activeTransactionID) {
       if (rowItem.isTransactionDisplayAuthorized) {

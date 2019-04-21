@@ -391,7 +391,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     }
   }
 
-  specificRowActions(charger: ChargerInError) {
+  buildSpecificRowActions(charger: ChargerInError) {
     if (this.authorizationService.isAdmin()) {
       // duplicate actions from the map
       const actions = JSON.parse(JSON.stringify(ACTION_MAP[charger.errorCode]));

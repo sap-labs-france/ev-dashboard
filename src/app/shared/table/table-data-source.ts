@@ -14,6 +14,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public tableFiltersDef: TableFilterDef[];
   public tableActionsRightDef: TableActionDef[];
   public tableColumnDefs: TableColumnDef[];
+  public specificRowActions: TableActionDef[];
   public data: any[] = [];
 
   public hasActions: boolean;
@@ -569,6 +570,11 @@ public toggleRowSelection(row) {
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
       }
+      // Update specific row actions
+      const specificRowActions = this.buildSpecificRowActions(freshRow);
+      if (specificRowActions.length > 0) {
+        freshRow['specificRowActions'] = specificRowActions;
+      }
       // Check if Row can be selected
       if (isRowSelectionEnabled) {
         // Check
@@ -634,8 +640,8 @@ public toggleRowSelection(row) {
   /**
    * Used to retrieve individual line actions instead of general action table
    */
-  specificRowActions(row: T): TableActionDef[] {
-    console.log('table-data-source - specificRowActions');
+  buildSpecificRowActions(row: T): TableActionDef[] {
+    console.log('table-data-source - buildSpecificRowActions');
     return [];
   }
 

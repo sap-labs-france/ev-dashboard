@@ -58,13 +58,11 @@ export class TableComponent implements OnInit, AfterViewInit {
 
     // Handle locale (local service available only in component not possible in data-source)
     this.dataSource.setLocale(this.localService.getCurrentFullLocaleForJS());
-
     // Handle Poll (config service available only in component not possible in data-source)
     if (this.configService.getCentralSystemServer().pollEnabled) {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
-
     // Search?
     if (this.dataSource.tableDef.search) {
       // Yes: Listen to Search change
@@ -76,7 +74,6 @@ export class TableComponent implements OnInit, AfterViewInit {
         }
       );
     }
-
     // Init Sort
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
@@ -205,11 +202,11 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.actionTriggered(actionDef);
   }
 
-  // public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
-  //   console.log('table.component - rowActionTriggered');
-  //   // Get Actions def
-  //   this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
-  // }
+  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+    console.log('table.component - rowActionTriggered');
+    // Get Actions def
+    this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
+  }
 
   public toggleRowSelection(row) {
     this.dataSource.toggleRowSelection(row);
@@ -217,6 +214,10 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   public toggleMasterSelect() {
     this.dataSource.toggleMasterSelect();
+  }
+
+  public onRowActionMenuOpen(action: TableActionDef, row) {
+    this.dataSource.onRowActionMenuOpen(action, row);
   }
 
   // public trackByObjectId(index: number, item: any): any {

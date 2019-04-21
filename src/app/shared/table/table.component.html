@@ -145,11 +145,14 @@
   </ng-container>
   <!-- Table -->
   <div [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
-    <table>
+    <table class="table">
       <!-- Headers -->
       <thead *ngIf="dataSource.tableColumnDefs">
         <tr>
-          <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs">{{tableColumnDef.name | translate}}</th>
+          <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
+              [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')">
+            {{tableColumnDef.name | translate}}
+          </th>
         </tr>
       </thead>
       <!-- Rows -->
@@ -157,16 +160,25 @@
         <tr *ngFor="let row of dataSource.data">
           <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
             <!-- Text Cell -->
-            <td *ngIf="!tableColumnDef.isAngularComponent">
+            <td *ngIf="!tableColumnDef.isAngularComponent"
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
               {{row[tableColumnDef.id]}}
             </td>
             <!-- Angular Component Cell -->
-            <td *ngIf="tableColumnDef.isAngularComponent">
+            <td *ngIf="tableColumnDef.isAngularComponent"
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
               <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
             </td>
           </ng-template>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+            <td></td>
+          </ng-template>
+        </tr>
+      </tfoot>
     </table>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"

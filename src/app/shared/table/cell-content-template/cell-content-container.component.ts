@@ -24,16 +24,13 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnInit() {
-    console.log('CellContentComponentContainer - ngOnInit');
     this.loadComponent();
   }
 
   ngOnDestroy() {
-    console.log('CellContentComponentContainer - ngOnDestroy');
   }
 
   loadComponent() {
-    console.log('CellContentComponentContainer - loadComponent');
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.columnDef.angularComponentName);
     const viewContainerRef = this.angularCellContentDirective.viewContainerRef;
     viewContainerRef.clear();
@@ -43,10 +40,7 @@ export class CellContentComponentContainer implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('CellContentComponentContainer - ngOnChanges');
     if (!changes.row.isFirstChange()) {
-      // console.log('REload cell component ' + this.columnDef.angularComponentName.name);
-//        this.loadComponent();
       if (this.cellComponent && changes.row && changes.row.currentValue) {
         // console.log('REFRESH cell component ' + this.columnDef.angularComponentName.name);
         if (typeof this.cellComponent.refresh === 'function') {

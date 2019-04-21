@@ -1,6 +1,11 @@
 .table {
   background: rgba(255,255,255,0.3);
 
+  > thead {
+    position: sticky;
+    top: 0;
+  }
+
   > thead > tr > th {
     border-bottom-width: 1px;
     font-size: $font-size-h5;
@@ -26,13 +31,28 @@
       position: relative;
     }
   }
+
+  > thead > tr > th {
+    position: sticky;
+    top: 0px;
+    background: $brand-background;
+    z-index: 100;
+  }
+
+  > tfoot > tr > td {
+    position: sticky;
+    bottom: 0px;
+    background: $brand-background;
+    z-index: 100;
+  }
+
   > thead > tr > th,
   > tbody > tr > th,
   > tfoot > tr > th,
   > thead > tr > td,
   > tbody > tr > td,
   > tfoot > tr > td {
-    padding: 12px 8px;
+    padding: 2px 8px;
     vertical-align: middle;
   }
 

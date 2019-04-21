@@ -100,13 +100,13 @@ export class TableComponent implements OnInit, AfterViewInit {
   //   return (this.dataSource.selectionModel.selected.length === this.dataSource.data.length);
   // }
 
-  // public filterChanged(filterDef: TableFilterDef, event) {
-  //   console.log('table.component - filterChanged');
-  //   // Get Actions def
-  //   this.dataSource.filterChanged(filterDef);
-  //   // Reload data
-  //   this.loadData();
-  // }
+  public filterChanged(filterDef: TableFilterDef, event) {
+    console.log('table.component - filterChanged');
+    // Get Actions def
+    this.dataSource.filterChanged(filterDef);
+    // Reload data
+    this.loadData();
+  }
 
   // public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
   //   console.log('table.component - dateFilterChanged');
@@ -154,33 +154,33 @@ export class TableComponent implements OnInit, AfterViewInit {
   //   });
   // }
 
-  // public actionTriggered(actionDef: TableActionDef, event?) {
-  //   console.log('table.component - actionTriggered');
-  //   // Slide?
-  //   if (actionDef.type === 'slide') {
-  //     // Slide is one way binding: update the value manually
-  //     actionDef.currentValue = event.checked;
-  //   }
-  //   // Reset Filters ?
-  //   if (actionDef.id === 'reset_filters') {
-  //     // Reset all filter fields
-  //     this.dataSource.getTableFiltersDef().forEach((filterDef: TableFilterDef) => {
-  //       switch (filterDef.type) {
-  //         case 'dropdown':
-  //           filterDef.currentValue = null;
-  //           break;
-  //         case 'dialog-table':
-  //           filterDef.currentValue = null;
-  //           break;
-  //         case 'date':
-  //           filterDef.reset();
-  //           break;
-  //       }
-  //     });
-  //   }
-  //   // Get Actions def
-  //   this.dataSource.actionTriggered(actionDef);
-  // }
+  public actionTriggered(actionDef: TableActionDef, event?) {
+    console.log('table.component - actionTriggered');
+    // Slide?
+    if (actionDef.type === 'slide') {
+      // Slide is one way binding: update the value manually
+      actionDef.currentValue = event.checked;
+    }
+    // Reset Filters ?
+    if (actionDef.id === 'reset_filters') {
+      // Reset all filter fields
+      this.dataSource.getTableFiltersDef().forEach((filterDef: TableFilterDef) => {
+        switch (filterDef.type) {
+          case 'dropdown':
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            filterDef.reset();
+            break;
+        }
+      });
+    }
+    // Get Actions def
+    this.dataSource.actionTriggered(actionDef);
+  }
 
   // public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
   //   console.log('table.component - rowActionTriggered');

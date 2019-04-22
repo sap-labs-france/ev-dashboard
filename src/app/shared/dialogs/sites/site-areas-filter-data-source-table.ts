@@ -63,7 +63,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
     return [
       {
         id: 'name',
-        name: this.translateService.instant('site_areas.title'),
+        name: 'site_areas.title',
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
@@ -71,7 +71,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       },
       {
         id: 'site',
-        name: this.translateService.instant('sites.title'),
+        name: 'sites.title',
         class: 'text-left col-600px',
         direction: 'asc',
         sortable: true,

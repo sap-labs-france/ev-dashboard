@@ -24,7 +24,9 @@ export abstract class DialogTableDataComponent<T> {
   }
 
   validate() {
-    this.dialogRef.close(this.getSelectedItems(this.dialogDataSource.getSelectedRows()));
+    if (this.dialogDataSource.selectedRows > 0) {
+      this.dialogRef.close(this.getSelectedItems(this.dialogDataSource.getSelectedRows()));
+    }
   }
 
   cancel() {

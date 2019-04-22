@@ -124,16 +124,19 @@ export class TableComponent implements OnInit, AfterViewInit {
   public sortChanged(tableColumnDef: TableColumnDef) {
     console.log('table.component - handleSortChanged');
     // Check
-    if (this.sort.active === tableColumnDef.id) {
-      // Reverse
-      this.sort.direction = (this.sort.direction === 'asc' ? 'desc' : 'asc');
-    } else {
-      // New Sort
-      this.sort.active = tableColumnDef.id;
-      this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
+    if (tableColumnDef.sortable) {
+      // Check
+      if (this.sort.active === tableColumnDef.id) {
+        // Reverse
+        this.sort.direction = (this.sort.direction === 'asc' ? 'desc' : 'asc');
+      } else {
+        // New Sort
+        this.sort.active = tableColumnDef.id;
+        this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
+      }
+      // Load data
+      this.loadData();
     }
-    // Load data
-    this.loadData();
   }
 
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {

@@ -9,6 +9,11 @@
   }
 }
 
+.mat-form-field, .mat-select-content, .mat-select, .mat-option {
+  font-size: $font-size-sm !important;
+  width: 100%;
+}
+
 .spinner{
   position:fixed;
   top:0;

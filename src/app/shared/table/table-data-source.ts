@@ -30,7 +30,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
 
   private dataSubject = new BehaviorSubject<any[]>([]);
-  private searchInput: ElementRef;
+  private searchValue = '';
   private numberOfRecords = 0;
   private tableActionsDef: TableActionDef[];
   public sort: MatSort = new MatSort();
@@ -169,23 +169,14 @@ public toggleRowSelection(row) {
     return this.dataSubject;
   }
 
-  public setSearchInput(searchInput: ElementRef) {
-    console.log('table-data-source - setSearchInput');
-    this.searchInput = searchInput;
-  }
-
-  public setSearchValue(searchValue: String) {
+  public setSearchValue(searchValue: string) {
     console.log('table-data-source - setSearchValue');
-    this.searchInput.nativeElement.value = searchValue;
+    this.searchValue = searchValue;
   }
 
   public getSearchValue(): string {
     console.log('table-data-source - getSearchValue');
-    // Check
-    if (this.searchInput) {
-      return this.searchInput.nativeElement.value;
-    }
-    return '';
+    return this.searchValue;
   }
 
   public buildPaging(): Paging {

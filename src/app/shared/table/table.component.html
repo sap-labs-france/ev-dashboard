@@ -50,8 +50,7 @@
             <!-- Search -->
             <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
               <mat-form-field>
-                <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
-                  [placeholder]="searchPlaceholder | translate" matInput>
+                <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
               </mat-form-field>
             </div>
           </div>
@@ -138,8 +137,7 @@
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
-            <input #searchInput (keyup)="searchSourceSubject.next(searchInput.value)"
-              [placeholder]="searchPlaceholder | translate" matInput>
+            <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
           </mat-form-field>
         </div>
       </div>

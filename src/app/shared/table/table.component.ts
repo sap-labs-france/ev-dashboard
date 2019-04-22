@@ -1,8 +1,7 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatSort, Sort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {DropdownItem, TableActionDef, TableDef, TableFilterDef, TableColumnDef} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {TableDataSource} from './table-data-source';
@@ -11,6 +10,7 @@ import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
+import { Observable, fromEvent } from 'rxjs';
 
 const DEFAULT_POLLING = 10000;
 const MAX_RECORD = 2000;
@@ -22,7 +22,7 @@ const MAX_RECORD = 2000;
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource: TableDataSource<any>;
   public searchPlaceholder = '';
-  public searchSourceSubject: Subject<string> = new Subject();
+  public searchObservable: Observable<string>;
   public autoRefeshChecked = true;
   public ongoingAutoRefresh = false;
   public ongoingManualRefresh = false;
@@ -64,17 +64,6 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
         this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
     }
-    // Search?
-    if (this.dataSource.tableDef.search) {
-      // Yes: Listen to Search change
-      this.searchSourceSubject.pipe(
-        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-        distinctUntilChanged()).subscribe(() => {
-          // Trigger load data
-          this.loadData();
-        }
-      );
-    }
     // Init Sort
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
@@ -86,6 +75,26 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     // Set Sort
     this.dataSource.setSort(this.sort);
+  }
+
+  ngAfterViewInit() {
+    console.log('table.component - ngAfterViewInit');
+    // Search?
+    if (this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
+      // Observe the Search field
+      fromEvent(this.searchInput.nativeElement, 'input').pipe(
+        map((e: KeyboardEvent) => e.target['value']),
+        filter(text => text.length > 2),
+        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+        distinctUntilChanged()).subscribe((text: string) => {
+          // Set
+          this.dataSource.setSearchValue(text);
+          // Load data
+          this.loadData();
+      });
+    }
+    // Load the data
+    this.loadData();
   }
 
   requestNumberOfRecords() {
@@ -103,14 +112,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     staticFilters.splice(staticFilters.length - 1, 1)
     // Reset static filter
     this.dataSource.setStaticFilters(staticFilters);
-  }
-
-  ngAfterViewInit() {
-    console.log('table.component - ngAfterViewInit');
-    // Set the Search input
-    this.dataSource.setSearchInput(this.searchInput);
-    // Load the data
-    this.loadData();
   }
 
   public filterChanged(filterDef: TableFilterDef) {

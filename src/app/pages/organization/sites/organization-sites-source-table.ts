@@ -152,7 +152,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  buildSpecificRowActions(site: Site) {
+  buildTableDynamicRowActions(site: Site) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
 
     // check if GPs are available
@@ -237,7 +237,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
   }
 
   private _showUsersDialog(site?: Site) {
@@ -262,7 +262,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
-            this.loadData();
+            this.loadDataAndFormat(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'sites.delete_error');

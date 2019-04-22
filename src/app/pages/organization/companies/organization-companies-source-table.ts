@@ -155,12 +155,11 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  buildSpecificRowActions(company: Company) {
+  buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
 
     // check if GPs are available
     openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
-
     if (this.isAdmin) {
       return [
         new TableEditAction().getActionDef(),
@@ -234,7 +233,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
   }
 
   private _deleteCompany(company) {
@@ -248,7 +247,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
-            this.loadData();
+            this.loadDataAndFormat(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'companies.delete_error');

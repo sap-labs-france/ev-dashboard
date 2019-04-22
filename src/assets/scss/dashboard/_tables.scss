@@ -54,7 +54,7 @@
 
   > tfoot > tr > td {
     position: sticky;
-    bottom: 0px;
+    bottom: -1px;
     background: $brand-background;
     z-index: 100;
   }

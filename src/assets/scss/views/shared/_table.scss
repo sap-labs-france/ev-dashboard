@@ -209,9 +209,8 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .action-cell {
-  padding: 0 5px;
+  padding: 0 5px !important;
 }
-
 
 .spinner-autorefresh {
   position: relative;
@@ -333,16 +332,6 @@ tr.element-row:not(.expanded-row):active {
   position:absolute;
   border-radius:50%
 }
-
-/*.spinner-autorefresh2 div:first-child:before{
-  top:6px;
-  left:6px;
-  right:6px;
-  bottom:6px;
-  box-shadow:0 2px 2px 0 rgba(14, 224, 49,1);
-  -webkit-animation:spin 3s linear infinite;
-  animation:spin 2s linear infinite
-}*/
 
 .spinner-autorefresh2 div:first-child:after{
   top:4px;

@@ -141,7 +141,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
     return [];
   }
 
-  buildSpecificRowActions(rowItem): TableActionDef[] {
+  buildTableDynamicRowActions(rowItem): TableActionDef[] {
     return [];
 
   }

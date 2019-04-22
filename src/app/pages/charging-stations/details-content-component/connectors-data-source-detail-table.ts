@@ -84,7 +84,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           // Update specific row actions
           if (this.formattedData) {
             this.formattedData.forEach(row => {
-              row.buildSpecificRowActions = this.buildSpecificRowActions(row);
+              row.buildTableDynamicRowActions = this.buildTableDynamicRowActions(row);
             });
           }
           let hasSomeDetails = false;
@@ -121,7 +121,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       }
       this.refreshReload(); // will call loadData
     } else {
-      this.loadData();
+      this.loadDataAndFormat(false).subscribe();
     }
   }
 
@@ -257,7 +257,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  buildSpecificRowActions(rowItem: Connector): TableActionDef[] {
+  buildTableDynamicRowActions(rowItem: Connector): TableActionDef[] {
     const actionAuthorize = [];
     if (rowItem && rowItem.activeTransactionID) {
       if (rowItem.isTransactionDisplayAuthorized) {
@@ -402,7 +402,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response: ActionResponse) => {
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
-          this.loadData();
+          this.loadDataAndFormat(false).subscribe();
           return true;
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
@@ -467,6 +467,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(false).subscribe());
   }
 }

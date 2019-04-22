@@ -216,8 +216,8 @@
             </ng-template>
             <!-- Action Cell -->
             <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
-              <ng-container *ngFor="let rowAction of (row['buildSpecificRowActions'] ? row['buildSpecificRowActions'] : dataSource.tableRowActionsDef)">
-                <ng-container *ngIf="row['canDisplayRowAction-' + rowAction.id]">
+              <ng-container *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
+                <ng-container *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
                   <!-- Drop Down Action -->
                   <ng-container *ngIf="rowAction.isDropdownMenu">
                     <mat-menu #rowActionMenu="matMenu" xPosition="before">

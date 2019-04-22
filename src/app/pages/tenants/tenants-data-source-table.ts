@@ -180,7 +180,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
   }
 
   private _openTenant(tenant?: any) {

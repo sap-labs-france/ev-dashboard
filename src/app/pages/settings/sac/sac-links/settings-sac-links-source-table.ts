@@ -206,7 +206,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           this.sacLinks.push(result);
         }
         this.formGroup.markAsDirty();
-        this.loadData();
+        this.loadDataAndFormat(false).subscribe();
       }
     });
   }
@@ -219,7 +219,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       if (result === Constants.BUTTON_TYPE_YES) {
         _.remove(this.sacLinks, function (o: SacLink) { return (o.id === sacLink.id) });
         this.formGroup.markAsDirty();
-        this.loadData();
+        this.loadDataAndFormat(false).subscribe();
       }
     });
   }

@@ -245,7 +245,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData(false);
+      this.loadDataAndFormat(false).subscribe();
     }, (error) => {
       // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -257,7 +257,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData(false);
+      this.loadDataAndFormat(false).subscribe();
     }, (error) => {
       // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -284,6 +284,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         };
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-        this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
+        this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(true).subscribe());
   }
 }

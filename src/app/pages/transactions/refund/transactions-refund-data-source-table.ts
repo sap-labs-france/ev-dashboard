@@ -289,7 +289,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             {inSuccess: response.inSuccess}));
       }
       this.spinnerService.hide();
-      this.loadData();
+      this.loadDataAndFormat(false).subscribe();
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();

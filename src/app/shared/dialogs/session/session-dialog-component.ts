@@ -41,11 +41,11 @@ export class SessionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadDataAndFormat(false).subscribe();
   }
 
   refresh() {
-    this.loadData();
+    this.loadDataAndFormat(false).subscribe();
     this.chartComponent.refresh();
   }
 

@@ -153,7 +153,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  buildSpecificRowActions(siteArea: SiteArea) {
+  buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
 
     // check if GPs are available
@@ -240,7 +240,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
   }
 
   private _showChargersDialog(charger?: Charger) {
@@ -265,7 +265,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
-            this.loadData();
+            this.loadDataAndFormat(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'site_areas.delete_error');

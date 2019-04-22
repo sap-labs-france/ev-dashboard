@@ -141,7 +141,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         case 'reset_filters':
           this.setSearchValue('');
           this.resetFilters();
-          this.loadData();
+          this.loadDataAndFormat(false).subscribe();
           break;
     }
   }
@@ -177,7 +177,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
         // Refresh
-        this.loadData();
+        this.loadDataAndFormat(false).subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -202,7 +202,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
           // Refresh
-          this.loadData();
+          this.loadDataAndFormat(false).subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

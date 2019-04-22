@@ -298,7 +298,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
+      this.loadDataAndFormat(false).subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
@@ -328,6 +328,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadData());
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(false).subscribe());
   }
 }

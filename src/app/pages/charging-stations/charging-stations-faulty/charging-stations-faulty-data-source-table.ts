@@ -332,7 +332,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(success_message);
-              this.loadData(true);
+              this.loadDataAndFormat(true).subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, error_message);
@@ -358,7 +358,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     }
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData(true));
+    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(true).subscribe());
   }
 
   private _deleteChargingStation(chargingStation: Charger) {
@@ -375,7 +375,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         if (result === Constants.BUTTON_TYPE_YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.loadData(true);
+              this.loadDataAndFormat(true).subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -391,7 +391,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     }
   }
 
-  buildSpecificRowActions(charger: ChargerInError) {
+  buildTableDynamicRowActions(charger: ChargerInError) {
     if (this.authorizationService.isAdmin()) {
       // duplicate actions from the map
       const actions = JSON.parse(JSON.stringify(ACTION_MAP[charger.errorCode]));

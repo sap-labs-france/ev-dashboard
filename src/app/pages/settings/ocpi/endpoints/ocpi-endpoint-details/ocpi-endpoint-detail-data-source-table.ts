@@ -88,7 +88,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     if (autoRefresh) {
       this.refreshReload(); // will call loadData
     } else {
-      this.loadData();
+      this.loadDataAndFormat(false).subscribe();
     }
   }
 
@@ -184,7 +184,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     ];
   }
 
-  public buildSpecificRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
+  public buildTableDynamicRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
     const _actionRowButtons = [];
     if (rowItem && rowItem.ocpiendpoint) {
       // add send all EVSE Statuses
@@ -246,13 +246,13 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
               this.messageService, 'ocpiendpoints.error_send_evse_statuses');
           }
           // reload data
-          this.loadData();
+          this.loadDataAndFormat(false).subscribe();
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.error_send_evse_statuses');
           // reload data
-          this.loadData();
+          this.loadDataAndFormat(false).subscribe();
         });
       }
     });
@@ -274,7 +274,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
       }
-      this.loadData();
+      this.loadDataAndFormat(false).subscribe();
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

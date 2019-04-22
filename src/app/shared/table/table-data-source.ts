@@ -562,6 +562,11 @@ public toggleRowSelection(row) {
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
+      // Check dynamic row actions
+      const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
+      if (dynamicRowActions.length > 0) {
+        freshRow['dynamicRowActions'] = dynamicRowActions;
+      }
       // Check Row Action Authorization
       if (this.hasRowActions) {
         // Check if authorized
@@ -569,11 +574,6 @@ public toggleRowSelection(row) {
           // Set if authorized
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
-      }
-      // Update specific row actions
-      const specificRowActions = this.buildSpecificRowActions(freshRow);
-      if (specificRowActions.length > 0) {
-        freshRow['specificRowActions'] = specificRowActions;
       }
       // Check if Row can be selected
       if (isRowSelectionEnabled) {
@@ -640,8 +640,8 @@ public toggleRowSelection(row) {
   /**
    * Used to retrieve individual line actions instead of general action table
    */
-  buildSpecificRowActions(row: T): TableActionDef[] {
-    console.log('table-data-source - buildSpecificRowActions');
+  buildTableDynamicRowActions(row: T): TableActionDef[] {
+    console.log('table-data-source - buildTableDynamicRowActions');
     return [];
   }
 
@@ -651,7 +651,6 @@ public toggleRowSelection(row) {
   }
 
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
-    console.log('table-data-source - canDisplayRowAction');
     return true;
   }
 

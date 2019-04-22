@@ -54,6 +54,9 @@ $outer-spinner: $brand-warn !default;
 }
 
 .table-list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   overflow: auto;
   white-space: nowrap;
   height: 200px;

@@ -85,8 +85,10 @@ export class TableComponent implements OnInit, AfterViewInit {
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
         map((e: KeyboardEvent) => e.target['value']),
         filter(text => text.length > 2),
-        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-        distinctUntilChanged()).subscribe((text: string) => {
+        // Fucked up in dev env, takes a lot of time to process!!!!!
+        // debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+        // distinctUntilChanged()
+      ).subscribe((text: string) => {
           // Set
           this.dataSource.setSearchValue(text);
           // Load data

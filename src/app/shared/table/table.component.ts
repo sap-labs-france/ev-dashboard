@@ -10,6 +10,7 @@ import {DetailComponentContainer} from './detail-component/detail-component-cont
 import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import * as _ from 'lodash';
 
 const DEFAULT_POLLING = 10000;
 const MAX_RECORD = 2000;
@@ -85,10 +86,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     // Set Sort
     this.dataSource.setSort(this.sort);
-    console.log(this.dataSource.tableDef);
   }
 
   requestNumberOfRecords() {
+    console.log('table.component - requestNumberOfRecords');
     // Add only record count
     const staticFilters = [
       ...this.dataSource.getStaticFilters(),

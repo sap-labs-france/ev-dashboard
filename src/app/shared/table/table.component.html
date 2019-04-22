@@ -157,8 +157,8 @@
               class="text-left col-5em pt-2">
             <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
               *ngIf="dataSource.tableDef.rowSelection.multiple"
-              [checked]="(dataSource.selectedRows === dataSource.data.length)"
-              [indeterminate]="(dataSource.selectedRows > 0) && dataSource.selectedRows !== dataSource.data.length">
+              [checked]="dataSource.selectedRows > 0 && dataSource.selectedRows === dataSource.data.length"
+              [indeterminate]="dataSource.selectedRows > 0 && dataSource.selectedRows !== dataSource.data.length">
             </mat-checkbox>
           </th>
           <!-- Detail Header -->
@@ -205,8 +205,8 @@
             <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
               <!-- Text Cell -->
               <td *ngIf="!tableColumnDef.isAngularComponent"
-                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-                {{row[tableColumnDef.id]}}
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                [innerHtml]="row[tableColumnDef.id]">
               </td>
               <!-- Angular Component Cell -->
               <td *ngIf="tableColumnDef.isAngularComponent"
@@ -264,20 +264,21 @@
           </tr>
         </ng-template>
       </tbody>
-      <tfoot>
+      <!-- <tfoot>
         <tr>
           <td class="nbr-of-records"
               [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0) + (dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled ? 1 : 0) + (dataSource.hasRowActions ? 1 : 0)">
-            <ng-template [ngIf]="dataSource.numberOfRecords === maxRecords">
-              {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
-            </ng-template>
-            <ng-template [ngIf]="dataSource.numberOfRecords !== maxRecords">
-              {{'general.nbr_of_records' | translate}}: {{dataSource.numberOfRecords | number}}
-            </ng-template>
           </td>
         </tr>
-      </tfoot>
+      </tfoot> -->
     </table>
+    <!-- Bottom list -->
+    <div *ngIf="dataSource.numberOfRecords === maxRecords" class="bottom-table">
+      {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
+    </div>
+    <div *ngIf="dataSource.numberOfRecords !== maxRecords" class="bottom-table">
+      {{'general.nbr_of_records' | translate}}: {{dataSource.numberOfRecords | number}}
+    </div>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
       {{'general.no_record_found' | translate}}

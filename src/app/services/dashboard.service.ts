@@ -33,7 +33,7 @@ export class DashboardService {
 
   constructor(private centralServerService: CentralServerService) {
     // First load
-    this.loadDataAndFormat(false).subscribe();
+    this.loadData();
     this.startLoading();
   }
 
@@ -59,7 +59,7 @@ export class DashboardService {
   startLoading() {
     if (!this.intervalReference) {
       this.intervalReference = setInterval(() => {
-        this.loadDataAndFormat(false).subscribe();
+        this.loadData();
       }, DATA_LOAD_INTERVAL);
     }
   }

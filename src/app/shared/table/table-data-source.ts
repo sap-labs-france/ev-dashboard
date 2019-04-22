@@ -562,6 +562,14 @@ public toggleRowSelection(row) {
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
+      // Check for complex property
+      for (const tableColumnDef of this.tableColumnDefs) {
+        // Check
+        if (tableColumnDef.id.indexOf('.') !== -1) {
+          // Create new var for direct access
+          freshRow[tableColumnDef.id] = _.get(freshRow, tableColumnDef.id);
+        }
+      }
       // Check dynamic row actions
       const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
       if (dynamicRowActions.length > 0) {

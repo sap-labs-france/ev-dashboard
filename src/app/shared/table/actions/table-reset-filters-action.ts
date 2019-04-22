@@ -3,7 +3,7 @@ import {TableActionDef, ButtonColor} from '../../../common.types';
 
 export class TableResetFiltersAction implements TableAction {
   private action: TableActionDef = {
-    id: 'reset_filters',
+    id: 'reset-filters',
     type: 'button',
     icon: 'cancel',
     color: ButtonColor.primary,

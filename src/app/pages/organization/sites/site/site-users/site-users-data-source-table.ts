@@ -138,11 +138,12 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           });
         }
         break;
-        case 'reset_filters':
-          this.setSearchValue('');
-          this.resetFilters();
-          this.loadDataAndFormat(false).subscribe();
-          break;
+
+      case 'reset-filters':
+        this.setSearchValue('');
+        this.resetFilters();
+        this.loadDataAndFormat(false).subscribe();
+        break;
     }
   }
 

@@ -322,30 +322,25 @@ public toggleRowSelection(row) {
   public resetFilters() {
     console.log('table-data-source - resetFilters');
     if (this.tableFiltersDef) {
+      // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
-        filterDef.reset();
+        switch (filterDef.type) {
+          case 'dropdown':
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            filterDef.reset();
+            break;
+        }
       });
     }
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     console.log('table-data-source - actionTriggered');
-    // Check common actions
-    switch (actionDef.id) {
-      case 'refresh':
-        this.clearSelectedRows();
-        this._manualRefreshReload();
-        break;
-      // Auto Refresh
-      case 'auto-refresh':
-        // Check Change Listener
-        break;
-      case 'reset_filters':
-        this.setSearchValue('');
-        this.resetFilters();
-        this.loadDataAndFormat(false).subscribe();
-        break;
-    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
@@ -383,60 +378,6 @@ public toggleRowSelection(row) {
       this._rowRefresh = new Subject();
     }
     return this._rowRefresh.subscribe(fn);
-  }
-
-  refreshReload() {
-    console.log('table-data-source - refreshReload');
-    let refreshStatus;
-    if (this._ongoingManualRefresh) {
-      this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
-    }
-    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
-    if (refreshStatus) {
-      return;
-    }
-    this._ongoingAutoRefresh.next(true);
-    const startDate = new Date().getTime();
-    this.loadDataAndFormat(true).subscribe();
-    const endDate = new Date().getTime();
-    // display the spinner at min 1s
-    if (endDate - startDate > 1000) {
-      this._ongoingAutoRefresh.next(false);
-    } else {
-      setTimeout(() => {
-        if (this._ongoingAutoRefresh) { // check if component si not destroyed in the meantime
-          this._ongoingAutoRefresh.next(false);
-        }
-      }, 1000 - (endDate - startDate));
-    }
-  }
-
-  private _manualRefreshReload() {
-    console.log('table-data-source - _manualRefreshReload');
-    // check if there is not already an ongoing refresh
-    let refreshStatus;
-    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
-    if (this._ongoingAutoRefresh) {
-      this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
-    }
-    if (refreshStatus) {
-      return;
-    }
-    // Start manual refresh
-    this._ongoingManualRefresh.next(true);
-    const startDate = new Date().getTime();
-    this.loadDataAndFormat(true).subscribe();
-    const endDate = new Date().getTime();
-    // display the spinner for min 1s
-    if (endDate - startDate > 1000) {
-      this._ongoingManualRefresh.next(false);
-    } else {
-      setTimeout(() => {
-        if (this._ongoingManualRefresh) {
-          this._ongoingManualRefresh.next(false);
-        }
-      }, 1000 - (endDate - startDate));
-    }
   }
 
   public buildFilterValues(withSearch: boolean = true) {
@@ -519,11 +460,11 @@ public toggleRowSelection(row) {
     return this.tableColumnDefs;
   }
 
-  public loadDataAndFormat(refreshAction: boolean): Observable<any> {
+  public loadDataAndFormat(refreshAction: boolean = false): Observable<any> {
     console.log('table-data-source - loadDataAndFormat');
     return new Observable((observer) => {
       // Load data source
-      this.loadData(false).subscribe((data) => {
+      this.loadData(refreshAction).subscribe((data) => {
         // Ok
         this.setData(data);
         // Notify

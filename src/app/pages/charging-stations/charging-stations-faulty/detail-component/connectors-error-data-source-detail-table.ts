@@ -58,11 +58,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    if (autoRefresh) {
-      this.refreshReload(); // will call loadData
-    } else {
-      this.loadData().subscribe();
-    }
+    this.loadData().subscribe();
   }
 
   public buildTableDef(): TableDef {

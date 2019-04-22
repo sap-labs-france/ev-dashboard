@@ -119,10 +119,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       if (this.dialogRefSession && this.dialogRefSession.componentInstance) {
         this.dialogRefSession.componentInstance.refresh();
       }
-      this.refreshReload(); // will call loadData
-    } else {
-      this.loadDataAndFormat(false).subscribe();
     }
+    this.loadDataAndFormat(false).subscribe();
   }
 
   public buildTableDef(): TableDef {

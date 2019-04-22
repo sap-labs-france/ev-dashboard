@@ -85,11 +85,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    if (autoRefresh) {
-      this.refreshReload(); // will call loadData
-    } else {
-      this.loadDataAndFormat(false).subscribe();
-    }
+    this.loadDataAndFormat(false).subscribe();
   }
 
   public buildTableDef(): TableDef {

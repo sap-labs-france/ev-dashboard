@@ -23,9 +23,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() dataSource: TableDataSource<any>;
   public searchPlaceholder = '';
   public searchObservable: Observable<string>;
-  public autoRefeshChecked = true;
-  public ongoingAutoRefresh = false;
-  public ongoingManualRefresh = false;
+  public autoRefeshTimer;
+  public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = MAX_RECORD;
   @ViewChild('searchInput') searchInput: ElementRef;
@@ -94,8 +93,24 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.loadData();
       });
     }
+    // Check Auto-Refresh
+    for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
+      if (tableActionRightDef.id === 'auto-refresh') {
+        // Active by default?
+        if (tableActionRightDef.currentValue) {
+          // Create
+          this.createAutoRefreshTimer();
+        }
+        break;
+      }
+    }
     // Load the data
     this.loadData();
+  }
+
+  ngDestroy() {
+    // Destroy
+    this.destroyAutoRefreshTimer();
   }
 
   requestNumberOfRecords() {
@@ -180,29 +195,60 @@ export class TableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  createAutoRefreshTimer() {
+    // Clean up
+    if (!this.autoRefeshTimer) {
+      // Create timer
+      this.autoRefeshTimer = setInterval(() => {
+        console.log("Auto refresh");
+
+        // Reload
+        this.loadData(true);
+      }, DEFAULT_POLLING);
+    }
+  }
+
+  destroyAutoRefreshTimer() {
+    // Clean up
+    if (this.autoRefeshTimer) {
+      clearInterval(this.autoRefeshTimer);
+    }
+  }
+
+  public toggleAutoRefresh({checked}) {
+    if (checked) {
+      // Create
+      this.createAutoRefreshTimer();
+    } else {
+      // Destroy
+      this.destroyAutoRefreshTimer();
+    }
+    console.log(checked);
+  }
+
+  public refresh() {
+    // Clear selection
+    this.dataSource.clearSelectedRows();
+    // Load Data
+    this.ongoingRefresh = true;
+    this.dataSource.loadDataAndFormat(true).subscribe(() => {
+      this.ongoingRefresh = false;
+   });
+  }
+
+  public resetFilters() {
+    console.log('table.component - resetFilters');
+    this.dataSource.setSearchValue('');
+    this.dataSource.resetFilters();
+    this.loadData(false);
+  }
+
   public actionTriggered(actionDef: TableActionDef, event?) {
     console.log('table.component - actionTriggered');
     // Slide?
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
-    }
-    // Reset Filters ?
-    if (actionDef.id === 'reset_filters') {
-      // Reset all filter fields
-      this.dataSource.getTableFiltersDef().forEach((filterDef: TableFilterDef) => {
-        switch (filterDef.type) {
-          case 'dropdown':
-            filterDef.currentValue = null;
-            break;
-          case 'dialog-table':
-            filterDef.currentValue = null;
-            break;
-          case 'date':
-            filterDef.reset();
-            break;
-        }
-      });
     }
     // Get Actions def
     this.dataSource.actionTriggered(actionDef);
@@ -231,10 +277,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   //   return item.id;
   // }
 
-  public loadData() {
+  public loadData(refreshAction = false) {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadDataAndFormat(false).subscribe();
+    this.dataSource.loadDataAndFormat(refreshAction).subscribe();
   }
 
   public showHideDetailsClicked(row) {

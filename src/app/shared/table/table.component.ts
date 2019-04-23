@@ -84,8 +84,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
         map((e: KeyboardEvent) => e.target['value']),
         // Fucked up in dev env, takes a lot of time to process!!!!!
-        // debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-        // distinctUntilChanged()
+        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+        distinctUntilChanged()
       ).subscribe((text: string) => {
           // Set
           this.dataSource.setSearchValue(text);
@@ -243,6 +243,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - resetFilters');
     this.dataSource.setSearchValue('');
     this.dataSource.resetFilters();
+    this.searchInput.nativeElement.value = '';
     this.loadData(false);
   }
 

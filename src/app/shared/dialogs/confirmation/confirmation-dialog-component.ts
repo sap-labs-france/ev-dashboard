@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, AfterViewInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Constants} from '../../../utils/Constants';
 import {TranslateService} from '@ngx-translate/core';
@@ -6,7 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
 @Component({
   templateUrl: './confirmation-dialog-component.html'
 })
-export class ConfirmationDialogComponent {
+export class ConfirmationDialogComponent implements AfterViewInit {
   public title = '';
   public message = '';
   public buttonValidateID = '';
@@ -23,11 +23,21 @@ export class ConfirmationDialogComponent {
       private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
       private translateService: TranslateService,
       @Inject(MAT_DIALOG_DATA) data) {
-    // Decal cancel dialog
-    setTimeout(() => this.canCancelDialog = true, 250);
     // Set
     this.title = data.title;
     this.message = data.message;
+    // Listen to escape key
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      console.log(keydownEvents);
+      // check if escape
+      if (keydownEvents && keydownEvents.key === 'Escape') {
+        this.onEscape();
+      }
+      // check if enter
+      if (keydownEvents && keydownEvents.key === 'Enter') {
+        this.onEnter();
+      }
+    });
     // set name
     switch (data.dialogType) {
       // Ok / Cancel
@@ -100,6 +110,10 @@ export class ConfirmationDialogComponent {
     }
   }
 
+  ngAfterViewInit() {
+    this.canCancelDialog = true;
+  }
+
   validate() {
     this.dialogRef.close(this.buttonValidateID);
   }
@@ -121,9 +135,12 @@ export class ConfirmationDialogComponent {
   }
 
   onEscape() {
+    console.log('this.canCancelDialog - ' + this.canCancelDialog);
     if (!this.canCancelDialog) {
       return;
     }
+    console.log('this.buttonCancelName - ' + this.buttonCancelName);
+    console.log('this.buttonNoName - ' + this.buttonNoName);
     if (this.buttonCancelName === null) {
       if (this.buttonNoName === null) {
         this.validate();

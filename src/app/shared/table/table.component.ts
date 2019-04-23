@@ -109,6 +109,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngDestroy() {
+    console.log('table.component - ngDestroy');
     // Destroy
     this.destroyAutoRefreshTimer();
   }
@@ -196,12 +197,11 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   createAutoRefreshTimer() {
+    console.log('table.component - createAutoRefreshTimer');
     // Clean up
     if (!this.autoRefeshTimer) {
       // Create timer
       this.autoRefeshTimer = setInterval(() => {
-        console.log("Auto refresh");
-
         // Reload
         this.loadData(true);
       }, DEFAULT_POLLING);
@@ -209,6 +209,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   destroyAutoRefreshTimer() {
+    console.log('table.component - destroyAutoRefreshTimer');
     // Clean up
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
@@ -216,6 +217,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public toggleAutoRefresh({checked}) {
+    console.log('table.component - toggleAutoRefresh');
     if (checked) {
       // Create
       this.createAutoRefreshTimer();
@@ -227,6 +229,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public refresh() {
+    console.log('table.component - refresh');
     // Clear selection
     this.dataSource.clearSelectedRows();
     // Load Data
@@ -261,10 +264,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public toggleRowSelection(row) {
+    console.log('table.component - toggleRowSelection');
     this.dataSource.toggleRowSelection(row);
   }
 
   public toggleMasterSelect() {
+    console.log('table.component - toggleMasterSelect');
     this.dataSource.toggleMasterSelect();
   }
 

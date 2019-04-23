@@ -243,16 +243,16 @@
         </tr>
       </tfoot> -->
     </table>
+    <!-- Message for no data in table -->
+    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
+      {{'general.no_record_found' | translate}}
+    </div>
     <!-- Bottom list -->
     <div *ngIf="dataSource.numberOfRecords === maxRecords" class="bottom-table">
       {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
     </div>
     <div *ngIf="dataSource.numberOfRecords !== maxRecords" class="bottom-table">
       {{'general.nbr_of_records' | translate}}: {{dataSource.numberOfRecords | number}}
-    </div>
-    <!-- Message for no data in table -->
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
-      {{'general.no_record_found' | translate}}
     </div>
   </div>
 </div>

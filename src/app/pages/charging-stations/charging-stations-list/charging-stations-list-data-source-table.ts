@@ -608,7 +608,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         markers: markers
       }
     }
-
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

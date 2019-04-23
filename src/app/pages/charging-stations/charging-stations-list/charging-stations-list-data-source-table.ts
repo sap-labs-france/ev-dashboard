@@ -95,13 +95,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       }
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+        this.getPaging(), this.getSorting()).subscribe((chargers) => {
         if (!refreshAction) {
           // Show
           this.spinnerService.hide();
         }
         // Set number of records
-        this.setNumberOfRecords(chargers.count);
+        this.setTotalNumberOfRecords(chargers.count);
         // Update details status
         chargers.result.forEach(charger => {
           // At first filter out the connectors that are null
@@ -532,9 +532,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   private exportChargingStations() {
     this.centralServerService.exportChargingStations(this.buildFilterValues(), {
-      limit: this.getNumberOfRecords(),
+      limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.buildOrdering())
+    }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportChargingStations.csv');
       }, (error) => {

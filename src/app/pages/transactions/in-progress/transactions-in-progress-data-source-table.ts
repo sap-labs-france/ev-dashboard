@@ -74,12 +74,12 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       if (!refreshAction) {
         this.spinnerService.show();
       }
-      this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
+      this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           if (!refreshAction) {
             this.spinnerService.hide();
           }
-          this.setNumberOfRecords(transactions.count);
+          this.setTotalNumberOfRecords(transactions.count);
           // Ok
           observer.next(transactions.result);
           observer.complete();

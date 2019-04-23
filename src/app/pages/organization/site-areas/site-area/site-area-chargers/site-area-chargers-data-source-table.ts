@@ -40,9 +40,9 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       if (this.siteArea) {
         // Yes: Get data
         this.centralServerService.getChargers(this.buildFilterValues(),
-          this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+          this.getPaging(), this.getSorting()).subscribe((chargers) => {
             // Set number of records
-            this.setNumberOfRecords(chargers.count);
+            this.setTotalNumberOfRecords(chargers.count);
             // Notify
             this.getDataSubjet().next(chargers.result);
             // Ok

@@ -430,6 +430,12 @@ tr.element-row:not(.expanded-row):active {
       margin-top: -2px;
     }
   }
+
+  .more-records {
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;    
+  }
 }
 
 .bottom-table {

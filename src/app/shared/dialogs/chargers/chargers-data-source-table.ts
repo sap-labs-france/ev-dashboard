@@ -28,11 +28,11 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
       this.spinnerService.show();
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((chargers) => {
+        this.getPaging(), this.getSorting()).subscribe((chargers) => {
           // Hide spinner
           this.spinnerService.hide();
           // Set number of records
-          this.setNumberOfRecords(chargers.count);
+          this.setTotalNumberOfRecords(chargers.count);
           // Ok
           observer.next(chargers.result);
           observer.complete();

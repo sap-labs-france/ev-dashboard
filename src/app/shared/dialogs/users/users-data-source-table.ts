@@ -28,11 +28,11 @@ export class UsersDataSource extends DialogTableDataSource<User> {
       this.spinnerService.show();
       // Get data
       this.centralServerService.getUsers(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((users) => {
+        this.getPaging(), this.getSorting()).subscribe((users) => {
           // Hide spinner
           this.spinnerService.hide();
           // Set number of records
-          this.setNumberOfRecords(users.count);
+          this.setTotalNumberOfRecords(users.count);
           // Ok
           observer.next(users.result);
           observer.complete();

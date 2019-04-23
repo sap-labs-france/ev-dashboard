@@ -58,7 +58,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
   public loadData(refreshAction = false): Observable<any> {
     return new Observable((observer) => {
       // Set number of records
-      this.setNumberOfRecords(this.getData().length);
+      this.setTotalNumberOfRecords(this.getData().length);
       // Return connector
       if (this.ocpiendpoint) {
         setTimeout(() => {
@@ -73,7 +73,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
           // Ok
           observer.next(ocpiendpointDetail);
           observer.complete();
-          // this.setNumberOfRecords(1);
+          // this.setTotalNumberOfRecords(1);
           this.isInitialized = true;
         }, 1);
       }

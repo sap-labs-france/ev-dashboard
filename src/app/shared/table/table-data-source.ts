@@ -16,6 +16,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public tableColumnDefs: TableColumnDef[];
   public specificRowActions: TableActionDef[];
   public data: any[] = [];
+  public paging: Paging;
 
   public hasActions: boolean;
   public hasFilters: boolean;
@@ -31,7 +32,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchValue = '';
-  private numberOfRecords = 0;
+  private totalNumberOfRecords = 0;
   private tableActionsDef: TableActionDef[];
   public sort: MatSort = new MatSort();
   private locale;
@@ -58,7 +59,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
 
     this.dataSubject.complete();
   }
-
 
   public setPollingInterval(pollingInterval: number) {
     console.log('table-data-source - setPollingInterval');
@@ -179,23 +179,23 @@ public toggleRowSelection(row) {
     return this.searchValue;
   }
 
-  public buildPaging(): Paging {
+  public getPageSize(): number {
+    return 100;
+  }
+
+  public setPaging(paging: Paging) {
+    this.paging = paging;
+  }
+
+  public getPaging(): Paging {
     console.log('table-data-source - getPaging');
-    return {
-      skip: 0,
-      limit: 100
+    if (!this.paging) {
+      this.paging = {
+        skip: 0,
+        limit: this.getPageSize()
+      }
     }
-    // if (this.getPaginator()) {
-    //   return {
-    //     skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-    //     limit: this.getPaginator().pageSize
-    //   };
-    // } else {
-    //   return {
-    //     skip: 0,
-    //     limit: this.getPaginatorPageSizes()[0]
-    //   };
-    // }
+    return this.paging;
   }
 
   public setSort(sort: MatSort) {
@@ -208,7 +208,7 @@ public toggleRowSelection(row) {
     return this.sort;
   }
 
-  public buildOrdering(): Ordering[] {
+  public getSorting(): Ordering[] {
     console.log('table-data-source - getOrdering');
     if (this.getSort()) {
       return [
@@ -227,14 +227,16 @@ public toggleRowSelection(row) {
     }
   }
 
-  public setNumberOfRecords(numberOfRecords: number) {
+  public setTotalNumberOfRecords(totalNumberOfRecords: number) {
     console.log('table-data-source - setNumberOfRecords');
-    this.numberOfRecords = numberOfRecords;
+    if (this.totalNumberOfRecords < totalNumberOfRecords) {
+      this.totalNumberOfRecords = totalNumberOfRecords;
+    }
   }
 
-  public getNumberOfRecords(): number {
+  public getTotalNumberOfRecords(): number {
     console.log('table-data-source - getNumberOfRecords');
-    return this.numberOfRecords;
+    return this.totalNumberOfRecords;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -482,6 +484,13 @@ public toggleRowSelection(row) {
     console.log('table-data-source - setData');
     // Format the data
     this._formatData(data);
+    // Check Paging
+    if (this.paging.skip === 0) {
+      // Clear array
+      this.data.length = 0;
+    }
+    // Add them
+    this.data.push(...data);
   }
 
   public getData(): any[] {
@@ -537,9 +546,6 @@ public toggleRowSelection(row) {
       // Format the row
       this._formatRow(freshRow);
     }
-    // Set it
-    this.data.length = 0;
-    this.data.push(...freshData);
   }
 
   _formatRow(row) {

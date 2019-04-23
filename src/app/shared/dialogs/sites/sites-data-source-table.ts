@@ -26,11 +26,11 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
       this.spinnerService.show();
       // Get data
       this.centralServerService.getSites(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
+        this.getPaging(), this.getSorting()).subscribe((sites) => {
           // Hide spinner
           this.spinnerService.hide();
           // Set number of records
-          this.setNumberOfRecords(sites.count);
+          this.setTotalNumberOfRecords(sites.count);
           // Ok
           observer.next(sites.result);
           observer.complete();

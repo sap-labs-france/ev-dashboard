@@ -57,11 +57,11 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       // show
       this.spinnerService.show();
       // get companies
-      this.centralServerService.getCompanies(this.buildFilterValues(), this.buildPaging(), this.buildOrdering()).subscribe((companies) => {
+      this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
           // Hide
           this.spinnerService.hide();
           // Update nbr records
-          this.setNumberOfRecords(companies.count);
+          this.setTotalNumberOfRecords(companies.count);
           // Notify
           this.getDataSubjet().next(companies.result);
           // lookup for logo otherwise assign default

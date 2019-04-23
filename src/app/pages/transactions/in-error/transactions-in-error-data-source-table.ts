@@ -73,13 +73,13 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       if (!refreshAction) {
         this.spinnerService.show();
       }
-      this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.buildPaging(), this.buildOrdering())
+      this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
         if (!refreshAction) {
           this.spinnerService.hide();
         }
         this.formatErrorMessages(transactions.result);
-        this.setNumberOfRecords(transactions.count);
+        this.setTotalNumberOfRecords(transactions.count);
         // Ok
         observer.next(transactions.result);
         observer.complete();

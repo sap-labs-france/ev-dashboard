@@ -57,11 +57,11 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       this.spinnerService.show();
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
-          this.buildPaging(), this.buildOrdering()).subscribe((tenants) => {
+          this.getPaging(), this.getSorting()).subscribe((tenants) => {
         // Hide
         this.spinnerService.hide();
         // Update nbr records
-        this.setNumberOfRecords(tenants.count);
+        this.setTotalNumberOfRecords(tenants.count);
         // Ok
         observer.next(tenants.result);
         observer.complete();

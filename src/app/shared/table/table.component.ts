@@ -21,13 +21,14 @@ const MAX_RECORD = 2000;
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
+  @ViewChild('searchInput') searchInput: ElementRef;
   public searchPlaceholder = '';
   public searchObservable: Observable<string>;
   public autoRefeshTimer;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = MAX_RECORD;
-  @ViewChild('searchInput') searchInput: ElementRef;
+  public numberOfColumns = 0;
 
   constructor(
     private configService: ConfigService,
@@ -74,6 +75,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // Set Sort
     this.dataSource.setSort(this.sort);
+    // Compute number of columns
+    this.numberOfColumns = this.dataSource.tableColumnDefs.length +
+      (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
+      (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
+      (this.dataSource.hasRowActions ? 1 : 0);
   }
 
   ngAfterViewInit() {
@@ -112,6 +118,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - ngOnDestroy');
     // Destroy
     this.destroyAutoRefreshTimer();
+  }
+
+  displayMoreRecords() {
+    // Get current paging
+    const currentPaging = this.dataSource.getPaging();
+    // Set new paging
+    this.dataSource.setPaging({
+      skip: currentPaging.skip + this.dataSource.getPageSize(),
+      limit: currentPaging.limit
+    });
+    // Load data
+    this.loadData();
   }
 
   requestNumberOfRecords() {

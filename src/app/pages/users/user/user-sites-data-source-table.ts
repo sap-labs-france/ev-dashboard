@@ -36,9 +36,9 @@ export class UserSitesDataSource extends TableDataSource<Site> {
       if (this.user) {
         // Yes: Get data
         this.centralServerService.getSites(this.buildFilterValues(),
-          this.buildPaging(), this.buildOrdering()).subscribe((sites) => {
+          this.getPaging(), this.getSorting()).subscribe((sites) => {
           // Set number of records
-          this.setNumberOfRecords(sites.count);
+          this.setTotalNumberOfRecords(sites.count);
           // Notify
           this.getDataSubjet().next(sites.result);
           // Ok

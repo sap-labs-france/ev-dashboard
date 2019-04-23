@@ -71,7 +71,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return new Observable((observer) => {
       setTimeout(() => {
         // Set number of records
-        this.setNumberOfRecords(this.getData().length);
+        this.setTotalNumberOfRecords(this.getData().length);
           // setTimeout(() => {
           if (this.sacLinks) {
             this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
@@ -82,7 +82,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
               links.push(_link);
             }
             // Update nbr records
-            this.setNumberOfRecords(links.length);
+            this.setTotalNumberOfRecords(links.length);
             // Ok
             observer.next(links);
             observer.complete();

@@ -43,7 +43,7 @@ export class ConnectorsErrorDataSource extends TableDataSource<Connector> {
   public loadData(refreshAction = false): Observable<any> {
     return new Observable((observer) => {
       // Set number of records
-      this.setNumberOfRecords(this.getData().length);
+      this.setTotalNumberOfRecords(this.getData().length);
       // // Return connector
       if (this.charger && this.buildTableColumnDefs()) {
         // Ok

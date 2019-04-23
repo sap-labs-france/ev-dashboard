@@ -72,10 +72,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       this.spinnerService.show();
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
-      this.centralServerService.getTransactions(filters, this.buildPaging(), this.buildOrdering())
+      this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.spinnerService.hide();
-          this.setNumberOfRecords(transactions.count);
+          this.setTotalNumberOfRecords(transactions.count);
           // Ok
           observer.next(transactions.result);
           observer.complete();

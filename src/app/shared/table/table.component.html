@@ -234,11 +234,17 @@
             </td>
           </tr>
         </ng-template>
-      </tbody>
+        <!-- More Records -->
+        <tr *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length">
+            <td [attr.colspan]="numberOfColumns" (click)="displayMoreRecords()">
+              <div class="more-records">{{'general.more_records' | translate}}</div>
+            </td>
+          </tr>
+        </tbody>
       <!-- <tfoot>
         <tr>
           <td class="nbr-of-records"
-              [attr.colspan]="dataSource.tableColumnDefs.length + (dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled ? 1 : 0) + (dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled ? 1 : 0) + (dataSource.hasRowActions ? 1 : 0)">
+              [attr.colspan]="numberOfColumns">
           </td>
         </tr>
       </tfoot> -->
@@ -248,11 +254,11 @@
       {{'general.no_record_found' | translate}}
     </div>
     <!-- Bottom list -->
-    <div *ngIf="dataSource.numberOfRecords === maxRecords" class="bottom-table">
+    <div *ngIf="dataSource.totalNumberOfRecords === maxRecords" class="bottom-table">
       {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
     </div>
-    <div *ngIf="dataSource.numberOfRecords !== maxRecords" class="bottom-table">
-      {{'general.nbr_of_records' | translate}}: {{dataSource.numberOfRecords | number}}
+    <div *ngIf="dataSource.totalNumberOfRecords !== maxRecords" class="bottom-table">
+      {{'general.nbr_of_records' | translate}}: {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
     </div>
   </div>
 </div>

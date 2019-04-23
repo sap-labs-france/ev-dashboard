@@ -67,13 +67,13 @@ export class LogsDataSource extends TableDataSource<Log> {
       }
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
-        this.buildPaging(), this.buildOrdering()).subscribe((logs) => {
+        this.getPaging(), this.getSorting()).subscribe((logs) => {
         if (!refreshAction) {
           // Show
           this.spinnerService.hide();
         }
         // Set number of records
-        this.setNumberOfRecords(logs.count);
+        this.setTotalNumberOfRecords(logs.count);
         // Add the users in the message
         logs.result.map((log) => {
           let user;
@@ -239,9 +239,9 @@ export class LogsDataSource extends TableDataSource<Log> {
   private exportLogs() {
     console.log('logs-data-source-table - exportLogs');
     this.centralServerService.exportLogs(this.buildFilterValues(), {
-      limit: this.getNumberOfRecords(),
+      limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.buildOrdering())
+    }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {

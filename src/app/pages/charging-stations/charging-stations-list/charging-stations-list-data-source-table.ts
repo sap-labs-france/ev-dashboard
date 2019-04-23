@@ -101,6 +101,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       this.setNumberOfRecords(chargers.count);
       // Update details status
       chargers.result.forEach(charger => {
+        // At first filter out the connectors that are null
+        charger.connectors = charger.connectors.filter(connector => connector != null);
         charger.connectors.forEach(connector => {
           connector.hasDetails = connector.activeTransactionID > 0;
         });

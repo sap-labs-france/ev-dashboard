@@ -221,7 +221,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create timer
       this.autoRefeshTimer = setInterval(() => {
         // Reload
-        this.loadData(true);
+        this.refresh(true);
       }, DEFAULT_POLLING);
     }
   }
@@ -246,15 +246,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(checked);
   }
 
-  public refresh() {
+  public refresh(autoRefresh = false) {
     console.log('table.component - refresh');
     // Clear selection
     this.dataSource.clearSelectedRows();
+    // Init paging
+    const currentPaging = this.dataSource.getPaging();
+    // Set new paging
+    this.dataSource.setPaging({
+      skip: 0,
+      limit: currentPaging.limit + currentPaging.skip
+    });
+    // Enable animation in button
+    if (autoRefresh) {
+      this.ongoingRefresh = true;
+    }
     // Load Data
-    this.ongoingRefresh = true;
     this.dataSource.loadDataAndFormat(true).subscribe(() => {
-      this.ongoingRefresh = false;
-   });
+      // Enable animation in button
+      if (autoRefresh) {
+        this.ongoingRefresh = false;
+      }
+      // Reset Current Paging
+      this.dataSource.setPaging(currentPaging);
+    });
   }
 
   public resetFilters() {

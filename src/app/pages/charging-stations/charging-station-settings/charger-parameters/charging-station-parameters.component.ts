@@ -364,7 +364,8 @@ export class ChargingStationParametersComponent implements OnInit {
       longitude: longitude,
       label: this.charger.id ? this.charger.id : ''
     }
-
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {

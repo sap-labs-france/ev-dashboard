@@ -48,9 +48,6 @@ th:last-child, td:last-child {
   padding-right: 15px !important;
 }
 
-th:nth-child(n+2), td:nth-child(n+2) {
-}
-
 @mixin col-fixsize($width) {
   width: $width;
   min-width: $width;
@@ -87,11 +84,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
     padding-left: 0 !important;
     margin-right: 0px !important;
     padding-right: 0 !important;
-  }
-
-  :first-child {
-//    margin-left: 0 !important;
-    // padding-left: 0 !important;
   }
 
   :last-child {
@@ -333,16 +325,6 @@ tr.element-row:not(.expanded-row):active {
   position:absolute;
   border-radius:50%
 }
-
-/*.spinner-autorefresh2 div:first-child:before{
-  top:6px;
-  left:6px;
-  right:6px;
-  bottom:6px;
-  box-shadow:0 2px 2px 0 rgba(14, 224, 49,1);
-  -webkit-animation:spin 3s linear infinite;
-  animation:spin 2s linear infinite
-}*/
 
 .spinner-autorefresh2 div:first-child:after{
   top:4px;

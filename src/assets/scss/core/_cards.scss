@@ -24,10 +24,6 @@
     }
   }
 
-  .form-check {
-    margin-top: 15px;
-  }
-
   .card-title {
     margin-top: 0.5rem;
     // padding-bottom: 15px;
@@ -299,38 +295,4 @@
 
 .card-settings {
   background: rgba($brand-primary, 0.1);
-}
-
-.card-plain {
-  background: transparent;
-  box-shadow: none !important;
-
-  .card-header:not(.card-avatar) {
-    margin-left: 0;
-    margin-right: 0;
-
-    .card-category,
-    .card-description {
-      color: $brand-text;
-    }
-  }
-
-  .card-body {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .card-header-image {
-    margin: 0 !important;
-    border-radius: $border-radius-large;
-
-    img {
-      border-radius: $border-radius-large;
-    }
-  }
-  .card-footer {
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: transparent;
-  }
 }

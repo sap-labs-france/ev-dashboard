@@ -254,11 +254,22 @@
       {{'general.no_record_found' | translate}}
     </div>
     <!-- Bottom list -->
-    <div *ngIf="dataSource.totalNumberOfRecords === maxRecords" class="bottom-table">
-      {{'general.nbr_of_records' | translate}}: <span (click)="requestNumberOfRecords()" class="query-nbr-of-records">{{'general.click_here' | translate}}</span>
-    </div>
-    <div *ngIf="dataSource.totalNumberOfRecords !== maxRecords" class="bottom-table">
-      {{'general.nbr_of_records' | translate}}: {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
+    <div class="bottom-table">
+      {{'general.nbr_of_records' | translate}}:
+      <!-- Too many records -->
+      <span *ngIf="dataSource.totalNumberOfRecords === maxRecords" (click)="requestNumberOfRecords()" class="query-nbr-of-records">
+        {{'general.click_here' | translate}}
+      </span>
+      <!-- n records / Max Records -->
+      <span *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)"
+          (click)="requestNumberOfRecords()" class="query-nbr-of-records">
+        {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
+      </span>
+      <!-- n records === Max Records -->
+      <span *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)"
+          (click)="requestNumberOfRecords()" class="query-nbr-of-records">
+        {{dataSource.data.length}}
+      </span>
     </div>
   </div>
 </div>

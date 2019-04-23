@@ -155,7 +155,7 @@
       </thead>
       <!-- Rows -->
       <tbody *ngIf="dataSource.data.length > 0">
-        <ng-template ngFor let-row [ngForOf]="dataSource.data">
+        <ng-template ngFor let-row [ngForOf]="dataSource.data" [ngForTrackBy]="trackByObjectId">
           <tr>
             <!-- Select Cell -->
             <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"

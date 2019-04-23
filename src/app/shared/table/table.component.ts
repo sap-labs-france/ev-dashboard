@@ -311,10 +311,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  // public trackByObjectId(index: number, item: any): any {
-  //   // console.log('table.component - trackByObjectId');
-  //   return item.id;
-  // }
+  public trackByObjectId(index: number, item: any): any {
+    return item.id;
+  }
 
   public loadData(refreshAction = false) {
     console.log('table.component - loadData');

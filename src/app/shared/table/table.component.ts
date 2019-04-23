@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {MatDialog, MatSort, Sort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
 import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -19,7 +19,7 @@ const MAX_RECORD = 2000;
   selector: 'app-table',
   templateUrl: 'table.component.html'
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   public searchPlaceholder = '';
   public searchObservable: Observable<string>;
@@ -108,8 +108,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  ngDestroy() {
-    console.log('table.component - ngDestroy');
+  ngOnDestroy() {
+    console.log('table.component - ngOnDestroy');
     // Destroy
     this.destroyAutoRefreshTimer();
   }

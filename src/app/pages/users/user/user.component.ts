@@ -2,7 +2,7 @@ import {mergeMap} from 'rxjs/operators';
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';
@@ -23,6 +23,7 @@ import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.co
 import {ConfigService} from '../../../services/config.service';
 import {TranslateService} from '@ngx-translate/core';
 import {ComponentEnum} from '../../../services/component.service';
+import {UserDialogComponent} from './user.dialog.component';
 
 @Component({
   selector: 'app-user-cmp',
@@ -32,6 +33,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentUserID: string;
   @Input() inDialog: boolean;
+  @Input() dialogRef: MatDialogRef<UserDialogComponent>;
   public userStatuses;
   public userRoles;
   public userLocales;
@@ -418,6 +420,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this._updateUser(user);
     } else {
       this._createUser(user);
+    }
+    if (this.inDialog && this.dialogRef) {
+      this.dialogRef.close();
     }
   }
 

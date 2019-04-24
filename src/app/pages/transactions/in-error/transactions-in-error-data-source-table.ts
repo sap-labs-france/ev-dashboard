@@ -253,6 +253,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.data = {
       transactionId: transaction.id
     };
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(true).subscribe());

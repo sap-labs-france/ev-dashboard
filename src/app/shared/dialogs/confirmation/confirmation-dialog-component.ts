@@ -108,6 +108,17 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonNoColor = 'warn';
         break;
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.onEscape();
+      }
+      // check if enter
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        this.onEnter();
+      }
+    });
   }
 
   ngAfterViewInit() {

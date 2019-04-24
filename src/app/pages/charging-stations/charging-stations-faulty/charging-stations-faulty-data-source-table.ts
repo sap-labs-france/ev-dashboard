@@ -356,6 +356,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(true).subscribe());

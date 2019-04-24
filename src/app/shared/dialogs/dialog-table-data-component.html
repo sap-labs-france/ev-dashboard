@@ -15,9 +15,7 @@
     <app-table [dataSource]="dialogDataSource"></app-table>
   </div>
 
-  <div class="card-footer mat-dialog-actions"
-      (document:keyup.enter)="validate()" 
-      (document:keyup.esc)="cancel()">
+  <div class="card-footer mat-dialog-actions">
     <span class="toolbar-spacer"></span>
 
     <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">

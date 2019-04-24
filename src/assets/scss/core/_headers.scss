@@ -9,10 +9,6 @@
   display: flex;
   align-items: center;
 
-  .carousel .carousel-indicators {
-    bottom: 60px;
-  }
-
   > .container {
     color: $brand-text;
   }
@@ -51,7 +47,7 @@
     content: "";
   }
 
-  &::before, {
+  &::before {
     background: rgba(0, 0, 0, .3);
   }
 
@@ -59,15 +55,4 @@
     z-index: 2;
     position: relative;
   }
-}
-
-.clear-filter::before {
-  background: none;
-}
-
-.purple-filter:after {
-  background: rgba(101, 47, 142, 0.64);
-  background: linear-gradient(45deg, rgba(101, 47, 142, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
-  background: -moz-linear-gradient(135deg, rgba(101, 47, 142, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
-  background: -webkit-linear-gradient(135deg, rgba(101, 47, 142, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
 }

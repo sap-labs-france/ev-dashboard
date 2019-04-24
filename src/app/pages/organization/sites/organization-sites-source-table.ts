@@ -247,6 +247,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     if (site) {
       dialogConfig.data = site;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialog.open(SiteUsersDialogComponent, dialogConfig);
   }

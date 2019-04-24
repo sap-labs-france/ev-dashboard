@@ -240,6 +240,8 @@ export class UsersDataSource extends TableDataSource<User> {
     if (user) {
       dialogConfig.data = user.id;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());

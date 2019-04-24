@@ -38,6 +38,13 @@ export class SessionDialogComponent implements OnInit {
     if (data) {
       this.transactionId = data.transactionId;
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   ngOnInit(): void {

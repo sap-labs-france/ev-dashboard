@@ -106,6 +106,13 @@ export class ConsumptionChartComponent implements OnInit {
       ...this.formatLineColor(this.colors[0]),
       label: this.translateService.instant('transactions.graph.power')
     });
+    this.options.scales.yAxes.push({
+      id: 'power',
+      ticks: {
+        callback: (value, index, values) => value / 1000.0,
+        min: 0
+      }
+    });
     if (this.consumptions.find(c => c.stateOfCharge !== undefined)) {
       this.data.datasets.push({
         name: 'stateOfCharge',

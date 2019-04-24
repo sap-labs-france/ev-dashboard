@@ -31,11 +31,11 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
 
   ngOnInit(): void {
     this.isSimpleConnectorDisplay = false;
+    this.largeDisplay = false;
     this.baseClassConnectorTypeText =
       `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center ${(this.largeDisplay ? 
-        'charger-connector-container-image-large' : 'charger-connector-container-image-small')} ${(this.isAdmin && this.row.type === null ? 'connector-not-typed-icon' : '')}`;
-    // console.log(`OnInit ${this.row.connectorId}`);
-    this.tooltipTypeOffest = (this.largeDisplay ? '0px, 8px' : '-15px, 8px')
+        'charger-connector-container-image-large' : 'charger-connector-container-image-small')} ${(this.isAdmin && this.row.type === null) ? 'connector-not-typed-icon' : ''}`;
+    this.tooltipTypeOffest = (this.largeDisplay ? '0px, 8px' : '-15px, 8px');
     this.updateValues();
   }
 
@@ -46,7 +46,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   updateValues() {
     if (!this.row.type || (this.row.type === null)){
       this.row.type = 'U';
-    }  
+    };  
     this.typeSvgIcon = this._appConnectorTypePipe.transform(this.row.type, true);
     this.typeTooltip = this._appConnectorTypePipe.transform(this.row.type, false);
     

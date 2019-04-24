@@ -51,8 +51,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     //     newData[index].message = 'FUCK';
     //     this.dataSource.data.length = 0;
     //     this.dataSource.data.push(...newData);
-    //     // Refresh table
-    //     this.table.renderRows();
     //   }
     // }, 2000);
     console.log('table.component - ngOnInit');

@@ -26,5 +26,12 @@ export class SiteUsersDialogComponent {
       this.siteUsersDataSource.setSite(data);
       this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', { 'siteName': data.name });
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

@@ -37,6 +37,13 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
     if (data) {
       this.charger = data;
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   ngAfterViewInit(): void {

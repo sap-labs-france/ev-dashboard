@@ -12,7 +12,7 @@ import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.p
 export class ConnectorCellComponent extends CellContentTemplateComponent implements OnInit {
 
   @Input() row: any;
-  @Input() largeDisplay = true;
+  @Input() largeDisplay = false;
 
   chargerStatus: string;
   isSimpleConnectorDisplay: boolean;
@@ -31,7 +31,6 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
 
   ngOnInit(): void {
     this.isSimpleConnectorDisplay = false;
-    this.largeDisplay = false;
     this.baseClassConnectorTypeText =
       `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center ${(this.largeDisplay ? 
         'charger-connector-container-image-large' : 'charger-connector-container-image-small')} ${(this.isAdmin && this.row.type === null) ? 'connector-not-typed-icon' : ''}`;

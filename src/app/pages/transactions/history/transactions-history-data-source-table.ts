@@ -190,7 +190,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 

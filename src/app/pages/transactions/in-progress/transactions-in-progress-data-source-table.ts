@@ -207,10 +207,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
-    
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:

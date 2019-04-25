@@ -42,17 +42,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    // setInterval(() => {
-    //   if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 15) {
-    //     // Change
-    //     const index = Math.trunc(Math.random() * 15);
-    //     console.log(this.dataSource.data[index].message);
-    //     const newData = Array.from(this.dataSource.data);
-    //     newData[index].message = 'FUCK';
-    //     this.dataSource.data.length = 0;
-    //     this.dataSource.data.push(...newData);
-    //   }
-    // }, 2000);
+    setInterval(() => {
+      if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 15) {
+        // Change
+        const index = Math.trunc(Math.random() * 15);
+        console.log(this.dataSource.data[index].level);
+        const newData = Array.from(this.dataSource.data);
+        newData[index].level = 'E';
+        newData[index].message = 'E';
+        this.dataSource.data.length = 0;
+        this.dataSource.data.push(...newData);
+      }
+    }, 2000);
     console.log('table.component - ngOnInit');
 
     // Handle locale (local service available only in component not possible in data-source)

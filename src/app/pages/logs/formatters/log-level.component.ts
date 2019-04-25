@@ -1,8 +1,8 @@
 import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
-import {Component, Input} from '@angular/core';
+import {Component, Input, Pipe, PipeTransform} from '@angular/core';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import {
-  ChipComponent,
   TYPE_DANGER,
   TYPE_DEFAULT,
   TYPE_INFO,
@@ -12,37 +12,59 @@ import {
 
 @Component({
   selector: 'app-log-level-chip',
-  templateUrl: '../../../shared/component/chip/chip.component.html'
+  template: `
+    <mat-chip-list [selectable]="false">
+      <mat-chip [ngClass]="row.level | appFormatLog:'class'" [disabled]="true">{{row.level | appFormatLog:'text' | translate}}</mat-chip>
+    </mat-chip-list>
+  `
 })
-export class LogLevelComponent extends ChipComponent {
+export class LogLevelComponent extends CellContentTemplateComponent {
   @Input() row: Log;
+}
 
-  loadContent(): void {
-    for (const level of logLevels) {
-      if (level.key === this.row.level) {
-        this.text = level.value
-      }
+@Pipe({name: 'appFormatLog'})
+export class AppFormatLog implements PipeTransform {
+  transform(logLevel: string, type: string): string {
+    console.log(`logLevel ${logLevel} - type ${type}`);
+
+    if (type === 'class') {
+      return this.buildLogLevelClasses(logLevel);
     }
-    this.type = 'chip-width-5em ';
-    switch (this.row.level) {
+    if (type === 'text') {
+      return this.buildLogLevelText(logLevel);
+    }
+  }
+
+  buildLogLevelClasses(logLevel: string): string {
+    let classNames = 'chip-width-5em ';
+    switch (logLevel) {
       case 'E':
-        this.type += TYPE_DANGER;
+        classNames += TYPE_DANGER;
         break;
 
       case 'W':
-        this.type += TYPE_WARNING;
+        classNames += TYPE_WARNING;
         break;
 
       case 'I':
-        this.type += TYPE_SUCCESS;
+        classNames += TYPE_SUCCESS;
         break;
 
       case 'D':
-        this.type += TYPE_INFO;
+        classNames += TYPE_INFO;
         break;
 
       default:
-        this.type += TYPE_DEFAULT;
+        classNames += TYPE_DEFAULT;
+    }
+    return classNames;
+  }
+
+  buildLogLevelText(logLevel: string): string {
+    for (const level of logLevels) {
+      if (logLevel === level.key) {
+        return level.value;
+      }
     }
   }
 }

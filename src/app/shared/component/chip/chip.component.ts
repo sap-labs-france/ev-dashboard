@@ -17,9 +17,5 @@ export abstract class ChipComponent extends CellContentTemplateComponent impleme
     this.loadContent();
   }
 
-  refresh(): void {
-    this.loadContent();
-  }
-
   abstract loadContent(): void;
 }

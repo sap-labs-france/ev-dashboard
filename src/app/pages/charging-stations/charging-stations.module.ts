@@ -29,6 +29,7 @@ import {ConnectorAvailibilityComponent} from './cell-content-components/connecto
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
 import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
+import {AppFormatChargerPower} from './cell-content-components/instant-power-progress-bar.component';
 import {SessionDetailComponent} from './cell-content-components/session-detail.component';
 
 @NgModule({
@@ -67,6 +68,7 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     ConnectorsErrorDetailComponent
   ],
   declarations: [
+    AppFormatChargerPower,
     HeartbeatCellComponent,
     SessionDetailComponent,
     InstantPowerProgressBarComponent,

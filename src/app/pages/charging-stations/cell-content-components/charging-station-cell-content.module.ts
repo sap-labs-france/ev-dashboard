@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { MomentModule } from 'ngx-moment';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +25,7 @@ import { SessionDetailComponent } from './session-detail.component';
     MaterialModule,
     TableModule,
     CommonDirectivesModule,
+    MomentModule,
     DialogsModule,
     MatProgressBarModule,
     FormattersModule,

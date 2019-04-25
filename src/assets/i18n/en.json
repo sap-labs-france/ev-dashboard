@@ -461,7 +461,7 @@
     "model": "Model",
     "name": "Name",
     "heartbeat_title": "Status",
-    "charger_disconnected": "Disconnected ({{from}})",
+    "charger_disconnected": "Disconnected",
     "charger_connected": "Connected",
     "connectors_title": "Connectors",
     "consumption_title": "Instant Power",

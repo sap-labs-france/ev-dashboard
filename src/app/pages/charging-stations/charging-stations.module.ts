@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {ChartModule} from 'angular2-chartjs';
 import {MaterialModule} from '../../app.module';
 import {ChargingStationsComponent} from './charging-stations.component';
 import {ChargingStationsRoutes} from './charging-stations.routing';
@@ -17,8 +18,6 @@ import {ChargingStationsFaultyComponent} from './charging-stations-faulty/chargi
 import {ComponentModule} from 'app/shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
 import {SessionDialogComponent} from 'app/shared/dialogs/session/session-dialog-component';
-import {ChartModule} from 'angular2-chartjs';
-// tslint:disable-next-line:max-line-length
 import {ChargingStationMoreActionsDialogComponent} from './more-actions/charging-station-more-actions.dialog.component';
 import {ChargingStationGetDiagnosticsComponent} from './more-actions/get-diagnostics-component/get-diagnostics.component';
 import {ConnectorConsumptionChartDetailComponent} from './details-content-component/consumption-chart-detail.component';

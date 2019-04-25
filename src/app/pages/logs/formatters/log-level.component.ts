@@ -25,8 +25,6 @@ export class LogLevelComponent extends CellContentTemplateComponent {
 @Pipe({name: 'appFormatLog'})
 export class AppFormatLog implements PipeTransform {
   transform(logLevel: string, type: string): string {
-    console.log(`logLevel ${logLevel} - type ${type}`);
-
     if (type === 'class') {
       return this.buildLogLevelClasses(logLevel);
     }

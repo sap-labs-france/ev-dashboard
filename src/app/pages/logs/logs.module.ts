@@ -10,7 +10,6 @@ import {LogsRoutes} from './logs.routing';
 import {TableModule} from '../../shared/table/table.module';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
-import {AppLogLevelIconPipe} from './formatters/app-log-level-icon.pipe';
 import {LogLevelComponent} from './formatters/log-level.component';
 import {AppFormatLog} from './formatters/log-level.component';
 import {ComponentModule} from '../../shared/component/component.module';
@@ -32,8 +31,7 @@ import {ComponentModule} from '../../shared/component/component.module';
   declarations: [
     LogsComponent,
     LogLevelComponent,
-    AppFormatLog,
-    AppLogLevelIconPipe
+    AppFormatLog
   ],
   entryComponents: [
     LogLevelComponent

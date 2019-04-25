@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MomentModule} from 'ngx-moment';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -22,9 +23,13 @@ import {ChargingStationMoreActionsDialogComponent} from './more-actions/charging
 import {ChargingStationGetDiagnosticsComponent} from './more-actions/get-diagnostics-component/get-diagnostics.component';
 import {ConnectorConsumptionChartDetailComponent} from './details-content-component/consumption-chart-detail.component';
 import {ConnectorsErrorDetailComponent} from './charging-stations-faulty/detail-component/connectors-error-detail-component.component';
-import {ChargingStationCellComponentsModule} from './cell-content-components/charging-station-cell-content.module';
 import {ChargingStationsSettingsModule} from './charging-station-settings/charging-stations-settings.module';
 import {ChargingStationSmartChargingModule} from './smart-charging/charging-station-smart-charging.module';
+import {ConnectorAvailibilityComponent} from './cell-content-components/connector-availibility.component';
+import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
+import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
+import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
+import {SessionDetailComponent} from './cell-content-components/session-detail.component';
 
 @NgModule({
   imports: [
@@ -37,11 +42,11 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
     TableModule,
     CommonDirectivesModule,
     DialogsModule,
+    MomentModule,
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationCellComponentsModule,
     ChargingStationsSettingsModule,
     ChargingStationSmartChargingModule
   ],
@@ -49,6 +54,11 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
     ConnectorsDetailComponent,
     StartTransactionDialogComponent,
     SessionDialogComponent,
+    HeartbeatCellComponent,
+    SessionDetailComponent,
+    InstantPowerProgressBarComponent,
+    ConnectorAvailibilityComponent,
+    ConnectorsCellComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
@@ -57,6 +67,11 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
     ConnectorsErrorDetailComponent
   ],
   declarations: [
+    HeartbeatCellComponent,
+    SessionDetailComponent,
+    InstantPowerProgressBarComponent,
+    ConnectorAvailibilityComponent,
+    ConnectorsCellComponent,
     ChargingStationsComponent,
     ConnectorsDetailComponent,
     StartTransactionDialogComponent,

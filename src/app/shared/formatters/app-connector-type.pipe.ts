@@ -22,7 +22,7 @@ export class AppConnectorTypePipe implements PipeTransform {
     const foundConnectorType = CONNECTOR_TYPE_MAP.find(
       (connectorType) => connectorType.key === type);
     if (asSvgIcon) {
-        return (foundConnectorType ? foundConnectorType.svgIconName : '');
+        return (foundConnectorType ? foundConnectorType.svgIconName : 'U');
     } else {
       return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_type_unknown');
     }

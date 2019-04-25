@@ -24,4 +24,8 @@ export class UserDialogComponent {
       }
     });
   }
+
+  getDialogRef(): MatDialogRef<UserDialogComponent> {
+    return this.dialogRef;
+  }
 }

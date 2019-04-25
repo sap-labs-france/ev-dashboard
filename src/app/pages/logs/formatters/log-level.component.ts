@@ -1,7 +1,7 @@
 import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
 import {
   TYPE_DANGER,
   TYPE_DEFAULT,

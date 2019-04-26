@@ -22,10 +22,10 @@ import {SessionDialogComponent} from 'app/shared/dialogs/session/session-dialog-
 import {ChargingStationMoreActionsDialogComponent} from './more-actions/charging-station-more-actions.dialog.component';
 import {ChargingStationGetDiagnosticsComponent} from './more-actions/get-diagnostics-component/get-diagnostics.component';
 import {ConnectorConsumptionChartDetailComponent} from './details-content-component/consumption-chart-detail.component';
-import {ConnectorsErrorDetailComponent} from './charging-stations-faulty/detail-component/connectors-error-detail-component.component';
 import {ChargingStationsSettingsModule} from './charging-station-settings/charging-stations-settings.module';
 import {ChargingStationSmartChargingModule} from './smart-charging/charging-station-smart-charging.module';
-import {ConnectorAvailibilityComponent} from './cell-content-components/connector-availibility.component';
+import {ConnectorStatusComponent} from './cell-content-components/connector-status.component';
+import {AppFormatConnectorStatus} from './cell-content-components/connector-status.component';
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
 import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
@@ -58,21 +58,21 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     HeartbeatCellComponent,
     SessionDetailComponent,
     InstantPowerProgressBarComponent,
-    ConnectorAvailibilityComponent,
+    ConnectorStatusComponent,
     ConnectorsCellComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent,
-    ConnectorsErrorDetailComponent
+    ChargingStationsFaultyComponent
   ],
   declarations: [
     AppFormatChargerPower,
+    AppFormatConnectorStatus,
     HeartbeatCellComponent,
     SessionDetailComponent,
     InstantPowerProgressBarComponent,
-    ConnectorAvailibilityComponent,
+    ConnectorStatusComponent,
     ConnectorsCellComponent,
     ChargingStationsComponent,
     ConnectorsDetailComponent,
@@ -81,8 +81,7 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent,
-    ConnectorsErrorDetailComponent
+    ChargingStationsFaultyComponent
   ],
   exports: [
     StartTransactionDialogComponent,

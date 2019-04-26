@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {TableDef, Transaction} from '../../../common.types';
-import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
+import { CellContentComponentContainer } from '../../../shared/table/cell-content-template/cell-content-container.component';
 import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transaction-char
   `
 })
 
-export class ConsumptionChartDetailComponent extends DetailComponent {
+export class ConsumptionChartDetailComponent extends CellContentComponentContainer {
   transactionId: number;
 
   @ViewChild('consumptionChart') consumptionChartComponent: ConsumptionChartComponent;

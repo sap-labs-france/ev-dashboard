@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { TableDef, Transaction } from '../../../common.types';
-import { DetailComponent } from '../../../shared/table/detail-component/detail-component.component';
+import { CellContentComponentContainer } from '../../../shared/table/cell-content-template/cell-content-container.component';
 import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
 
 @Component({
@@ -9,25 +9,24 @@ import { ConsumptionChartComponent } from 'app/shared/component/transaction-char
   `
 })
 
-export class ConnectorConsumptionChartDetailComponent extends DetailComponent {
+export class ConnectorConsumptionChartDetailComponent extends CellContentComponentContainer {
+  // transactionId: number;
 
-  transactionId: number;
+  // @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
-  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
+  // setData(row, tabledef: TableDef) {
+  //   this.transactionId = row.activeTransactionID;
+  // }
 
-  setData(row, tabledef: TableDef) {
-    this.transactionId = row.activeTransactionID;
-  }
+  // getParentClass() {
+  //   return 'col-md-12';
+  // }
 
-  getParentClass() {
-    return 'col-md-12';
-  }
+  // refresh(row) {
+  //   this.transactionId = row.activeTransactionID;
+  //   this.chartComponent.refresh();
+  // }
 
-  refresh(row) {
-    this.transactionId = row.activeTransactionID;
-    this.chartComponent.refresh();
-  }
-
-  destroy() {
-  }
+  // destroy() {
+  // }
 }

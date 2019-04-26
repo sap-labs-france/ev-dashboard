@@ -1,16 +1,15 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {MatDialog, MatSort, Sort, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatSort, MatDialogConfig} from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
-import { map, filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import {DropdownItem, TableActionDef, TableDef, TableFilterDef, TableColumnDef} from '../../common.types';
+import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {DropdownItem, TableActionDef, TableFilterDef, TableColumnDef} from '../../common.types';
 import {ConfigService} from '../../services/config.service';
 import {TableDataSource} from './table-data-source';
-import {DetailComponentContainer} from './detail-component/detail-component-container.component';
 import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
-import { SpinnerService } from 'app/services/spinner.service';
+import {SpinnerService} from 'app/services/spinner.service';
+import {Observable, fromEvent} from 'rxjs';
 import * as _ from 'lodash';
-import { Observable, fromEvent } from 'rxjs';
 
 const DEFAULT_POLLING = 10000;
 const MAX_RECORD = 2000;
@@ -335,12 +334,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             row.isExpanded = true;
           });
         } else {
-          // // Yes: Find the container related to the row
-          // this.detailComponentContainers.forEach((detailComponentContainer: DetailComponentContainer) => {
-          //   if (detailComponentContainer.parentRow === row) {
-          //     detailComponentContainer.loadComponent();
-          //   }
-          // });
+          // Yes: Find the container related to the row
           row.isExpanded = true;
         }
       } else {

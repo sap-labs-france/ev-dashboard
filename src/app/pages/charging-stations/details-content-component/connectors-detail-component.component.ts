@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {TableDef} from '../../../common.types';
-import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
+import {CellContentComponentContainer} from '../../../shared/table/cell-content-template/cell-content-container.component';
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
 @Component({
@@ -10,30 +10,30 @@ import {ConnectorsDataSource} from './connectors-data-source-detail-table';
   ]
 })
 
-export class ConnectorsDetailComponent extends DetailComponent {
-  connectorId: string;
-  chargerInactive: boolean;
-  classDateError: string;
-  heartbeatDate: string;
+export class ConnectorsDetailComponent extends CellContentComponentContainer {
+  // connectorId: string;
+  // chargerInactive: boolean;
+  // classDateError: string;
+  // heartbeatDate: string;
 
-  constructor(public connectorsDataSource: ConnectorsDataSource) {
-    super();
-  }
+  // constructor(public connectorsDataSource: ConnectorsDataSource) {
+  //   super();
+  // }
 
-  /**
-   * setData
-   */
-  setData(row: any, tabledef: TableDef) {
-    this.connectorsDataSource.setCharger(row);
-    this.connectorsDataSource.setDetailedDataSource(row.connectors);
-  }
+  // /**
+  //  * setData
+  //  */
+  // setData(row: any, tabledef: TableDef) {
+  //   this.connectorsDataSource.setCharger(row);
+  //   this.connectorsDataSource.setDetailedDataSource(row.connectors);
+  // }
 
-  refresh(row: any, autoRefresh: boolean) {
-    this.connectorsDataSource.setCharger(row);
-    this.connectorsDataSource.setDetailedDataSource(row.connectors, autoRefresh);
-  }
+  // refresh(row: any, autoRefresh: boolean) {
+  //   this.connectorsDataSource.setCharger(row);
+  //   this.connectorsDataSource.setDetailedDataSource(row.connectors, autoRefresh);
+  // }
 
-  destroy() {
-    // this.connectorsDataSource.destroy();
-  }
+  // destroy() {
+  //   // this.connectorsDataSource.destroy();
+  // }
 }

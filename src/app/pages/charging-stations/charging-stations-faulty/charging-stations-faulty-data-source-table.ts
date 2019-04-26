@@ -33,7 +33,6 @@ import { ChargingStationSettingsComponent } from '../charging-station-settings/c
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { Constants } from 'app/utils/Constants';
-import { ConnectorsErrorDetailComponent } from './detail-component/connectors-error-detail-component.component';
 import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
 import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
@@ -146,11 +145,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       rowSelection: {
         enabled: false,
         multiple: false
-      },
-      rowDetails: {
-        enabled: true,
-        isDetailComponent: true,
-        detailComponentName: ConnectorsErrorDetailComponent
       },
       rowFieldNameIdentifier: 'uniqueId'
     };

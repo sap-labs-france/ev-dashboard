@@ -2,19 +2,22 @@ import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-import {
-  TYPE_DANGER,
-  TYPE_DEFAULT,
-  TYPE_INFO,
-  TYPE_SUCCESS,
-  TYPE_WARNING
-} from '../../../shared/component/chip/chip.component';
+
+const TYPE_PRIMARY = 'chip-primary';
+const TYPE_DEFAULT = 'chip-default';
+const TYPE_INFO = 'chip-info';
+const TYPE_SUCCESS = 'chip-success';
+const TYPE_DANGER = 'chip-danger';
+const TYPE_WARNING = 'chip-warning';
+const TYPE_GREY = 'chip-grey';
 
 @Component({
   selector: 'app-log-level-chip',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.level | appFormatLog:'class'" [disabled]="true">{{row.level | appFormatLog:'text' | translate}}</mat-chip>
+      <mat-chip [ngClass]="row.level | appFormatLog:'class'" [disabled]="true">
+        {{row.level | appFormatLog:'text' | translate}}
+      </mat-chip>
     </mat-chip-list>
   `
 })

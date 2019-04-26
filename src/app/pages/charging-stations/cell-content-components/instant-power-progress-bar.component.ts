@@ -6,7 +6,9 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerKW === 0">
-        {{row.connectors | appFormatChargerPower:'instantPowerKW':row | number}} / {{row.connectors | appFormatChargerPower:'maxPowerKW':row | number}} kW
+        {{row.connectors | appFormatChargerPower:'instantPowerKW':row | number}}
+        &nbsp;/&nbsp;
+        {{row.connectors | appFormatChargerPower:'maxPowerKW':row | number}} kW
       </div>
       <mat-progress-bar color="accent" class="d-flex" [hidden]="maxPowerKW === 0"
         value="{{instantPowerKW / maxPowerKW * 100}}" mode="determinate">

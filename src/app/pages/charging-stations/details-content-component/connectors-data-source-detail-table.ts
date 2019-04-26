@@ -8,7 +8,7 @@ import {ConfigService} from '../../../services/config.service';
 import {Router} from '@angular/router';
 import {MessageService} from '../../../services/message.service';
 import {DialogService} from '../../../services/dialog.service';
-import {ConnectorAvailibilityComponent} from '../cell-content-components/connector-availibility.component';
+import {ConnectorStatusComponent} from '../cell-content-components/connector-status.component';
 import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
 import {ConnectorCellComponent} from '../../../shared/component/connector/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
@@ -28,7 +28,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {ConnectorConsumptionChartDetailComponent} from './consumption-chart-detail.component';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -166,7 +166,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         headerClass: 'text-center',
         class: '',
         isAngularComponent: true,
-        angularComponentName: ConnectorAvailibilityComponent,
+        angularComponentName: ConnectorStatusComponent,
         sortable: false
       },
       {
@@ -365,7 +365,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
                 this.messageService.showSuccessMessage(
                   this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
               }, (error) => {
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.stop_transaction_error');
+                Utils.handleHttpError(error, this.router, this.messageService,
+                  this.centralServerService, 'chargers.stop_transaction_error');
               });
             }
           });

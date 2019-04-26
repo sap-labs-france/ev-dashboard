@@ -19,5 +19,9 @@
 }
 
 .card-connector-icon {
-    font-family: none !important; // Need to be deactivate to dsiplay properly SVG icons
+    font-family: none !important; // Need to be deactivate to display properly SVG icons
+}
+
+.charger-dialog-component {
+    max-height: 55vh !important;
 }

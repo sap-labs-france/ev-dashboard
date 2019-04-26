@@ -21,6 +21,17 @@ export abstract class DialogTableDataComponent<T> {
     if (data && data.tableDef) {
       this.dialogDataSource.setTableDef(data.tableDef);
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.cancel();
+      }
+      // check if enter
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        this.validate();
+      }
+    });
   }
 
   validate() {

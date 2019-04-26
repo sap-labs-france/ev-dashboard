@@ -245,6 +245,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     if (charger) {
       dialogConfig.data = charger;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialog.open(SiteAreaChargersDialogComponent, dialogConfig);
   }

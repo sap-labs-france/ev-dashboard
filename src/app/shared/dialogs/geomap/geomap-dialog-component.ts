@@ -48,6 +48,16 @@ export class GeoMapDialogComponent {
       this.dialogTitle = data.dialogTitle ? data.dialogTitle : '';
       this.markers = data.markers ? data.markers : [];
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.cancel();
+      }
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        this.validate();
+      }
+    });
   }
 
   mapClick(event) {

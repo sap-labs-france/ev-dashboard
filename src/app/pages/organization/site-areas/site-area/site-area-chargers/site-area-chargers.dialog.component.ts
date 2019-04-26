@@ -26,5 +26,12 @@ export class SiteAreaChargersDialogComponent {
       this.siteAreaChargersDataSource.setSiteArea(data);
       this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area', { 'siteAreaName': data.name });
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

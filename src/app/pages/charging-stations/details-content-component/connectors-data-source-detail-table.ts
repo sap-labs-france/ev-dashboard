@@ -209,6 +209,16 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },
         sortable: false
+      },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        sortable: false
+      },
+      {
+        id: 'vendorErrorCode',
+        name: 'chargers.connector_vendor_error_code_title',
+        sortable: false
       }
     ];
   }

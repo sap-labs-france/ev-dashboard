@@ -44,12 +44,10 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   }
 
   updateValues() {
-    if (!this.row.type || (this.row.type === null)){
-      this.row.type = 'U';
-    }  
-    this.typeSvgIcon = this._appConnectorTypePipe.transform(this.row.type, true);
-    this.typeTooltip = this._appConnectorTypePipe.transform(this.row.type, false);
-    
+    if (this.row.hasOwnProperty('type')) {
+      this.typeSvgIcon = this._appConnectorTypePipe.transform(this.row.type, true);
+      this.typeTooltip = this._appConnectorTypePipe.transform(this.row.type, false);
+    }
     if (this.row.status === 'Charging' || this.row.status === 'Occupied') {
       this.chargerActive = this.row.currentConsumption > 0;
       this.chargerStatus = (this.row.currentConsumption > 0 ? `${this.row.status}-active` : `${this.row.status}-inactive`);

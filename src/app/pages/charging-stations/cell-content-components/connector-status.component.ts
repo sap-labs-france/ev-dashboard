@@ -1,6 +1,7 @@
 import {Component, Input, PipeTransform, Pipe} from '@angular/core';
 import {Connector} from 'app/common.types';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Constants } from 'app/utils/Constants';
 
 const TYPE_PRIMARY = 'chip-primary';
 const TYPE_DEFAULT = 'chip-default';
@@ -38,45 +39,45 @@ export class AppFormatConnectorStatus implements PipeTransform {
   buildConnectorStatusClasses(status: string): string {
     let classNames = 'chip-width-8em ';
     switch (status) {
-      case 'Available': {
+      case Constants.CONN_STATUS_AVAILABLE: {
         classNames += TYPE_SUCCESS;
         break;
       }
-      case 'Preparing': {
+      case Constants.CONN_STATUS_PREPARING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case 'SuspendedEVSE': {
+      case Constants.CONN_STATUS_SUSPENDED_EVSE: {
         classNames += TYPE_INFO;
         break;
       }
-      case 'SuspendedEV': {
+      case Constants.CONN_STATUS_SUSPENDED_EV: {
         classNames += TYPE_INFO;
         break;
       }
-      case 'Finishing': {
+      case Constants.CONN_STATUS_FINISHING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case 'Reserved': {
+      case Constants.CONN_STATUS_RESERVED: {
         classNames += TYPE_INFO;
         break;
       }
-      case 'Charging':
-      case 'Occupied': {
+      case Constants.CONN_STATUS_CHARGING:
+      case Constants.CONN_STATUS_OCCUPIED: {
         classNames += TYPE_INFO;
         break;
       }
-      case 'Unavailable': {
+      case Constants.CONN_STATUS_UNAVAILABLE: {
         classNames += TYPE_GREY;
         break;
       }
-      case 'Faulted': {
+      case Constants.CONN_STATUS_FAULTED: {
         classNames += TYPE_DANGER;
         break;
       }
       default: {
-        classNames += TYPE_WARNING;
+        classNames += TYPE_GREY;
         break;
       }
     }

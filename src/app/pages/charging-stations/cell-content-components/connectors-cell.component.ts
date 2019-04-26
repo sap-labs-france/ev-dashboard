@@ -4,9 +4,9 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 
 @Component({
   template: `
-    <div class="row justify-content-center">
+    <div class="d-flex justify-content-center">
         <ng-container *ngFor="let connector of row.connectors">
-          <app-connector-id-cell [row]="connector" [largeDisplay]="false"></app-connector-id-cell>
+          <app-connector-id-cell [row]="connector"></app-connector-id-cell>
         </ng-container>
     </div>
   `

@@ -121,6 +121,18 @@ export class Constants {
   public static FILTER_TYPE_DIALOG_TABLE: FilterType = 'dialog-table';
   public static FILTER_TYPE_DATE: FilterType = 'date';
 
+  /* Connector Status */
+  public static CONN_STATUS_AVAILABLE = 'Available';
+  public static CONN_STATUS_OCCUPIED = 'Occupied';
+  public static CONN_STATUS_CHARGING = 'Charging';
+  public static CONN_STATUS_FAULTED = 'Faulted';
+  public static CONN_STATUS_RESERVED = 'Reserved';
+  public static CONN_STATUS_FINISHING = 'Finishing';
+  public static CONN_STATUS_PREPARING = 'Preparing';
+  public static CONN_STATUS_SUSPENDED_EVSE = 'SuspendedEVSE';
+  public static CONN_STATUS_SUSPENDED_EV =  'SuspendedEV';
+  public static CONN_STATUS_UNAVAILABLE = 'Unavailable';
+
   /* Dialog buttons */
   public static BUTTON_TYPE_OK: ButtonType = 'OK';
   public static BUTTON_TYPE_CANCEL: ButtonType = 'CANCEL';

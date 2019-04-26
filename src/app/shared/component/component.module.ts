@@ -4,6 +4,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormattersModule} from '../formatters/formatters.module';
 import {ConnectorCellComponent} from './connector/connector-cell.component';
+import {AppFormatConnector} from './connector/connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transaction-chart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
@@ -23,7 +24,8 @@ import { MaterialModule } from 'app/app.module';
   ],
   declarations: [
     ConnectorCellComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
+    AppFormatConnector
   ],
   exports: [
     ConnectorCellComponent,

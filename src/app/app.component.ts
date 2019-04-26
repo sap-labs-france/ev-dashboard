@@ -22,9 +22,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer) {
       for (const connector_map of CONNECTOR_TYPE_MAP) {
-        iconRegistry.addSvgIcon(
-          connector_map.svgIconName,
-          sanitizer.bypassSecurityTrustResourceUrl(connector_map.svgIconFile));
+        if (connector_map.svgIconName) {
+          iconRegistry.addSvgIcon(
+            connector_map.svgIconName,
+            sanitizer.bypassSecurityTrustResourceUrl(connector_map.svgIconFile));
+        }
       }
   }
 

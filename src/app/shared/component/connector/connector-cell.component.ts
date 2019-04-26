@@ -12,7 +12,7 @@ import { AppConnectorTypePipe } from 'app/shared/formatters/app-connector-type.p
 export class ConnectorCellComponent extends CellContentTemplateComponent implements OnInit {
 
   @Input() row: any;
-  @Input() largeDisplay = false;
+  @Input() largeDisplay = true;
 
   chargerStatus: string;
   isSimpleConnectorDisplay: boolean;

@@ -197,6 +197,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
         formatter: (errorCode) => {
+          console.log(`Error : ${JSON.stringify(errorCode)}`);
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },
         sortable: false

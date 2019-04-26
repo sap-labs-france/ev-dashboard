@@ -166,7 +166,11 @@ export class ChargingStationParametersComponent implements OnInit {
       const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
       const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
       const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
-      this.formGroup.addControl(connectorTypeId, new FormControl(''));
+      this.formGroup.addControl(connectorTypeId, new FormControl('',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('^[^U]*$')
+      ])));
       this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
         Validators.compose([
           Validators.required,
@@ -261,7 +265,7 @@ export class ChargingStationParametersComponent implements OnInit {
         const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
         const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
         const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
-        this.formGroup.controls[connectorTypeId].setValue(connector.type);
+        this.formGroup.controls[connectorTypeId].setValue(connector.type ? connector.type : 'U');
         this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
         this.formGroup.controls[connectorVoltageId].setValue(connector.voltage);
         this.formGroup.controls[connectorAmperageId].setValue(connector.amperage);

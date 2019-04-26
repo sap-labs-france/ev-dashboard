@@ -97,12 +97,7 @@
                         <div class="card card-settings connector-card pt-2">
                             <div class="card-header card-header-primary card-header-icon">
                                 <div class="card-icon">
-                                    <ng-container *ngIf="formGroup.controls['connectorType' + connector.connectorId].value; else elseTemplate">
-                                        <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value"></mat-icon>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
-                                        <mat-icon>not_interested</mat-icon>
-                                    </ng-template>
+                                    <mat-icon class="card-connector-icon" [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value"></mat-icon>
                                 </div>
                                 <h4 class="card-title text-left">
                                     {{'chargers.connector' | translate}} {{connector.connectorId | appConnectorId}}
@@ -114,10 +109,12 @@
                                         <mat-select placeholder="{{'chargers.connector_type' | translate}}"
                                             [formControlName]="'connectorType' + connector.connectorId" required value=connect>
                                             <mat-select-trigger>
-                                                <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value" style="padding-bottom: 3px;"></mat-icon><span>{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:'text' | translate}}</span>
+                                                <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value" style="padding-bottom: 3px;"></mat-icon>
+                                                <span>{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:'text' | translate}}</span>
                                             </mat-select-trigger>
                                             <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key" class="connector-type-select-option">
-                                                <mat-icon [svgIcon]="type.key"></mat-icon><span>{{type.description | translate}}</span>
+                                                <mat-icon [svgIcon]="type.key"></mat-icon>
+                                                <span>{{type.description | translate}}</span>
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>

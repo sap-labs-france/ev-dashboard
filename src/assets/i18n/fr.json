@@ -1,3 +1,4 @@
+
 {
   "general": {
     "connectors": "Connecteurs",
@@ -652,6 +653,10 @@
     "unlock_connector_error": "Une erreur est survenue lors du dévérouillage du connecteur",
     "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
+    "connector_type_type1": "Type 1",
+    "connector_type_type1ccs": "Type 1 - Combo",
+    "connector_type_type3c": "Type 3C",
+    "connector_type_domestic": "Domestique",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
     "direct_current": "Courant Continu",

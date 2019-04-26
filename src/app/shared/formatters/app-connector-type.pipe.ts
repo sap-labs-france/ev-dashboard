@@ -17,13 +17,13 @@ export const CONNECTOR_TYPE_MAP =
 @Pipe({name: 'appConnectorType'})
 export class AppConnectorTypePipe implements PipeTransform {
 
-  transform(type: string, asIconUrl: boolean = true): any {
+  transform(type: string, target: string = 'icon'): any {
     // Return the found key
     const foundConnectorType = CONNECTOR_TYPE_MAP.find(
       (connectorType) => connectorType.key === type);
-    if (asIconUrl) {
+    if (target === 'icon') {
       return (foundConnectorType ? foundConnectorType.svgIconName : 'not_interested');
-    } else {
+    } else if (target === 'text') {
       return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_type_unknown');
     }
   }

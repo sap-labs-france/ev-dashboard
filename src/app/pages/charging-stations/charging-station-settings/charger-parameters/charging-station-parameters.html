@@ -114,7 +114,7 @@
                                         <mat-select placeholder="{{'chargers.connector_type' | translate}}"
                                             [formControlName]="'connectorType' + connector.connectorId" required value=connect>
                                             <mat-select-trigger>
-                                                <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value" style="padding-bottom: 3px;"></mat-icon><span>{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:false | translate}}</span>
+                                                <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value" style="padding-bottom: 3px;"></mat-icon><span>{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:'text' | translate}}</span>
                                             </mat-select-trigger>
                                             <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key" class="connector-type-select-option">
                                                 <mat-icon [svgIcon]="type.key"></mat-icon><span>{{type.description | translate}}</span>

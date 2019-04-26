@@ -191,17 +191,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false
       },
-      /*      {
-              id: 'type',
-              name: 'chargers.connector_type',
-              headerClass: 'text-center',
-              class: 'text-center',
-              formatter: (type) => {
-                const imageUrl = new AppConnectorTypePipe().transform(type, true);
-                return `<img class="charger-connector-type" src="${imageUrl}"/>`;
-              },
-              sortable: false
-            },*/
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',

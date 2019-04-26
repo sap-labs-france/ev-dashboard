@@ -9,7 +9,7 @@ import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transaction-chart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
 import {GaugesModule} from './gauge/gauge.module';
-import { MaterialModule } from 'app/app.module';
+import {MaterialModule} from 'app/app.module';
 
 @NgModule({
   imports: [

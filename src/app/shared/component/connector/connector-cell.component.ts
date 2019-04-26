@@ -17,12 +17,14 @@ import { Constants } from 'app/utils/Constants';
           </div>
         </div>
         <!-- Connector Type -->
-        <!-- <div class="d-inline-block" appTooltip [attr.data-offset]="tooltipTypeOffest" data-placement="bottom" data-toogle="tooltip" [title]="typeTooltip | translate">
-          <div *ngIf="!isSimpleConnectorDisplay && (connector.type || connector.type === null)" [appChargerStatus]="{status: chargerStatus, target: 'background-image', baseClass: baseClassConnectorTypeText}">
-            <mat-icon *ngIf="connector.type !== null" [svgIcon]="typeSvgIcon" class="d-flex"></mat-icon>
-            <mat-icon *ngIf="connector.type === null" class="d-flex">not_interested</mat-icon>
+        <div class="d-inline-block" appTooltip data-offset="-15px, 8px" data-placement="bottom" data-toogle="tooltip"
+            [title]="row.type | appConnectorType:'text' | translate">
+          <div *ngIf="row.type && row.type !== null"
+              class="charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center charger-connector-container-image-small charger-connector-type-background">
+            <mat-icon *ngIf="row.type !== null" [svgIcon]="row.type | appConnectorType:'icon'" class="d-flex"></mat-icon>
+            <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   `

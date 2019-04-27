@@ -14,12 +14,13 @@ import {TransactionsInProgressComponent} from './in-progress/transactions-in-pro
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {ComponentModule} from '../../shared/component/component.module';
-import {ConnectorCellComponent} from '../../shared/component/connector/connector-cell.component';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
 import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
 import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
 import {TransactionsRefundComponent} from './refund/transactions-refund.component';
 import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
+import {ConnectorCellComponent} from './components/connector-cell.component';
+import {AppFormatConnector} from './components/connector-cell.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,8 @@ import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/er
     TransactionsInErrorComponent,
     TransactionsInProgressComponent,
     TransactionsRefundComponent,
+    AppFormatConnector,
+    ConnectorCellComponent,
     ConsumptionChartDetailComponent
   ],
   entryComponents: [

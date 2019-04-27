@@ -1,7 +1,7 @@
 import {Component, Input, PipeTransform, Pipe} from '@angular/core';
 import {Connector} from 'app/common.types';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from 'app/utils/Constants';
+import {Constants} from 'app/utils/Constants';
 
 const TYPE_PRIMARY = 'chip-primary';
 const TYPE_DEFAULT = 'chip-default';

@@ -42,13 +42,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     setInterval(() => {
-      if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 15) {
+      if (this.dataSource && this.dataSource.data && this.dataSource.data.length >= 10) {
         // Change
-        const index = Math.trunc(Math.random() * 15);
+        const index = Math.trunc(Math.random() * 10);
         const newData = Array.from(this.dataSource.data);
-        newData[index].connectors[0].currentConsumption += 5500;
-        newData[index].id = 'E';
-        // console.log(newData);
+        newData[index].currentConsumption = (newData[index].currentConsumption > 0 ? 0 : 50000);
+        // newData[index].connectors[0].currentConsumption += 5500;
+        // newData[index].id = 'E';
+        console.log(newData);
         this.dataSource.data.length = 0;
         this.dataSource.data.push(...newData);
       }

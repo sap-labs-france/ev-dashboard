@@ -27,6 +27,8 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
 import {ConnectorStatusComponent} from './cell-content-components/connector-status.component';
 import {AppFormatConnectorStatus} from './cell-content-components/connector-status.component';
 import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
+import {ConnectorCellComponent} from './cell-content-components/connector-cell.component';
+import {AppFormatConnector} from './cell-content-components/connector-cell.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
 import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
 import {AppFormatChargerPower} from './cell-content-components/instant-power-progress-bar.component';
@@ -60,6 +62,7 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     InstantPowerProgressBarComponent,
     ConnectorStatusComponent,
     ConnectorsCellComponent,
+    ConnectorCellComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
     ConnectorConsumptionChartDetailComponent,
@@ -69,11 +72,13 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
   declarations: [
     AppFormatChargerPower,
     AppFormatConnectorStatus,
+    AppFormatConnector,
     HeartbeatCellComponent,
     SessionDetailComponent,
     InstantPowerProgressBarComponent,
     ConnectorStatusComponent,
     ConnectorsCellComponent,
+    ConnectorCellComponent,
     ChargingStationsComponent,
     ConnectorsDetailComponent,
     StartTransactionDialogComponent,

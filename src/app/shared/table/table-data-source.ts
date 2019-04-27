@@ -180,7 +180,7 @@ public toggleRowSelection(row) {
   }
 
   public getPageSize(): number {
-    return 100;
+    return Constants.DEFAULT_PAGE_SIZE;
   }
 
   public setPaging(paging: Paging) {

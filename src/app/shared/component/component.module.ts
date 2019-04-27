@@ -3,8 +3,6 @@ import {MatChipsModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormattersModule} from '../formatters/formatters.module';
-import {ConnectorCellComponent} from './connector/connector-cell.component';
-import {AppFormatConnector} from './connector/connector-cell.component';
 import {CommonDirectivesModule} from '../directives/common-directives.module';
 import {ConsumptionChartComponent} from './transaction-chart/consumption-chart.component';
 import {ChartModule} from 'angular2-chartjs';
@@ -23,16 +21,12 @@ import {MaterialModule} from 'app/app.module';
     MaterialModule
   ],
   declarations: [
-    ConnectorCellComponent,
-    ConsumptionChartComponent,
-    AppFormatConnector
+    ConsumptionChartComponent
   ],
   exports: [
-    ConnectorCellComponent,
     ConsumptionChartComponent
   ],
   entryComponents: [
-    ConnectorCellComponent
   ],
   providers: [
     CurrencyPipe,

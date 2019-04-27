@@ -10,7 +10,7 @@ import {MessageService} from '../../../services/message.service';
 import {DialogService} from '../../../services/dialog.service';
 import {ConnectorStatusComponent} from '../cell-content-components/connector-status.component';
 import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
-import {ConnectorCellComponent} from '../../../shared/component/connector/connector-cell.component';
+import {ConnectorCellComponent} from '../cell-content-components/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {SpinnerService} from '../../../services/spinner.service';

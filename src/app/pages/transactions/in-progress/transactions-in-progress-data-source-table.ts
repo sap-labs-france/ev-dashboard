@@ -18,7 +18,7 @@ import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {ConnectorCellComponent} from '../../../shared/component/connector/connector-cell.component';
+import {ConnectorCellComponent} from '../components/connector-cell.component';
 import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
@@ -215,7 +215,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
-    
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:

@@ -190,19 +190,13 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         id: 'errorCode',
         name: 'errors.title',
         sortable: true,
-        formatter: (value) => {
-          return this.translateService.instant(`chargers.errors.${value}.title`)
-        }
+        formatter: (value) => this.translateService.instant(`chargers.errors.${value}.title`)
       },
       {
         id: 'errorCodeDescription',
         name: 'errors.description',
         sortable: false,
-        formatter: (value, row: ChargerInError) => {
-          if (row) {
-            return this.translateService.instant(`chargers.errors.${row.errorCode}.description`)
-          }
-        }
+        formatter: (value, row: ChargerInError) => this.translateService.instant(`chargers.errors.${row.errorCode}.description`)
       }
     ];
   }

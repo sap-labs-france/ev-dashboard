@@ -46,13 +46,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     //     // Change
     //     const index = Math.trunc(Math.random() * 5);
     //     const newData = Array.from(this.dataSource.data);
-    //     // newData[index].currentConsumption = (newData[index].currentConsumption > 0 ? 0 : 50000);
+    //     newData[index].id += 'M';
     //     // newData[index].chargeBoxID = 'FUCK';
-    //     newData[index].connectors[1].currentConsumption = (newData[index].connectors[1].currentConsumption > 0 ? 0 : 50000);
+    //     newData[index].connectors[1].currentConsumption = Math.trunc(Math.random() * 44000);
+    //     // newData[index].connectors[1].currentConsumption = (newData[index].connectors[1].currentConsumption > 0 ? 0 : 50000);
     //     newData[index].connectors[1].status = (newData[index].connectors[1].status === 'Charging' ? 'Available' : 'Charging');
-    //     newData[index].id = 'Charging';
+    //     // newData[index].id = 'Charging';
     //     // newData[index].id = 'E';
     //     // console.log(newData);
+    //     console.log(`${newData[index].id} - ${newData[index].connectors[1].status} - ${newData[index].connectors[1].currentConsumption}`);
     //     this.dataSource.data.length = 0;
     //     this.dataSource.data.push(...newData);
     //   }
@@ -320,10 +322,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('table.component - loadData');
     // Load data source
     this.dataSource.loadAndPrepareData(refreshAction).subscribe((data) => {
-        console.log("RECORDS " + this.dataSource.totalNumberOfRecords);
-        if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
-        console.log("MAX REACHED");
-        // Request nbr of record
+      if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
+        // Request nbr of records
         setTimeout(() => {
           this.requestNumberOfRecords()
         }, 100);

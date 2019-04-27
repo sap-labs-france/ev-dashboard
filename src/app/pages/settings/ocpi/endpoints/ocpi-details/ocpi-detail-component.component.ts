@@ -4,7 +4,8 @@ import {CellContentComponentContainer} from 'app/shared/table/cell-content-templ
 import {OcpiendpointDetailDataSource} from './ocpi-detail-data-source-table';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="ocpiendpointDetailDataSource"></app-table>',
+  // template: '<app-table class="endpoint-details" [dataSource]="ocpiendpointDetailDataSource"></app-table>',
+  template: ``,
   providers: [
     OcpiendpointDetailDataSource
   ]

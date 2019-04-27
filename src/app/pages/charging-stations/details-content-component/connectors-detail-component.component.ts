@@ -4,7 +4,8 @@ import {CellContentComponentContainer} from '../../../shared/table/cell-content-
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
 @Component({
-  template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>',
+  // template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>',
+  template: '',
   providers: [
     ConnectorsDataSource
   ]

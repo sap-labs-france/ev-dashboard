@@ -31,6 +31,8 @@ import {SettingsRefundComponent} from './refund/settings-refund.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
 import {SettingsSacComponent} from './sac/settings-sac.component';
 import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component';
+import {OcpiJobResultComponent} from './ocpi/endpoints/formatters/ocpi-job-result.component';
+import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-job-result.component';
 
 @NgModule({
   imports: [
@@ -49,6 +51,7 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     SettingsRefundComponent,
     SettingsPricingComponent,
     SettingsSacComponent,
+    OcpiJobResultComponent,
     SacLinkDialogComponent,
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
@@ -57,6 +60,7 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusComponent,
     AppFormatOcpiDetailJobStatusPipe,
+    AppFormatOcpiJobResultPipe,
     OcpiPatchJobResultComponent,
     AppFormatOcpiPatchJobResultPipe,
     OcpiDetailTotalEvsesStatusComponent,

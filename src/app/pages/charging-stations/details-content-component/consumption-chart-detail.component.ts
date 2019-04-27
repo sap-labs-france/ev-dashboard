@@ -4,9 +4,8 @@ import { CellContentComponentContainer } from '../../../shared/table/cell-conten
 import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
 
 @Component({
-  template: `
-    <app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>
-  `
+  template: ``
+  // template: `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`
 })
 
 export class ConnectorConsumptionChartDetailComponent extends CellContentComponentContainer {

@@ -5,19 +5,19 @@ import {CellContentTemplateComponent} from '../../../shared/table/cell-content-t
 @Component({
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
-      <div class="d-flex power-bar-text" [class.power-bar-text-error]="maxPowerKW === 0">
+      <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.maximumPower === 0">
         {{row.connectors | appFormatChargerPower:'instantPowerKW':row | number}}
         &nbsp;/&nbsp;
         {{row.connectors | appFormatChargerPower:'maxPowerKW':row | number}} kW
       </div>
-      <mat-progress-bar color="accent" class="d-flex" [hidden]="maxPowerKW === 0"
-        value="{{instantPowerKW / maxPowerKW * 100}}" mode="determinate">
+      <mat-progress-bar color="accent" class="d-flex" [hidden]="row.maximumPower === 0"
+        [value]="row.connectors | appFormatChargerPower:'instantPowerKWPercent':row" mode="determinate">
       </mat-progress-bar>
     </div>
   `
 })
 export class InstantPowerProgressBarComponent extends CellContentTemplateComponent {
-  @Input() row: any;
+  @Input() row: Charger;
 }
 
 @Pipe({name: 'appFormatChargerPower'})
@@ -26,6 +26,7 @@ export class AppFormatChargerPower implements PipeTransform {
     // Check
     switch (type) {
       // Compute Instance Power
+      case 'instantPowerKWPercent':
       case 'instantPowerKW':
         let instantPowerKW = 0;
         for (const connector of connectors) {
@@ -39,7 +40,14 @@ export class AppFormatChargerPower implements PipeTransform {
         } else {
           instantPowerKW = parseFloat((instantPowerKW).toFixed(0))
         }
-        return instantPowerKW;
+        if (type === 'instantPowerKWPercent') {
+          if (instantPowerKW === 0) {
+            return 0;
+          }
+          return Math.round((instantPowerKW * 1000 / charger.maximumPower) * 100);
+        } else {
+          return instantPowerKW;
+        }
 
       // Compute Max Power
       case 'maxPowerKW':

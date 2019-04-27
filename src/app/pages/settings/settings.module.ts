@@ -16,7 +16,8 @@ import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.c
 import {OcpiEndpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 import {OcpiEndpointDetailJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
 import {AppFormatOcpiDetailJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
-import {OcpiendpointPatchJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
+import {OcpiJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
+import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
 import {AppFormatOcpiEvsesTotalPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
 import {OcpiDetailTotalEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
 import {OcpiDetailSuccessEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-success-evses-status.component';
@@ -54,7 +55,8 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     OcpiEndpointStatusComponent,
     OcpiEndpointDetailJobStatusComponent,
     AppFormatOcpiDetailJobStatusPipe,
-    OcpiendpointPatchJobResultComponent,
+    OcpiJobResultComponent,
+    AppFormatOcpiJobResultPipe,
     OcpiDetailTotalEvsesStatusComponent,
     AppFormatOcpiEvsesTotalPipe,
     OcpiDetailSuccessEvsesStatusComponent,
@@ -74,7 +76,7 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     EndpointDialogComponent,
     OcpiEndpointStatusComponent,
     OcpiEndpointDetailJobStatusComponent,
-    OcpiendpointPatchJobResultComponent,
+    OcpiJobResultComponent,
     OcpiDetailTotalEvsesStatusComponent,
     OcpiDetailSuccessEvsesStatusComponent,
     OcpiDetailFailureEvsesStatusComponent,

@@ -24,7 +24,7 @@ import { TableRegisterAction } from 'app/shared/table/actions/table-register-act
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { OcpiEndpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
-import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
+import { OcpiJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
 import { OcpiPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
 
@@ -163,7 +163,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'patchJobResult',
         name: 'ocpiendpoints.patchJobLastStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointPatchJobResultComponent,
+        angularComponentName: OcpiJobResultComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false

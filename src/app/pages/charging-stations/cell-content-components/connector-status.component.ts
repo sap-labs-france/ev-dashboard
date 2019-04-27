@@ -15,7 +15,7 @@ const TYPE_GREY = 'chip-grey';
   selector: 'app-connector-status',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [class]="row.status | appFormatConnectorStatus:'class'" [disabled]="true">
+      <mat-chip [ngClass]="row.status | appFormatConnectorStatus:'class'" [disabled]="true">
         {{row.status | appFormatConnectorStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>

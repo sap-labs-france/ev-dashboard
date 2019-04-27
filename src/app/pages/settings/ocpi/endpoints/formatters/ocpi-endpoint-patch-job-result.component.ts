@@ -1,46 +1,60 @@
-import {OcpiEndpoint} from '../../../../../common.types';
-import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-
+import {OcpiEndpoint} from 'app/common.types';
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import {Component, Input, PipeTransform, Pipe} from '@angular/core';
+import {Constants} from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-log-level-chip',
-  templateUrl: '../../../../../shared/component/chip/chip.component.html'
+  selector: 'app-ocpi-job-result-chip',
+  template: `
+    <mat-chip-list [selectable]="false">
+      <mat-chip [ngClass]="row.lastPatchJobResult | appFormatOcpiJobResult:'class'" [disabled]="true">
+        {{row.lastPatchJobResult | appFormatOcpiJobResult:'text' | translate}}
+      </mat-chip>
+    </mat-chip-list>
+  `
 })
-export class OcpiendpointPatchJobResultComponent extends ChipComponent {
+export class OcpiJobResultComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;
+}
 
-  constructor(
-    private translateService: TranslateService) {
-    super();
-  }
-
-  loadContent(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
-    this.type = 'chip-width-10em ';
-    this.text = '0 / 0';
-
-    if (this.row.lastPatchJobResult) {
-      const totalEVSEs = this.row.lastPatchJobResult.successNbr + this.row.lastPatchJobResult.failureNbr;
-      this.text = `${this.row.lastPatchJobResult.successNbr} / ${totalEVSEs}`
-      if (this.row.lastPatchJobResult.successNbr === 0 && this.row.lastPatchJobResult.failureNbr > 0) {
-        this.type += TYPE_DANGER;
-        this.text = this.translateService.instant('general.error');
-      } else if (this.row.lastPatchJobResult.successNbr > 0 && this.row.lastPatchJobResult.failureNbr === 0) {
-        this.type += TYPE_SUCCESS;
-        this.text = this.translateService.instant('general.success');
-      } else if (this.row.lastPatchJobResult.successNbr > 0 && this.row.lastPatchJobResult.failureNbr > 0) {
-        this.type += TYPE_WARNING;
-        this.text = this.translateService.instant('general.warning');
+@Pipe({name: 'appFormatOcpiJobResult'})
+export class AppFormatOcpiJobResultPipe implements PipeTransform {
+  transform(lastPatchJobResult: any, type: string): string {
+    if (type === 'class') {
+      let classNames = 'chip-width-10em ';
+      if (lastPatchJobResult) {
+        if (lastPatchJobResult.successNbr === 0 && lastPatchJobResult.failureNbr > 0) {
+          classNames += Constants.CHIP_TYPE_DANGER;
+        } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr === 0) {
+          classNames += Constants.CHIP_TYPE_SUCCESS;
+        } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr > 0) {
+          classNames += Constants.CHIP_TYPE_WARNING;
+        } else {
+          classNames += Constants.CHIP_TYPE_SUCCESS;
+        }
       } else {
-        this.type += TYPE_SUCCESS;
-        this.text = this.translateService.instant('general.success');
+        classNames += Constants.CHIP_TYPE_GREY;
       }
-    } else {
-      this.type += TYPE_GREY;
-      this.text = this.translateService.instant('ocpiendpoints.background_job_no_run');
+      return classNames;
+    }
+    if (type === 'text') {
+      let text = '';
+      if (lastPatchJobResult) {
+        const totalEVSEs = lastPatchJobResult.successNbr + lastPatchJobResult.failureNbr;
+        text = `${lastPatchJobResult.successNbr} / ${totalEVSEs}`
+        if (lastPatchJobResult.successNbr === 0 && lastPatchJobResult.failureNbr > 0) {
+          text = 'general.error';
+        } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr === 0) {
+          text = 'general.success';
+        } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr > 0) {
+          text = 'general.warning';
+        } else {
+          text = 'general.success';
+        }
+      } else {
+        text = 'ocpiendpoints.background_job_no_run';
+      }
+      return text;
     }
   }
 }

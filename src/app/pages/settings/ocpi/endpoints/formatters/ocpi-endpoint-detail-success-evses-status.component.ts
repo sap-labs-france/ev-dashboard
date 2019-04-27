@@ -6,7 +6,7 @@ import {Component, Input} from '@angular/core';
   selector: 'app-ocpi-detail-success-evse-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [class]="chip-width-4em chip-success" [disabled]="true">
+      <mat-chip ngClass="chip-width-4em chip-success" [disabled]="true">
         {{row.successNbr}}
       </mat-chip>
     </mat-chip-list>

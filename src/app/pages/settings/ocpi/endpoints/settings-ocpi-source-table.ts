@@ -23,10 +23,10 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import { OcpiEndpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
-import { OcpiJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
-import { OcpiPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
-import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
+import { OcpiEndpointStatusComponent } from './formatters/ocpi-status.component';
+import { OcpiJobResultComponent } from './formatters/ocpi-patch-job-result.component';
+import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.component';
+import { OcpiendpointDetailComponent} from './ocpi-details/ocpi-detail-component.component';
 
 
 const POLL_INTERVAL = 15000;

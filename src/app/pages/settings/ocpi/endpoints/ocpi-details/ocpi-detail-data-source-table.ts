@@ -21,10 +21,10 @@ import { Utils } from 'app/utils/Utils';
 import { Constants } from 'app/utils/Constants';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
-import { OcpiEndpointDetailJobStatusComponent } from '../formatters/ocpi-endpoint-detail-job-status.component';
-import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
-import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
-import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
+import { OcpiEndpointDetailJobStatusComponent } from '../formatters/ocpi-detail-job-status.component';
+import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-total-evses-status.component';
+import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail-success-evses-status.component';
+import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-detail-failure-evses-status.component';
 import { Observable } from 'rxjs';
 
 @Injectable()

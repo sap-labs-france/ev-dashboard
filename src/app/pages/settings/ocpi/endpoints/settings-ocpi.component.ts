@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
-import {EndpointsDataSource} from './settings-ocpi-endpoints-source-table';
+import {EndpointsDataSource} from './settings-ocpi-source-table';
 
 @Component({
   selector: 'app-settings-ocpi-endpoints',
-  templateUrl: 'settings-ocpi-endpoints.component.html',
+  templateUrl: 'settings-ocpi.component.html',
   providers: [
     EndpointsDataSource
   ]

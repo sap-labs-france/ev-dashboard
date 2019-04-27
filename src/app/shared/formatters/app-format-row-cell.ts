@@ -6,27 +6,27 @@ import { Utils } from 'app/utils/Utils';
 @Pipe({name: 'appFormatRowCell'})
 export class AppFormatRowCellPipe implements PipeTransform {
 
-  transform(row: any, tableColumnDef: TableColumnDef, ): any {
-    let value = row[tableColumnDef.id];
+  transform(value: any, tableColumnDef: TableColumnDef): any {
+    let formattedValue = value;
     // Convert to primitive/object first
     switch (tableColumnDef.type) {
       // Date
       case 'date':
-        value = Utils.convertToDate(value);
+        formattedValue = Utils.convertToDate(formattedValue);
         break;
       // Integer
       case 'integer':
-        value = Utils.convertToInteger(value);
+        formattedValue = Utils.convertToInteger(formattedValue);
         break;
       // Float
       case 'float':
-        value = Utils.convertToFloat(value);
+        formattedValue = Utils.convertToFloat(formattedValue);
         break;
     }
     // Format
     if (tableColumnDef.formatter) {
-      value = tableColumnDef.formatter(value, row);
+      formattedValue = tableColumnDef.formatter(value, formattedValue);
     }
-    return value;
+    return formattedValue;
   }
 }

@@ -233,7 +233,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(false).subscribe());
   }
 
   // private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
@@ -257,13 +257,13 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   //             this.messageService, 'ocpiendpoints.error_send_evse_statuses');
   //         }
   //         // reload data
-  //         this.loadDataAndFormat(false).subscribe();
+  //         this.loadAndPrepareData(false).subscribe();
   //       }, (error) => {
   //         this.spinnerService.hide();
   //         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
   //           'ocpiendpoints.error_send_evse_statuses');
   //         // reload data
-  //         this.loadDataAndFormat(false).subscribe();
+  //         this.loadAndPrepareData(false).subscribe();
   //       });
   //     }
   //   });
@@ -280,7 +280,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
-            this.loadDataAndFormat(false).subscribe();
+            this.loadAndPrepareData(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.delete_error');
@@ -310,7 +310,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   //       Utils.handleError(JSON.stringify(response),
   //         this.messageService, 'ocpiendpoints.update_error');
   //     }
-  //     this.loadDataAndFormat(false).subscribe();
+  //     this.loadAndPrepareData(false).subscribe();
   //   }, (error) => {
   //     this.spinnerService.hide();
   //     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
@@ -329,7 +329,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
-            this.loadDataAndFormat(false).subscribe();
+            this.loadAndPrepareData(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.register_error');

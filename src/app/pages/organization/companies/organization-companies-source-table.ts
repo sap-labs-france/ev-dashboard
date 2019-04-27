@@ -233,7 +233,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadDataAndFormat(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(false).subscribe());
   }
 
   private _deleteCompany(company) {
@@ -247,7 +247,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
-            this.loadDataAndFormat(false).subscribe();
+            this.loadAndPrepareData(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'companies.delete_error');

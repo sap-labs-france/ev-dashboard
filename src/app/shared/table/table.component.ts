@@ -10,9 +10,9 @@ import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import {SpinnerService} from 'app/services/spinner.service';
 import {Observable, fromEvent} from 'rxjs';
 import * as _ from 'lodash';
+import { Constants } from 'app/utils/Constants';
 
 const DEFAULT_POLLING = 10000;
-const MAX_RECORD = 2000;
 
 @Component({
   selector: 'app-table',
@@ -26,7 +26,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public autoRefeshTimer;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
-  public maxRecords = MAX_RECORD;
+  public maxRecords = Constants.MAX_RECORDS;
   public numberOfColumns = 0;
 
   constructor(
@@ -144,7 +144,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set
     this.dataSource.setStaticFilters(staticFilters);
     // Load data
-    this.dataSource.loadData(false).subscribe();
+    this.dataSource.loadData(true).subscribe();
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)
     // Reset static filter
@@ -263,7 +263,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.loadDataAndFormat(true).subscribe(() => {
+    this.dataSource.loadAndPrepareData(true).subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
@@ -319,7 +319,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public loadData(refreshAction = false) {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadDataAndFormat(refreshAction).subscribe();
+    this.dataSource.loadAndPrepareData(refreshAction).subscribe((data) => {
+        console.log("RECORDS " + this.dataSource.totalNumberOfRecords);
+        if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
+        console.log("MAX REACHED");
+        // Request nbr of record
+        setTimeout(() => {
+          this.requestNumberOfRecords()
+        }, 100);
+      }
+    });
   }
 
   public showHideDetailsClicked(row) {

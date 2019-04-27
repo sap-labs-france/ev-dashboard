@@ -224,7 +224,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadDataAndFormat(false).subscribe();
+      this.loadAndPrepareData(false).subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
@@ -257,6 +257,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(true).subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadAndPrepareData(true).subscribe());
   }
 }

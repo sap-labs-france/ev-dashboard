@@ -194,7 +194,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
-        this.loadDataAndFormat(false).subscribe();
+        this.loadAndPrepareData(false).subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -219,7 +219,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh
-          this.loadDataAndFormat(false).subscribe();
+          this.loadAndPrepareData(false).subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

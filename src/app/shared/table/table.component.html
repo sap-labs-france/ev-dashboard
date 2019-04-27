@@ -53,7 +53,7 @@
                 class="button-refresh" (click)="refresh()"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')"
                 appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
-              <div *ngIf="ongoingRefresh" class="spinner-autorefresh2" id="spinnerManualRefresh">
+              <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
                 <div class="loader"></div>
               </div>
               <div *ngIf="!ongoingRefresh" class="refresh-icon">
@@ -263,9 +263,9 @@
     <!-- Bottom list -->
     <div class="bottom-table">
       {{'general.nbr_of_records' | translate}}:
-      <!-- Too many records -->
-      <span *ngIf="dataSource.totalNumberOfRecords === maxRecords" (click)="requestNumberOfRecords()" class="query-nbr-of-records">
-        {{'general.click_here' | translate}}
+      <!-- Too many records? -->
+      <span *ngIf="dataSource.totalNumberOfRecords === maxRecords" class="query-nbr-of-records">
+        {{dataSource.data.length}} / -
       </span>
       <!-- n records / Max Records -->
       <span *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)"

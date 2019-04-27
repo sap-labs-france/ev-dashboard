@@ -26,14 +26,14 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public selectedRows = 0;
   public maxSelectableRows = 0;
   public lastSelectedRow;
+  public totalNumberOfRecords = -1;
+  public sort: MatSort = new MatSort();
 
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
 
   private dataSubject = new BehaviorSubject<any[]>([]);
   private searchValue = '';
-  private totalNumberOfRecords = 0;
   private tableActionsDef: TableActionDef[];
-  public sort: MatSort = new MatSort();
   private locale;
   private dataChangeSubscription: Subscription;
   private staticFilters = [];
@@ -461,8 +461,8 @@ public toggleRowSelection(row) {
     return this.tableColumnDefs;
   }
 
-  public loadDataAndFormat(refreshAction: boolean = false): Observable<any> {
-    console.log('table-data-source - loadDataAndFormat');
+  public loadAndPrepareData(refreshAction: boolean = false): Observable<any> {
+    console.log('table-data-source - loadAndPrepareData');
     return new Observable((observer) => {
       // Load data source
       this.loadData(refreshAction).subscribe((data) => {

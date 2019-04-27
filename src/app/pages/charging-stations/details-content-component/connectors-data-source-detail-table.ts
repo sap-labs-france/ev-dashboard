@@ -120,7 +120,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         this.dialogRefSession.componentInstance.refresh();
       }
     }
-    this.loadDataAndFormat(false).subscribe();
+    this.loadAndPrepareData(false).subscribe();
   }
 
   public buildTableDef(): TableDef {
@@ -400,7 +400,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response: ActionResponse) => {
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
-          this.loadDataAndFormat(false).subscribe();
+          this.loadAndPrepareData(false).subscribe();
           return true;
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
@@ -465,6 +465,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadDataAndFormat(false).subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadAndPrepareData(false).subscribe());
   }
 }

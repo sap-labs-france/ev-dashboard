@@ -5,6 +5,14 @@ export class Constants {
 
   public static REST_RESPONSE_SUCCESS = 'Success';
 
+  public static CHIP_TYPE_PRIMARY = 'chip-primary';
+  public static CHIP_TYPE_DEFAULT = 'chip-default';
+  public static CHIP_TYPE_INFO = 'chip-info';
+  public static CHIP_TYPE_SUCCESS = 'chip-success';
+  public static CHIP_TYPE_DANGER = 'chip-danger';
+  public static CHIP_TYPE_WARNING = 'chip-warning';
+  public static CHIP_TYPE_GREY = 'chip-grey';
+
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';

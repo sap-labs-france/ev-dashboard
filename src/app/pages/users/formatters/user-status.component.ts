@@ -4,14 +4,6 @@ import {Constants} from '../../../utils/Constants';
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
 
-const TYPE_PRIMARY = 'chip-primary';
-const TYPE_DEFAULT = 'chip-default';
-const TYPE_INFO = 'chip-info';
-const TYPE_SUCCESS = 'chip-success';
-const TYPE_DANGER = 'chip-danger';
-const TYPE_WARNING = 'chip-warning';
-const TYPE_GREY = 'chip-grey';
-
 @Component({
   selector: 'app-log-level-chip',
   template: `
@@ -41,22 +33,22 @@ export class AppFormatUserStatusPipe implements PipeTransform {
     let classNames = 'chip-width-5em ';
     switch (status) {
       case Constants.USER_STATUS_ACTIVE:
-        classNames += TYPE_SUCCESS;
+        classNames += Constants.CHIP_TYPE_SUCCESS;
         break;
 
       case Constants.USER_STATUS_PENDING:
-        classNames += TYPE_WARNING;
+        classNames += Constants.CHIP_TYPE_WARNING;
         break;
 
       case Constants.USER_STATUS_BLOCKED:
       case Constants.USER_STATUS_DELETED:
       case Constants.USER_STATUS_LOCKED:
       case Constants.USER_STATUS_INACTIVE:
-        classNames += TYPE_DANGER;
+        classNames += Constants.CHIP_TYPE_DANGER;
         break;
 
       default:
-        classNames += TYPE_DEFAULT;
+        classNames += Constants.CHIP_TYPE_DEFAULT;
     }
     return classNames;
   }

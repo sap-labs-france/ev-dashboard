@@ -2,14 +2,7 @@ import {Log} from '../../../common.types';
 import {logLevels} from '../logs.model';
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-
-const TYPE_PRIMARY = 'chip-primary';
-const TYPE_DEFAULT = 'chip-default';
-const TYPE_INFO = 'chip-info';
-const TYPE_SUCCESS = 'chip-success';
-const TYPE_DANGER = 'chip-danger';
-const TYPE_WARNING = 'chip-warning';
-const TYPE_GREY = 'chip-grey';
+import {Constants} from 'app/utils/Constants';
 
 @Component({
   selector: 'app-log-level-chip',
@@ -40,23 +33,23 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     let classNames = 'chip-width-5em ';
     switch (logLevel) {
       case 'E':
-        classNames += TYPE_DANGER;
+        classNames += Constants.CHIP_TYPE_DANGER;
         break;
 
       case 'W':
-        classNames += TYPE_WARNING;
+        classNames += Constants.CHIP_TYPE_WARNING;
         break;
 
       case 'I':
-        classNames += TYPE_SUCCESS;
+        classNames += Constants.CHIP_TYPE_SUCCESS;
         break;
 
       case 'D':
-        classNames += TYPE_INFO;
+        classNames += Constants.CHIP_TYPE_INFO;
         break;
 
       default:
-        classNames += TYPE_DEFAULT;
+        classNames += Constants.CHIP_TYPE_DEFAULT;
     }
     return classNames;
   }

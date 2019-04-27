@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, Ocpiendpoint } from 'app/common.types';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, OcpiEndpoint } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -23,7 +23,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
+import { OcpiEndpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
 import { OcpiPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
@@ -31,7 +31,7 @@ import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoin
 
 const POLL_INTERVAL = 15000;
 @Injectable()
-export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
+export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
@@ -145,7 +145,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         id: 'status',
         name: 'ocpiendpoints.status',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointStatusComponent,
+        angularComponentName: OcpiEndpointStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Ocpiendpoint, OcpiendpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import { OcpiEndpoint, OcpiEndpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -21,19 +21,19 @@ import { Utils } from 'app/utils/Utils';
 import { Constants } from 'app/utils/Constants';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
-import { OcpiendpointDetailPatchJobStatusComponent } from '../formatters/ocpi-endpoint-detail-patch-job-status.component';
+import { OcpiEndpointDetailJobStatusComponent } from '../formatters/ocpi-endpoint-detail-job-status.component';
 import { OcpiendpointDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
 import { OcpiendpointDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
 import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDetail> {
+export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
 
   public noAction = new TableNoAction();
   public sendEvseStatusesAction = new TableSendAction();
 
-  private ocpiendpoint: Ocpiendpoint;
+  private ocpiendpoint: OcpiEndpoint;
   private isInitialized = false;
 
   constructor(
@@ -62,7 +62,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
       // Return connector
       if (this.ocpiendpoint) {
         setTimeout(() => {
-          const ocpiendpointDetail = <OcpiendpointDetail> {
+          const ocpiendpointDetail = <OcpiEndpointDetail> {
             id: this.ocpiendpoint.id,
             ocpiendpoint: this.ocpiendpoint,
             successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
@@ -80,7 +80,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     });
   }
 
-  public setEndpoint(ocpiendpoint: Ocpiendpoint) {
+  public setEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.ocpiendpoint = ocpiendpoint;
   }
 
@@ -114,7 +114,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointDetailPatchJobStatusComponent,
+        angularComponentName: OcpiEndpointDetailJobStatusComponent,
         headerClass: 'text-center',
         class: '',
         sortable: false
@@ -174,13 +174,13 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     ];
   }
 
-  public buildTableRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
+  public buildTableRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
     return [
       this.noAction.getActionDef()
     ];
   }
 
-  public buildTableDynamicRowActions(rowItem: OcpiendpointDetail): TableActionDef[] {
+  public buildTableDynamicRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
     const _actionRowButtons = [];
     if (rowItem && rowItem.ocpiendpoint) {
       // add send all EVSE Statuses
@@ -205,7 +205,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiendpointDetail) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case 'send':
         this._sendEVSEStatusesOcpiendpoint(rowItem.ocpiendpoint);

@@ -13,8 +13,8 @@ import {SettingsOcpiComponent} from './ocpi/settings-ocpi.component';
 import {SettingsOcpiBusinessDetailsComponent} from './ocpi/business-details/settings-ocpi-business-details.component';
 import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-endpoints.component';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
-import {OcpiendpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
-import {OcpiendpointDetailPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-patch-job-status.component';
+import {OcpiEndpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
+import {OcpiEndpointDetailJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
 import {OcpiendpointPatchJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
 import {OcpiendpointDetailTotalEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
 // tslint:disable-next-line:max-line-length
@@ -51,8 +51,8 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
-    OcpiendpointStatusComponent,
-    OcpiendpointDetailPatchJobStatusComponent,
+    OcpiEndpointStatusComponent,
+    OcpiEndpointDetailJobStatusComponent,
     OcpiendpointPatchJobResultComponent,
     OcpiendpointDetailTotalEvsesStatusComponent,
     OcpiendpointDetailSuccessEvsesStatusComponent,
@@ -70,8 +70,8 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     SettingsSacComponent,
     SacLinkDialogComponent,
     EndpointDialogComponent,
-    OcpiendpointStatusComponent,
-    OcpiendpointDetailPatchJobStatusComponent,
+    OcpiEndpointStatusComponent,
+    OcpiEndpointDetailJobStatusComponent,
     OcpiendpointPatchJobResultComponent,
     OcpiendpointDetailTotalEvsesStatusComponent,
     OcpiendpointDetailSuccessEvsesStatusComponent,

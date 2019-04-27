@@ -13,7 +13,7 @@ import {Constants} from 'app/utils/Constants';
     </mat-chip-list>
   `
 })
-export class OcpiPatchJobStatusComponent extends CellContentTemplateComponent {
+export class OcpiJobStatusComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;
 }
 

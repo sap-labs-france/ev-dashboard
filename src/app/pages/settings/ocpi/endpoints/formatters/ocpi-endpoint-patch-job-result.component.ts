@@ -1,4 +1,4 @@
-import {Ocpiendpoint} from '../../../../../common.types';
+import {OcpiEndpoint} from '../../../../../common.types';
 import {ChipComponent, TYPE_DANGER, TYPE_GREY, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
 export class OcpiendpointPatchJobResultComponent extends ChipComponent {
-  @Input() row: Ocpiendpoint;
+  @Input() row: OcpiEndpoint;
 
   constructor(
     private translateService: TranslateService) {

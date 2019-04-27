@@ -1,4 +1,4 @@
-import {OcpiendpointDetail} from 'app/common.types';
+import {OcpiEndpointDetail} from 'app/common.types';
 import {ChipComponent, TYPE_GREY, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
@@ -7,9 +7,9 @@ import {Component, Input} from '@angular/core';
   selector: 'app-log-level-chip',
   templateUrl: '../../../../../shared/component/chip/chip.component.html'
 })
-export class OcpiendpointDetailPatchJobStatusComponent extends ChipComponent {
+export class OcpiEndpointDetailJobStatusComponent extends ChipComponent {
 
-  @Input() row: OcpiendpointDetail;
+  @Input() row: OcpiEndpointDetail;
 
   loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.

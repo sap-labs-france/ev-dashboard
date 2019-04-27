@@ -1,4 +1,4 @@
-import {OcpiendpointDetail} from 'app/common.types';
+import {OcpiEndpointDetail} from 'app/common.types';
 import {ChipComponent, TYPE_GREY, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
 import {Component, Input} from '@angular/core';
 
@@ -9,7 +9,7 @@ import {Component, Input} from '@angular/core';
 })
 export class OcpiendpointDetailTotalEvsesStatusComponent extends ChipComponent {
 
-  @Input() row: OcpiendpointDetail;
+  @Input() row: OcpiEndpointDetail;
 
   loadContent(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.

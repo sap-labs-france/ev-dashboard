@@ -286,7 +286,7 @@ export interface SacLink {
   url: string;
 }
 
-export interface Ocpiendpoint {
+export interface OcpiEndpoint {
   id: string;
   name: string;
   countryCode: string;
@@ -298,9 +298,9 @@ export interface Ocpiendpoint {
   lastPatchJobResult: any;
 }
 
-export interface OcpiendpointDetail {
+export interface OcpiEndpointDetail {
   id: string;
-  ocpiendpoint: Ocpiendpoint;
+  ocpiendpoint: OcpiEndpoint;
   status: string;
   backgroundPatchJob: boolean;
   lastPatchJobOn: Date;
@@ -311,7 +311,7 @@ export interface OcpiendpointDetail {
 
 export interface OcpiendpointResult {
   count: number,
-  result: Ocpiendpoint[]
+  result: OcpiEndpoint[]
 }
 
 export interface TransactionResult {

@@ -176,9 +176,12 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   formatInactivity(totalInactivitySecs, row) {
-    const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
+    let  percentage = 0;
+    if (row.stop) {
+      percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
+    }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '1.0-0')})`
+    ` (${this.percentPipe.transform(percentage, '1.0-0')})`
   }
 
   formatChargingStation(chargingStation, row) {

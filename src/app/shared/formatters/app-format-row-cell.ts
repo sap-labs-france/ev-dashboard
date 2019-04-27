@@ -6,7 +6,7 @@ import { Utils } from 'app/utils/Utils';
 @Pipe({name: 'appFormatRowCell'})
 export class AppFormatRowCellPipe implements PipeTransform {
 
-  transform(value: any, tableColumnDef: TableColumnDef): any {
+  transform(value: any, tableColumnDef: TableColumnDef, row: any): any {
     let formattedValue = value;
     // Convert to primitive/object first
     switch (tableColumnDef.type) {
@@ -25,7 +25,7 @@ export class AppFormatRowCellPipe implements PipeTransform {
     }
     // Format
     if (tableColumnDef.formatter) {
-      formattedValue = tableColumnDef.formatter(value, formattedValue);
+      formattedValue = tableColumnDef.formatter(formattedValue, row);
     }
     return formattedValue;
   }

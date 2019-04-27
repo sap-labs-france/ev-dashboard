@@ -1,7 +1,7 @@
 import {ButtonType, DialogType, FilterType} from '../common.types';
 
 export class Constants {
-  public static DEFAULT_PAGE_SIZE = 10;
+  public static DEFAULT_PAGE_SIZE = 100;
 
   public static REST_RESPONSE_SUCCESS = 'Success';
 

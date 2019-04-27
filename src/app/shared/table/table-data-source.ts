@@ -27,7 +27,6 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public maxSelectableRows = 0;
   public lastSelectedRow;
 
-  protected formattedData = [];
   protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
 
   private dataSubject = new BehaviorSubject<any[]>([]);
@@ -484,8 +483,13 @@ public toggleRowSelection(row) {
     console.log('table-data-source - setData');
     // Format the data
     this._enrichData(data);
-    // Set
-    this.data = data;
+    // Check Paging
+    if (this.paging.skip === 0) {
+      // Clear array
+      this.data.length = 0;
+    }
+    // Add them
+    this.data.push(...data);
   }
 
   public getData(): any[] {

@@ -138,13 +138,21 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         id: 'errorCode',
         name: 'errors.title',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(row.errorMessage.title)
+        formatter: (value, row) => {
+          if (row && row.errorMessage) {
+            this.translateService.instant(row.errorMessage.title);
+          }
+        }
       },
       {
         id: 'errorCodeDescription',
         name: 'errors.description',
         sortable: false,
-        formatter: (value, row) => this.translateService.instant(row.errorMessage.description)
+        formatter: (value, row) => {
+          if (row && row.errorMessage) {
+            this.translateService.instant(row.errorMessage.description);
+          }
+        }
       }
     ];
     return columns as TableColumnDef[];

@@ -199,7 +199,9 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         name: 'errors.description',
         sortable: false,
         formatter: (value, row: ChargerInError) => {
-          return this.translateService.instant(`chargers.errors.${row.errorCode}.description`)
+          if (row) {
+            return this.translateService.instant(`chargers.errors.${row.errorCode}.description`)
+          }
         }
       }
     ];
@@ -391,12 +393,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     if (this.authorizationService.isAdmin()) {
       // duplicate actions from the map
       const actions = JSON.parse(JSON.stringify(ACTION_MAP[charger.errorCode]));
-      // handle specific case for delete
-      /*      actions.forEach((action: TableActionDef) => {
-              if (action.id === 'delete') {
-                action.disabled = charger.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0;
-              }
-            });*/
       return actions;
     } else {
       return [

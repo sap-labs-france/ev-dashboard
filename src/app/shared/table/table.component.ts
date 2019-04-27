@@ -41,20 +41,22 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      if (this.dataSource && this.dataSource.data && this.dataSource.data.length >= 5) {
-        // Change
-        const index = Math.trunc(Math.random() * 5);
-        const newData = Array.from(this.dataSource.data);
-        newData[index].currentConsumption = (newData[index].currentConsumption > 0 ? 0 : 50000);
-        // newData[index].chargeBoxID = 'FUCK';
-        // newData[index].connectors[0].currentConsumption += 5500;
-        // newData[index].id = 'E';
-        // console.log(newData);
-        this.dataSource.data.length = 0;
-        this.dataSource.data.push(...newData);
-      }
-    }, 2000);
+    // setInterval(() => {
+    //   if (this.dataSource && this.dataSource.data && this.dataSource.data.length >= 5) {
+    //     // Change
+    //     const index = Math.trunc(Math.random() * 5);
+    //     const newData = Array.from(this.dataSource.data);
+    //     // newData[index].currentConsumption = (newData[index].currentConsumption > 0 ? 0 : 50000);
+    //     // newData[index].chargeBoxID = 'FUCK';
+    //     newData[index].connectors[1].currentConsumption = (newData[index].connectors[1].currentConsumption > 0 ? 0 : 50000);
+    //     newData[index].connectors[1].status = (newData[index].connectors[1].status === 'Charging' ? 'Available' : 'Charging');
+    //     newData[index].id = 'Charging';
+    //     // newData[index].id = 'E';
+    //     // console.log(newData);
+    //     this.dataSource.data.length = 0;
+    //     this.dataSource.data.push(...newData);
+    //   }
+    // }, 2000);
     console.log('table.component - ngOnInit');
 
     // Handle locale (local service available only in component not possible in data-source)

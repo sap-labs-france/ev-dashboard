@@ -33,6 +33,8 @@ import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
 import en from '../../../../assets/i18n/en.json';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
+
 
 const POLL_INTERVAL = 10000;
 
@@ -50,6 +52,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     private localeService: LocaleService,
     private router: Router,
     private dialog: MatDialog,
+    private componentService: ComponentService,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private appDatePipe: AppDatePipe,
@@ -150,11 +153,18 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   getTableFiltersDef(): TableFilterDef[] {
     const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
 
-    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+    const filters: TableFilterDef[] = [
+      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
-      new ChargerTableFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()];
+      new ChargerTableFilter().getFilterDef()
+    ];
+
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+      filters.push(new SiteAreasTableFilter().getFilterDef());
+    }
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -226,23 +236,19 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   private _openSession(transaction: Transaction) {
-
-    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
-        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = '80vw';
-        dialogConfig.minHeight = '80vh';
-        dialogConfig.height = '80vh';
-        dialogConfig.width = '80vw';
-        dialogConfig.panelClass = 'transparent-dialog-container';
-        dialogConfig.data = {
-          transactionId: transaction.id,
-          siteArea: siteArea,
-          connector: chargeBox.connectors[transaction.connectorId],
-        };
-        // Open
-        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-      }
-    )
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    dialogConfig.height = '80vh';
+    dialogConfig.width = '80vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      transactionId: transaction.id
+    };
+    // disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
   }
 }

@@ -3,9 +3,6 @@
     background: rgba($brand-primary, 0.1);
 }
 
-.connector-row {
-}
-
 .component-invisible {
     display: none;
 }
@@ -19,4 +16,12 @@
             filter: invert(0);
         }
     }
+}
+
+.card-connector-icon {
+    font-family: none !important; // Need to be deactivate to display properly SVG icons
+}
+
+.charger-dialog-component {
+    max-height: 55vh !important;
 }

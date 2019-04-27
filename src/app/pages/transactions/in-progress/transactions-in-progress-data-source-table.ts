@@ -32,6 +32,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 
 const POLL_INTERVAL = 10000;
@@ -51,6 +52,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private appDatePipe: AppDatePipe,
     private percentPipe: PercentPipe,
@@ -201,8 +203,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   getTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new ChargerTableFilter().getFilterDef(),
-      new SiteAreasTableFilter().getFilterDef()];
+      new ChargerTableFilter().getFilterDef()
+    ];
+
+    // Show Site Area Filter If Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+      filters.push(new SiteAreasTableFilter().getFilterDef());
+    }
+    
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -258,8 +266,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public openSession(transaction: Transaction) {
-    this.centralServerService.getSiteArea(transaction.siteAreaID, true, true).subscribe(siteArea => {
-        const chargeBox = siteArea.chargeBoxes.find(c => c.id === transaction.chargeBoxID);
         const dialogConfig = new MatDialogConfig();
         dialogConfig.minWidth = '80vw';
         dialogConfig.minHeight = '80vh';
@@ -268,15 +274,11 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.panelClass = 'transparent-dialog-container';
         dialogConfig.data = {
           transactionId: transaction.id,
-          siteArea: siteArea,
-          connector: chargeBox.connectors[transaction.connectorId],
         };
+        // disable outside click close
+        dialogConfig.disableClose = true;
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
         this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
-
-      }
-    )
   }
-
 }

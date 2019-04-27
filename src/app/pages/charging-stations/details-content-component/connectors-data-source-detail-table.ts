@@ -200,6 +200,16 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
         },
         sortable: false
+      },
+      {
+        id: 'info',
+        name: 'chargers.connector_info_title',
+        sortable: false
+      },
+      {
+        id: 'vendorErrorCode',
+        name: 'chargers.connector_vendor_error_code_title',
+        sortable: false
       }
     ];
   }
@@ -406,7 +416,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   private _startTransactionAsAdmin(connector: Connector): boolean {
     // Create dialog data
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.panelClass = '';
     // Set data
     dialogConfig.data = {
       title: 'chargers.start_transaction_admin_title',

@@ -106,6 +106,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         this.setNumberOfRecords(chargers.count);
         // Update details status
         chargers.result.forEach(charger => {
+          // At first filter out the connectors that are null
+          charger.connectors = charger.connectors.filter(connector => connector != null);
           charger.connectors.forEach(connector => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
@@ -352,6 +354,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     if (chargingStation) {
       dialogConfig.data = chargingStation;
     }
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => this.loadData(true));

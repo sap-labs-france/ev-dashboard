@@ -6,7 +6,6 @@
   margin-bottom: 20px;
   .progress-bar {
     box-shadow: none;
-    @include variations(unquote(".progress-bar"), unquote(""), background-color, $brand-primary);
     &.progress-bar-primary {
       background: $brand-primary !important;
     }

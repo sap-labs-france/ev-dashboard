@@ -14,6 +14,7 @@ import {SettingsOcpiBusinessDetailsComponent} from './ocpi/business-details/sett
 import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-endpoints.component';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiEndpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
+import {AppFormatOcpiStatusPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 import {OcpiEndpointDetailJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
 import {AppFormatOcpiDetailJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
 import {OcpiJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
@@ -53,6 +54,7 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
     OcpiEndpointStatusComponent,
+    AppFormatOcpiStatusPipe,
     OcpiEndpointDetailJobStatusComponent,
     AppFormatOcpiDetailJobStatusPipe,
     OcpiJobResultComponent,

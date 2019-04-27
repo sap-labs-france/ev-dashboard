@@ -1,43 +1,56 @@
-import {KeyValue, OcpiEndpoint} from '../../../../../common.types';
-import {Constants} from '../../../../../utils/Constants';
-import {ChipComponent, TYPE_GREY, TYPE_INFO, TYPE_SUCCESS, TYPE_WARNING} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input} from '@angular/core';
-
-@Component({
-  selector: 'app-log-level-chip',
-  templateUrl: '../../../../../shared/component/chip/chip.component.html'
-})
-export class OcpiEndpointStatusComponent extends ChipComponent {
-
-  @Input() row: OcpiEndpoint;
-
-  loadContent(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
-    for (const ocpiStatus of ocpiStatuses) {
-      if (ocpiStatus.key === this.row.status) {
-        this.text = ocpiStatus.value
-      }
-    }
-    this.type = 'chip-width-10em ';
-    switch (this.row.status) {
-      case Constants.OCPIENDPOINT_STATUS_NEW:
-        this.type += TYPE_INFO;
-        break;
-      case Constants.OCPIENDPOINT_STATUS_REGISTERED:
-        this.type += TYPE_SUCCESS;
-        break;
-      case Constants.OCPIENDPOINT_STATUS_UNREGISTERED:
-        this.type += TYPE_WARNING;
-        break;
-      default:
-        this.type += TYPE_GREY;
-    }
-  }
-}
+import {OcpiEndpoint, KeyValue} from 'app/common.types';
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import {Component, Input, PipeTransform, Pipe} from '@angular/core';
+import {Constants} from 'app/utils/Constants';
 
 export const ocpiStatuses: KeyValue[] = [
   {key: 'new', value: 'ocpiendpoints.new'},
   {key: 'registered', value: 'ocpiendpoints.registered'},
   {key: 'unregistered', value: 'ocpiendpoints.unregistered'}
 ];
+
+@Component({
+  selector: 'app-ocpi-job-status-chip',
+  template: `
+    <mat-chip-list [selectable]="false">
+      <mat-chip [ngClass]="row.status | appFormatOcpiStatus:'class'" [disabled]="true">
+        {{row.status | appFormatOcpiStatus:'text' | translate}}
+      </mat-chip>
+    </mat-chip-list>
+  `
+})
+export class OcpiEndpointStatusComponent extends CellContentTemplateComponent {
+  @Input() row: OcpiEndpoint;
+}
+
+@Pipe({name: 'appFormatOcpiStatus'})
+export class AppFormatOcpiStatusPipe implements PipeTransform {
+  transform(status: string, type: string): string {
+    // Class
+    if (type === 'class') {
+      let classNames = 'chip-width-10em ';
+      switch (status) {
+        case Constants.OCPIENDPOINT_STATUS_NEW:
+          classNames += Constants.CHIP_TYPE_INFO;
+          break;
+        case Constants.OCPIENDPOINT_STATUS_REGISTERED:
+          classNames += Constants.CHIP_TYPE_SUCCESS;
+          break;
+        case Constants.OCPIENDPOINT_STATUS_UNREGISTERED:
+          classNames += Constants.CHIP_TYPE_WARNING;
+          break;
+        default:
+          classNames += Constants.CHIP_TYPE_GREY;
+      }
+      return classNames;
+    }
+    // Text
+    if (type === 'text') {
+      for (const ocpiStatus of ocpiStatuses) {
+        if (status === ocpiStatus.key) {
+          return ocpiStatus.value;
+        }
+      }
+      }
+  }
+}

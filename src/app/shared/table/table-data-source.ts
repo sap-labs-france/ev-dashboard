@@ -483,14 +483,9 @@ public toggleRowSelection(row) {
   private setData(data: T[]) {
     console.log('table-data-source - setData');
     // Format the data
-    this._formatData(data);
-    // Check Paging
-    if (this.paging.skip === 0) {
-      // Clear array
-      this.data.length = 0;
-    }
-    // Add them
-    this.data.push(...data);
+    this._enrichData(data);
+    // Set
+    this.data = data;
   }
 
   public getData(): any[] {
@@ -498,7 +493,7 @@ public toggleRowSelection(row) {
     return this.data;
   }
 
-  _formatData(freshData: any[]) {
+  _enrichData(freshData: any[]) {
     const isRowSelectionEnabled = this.isRowSelectionEnabled()
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {

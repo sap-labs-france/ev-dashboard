@@ -143,6 +143,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       {
         id: 'connectorId',
         name: 'transactions.connector',
+        headerClass: 'text-center',
         isAngularComponent: true,
         angularComponentName: ConnectorCellComponent,
       },

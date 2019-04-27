@@ -47,7 +47,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         const index = Math.trunc(Math.random() * 5);
         const newData = Array.from(this.dataSource.data);
         newData[index].currentConsumption = (newData[index].currentConsumption > 0 ? 0 : 50000);
-        newData[index].chargeBoxID = 'FUCK';
+        // newData[index].chargeBoxID = 'FUCK';
         // newData[index].connectors[0].currentConsumption += 5500;
         // newData[index].id = 'E';
         // console.log(newData);

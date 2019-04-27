@@ -1,26 +1,42 @@
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import {Component, Input, PipeTransform, Pipe} from '@angular/core';
+import {Constants} from 'app/utils/Constants';
 import {OcpiEndpointDetail} from 'app/common.types';
-import {ChipComponent, TYPE_GREY, TYPE_SUCCESS} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input} from '@angular/core';
-
 
 @Component({
-  selector: 'app-log-level-chip',
-  templateUrl: '../../../../../shared/component/chip/chip.component.html'
+  selector: 'app-ocpi-detail-job-status-chip',
+  template: `
+    <mat-chip-list [selectable]="false">
+      <mat-chip [ngClass]="row.ocpiendpoint.backgroundPatchJob | appFormatOcpiDetailJobStatus:'class'" [disabled]="true">
+        {{row.ocpiendpoint.backgroundPatchJob | appFormatOcpiDetailJobStatus:'text' | translate}}
+      </mat-chip>
+    </mat-chip-list>
+  `
 })
-export class OcpiEndpointDetailJobStatusComponent extends ChipComponent {
-
+export class OcpiEndpointDetailJobStatusComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpointDetail;
+}
 
-  loadContent(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
-    this.type = 'chip-width-10em ';
-    if (this.row.ocpiendpoint.backgroundPatchJob) {
-      this.text = 'ocpiendpoints.status_active';
-      this.type += TYPE_SUCCESS;
-    } else {
-      this.text = 'ocpiendpoints.status_inactive';
-      this.type += TYPE_GREY;
+@Pipe({name: 'appFormatOcpiDetailJobStatus'})
+export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
+  transform(backgroundPatchJob: number, type: string): string {
+    // Class
+    if (type === 'class') {
+      let classNames = 'chip-width-10em ';
+      if (backgroundPatchJob > 0) {
+        classNames += Constants.CHIP_TYPE_SUCCESS;
+      } else {
+        classNames += Constants.CHIP_TYPE_GREY;
+      }
+      return classNames;
+    }
+    // Text
+    if (type === 'text') {
+      if (backgroundPatchJob > 0) {
+        return 'ocpiendpoints.status_active';
+      } else {
+        return 'ocpiendpoints.status_inactive';
+      }
     }
   }
 }

@@ -22,8 +22,8 @@ import { Constants } from 'app/utils/Constants';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
 import { OcpiEndpointDetailJobStatusComponent } from '../formatters/ocpi-endpoint-detail-job-status.component';
-import { OcpiendpointDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
-import { OcpiendpointDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
+import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
+import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
 import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import { Observable } from 'rxjs';
 
@@ -135,7 +135,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         type: 'integer',
         name: 'ocpiendpoints.totalChargePoints',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointDetailTotalEvsesStatusComponent,
+        angularComponentName: OcpiDetailTotalEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false
@@ -145,7 +145,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointDetailSuccessEvsesStatusComponent,
+        angularComponentName: OcpiDetailSuccessEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false

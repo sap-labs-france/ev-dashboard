@@ -15,11 +15,11 @@ import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi-end
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiEndpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-status.component';
 import {OcpiEndpointDetailJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
+import {AppFormatOcpiDetailJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-job-status.component';
 import {OcpiendpointPatchJobResultComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-result.component';
-import {OcpiendpointDetailTotalEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
-// tslint:disable-next-line:max-line-length
-import {OcpiendpointDetailSuccessEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-success-evses-status.component';
-// tslint:disable-next-line:max-line-length
+import {AppFormatOcpiEvsesTotalPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
+import {OcpiDetailTotalEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-total-evses-status.component';
+import {OcpiDetailSuccessEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-success-evses-status.component';
 import {OcpiDetailFailureEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import {AppFormatOcpiEvsesFailurePipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import {OcpiendpointDetailComponent} from './ocpi/endpoints/ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
@@ -53,9 +53,11 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     EndpointDialogComponent,
     OcpiEndpointStatusComponent,
     OcpiEndpointDetailJobStatusComponent,
+    AppFormatOcpiDetailJobStatusPipe,
     OcpiendpointPatchJobResultComponent,
-    OcpiendpointDetailTotalEvsesStatusComponent,
-    OcpiendpointDetailSuccessEvsesStatusComponent,
+    OcpiDetailTotalEvsesStatusComponent,
+    AppFormatOcpiEvsesTotalPipe,
+    OcpiDetailSuccessEvsesStatusComponent,
     OcpiDetailFailureEvsesStatusComponent,
     AppFormatOcpiEvsesFailurePipe,
     OcpiPatchJobStatusComponent,
@@ -73,8 +75,8 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     OcpiEndpointStatusComponent,
     OcpiEndpointDetailJobStatusComponent,
     OcpiendpointPatchJobResultComponent,
-    OcpiendpointDetailTotalEvsesStatusComponent,
-    OcpiendpointDetailSuccessEvsesStatusComponent,
+    OcpiDetailTotalEvsesStatusComponent,
+    OcpiDetailSuccessEvsesStatusComponent,
     OcpiDetailFailureEvsesStatusComponent,
     OcpiPatchJobStatusComponent,
     OcpiendpointDetailComponent

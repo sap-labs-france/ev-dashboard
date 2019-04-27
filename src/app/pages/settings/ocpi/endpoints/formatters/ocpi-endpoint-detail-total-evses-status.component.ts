@@ -1,25 +1,36 @@
 import {OcpiEndpointDetail} from 'app/common.types';
-import {ChipComponent, TYPE_GREY, TYPE_INFO} from '../../../../../shared/component/chip/chip.component';
-import {Component, Input} from '@angular/core';
-
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import {Component, Input, PipeTransform, Pipe} from '@angular/core';
+import {Constants} from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-log-level-chip',
-  templateUrl: '../../../../../shared/component/chip/chip.component.html'
+  selector: 'app-ocpi-detail-total-evse-status-chip',
+  template: `
+    <mat-chip-list [selectable]="false">
+      <mat-chip [ngClass]="row.totalNbr | appFormatOcpiEvsesTotal:'class'" [disabled]="true">
+        {{row.totalNbr | appFormatOcpiEvsesTotal:'text'}}
+      </mat-chip>
+    </mat-chip-list>
+  `
 })
-export class OcpiendpointDetailTotalEvsesStatusComponent extends ChipComponent {
-
+export class OcpiDetailTotalEvsesStatusComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpointDetail;
+}
 
-  loadContent(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
-    this.type = 'chip-width-4em ';
-    this.text = this.row.totalNbr ? this.row.totalNbr.toString() : '-'
-    if (this.row.totalNbr > 0) {
-      this.type += TYPE_INFO;
-    } else {
-      this.type += TYPE_GREY;
+@Pipe({name: 'appFormatOcpiEvsesTotal'})
+export class AppFormatOcpiEvsesTotalPipe implements PipeTransform {
+  transform(totalNbr: number, type: string): string {
+    if (type === 'class') {
+      let classNames = 'chip-width-4em ';
+      if (totalNbr > 0) {
+        classNames += Constants.CHIP_TYPE_INFO;
+      } else {
+        classNames += Constants.CHIP_TYPE_GREY;
+      }
+      return classNames;
+    }
+    if (type === 'text') {
+      return (totalNbr > 0 ? totalNbr.toString() : '-');
     }
   }
 }

@@ -24,7 +24,7 @@ import { Injectable } from '@angular/core';
 import { OcpiendpointDetailPatchJobStatusComponent } from '../formatters/ocpi-endpoint-detail-patch-job-status.component';
 import { OcpiendpointDetailTotalEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-total-evses-status.component';
 import { OcpiendpointDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-success-evses-status.component';
-import { OcpiendpointDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
+import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -155,7 +155,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiendpointDe
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointDetailFailureEvsesStatusComponent,
+        angularComponentName: OcpiDetailFailureEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false

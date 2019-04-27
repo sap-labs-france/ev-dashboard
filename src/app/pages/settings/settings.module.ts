@@ -20,9 +20,11 @@ import {OcpiendpointDetailTotalEvsesStatusComponent} from './ocpi/endpoints/form
 // tslint:disable-next-line:max-line-length
 import {OcpiendpointDetailSuccessEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-success-evses-status.component';
 // tslint:disable-next-line:max-line-length
-import {OcpiendpointDetailFailureEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
+import {OcpiDetailFailureEvsesStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
+import {AppFormatOcpiEvsesFailurePipe} from './ocpi/endpoints/formatters/ocpi-endpoint-detail-failure-evses-status.component';
 import {OcpiendpointDetailComponent} from './ocpi/endpoints/ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
-import {OcpiendpointPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
+import {OcpiPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
+import {AppFormatOcpiJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-endpoint-patch-job-status.component';
 import {SettingsRefundComponent} from './refund/settings-refund.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
 import {SettingsSacComponent} from './sac/settings-sac.component';
@@ -54,8 +56,10 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     OcpiendpointPatchJobResultComponent,
     OcpiendpointDetailTotalEvsesStatusComponent,
     OcpiendpointDetailSuccessEvsesStatusComponent,
-    OcpiendpointDetailFailureEvsesStatusComponent,
-    OcpiendpointPatchJobStatusComponent,
+    OcpiDetailFailureEvsesStatusComponent,
+    AppFormatOcpiEvsesFailurePipe,
+    OcpiPatchJobStatusComponent,
+    AppFormatOcpiJobStatusPipe,
     OcpiendpointDetailComponent
   ],
   entryComponents: [
@@ -71,8 +75,8 @@ import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component'
     OcpiendpointPatchJobResultComponent,
     OcpiendpointDetailTotalEvsesStatusComponent,
     OcpiendpointDetailSuccessEvsesStatusComponent,
-    OcpiendpointDetailFailureEvsesStatusComponent,
-    OcpiendpointPatchJobStatusComponent,
+    OcpiDetailFailureEvsesStatusComponent,
+    OcpiPatchJobStatusComponent,
     OcpiendpointDetailComponent
   ],
   providers: []

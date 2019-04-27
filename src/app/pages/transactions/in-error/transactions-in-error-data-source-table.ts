@@ -25,7 +25,7 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import moment from 'moment';
+import * as moment from 'moment';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {ErrorMessage} from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details/error-code-details.component';

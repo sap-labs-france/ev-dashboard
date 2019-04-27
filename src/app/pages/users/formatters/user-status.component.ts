@@ -5,7 +5,7 @@ import {Component, Input, Pipe, PipeTransform} from '@angular/core';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  selector: 'app-log-level-chip',
+  selector: 'app-user-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row.status | appFormatUserStatus:'class'" [disabled]="true">

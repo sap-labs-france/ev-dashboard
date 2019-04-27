@@ -4,7 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../services/locale.service';
 import {CurrencyPipe, DecimalPipe} from '@angular/common';
 import {AppDatePipe} from '../../formatters/app-date.pipe';
-import moment from 'moment';
+import * as moment from 'moment';
 import {Chart} from 'chart.js';
 import {ConsumptionValue} from '../../../common.types';
 import {AppDurationPipe} from '../../formatters/app-duration.pipe';

@@ -24,7 +24,7 @@ import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-r
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
-import moment from 'moment';
+import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 import {TransactionsTypeFilter} from './transactions-type-filter';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';

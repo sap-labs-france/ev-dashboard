@@ -3,7 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {animate, AnimationEvent, group, query, style, transition, trigger} from '@angular/animations';
 import {DashboardService, SiteCurrentMetrics} from '../../services/dashboard.service';
 import {SpinnerService} from 'app/services/spinner.service';
-import moment from 'moment';
+import * as moment from 'moment';
 import {DecimalPipe} from '@angular/common';
 import {LocaleService} from 'app/services/locale.service';
 import {CardChartComponent, ChartButton, ChartData} from './card-chart/card-chart.component';

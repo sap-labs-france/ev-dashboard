@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ConsumptionValue, ConnectorSchedule } from 'app/common.types';
+import { ConnectorSchedule } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
-import moment from 'moment';
+import * as moment from 'moment';
 import { ChartComponent } from 'angular2-chartjs';
 
 @Component({

@@ -25,7 +25,7 @@ import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { OcpiendpointStatusComponent } from './formatters/ocpi-endpoint-status.component';
 import { OcpiendpointPatchJobResultComponent } from './formatters/ocpi-endpoint-patch-job-result.component';
-import { OcpiendpointPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
+import { OcpiPatchJobStatusComponent } from './formatters/ocpi-endpoint-patch-job-status.component';
 import { OcpiendpointDetailComponent} from './ocpi-endpoint-details/ocpi-endpoint-detail-component.component';
 
 
@@ -154,7 +154,7 @@ export class EndpointsDataSource extends TableDataSource<Ocpiendpoint> {
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiendpointPatchJobStatusComponent,
+        angularComponentName: OcpiPatchJobStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false

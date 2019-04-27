@@ -6,7 +6,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ChartComponent } from 'angular2-chartjs';
 import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
 

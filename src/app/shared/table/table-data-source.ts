@@ -543,43 +543,6 @@ public toggleRowSelection(row) {
         // Set the ID
         freshRow.id = freshRow[rowID];
       }
-      // Format the row
-      this._formatRow(freshRow);
-    }
-  }
-
-  _formatRow(row) {
-    // For each columns
-    for (let i = 0; i < this.tableColumnDefs.length; i++) {
-      // Get
-      const tableColumnDef = this.tableColumnDefs[i];
-      // Formatter provided?
-      if (!tableColumnDef.formatter) {
-        // No need to format
-        continue;
-      }
-      // Value provided?
-      let propertyValue = row[tableColumnDef.id];
-      if (!propertyValue) {
-        continue;
-      }
-      // Convert to primitive/object first
-      switch (tableColumnDef.type) {
-        // Date
-        case 'date':
-          propertyValue = Utils.convertToDate(propertyValue);
-          break;
-        // Integer
-        case 'integer':
-          propertyValue = Utils.convertToInteger(propertyValue);
-          break;
-        // Float
-        case 'float':
-          propertyValue = Utils.convertToFloat(propertyValue);
-          break;
-      }
-      // Format + Override
-      row[tableColumnDef.id] = tableColumnDef.formatter(propertyValue, row);
     }
   }
 

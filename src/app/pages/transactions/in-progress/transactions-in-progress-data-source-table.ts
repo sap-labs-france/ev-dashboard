@@ -25,7 +25,7 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import * as moment from 'moment';
+import moment from 'moment';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
@@ -212,7 +212,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 

@@ -177,7 +177,7 @@
               <!-- Text Cell -->
               <td *ngIf="!tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                [innerHtml]="row[tableColumnDef.id]">
+                [innerHtml]="row | appFormatRowCell:tableColumnDef">
               </td>
               <!-- Angular Component Cell -->
               <td *ngIf="tableColumnDef.isAngularComponent"

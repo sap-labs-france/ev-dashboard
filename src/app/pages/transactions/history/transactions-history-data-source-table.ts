@@ -26,7 +26,7 @@ import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-r
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
-import * as moment from 'moment';
+import moment from 'moment';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';

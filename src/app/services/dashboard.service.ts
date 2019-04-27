@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CentralServerService } from './central-server.service';
 import { Company, Address } from 'app/common.types';
 import { BehaviorSubject } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 
 const DATA_LOAD_INTERVAL = 10000;
 

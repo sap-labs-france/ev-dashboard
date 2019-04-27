@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import {TableFilter} from './table-filter';
 import {Constants} from '../../../utils/Constants';
 import {TableFilterDef} from '../../../common.types';

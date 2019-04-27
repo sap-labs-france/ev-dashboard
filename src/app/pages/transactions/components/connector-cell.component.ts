@@ -28,7 +28,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent {
 export class AppFormatConnector implements PipeTransform {
   transform(transaction: Transaction, type: string): string {
     console.log(transaction);
-    
+
     if (type === 'class') {
       return this.buildConnectorClasses(transaction);
     }

@@ -18,7 +18,8 @@
     "lint-fix": "ng lint --fix=true",
     "e2e": "codeceptjs run --steps --reporter mochawesome",
     "clean-install-win": "rmdir node_modules /S /Q && del package-lock.json && npm cache clear --force && npm install",
-    "clean-install-lin": "rm -rf ./node_modules && rm -f ./package-lock.json && npm cache clear --force && npm install"
+    "clean-install-lin": "rm -rf ./node_modules && rm -f ./package-lock.json && npm cache clear --force && npm install",
+    "npm-check": "npm-check"
   },
   "private": true,
   "dependencies": {
@@ -108,6 +109,7 @@
     "maildev": "^1.0.0",
     "mocha-junit-reporter": "^1.22.0",
     "mochawesome": "^3.1.2",
+    "npm-check": "^5.9.0",
     "protractor": "^5.4.2",
     "puppeteer": "^1.15.0",
     "rosie": "^2.0.1",

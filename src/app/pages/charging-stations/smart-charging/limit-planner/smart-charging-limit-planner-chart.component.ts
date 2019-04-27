@@ -1,14 +1,14 @@
+
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ConsumptionValue } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
-import moment from 'moment';
 import { ChartComponent } from 'angular2-chartjs';
 import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-limit-planner-chart',
@@ -148,7 +148,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + (<any>moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', { trim: false });
+              ' - ' + (moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', { trim: false });
           }
         }
       },

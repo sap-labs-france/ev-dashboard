@@ -11,7 +11,7 @@ import {TableModule} from '../../shared/table/table.module';
 import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {LogLevelComponent} from './formatters/log-level.component';
-import {AppFormatLog} from './formatters/log-level.component';
+import {AppFormatLogLevelPipe} from './formatters/log-level.component';
 import {ComponentModule} from '../../shared/component/component.module';
 
 
@@ -31,7 +31,7 @@ import {ComponentModule} from '../../shared/component/component.module';
   declarations: [
     LogsComponent,
     LogLevelComponent,
-    AppFormatLog
+    AppFormatLogLevelPipe
   ],
   entryComponents: [
     LogLevelComponent

@@ -81,12 +81,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           }
           // Ok
           observer.next(this.charger.connectors);
-          // Update specific row actions
-          if (this.formattedData) {
-            this.formattedData.forEach(row => {
-              row.buildTableDynamicRowActions = this.buildTableDynamicRowActions(row);
-            });
-          }
+          // // Update specific row actions
+          // if (this.formattedData) {
+          //   this.formattedData.forEach(row => {
+          //     row.buildTableDynamicRowActions = this.buildTableDynamicRowActions(row);
+          //   });
+          // }
           let hasSomeDetails = false;
           // Check connectors details status
           this.getData().forEach((connector: Connector) => {

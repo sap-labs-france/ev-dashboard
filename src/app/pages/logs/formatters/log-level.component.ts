@@ -15,8 +15,8 @@ const TYPE_GREY = 'chip-grey';
   selector: 'app-log-level-chip',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.level | appFormatLog:'class'" [disabled]="true">
-        {{row.level | appFormatLog:'text' | translate}}
+      <mat-chip [ngClass]="row.level | appFormatLogLevel:'class'" [disabled]="true">
+        {{row.level | appFormatLogLevel:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
   `
@@ -25,8 +25,8 @@ export class LogLevelComponent extends CellContentTemplateComponent {
   @Input() row: Log;
 }
 
-@Pipe({name: 'appFormatLog'})
-export class AppFormatLog implements PipeTransform {
+@Pipe({name: 'appFormatLogLevel'})
+export class AppFormatLogLevelPipe implements PipeTransform {
   transform(logLevel: string, type: string): string {
     if (type === 'class') {
       return this.buildLogLevelClasses(logLevel);

@@ -4,21 +4,21 @@ import {Component, Input, PipeTransform, Pipe} from '@angular/core';
 import {Constants} from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-ocpi-job-result-chip',
+  selector: 'app-ocpi-path-job-result-chip',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.lastPatchJobResult | appFormatOcpiJobResult:'class'" [disabled]="true">
-        {{row.lastPatchJobResult | appFormatOcpiJobResult:'text' | translate}}
+      <mat-chip [ngClass]="row.lastPatchJobResult | appFormatOcpiPatchJobResult:'class'" [disabled]="true">
+        {{row.lastPatchJobResult | appFormatOcpiPatchJobResult:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
   `
 })
-export class OcpiJobResultComponent extends CellContentTemplateComponent {
+export class OcpiPatchJobResultComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;
 }
 
-@Pipe({name: 'appFormatOcpiJobResult'})
-export class AppFormatOcpiJobResultPipe implements PipeTransform {
+@Pipe({name: 'appFormatOcpiPatchJobResult'})
+export class AppFormatOcpiPatchJobResultPipe implements PipeTransform {
   transform(lastPatchJobResult: any, type: string): string {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';

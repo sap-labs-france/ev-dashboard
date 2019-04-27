@@ -3,7 +3,7 @@ import {CellContentTemplateComponent} from 'app/shared/table/cell-content-templa
 import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-ocpi-detail-success-evse-status-chip',
+  selector: 'app-ocpi-detail-success-evses-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip ngClass="chip-width-4em chip-success" [disabled]="true">

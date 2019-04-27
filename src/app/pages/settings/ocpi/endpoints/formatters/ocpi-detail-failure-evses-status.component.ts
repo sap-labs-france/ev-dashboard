@@ -4,7 +4,7 @@ import {Component, Input, PipeTransform, Pipe} from '@angular/core';
 import {Constants} from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-ocpi-detail-failure-evse-status-chip',
+  selector: 'app-ocpi-detail-failure-evses-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row.failureNbr | appFormatOcpiEvsesFailure:'class'" [disabled]="true">

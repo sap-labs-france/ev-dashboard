@@ -7,12 +7,9 @@
   <a class="simple-text logo-normal" href="javascript:void(0)">
     {{'general.app_name' | translate}}
     <div>
-      <a *ngIf="isAdmin" routerLink="/release-notes" class="app-version">
+      <a routerLink="/release-notes" class="app-version">
         {{'general.last_update' | translate}}
       </a>
-      <span *ngIf="!isAdmin" class="app-version">
-        {{'general.last_update' | translate}}
-      </span>
     </div>
   </a>
 </div>

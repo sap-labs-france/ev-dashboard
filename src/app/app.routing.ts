@@ -145,13 +145,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
-        data: {
-          auth: {
-            entity: Constants.ENTITY_LOGGINGS,
-            action: Constants.ACTION_LIST
-          }
-        }
+        path: 'release-notes', component: ReleaseNotesComponent
       },
       {
         path: 'template',

@@ -498,7 +498,8 @@ public toggleRowSelection(row) {
   }
 
   _enrichData(freshData: any[]) {
-    const isRowSelectionEnabled = this.isRowSelectionEnabled()
+    const isRowSelectionEnabled = this.isRowSelectionEnabled();
+    const expandedRowIDs = this.data.filter((row) => row.isExpanded).map((row) => row.id);
     console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
@@ -541,6 +542,10 @@ public toggleRowSelection(row) {
         }
         // Set the ID
         freshRow.id = freshRow[rowID];
+      }
+      // Check if Expanded
+      if (expandedRowIDs.indexOf(freshRow.id) !== -1) {
+        freshRow.isExpanded = true;
       }
     }
   }

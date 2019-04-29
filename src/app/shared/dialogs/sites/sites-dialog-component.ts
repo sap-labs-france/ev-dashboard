@@ -22,7 +22,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data);
+    super(data, dialogRef);
     // Default title
     if (this.title === '') {
       this.title = 'sites.select_sites';

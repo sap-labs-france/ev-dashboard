@@ -22,7 +22,7 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data);
+    super(data, dialogRef);
     // Default title
     if (this.title === '') {
       this.title = 'site_areas.select_site_areas';

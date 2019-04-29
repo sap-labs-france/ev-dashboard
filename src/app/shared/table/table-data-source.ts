@@ -498,10 +498,6 @@ public toggleRowSelection(row) {
     return [];
   }
 
-  hasTableDynamicRowActions() {
-    return false;
-  }
-
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
     return true;
   }
@@ -524,7 +520,7 @@ public toggleRowSelection(row) {
     this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
-      this.hasTableDynamicRowActions();
+      this.tableDef.hasDynamicRowAction;
   }
 
   isSelectable(row: T) {

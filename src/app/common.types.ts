@@ -420,6 +420,7 @@ export interface TableDef {
   },
   rowFieldNameIdentifier?: string,
   isSimpleTable?: boolean;
+  hasDynamicRowAction?: boolean;
 }
 
 export interface TableColumnDef {

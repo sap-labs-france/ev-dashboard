@@ -83,7 +83,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -132,10 +133,6 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     } else {
       return tableActionsDef;
     }
-  }
-
-  hasTableDynamicRowActions() {
-    return true;
   }
 
   buildTableDynamicRowActions(site: Site) {

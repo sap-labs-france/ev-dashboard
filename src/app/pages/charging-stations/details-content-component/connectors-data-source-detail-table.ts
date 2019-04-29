@@ -119,7 +119,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       isSimpleTable: true,
       design: {
         flat: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -178,44 +179,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       }
     ];
   }
-
-  public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
-    ];
-  }
-
-  // public buildTableDynamicRowActions(row: Connector): TableActionDef[] {
-  //   if (rowItem && !this.charger.inactive) {
-  //     // Check active transaction and authorization to stop
-  //     if (rowItem && rowItem.activeTransactionID &&
-  //       this.connectorTransactionAuthorization &&
-  //       this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
-  //       if (this.connectorTransactionAuthorization &&
-  //         this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized &&
-  //         (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
-  //         return [
-  //           new TableOpenAction().getActionDef(),
-  //           this.stopAction.getActionDef()
-  //         ];
-  //       } else {
-  //         return [
-  //           this.stopAction.getActionDef()
-  //         ];
-  //       }
-  //     } else {
-  //       return [
-  //         this.noAction.getActionDef()
-  //       ];
-  //     }
-  //   }
-  //   // By default no actions
-  //   return [
-  //     this.startAction.getActionDef()
-  //     //      this.noAction.getActionDef()
-  //   ];
-  // }
 
   buildTableDynamicRowActions(rowItem: Connector): TableActionDef[] {
     const actionAuthorize = [];

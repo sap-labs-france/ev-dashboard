@@ -83,7 +83,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -131,23 +132,6 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       ];
     } else {
       return tableActionsDef;
-    }
-  }
-
-  public buildTableRowActions(): TableActionDef[] {
-    if (this.isAdmin) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableViewAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
     }
   }
 

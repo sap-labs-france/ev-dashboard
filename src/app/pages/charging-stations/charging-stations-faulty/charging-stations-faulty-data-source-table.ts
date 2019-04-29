@@ -145,7 +145,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         enabled: false,
         multiple: false
       },
-      rowFieldNameIdentifier: 'uniqueId'
+      rowFieldNameIdentifier: 'uniqueId',
+      hasDynamicRowAction: true
     };
   }
 
@@ -226,20 +227,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
 
   public buildTableActionsDef(): TableActionDef[] {
     return super.buildTableActionsDef();
-  }
-
-  public buildTableRowActions(): TableActionDef[] {
-    if (this.authorizationService.isAdmin()) {
-      return [
-        new TableChargerMoreAction().getActionDef(),
-        new TableSettingsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableSettingsAction().getActionDef()
-      ];
-    }
   }
 
   public actionTriggered(actionDef: TableActionDef) {

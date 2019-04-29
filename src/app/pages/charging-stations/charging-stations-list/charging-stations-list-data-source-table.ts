@@ -145,7 +145,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         enabled: true,
         isDetailComponent: true,
         angularComponent: ConnectorsDetailComponent
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -354,17 +355,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-    /*    action.dropdownItems.forEach(dropDownItem => {
-          if (dropDownItem.id === ACTION_SMART_CHARGING) {
-            // Check charging station version
-            dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
-              row.ocppVersion === Constants.OCPP_VERSION_15 ||
-              row.inactive;
-          } else {
-            // Check active status of CS
-            dropDownItem.disabled = row.inactive;
-          }
-        });*/
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {

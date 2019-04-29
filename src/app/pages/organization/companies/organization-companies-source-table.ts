@@ -86,7 +86,8 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -135,21 +136,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       ];
     } else {
       return tableActionsDef;
-    }
-  }
-
-  public buildTableRowActions(): TableActionDef[] {
-    if (this.isAdmin) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableViewAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
     }
   }
 

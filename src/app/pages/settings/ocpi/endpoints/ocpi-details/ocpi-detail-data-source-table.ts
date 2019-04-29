@@ -30,7 +30,6 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
 
-  public noAction = new TableNoAction();
   public sendEvseStatusesAction = new TableSendAction();
 
   private ocpiendpoint: OcpiEndpoint;
@@ -52,7 +51,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     super();
     // Init
     this.initDataSource();
-    this.noAction.getActionDef().disabled = true;
   }
 
   public loadData(refreshAction = false): Observable<any> {
@@ -103,7 +101,8 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
       isSimpleTable: true,
       design: {
         flat: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -171,12 +170,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
-    ];
-  }
-
-  public buildTableRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
-    return [
-      this.noAction.getActionDef()
     ];
   }
 

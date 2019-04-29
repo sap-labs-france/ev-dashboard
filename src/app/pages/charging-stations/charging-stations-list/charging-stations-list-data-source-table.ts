@@ -274,7 +274,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         });
         break;
       case 'open_in_maps':
-        this._openGeoMap();
+        this.openGeoMap();
         break;
     }
     super.actionTriggered(actionDef);
@@ -286,7 +286,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         this.showChargingStationDialog(rowItem);
         break;
       case 'reboot':
-        this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
           this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
@@ -294,22 +294,22 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         );
         break;
       case 'open_in_maps':
-        this._showPlace(rowItem);
-        // this._openGeoMap(rowItem);
+        this.showPlace(rowItem);
+        // this.openGeoMap(rowItem);
         break;
       case 'more':
         switch (dropdownItem.id) {
           case ACTION_SMART_CHARGING:
-            this._dialogSmartCharging(rowItem);
+            this.dialogSmartCharging(rowItem);
             break;
           case 'delete':
-            this._deleteChargingStation(rowItem);
+            this.deleteChargingStation(rowItem);
             break;
           /*          case 'sitearea':
                       this._assignSiteArea(rowItem);
                       break;*/
           case ACTION_SOFT_RESET:
-            this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
+            this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
               this.translateService.instant('chargers.soft_reset_title'),
               this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
               this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
@@ -317,7 +317,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             );
             break;
           case ACTION_CLEAR_CACHE:
-            this._simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
+            this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
               this.translateService.instant('chargers.clear_cache_title'),
               this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
               this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
@@ -326,7 +326,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             break;
 
           case ACTION_MORE_ACTIONS:
-            this._dialogMoreActions(rowItem);
+            this.dialogMoreActions(rowItem);
             break;
           default:
             break;
@@ -351,7 +351,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
+  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -400,7 +400,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
-  private _deleteChargingStation(chargingStation: Charger) {
+  private deleteChargingStation(chargingStation: Charger) {
     if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(
@@ -429,7 +429,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  private _dialogSmartCharging(chargingStation?: Charger) {
+  private dialogSmartCharging(chargingStation?: Charger) {
     if (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6) {
       if (chargingStation.inactive) {
         // Charger is not connected
@@ -458,7 +458,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  private _dialogMoreActions(chargingStation?: Charger) {
+  private dialogMoreActions(chargingStation?: Charger) {
     if (chargingStation.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -488,15 +488,10 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     if (this.authorizationService.isAdmin()) {
       actionTable = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ROW_ACTIONS));
       actionTable[1] = openInMaps;
-      // return DEFAULT_ADMIN_ROW_ACTIONS;
     } else if (this.authorizationService.isDemo()) {
-      actionTable = [openInMaps]; // JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
-      // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
-      // return DEFAULT_BASIC_ROW_ACTIONS;
+      actionTable = [openInMaps];
     } else if (this.authorizationService.isBasic()) {
-      actionTable = [openInMaps]; // JSON.parse(JSON.stringify(DEFAULT_BASIC_ROW_ACTIONS));
-      // DEFAULT_BASIC_ROW_ACTIONS[1] = openInMaps;
-      // return DEFAULT_BASIC_ROW_ACTIONS;
+      actionTable = [openInMaps];
     } else {
       return [new TableNoAction().getActionDef()
       ];
@@ -516,45 +511,22 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       });
   }
 
-  private _showPlace(charger: Charger) {
+  private showPlace(charger: Charger) {
     if (charger && charger.longitude && charger.latitude) {
       window.open(`http://maps.google.com/maps?q=${charger.latitude},${charger.longitude}`);
     }
   }
 
-  private _openGeoMap(charger?: Charger) {
+  private openGeoMap(charger?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
 
     if (charger) {
-      /*      // get latitud/longitude from form
-            let latitude = charger.latitude;
-            let longitude = charger.longitude;
-
-            // if one is not available try to get from SiteArea and then from Site
-            if (!latitude || !longitude) {
-              const siteArea = charger.siteArea;
-
-              if (siteArea && siteArea.address) {
-                if (siteArea.address.latitude && siteArea.address.longitude) {
-                  latitude = siteArea.address.latitude;
-                  longitude = siteArea.address.longitude;
-                } else {
-                  const site = siteArea.site;
-
-                  if (site && site.address && site.address.latitude && site.address.longitude) {
-                    latitude = site.address.latitude;
-                    longitude = site.address.longitude;
-                  }
-                }
-              }
-            }*/
-
       // Set data
       dialogConfig.data = {
-        latitude: this._getChargerLatitudeLongitude(charger).latitude,
-        longitude: this._getChargerLatitudeLongitude(charger).longitude,
+        latitude: this.getChargerLatitudeLongitude(charger).latitude,
+        longitude: this.getChargerLatitudeLongitude(charger).longitude,
         label: charger.id ? charger.id : '',
         displayOnly: true,
         dialogTitle: charger.id ? charger.id : ''
@@ -562,8 +534,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     } else {
       const markers = this.getData().map(currCharger => {
         return {
-          latitude: this._getChargerLatitudeLongitude(currCharger).latitude,
-          longitude: this._getChargerLatitudeLongitude(currCharger).longitude,
+          latitude: this.getChargerLatitudeLongitude(currCharger).latitude,
+          longitude: this.getChargerLatitudeLongitude(currCharger).longitude,
           labelFormatted: currCharger.id
         }
       });
@@ -582,7 +554,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     });
   }
 
-  private _getChargerLatitudeLongitude(charger: Charger) {
+  private getChargerLatitudeLongitude(charger: Charger) {
     let latitude = 0;
     let longitude = 0;
     if (charger) {

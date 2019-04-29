@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {AuthorizationService} from 'app/services/authorization-service';
+import {Component} from '@angular/core';
 import {OrganizationSitesDataSource} from './organization-sites-source-table';
 
 @Component({
@@ -10,16 +8,9 @@ import {OrganizationSitesDataSource} from './organization-sites-source-table';
     OrganizationSitesDataSource
   ]
 })
-export class OrganizationSitesComponent implements OnInit {
+export class OrganizationSitesComponent {
 
   constructor(
-    public sitesDataSource: OrganizationSitesDataSource,
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService
-  ) {
-
-  }
-
-  ngOnInit(): void {
+    public sitesDataSource: OrganizationSitesDataSource) {
   }
 }

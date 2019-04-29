@@ -113,13 +113,13 @@ export class SettingsSacComponent implements OnInit {
 
     // create or update
     if (this.currentSettingID) {
-      this._updateSACConfiguration(content);
+      this.updateSACConfiguration(content);
     } else {
-      this._createSACConfiguration(content);
+      this.createSACConfiguration(content);
     }
   }
 
-  private _createSACConfiguration(content) {
+  private createSACConfiguration(content) {
     // build setting payload
     const setting = {
       'id': null,
@@ -160,7 +160,7 @@ export class SettingsSacComponent implements OnInit {
     });
   }
 
-  private _updateSACConfiguration(content) {
+  private updateSACConfiguration(content) {
     // build setting payload
     const setting = {
       'id': this.currentSettingID,

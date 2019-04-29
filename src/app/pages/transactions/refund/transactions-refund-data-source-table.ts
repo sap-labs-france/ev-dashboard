@@ -206,10 +206,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   }
 
-  buildTableRowActions(): TableActionDef[] {
-    return [];
-  }
-
   buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [

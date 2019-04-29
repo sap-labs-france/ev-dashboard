@@ -24,14 +24,14 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import * as moment from 'moment';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {ErrorMessage} from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details/error-code-details.component';
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
-import en from '../../../../assets/i18n/en.json';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import en from '../../../../assets/i18n/en.json';
+import * as moment from 'moment';
 
 
 @Injectable()
@@ -170,7 +170,10 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   buildTableRowActions(): TableActionDef[] {
-    return [new TableOpenAction().getActionDef(), new TableDeleteAction().getActionDef()];
+    return [
+      new TableOpenAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {

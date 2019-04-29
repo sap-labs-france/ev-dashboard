@@ -49,12 +49,9 @@ export class ChargingStationPropertiesComponent implements OnInit {
     for (const property of this.displayedProperties) {
       if (property.formatter) {
         property['value'] = property.formatter(this.charger[property.key]);
-//        this.chargerFormatted[property.key] = property.formatter(this.charger[property.key]);
       } else {
         property['value'] = this.charger[property.key];
-//        this.chargerFormatted[property.key] = this.charger[property.key];
       }
     }
   }
-
 }

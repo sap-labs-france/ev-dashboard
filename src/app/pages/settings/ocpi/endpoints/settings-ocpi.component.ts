@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
 import {EndpointsDataSource} from './settings-ocpi-source-table';
 
@@ -9,20 +9,14 @@ import {EndpointsDataSource} from './settings-ocpi-source-table';
     EndpointsDataSource
   ]
 })
-export class SettingsOcpiEndpointsComponent implements OnInit {
+export class SettingsOcpiEndpointsComponent {
   public isAdmin;
   public formGroup: FormGroup;
   public name: AbstractControl;
   public country_code: AbstractControl;
   public party_id: AbstractControl;
-  private readonly currentBusinessDetails: any;
 
   constructor(
-    public endpointsDataSource: EndpointsDataSource
-  ) {
-
-  }
-
-  ngOnInit(): void {
+    public endpointsDataSource: EndpointsDataSource) {
   }
 }

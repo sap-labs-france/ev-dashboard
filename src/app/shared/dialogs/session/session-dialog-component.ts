@@ -5,7 +5,7 @@ import { MessageService } from '../../../services/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Constants } from '../../../utils/Constants';
-import { Connector, Image, SiteArea, Transaction } from '../../../common.types';
+import { Image, Transaction } from '../../../common.types';
 import { LocaleService } from '../../../services/locale.service';
 import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 
@@ -18,23 +18,20 @@ export class SessionDialogComponent implements OnInit {
   public stateOfCharge: number;
   public endStateOfCharge: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
+  public totalConsumption: number;
   private transactionId: number;
-  private totalConsumption: number;
-  private totalInactivitySecs: number;
-  private totalDurationSecs: number;
+  public totalInactivitySecs: number;
+  public totalDurationSecs: number;
   private locale: string;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
   constructor(
     private centralServerService: CentralServerService,
-    private messageService: MessageService,
     private localeService: LocaleService,
-    private translateService: TranslateService,
-    private router: Router,
     protected dialogRef: MatDialogRef<SessionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
-    this.locale = localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentFullLocaleForJS();
     if (data) {
       this.transactionId = data.transactionId;
     }

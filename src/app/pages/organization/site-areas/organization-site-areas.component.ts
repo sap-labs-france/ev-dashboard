@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {OrganizationSiteAreasDataSource} from './organization-site-areas-source-table';
 
 @Component({
@@ -8,14 +8,8 @@ import {OrganizationSiteAreasDataSource} from './organization-site-areas-source-
     OrganizationSiteAreasDataSource
   ]
 })
-export class OrganizationSiteAreasComponent implements OnInit {
-
+export class OrganizationSiteAreasComponent {
   constructor(
-    public siteAreasDataSource: OrganizationSiteAreasDataSource,
-  ) {
-
-  }
-
-  ngOnInit(): void {
+    public siteAreasDataSource: OrganizationSiteAreasDataSource) {
   }
 }

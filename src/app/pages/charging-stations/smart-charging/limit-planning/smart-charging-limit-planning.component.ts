@@ -9,19 +9,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
-import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
-import { MatSlider } from '@angular/material/slider';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
-import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
 import { SmartChargingUtils } from '../smart-charging-utils';
 import { SmartChargingLimitChartComponent } from './smart-charging-limit-chart.component';
 
-const MIN_POWER = 3000; // Minimum power in W under which we can't go
-const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing teh step of the slider
-const SMALL_SLIDER_STEP = 500;
-const LARGE_SLIDER_STEP = 1000;
 const DISPLAY_UNIT = 'kW';
 
 interface LocalConnectorSchedule extends ConnectorSchedule {

@@ -22,8 +22,6 @@ import {WindowService} from '../../services/window.service';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
-  private readonly tableActionsRow: TableActionDef[];
-
   constructor(
       private messageService: MessageService,
       private translateService: TranslateService,
@@ -36,11 +34,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     super();
     // Init
     this.initDataSource();
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableOpenAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -118,7 +111,11 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [
+      new TableEditAction().getActionDef(),
+      new TableOpenAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

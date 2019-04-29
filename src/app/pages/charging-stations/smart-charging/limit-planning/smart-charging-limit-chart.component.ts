@@ -41,7 +41,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
     [255, 206, 86]
   ];
 
-  constructor(private centralServerService: CentralServerService,
+  constructor(
     private translateService: TranslateService,
     private localeService: LocaleService,
     private datePipe: AppDatePipe,

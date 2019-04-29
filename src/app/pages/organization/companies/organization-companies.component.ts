@@ -11,9 +11,7 @@ import {OrganizationCompaniesDataSource} from './organization-companies-source-t
 export class OrganizationCompaniesComponent implements OnInit {
 
   constructor(
-    public companiesDataSource: OrganizationCompaniesDataSource
-  ) {
-
+    public companiesDataSource: OrganizationCompaniesDataSource) {
   }
 
   ngOnInit(): void {

@@ -19,7 +19,6 @@ import {SiteAreaComponent} from './site-areas/site-area/site-area.component';
 import {SiteUsersDialogComponent} from './sites/site/site-users/site-users.dialog.component';
 import {SiteAreaChargersDialogComponent} from './site-areas/site-area/site-area-chargers/site-area-chargers.dialog.component';
 
-
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
 import {OrganizationComponent} from './organization.component';
@@ -66,7 +65,8 @@ import {OrganizationRoutes} from './organization.routing';
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent
   ],
-  providers: []
+  providers: [
+  ]
 })
 
 export class OrganizationModule {

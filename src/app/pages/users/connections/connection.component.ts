@@ -66,5 +66,4 @@ export class ConnectionComponent extends AbstractTabComponent {
       this.router.navigate([`/users/${state.userId}#connectors`]);
     }
   }
-
 }

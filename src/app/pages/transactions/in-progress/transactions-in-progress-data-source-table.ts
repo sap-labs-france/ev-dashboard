@@ -215,9 +215,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   buildTableRowActions(): TableActionDef[] {
-    const rowActions = [new TableOpenAction().getActionDef()];
-    rowActions.push(new TableStopAction().getActionDef());
-    return rowActions;
+    return [
+      new TableOpenAction().getActionDef(),
+      new TableStopAction().getActionDef()
+    ];
   }
 
   buildTableActionsRightDef(): TableActionDef[] {
@@ -260,19 +261,19 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public openSession(transaction: Transaction) {
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = '80vw';
-        dialogConfig.minHeight = '80vh';
-        dialogConfig.height = '80vh';
-        dialogConfig.width = '80vw';
-        dialogConfig.panelClass = 'transparent-dialog-container';
-        dialogConfig.data = {
-          transactionId: transaction.id,
-        };
-        // disable outside click close
-        dialogConfig.disableClose = true;
-        // Open
-        this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-        this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    dialogConfig.height = '80vh';
+    dialogConfig.width = '80vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      transactionId: transaction.id,
+    };
+    // disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
   }
 }

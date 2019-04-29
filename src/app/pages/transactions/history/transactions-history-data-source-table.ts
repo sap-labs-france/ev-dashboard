@@ -91,7 +91,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       },
       rowDetails: {
         enabled: true,
-        isDetailComponent: true,
         angularComponent: ConsumptionChartDetailComponent
       }
     };

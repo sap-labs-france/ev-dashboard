@@ -83,7 +83,6 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       },
       rowDetails: {
         enabled: true,
-        isDetailComponent: true,
         angularComponent: OcpiendpointDetailComponent
       }
     };

@@ -228,7 +228,7 @@
           <!-- Detail Row -->
           <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
             <!-- Text Details -->
-            <ng-container *ngIf="!dataSource.tableDef.rowDetails.isDetailComponent">
+            <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
               <td class="col-3em details-column-row"></td>
               <td [attr.colspan]="numberOfColumns-1">
                 <div [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')">
@@ -236,7 +236,7 @@
               </td>
             </ng-container>
             <!-- Angular Component Details -->
-            <ng-container *ngIf="dataSource.tableDef.rowDetails.isDetailComponent">
+            <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
               <td [attr.colspan]="numberOfColumns">
                 <app-cell-component-container [tableDef]="dataSource.tableDef" [row]="row" class="col-md-12"></app-cell-component-container>
               </td>

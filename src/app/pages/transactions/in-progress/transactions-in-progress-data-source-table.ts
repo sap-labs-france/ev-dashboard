@@ -86,7 +86,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       },
       rowDetails: {
         enabled: true,
-        isDetailComponent: true,
         angularComponent: ConsumptionChartDetailComponent
       }
     };

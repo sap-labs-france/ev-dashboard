@@ -414,7 +414,6 @@ export interface TableDef {
   rowDetails?: {
     enabled: boolean;
     detailsField?: string;
-    isDetailComponent?: boolean;
     angularComponent?: any;
     hideShowField?: string;
   },

@@ -127,7 +127,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       },
       rowDetails: {
         enabled: true,
-        isDetailComponent: true,
         angularComponent: ConnectorsDetailComponent
       },
       hasDynamicRowAction: true

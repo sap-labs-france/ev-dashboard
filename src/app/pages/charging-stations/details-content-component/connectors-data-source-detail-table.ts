@@ -54,8 +54,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   public loadData(): Observable<any> {
     return new Observable((observer) => {
       console.log('loadData ' + this.charger);
-      // Set number of records
-      this.setTotalNumberOfRecords(this.getData().length);
       // Return connector
       if (this.charger) {
         // Check authorizations
@@ -68,17 +66,13 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.charger.connectors[index].isTransactionDisplayAuthorized =
               this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
           }
-          // // Ok
-          // let hasSomeDetails = false;
-          // // Check connectors details status
-          // this.getData().forEach((connector: Connector) => {
-          //   // If user can stop transaction he can also see details except user demo that can also see details
-          //   connector.hasDetails = connector.activeTransactionID > 0 &&
-          //     (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
-          //   if (connector.hasDetails) {
-          //     hasSomeDetails = true;
-          //   }
-          // });
+          // Check connectors details status
+          this.charger.connectors.forEach((connector: Connector) => {
+            // If user can stop transaction he can also see details except user demo that can also see details
+            connector.hasDetails = connector.activeTransactionID > 0 &&
+              (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
+          });
+          // Respond
           this.setTotalNumberOfRecords(this.charger.connectors.length);
           observer.next(this.charger.connectors);
           observer.complete();
@@ -104,7 +98,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       },
       rowDetails: {
         enabled: true,
-        isDetailComponent: true,
         angularComponent: ConnectorConsumptionChartDetailComponent,
         hideShowField: 'hasDetails'
       },

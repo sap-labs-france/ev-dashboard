@@ -344,7 +344,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Already loaded?
       if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
         // Component?
-        if (!this.dataSource.tableDef.rowDetails.isDetailComponent) {
+        if (!this.dataSource.tableDef.rowDetails.angularComponent) {
           // No: Load details from data source
           this.dataSource.getRowDetails(row).subscribe((details) => {
             // Set details

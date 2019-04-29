@@ -1,10 +1,7 @@
 import {TranslateService} from '@ngx-translate/core';
 import {ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User} from '../../../common.types';
-import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
-import {ConfigService} from '../../../services/config.service';
 import {Router} from '@angular/router';
 import {MessageService} from '../../../services/message.service';
 import {DialogService} from '../../../services/dialog.service';
@@ -12,8 +9,7 @@ import {ConnectorStatusComponent} from '../cell-content-components/connector-sta
 import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
 import {ConnectorCellComponent} from '../cell-content-components/connector-cell.component';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {SpinnerService} from '../../../services/spinner.service';
-import {InstantPowerProgressBarComponent} from '../cell-content-components/instant-power-progress-bar.component';
+import {InstantPowerConnectorProgressBarComponent} from '../cell-content-components/instant-power-connector-progress-bar.component';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {TableStartAction} from '../../../shared/table/actions/table-start-action';
 import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
@@ -147,7 +143,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponent: InstantPowerProgressBarComponent,
+        angularComponent: InstantPowerConnectorProgressBarComponent,
         sortable: false
       },
       {

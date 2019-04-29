@@ -30,8 +30,10 @@ import {ConnectorsCellComponent} from './cell-content-components/connectors-cell
 import {ConnectorCellComponent} from './cell-content-components/connector-cell.component';
 import {AppFormatConnector} from './cell-content-components/connector-cell.component';
 import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
-import {InstantPowerProgressBarComponent} from './cell-content-components/instant-power-progress-bar.component';
-import {AppFormatChargerPower} from './cell-content-components/instant-power-progress-bar.component';
+import {InstantPowerChargerProgressBarComponent} from './cell-content-components/instant-power-charger-progress-bar.component';
+import {InstantPowerConnectorProgressBarComponent} from './cell-content-components/instant-power-connector-progress-bar.component';
+import {AppFormatPowerConnectorPipe} from './cell-content-components/instant-power-connector-progress-bar.component';
+import {AppFormatPowerChargerPipe} from './cell-content-components/instant-power-charger-progress-bar.component';
 import {SessionDetailComponent} from './cell-content-components/session-detail.component';
 
 @NgModule({
@@ -59,7 +61,8 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     SessionDialogComponent,
     HeartbeatCellComponent,
     SessionDetailComponent,
-    InstantPowerProgressBarComponent,
+    InstantPowerChargerProgressBarComponent,
+    InstantPowerConnectorProgressBarComponent,
     ConnectorStatusComponent,
     ConnectorsCellComponent,
     ConnectorCellComponent,
@@ -70,12 +73,14 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     ChargingStationsFaultyComponent
   ],
   declarations: [
-    AppFormatChargerPower,
+    AppFormatPowerChargerPipe,
+    AppFormatPowerConnectorPipe,
     AppFormatConnectorStatus,
     AppFormatConnector,
     HeartbeatCellComponent,
     SessionDetailComponent,
-    InstantPowerProgressBarComponent,
+    InstantPowerChargerProgressBarComponent,
+    InstantPowerConnectorProgressBarComponent,
     ConnectorStatusComponent,
     ConnectorsCellComponent,
     ConnectorCellComponent,

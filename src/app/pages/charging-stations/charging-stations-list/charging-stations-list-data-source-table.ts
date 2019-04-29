@@ -11,7 +11,7 @@ import {TableRefreshAction} from 'app/shared/table/actions/table-refresh-action'
 import {CentralServerService} from 'app/services/central-server.service';
 import {MessageService} from 'app/services/message.service';
 import {Utils} from 'app/utils/Utils';
-import {InstantPowerProgressBarComponent} from '../cell-content-components/instant-power-progress-bar.component';
+import {InstantPowerChargerProgressBarComponent} from '../cell-content-components/instant-power-charger-progress-bar.component';
 import {ConnectorsDetailComponent} from '../details-content-component/connectors-detail-component.component';
 import {HeartbeatCellComponent} from '../cell-content-components/heartbeat-cell.component';
 import {ConnectorsCellComponent} from '../cell-content-components/connectors-cell.component';
@@ -170,7 +170,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         isAngularComponent: true,
         headerClass: 'text-center',
         class: 'power-progress-bar',
-        angularComponent: InstantPowerProgressBarComponent
+        angularComponent: InstantPowerChargerProgressBarComponent
       }
     ];
     if (this.isOrganizationComponentActive) {

@@ -77,7 +77,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
@@ -145,7 +144,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: ConnectorsDetailComponent
+        angularComponentName: ConnectorsDetailComponent
       }
     };
   }

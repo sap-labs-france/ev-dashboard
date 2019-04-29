@@ -46,7 +46,6 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableViewAction().getActionDef(),

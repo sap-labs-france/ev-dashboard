@@ -32,7 +32,6 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
-
   public stopAction = new TableStopAction();
   public noAction = new TableNoAction();
   public startAction = new TableStartAction();
@@ -65,6 +64,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   public loadData(refreshAction = false): Observable<any> {
     return new Observable((observer) => {
+      console.log('loadData ' + this.charger);
       // Set number of records
       this.setTotalNumberOfRecords(this.getData().length);
       // Return connector
@@ -76,17 +76,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
             this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].isStopAuthorized;
             this.charger.connectors[index].isStartAuthorized = this.connectorTransactionAuthorization[index].isStartAuthorized;
-            // tslint:disable-next-line:max-line-length
-            this.charger.connectors[index].isTransactionDisplayAuthorized = this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
+            this.charger.connectors[index].isTransactionDisplayAuthorized =
+              this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
           }
           // Ok
-          observer.next(this.charger.connectors);
-          // // Update specific row actions
-          // if (this.formattedData) {
-          //   this.formattedData.forEach(row => {
-          //     row.buildTableDynamicRowActions = this.buildTableDynamicRowActions(row);
-          //   });
-          // }
           let hasSomeDetails = false;
           // Check connectors details status
           this.getData().forEach((connector: Connector) => {
@@ -138,7 +131,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: ConnectorConsumptionChartDetailComponent,
+        angularComponentName: ConnectorConsumptionChartDetailComponent,
         hideShowField: 'hasDetails'
       },
       rowFieldNameIdentifier: 'connectorId',
@@ -381,13 +374,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     }
   }
 
-  /*  public rowHasDetails(row: Connector) {
-      return row.activeTransactionID > 0;
-    }*/
-
-  /**
-   * _startTransactionFor(connector: Connector, user: User)
-   * */
   public _startTransactionFor(connector: Connector, user: User): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),

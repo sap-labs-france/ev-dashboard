@@ -61,7 +61,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

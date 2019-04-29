@@ -1,22 +1,24 @@
 import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import {ElementRef} from '@angular/core';
 import {MatSort} from '@angular/material';
-import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
+import {CollectionViewer} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import {Utils} from '../../utils/Utils';
 import * as _ from 'lodash';
 
-export abstract class TableDataSource<T> implements DataSource<T> {
-  public tableRowActionsDef: TableActionDef[];
+export abstract class TableDataSource<T> {
   public tableDef: TableDef;
-  public tableFiltersDef: TableFilterDef[];
-  public tableActionsRightDef: TableActionDef[];
   public tableColumnDefs: TableColumnDef[];
-  public specificRowActions: TableActionDef[];
+  public tableFiltersDef: TableFilterDef[];
+  public tableActionsDef: TableActionDef[];
+  public tableActionsRightDef: TableActionDef[];
+  public tableRowActionsDef: TableActionDef[];
+
   public data: any[] = [];
   public paging: Paging;
+  public sort: MatSort = new MatSort();
 
   public hasActions: boolean;
   public hasFilters: boolean;
@@ -27,42 +29,9 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   public maxSelectableRows = 0;
   public lastSelectedRow;
   public totalNumberOfRecords = -1;
-  public sort: MatSort = new MatSort();
 
-  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
-
-  private dataSubject = new BehaviorSubject<any[]>([]);
   private searchValue = '';
-  private tableActionsDef: TableActionDef[];
-  private locale;
-  private dataChangeSubscription: Subscription;
   private staticFilters = [];
-  private pollingInterval = 0;
-  private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
-  private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
-  private _rowRefresh = new Subject<any>();
-  private _isDestroyed = false;
-
-  public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    console.log('table-data-source - connect');
-    this._isDestroyed = false;
-    if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
-      this.dataSubject = new BehaviorSubject<any[]>([]);
-    }
-    return this.dataSubject.asObservable();
-  }
-
-  public disconnect(collectionViewer: CollectionViewer): void {
-    console.log('table-data-source - disconnect');
-    this._isDestroyed = true;
-
-    this.dataSubject.complete();
-  }
-
-  public setPollingInterval(pollingInterval: number) {
-    console.log('table-data-source - setPollingInterval');
-    this.pollingInterval = pollingInterval;
-  }
 
   public isRowSelectionEnabled(): boolean {
     console.log('table-data-source - isRowSelectionEnabled');
@@ -161,11 +130,6 @@ public toggleRowSelection(row) {
   public isAllSelected() {
     console.log('table-data-source - isAllSelected');
     return (this.selectedRows === this.maxSelectableRows);
-  }
-
-  public getDataSubjet(): BehaviorSubject<T[]> {
-    console.log('table-data-source - getDataSubjet');
-    return this.dataSubject;
   }
 
   public setSearchValue(searchValue: string) {
@@ -354,33 +318,6 @@ public toggleRowSelection(row) {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
-  public subscribeAutoRefresh(fn): Subscription {
-    console.log('table-data-source - subscribeAutoRefresh');
-    if (!this._ongoingAutoRefresh || this._ongoingAutoRefresh.isStopped) {
-      // restart observable
-      this._ongoingAutoRefresh = new BehaviorSubject(false);
-    }
-    return this._ongoingAutoRefresh.subscribe(fn);
-  }
-
-  public subscribeManualRefresh(fn): Subscription {
-    console.log('table-data-source - subscribeManualRefresh');
-    if (!this._ongoingManualRefresh || this._ongoingManualRefresh.isStopped) {
-      // restart observable
-      this._ongoingManualRefresh = new BehaviorSubject(false);
-    }
-    return this._ongoingManualRefresh.subscribe(fn);
-  }
-
-  public subscribeRowRefresh(fn): Subscription {
-    console.log('table-data-source - subscribeRowRefresh');
-    if (!this._rowRefresh || this._rowRefresh.isStopped) {
-      // restart observable
-      this._rowRefresh = new Subject();
-    }
-    return this._rowRefresh.subscribe(fn);
-  }
-
   public buildFilterValues(withSearch: boolean = true) {
     console.log('table-data-source - getFilterValues');
     let filterJson = {};
@@ -556,11 +493,6 @@ public toggleRowSelection(row) {
   buildTableDynamicRowActions(row: T): TableActionDef[] {
     console.log('table-data-source - buildTableDynamicRowActions');
     return [];
-  }
-
-  setLocale(locale: string) {
-    console.log('table-data-source - setLocale');
-    this.locale = locale;
   }
 
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {

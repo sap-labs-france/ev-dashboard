@@ -12,8 +12,6 @@ import {Observable, fromEvent} from 'rxjs';
 import * as _ from 'lodash';
 import { Constants } from 'app/utils/Constants';
 
-const DEFAULT_POLLING = 10000;
-
 @Component({
   selector: 'app-table',
   templateUrl: 'table.component.html'
@@ -28,6 +26,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.MAX_RECORDS;
   public numberOfColumns = 0;
+  public pollingInterval = Constants.DEFAULT_POLLING_MILLIS;
+
 
   constructor(
     private configService: ConfigService,
@@ -61,12 +61,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // }, 2000);
     console.log('table.component - ngOnInit');
 
-    // Handle locale (local service available only in component not possible in data-source)
-    this.dataSource.setLocale(this.localService.getCurrentFullLocaleForJS());
     // Handle Poll (config service available only in component not possible in data-source)
-    if (this.configService.getCentralSystemServer().pollEnabled) {
-      this.dataSource.setPollingInterval(this.configService.getCentralSystemServer().pollIntervalSecs ?
-        this.configService.getCentralSystemServer().pollIntervalSecs * 1000 : DEFAULT_POLLING);
+    if (this.configService.getCentralSystemServer().pollEnabled &&
+        this.configService.getCentralSystemServer().pollIntervalSecs) {
+      // Set
+      this.pollingInterval = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     }
     // Init Sort
     // Find Sorted columns
@@ -226,7 +225,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.autoRefeshTimer = setInterval(() => {
         // Reload
         this.refresh(true);
-      }, DEFAULT_POLLING);
+      }, this.pollingInterval);
     }
   }
 

@@ -415,7 +415,7 @@ export interface TableDef {
     enabled: boolean;
     detailsField?: string;
     isDetailComponent?: boolean;
-    detailComponentName?: any;
+    angularComponentName?: any;
     hideShowField?: string;
   },
   rowFieldNameIdentifier?: string,

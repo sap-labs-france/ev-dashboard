@@ -48,7 +48,6 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
     this.tableActionsRow = [
       new TableEditAction().getActionDef(),
       new TableRegisterAction().getActionDef(),
@@ -96,7 +95,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: OcpiendpointDetailComponent
+        angularComponentName: OcpiendpointDetailComponent
       }
     };
   }

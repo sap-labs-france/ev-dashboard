@@ -49,8 +49,6 @@ export class LogsDataSource extends TableDataSource<Log> {
     console.log('logs-data-source-table - constructor');
     // Init
     this.initDataSource();
-    // Set polling interval
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

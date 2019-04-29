@@ -66,7 +66,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -106,7 +105,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: ConsumptionChartDetailComponent
+        angularComponentName: ConsumptionChartDetailComponent
       }
     };
   }

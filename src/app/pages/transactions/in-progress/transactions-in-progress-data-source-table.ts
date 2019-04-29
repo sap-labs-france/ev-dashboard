@@ -62,7 +62,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -100,7 +99,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        detailComponentName: ConsumptionChartDetailComponent
+        angularComponentName: ConsumptionChartDetailComponent
       }
     };
   }

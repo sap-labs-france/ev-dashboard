@@ -100,7 +100,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       rowDetails: {
         enabled: false,
         isDetailComponent: true,
-        detailComponentName: ConsumptionChartDetailComponent
+        angularComponentName: ConsumptionChartDetailComponent
       }
     };
   }

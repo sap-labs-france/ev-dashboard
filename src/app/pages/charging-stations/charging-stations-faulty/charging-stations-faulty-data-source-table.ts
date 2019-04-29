@@ -82,7 +82,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     super();
     // Init
     this.initDataSource();
-    this.setPollingInterval(POLL_INTERVAL);
     this.setStaticFilters([{ 'WithSite': true }]);
   }
 

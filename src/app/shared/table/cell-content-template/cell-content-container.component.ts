@@ -12,6 +12,7 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
   @Input() tableDef: TableDef;
+
   private cellComponent: CellContentTemplateComponent;
   private cellComponentRef: any;
 
@@ -30,8 +31,8 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
     // Get the component name
     let component;
     // Table Details?
-    if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailComponentName) {
-      component = this.tableDef.rowDetails.detailComponentName;
+    if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.angularComponentName) {
+      component = this.tableDef.rowDetails.angularComponentName;
     }
     // Table Column
     if (this.columnDef && this.columnDef.angularComponentName) {

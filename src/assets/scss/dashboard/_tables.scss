@@ -361,12 +361,15 @@ tr.element-row:not(.expanded-row):active {
   }
 
   > thead > tr:first-child > th {
-    padding-left: 15px;
     border-top: none;
     cursor: default;
   }
 
-  > thead > tr:last-child > th {
+  > thead tr th:first-child {
+    padding-left: 15px;
+  }
+
+  > thead tr th:last-child {
     padding-right: 15px;
   }
 

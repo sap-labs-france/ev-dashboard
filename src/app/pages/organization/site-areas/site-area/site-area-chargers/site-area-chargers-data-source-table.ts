@@ -2,7 +2,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Charger, TableActionDef, TableColumnDef, TableDef, User, SiteArea } from 'app/common.types';
+import { Charger, TableActionDef, TableColumnDef, TableDef, SiteArea } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
 import { MessageService } from 'app/services/message.service';

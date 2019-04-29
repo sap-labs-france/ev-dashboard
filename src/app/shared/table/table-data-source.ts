@@ -1,11 +1,8 @@
-import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
-import {ElementRef} from '@angular/core';
+import {Observable, of} from 'rxjs';
 import {MatSort} from '@angular/material';
-import {CollectionViewer} from '@angular/cdk/collections';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
-import {Utils} from '../../utils/Utils';
 import * as _ from 'lodash';
 
 export abstract class TableDataSource<T> {
@@ -401,11 +398,11 @@ public toggleRowSelection(row) {
     return this.tableColumnDefs;
   }
 
-  public refreshOrLoadData(refreshAction: boolean = false): Observable<any> {
+  public refreshOrLoadData(): Observable<any> {
     console.log('table-data-source - refreshOrLoadData');
     return new Observable((observer) => {
       // Load data source
-      this.loadData(refreshAction).subscribe((data) => {
+      this.loadData().subscribe((data) => {
         // Ok
         this.setData(data);
         // Notify
@@ -417,7 +414,7 @@ public toggleRowSelection(row) {
     });
   }
 
-  abstract loadData(refreshAction): Observable<any>;
+  abstract loadData(): Observable<any>;
 
   private setData(data: T[]) {
     console.log('table-data-source - setData');

@@ -7,7 +7,6 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog} from '@angular/material';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
@@ -39,24 +38,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   private hasConcurConnectionConfigured = false;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private componentService: ComponentService,
-    private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
-    private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe,
-    private currencyPipe: CurrencyPipe) {
+      private spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private componentService: ComponentService,
+      private authorizationService: AuthorizationService,
+      private appDatePipe: AppDatePipe,
+      private appUnitPipe: AppUnitPipe,
+      private percentPipe: PercentPipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe,
+      private appDurationPipe: AppDurationPipe,
+      private currencyPipe: CurrencyPipe) {
     super();
     // Init
     this.initDataSource();
@@ -67,20 +65,17 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      this.spinnerService.show();
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
       this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.spinnerService.hide();
           this.setTotalNumberOfRecords(transactions.count);
           // Ok
           observer.next(transactions.result);
           observer.complete();
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
           observer.error(error);
@@ -247,7 +242,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
-              this._refundTransactions(this.getSelectedRows());
+              this.refundTransactions(this.getSelectedRows());
             }
           });
         }
@@ -272,7 +267,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     this.isAdmin = isAdmin
   }
 
-  protected _refundTransactions(transactions: Transaction[]) {
+  protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
       if (response.inError > 0) {
@@ -289,7 +284,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             {inSuccess: response.inSuccess}));
       }
       this.spinnerService.hide();
-      this.refreshOrLoadData(false).subscribe();
+      this.refreshOrLoadData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();
@@ -320,6 +315,4 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       });
     }
   }
-
-
 }

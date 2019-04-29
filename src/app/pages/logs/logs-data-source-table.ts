@@ -8,7 +8,6 @@ import {TableRefreshAction} from '../../shared/table/actions/table-refresh-actio
 import {CentralServerService} from '../../services/central-server.service';
 import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
 import {LogSourceTableFilter} from './filters/log-source-filter';
 import {LogLevelTableFilter} from './filters/log-level-filter';
 import {Formatters} from '../../utils/Formatters';
@@ -24,12 +23,9 @@ import {map} from 'rxjs/operators';
 import {Constants} from '../../utils/Constants';
 import {TranslateService} from '@ngx-translate/core';
 import {DialogService} from '../../services/dialog.service';
-import {MatDialog} from '@angular/material';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../shared/table/actions/table-export-action';
 import {AuthorizationService} from '../../services/authorization-service';
-
-const POLL_INTERVAL = 10000;
 
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
@@ -38,10 +34,8 @@ export class LogsDataSource extends TableDataSource<Log> {
       private translateService: TranslateService,
       private localeService: LocaleService,
       private dialogService: DialogService,
-      private spinnerService: SpinnerService,
       private authorizationService: AuthorizationService,
       private router: Router,
-      private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe) {
@@ -56,20 +50,12 @@ export class LogsDataSource extends TableDataSource<Log> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     console.log('logs-data-source-table - loadData');
     return new Observable((observer) => {
-      if (!refreshAction) {
-        // Show
-        this.spinnerService.show();
-      }
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-        if (!refreshAction) {
-          // Show
-          this.spinnerService.hide();
-        }
         // Set number of records
         this.setTotalNumberOfRecords(logs.count);
         // Add the users in the message
@@ -93,8 +79,6 @@ export class LogsDataSource extends TableDataSource<Log> {
         observer.next(logs.result);
         observer.complete();
       }, (error) => {
-        // Show
-        this.spinnerService.hide();
         // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         // Error

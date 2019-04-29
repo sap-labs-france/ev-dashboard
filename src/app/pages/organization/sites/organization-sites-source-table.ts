@@ -6,12 +6,9 @@ import { Injectable } from '@angular/core';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Site } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -33,10 +30,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public isAdmin = false;
 
   constructor(
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -54,23 +49,17 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      // Show
-      this.spinnerService.show();
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Hide
-          this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(sites.count);
           // Ok
           observer.next(sites.result);
           observer.complete();
         }, (error) => {
-          // Hide
-          this.spinnerService.hide();
           // Show error
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
@@ -220,7 +209,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
   private _showUsersDialog(site?: Site) {
@@ -242,18 +231,15 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       this.translateService.instant('sites.delete_confirm', { 'siteName': site.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteSite(site.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
-            this.refreshOrLoadData(false).subscribe();
+            this.refreshOrLoadData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'sites.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'sites.delete_error');
         });

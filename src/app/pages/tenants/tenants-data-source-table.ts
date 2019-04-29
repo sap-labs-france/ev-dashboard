@@ -7,9 +7,7 @@ import {CentralServerNotificationService} from '../../services/central-server-no
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../services/central-server.service';
-import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TenantDialogComponent} from './dialog/tenant.dialog.component';
@@ -27,10 +25,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   private readonly tableActionsRow: TableActionDef[];
 
   constructor(
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
       private windowService: WindowService,
       private router: Router,
@@ -51,23 +47,17 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      // Show
-      this.spinnerService.show();
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((tenants) => {
-        // Hide
-        this.spinnerService.hide();
         // Update nbr records
         this.setTotalNumberOfRecords(tenants.count);
         // Ok
         observer.next(tenants.result);
         observer.complete();
       }, (error) => {
-        // Hide
-        this.spinnerService.hide();
         // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         // Error
@@ -136,7 +126,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showTenantDialog();
+        this.showTenantDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -146,13 +136,13 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showTenantDialog(rowItem);
+        this.showTenantDialog(rowItem);
         break;
       case 'delete':
-        this._deleteTenant(rowItem);
+        this.deleteTenant(rowItem);
         break;
       case 'open':
-        this._openTenant(rowItem);
+        this.openTenant(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -170,7 +160,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return [];
   }
 
-  private _showTenantDialog(tenant?: any) {
+  private showTenantDialog(tenant?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '60vw';
@@ -180,24 +170,22 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
-  private _openTenant(tenant?: any) {
+  private openTenant(tenant?: any) {
     if (tenant) {
       window.open(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
     }
   }
 
-  private _deleteTenant(tenant) {
+  private deleteTenant(tenant) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('tenants.delete_title'),
       this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
           } else {
@@ -205,7 +193,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
               this.messageService, 'tenants.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'tenants.delete_error');
         });

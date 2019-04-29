@@ -19,13 +19,10 @@ import { CentralServerNotificationService } from 'app/services/central-server-no
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
 import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
-import { TableSettingsAction } from 'app/shared/table/actions/table-settings-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { ACTION_SMART_CHARGING, TableChargerMoreAction } from '../other-actions-button/table-charger-more-action';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
@@ -41,8 +38,6 @@ import { ChargingStations } from '../../../utils/ChargingStations';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-details/error-code-details.component';
 import en from '../../../../assets/i18n/en.json';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
-
-const POLL_INTERVAL = 30000;
 
 const ACTION_MAP = {
   missingSettings: [
@@ -68,10 +63,8 @@ const ACTION_MAP = {
 export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
 
   constructor(
-    private localeService: LocaleService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -89,19 +82,11 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      if (!refreshAction) {
-        // Show
-        this.spinnerService.show();
-      }
       // Get data
       this.centralServerService.getChargersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          if (!refreshAction) {
-            // Show
-            this.spinnerService.hide();
-          }
           this.formatErrorMessages(chargers.result);
           // Set number of records
           this.setTotalNumberOfRecords(chargers.count);
@@ -117,8 +102,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
           observer.next(chargers.result);
           observer.complete();
         }, (error) => {
-          // Show
-          this.spinnerService.hide();
           // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
@@ -240,7 +223,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'reboot':
-        this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Hard' }),
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Hard' }),
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', { 'chargeBoxID': rowItem.id }),
           this.translateService.instant('chargers.reboot_success', { 'chargeBoxID': rowItem.id }),
@@ -248,7 +231,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         );
         break;
       case 'soft_reset':
-        this._simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Soft' }),
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Soft' }),
           this.translateService.instant('chargers.soft_reset_title'),
           this.translateService.instant('chargers.soft_reset_confirm', { 'chargeBoxID': rowItem.id }),
           this.translateService.instant('chargers.soft_reset_success', { 'chargeBoxID': rowItem.id }),
@@ -256,10 +239,10 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         );
         break;
       case 'delete':
-        this._deleteChargingStation(rowItem);
+        this.deleteChargingStation(rowItem);
         break;
       case 'edit':
-        this._showChargingStationDialog(rowItem);
+        this.showChargingStationDialog(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -290,7 +273,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     ];
   }
 
-  private _simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
+  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -308,13 +291,12 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(success_message);
-              this.refreshOrLoadData(true).subscribe();
+              this.refreshOrLoadData().subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, error_message);
             }
           }, (error) => {
-            this.spinnerService.hide();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               error_message);
           });
@@ -323,7 +305,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     }
   }
 
-  private _showChargingStationDialog(chargingStation?: Charger) {
+  private showChargingStationDialog(chargingStation?: Charger) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -336,10 +318,10 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(true).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
-  private _deleteChargingStation(chargingStation: Charger) {
+  private deleteChargingStation(chargingStation: Charger) {
     if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(
@@ -353,14 +335,13 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         if (result === Constants.BUTTON_TYPE_YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.refreshOrLoadData(true).subscribe();
+              this.refreshOrLoadData().subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, 'chargers.delete_error');
             }
           }, (error) => {
-            this.spinnerService.hide();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               'chargers.delete_error');
           });

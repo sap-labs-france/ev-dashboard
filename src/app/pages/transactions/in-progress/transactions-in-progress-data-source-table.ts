@@ -5,7 +5,6 @@ import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, T
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
@@ -33,32 +32,28 @@ import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-p
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
-
-const POLL_INTERVAL = 10000;
-
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
 
   private dialogRefSession;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private componentService: ComponentService,
-    private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
-    private percentPipe: PercentPipe,
-    private appUnitPipe: AppUnitPipe,
-    private appBatteryPercentagePipe: AppBatteryPercentagePipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private componentService: ComponentService,
+      private authorizationService: AuthorizationService,
+      private appDatePipe: AppDatePipe,
+      private percentPipe: PercentPipe,
+      private appUnitPipe: AppUnitPipe,
+      private appBatteryPercentagePipe: AppBatteryPercentagePipe,
+      private appUserNamePipe: AppUserNamePipe,
+      private appDurationPipe: AppDurationPipe) {
     super();
     // Init
     this.initDataSource();
@@ -68,22 +63,15 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      if (!refreshAction) {
-        this.spinnerService.show();
-      }
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          if (!refreshAction) {
-            this.spinnerService.hide();
-          }
           this.setTotalNumberOfRecords(transactions.count);
           // Ok
           observer.next(transactions.result);
           observer.complete();
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
           observer.error(error);
@@ -245,7 +233,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData(false).subscribe();
+      this.refreshOrLoadData().subscribe();
     }, (error) => {
       // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -257,7 +245,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData(false).subscribe();
+      this.refreshOrLoadData().subscribe();
     }, (error) => {
       // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -286,6 +274,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.disableClose = true;
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-        this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData(true).subscribe());
+        this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
   }
 }

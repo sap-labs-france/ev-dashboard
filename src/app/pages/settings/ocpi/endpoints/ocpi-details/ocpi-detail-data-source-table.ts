@@ -3,19 +3,13 @@ import { OcpiEndpoint, OcpiEndpointDetail, TableActionDef, TableColumnDef, Table
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { MatDialog } from '@angular/material';
-import { ConfigService } from 'app/services/config.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'app/services/message.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AuthorizationService } from 'app/services/authorization-service';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
-import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { Utils } from 'app/utils/Utils';
 import { Constants } from 'app/utils/Constants';
@@ -33,17 +27,11 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   public sendEvseStatusesAction = new TableSendAction();
 
   private ocpiendpoint: OcpiEndpoint;
-  private isInitialized = false;
 
   constructor(
-      private configService: ConfigService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
       private localeService: LocaleService,
-      private appUnitPipe: AppUnitPipe,
-      private dialog: MatDialog,
-      private authorizationService: AuthorizationService,
-      private spinnerService: SpinnerService,
       private messageService: MessageService,
       private router: Router,
       private dialogService: DialogService,
@@ -53,7 +41,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     this.initDataSource();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
       // Set number of records
       this.setTotalNumberOfRecords(this.getData().length);
@@ -71,8 +59,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
           // Ok
           observer.next(ocpiendpointDetail);
           observer.complete();
-          // this.setTotalNumberOfRecords(1);
-          this.isInitialized = true;
         }, 1);
       }
     });
@@ -83,7 +69,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    this.refreshOrLoadData(false).subscribe();
+    this.refreshOrLoadData().subscribe();
   }
 
   public buildTableDef(): TableDef {
@@ -201,30 +187,27 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case 'send':
-        this._sendEVSEStatusesOcpiendpoint(rowItem.ocpiendpoint);
+        this.sendEVSEStatusesOcpiendpoint(rowItem.ocpiendpoint);
         break;
       case 'start':
-        this._enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
+        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
         break;
       case 'stop':
-        this._enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
+        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
-  private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+  private sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        // Show
-        this.spinnerService.show();
         // Ping
         this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
-          this.spinnerService.hide();
           if (response.failure === 0 && response.success > 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
@@ -235,24 +218,22 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
               this.messageService, 'ocpiendpoints.error_send_evse_statuses');
           }
           // reload data
-          this.refreshOrLoadData(false).subscribe();
+          this.refreshOrLoadData().subscribe();
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.error_send_evse_statuses');
           // reload data
-          this.refreshOrLoadData(false).subscribe();
+          this.refreshOrLoadData().subscribe();
         });
       }
     });
   }
 
-  private _enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
+  private enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
     // switch background job state
     ocpiendpoint.backgroundPatchJob = enable;
     // update it
     this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
-      this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         if (ocpiendpoint.backgroundPatchJob) {
           this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
@@ -263,9 +244,8 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
       }
-      this.refreshOrLoadData(false).subscribe();
+      this.refreshOrLoadData().subscribe();
     }, (error) => {
-      this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.update_error');
     });

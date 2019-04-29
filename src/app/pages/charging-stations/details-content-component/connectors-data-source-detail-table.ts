@@ -11,7 +11,6 @@ import {DialogService} from '../../../services/dialog.service';
 import {ConnectorStatusComponent} from '../cell-content-components/connector-status.component';
 import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
 import {ConnectorCellComponent} from '../cell-content-components/connector-cell.component';
-import {LocaleService} from '../../../services/locale.service';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {SpinnerService} from '../../../services/spinner.service';
 import {InstantPowerProgressBarComponent} from '../cell-content-components/instant-power-progress-bar.component';
@@ -42,14 +41,11 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   private dialogRefSession: MatDialogRef<SessionDialogComponent>;
 
   constructor(
-      private configService: ConfigService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
-      private localeService: LocaleService,
       private appUnitPipe: AppUnitPipe,
       private dialog: MatDialog,
       private authorizationService: AuthorizationService,
-      private spinnerService: SpinnerService,
       private messageService: MessageService,
       private router: Router,
       private dialogService: DialogService) {
@@ -59,7 +55,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.noAction.getActionDef().disabled = true;
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
       console.log('loadData ' + this.charger);
       // Set number of records
@@ -284,7 +280,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
           // Reload
-          this.refreshOrLoadData(false).subscribe();
+          this.refreshOrLoadData().subscribe();
           return true;
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
@@ -349,6 +345,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData(false).subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
   }
 }

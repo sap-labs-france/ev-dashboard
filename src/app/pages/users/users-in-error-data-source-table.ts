@@ -8,12 +8,10 @@ import {TableRefreshAction} from '../../shared/table/actions/table-refresh-actio
 import {CentralServerService} from '../../services/central-server.service';
 import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {DialogService} from '../../services/dialog.service';
 import {UserRolePipe} from './formatters/user-role.pipe';
-import {UserStatusPipe} from './formatters/user-status.pipe';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';
 import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
 import {Constants} from '../../utils/Constants';
@@ -30,20 +28,16 @@ import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 
 @Injectable()
 export class UsersInErrorDataSource extends TableDataSource<User> {
-  private readonly tableActionsRow: TableActionDef[];
-
   constructor(
       private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private userRolePipe: UserRolePipe,
-      private userStatusPipe: UserStatusPipe,
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
@@ -56,12 +50,8 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      if (!refreshAction) {
-        // Show
-        this.spinnerService.show();
-      }
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
@@ -70,13 +60,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
         // Ok
         observer.next(users.result);
         observer.complete();
-        if (!refreshAction) {
-          // Hide
-          this.spinnerService.hide();
-        }
       }, (error) => {
-        // Hide
-        this.spinnerService.hide();
         // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         // Error
@@ -192,10 +176,10 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
         this.showUserDialog(rowItem);
         break;
       case 'assign_site':
-        this._showSitesDialog(rowItem);
+        this.showSitesDialog(rowItem);
         break;
       case 'delete':
-        this._deleteUser(rowItem);
+        this.deleteUser(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -228,10 +212,10 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
-  private _showSitesDialog(user?: User) {
+  private showSitesDialog(user?: User) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -242,7 +226,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     this.dialog.open(UserSitesDialogComponent, dialogConfig);
   }
 
-  private _deleteUser(user: User) {
+  private deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
       this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
@@ -250,14 +234,13 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteUser(user.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.refreshOrLoadData(false).subscribe();
+            this.refreshOrLoadData().subscribe();
             this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'users.delete_error');
         });

@@ -1,10 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UsersDataSource } from './users-data-source-table';
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { KeyValue, User } from '../../../common.types';
 
@@ -16,10 +12,6 @@ import { KeyValue, User } from '../../../common.types';
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     private usersDataSource: UsersDataSource,
     @Inject(MAT_DIALOG_DATA) data) {

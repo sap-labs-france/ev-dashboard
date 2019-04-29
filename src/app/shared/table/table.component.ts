@@ -9,8 +9,8 @@ import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import {SpinnerService} from 'app/services/spinner.service';
 import {Observable, fromEvent} from 'rxjs';
-import * as _ from 'lodash';
 import { Constants } from 'app/utils/Constants';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-table',
@@ -145,7 +145,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set
     this.dataSource.setStaticFilters(staticFilters);
     // Load data
-    this.dataSource.loadData(true).subscribe();
+    this.dataSource.loadData().subscribe();
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)
     // Reset static filter
@@ -264,7 +264,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.refreshOrLoadData(true).subscribe(() => {
+    this.dataSource.refreshOrLoadData().subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
@@ -279,7 +279,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSearchValue('');
     this.dataSource.resetFilters();
     this.searchInput.nativeElement.value = '';
-    this.loadData(false);
+    this.loadData();
   }
 
   public actionTriggered(actionDef: TableActionDef, event?) {
@@ -317,16 +317,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return item.id;
   }
 
-  public loadData(refreshAction = false) {
+  public loadData() {
     console.log('table.component - loadData');
+    // Show Spinner
+    this.spinnerService.show();
     // Load data source
-    this.dataSource.refreshOrLoadData(refreshAction).subscribe((data) => {
+    this.dataSource.refreshOrLoadData().subscribe((data) => {
+      // Hide Spinner
+      this.spinnerService.hide();
       if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
         // Request nbr of records
         setTimeout(() => {
           this.requestNumberOfRecords()
         }, 100);
       }
+    }, (error) => {
+      // Hide Spinner
+      this.spinnerService.hide();
     });
   }
 

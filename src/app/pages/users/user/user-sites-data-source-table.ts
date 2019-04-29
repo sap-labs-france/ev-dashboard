@@ -30,7 +30,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
@@ -117,7 +117,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       // Add
       case 'add':
-        this._showAddSitesDialog();
+        this.showAddSitesDialog();
         break;
 
       // Remove
@@ -134,7 +134,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
               // Remove
-              this._removeSites(this.getSelectedRows().map((row) => row.id));
+              this.removeSites(this.getSelectedRows().map((row) => row.id));
             }
           });
         }
@@ -142,7 +142,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  public _showAddSitesDialog() {
+  public showAddSitesDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
@@ -152,10 +152,10 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     // Show
     const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe(sites => this._addSites(sites));
+    dialogRef.afterClosed().subscribe(sites => this.addSites(sites));
   }
 
-  private _removeSites(siteIDs) {
+  private removeSites(siteIDs) {
     // Yes: Update
     this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
       // Ok?
@@ -163,7 +163,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
         // Refresh
-        this.refreshOrLoadData(false).subscribe();
+        this.refreshOrLoadData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -176,7 +176,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     });
   }
 
-  private _addSites(sites) {
+  private addSites(sites) {
     // Check
     if (sites && sites.length > 0) {
       // Get the IDs
@@ -188,7 +188,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
           // Refresh
-          this.refreshOrLoadData(false).subscribe();
+          this.refreshOrLoadData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

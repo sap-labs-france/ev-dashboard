@@ -6,12 +6,9 @@ import { Injectable } from '@angular/core';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, SiteArea, Charger } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -33,10 +30,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   public isAdmin = false;
 
   constructor(
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -54,23 +49,17 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      // Show
-      this.spinnerService.show();
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Hide
-          this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
           observer.next(siteAreas.result);
           observer.complete();
         }, (error) => {
-          // Hide
-          this.spinnerService.hide();
           // Show error
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
@@ -222,7 +211,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
   private _showChargersDialog(charger?: Charger) {
@@ -244,18 +233,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       this.translateService.instant('site_areas.delete_confirm', { 'siteAreaName': siteArea.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteSiteArea(siteArea.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
-            this.refreshOrLoadData(false).subscribe();
+            this.refreshOrLoadData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'site_areas.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'site_areas.delete_error');
         });

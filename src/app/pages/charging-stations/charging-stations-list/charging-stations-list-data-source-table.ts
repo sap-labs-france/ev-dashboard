@@ -9,9 +9,7 @@ import {CentralServerNotificationService} from 'app/services/central-server-noti
 import {TableAutoRefreshAction} from 'app/shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from 'app/shared/table/actions/table-refresh-action';
 import {CentralServerService} from 'app/services/central-server.service';
-import {LocaleService} from 'app/services/locale.service';
 import {MessageService} from 'app/services/message.service';
-import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from 'app/utils/Utils';
 import {InstantPowerProgressBarComponent} from '../cell-content-components/instant-power-progress-bar.component';
 import {ConnectorsDetailComponent} from '../details-content-component/connectors-detail-component.component';
@@ -40,8 +38,6 @@ import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-com
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
-const POLL_INTERVAL = 15000;
-
 const DEFAULT_ADMIN_ROW_ACTIONS = [
   new TableEditAction().getActionDef(),
   new TableOpenInMapsAction().getActionDef(),
@@ -62,10 +58,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   isOrganizationComponentActive: boolean;
 
   constructor(
-    private localeService: LocaleService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private spinnerService: SpinnerService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -86,19 +80,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      if (!refreshAction) {
-        // Show
-        this.spinnerService.show();
-      }
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        if (!refreshAction) {
-          // Show
-          this.spinnerService.hide();
-        }
         // Set number of records
         this.setTotalNumberOfRecords(chargers.count);
         // Update details status
@@ -112,8 +98,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           observer.next(chargers.result);
           observer.complete();
         }, (error) => {
-          // Show
-          this.spinnerService.hide();
           // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
@@ -386,13 +370,12 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(success_message);
-              this.refreshOrLoadData(true).subscribe();
+              this.refreshOrLoadData().subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, error_message);
             }
           }, (error) => {
-            this.spinnerService.hide();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               error_message);
           });
@@ -415,7 +398,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(true).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
   private _deleteChargingStation(chargingStation: Charger) {
@@ -432,14 +415,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.refreshOrLoadData(true).subscribe();
+              this.refreshOrLoadData().subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, 'chargers.delete_error');
             }
           }, (error) => {
-            this.spinnerService.hide();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
               'chargers.delete_error');
           });
@@ -473,7 +455,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(true).subscribe());
+      dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
     }
   }
 

@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -9,11 +8,7 @@ import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, 
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { FormGroup } from '@angular/forms';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Constants } from 'app/utils/Constants';
 
@@ -24,8 +19,6 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { DialogService } from 'app/services/dialog.service';
 import { SacLinkDialogComponent } from './sac-link.dialog.component';
 
-
-const POLL_INTERVAL = 15000;
 @Injectable()
 export class SacLinksDataSource extends TableDataSource<SacLink> {
   private readonly tableActionsRow: TableActionDef[];
@@ -34,15 +27,10 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
 
   constructor(
       private localeService: LocaleService,
-      private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
-      private router: Router,
       private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe) {
+      private centralServerNotificationService: CentralServerNotificationService) {
     super();
     // Init
     this.initDataSource();
@@ -66,7 +54,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return this.sacLinks;
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
       setTimeout(() => {
         // Set number of records
@@ -205,7 +193,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           this.sacLinks.push(result);
         }
         this.formGroup.markAsDirty();
-        this.refreshOrLoadData(false).subscribe();
+        this.refreshOrLoadData().subscribe();
       }
     });
   }
@@ -218,7 +206,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       if (result === Constants.BUTTON_TYPE_YES) {
         _.remove(this.sacLinks, function (o: SacLink) { return (o.id === sacLink.id) });
         this.formGroup.markAsDirty();
-        this.refreshOrLoadData(false).subscribe();
+        this.refreshOrLoadData().subscribe();
       }
     });
   }

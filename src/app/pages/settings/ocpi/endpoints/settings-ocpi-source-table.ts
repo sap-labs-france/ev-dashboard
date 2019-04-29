@@ -11,9 +11,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
@@ -29,7 +27,6 @@ import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.
 import { OcpiendpointDetailComponent} from './ocpi-details/ocpi-detail-component.component';
 
 
-const POLL_INTERVAL = 15000;
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   private readonly tableActionsRow: TableActionDef[];
@@ -38,13 +35,11 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private spinnerService: SpinnerService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe) {
+      private centralServerService: CentralServerService) {
     super();
     // Init
     this.initDataSource();
@@ -59,23 +54,17 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     return this.centralServerNotificationService.getSubjectOcpiendpoints();
   }
 
-  public loadData(refreshAction = false): Observable<any> {
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
-      // Show
-      this.spinnerService.show();
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiendpoints) => {
-          // Hide
-          this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(ocpiendpoints.count);
           // Ok
           observer.next(ocpiendpoints.result);
           observer.complete();
         }, (error) => {
-          // Hide
-          this.spinnerService.hide();
           // Show error
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
           // Error
@@ -199,10 +188,10 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         this._showOcpiendpointDialog(rowItem);
         break;
       case 'delete':
-        this._deleteOcpiendpoint(rowItem);
+        this.deleteOcpiendpoint(rowItem);
         break;
       case 'register':
-        this._registerOcpiendpoint(rowItem);
+        this.registerOcpiendpoint(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -232,60 +221,24 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
   }
 
-  // private _sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
-  //   this.dialogService.createAndShowYesNoDialog(
-  //     this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
-  //     this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
-  //   ).subscribe((result) => {
-  //     if (result === Constants.BUTTON_TYPE_YES) {
-  //       // Show
-  //       this.spinnerService.show();
-  //       // Ping
-  //       this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
-  //         this.spinnerService.hide();
-  //         if (response.failure === 0 && response.success > 0) {
-  //           this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
-  //         } else if (response.failure > 0 && response.success > 0) {
-  //           this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
-  //             { success: response.success, error: response.failure });
-  //         } else {
-  //           Utils.handleError(JSON.stringify(response),
-  //             this.messageService, 'ocpiendpoints.error_send_evse_statuses');
-  //         }
-  //         // reload data
-  //         this.refreshOrLoadData(false).subscribe();
-  //       }, (error) => {
-  //         this.spinnerService.hide();
-  //         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-  //           'ocpiendpoints.error_send_evse_statuses');
-  //         // reload data
-  //         this.refreshOrLoadData(false).subscribe();
-  //       });
-  //     }
-  //   });
-  // }
-
-  private _deleteOcpiendpoint(ocpiendpoint) {
+  private deleteOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteOcpiendpoint(ocpiendpoint.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
-            this.refreshOrLoadData(false).subscribe();
+            this.refreshOrLoadData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.delete_error');
         });
@@ -293,48 +246,21 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     });
   }
 
-  // private _startStopBackgroundJob(ocpiendpoint) {
-  //   // switch background job state
-  //   ocpiendpoint.backgroundPatchJob = !ocpiendpoint.backgroundPatchJob;
-  //   // update it
-  //   this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
-  //     this.spinnerService.hide();
-  //     if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-  //       if (ocpiendpoint.backgroundPatchJob) {
-  //         this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
-  //       } else {
-  //         this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
-  //       }
-  //     } else {
-  //       Utils.handleError(JSON.stringify(response),
-  //         this.messageService, 'ocpiendpoints.update_error');
-  //     }
-  //     this.refreshOrLoadData(false).subscribe();
-  //   }, (error) => {
-  //     this.spinnerService.hide();
-  //     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-  //       'ocpiendpoints.update_error');
-  //   });
-  // }
-
-  private _registerOcpiendpoint(ocpiendpoint) {
+  private registerOcpiendpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.registerOcpiendpoint(ocpiendpoint.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
-            this.refreshOrLoadData(false).subscribe();
+            this.refreshOrLoadData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.register_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.register_error');
         });

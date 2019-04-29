@@ -5,7 +5,6 @@ import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, T
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
@@ -35,29 +34,25 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
 
-const POLL_INTERVAL = 10000;
-
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
-
   private isAdmin = false;
   private dialogRefSession;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private componentService: ComponentService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private appDatePipe: AppDatePipe,
-    private currencyPipe: CurrencyPipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe) {
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private dialog: MatDialog,
+      private componentService: ComponentService,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private appDatePipe: AppDatePipe,
+      private currencyPipe: CurrencyPipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe) {
     super();
     // Init
     this.initDataSource();
@@ -67,25 +62,16 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction = false) {
+  public loadData() {
     return new Observable((observer) => {
-      if (!refreshAction) {
-        this.spinnerService.show();
-      }
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
         this.formatErrorMessages(transactions.result);
         this.setTotalNumberOfRecords(transactions.count);
         // Ok
         observer.next(transactions.result);
         observer.complete();
       }, (error) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
         // Error
         observer.error(error);
@@ -223,7 +209,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData(false).subscribe();
+      this.refreshOrLoadData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
@@ -256,6 +242,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData(true).subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
   }
 }

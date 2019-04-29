@@ -65,8 +65,6 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
           this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(sites.count);
-          // Notify
-          this.getDataSubjet().next(sites.result);
           // Ok
           observer.next(sites.result);
           observer.complete();
@@ -136,20 +134,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    if (this.isAdmin) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableEditUsersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableViewAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
+  hasTableDynamicRowActions() {
+    return true;
   }
 
   buildTableDynamicRowActions(site: Site) {

@@ -62,8 +62,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
           this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(companies.count);
-          // Notify
-          this.getDataSubjet().next(companies.result);
           // lookup for logo otherwise assign default
           for (let i = 0; i < companies.result.length; i++) {
             if (!companies.result[i].logo) {
@@ -100,7 +98,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponentName: CompanyLogoComponent
+        angularComponent: CompanyLogoComponent
       },
       {
         id: 'name',

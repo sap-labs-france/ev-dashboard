@@ -99,7 +99,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        angularComponentName: ConsumptionChartDetailComponent
+        angularComponent: ConsumptionChartDetailComponent
       }
     };
   }
@@ -144,7 +144,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         name: 'transactions.connector',
         headerClass: 'text-center',
         isAngularComponent: true,
-        angularComponentName: ConnectorCellComponent,
+        angularComponent: ConnectorCellComponent,
       },
       {
         id: 'tagID',

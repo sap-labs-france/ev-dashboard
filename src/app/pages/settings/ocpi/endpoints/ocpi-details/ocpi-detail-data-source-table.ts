@@ -114,7 +114,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiDetailJobStatusComponent,
+        angularComponent: OcpiDetailJobStatusComponent,
         headerClass: 'text-center',
         class: '',
         sortable: false
@@ -135,7 +135,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         type: 'integer',
         name: 'ocpiendpoints.totalChargePoints',
         isAngularComponent: true,
-        angularComponentName: OcpiDetailTotalEvsesStatusComponent,
+        angularComponent: OcpiDetailTotalEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false
@@ -145,7 +145,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
-        angularComponentName: OcpiDetailSuccessEvsesStatusComponent,
+        angularComponent: OcpiDetailSuccessEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false
@@ -155,7 +155,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
-        angularComponentName: OcpiDetailFailureEvsesStatusComponent,
+        angularComponent: OcpiDetailFailureEvsesStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false

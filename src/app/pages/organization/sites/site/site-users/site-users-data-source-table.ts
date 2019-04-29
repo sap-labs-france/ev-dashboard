@@ -39,8 +39,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           this.getPaging(), this.getSorting()).subscribe((users) => {
           // Set number of records
           this.setTotalNumberOfRecords(users.count);
-          // Notify
-          this.getDataSubjet().next(users.result);
           // Ok
           observer.next(users.result);
           observer.complete();

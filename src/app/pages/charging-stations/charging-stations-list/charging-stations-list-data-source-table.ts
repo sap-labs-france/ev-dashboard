@@ -144,7 +144,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        angularComponentName: ConnectorsDetailComponent
+        angularComponent: ConnectorsDetailComponent
       }
     };
   }
@@ -166,7 +166,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponentName: HeartbeatCellComponent,
+        angularComponent: HeartbeatCellComponent,
         sortable: false
       },
       {
@@ -176,7 +176,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponentName: ConnectorsCellComponent
+        angularComponent: ConnectorsCellComponent
       },
       {
         id: 'connectorsConsumption',
@@ -185,7 +185,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         isAngularComponent: true,
         headerClass: 'text-center',
         class: 'power-progress-bar',
-        angularComponentName: InstantPowerProgressBarComponent
+        angularComponent: InstantPowerProgressBarComponent
       }
     ];
     if (this.isOrganizationComponentActive) {

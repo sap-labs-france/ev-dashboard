@@ -415,7 +415,7 @@ export interface TableDef {
     enabled: boolean;
     detailsField?: string;
     isDetailComponent?: boolean;
-    angularComponentName?: any;
+    angularComponent?: any;
     hideShowField?: string;
   },
   rowFieldNameIdentifier?: string,
@@ -434,7 +434,7 @@ export interface TableColumnDef {
   sorted?: boolean;
   direction?: SortDirection;
   isAngularComponent?: boolean
-  angularComponentName?: any;
+  angularComponent?: any;
   defaultValue?: any;
 }
 

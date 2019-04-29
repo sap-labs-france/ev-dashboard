@@ -101,7 +101,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
         id: 'status',
         name: 'users.status',
         isAngularComponent: true,
-        angularComponentName: UserStatusComponent,
+        angularComponent: UserStatusComponent,
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true

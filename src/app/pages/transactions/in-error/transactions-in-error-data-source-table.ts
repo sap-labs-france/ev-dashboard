@@ -131,7 +131,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sortable: false,
         class: 'action-cell text-left',
         isAngularComponent: true,
-        angularComponentName: ErrorCodeDetailsComponent
+        angularComponent: ErrorCodeDetailsComponent
       },
       {
         id: 'errorCode',

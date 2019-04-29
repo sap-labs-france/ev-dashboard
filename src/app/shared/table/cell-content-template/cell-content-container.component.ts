@@ -31,12 +31,12 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
     // Get the component name
     let component;
     // Table Details?
-    if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.angularComponentName) {
-      component = this.tableDef.rowDetails.angularComponentName;
+    if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.angularComponent) {
+      component = this.tableDef.rowDetails.angularComponent;
     }
     // Table Column
-    if (this.columnDef && this.columnDef.angularComponentName) {
-      component = this.columnDef.angularComponentName;
+    if (this.columnDef && this.columnDef.angularComponent) {
+      component = this.columnDef.angularComponent;
     }
     console.log('CellContentComponentContainer');
     // Create the component

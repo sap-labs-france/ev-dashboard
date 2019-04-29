@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
@@ -9,7 +9,7 @@ import {ConnectorsDataSource} from './connectors-data-source-detail-table';
   ]
 })
 
-export class ConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit {
+export class ConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
   @Input() row: any;
 
   constructor(
@@ -18,12 +18,12 @@ export class ConnectorsDetailComponent extends CellContentTemplateComponent impl
   }
 
   ngOnInit(): void {
+    console.log('ConnectorsDetailComponent - ngOnInit');
     this.connectorsDataSource.setCharger(this.row);
-    this.connectorsDataSource.setDetailedDataSource(this.row.connectors);
-    // this.connectorsDataSource.loadData(true).subscribe();
   }
 
-  // destroy() {
-  //   // this.connectorsDataSource.destroy();
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ConnectorsDetailComponent - ngOnChanges');
+    this.connectorsDataSource.setCharger(this.row);
+  }
 }

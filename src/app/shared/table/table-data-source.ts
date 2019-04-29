@@ -17,7 +17,10 @@ export abstract class TableDataSource<T> {
   public tableRowActionsDef: TableActionDef[];
 
   public data: any[] = [];
-  public paging: Paging;
+  public paging: Paging = {
+    limit: Constants.DEFAULT_PAGE_SIZE,
+    skip: 0
+  };
   public sort: MatSort = new MatSort();
 
   public hasActions: boolean;
@@ -234,12 +237,12 @@ public toggleRowSelection(row) {
     return this.tableActionsRightDef;
   }
 
-  public buildTableRowActions(item?: T): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     // Return default
     return [];
   }
 
-  public getTableRowActions(item?: T): TableActionDef[] {
+  public getTableRowActions(): TableActionDef[] {
     console.log('table-data-source - getTableRowActions');
     if (!this.tableRowActionsDef) {
       this.tableRowActionsDef = this.buildTableRowActions();
@@ -495,6 +498,10 @@ public toggleRowSelection(row) {
     return [];
   }
 
+  hasTableDynamicRowActions() {
+    return false;
+  }
+
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
     return true;
   }
@@ -511,11 +518,13 @@ public toggleRowSelection(row) {
 
     // Init vars
     // tslint:disable-next-line:max-line-length
-    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) || (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
+    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
+      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
     this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = this.tableRowActionsDef && this.tableRowActionsDef.length > 0;
+    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+      this.hasTableDynamicRowActions();
   }
 
   isSelectable(row: T) {

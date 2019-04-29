@@ -65,8 +65,6 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
           this.spinnerService.hide();
           // Update nbr records
           this.setTotalNumberOfRecords(siteAreas.count);
-          // Notify
-          this.getDataSubjet().next(siteAreas.result);
           // Ok
           observer.next(siteAreas.result);
           observer.complete();

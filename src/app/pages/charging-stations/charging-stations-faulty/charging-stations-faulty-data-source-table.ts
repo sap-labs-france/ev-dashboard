@@ -165,7 +165,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponentName: HeartbeatCellComponent,
+        angularComponent: HeartbeatCellComponent,
         sortable: false
       },
       {
@@ -175,7 +175,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponentName: ConnectorsCellComponent
+        angularComponent: ConnectorsCellComponent
       },
       {
         id: 'errorCodeDetails',
@@ -183,7 +183,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
         sortable: false,
         class: 'action-cell text-left',
         isAngularComponent: true,
-        angularComponentName: ErrorCodeDetailsComponent
+        angularComponent: ErrorCodeDetailsComponent
       },
       {
         id: 'errorCode',

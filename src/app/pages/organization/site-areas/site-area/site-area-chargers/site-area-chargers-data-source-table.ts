@@ -43,8 +43,6 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
             // Set number of records
             this.setTotalNumberOfRecords(chargers.count);
-            // Notify
-            this.getDataSubjet().next(chargers.result);
             // Ok
             observer.next(chargers.result);
             observer.complete();

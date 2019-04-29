@@ -33,16 +33,13 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
   public stopAction = new TableStopAction();
-  public noAction = new TableNoAction();
   public startAction = new TableStartAction();
   public openAction = new TableOpenAction();
+  public noAction = new TableNoAction();
 
   private charger: Charger;
   private connectorTransactionAuthorization;
   private dialogRefSession: MatDialogRef<SessionDialogComponent>;
-  private isInitialized = false;
-
-  private transactionConsumptions = {};
 
   constructor(
       private configService: ConfigService,
@@ -79,19 +76,18 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.charger.connectors[index].isTransactionDisplayAuthorized =
               this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
           }
-          // Ok
-          let hasSomeDetails = false;
-          // Check connectors details status
-          this.getData().forEach((connector: Connector) => {
-            // If user can stop transaction he can also see details except user demo that can also see details
-            connector.hasDetails = connector.activeTransactionID > 0 &&
-              (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
-            if (connector.hasDetails) {
-              hasSomeDetails = true;
-            }
-          });
-          this._displayDetailsColumns.next(hasSomeDetails);
-          this.isInitialized = true;
+          // // Ok
+          // let hasSomeDetails = false;
+          // // Check connectors details status
+          // this.getData().forEach((connector: Connector) => {
+          //   // If user can stop transaction he can also see details except user demo that can also see details
+          //   connector.hasDetails = connector.activeTransactionID > 0 &&
+          //     (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
+          //   if (connector.hasDetails) {
+          //     hasSomeDetails = true;
+          //   }
+          // });
+          observer.next(this.charger.connectors);
           observer.complete();
         }, (error) => {
           // Authorization issue!
@@ -107,31 +103,16 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.charger = charger;
   }
 
-  setDetailedDataSource(row, autoRefresh = false) {
-    if (autoRefresh) {
-      if (this.dialogRefSession && this.dialogRefSession.componentInstance) {
-        this.dialogRefSession.componentInstance.refresh();
-      }
-    }
-    this.loadAndPrepareData(false).subscribe();
-  }
-
   public buildTableDef(): TableDef {
     return {
       class: 'table-detailed-list',
       rowSelection: {
         enabled: false
       },
-      footer: {
-        enabled: false
-      },
-      search: {
-        enabled: false
-      },
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        angularComponentName: ConnectorConsumptionChartDetailComponent,
+        angularComponent: ConnectorConsumptionChartDetailComponent,
         hideShowField: 'hasDetails'
       },
       rowFieldNameIdentifier: 'connectorId',
@@ -151,7 +132,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponentName: ConnectorCellComponent
+        angularComponent: ConnectorCellComponent
       },
       {
         id: 'status',
@@ -159,7 +140,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         headerClass: 'text-center',
         class: '',
         isAngularComponent: true,
-        angularComponentName: ConnectorStatusComponent,
+        angularComponent: ConnectorStatusComponent,
         sortable: false
       },
       {
@@ -168,16 +149,9 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponentName: InstantPowerProgressBarComponent,
+        angularComponent: InstantPowerProgressBarComponent,
         sortable: false
       },
-      /*      {
-              id: 'sessionDetails',
-              name: 'chargers.session_details',
-              isAngularComponent: true,
-              angularComponentName: SessionDetailComponent,
-              sortable: false
-            },*/
       {
         id: 'totalConsumption',
         name: 'chargers.total_consumption_title',
@@ -205,10 +179,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public buildTableActionsDef(): TableActionDef[] {
-    return super.buildTableActionsDef();
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
@@ -216,36 +186,36 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public buildTableRowActions(rowItem: Connector): TableActionDef[] {
-    if (rowItem && !this.charger.inactive) {
-      // Check active transaction and authorization to stop
-      if (rowItem && rowItem.activeTransactionID &&
-        this.connectorTransactionAuthorization &&
-        this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
-        if (this.connectorTransactionAuthorization &&
-          this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized &&
-          (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
-          return [
-            new TableOpenAction().getActionDef(),
-            this.stopAction.getActionDef()
-          ];
-        } else {
-          return [
-            this.stopAction.getActionDef()
-          ];
-        }
-      } else {
-        return [
-          this.noAction.getActionDef()
-        ];
-      }
-    }
-    // By default no actions
-    return [
-      this.startAction.getActionDef()
-      //      this.noAction.getActionDef()
-    ];
-  }
+  // public buildTableDynamicRowActions(row: Connector): TableActionDef[] {
+  //   if (rowItem && !this.charger.inactive) {
+  //     // Check active transaction and authorization to stop
+  //     if (rowItem && rowItem.activeTransactionID &&
+  //       this.connectorTransactionAuthorization &&
+  //       this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
+  //       if (this.connectorTransactionAuthorization &&
+  //         this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized &&
+  //         (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
+  //         return [
+  //           new TableOpenAction().getActionDef(),
+  //           this.stopAction.getActionDef()
+  //         ];
+  //       } else {
+  //         return [
+  //           this.stopAction.getActionDef()
+  //         ];
+  //       }
+  //     } else {
+  //       return [
+  //         this.noAction.getActionDef()
+  //       ];
+  //     }
+  //   }
+  //   // By default no actions
+  //   return [
+  //     this.startAction.getActionDef()
+  //     //      this.noAction.getActionDef()
+  //   ];
+  // }
 
   buildTableDynamicRowActions(rowItem: Connector): TableActionDef[] {
     const actionAuthorize = [];
@@ -256,24 +226,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       if (rowItem.isStopAuthorized) {
         actionAuthorize.push(this.stopAction.getActionDef());
       }
-/*      // check if Authorized or is Admin
-      if ((this.connectorTransactionAuthorization && this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)) {
-        return [
-          new TableOpenAction().getActionDef(),
-          this.stopAction.getActionDef()
-        ];
-      }
-      // Demo can display transaction details only
-      if (this.authorizationService.isDemo()) {
-        return [
-          new TableOpenAction().getActionDef()
-        ];
-      } else {
-        // No authorization to stop or display details
-        return [
-          this.noAction.getActionDef()
-        ];
-      }*/
     } else {
       if (rowItem.isStartAuthorized) {
         actionAuthorize.push(this.startAction.getActionDef());
@@ -287,16 +239,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         this.noAction.getActionDef()
       ];
     }
-/*    // default action is start except for demo
-    if (this.authorizationService.isDemo()) {
-      return [
-        this.noAction.getActionDef()
-      ];
-    } else {
-      return [
-        this.startAction.getActionDef()
-      ];
-    }*/
   }
 
   public actionTriggered(actionDef: TableActionDef) {

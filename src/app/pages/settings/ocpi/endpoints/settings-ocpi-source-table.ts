@@ -95,7 +95,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       rowDetails: {
         enabled: true,
         isDetailComponent: true,
-        angularComponentName: OcpiendpointDetailComponent
+        angularComponent: OcpiendpointDetailComponent
       }
     };
   }
@@ -144,7 +144,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'status',
         name: 'ocpiendpoints.status',
         isAngularComponent: true,
-        angularComponentName: OcpiEndpointStatusComponent,
+        angularComponent: OcpiEndpointStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false
@@ -153,7 +153,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiPatchJobStatusComponent,
+        angularComponent: OcpiPatchJobStatusComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false
@@ -162,7 +162,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'patchJobResult',
         name: 'ocpiendpoints.patchJobLastStatus',
         isAngularComponent: true,
-        angularComponentName: OcpiPatchJobResultComponent,
+        angularComponent: OcpiPatchJobResultComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false

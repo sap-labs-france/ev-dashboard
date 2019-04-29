@@ -21,7 +21,6 @@ import {StartTransactionDialogComponent} from './details-content-component/start
 import {SessionDialogComponent} from 'app/shared/dialogs/session/session-dialog-component';
 import {ChargingStationMoreActionsDialogComponent} from './more-actions/charging-station-more-actions.dialog.component';
 import {ChargingStationGetDiagnosticsComponent} from './more-actions/get-diagnostics-component/get-diagnostics.component';
-import {ConnectorConsumptionChartDetailComponent} from './details-content-component/consumption-chart-detail.component';
 import {ChargingStationsSettingsModule} from './charging-station-settings/charging-stations-settings.module';
 import {ChargingStationSmartChargingModule} from './smart-charging/charging-station-smart-charging.module';
 import {ConnectorStatusComponent} from './cell-content-components/connector-status.component';
@@ -68,7 +67,6 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     ConnectorCellComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
-    ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
     ChargingStationsFaultyComponent
   ],
@@ -89,7 +87,6 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     StartTransactionDialogComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
-    ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
     ChargingStationsFaultyComponent
   ],

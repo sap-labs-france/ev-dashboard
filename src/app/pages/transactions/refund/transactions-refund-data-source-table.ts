@@ -22,7 +22,7 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
+import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 import {TransactionsTypeFilter} from './transactions-type-filter';

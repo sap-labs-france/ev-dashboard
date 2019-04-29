@@ -24,8 +24,7 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
-import * as moment from 'moment';
+import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import {TableExportAction} from '../../../shared/table/actions/table-export-action';
 import saveAs from 'file-saver';
 import {AuthorizationService} from '../../../services/authorization-service';
@@ -34,6 +33,7 @@ import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {

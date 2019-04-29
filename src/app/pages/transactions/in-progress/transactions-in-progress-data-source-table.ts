@@ -22,7 +22,7 @@ import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
+import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import * as moment from 'moment';
 import {AuthorizationService} from '../../../services/authorization-service';

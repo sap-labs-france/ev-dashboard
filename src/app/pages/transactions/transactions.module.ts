@@ -15,7 +15,6 @@ import {CommonDirectivesModule} from '../../shared/directives/common-directives.
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {ComponentModule} from '../../shared/component/component.module';
 import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
-import {ConsumptionChartDetailComponent} from './components/consumption-chart-detail.component';
 import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
 import {TransactionsRefundComponent} from './refund/transactions-refund.component';
 import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
@@ -44,7 +43,6 @@ import {AppFormatConnector} from './components/connector-cell.component';
     TransactionsRefundComponent,
     AppFormatConnector,
     ConnectorCellComponent,
-    ConsumptionChartDetailComponent
   ],
   entryComponents: [
     TransactionsComponent,
@@ -53,7 +51,6 @@ import {AppFormatConnector} from './components/connector-cell.component';
     TransactionsInErrorComponent,
     TransactionsRefundComponent,
     ConnectorCellComponent,
-    ConsumptionChartDetailComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent
   ],

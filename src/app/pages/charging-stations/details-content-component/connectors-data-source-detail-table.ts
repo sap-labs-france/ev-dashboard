@@ -20,7 +20,7 @@ import {BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent} 
 import {UsersDialogComponent} from '../../../shared/dialogs/users/users-dialog-component';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import {ConnectorConsumptionChartDetailComponent} from './consumption-chart-detail.component';
+import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
@@ -99,7 +99,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ConnectorConsumptionChartDetailComponent,
+        angularComponent: ConsumptionChartDetailComponent,
         showDetailsField: 'hasDetails'
       },
       rowFieldNameIdentifier: 'connectorId',

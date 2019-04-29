@@ -103,7 +103,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       rowDetails: {
         enabled: true,
         detailsField: 'detailedMessages',
-        hideShowField: 'hasDetailedMessages'
+        showDetailsField: 'hasDetailedMessages'
       }
     };
   }

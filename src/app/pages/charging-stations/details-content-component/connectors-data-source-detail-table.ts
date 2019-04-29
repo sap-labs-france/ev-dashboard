@@ -100,7 +100,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       rowDetails: {
         enabled: true,
         angularComponent: ConnectorConsumptionChartDetailComponent,
-        hideShowField: 'hasDetails'
+        showDetailsField: 'hasDetails'
       },
       rowFieldNameIdentifier: 'connectorId',
       isSimpleTable: true,
@@ -317,7 +317,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       }
     })
     return false;
-
   }
 
   private openSession(connector: Connector) {

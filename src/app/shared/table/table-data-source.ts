@@ -48,7 +48,7 @@ export abstract class TableDataSource<T> {
   public hasRowDetailsHideShowField(): boolean {
     console.log('table-data-source - hasRowDetailsHideShowField');
     // Return
-    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('hideShowField');
+    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
@@ -482,7 +482,19 @@ public toggleRowSelection(row) {
       }
       // Check if Expanded
       if (expandedRowIDs.indexOf(freshRow.id) !== -1) {
-        freshRow.isExpanded = true;
+        // Check if the table has a specific field to hide/show details
+        if (this.tableDef.rowDetails.showDetailsField) {
+          // Check if it's still visible
+          if (freshRow.hasOwnProperty(this.tableDef.rowDetails.showDetailsField)) {
+            // Set
+            freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];
+          } else {
+            freshRow.isExpanded = true;
+          }
+        } else {
+          // Not hiding: keep the row expanded
+          freshRow.isExpanded = true;
+        }
       }
     }
   }

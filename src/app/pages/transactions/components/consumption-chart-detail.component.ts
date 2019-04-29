@@ -11,25 +11,24 @@ import {ConsumptionChartComponent} from 'app/shared/component/transaction-chart/
 })
 
 export class ConsumptionChartDetailComponent extends CellContentComponentContainer {
-  transactionId: number;
+  // transactionId: number;
 
-  @ViewChild('consumptionChart') consumptionChartComponent: ConsumptionChartComponent;
+  // @ViewChild('consumptionChart') consumptionChartComponent: ConsumptionChartComponent;
 
-  setData(row: Transaction, tabledef: TableDef) {
-    this.transactionId = row.id;
-  }
+  // setData(row: Transaction, tabledef: TableDef) {
+  //   this.transactionId = row.id;
+  // }
 
-  getParentClass() {
-    return 'col-md-12';
-  }
+  // getParentClass() {
+  //   return 'col-md-12';
+  // }
 
-  refresh(row) {
-    if (this.consumptionChartComponent) {
-      this.consumptionChartComponent.refresh();
-    }
-  }
+  // refresh(row) {
+  //   if (this.consumptionChartComponent) {
+  //     this.consumptionChartComponent.refresh();
+  //   }
+  // }
 
-  destroy() {
-  }
-
+  // destroy() {
+  // }
 }

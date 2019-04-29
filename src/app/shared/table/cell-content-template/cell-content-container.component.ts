@@ -23,7 +23,10 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {
+      // Set the row
       this.cellComponent.row = this.row;
+      // Propagate the changes
+      this.cellComponent.ngOnChanges(changes);
     }
   }
 

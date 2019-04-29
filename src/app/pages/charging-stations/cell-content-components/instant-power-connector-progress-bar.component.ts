@@ -1,5 +1,5 @@
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {Charger, Connector} from '../../../common.types';
+import {Connector} from '../../../common.types';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({

@@ -18,12 +18,14 @@ export class ConnectorsDetailComponent extends CellContentTemplateComponent impl
   }
 
   ngOnInit(): void {
-    console.log('ConnectorsDetailComponent - ngOnInit');
+    // Set the charger
     this.connectorsDataSource.setCharger(this.row);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ConnectorsDetailComponent - ngOnChanges');
+    // Set the charger
     this.connectorsDataSource.setCharger(this.row);
+    // Load data
+    this.connectorsDataSource.refreshOrLoadData().subscribe();
   }
 }

@@ -623,7 +623,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   toUpperCase(control: AbstractControl) {
-    console.log('toUpperCase');
     control.setValue(control.value.toUpperCase());
   }
 

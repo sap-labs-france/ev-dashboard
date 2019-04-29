@@ -28,7 +28,6 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     this.message = data.message;
     // Listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      console.log(keydownEvents);
       // check if escape
       if (keydownEvents && keydownEvents.key === 'Escape') {
         this.onEscape();
@@ -146,12 +145,9 @@ export class ConfirmationDialogComponent implements AfterViewInit {
   }
 
   onEscape() {
-    console.log('this.canCancelDialog - ' + this.canCancelDialog);
     if (!this.canCancelDialog) {
       return;
     }
-    console.log('this.buttonCancelName - ' + this.buttonCancelName);
-    console.log('this.buttonNoName - ' + this.buttonNoName);
     if (this.buttonCancelName === null) {
       if (this.buttonNoName === null) {
         this.validate();

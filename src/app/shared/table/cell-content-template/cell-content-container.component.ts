@@ -41,7 +41,6 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
     if (this.columnDef && this.columnDef.angularComponent) {
       component = this.columnDef.angularComponent;
     }
-    console.log('CellContentComponentContainer');
     // Create the component
     if (component) {
       this.viewContainerRef.clear();

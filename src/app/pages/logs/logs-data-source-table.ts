@@ -40,18 +40,15 @@ export class LogsDataSource extends TableDataSource<Log> {
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe) {
     super();
-    console.log('logs-data-source-table - constructor');
     // Init
     this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    console.log('logs-data-source-table - getDataChangeSubject');
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
   public loadData(): Observable<any> {
-    console.log('logs-data-source-table - loadData');
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
@@ -88,14 +85,12 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public getRowDetails(row: Log): Observable<String> {
-    console.log('logs-data-source-table - getRowDetails');
     // Read the log details
     return this.centralServerService.getLog(row.id).pipe(
       map(log => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
   public buildTableDef(): TableDef {
-    console.log('logs-data-source-table - buildTableDef');
     return {
       search: {
         enabled: true
@@ -109,7 +104,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    console.log('logs-data-source-table - buildTableColumnDefs');
     const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
@@ -157,7 +151,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   buildTableActionsDef(): TableActionDef[] {
-    console.log('logs-data-source-table - buildTableActionsDef');
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -170,7 +163,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   actionTriggered(actionDef: TableActionDef) {
-    console.log('logs-data-source-table - actionTriggered');
     switch (actionDef.id) {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
@@ -187,7 +179,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    console.log('logs-data-source-table - buildTableActionsRightDef');
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
@@ -195,7 +186,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    console.log('logs-data-source-table - buildTableFiltersDef');
     if (this.authorizationService.isSuperAdmin()) {
       return [
         new LogDateFromTableFilter().getFilterDef(),
@@ -219,7 +209,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   private exportLogs() {
-    console.log('logs-data-source-table - exportLogs');
     this.centralServerService.exportLogs(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP

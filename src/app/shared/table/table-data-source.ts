@@ -34,47 +34,34 @@ export abstract class TableDataSource<T> {
   private staticFilters = [];
 
   public isRowSelectionEnabled(): boolean {
-    console.log('table-data-source - isRowSelectionEnabled');
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    console.log('table-data-source - isRowDetailsEnabled');
     // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    console.log('table-data-source - hasRowDetailsHideShowField');
     // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    console.log('table-data-source - isMultiSelectionEnabled');
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
-  public isDesignFlat(): boolean {
-    console.log('table-data-source - isDesignFlat');
-    // Return
-    return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
-  }
-
   public getSelectedRows(): T[] {
-    console.log('table-data-source - getSelectedRows');
     return this.data.filter((row) => row.selected);
   }
 
   public hasSelectedRows(): boolean {
-    console.log('table-data-source - hasSelectedRows');
     return (this.selectedRows > 0)
   }
 
   public clearSelectedRows() {
-    console.log('table-data-source - clearSelectedRows');
     // Clear
     this.selectedRows = 0;
     this.data.forEach((row) => {
@@ -85,7 +72,6 @@ export abstract class TableDataSource<T> {
   }
 
   public selectAllRows() {
-    console.log('table-data-source - selectAllRows');
     // Select All
     this.selectedRows = 0;
     this.data.forEach((row) => {
@@ -98,7 +84,6 @@ export abstract class TableDataSource<T> {
   }
 
   public toggleMasterSelect() {
-    console.log('table-data-source - masterSelectToggle');
     if (this.isAllSelected()) {
       // Unselect All
       this.clearSelectedRows();
@@ -107,8 +92,8 @@ export abstract class TableDataSource<T> {
       this.selectAllRows();
     }
   }
-public toggleRowSelection(row) {
-    console.log(`Before ${row.selected} - ${this.selectedRows} - ${this.maxSelectableRows}`);
+
+  public toggleRowSelection(row) {
     // Invert
     row.selected = !row.selected;
     // Adjust number of selected rows
@@ -124,21 +109,17 @@ public toggleRowSelection(row) {
       this.selectedRows--
       this.lastSelectedRow = null;
     }
-    console.log(`After ${row.selected} - ${this.selectedRows}`);
   }
 
   public isAllSelected() {
-    console.log('table-data-source - isAllSelected');
     return (this.selectedRows === this.maxSelectableRows);
   }
 
   public setSearchValue(searchValue: string) {
-    console.log('table-data-source - setSearchValue');
     this.searchValue = searchValue;
   }
 
   public getSearchValue(): string {
-    console.log('table-data-source - getSearchValue');
     return this.searchValue;
   }
 
@@ -151,7 +132,6 @@ public toggleRowSelection(row) {
   }
 
   public getPaging(): Paging {
-    console.log('table-data-source - getPaging');
     if (!this.paging) {
       this.paging = {
         skip: 0,
@@ -162,17 +142,14 @@ public toggleRowSelection(row) {
   }
 
   public setSort(sort: MatSort) {
-    console.log('table-data-source - setSort');
     this.sort = sort;
   }
 
   public getSort(): MatSort {
-    console.log('table-data-source - getSort');
     return this.sort;
   }
 
   public getSorting(): Ordering[] {
-    console.log('table-data-source - getOrdering');
     if (this.getSort()) {
       return [
         {field: this.getSort().active, direction: this.getSort().direction}
@@ -191,14 +168,12 @@ public toggleRowSelection(row) {
   }
 
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
-    console.log('table-data-source - setNumberOfRecords');
     if (this.totalNumberOfRecords < totalNumberOfRecords) {
       this.totalNumberOfRecords = totalNumberOfRecords;
     }
   }
 
   public getTotalNumberOfRecords(): number {
-    console.log('table-data-source - getNumberOfRecords');
     return this.totalNumberOfRecords;
   }
 
@@ -214,7 +189,6 @@ public toggleRowSelection(row) {
   }
 
   public getTableActionsDef(): TableActionDef[] {
-    console.log('table-data-source - getTableActionsDef');
     if (!this.tableActionsDef) {
       this.tableActionsDef = this.buildTableActionsDef();
     }
@@ -227,7 +201,6 @@ public toggleRowSelection(row) {
   }
 
   public getTableActionsRightDef(): TableActionDef[] {
-    console.log('table-data-source - getTableActionsRightDef');
     if (!this.tableActionsRightDef) {
       this.tableActionsRightDef = this.buildTableActionsRightDef();
     }
@@ -240,7 +213,6 @@ public toggleRowSelection(row) {
   }
 
   public getTableRowActions(): TableActionDef[] {
-    console.log('table-data-source - getTableRowActions');
     if (!this.tableRowActionsDef) {
       this.tableRowActionsDef = this.buildTableRowActions();
     }
@@ -252,7 +224,6 @@ public toggleRowSelection(row) {
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    console.log('table-data-source - getTableFiltersDef');
     if (!this.tableFiltersDef) {
       this.tableFiltersDef = this.buildTableFiltersDef();
     }
@@ -262,7 +233,6 @@ public toggleRowSelection(row) {
   abstract buildTableDef(): TableDef;
 
   public getTableDef(): TableDef {
-    console.log('table-data-source - getTableDef');
     if (!this.tableDef) {
       this.tableDef = this.buildTableDef();
     }
@@ -270,12 +240,10 @@ public toggleRowSelection(row) {
   }
 
   public setTableDef(tableDef: TableDef) {
-    console.log('table-data-source - setTableDef');
     this.tableDef = tableDef;
   }
 
   public filterChanged(filter: TableFilterDef) {
-    console.log('table-data-source - filterChanged');
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
@@ -285,7 +253,6 @@ public toggleRowSelection(row) {
   }
 
   public resetFilters() {
-    console.log('table-data-source - resetFilters');
     if (this.tableFiltersDef) {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
@@ -305,21 +272,17 @@ public toggleRowSelection(row) {
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    console.log('table-data-source - actionTriggered');
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
-    console.log('table-data-source - rowActionTriggered');
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    console.log('table-data-source - getDataChangeSubject');
     // Return
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
   public buildFilterValues(withSearch: boolean = true) {
-    console.log('table-data-source - getFilterValues');
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {
@@ -367,31 +330,25 @@ public toggleRowSelection(row) {
   }
 
   public getRowDetails(row: T): Observable<String> {
-    console.log('table-data-source - getRowDetails');
     return of('getRowDetails() not implemented in your data source!');
   }
 
   public setStaticFilters(staticFilters) {
-    console.log('table-data-source - setStaticFilters');
     // Keep it
     this.staticFilters = staticFilters;
   }
 
   public getStaticFilters() {
-    console.log('table-data-source - getStaticFilters');
     // Keep it
     return this.staticFilters;
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
-    console.log('table-data-source - onRowActionMenuOpen');
-    // Should be implemented in implementation
   }
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
   public getTableColumnDefs(): TableColumnDef[] {
-    console.log('table-data-source - getTableColumnDefs');
     if (!this.tableColumnDefs) {
       this.tableColumnDefs = this.buildTableColumnDefs();
     }
@@ -399,7 +356,6 @@ public toggleRowSelection(row) {
   }
 
   public refreshOrLoadData(): Observable<any> {
-    console.log('table-data-source - refreshOrLoadData');
     return new Observable((observer) => {
       // Load data source
       this.loadData().subscribe((data) => {
@@ -417,7 +373,6 @@ public toggleRowSelection(row) {
   abstract loadData(): Observable<any>;
 
   private setData(data: T[]) {
-    console.log('table-data-source - setData');
     // Format the data
     this._enrichData(data);
     // Check Paging
@@ -430,14 +385,12 @@ public toggleRowSelection(row) {
   }
 
   public getData(): any[] {
-    console.log('table-data-source - getData');
     return this.data;
   }
 
   _enrichData(freshData: any[]) {
     const isRowSelectionEnabled = this.isRowSelectionEnabled();
     const expandedRowIDs = this.data.filter((row) => row.isExpanded).map((row) => row.id);
-    console.log('table-data-source - formatData - ' + (freshData ? freshData.length : 'null'));
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
       // Check for complex property
@@ -499,11 +452,7 @@ public toggleRowSelection(row) {
     }
   }
 
-  /**
-   * Used to retrieve individual line actions instead of general action table
-   */
   buildTableDynamicRowActions(row: T): TableActionDef[] {
-    console.log('table-data-source - buildTableDynamicRowActions');
     return [];
   }
 
@@ -512,7 +461,6 @@ public toggleRowSelection(row) {
   }
 
   protected initDataSource(): any {
-    console.log('table-data-source - initDataSource');
     // Init data from sub-classes
     this.getTableColumnDefs();
     this.getTableDef();
@@ -533,7 +481,6 @@ public toggleRowSelection(row) {
   }
 
   isSelectable(row: T) {
-    console.log('table-data-source - isSelectable');
     return true;
   }
 }

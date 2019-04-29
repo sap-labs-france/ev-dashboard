@@ -53,7 +53,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   public loadData(): Observable<any> {
     return new Observable((observer) => {
-      console.log('loadData ' + this.charger);
       // Return connector
       if (this.charger) {
         // Check authorizations

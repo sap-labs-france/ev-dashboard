@@ -30,13 +30,13 @@ export class AppFormatOcpiStatusPipe implements PipeTransform {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       switch (status) {
-        case Constants.OCPIENDPOINT_STATUS_NEW:
+        case Constants.OCPI_ENDPOINT_STATUS_NEW:
           classNames += Constants.CHIP_TYPE_INFO;
           break;
-        case Constants.OCPIENDPOINT_STATUS_REGISTERED:
+        case Constants.OCPI_ENDPOINT_STATUS_REGISTERED:
           classNames += Constants.CHIP_TYPE_SUCCESS;
           break;
-        case Constants.OCPIENDPOINT_STATUS_UNREGISTERED:
+        case Constants.OCPI_ENDPOINT_STATUS_UNREGISTERED:
           classNames += Constants.CHIP_TYPE_WARNING;
           break;
         default:

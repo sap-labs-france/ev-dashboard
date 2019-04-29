@@ -24,7 +24,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { OcpiEndpointStatusComponent } from './formatters/ocpi-status.component';
 import { OcpiPatchJobResultComponent } from './formatters/ocpi-patch-job-result.component';
 import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.component';
-import { OcpiendpointDetailComponent} from './ocpi-details/ocpi-detail-component.component';
+import { OcpiEndpointDetailComponent} from './ocpi-details/ocpi-detail-component.component';
 
 
 @Injectable()
@@ -83,7 +83,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       },
       rowDetails: {
         enabled: true,
-        angularComponent: OcpiendpointDetailComponent
+        angularComponent: OcpiEndpointDetailComponent
       }
     };
   }

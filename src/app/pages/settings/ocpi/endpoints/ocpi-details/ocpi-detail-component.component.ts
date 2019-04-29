@@ -9,7 +9,7 @@ import {OcpiendpointDetailDataSource} from './ocpi-detail-data-source-table';
   ]
 })
 
-export class OcpiendpointDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
+export class OcpiEndpointDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
   @Input() row: any;
 
   constructor(public ocpiEndpointDetailDataSource: OcpiendpointDetailDataSource) {

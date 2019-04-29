@@ -19,7 +19,7 @@ import {
   Log,
   Logo,
   LogResult,
-  OcpiendpointResult,
+  OcpiEndpointResult,
   Ordering,
   Paging,
   SettingResult,
@@ -570,7 +570,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiEndpointResult> {
     // Verify init
     this._checkInit();
     // Build Paging

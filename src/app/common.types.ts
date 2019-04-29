@@ -309,7 +309,7 @@ export interface OcpiEndpointDetail {
   totalNbr: number;
 }
 
-export interface OcpiendpointResult {
+export interface OcpiEndpointResult {
   count: number,
   result: OcpiEndpoint[]
 }

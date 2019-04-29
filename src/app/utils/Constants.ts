@@ -172,13 +172,13 @@ export class Constants {
   /* Settings */
 
   /* OCPI status */
-  public static OCPIENDPOINT_STATUS_NEW = 'new';
-  public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
-  public static OCPIENDPOINT_STATUS_UNREGISTERED = 'unregistered';
+  public static OCPI_ENDPOINT_STATUS_NEW = 'new';
+  public static OCPI_ENDPOINT_STATUS_REGISTERED = 'registered';
+  public static OCPI_ENDPOINT_STATUS_UNREGISTERED = 'unregistered';
 
   /* OCPI Patch Job status */
-  public static OCPIENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
-  public static OCPIENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
+  public static OCPI_ENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
+  public static OCPI_ENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
 
   /* RegEx validation rule */
   public static REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;

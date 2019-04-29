@@ -80,15 +80,17 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loadData();
       });
     }
-    // Check Auto-Refresh
-    for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-      if (tableActionRightDef.id === 'auto-refresh') {
-        // Active by default?
-        if (tableActionRightDef.currentValue) {
-          // Create
-          this.createAutoRefreshTimer();
+    if (this.dataSource.tableActionsRightDef) {
+      // Check Auto-Refresh
+      for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
+        if (tableActionRightDef.id === 'auto-refresh') {
+          // Active by default?
+          if (tableActionRightDef.currentValue) {
+            // Create
+            this.createAutoRefreshTimer();
+          }
+          break;
         }
-        break;
       }
     }
     // Load the data

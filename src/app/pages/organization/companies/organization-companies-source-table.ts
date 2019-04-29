@@ -21,7 +21,7 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
-import { CompanyDialogComponent } from './company/company.dialog.component';
+import { CompanyDialogComponent } from '../../../shared/dialogs/companies/company.dialog.component';
 
 @Injectable()
 export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
@@ -40,7 +40,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     // Init
     this.initDataSource();
     this.setStaticFilters([{'WithLogo': true}]);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

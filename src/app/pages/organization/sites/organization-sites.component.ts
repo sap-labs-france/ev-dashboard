@@ -3,7 +3,7 @@ import {OrganizationSitesDataSource} from './organization-sites-source-table';
 
 @Component({
   selector: 'app-organization-sites',
-  templateUrl: 'organization-sites.component.html',
+  template: '<app-table [dataSource]="sitesDataSource"></app-table>',
   providers: [
     OrganizationSitesDataSource
   ]

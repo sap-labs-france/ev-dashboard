@@ -29,9 +29,10 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
     super();
+    // Set
+    this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   public loadData(): Observable<any> {

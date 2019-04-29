@@ -3,7 +3,7 @@ import {OrganizationCompaniesDataSource} from './organization-companies-source-t
 
 @Component({
   selector: 'app-organization-companies',
-  templateUrl: 'organization-companies.component.html',
+  template: '<app-table [dataSource]="companiesDataSource"></app-table>',
   providers: [
     OrganizationCompaniesDataSource
   ]

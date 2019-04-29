@@ -21,7 +21,7 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import { SiteDialogComponent } from './site/site.dialog.component';
+import { SiteDialogComponent } from '../../../shared/dialogs/sites/site.dialog.component';
 import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
 
@@ -42,7 +42,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     // Init
     this.initDataSource();
     this.setStaticFilters([{ 'WithCompany': true }]);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

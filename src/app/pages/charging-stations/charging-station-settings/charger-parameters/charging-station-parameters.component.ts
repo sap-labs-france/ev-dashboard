@@ -15,7 +15,7 @@ import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-c
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
-import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/sites/site-areas-filter-dialog.component';
+import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-filter-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [

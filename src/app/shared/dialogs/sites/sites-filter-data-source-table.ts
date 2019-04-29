@@ -54,7 +54,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('sites.name'),
+        name: 'sites.name',
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
@@ -62,12 +62,12 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
       },
       {
         id: 'address.city',
-        name: this.translateService.instant('general.city'),
+        name: 'general.city',
         class: 'text-left col-350px'
       },
       {
         id: 'address.country',
-        name: this.translateService.instant('general.country'),
+        name: 'general.country',
         class: 'text-left col-300px'
       }
     ];

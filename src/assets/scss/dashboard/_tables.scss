@@ -25,7 +25,6 @@ $outer-spinner: $brand-warn !default;
 
   :last-child {
     margin-right: 0px !important;
-    // padding-right: 0 !important;
   } 
 
   &.filter-row-with-action {
@@ -362,8 +361,21 @@ tr.element-row:not(.expanded-row):active {
   }
 
   > thead > tr:first-child > th {
+    padding-left: 15px;
     border-top: none;
     cursor: default;
+  }
+
+  > thead > tr:last-child > th {
+    padding-right: 15px;
+  }
+
+  > tbody tr td:first-child {
+    padding-left: 15px !important;
+  }
+
+  > tbody tr td:first-child {
+    padding-right: 15px !important;
   }
 
   .tab-pane & {

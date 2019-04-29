@@ -26,7 +26,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
 
   public sendEvseStatusesAction = new TableSendAction();
 
-  private ocpiendpoint: OcpiEndpoint;
+  private ocpiEndpoint: OcpiEndpoint;
 
   constructor(
       private centralServerService: CentralServerService,
@@ -43,33 +43,28 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
 
   public loadData(): Observable<any> {
     return new Observable((observer) => {
-      // Set number of records
-      this.setTotalNumberOfRecords(this.getData().length);
       // Return connector
-      if (this.ocpiendpoint) {
-        setTimeout(() => {
-          const ocpiendpointDetail = <OcpiEndpointDetail> {
-            id: this.ocpiendpoint.id,
-            ocpiendpoint: this.ocpiendpoint,
-            successNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.successNbr : 0,
-            failureNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.failureNbr : 0,
-            totalNbr: this.ocpiendpoint.lastPatchJobResult ? this.ocpiendpoint.lastPatchJobResult.totalNbr : 0,
-            lastPatchJobOn: this.ocpiendpoint.lastPatchJobOn ? this.ocpiendpoint.lastPatchJobOn : null
-          }
-          // Ok
-          observer.next(ocpiendpointDetail);
-          observer.complete();
-        }, 1);
+      let ocpiEndpointDetail;
+      if (this.ocpiEndpoint) {
+        // Set
+        ocpiEndpointDetail = <OcpiEndpointDetail> {
+          id: this.ocpiEndpoint.id,
+          ocpiendpoint: this.ocpiEndpoint,
+          successNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.successNbr : 0,
+          failureNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.failureNbr : 0,
+          totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
+          lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null
+        }
+        // Ok
+        this.setTotalNumberOfRecords(1);
+        observer.next([ocpiEndpointDetail]);
+        observer.complete();
       }
     });
   }
 
   public setEndpoint(ocpiendpoint: OcpiEndpoint) {
-    this.ocpiendpoint = ocpiendpoint;
-  }
-
-  setDetailedDataSource(row, autoRefresh = false) {
-    this.refreshOrLoadData().subscribe();
+    this.ocpiEndpoint = ocpiendpoint;
   }
 
   public buildTableDef(): TableDef {
@@ -148,10 +143,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     ];
   }
 
-  public buildTableActionsDef(): TableActionDef[] {
-    return [];
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
@@ -171,17 +162,12 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         _actionRowButtons.push(new TableStartAction().getActionDef());
       }
     }
-
     // return
     return _actionRowButtons;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    // Action
-    switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
-    }
+    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
@@ -250,5 +236,4 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         'ocpiendpoints.update_error');
     });
   }
-
 }

@@ -1,33 +1,30 @@
-import {Component} from '@angular/core';
-import {TableDef} from 'app/common.types';
-import {CellContentComponentContainer} from 'app/shared/table/cell-content-template/cell-content-container.component';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
 import {OcpiendpointDetailDataSource} from './ocpi-detail-data-source-table';
 
 @Component({
-  // template: '<app-table class="endpoint-details" [dataSource]="ocpiendpointDetailDataSource"></app-table>',
-  template: ``,
+  template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>',
   providers: [
     OcpiendpointDetailDataSource
   ]
 })
 
-export class OcpiendpointDetailComponent extends CellContentComponentContainer {
+export class OcpiendpointDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
+  @Input() row: any;
 
-  // constructor(public ocpiendpointDetailDataSource: OcpiendpointDetailDataSource) {
-  //   super();
-  // }
+  constructor(public ocpiEndpointDetailDataSource: OcpiendpointDetailDataSource) {
+    super();
+  }
 
-  // setData(row: any, tabledef: TableDef) {
-  //   this.ocpiendpointDetailDataSource.setEndpoint(row);
-  //   this.ocpiendpointDetailDataSource.setDetailedDataSource(row);
-  // }
+  ngOnInit(): void {
+    // Set
+    this.ocpiEndpointDetailDataSource.setEndpoint(this.row);
+  }
 
-  // refresh(row: any, autoRefresh: boolean) {
-  //   this.ocpiendpointDetailDataSource.setEndpoint(row);
-  //   this.ocpiendpointDetailDataSource.setDetailedDataSource(row, autoRefresh);
-  // }
-
-  // destroy() {
-  //   // this.ocpiendpointDetailDataSource.destroy();
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    // Set
+    this.ocpiEndpointDetailDataSource.setEndpoint(this.row);
+    // Reload data
+    this.ocpiEndpointDetailDataSource.refreshOrLoadData().subscribe();
+  }
 }

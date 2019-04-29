@@ -1,7 +1,6 @@
 import { Component, ViewChild, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
 import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
-import { Connector } from 'app/common.types';
 
 @Component({
   template:

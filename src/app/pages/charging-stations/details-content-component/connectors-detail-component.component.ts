@@ -25,7 +25,7 @@ export class ConnectorsDetailComponent extends CellContentTemplateComponent impl
   ngOnChanges(changes: SimpleChanges): void {
     // Set the charger
     this.connectorsDataSource.setCharger(this.row);
-    // Load data
+    // Reload data
     this.connectorsDataSource.refreshOrLoadData().subscribe();
   }
 }

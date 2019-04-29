@@ -12,11 +12,11 @@ import {Charger, KeyValue} from '../../../common.types';
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   constructor(
-    protected dialogRef: MatDialogRef<ChargersDialogComponent>,
     private chargersDataSource: ChargersDataSource,
+    dialogRef: MatDialogRef<ChargersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data, chargersDataSource);
+    super(data, dialogRef, chargersDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'chargers.select_chargers';

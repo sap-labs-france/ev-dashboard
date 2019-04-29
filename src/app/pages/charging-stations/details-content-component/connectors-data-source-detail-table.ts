@@ -24,6 +24,8 @@ import {ConsumptionChartDetailComponent} from '../../../shared/component/transac
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -148,25 +150,62 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        formatter: (errorCode) => {
-          return new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-        },
-        sortable: false
-      },
-      {
-        id: 'info',
-        name: 'chargers.connector_info_title',
-        sortable: false
-      },
-      {
-        id: 'vendorErrorCode',
-        name: 'chargers.connector_vendor_error_code_title',
+        formatter: (errorCode, row) => this.formatError(errorCode, row.info, row.vendorErrorCode),
         sortable: false
       }
     ];
   }
 
-  buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
+  public formatError(errorCode, info, vendorErrorCode){
+    const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
+    const _info = info != '' ? ` > ${info}` : '';
+    const _vendorErrorCode = vendorErrorCode != '' ? ` (${vendorErrorCode})`: '';
+    return `${_errorCode}${_info}${_vendorErrorCode}`;
+  }
+
+  public getTableActionsDef(): TableActionDef[] {
+    return super.getTableActionsDef();
+  }
+
+  public getTableActionsRightDef(): TableActionDef[] {
+    return [
+      new TableAutoRefreshAction(false).getActionDef(),
+      new TableRefreshAction().getActionDef()
+    ];
+  }
+
+  public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
+    if (connector && !this.charger.inactive) {
+      // Check active transaction and authorization to stop
+      if (connector && connector.activeTransactionID &&
+        this.connectorTransactionAuthorization &&
+        this.connectorTransactionAuthorization[connector.connectorId - 1].IsAuthorized) {
+        if (this.connectorTransactionAuthorization &&
+          this.connectorTransactionAuthorization[connector.connectorId - 1].IsAuthorized &&
+          (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
+          return [
+            new TableOpenAction().getActionDef(),
+            this.stopAction.getActionDef()
+          ];
+        } else {
+          return [
+            this.stopAction.getActionDef()
+          ];
+        }
+      } else {
+        return [
+          this.noAction.getActionDef()
+        ];
+      }
+    }
+    // By default no actions
+    return [
+      this.startAction.getActionDef()
+      //      this.noAction.getActionDef()
+    ];
+  }
+
+  specificRowActions(connector: Connector): TableActionDef[] {
     const actionAuthorize = [];
     if (connector && connector.activeTransactionID) {
       if (connector.isTransactionDisplayAuthorized) {

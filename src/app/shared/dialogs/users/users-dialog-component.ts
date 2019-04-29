@@ -15,7 +15,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     private usersDataSource: UsersDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
-    super(data, usersDataSource);
+    super(data, dialogRef, usersDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'users.select_users'

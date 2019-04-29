@@ -1,9 +1,7 @@
+
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Constants } from '../../../utils/Constants';
 import { Image, Transaction } from '../../../common.types';
 import { LocaleService } from '../../../services/locale.service';
@@ -23,6 +21,7 @@ export class SessionDialogComponent implements OnInit {
   public totalInactivitySecs: number;
   public totalDurationSecs: number;
   private locale: string;
+  private percentOfInactivity: string;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
@@ -69,6 +68,8 @@ export class SessionDialogComponent implements OnInit {
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
         this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }
+      this.percentOfInactivity = 
+        ` (${this.percentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
       if (transaction.hasOwnProperty('stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';

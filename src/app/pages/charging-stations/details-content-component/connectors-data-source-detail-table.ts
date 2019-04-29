@@ -201,7 +201,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     // By default no actions
     return [
       this.startAction.getActionDef()
-      //      this.noAction.getActionDef()
     ];
   }
 

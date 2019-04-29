@@ -6,6 +6,7 @@ import { Constants } from '../../../utils/Constants';
 import { Image, Transaction } from '../../../common.types';
 import { LocaleService } from '../../../services/locale.service';
 import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
+import { PercentPipe } from '@angular/common';
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -26,6 +27,7 @@ export class SessionDialogComponent implements OnInit {
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
   constructor(
+    private percentPipe: PercentPipe,
     private centralServerService: CentralServerService,
     private localeService: LocaleService,
     protected dialogRef: MatDialogRef<SessionDialogComponent>,

@@ -9,7 +9,6 @@ import { CentralServerNotificationService } from 'app/services/central-server-no
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -29,10 +28,7 @@ import { OcpiEndpointDetailComponent} from './ocpi-details/ocpi-detail-component
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
-  private readonly tableActionsRow: TableActionDef[];
-
   constructor(
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -43,11 +39,6 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     super();
     // Init
     this.initDataSource();
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableRegisterAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -89,7 +80,6 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'name',
@@ -167,7 +157,11 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [
+      new TableEditAction().getActionDef(),
+      new TableRegisterAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -175,7 +169,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showOcpiendpointDialog();
+        this.showOcpiendpointDialog();
         break;
     }
     super.actionTriggered(actionDef);
@@ -184,7 +178,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showOcpiendpointDialog(rowItem);
+        this.showOcpiendpointDialog(rowItem);
         break;
       case 'delete':
         this.deleteOcpiendpoint(rowItem);
@@ -204,11 +198,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     ];
   }
 
-  public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
-  }
-
-  private _showOcpiendpointDialog(endpoint?: any) {
+  private showOcpiendpointDialog(endpoint?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -266,5 +256,4 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       }
     });
   }
-
 }

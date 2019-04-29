@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import * as moment from 'moment-timezone';
 
-import {AuthorizationService} from 'app/services/authorization-service';
 import {CentralServerService} from 'app/services/central-server.service';
 import {MessageService} from 'app/services/message.service';
 import {Constants} from 'app/utils/Constants';
@@ -33,8 +31,6 @@ export class SettingsSacComponent implements OnInit {
   private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
@@ -43,7 +39,6 @@ export class SettingsSacComponent implements OnInit {
     public sacLinksDataSource: SacLinksDataSource
   ) {
     this.isSacActive = componentService.isActive(ComponentEnum.SAC);
-
     // initialize timezone list from moment-timezone
     this.timezoneList = moment.tz.names();
   }
@@ -67,26 +62,23 @@ export class SettingsSacComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getSettings(ComponentEnum.SAC).subscribe((sacConfiguration) => {
+      // Hide spinner
       this.spinnerService.hide();
-
       // get SAC configuration
       let sacContent = { mainUrl: '', timezone: '', links: []};
       if (sacConfiguration && sacConfiguration.count > 0 && sacConfiguration.result[0].content) {
         // define setting ID
         this.currentSettingID = sacConfiguration.result[0].id;
-
         // build default void object
         sacContent = sacConfiguration.result[0].content;
       }
-
       // get SAC Main Url
       if (sacContent.mainUrl) {
         this.mainUrl.setValue(sacContent.mainUrl);
       }
-
       // set SAC Links Data Source
-      this.sacLinksDataSource.initSacLinks(sacContent.links, this.formGroup);
-      this.sacLinksDataSource.loadData();
+      this.sacLinksDataSource.setSacLinks(sacContent.links, this.formGroup);
+      this.sacLinksDataSource.refreshOrLoadData().subscribe();
 
       this.formGroup.markAsPristine();
 

@@ -8,7 +8,6 @@ import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, 
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { FormGroup } from '@angular/forms';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { LocaleService } from 'app/services/locale.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Constants } from 'app/utils/Constants';
 
@@ -21,12 +20,10 @@ import { SacLinkDialogComponent } from './sac-link.dialog.component';
 
 @Injectable()
 export class SacLinksDataSource extends TableDataSource<SacLink> {
-  private readonly tableActionsRow: TableActionDef[];
   private sacLinks: SacLink[];
   private formGroup: FormGroup;
 
   constructor(
-      private localeService: LocaleService,
       private translateService: TranslateService,
       private dialogService: DialogService,
       private dialog: MatDialog,
@@ -34,18 +31,13 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     super();
     // Init
     this.initDataSource();
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableViewAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectSacLinks();
   }
 
-  public initSacLinks(sacLinks: SacLink[], formGroup: FormGroup) {
+  public setSacLinks(sacLinks: SacLink[], formGroup: FormGroup) {
     this.sacLinks = sacLinks ? sacLinks : [];
     this.formGroup = formGroup;
   }
@@ -56,25 +48,22 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
 
   public loadData(): Observable<any> {
     return new Observable((observer) => {
-      setTimeout(() => {
-        // Set number of records
-        this.setTotalNumberOfRecords(this.getData().length);
-          // setTimeout(() => {
-          if (this.sacLinks) {
-            this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
-            const links = [];
-            for (let index = 0; index < this.sacLinks.length; index++) {
-              const _link = this.sacLinks[index];
-              _link.id = index;
-              links.push(_link);
-            }
-            // Update nbr records
-            this.setTotalNumberOfRecords(links.length);
-            // Ok
-            observer.next(links);
-            observer.complete();
-          }
-      }, 1);
+    // Set number of records
+    this.setTotalNumberOfRecords(this.getData().length);
+      // Check
+      if (this.sacLinks) {
+        this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
+        const links = [];
+        for (let index = 0; index < this.sacLinks.length; index++) {
+          const _link = this.sacLinks[index];
+          _link.id = index;
+          links.push(_link);
+        }
+        // Update nbr records
+        this.setTotalNumberOfRecords(links.length);
+        observer.next(links);
+        observer.complete();
+      }
     });
   }
 
@@ -90,11 +79,11 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       footer: {
         enabled: false
       },
+      rowFieldNameIdentifier: 'url'
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'name',
@@ -126,12 +115,15 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     // const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef()
-      // ...tableActionsDef
     ];
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+    return [
+      new TableEditAction().getActionDef(),
+      new TableViewAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -139,7 +131,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showSacLinksDialog();
+        this.showSacLinksDialog();
         break;
     }
     super.actionTriggered(actionDef);
@@ -148,13 +140,13 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showSacLinksDialog(rowItem);
+        this.showSacLinksDialog(rowItem);
         break;
       case 'delete':
-        this._deleteSacLink(rowItem);
+        this.deleteSacLink(rowItem);
         break;
       case 'view':
-        this._viewSacLink(rowItem);
+        this.viewSacLink(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -171,7 +163,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return [];
   }
 
-  private _showSacLinksDialog(sacLink?: any) {
+  private showSacLinksDialog(sacLink?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -198,7 +190,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     });
   }
 
-  private _deleteSacLink(sacLink) {
+  private deleteSacLink(sacLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sac.delete_title'),
       this.translateService.instant('sac.delete_confirm', { 'linkName': sacLink.name })
@@ -211,7 +203,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     });
   }
 
-  private _viewSacLink(sacLink) {
+  private viewSacLink(sacLink) {
     window.open(sacLink.url);
   }
 }

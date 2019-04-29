@@ -22,7 +22,7 @@ export class CompaniesFilterDialogComponent extends DialogTableDataComponent<Com
     private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data);
+    super(data, dialogRef);
     // Default title
     if (this.title === '') {
       this.title = 'companies.select_companies';

@@ -83,7 +83,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   setDetailedDataSource(row, autoRefresh = false) {
-    this.loadAndPrepareData(false).subscribe();
+    this.refreshOrLoadData(false).subscribe();
   }
 
   public buildTableDef(): TableDef {
@@ -235,13 +235,13 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
               this.messageService, 'ocpiendpoints.error_send_evse_statuses');
           }
           // reload data
-          this.loadAndPrepareData(false).subscribe();
+          this.refreshOrLoadData(false).subscribe();
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.error_send_evse_statuses');
           // reload data
-          this.loadAndPrepareData(false).subscribe();
+          this.refreshOrLoadData(false).subscribe();
         });
       }
     });
@@ -263,7 +263,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
       }
-      this.loadAndPrepareData(false).subscribe();
+      this.refreshOrLoadData(false).subscribe();
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,

@@ -401,8 +401,8 @@ public toggleRowSelection(row) {
     return this.tableColumnDefs;
   }
 
-  public loadAndPrepareData(refreshAction: boolean = false): Observable<any> {
-    console.log('table-data-source - loadAndPrepareData');
+  public refreshOrLoadData(refreshAction: boolean = false): Observable<any> {
+    console.log('table-data-source - refreshOrLoadData');
     return new Observable((observer) => {
       // Load data source
       this.loadData(refreshAction).subscribe((data) => {

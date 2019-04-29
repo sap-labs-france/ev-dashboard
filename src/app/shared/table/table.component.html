@@ -263,7 +263,7 @@
       {{'general.no_record_found' | translate}}
     </div>
     <!-- Bottom list -->
-    <div class="bottom-table">
+    <div class="bottom-table" *ngIf="!dataSource.tableDef.isSimpleTable">
       {{'general.nbr_of_records' | translate}}:
       <!-- Too many records? -->
       <span *ngIf="dataSource.totalNumberOfRecords === maxRecords" class="query-nbr-of-records">

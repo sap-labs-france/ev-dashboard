@@ -222,7 +222,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
   }
 
   private _showChargersDialog(charger?: Charger) {
@@ -249,7 +249,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
-            this.loadAndPrepareData(false).subscribe();
+            this.refreshOrLoadData(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'site_areas.delete_error');

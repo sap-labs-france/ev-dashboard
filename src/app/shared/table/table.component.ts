@@ -264,7 +264,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.loadAndPrepareData(true).subscribe(() => {
+    this.dataSource.refreshOrLoadData(true).subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
@@ -320,7 +320,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public loadData(refreshAction = false) {
     console.log('table.component - loadData');
     // Load data source
-    this.dataSource.loadAndPrepareData(refreshAction).subscribe((data) => {
+    this.dataSource.refreshOrLoadData(refreshAction).subscribe((data) => {
       if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
         // Request nbr of records
         setTimeout(() => {

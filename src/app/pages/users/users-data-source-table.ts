@@ -244,7 +244,7 @@ export class UsersDataSource extends TableDataSource<User> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
   }
 
   private _showSitesDialog(user?: User) {
@@ -266,7 +266,7 @@ export class UsersDataSource extends TableDataSource<User> {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteUser(user.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.loadAndPrepareData(false).subscribe();
+            this.refreshOrLoadData(false).subscribe();
             this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),

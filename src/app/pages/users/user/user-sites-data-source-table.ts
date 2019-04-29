@@ -163,7 +163,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
         // Refresh
-        this.loadAndPrepareData(false).subscribe();
+        this.refreshOrLoadData(false).subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -188,7 +188,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
           // Refresh
-          this.loadAndPrepareData(false).subscribe();
+          this.refreshOrLoadData(false).subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

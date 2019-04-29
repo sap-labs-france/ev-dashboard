@@ -386,7 +386,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(success_message);
-              this.loadAndPrepareData(true).subscribe();
+              this.refreshOrLoadData(true).subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, error_message);
@@ -415,7 +415,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(true).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(true).subscribe());
   }
 
   private _deleteChargingStation(chargingStation: Charger) {
@@ -432,7 +432,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.loadAndPrepareData(true).subscribe();
+              this.refreshOrLoadData(true).subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -473,7 +473,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(true).subscribe());
+      dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(true).subscribe());
     }
   }
 

@@ -220,7 +220,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadAndPrepareData(false).subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData(false).subscribe());
   }
 
   private _showUsersDialog(site?: Site) {
@@ -247,7 +247,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
           this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
-            this.loadAndPrepareData(false).subscribe();
+            this.refreshOrLoadData(false).subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'sites.delete_error');

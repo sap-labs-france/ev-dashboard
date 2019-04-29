@@ -87,6 +87,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           //     hasSomeDetails = true;
           //   }
           // });
+          this.setTotalNumberOfRecords(this.charger.connectors.length);
           observer.next(this.charger.connectors);
           observer.complete();
         }, (error) => {
@@ -180,17 +181,17 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  buildTableDynamicRowActions(rowItem: Connector): TableActionDef[] {
+  buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
     const actionAuthorize = [];
-    if (rowItem && rowItem.activeTransactionID) {
-      if (rowItem.isTransactionDisplayAuthorized) {
+    if (connector && connector.activeTransactionID) {
+      if (connector.isTransactionDisplayAuthorized) {
         actionAuthorize.push(new TableOpenAction().getActionDef());
       }
-      if (rowItem.isStopAuthorized) {
+      if (connector.isStopAuthorized) {
         actionAuthorize.push(this.stopAction.getActionDef());
       }
     } else {
-      if (rowItem.isStartAuthorized) {
+      if (connector.isStartAuthorized) {
         actionAuthorize.push(this.startAction.getActionDef());
       }
     }
@@ -206,24 +207,21 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
-    switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
-    }
+    super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Connector) {
+  public rowActionTriggered(actionDef: TableActionDef, connector: Connector) {
     switch (actionDef.id) {
       case 'start':
-        if (rowItem.status === 'Available' && !this.charger.inactive && rowItem.isStartAuthorized) {
+        if (connector.status === Constants.CONN_STATUS_AVAILABLE && !this.charger.inactive && connector.isStartAuthorized) {
           if (this.authorizationService.isAdmin()) {
             // Admin can start transaction for themself or any other user
-            this._startTransactionAsAdmin(rowItem)
+            this.startTransactionAsAdmin(connector)
           } else {
-            this._startTransactionFor(rowItem, this.centralServerService.getLoggedUser());
+            this.startTransaction(connector, this.centralServerService.getLoggedUser());
           }
         } else {
-          if (rowItem.status !== 'Available') {
+          if (connector.status !== Constants.CONN_STATUS_AVAILABLE) {
             this.dialogService.createAndShowOkDialog(
               this.translateService.instant('chargers.action_error.transaction_start_title'),
               this.translateService.instant('chargers.action_error.transaction_start_not_available'));
@@ -235,11 +233,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         }
         break;
       case 'open':
-        if (rowItem && rowItem.activeTransactionID && rowItem.isTransactionDisplayAuthorized) {
-          // (this.connectorTransactionAuthorization &&
-          // this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized)
-          // || this.authorizationService.isDemo() || this.authorizationService.isAdmin()) {
-          this._openSession(rowItem);
+        if (connector && connector.activeTransactionID && connector.isTransactionDisplayAuthorized) {
+          this.openSession(connector);
         } else {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
@@ -248,17 +243,14 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         break;
       case 'stop':
         // check authorization
-        if (rowItem && rowItem.activeTransactionID && rowItem.isStopAuthorized) {
-          // this.connectorTransactionAuthorization &&
-          // this.connectorTransactionAuthorization[rowItem.connectorId - 1].IsAuthorized) {
+        if (connector && connector.activeTransactionID && connector.isStopAuthorized) {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('chargers.stop_transaction_title'),
             this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
               this.centralServerService.stationStopTransaction(
-                // tslint:disable-next-line:no-shadowed-variable
-                this.charger.id, rowItem.activeTransactionID).subscribe((response: ActionResponse) => {
+                this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
                 this.messageService.showSuccessMessage(
                   this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
               }, (error) => {
@@ -279,7 +271,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     }
   }
 
-  public _startTransactionFor(connector: Connector, user: User): boolean {
+  public startTransaction(connector: Connector, user: User): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id, 'userName': user.name})
@@ -287,11 +279,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
         this.centralServerService.stationStartTransaction(
-          // tslint:disable-next-line:no-shadowed-variable
-          this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response: ActionResponse) => {
+            this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
+          // Ok
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
-          this.loadAndPrepareData(false).subscribe();
+          // Reload
+          this.refreshOrLoadData(false).subscribe();
           return true;
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
@@ -303,7 +296,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     return false;
   }
 
-  private _startTransactionAsAdmin(connector: Connector): boolean {
+  private startTransactionAsAdmin(connector: Connector): boolean {
     // Create dialog data
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = '';
@@ -318,7 +311,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     dialogRef.afterClosed().subscribe((buttonId) => {
       switch (buttonId) {
         case BUTTON_FOR_MYSELF:
-          return this._startTransactionFor(connector, this.centralServerService.getLoggedUser());
+          return this.startTransaction(connector, this.centralServerService.getLoggedUser());
         case BUTTON_SELECT_USER:
           // Show select user dialog
           dialogConfig.data = {
@@ -329,7 +322,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           // Add sites
           dialogRef2.afterClosed().subscribe(data => {
             if (data && data.length > 0) {
-              return this._startTransactionFor(connector, data[0].objectRef)
+              return this.startTransaction(connector, data[0].objectRef)
             }
           });
           break;
@@ -341,7 +334,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   }
 
-  private _openSession(connector: Connector) {
+  private openSession(connector: Connector) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -356,6 +349,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadAndPrepareData(false).subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData(false).subscribe());
   }
 }

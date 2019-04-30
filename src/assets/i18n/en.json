@@ -131,6 +131,7 @@
       "delete": "Delete",
       "edit": "Edit",
       "edit_chargers": "Edit charging station",
+      "display_chargers": "Display charging stations",
       "assign_site": "Assign to Site",
       "edit_users": "Edit user",
       "no_action": "No possible actions",

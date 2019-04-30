@@ -1166,8 +1166,8 @@
         "error": "An error occurred during session deletion"
       },
       "soft_stop": {
-        "success": "Session of {{user}} stopped successfully",
-        "error": "An error occurred during session stop"
+        "success": "Session of {{user}} stopped successfully.",
+        "error": "An error occurred during session stop."
       },
       "refund": {
         "success": "{{inSuccess}} refund requested successfully",

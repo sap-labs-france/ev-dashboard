@@ -314,7 +314,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: Connector) {
     switch (actionDef.id) {
       case 'start':
-        if (rowItem.status === 'Available' && !this.charger.inactive && rowItem.isStartAuthorized) {
+        if ((rowItem.status === 'Available' || rowItem.status === 'Preparing') && !this.charger.inactive && rowItem.isStartAuthorized) {
           if (this.authorizationService.isAdmin()) {
             // Admin can start transaction for themself or any other user
             this._startTransactionAsAdmin(rowItem)

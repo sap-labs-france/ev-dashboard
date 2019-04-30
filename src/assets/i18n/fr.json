@@ -1165,8 +1165,8 @@
         "error": "Une erreur est survenue pendant la suppression de la session"
       },
       "soft_stop": {
-        "success": "La session de {{user}} est arrétée avec succès",
-        "error": "Une erreur est survenue pendant l'arret de la session"
+        "success": "La session de {{user}} est arrétée avec succès.",
+        "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",

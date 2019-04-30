@@ -32,6 +32,21 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.20',
+        date: new Date('2019-04-29'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Dialog Filters: Overlay appears without showing the pop-up`,
+              `Chargers: Concatenate connector's errors in one column instead of three`,
+              `Site Area: User access control checkbox value is displayed for Basic user`,
+              `Session Details: Added the percentage of inactivity`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.19',
         date: new Date('2019-04-28'),
         componentChanges: [
@@ -56,6 +71,22 @@ export class ReleaseNotesComponent {
   buidlAdminReleaseNotes(): any {
     // Admin Release Notes
     this.releaseNotes = [
+      {
+        version: '2.0.20',
+        date: new Date('2019-04-29'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Dialog Filters: Overlay appears without showing the pop-up`,
+              `Chargers: Concatenate connector's errors in one column instead of three`,
+              `Chargers: Avoid scroll bar in OCPP Parameters`,
+              `Site Area: User access control checkbox value is displayed for Basic user`,
+              `Session Details: Added the percentage of inactivity`
+            ]
+          }
+        ]
+      },
       {
         version: '2.0.19',
         date: new Date('2019-04-28'),

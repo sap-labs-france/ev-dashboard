@@ -32,6 +32,28 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.21',
+        date: new Date('2019-05-01'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Handling of number of phases of DC Chargers`,
+              `Should be able to start a transaction when connector status is 'Preparing'`,
+              `Should be able to see the list of chargers in Site Area`,
+              `Display an error message when transaction fails to start`,
+              `Handle auto stop of transaction when user got locked after starting one`,
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Validate charger's messages with JSon schemas`,
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.20',
         date: new Date('2019-04-29'),
         componentChanges: [
@@ -71,6 +93,28 @@ export class ReleaseNotesComponent {
   buidlAdminReleaseNotes(): any {
     // Admin Release Notes
     this.releaseNotes = [
+      {
+        version: '2.0.21',
+        date: new Date('2019-05-01'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Handling of number of phases of DC Chargers`,
+              `Should be able to start a transaction when connector status is 'Preparing'`,
+              `Should be able to see the list of chargers in Site Area`,
+              `Display an error message when transaction fails to start`,
+              `Handle auto stop of transaction when user got locked after starting one`,
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Validate charger's messages with JSon schemas`,
+            ]
+          }
+        ]
+      },
       {
         version: '2.0.20',
         date: new Date('2019-04-29'),

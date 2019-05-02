@@ -45,7 +45,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     return this.centralServerNotificationService.getSubjectOcpiendpoints();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
@@ -210,7 +210,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private deleteOcpiendpoint(ocpiendpoint) {
@@ -222,7 +222,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         this.centralServerService.deleteOcpiendpoint(ocpiendpoint.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.delete_error');
@@ -244,7 +244,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
         this.centralServerService.registerOcpiendpoint(ocpiendpoint.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.register_error');

@@ -40,7 +40,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
@@ -167,7 +167,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private openTenant(tenant?: any) {

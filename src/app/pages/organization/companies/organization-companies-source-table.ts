@@ -47,7 +47,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     return this.centralServerNotificationService.getSubjectCompany();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
@@ -206,7 +206,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private _deleteCompany(company) {
@@ -218,7 +218,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
         this.centralServerService.deleteCompany(company.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'companies.delete_error');

@@ -16,7 +16,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
     this.initDataSource();
   }
 
- public loadData(): Observable<any> {
+ public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       const filterValues = this.buildFilterValues();
       filterValues['WithSite'] = true;

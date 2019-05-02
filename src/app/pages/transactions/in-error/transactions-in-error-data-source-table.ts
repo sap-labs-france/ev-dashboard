@@ -66,7 +66,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
+  public loadDataImpl() {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
@@ -214,7 +214,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData().subscribe();
+      this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
@@ -247,6 +247,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

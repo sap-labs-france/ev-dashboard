@@ -52,7 +52,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.noAction.getActionDef().disabled = true;
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Return connector
       if (this.charger) {
@@ -309,7 +309,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
           // Reload
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
           return true;
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
@@ -373,6 +373,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     };
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

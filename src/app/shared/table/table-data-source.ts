@@ -353,16 +353,29 @@ export abstract class TableDataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public refreshOrLoadData(): Observable<any> {
+  public refreshData(): Observable<any> {
+    // Init paging
+    const currentPaging = this.getPaging();
+    // Reload all loaded records
+    this.setPaging({
+      skip: 0,
+      limit: currentPaging.limit + currentPaging.skip
+    });
+    // Load data
+    return this.loadData();
+  }
+
+  public loadData(): Observable<any> {
     return new Observable((observer) => {
       // Load data source
-      this.loadData().subscribe((data) => {
+      this.loadDataImpl().subscribe((data) => {
         // Ok
         this.setData(data);
         // Request nbr of records
         setTimeout(() => {
           // Check
           if (this.data.length !== this.totalNumberOfRecords) {
+            // Load records
             console.log('Load Nbr of records');
             this.requestNumberOfRecords();
           }
@@ -376,7 +389,7 @@ export abstract class TableDataSource<T> {
     });
   }
 
-  abstract loadData(): Observable<any>;
+  abstract loadDataImpl(): Observable<any>;
 
   private setData(data: T[]) {
     // Format the data
@@ -421,7 +434,7 @@ export abstract class TableDataSource<T> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadData().subscribe();
+    this.loadDataImpl().subscribe();
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)
     // Reset static filter

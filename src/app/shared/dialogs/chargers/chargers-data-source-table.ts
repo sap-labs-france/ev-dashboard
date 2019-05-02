@@ -18,7 +18,7 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
     this.initDataSource();
   }
 
- public loadData(): Observable<any> {
+ public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),

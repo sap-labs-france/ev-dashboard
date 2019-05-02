@@ -30,7 +30,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
@@ -163,7 +163,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
         // Refresh
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -188,7 +188,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
           // Refresh
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

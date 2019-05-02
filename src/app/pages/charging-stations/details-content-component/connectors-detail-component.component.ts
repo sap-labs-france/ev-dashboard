@@ -26,6 +26,6 @@ export class ConnectorsDetailComponent extends CellContentTemplateComponent impl
     // Set the charger
     this.connectorsDataSource.setCharger(this.row);
     // Reload data
-    this.connectorsDataSource.refreshOrLoadData().subscribe();
+    this.connectorsDataSource.refreshData().subscribe();
   }
 }

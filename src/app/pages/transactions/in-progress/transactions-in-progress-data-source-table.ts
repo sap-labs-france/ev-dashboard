@@ -63,7 +63,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
@@ -237,7 +237,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.messageService.showSuccessMessage(
         this.translateService.instant('transactions.notification.soft_stop.success',
           {user: this.appUserNamePipe.transform(transaction.user)}));
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
       }
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService,
@@ -254,7 +254,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         this.messageService.showSuccessMessage(
         this.translateService.instant('transactions.notification.soft_stop.success',
           {user: this.appUserNamePipe.transform(transaction.user)}));
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
       }
     }, (error) => {
       // tslint:disable-next-line:max-line-length
@@ -285,6 +285,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshOrLoadData().subscribe());
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

@@ -41,7 +41,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     this.initDataSource();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Return connector
       let ocpiEndpointDetail;
@@ -204,12 +204,12 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
               this.messageService, 'ocpiendpoints.error_send_evse_statuses');
           }
           // reload data
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.error_send_evse_statuses');
           // reload data
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
         });
       }
     });
@@ -230,7 +230,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
       }
-      this.refreshOrLoadData().subscribe();
+      this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.update_error');

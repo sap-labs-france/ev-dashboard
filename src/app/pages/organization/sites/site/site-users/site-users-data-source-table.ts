@@ -30,7 +30,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     this.initDataSource();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Site provided?
       if (this._site) {
@@ -140,7 +140,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       case 'reset-filters':
         this.setSearchValue('');
         this.resetFilters();
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
         break;
     }
   }
@@ -176,7 +176,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
         // Refresh
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -201,7 +201,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
           // Refresh
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

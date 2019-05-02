@@ -46,7 +46,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return this.sacLinks;
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
     // Set number of records
     this.setTotalNumberOfRecords(this.getData().length);
@@ -185,7 +185,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           this.sacLinks.push(result);
         }
         this.formGroup.markAsDirty();
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
       }
     });
   }
@@ -198,7 +198,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       if (result === Constants.BUTTON_TYPE_YES) {
         _.remove(this.sacLinks, function (o: SacLink) { return (o.id === sacLink.id) });
         this.formGroup.markAsDirty();
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
       }
     });
   }

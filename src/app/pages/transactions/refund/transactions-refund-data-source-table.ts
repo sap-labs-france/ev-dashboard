@@ -68,7 +68,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
@@ -278,7 +278,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             {inSuccess: response.inSuccess}));
       }
       this.spinnerService.hide();
-      this.refreshOrLoadData().subscribe();
+      this.refreshData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();

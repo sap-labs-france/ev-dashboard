@@ -49,7 +49,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
@@ -209,7 +209,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private _showUsersDialog(site?: Site) {
@@ -234,7 +234,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
         this.centralServerService.deleteSite(site.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'sites.delete_error');

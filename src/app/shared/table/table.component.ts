@@ -206,7 +206,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.refreshOrLoadData().subscribe(() => {
+    this.dataSource.refreshData().subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
@@ -256,7 +256,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Show Spinner
     this.spinnerService.show();
     // Load data source
-    this.dataSource.refreshOrLoadData().subscribe((data) => {
+    this.dataSource.loadData().subscribe((data) => {
       // Hide Spinner
       this.spinnerService.hide();
     }, (error) => {

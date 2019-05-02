@@ -78,7 +78,7 @@ export class SettingsSacComponent implements OnInit {
       }
       // set SAC Links Data Source
       this.sacLinksDataSource.setSacLinks(sacContent.links, this.formGroup);
-      this.sacLinksDataSource.refreshOrLoadData().subscribe();
+      this.sacLinksDataSource.refreshData().subscribe();
 
       this.formGroup.markAsPristine();
 

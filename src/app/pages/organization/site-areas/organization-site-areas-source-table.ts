@@ -50,7 +50,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
@@ -211,7 +211,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private _showChargersDialog(charger?: Charger) {
@@ -236,7 +236,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         this.centralServerService.deleteSiteArea(siteArea.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'site_areas.delete_error');

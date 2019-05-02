@@ -25,6 +25,6 @@ export class OcpiEndpointDetailComponent extends CellContentTemplateComponent im
     // Set
     this.ocpiEndpointDetailDataSource.setEndpoint(this.row);
     // Reload data
-    this.ocpiEndpointDetailDataSource.refreshOrLoadData().subscribe();
+    this.ocpiEndpointDetailDataSource.refreshData().subscribe();
   }
 }

@@ -50,7 +50,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
@@ -212,7 +212,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshOrLoadData().subscribe());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private showSitesDialog(user?: User) {
@@ -234,7 +234,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteUser(user.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.refreshOrLoadData().subscribe();
+            this.refreshData().subscribe();
             this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),

@@ -48,7 +48,7 @@ export class LogsDataSource extends TableDataSource<Log> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),

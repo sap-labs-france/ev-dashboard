@@ -35,7 +35,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     this.initDataSource();
   }
 
-  public loadData(): Observable<any> {
+  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // siteArea provided?
       if (this.siteArea) {
@@ -193,7 +193,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
-        this.refreshOrLoadData().subscribe();
+        this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -218,7 +218,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh
-          this.refreshOrLoadData().subscribe();
+          this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

@@ -6,7 +6,7 @@
     "nbr_of_records": "Nb enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.20",
+    "last_update": "Version 2.0.21",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -134,7 +134,8 @@
       "create": "Créer",
       "delete": "Effacer",
       "edit": "Editer",
-      "edit_chargers": "Editer une borne",
+      "edit_chargers": "Editer les bornes",
+      "display_chargers": "Afficher les bornes",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
       "no_action": "Aucunes actions supplémentaires",
@@ -1168,8 +1169,8 @@
         "error": "Une erreur est survenue pendant la suppression de la session"
       },
       "soft_stop": {
-        "success": "La session de {{user}} est arrétée avec succès",
-        "error": "Une erreur est survenue pendant l'arret de la session"
+        "success": "La session de {{user}} est arrétée avec succès.",
+        "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",

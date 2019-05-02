@@ -5,7 +5,7 @@
     "nbr_of_records": "Nb records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.20",
+    "last_update": "Version 2.0.21",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -134,6 +134,7 @@
       "delete": "Delete",
       "edit": "Edit",
       "edit_chargers": "Edit charging station",
+      "display_chargers": "Display charging stations",
       "assign_site": "Assign to Site",
       "edit_users": "Edit user",
       "no_action": "No possible actions",
@@ -1169,8 +1170,8 @@
         "error": "An error occurred during session deletion"
       },
       "soft_stop": {
-        "success": "Session of {{user}} stopped successfully",
-        "error": "An error occurred during session stop"
+        "success": "Session of {{user}} stopped successfully.",
+        "error": "An error occurred during session stop."
       },
       "refund": {
         "success": "{{inSuccess}} refund requested successfully",

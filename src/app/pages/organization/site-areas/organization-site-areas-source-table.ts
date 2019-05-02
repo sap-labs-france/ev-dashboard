@@ -24,6 +24,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { SiteAreaDialogComponent } from '../../../shared/dialogs/site-areas/site-area.dialog.component';
 import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
@@ -126,10 +127,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
 
   buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-
     // check if GPs are available
     openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude ) ? false : true;
-
     if (this.isAdmin) {
       return [
         new TableEditAction().getActionDef(),
@@ -140,7 +139,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     } else {
       return [
         new TableViewAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
+        new TableDisplayChargersAction().getActionDef(),
         openInMaps
       ];
     }
@@ -165,6 +164,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         this._showSiteAreaDialog(rowItem);
         break;
       case 'edit_chargers':
+      case 'display_chargers':
         this._showChargersDialog(rowItem);
         break;
       case 'delete':

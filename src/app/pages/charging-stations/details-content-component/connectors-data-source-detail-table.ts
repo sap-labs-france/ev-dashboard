@@ -156,10 +156,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public formatError(errorCode, info, vendorErrorCode){
+  public formatError(errorCode, info, vendorErrorCode) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    const _info = info != '' ? ` > ${info}` : '';
-    const _vendorErrorCode = vendorErrorCode != '' ? ` (${vendorErrorCode})`: '';
+    const _info = info !== '' ? ` > ${info}` : '';
+    const _vendorErrorCode = vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
     return `${_errorCode}${_info}${_vendorErrorCode}`;
   }
 
@@ -236,7 +236,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   public rowActionTriggered(actionDef: TableActionDef, connector: Connector) {
     switch (actionDef.id) {
       case 'start':
-        if (connector.status === Constants.CONN_STATUS_AVAILABLE && !this.charger.inactive && connector.isStartAuthorized) {
+        if ((connector.status === Constants.CONN_STATUS_AVAILABLE || connector.status === Constants.CONN_STATUS_PREPARING) &&
+            !this.charger.inactive && connector.isStartAuthorized) {
           if (this.authorizationService.isAdmin()) {
             // Admin can start transaction for themself or any other user
             this.startTransactionAsAdmin(connector)

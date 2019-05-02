@@ -230,25 +230,36 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _stationStopTransaction(transaction: Transaction) {
     this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData().subscribe();
+      if (response.status === 'Rejected') {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      } else {
+        this.messageService.showSuccessMessage(
+        this.translateService.instant('transactions.notification.soft_stop.success',
+          {user: this.appUserNamePipe.transform(transaction.user)}));
+        this.refreshOrLoadData().subscribe();
+      }
     }, (error) => {
-      // tslint:disable-next-line:max-line-length
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
 
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.refreshOrLoadData().subscribe();
+      if (response.status === 'Rejected'){
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      } else {
+        this.messageService.showSuccessMessage(
+        this.translateService.instant('transactions.notification.soft_stop.success',
+          {user: this.appUserNamePipe.transform(transaction.user)}));
+        this.refreshOrLoadData().subscribe();
+      }
     }, (error) => {
       // tslint:disable-next-line:max-line-length
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
 

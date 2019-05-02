@@ -402,7 +402,7 @@ export abstract class TableDataSource<T> {
         }
       }
       // Check dynamic row actions
-      if (this.tableDef.hasDynamicRowAction {
+      if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
         if (dynamicRowActions.length > 0) {
           freshRow['dynamicRowActions'] = dynamicRowActions;

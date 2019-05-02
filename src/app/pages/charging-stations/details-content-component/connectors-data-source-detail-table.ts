@@ -202,10 +202,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  public formatError(errorCode, info, vendorErrorCode){
+  public formatError(errorCode, info, vendorErrorCode) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info != '' ? ` > ${info}` : '';
-    const _vendorErrorCode = vendorErrorCode != '' ? ` (${vendorErrorCode})`: '';
+    const _vendorErrorCode = vendorErrorCode != '' ? ` (${vendorErrorCode})` : '';
     return `${_errorCode}${_info}${_vendorErrorCode}`;
   }
 

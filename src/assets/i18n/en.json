@@ -1110,7 +1110,7 @@
     "hour_short": "h",
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
-    "refundDate": "Refunded At",
+    "refundDate": "Transferred On",
     "filter": {
       "type": {
         "name": "Type",

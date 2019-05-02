@@ -60,6 +60,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       private appDurationPipe: AppDurationPipe,
       private currencyPipe: CurrencyPipe) {
     super();
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
   }
@@ -275,10 +277,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         break;
     }
     super.actionTriggered(actionDef);
-  }
-
-  forAdmin(isAdmin: boolean) {
-    this.isAdmin = isAdmin
   }
 
   protected _deleteTransaction(transaction: Transaction) {

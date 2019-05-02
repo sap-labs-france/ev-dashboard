@@ -32,6 +32,7 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import en from '../../../../assets/i18n/en.json';
 import * as moment from 'moment';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 
 @Injectable()
@@ -47,6 +48,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private router: Router,
       private dialog: MatDialog,
       private componentService: ComponentService,
+      private authorizationService: AuthorizationService,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private appDatePipe: AppDatePipe,
@@ -54,6 +56,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe) {
     super();
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
   }
@@ -100,12 +104,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
       },
       {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
-      },
-      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
@@ -132,6 +130,14 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
       }
     ];
+    if (this.isAdmin) {
+      columns.splice(1, 0, {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      });
+    }
     return columns as TableColumnDef[];
   }
 
@@ -201,10 +207,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
-  }
-
-  forAdmin(isAdmin: boolean) {
-    this.isAdmin = isAdmin
   }
 
   protected _deleteTransaction(transaction: Transaction) {

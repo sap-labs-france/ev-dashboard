@@ -56,9 +56,12 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       private appDurationPipe: AppDurationPipe,
       private currencyPipe: CurrencyPipe) {
     super();
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
+    // Check
+    this.checkConcurConnection();
     // Init
     this.initDataSource();
-    this.checkConcurConnection();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -256,10 +259,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   isSelectable(row: Transaction) {
     return !row.refundData;
-  }
-
-  forAdmin(isAdmin: boolean) {
-    this.isAdmin = isAdmin
   }
 
   protected refundTransactions(transactions: Transaction[]) {

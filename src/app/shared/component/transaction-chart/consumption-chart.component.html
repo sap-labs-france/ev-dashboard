@@ -1,5 +1,5 @@
 <!--<ng-template *ngIf="consumptions; else noData">-->
-<div *ngIf="!canDisplayGraph()">
+<div *ngIf="!canDisplayGraph()" class="graph-no-consumption">
   {{'transactions.graph.no_consumption' | translate}}
 </div>
 <div [hidden]=" !canDisplayGraph()">

@@ -227,3 +227,8 @@
 .mat-dialog-container {
   border-radius: 0 !important;
 }
+
+// Fix to the z-index for google map autocomplete
+.pac-container {
+  z-index: 9999 !important;
+}

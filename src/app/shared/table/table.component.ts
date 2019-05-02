@@ -206,7 +206,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.refreshOrLoadData(true).subscribe(() => {
+    this.dataSource.refreshOrLoadData().subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;

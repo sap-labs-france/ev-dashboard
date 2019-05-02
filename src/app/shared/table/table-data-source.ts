@@ -353,7 +353,7 @@ export abstract class TableDataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public refreshOrLoadData(refreshAll = false): Observable<any> {
+  public refreshOrLoadData(): Observable<any> {
     return new Observable((observer) => {
       // Load data source
       this.loadData().subscribe((data) => {

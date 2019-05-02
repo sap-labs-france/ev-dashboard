@@ -21,7 +21,7 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import { SiteAreaDialogComponent } from '../../../shared/dialogs/site-areas/site-area.dialog.component';
+import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
 import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';

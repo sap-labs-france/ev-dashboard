@@ -35,7 +35,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   public noAction = new TableNoAction();
 
   private charger: Charger;
-  private connectorTransactionAuthorization;
   private dialogRefSession: MatDialogRef<SessionDialogComponent>;
 
   constructor(
@@ -59,13 +58,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       if (this.charger) {
         // Check authorizations
         this.centralServerService.getIsAuthorized('ConnectorsAction', this.charger.id).subscribe((result) => {
-          this.connectorTransactionAuthorization = result;
           // Update authorization on individual connectors
-          for (let index = 0; index < this.connectorTransactionAuthorization.length; index++) {
-            this.charger.connectors[index].isStopAuthorized = this.connectorTransactionAuthorization[index].isStopAuthorized;
-            this.charger.connectors[index].isStartAuthorized = this.connectorTransactionAuthorization[index].isStartAuthorized;
+          for (let index = 0; index < result.length; index++) {
+            this.charger.connectors[index].isStopAuthorized = result[index].isStopAuthorized;
+            this.charger.connectors[index].isStartAuthorized = result[index].isStartAuthorized;
             this.charger.connectors[index].isTransactionDisplayAuthorized =
-              this.connectorTransactionAuthorization[index].isTransactionDisplayAuthorized;
+            result[index].isTransactionDisplayAuthorized;
           }
           // Check connectors details status
           this.charger.connectors.forEach((connector: Connector) => {
@@ -158,8 +156,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   public formatError(errorCode, info, vendorErrorCode) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    const _info = info !== '' ? ` > ${info}` : '';
-    const _vendorErrorCode = vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
+    const _info = info && info !== '' ? ` > ${info}` : '';
+    const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
     return `${_errorCode}${_info}${_vendorErrorCode}`;
   }
 
@@ -175,32 +173,37 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
+    console.log(connector);
+    console.log(this.charger);
     if (connector && !this.charger.inactive) {
-      // Check active transaction and authorization to stop
-      if (connector && connector.activeTransactionID &&
-        this.connectorTransactionAuthorization &&
-        this.connectorTransactionAuthorization[connector.connectorId - 1].IsAuthorized) {
-        if (this.connectorTransactionAuthorization &&
-          this.connectorTransactionAuthorization[connector.connectorId - 1].IsAuthorized &&
-          (this.authorizationService.isAdmin() || this.authorizationService.isDemo())) {
+      // Check active transaction
+      if (connector.activeTransactionID) {
+        // Authorized to stop?
+        if (connector.isStopAuthorized) {
           return [
-            new TableOpenAction().getActionDef(),
+            this.openAction.getActionDef(),
             this.stopAction.getActionDef()
           ];
-        } else {
+        // Display only?
+        } else if (connector.isTransactionDisplayAuthorized) {
           return [
-            this.stopAction.getActionDef()
+            this.openAction.getActionDef(),
           ];
         }
+      // No Active Transaction
       } else {
-        return [
-          this.noAction.getActionDef()
-        ];
+        // Authorized to start?
+        if (connector.isStartAuthorized) {
+          // By default no actions
+          return [
+            this.startAction.getActionDef()
+          ];
+        }
       }
     }
     // By default no actions
     return [
-      this.startAction.getActionDef()
+      this.noAction.getActionDef()
     ];
   }
 

@@ -10,13 +10,14 @@ import {AddressModule} from '../../shared/address/address.module';
 import {OrganizationSitesComponent} from './sites/organization-sites.component';
 import {OrganizationSiteAreasComponent} from './site-areas/organization-site-areas.component';
 import {CompanyLogoComponent} from './formatters/company-logo.component';
-import {CompanyDialogComponent} from '../../shared/dialogs/companies/company.dialog.component';
+import {CompanyDialogComponent} from './companies/company/company.dialog.component';
 import {CompanyComponent} from './companies/company/company.component';
 import {SiteComponent} from './sites/site/site.component';
-import {SiteAreaDialogComponent} from '../../shared/dialogs/site-areas/site-area.dialog.component';
+import {SiteAreaDialogComponent} from './site-areas/site-area/site-area.dialog.component';
 import {SiteAreaComponent} from './site-areas/site-area/site-area.component';
 import {SiteUsersDialogComponent} from './sites/site/site-users/site-users.dialog.component';
 import {SiteAreaChargersDialogComponent} from './site-areas/site-area/site-area-chargers/site-area-chargers.dialog.component';
+import {SiteDialogComponent} from './sites/site/site.dialog.component';
 
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
@@ -46,6 +47,7 @@ import {OrganizationRoutes} from './organization.routing';
     SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
+    SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent
   ],
@@ -56,9 +58,9 @@ import {OrganizationRoutes} from './organization.routing';
     OrganizationSiteAreasComponent,
     CompanyDialogComponent,
     CompanyLogoComponent,
-    SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
+    SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent
   ],

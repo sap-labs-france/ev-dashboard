@@ -476,7 +476,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
+      this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
     }
   }
 

@@ -402,9 +402,11 @@ export abstract class TableDataSource<T> {
         }
       }
       // Check dynamic row actions
-      const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
-      if (dynamicRowActions.length > 0) {
-        freshRow['dynamicRowActions'] = dynamicRowActions;
+      if (this.tableDef.hasDynamicRowAction {
+        const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
+        if (dynamicRowActions.length > 0) {
+          freshRow['dynamicRowActions'] = dynamicRowActions;
+        }
       }
       // Check Row Action Authorization
       if (this.hasRowActions) {

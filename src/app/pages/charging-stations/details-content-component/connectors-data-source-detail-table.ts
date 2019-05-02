@@ -173,8 +173,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
-    console.log(connector);
-    console.log(this.charger);
     if (connector && !this.charger.inactive) {
       // Check active transaction
       if (connector.activeTransactionID) {

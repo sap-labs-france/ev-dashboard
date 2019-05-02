@@ -62,6 +62,9 @@ $outer-spinner: $brand-warn !default;
 }
 
 .table-dialog-list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   overflow: auto;
   min-height: 40vh;
   min-width: 50vw;
@@ -458,9 +461,10 @@ tr.element-row:not(.expanded-row):active {
   padding: 15px;
   background: $brand-background;
   z-index: 100;
-  text-align: right;
   
-  .query-nbr-of-records {
-    cursor: pointer !important;
+  .left-bottom-table {
   }
+  .right-bottom-table {
+    text-align: right;
+  }  
 }

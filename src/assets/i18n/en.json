@@ -2,7 +2,8 @@
   "general": {
     "more_records": "More records",
     "click_here": "click here",
-    "nbr_of_records": "Nb records",
+    "selected_records": "Selected",
+    "nbr_of_records": "Nbr Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
     "last_update": "Version 2.0.21",

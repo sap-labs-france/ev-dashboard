@@ -103,31 +103,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   displayMoreRecords() {
-    // Get current paging
-    const currentPaging = this.dataSource.getPaging();
     // Set new paging
     this.dataSource.setPaging({
-      skip: currentPaging.skip + this.dataSource.getPageSize(),
-      limit: currentPaging.limit
+      skip: this.dataSource.data.length,
+      limit: this.dataSource.getPageSize()
     });
     // Load data
     this.loadData();
-  }
-
-  requestNumberOfRecords() {
-    // Add only record count
-    const staticFilters = [
-      ...this.dataSource.getStaticFilters(),
-      { 'OnlyRecordCount': true}
-    ];
-    // Set
-    this.dataSource.setStaticFilters(staticFilters);
-    // Load data
-    this.dataSource.loadData().subscribe();
-    // Remove OnlyRecordCount
-    staticFilters.splice(staticFilters.length - 1, 1)
-    // Reset static filter
-    this.dataSource.setStaticFilters(staticFilters);
   }
 
   public filterChanged(filterDef: TableFilterDef) {
@@ -219,27 +201,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public refresh(autoRefresh = false) {
-    // Clear selection
-    this.dataSource.clearSelectedRows();
-    // Init paging
-    const currentPaging = this.dataSource.getPaging();
-    // Set new paging
-    this.dataSource.setPaging({
-      skip: 0,
-      limit: currentPaging.limit + currentPaging.skip
-    });
     // Enable animation in button
     if (autoRefresh) {
       this.ongoingRefresh = true;
     }
     // Load Data
-    this.dataSource.refreshOrLoadData().subscribe(() => {
+    this.dataSource.refreshOrLoadData(true).subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
       }
-      // Reset Current Paging
-      this.dataSource.setPaging(currentPaging);
     });
   }
 
@@ -288,12 +259,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.refreshOrLoadData().subscribe((data) => {
       // Hide Spinner
       this.spinnerService.hide();
-      if (this.dataSource.totalNumberOfRecords === Constants.MAX_RECORDS) {
-        // Request nbr of records
-        setTimeout(() => {
-          this.requestNumberOfRecords()
-        }, 100);
-      }
     }, (error) => {
       // Hide Spinner
       this.spinnerService.hide();

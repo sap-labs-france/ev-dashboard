@@ -54,7 +54,7 @@ export abstract class TableDataSource<T> {
   }
 
   public getSelectedRows(): T[] {
-    return this.data.filter((row) => row.selected);
+    return this.data.filter((row) => row.isSelected);
   }
 
   public hasSelectedRows(): boolean {
@@ -66,7 +66,7 @@ export abstract class TableDataSource<T> {
     this.selectedRows = 0;
     this.data.forEach((row) => {
       if (row.isSelectable) {
-        row.selected = false;
+        row.isSelected = false;
       }
     })
   }
@@ -77,7 +77,7 @@ export abstract class TableDataSource<T> {
     this.data.forEach((row) => {
       // Check
       if (row.isSelectable) {
-        row.selected = true;
+        row.isSelected = true;
         this.selectedRows++;
       }
     })
@@ -95,9 +95,9 @@ export abstract class TableDataSource<T> {
 
   public toggleRowSelection(row) {
     // Invert
-    row.selected = !row.selected;
+    row.isSelected = !row.isSelected;
     // Adjust number of selected rows
-    if (row.selected) {
+    if (row.isSelected) {
       this.selectedRows++
       // Single Select?
       if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
@@ -168,9 +168,7 @@ export abstract class TableDataSource<T> {
   }
 
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
-    if (this.totalNumberOfRecords < totalNumberOfRecords) {
-      this.totalNumberOfRecords = totalNumberOfRecords;
-    }
+    this.totalNumberOfRecords = totalNumberOfRecords;
   }
 
   public getTotalNumberOfRecords(): number {
@@ -355,12 +353,20 @@ export abstract class TableDataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public refreshOrLoadData(): Observable<any> {
+  public refreshOrLoadData(refreshAll = false): Observable<any> {
     return new Observable((observer) => {
       // Load data source
       this.loadData().subscribe((data) => {
         // Ok
         this.setData(data);
+        // Request nbr of records
+        setTimeout(() => {
+          // Check
+          if (this.data.length !== this.totalNumberOfRecords) {
+            console.log('Load Nbr of records');
+            this.requestNumberOfRecords();
+          }
+        }, 1);
         // Notify
         observer.next(data);
         observer.complete();
@@ -374,23 +380,58 @@ export abstract class TableDataSource<T> {
 
   private setData(data: T[]) {
     // Format the data
-    this._enrichData(data);
+    this.enrichData(data);
     // Check Paging
     if (this.paging.skip === 0) {
       // Clear array
       this.data.length = 0;
+      this.data.push(...data);
+    } else {
+      // Add
+      this.data.splice(this.paging.skip, this.paging.limit, ...data);
     }
-    // Add them
-    this.data.push(...data);
+    // Update Selection variables
+    if (this.tableDef.rowSelection &&
+        this.tableDef.rowSelection.enabled &&
+        this.tableDef.rowSelection.multiple) {
+      // Init
+      this.maxSelectableRows = 0;
+      this.selectedRows = 0;
+      for (const row of this.data) {
+        if (row.isSelectable) {
+          this.maxSelectableRows++;
+        }
+        if (row.isSelected) {
+          this.selectedRows++;
+        }
+      }
+    }
   }
 
   public getData(): any[] {
     return this.data;
   }
 
-  _enrichData(freshData: any[]) {
+  requestNumberOfRecords() {
+    // Add only record count
+    const staticFilters = [
+      ...this.getStaticFilters(),
+      { 'OnlyRecordCount': true}
+    ];
+    // Set
+    this.setStaticFilters(staticFilters);
+    // Load data
+    this.loadData().subscribe();
+    // Remove OnlyRecordCount
+    staticFilters.splice(staticFilters.length - 1, 1)
+    // Reset static filter
+    this.setStaticFilters(staticFilters);
+  }
+
+  private enrichData(freshData: any[]) {
     const isRowSelectionEnabled = this.isRowSelectionEnabled();
     const expandedRowIDs = this.data.filter((row) => row.isExpanded).map((row) => row.id);
+    const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
       // Check for complex property
@@ -416,13 +457,10 @@ export abstract class TableDataSource<T> {
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
       }
-      // Check if Row can be selected
+      // Check if row can be selected
       if (isRowSelectionEnabled) {
         // Check
         freshRow.isSelectable = this.isSelectable(freshRow);
-        if (freshRow.isSelectable) {
-          this.maxSelectableRows++;
-        }
       }
       // Set row ID
       if (!freshRow.id) {
@@ -450,6 +488,11 @@ export abstract class TableDataSource<T> {
           // Not hiding: keep the row expanded
           freshRow.isExpanded = true;
         }
+      }
+      // Check if Selected
+      if (selectedRowIDs.indexOf(freshRow.id) !== -1) {
+        // Select it
+        freshRow.isSelected = true;
       }
     }
   }

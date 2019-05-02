@@ -54,9 +54,6 @@ export class GeoMapDialogComponent {
       if (keydownEvents && keydownEvents.code === 'Escape') {
         this.cancel();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        this.validate();
-      }
     });
   }
 

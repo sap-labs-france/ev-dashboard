@@ -305,9 +305,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           case 'delete':
             this.deleteChargingStation(rowItem);
             break;
-          /*          case 'sitearea':
-                      this._assignSiteArea(rowItem);
-                      break;*/
           case ACTION_SOFT_RESET:
             this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
               this.translateService.instant('chargers.soft_reset_title'),

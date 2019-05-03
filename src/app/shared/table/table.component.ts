@@ -22,6 +22,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchPlaceholder = '';
   public searchObservable: Observable<string>;
   public autoRefeshTimer;
+  public autoRefeshPollEnabled;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.MAX_RECORDS;
@@ -41,11 +42,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     // Handle Poll (config service available only in component not possible in data-source)
-    if (this.configService.getCentralSystemServer().pollEnabled &&
-        this.configService.getCentralSystemServer().pollIntervalSecs) {
-      // Set
-      this.pollingInterval = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
-    }
+    this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
+    this.pollingInterval = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     // Init Sort
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
@@ -173,8 +171,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   createAutoRefreshTimer() {
-    // Clean up
-    if (!this.autoRefeshTimer) {
+    // Create timer only if socketio is not active
+    if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
       // Create timer
       this.autoRefeshTimer = setInterval(() => {
         // Reload

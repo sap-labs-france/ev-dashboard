@@ -1,8 +1,6 @@
 # config
 config
 src/assets/config.json
-yarn*.*
-package-*.*
 manifest.yml
 
 # compiled output

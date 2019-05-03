@@ -207,10 +207,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
-    
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -237,7 +237,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _stationStopTransaction(transaction: Transaction) {
     this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Rejected'){
+      if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
       } else {
@@ -252,7 +252,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Rejected'){
+      if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
       } else {

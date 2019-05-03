@@ -75,7 +75,7 @@ export class SessionDialogComponent implements OnInit {
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
         this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }
-      this.percentOfInactivity = ` (${this.percentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs/this.totalDurationSecs : 0, '1.0-0')})`;
+      this.percentOfInactivity = ` (${this.percentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
       if (transaction.hasOwnProperty('stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';

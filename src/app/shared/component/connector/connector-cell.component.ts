@@ -32,7 +32,7 @@ export class ConnectorCellComponent extends CellContentTemplateComponent impleme
   ngOnInit(): void {
     this.isSimpleConnectorDisplay = false;
     this.baseClassConnectorTypeText =
-      `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center ${(this.largeDisplay ? 
+      `charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center ${(this.largeDisplay ?
         'charger-connector-container-image-large' : 'charger-connector-container-image-small')} ${(this.isAdmin && this.row.type === null) ? 'connector-not-typed-icon' : ''}`;
     this.tooltipTypeOffest = (this.largeDisplay ? '0px, 8px' : '-15px, 8px');
     this.updateValues();

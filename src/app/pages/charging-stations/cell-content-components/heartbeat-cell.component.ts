@@ -31,7 +31,7 @@ export class HeartbeatCellComponent extends CellContentTemplateComponent impleme
   disconnectedDuration: any;
   tooltip: string;
 
-  constructor(localeService: LocaleService, 
+  constructor(localeService: LocaleService,
           private appDate: AppDatePipe) {
     super();
     this.locale = localeService.getCurrentFullLocaleForJS()

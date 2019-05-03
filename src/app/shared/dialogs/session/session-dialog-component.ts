@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
@@ -16,7 +16,7 @@ const POLL_INTERVAL = 10000;
 @Component({
   templateUrl: './session.dialog.component.html'
 })
-export class SessionDialogComponent implements OnInit {
+export class SessionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
@@ -67,6 +67,10 @@ export class SessionDialogComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.refreshSubscription.unsubscribe();
+  }
+
   refresh() {
     this.loadData();
     this.chartComponent.refresh();
@@ -114,5 +118,4 @@ export class SessionDialogComponent implements OnInit {
       });
     });
   }
-
 }

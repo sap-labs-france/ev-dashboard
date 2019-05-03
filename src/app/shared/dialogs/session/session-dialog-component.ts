@@ -9,6 +9,9 @@ import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
 import {LocaleService} from '../../../services/locale.service';
 import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
 import {PercentPipe} from '@angular/common';
+import { interval, Subscription, observable } from 'rxjs';
+
+const POLL_INTERVAL = 10000;
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -25,6 +28,9 @@ export class SessionDialogComponent implements OnInit {
   private totalDurationSecs: number;
   private locale: string;
   private percentOfInactivity: string;
+  private autoRefresh: boolean = false;
+  private refreshInterval;
+  private refreshSubscription: Subscription;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
@@ -40,6 +46,9 @@ export class SessionDialogComponent implements OnInit {
     this.locale = localeService.getCurrentFullLocaleForJS();
     if (data) {
       this.transactionId = data.transactionId;
+      if (data.autoRefresh){ // AutoRefresh is set for specific dialog screens like in progress
+        this.autoRefresh = data.autoRefresh;
+      }
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -52,6 +61,10 @@ export class SessionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    if (this.autoRefresh === true) {
+      this.refreshInterval = interval(POLL_INTERVAL);
+      this.refreshSubscription = this.refreshInterval.subscribe(() => this.refresh());
+    }
   }
 
   refresh() {

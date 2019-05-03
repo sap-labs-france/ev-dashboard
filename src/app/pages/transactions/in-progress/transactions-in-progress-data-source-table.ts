@@ -282,6 +282,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.panelClass = 'transparent-dialog-container';
         dialogConfig.data = {
           transactionId: transaction.id,
+          autoRefresh: true
         };
         // disable outside click close
         dialogConfig.disableClose = true;

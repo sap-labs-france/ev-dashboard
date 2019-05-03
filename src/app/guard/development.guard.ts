@@ -1,4 +1,4 @@
-import { CanLoad, Route, UrlSegment } from "@angular/router";
+import { CanLoad, Route, UrlSegment } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';

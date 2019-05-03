@@ -247,7 +247,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Rejected'){
+      if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
       } else {

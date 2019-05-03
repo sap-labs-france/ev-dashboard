@@ -38,19 +38,6 @@ import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-com
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 
-const DEFAULT_ADMIN_ROW_ACTIONS = [
-  new TableEditAction().getActionDef(),
-  new TableOpenInMapsAction().getActionDef(),
-  new TableChargerRebootAction().getActionDef(),
-//  new TableChargerSmartChargingAction().getActionDef(),
-  new TableChargerMoreAction().getActionDef(),
-];
-
-const DEFAULT_BASIC_ROW_ACTIONS = [
-//  new TableEditAction().getActionDef(),
-  new TableNoAction().getActionDef()
-];
-
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
@@ -246,18 +233,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       ];
     } else {
       return tableActionsDef;
-    }
-  }
-
-  public buildTableRowActions(): TableActionDef[] {
-    if (this.authorizationService.isAdmin()) {
-      return DEFAULT_ADMIN_ROW_ACTIONS;
-    } else if (this.authorizationService.isDemo()) {
-      return DEFAULT_BASIC_ROW_ACTIONS;
-    } else if (this.authorizationService.isBasic()) {
-      return DEFAULT_BASIC_ROW_ACTIONS;
-    } else {
-      return [];
     }
   }
 
@@ -483,14 +458,19 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     // check if GPs are available
     openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
     if (this.authorizationService.isAdmin()) {
-      actionTable = JSON.parse(JSON.stringify(DEFAULT_ADMIN_ROW_ACTIONS));
-      actionTable[1] = openInMaps;
+      actionTable = [
+        new TableEditAction().getActionDef(),
+        openInMaps,
+        new TableChargerRebootAction().getActionDef(),
+        new TableChargerMoreAction().getActionDef(),
+      ];
     } else if (this.authorizationService.isDemo()) {
       actionTable = [openInMaps];
     } else if (this.authorizationService.isBasic()) {
       actionTable = [openInMaps];
     } else {
-      return [new TableNoAction().getActionDef()
+      return [
+        new TableNoAction().getActionDef()
       ];
     }
     return actionTable;

@@ -173,15 +173,21 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
-    if (connector && !this.charger.inactive) {
+    if (connector) {
       // Check active transaction
       if (connector.activeTransactionID) {
         // Authorized to stop?
         if (connector.isStopAuthorized) {
-          return [
-            this.openAction.getActionDef(),
-            this.stopAction.getActionDef()
-          ];
+          if (!this.charger.inactive) {
+            return [
+              this.openAction.getActionDef(),
+              this.stopAction.getActionDef()
+            ];
+          } else {
+            return [
+              this.openAction.getActionDef(),
+            ];
+          }
         // Display only?
         } else if (connector.isTransactionDisplayAuthorized) {
           return [
@@ -191,7 +197,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       // No Active Transaction
       } else {
         // Authorized to start?
-        if (connector.isStartAuthorized) {
+        if (connector.isStartAuthorized && !this.charger.inactive) {
           // By default no actions
           return [
             this.startAction.getActionDef()

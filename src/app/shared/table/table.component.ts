@@ -21,14 +21,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchInput') searchInput: ElementRef;
   public searchPlaceholder = '';
   public searchObservable: Observable<string>;
-  public autoRefeshTimer;
-  public autoRefeshPollEnabled;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.MAX_RECORDS;
   public numberOfColumns = 0;
-  public pollingInterval = Constants.DEFAULT_POLLING_MILLIS;
 
+  private autoRefeshTimer;
+  private autoRefeshPollEnabled;
+  private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
 
   constructor(
     private configService: ConfigService,
@@ -43,7 +43,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     // Handle Poll (config service available only in component not possible in data-source)
     this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
-    this.pollingInterval = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
+    this.autoRefeshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     // Init Sort
     // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
@@ -177,7 +177,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.autoRefeshTimer = setInterval(() => {
         // Reload
         this.refresh(true);
-      }, this.pollingInterval);
+      }, this.autoRefeshPollingIntervalMillis);
     }
   }
 

@@ -12,6 +12,7 @@ import { WindowService } from '../../../services/window.service';
   ]
 })
 export class TransactionsInProgressComponent implements OnInit {
+
   constructor(
     public transactionsInProgressDataSource: TransactionsInProgressDataSource,
     private windowService: WindowService,

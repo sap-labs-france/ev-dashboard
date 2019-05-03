@@ -68,7 +68,9 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.refreshSubscription.unsubscribe();
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
   refresh() {

@@ -282,6 +282,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       }
       this.spinnerService.hide();
       this.loadData();
+      this.clearSelectedRows();
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();

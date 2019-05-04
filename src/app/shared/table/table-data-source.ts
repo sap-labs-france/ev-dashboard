@@ -31,6 +31,7 @@ export abstract class TableDataSource<T> {
   public lastSelectedRow;
   public totalNumberOfRecords = -1;
 
+  private loadingNumberOfRecords = false;
   private searchValue = '';
   private staticFilters = [];
 
@@ -173,7 +174,10 @@ export abstract class TableDataSource<T> {
   }
 
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
-    this.totalNumberOfRecords = totalNumberOfRecords;
+    // Set only when all records have been retrieved
+    if (totalNumberOfRecords !== -1) {
+      this.totalNumberOfRecords = totalNumberOfRecords;
+    }
   }
 
   public getTotalNumberOfRecords(): number {
@@ -367,30 +371,36 @@ export abstract class TableDataSource<T> {
       limit: currentPaging.limit + currentPaging.skip
     });
     // Load data
-    return this.loadData(showSpinner);
+    return this.loadData(showSpinner, true);
   }
 
-  public loadData(showSpinner = true): Observable<any> {
+  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<any> {
     return new Observable((observer) => {
+      // Show Spinner
       if (showSpinner) {
-        // Show Spinner
         this.spinnerService.show();
       }
         // Load data source
       this.loadDataImpl().subscribe((data) => {
         // Ok
         this.setData(data);
+        // Hide Spinner
         if (showSpinner) {
-          // Hide Spinner
           this.spinnerService.hide();
         }
-            // Request nbr of records
+        // Load number of records
         setTimeout(() => {
-          // Check
-          if (this.data.length !== this.totalNumberOfRecords) {
-            // Load records
-            console.log('Load Nbr of records');
-            this.requestNumberOfRecords();
+          // Loading on going?
+          if (!this.loadingNumberOfRecords) {
+            // No: Check
+            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
+               (forceRefreshRecords || // Force refresh records
+                this.totalNumberOfRecords === -1 || // Never loaded
+                this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
+              ) {
+                // Load records
+                this.requestNumberOfRecords();
+            }
           }
         }, 1);
         // Notify
@@ -439,6 +449,10 @@ export abstract class TableDataSource<T> {
   }
 
   requestNumberOfRecords() {
+    // Reset
+    this.totalNumberOfRecords = -1;
+    // Set flag
+    this.loadingNumberOfRecords = true;
     // Add only record count
     const staticFilters = [
       ...this.getStaticFilters(),
@@ -447,7 +461,10 @@ export abstract class TableDataSource<T> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().subscribe();
+    this.loadDataImpl().subscribe(() => {
+      // Unset flag
+      this.loadingNumberOfRecords = false;
+    });
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)
     // Reset static filter

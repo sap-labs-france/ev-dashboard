@@ -482,13 +482,13 @@ export abstract class TableDataSource<T> {
 
   private enrichData(freshData: any[]) {
     const isRowSelectionEnabled = this.isRowSelectionEnabled();
-    const expandedRowIDs = this.data.filter((row) => row.isExpanded).map((row) => row.id);
+    const expandedRowIDs = this.data.filter((row) => row.isExpanded);
     const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
     for (let i = 0; i < freshData.length; i++) {
       const freshRow = freshData[i];
       // Check for complex property
       for (const tableColumnDef of this.tableColumnDefs) {
-        // Check
+        // Check for complex column id with dot
         if (tableColumnDef.id.indexOf('.') !== -1) {
           // Create new var for direct access
           freshRow[tableColumnDef.id] = _.get(freshRow, tableColumnDef.id);
@@ -505,13 +505,11 @@ export abstract class TableDataSource<T> {
       if (this.hasRowActions) {
         // Check if authorized
         this.tableRowActionsDef.forEach((rowActionDef) => {
-          // Set if authorized
           freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
         });
       }
       // Check if row can be selected
       if (isRowSelectionEnabled) {
-        // Check
         freshRow.isSelectable = this.isSelectable(freshRow);
       }
       // Set row ID
@@ -526,7 +524,8 @@ export abstract class TableDataSource<T> {
         freshRow.id = freshRow[rowID];
       }
       // Check if Expanded
-      if (expandedRowIDs.indexOf(freshRow.id) !== -1) {
+      const foundExpandedRow = expandedRowIDs.find((expandedRow) => expandedRow.id === freshRow.id);
+      if (foundExpandedRow) {
         // Check if the table has a specific field to hide/show details
         if (this.tableDef.rowDetails.showDetailsField) {
           // Check if it's still visible
@@ -539,6 +538,10 @@ export abstract class TableDataSource<T> {
         } else {
           // Not hiding: keep the row expanded
           freshRow.isExpanded = true;
+        }
+        // Detailed field?
+        if (this.tableDef.rowDetails.detailsField) {
+          freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
         }
       }
       // Check if Selected

@@ -108,7 +108,7 @@ export abstract class TableDataSource<T> {
       // Single Select?
       if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
         // Unselect last row
-        this.lastSelectedRow.selected = false;
+        this.lastSelectedRow.isSelected = false;
       }
       this.lastSelectedRow = row;
     } else {

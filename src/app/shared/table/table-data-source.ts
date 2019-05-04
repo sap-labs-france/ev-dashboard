@@ -29,7 +29,7 @@ export abstract class TableDataSource<T> {
   public selectedRows = 0;
   public maxSelectableRows = 0;
   public lastSelectedRow;
-  public totalNumberOfRecords = -1;
+  public totalNumberOfRecords = Constants.INFINITE_RECORDS;
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -175,13 +175,17 @@ export abstract class TableDataSource<T> {
 
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
     // Set only when all records have been retrieved
-    if (totalNumberOfRecords !== -1) {
+    if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
       this.totalNumberOfRecords = totalNumberOfRecords;
     }
   }
 
   public getTotalNumberOfRecords(): number {
     return this.totalNumberOfRecords;
+  }
+
+  public resetTotalNumberOfRecords() {
+    this.totalNumberOfRecords = Constants.INFINITE_RECORDS;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -251,6 +255,11 @@ export abstract class TableDataSource<T> {
   }
 
   public filterChanged(filter: TableFilterDef) {
+    // Reset to default paging
+    this.setPaging({
+      skip: 0,
+      limit: this.getPageSize()
+    });
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
@@ -395,7 +404,7 @@ export abstract class TableDataSource<T> {
             // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
                (forceRefreshRecords || // Force refresh records
-                this.totalNumberOfRecords === -1 || // Never loaded
+                this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
                 this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
               ) {
                 // Load records
@@ -450,7 +459,7 @@ export abstract class TableDataSource<T> {
 
   requestNumberOfRecords() {
     // Reset
-    this.totalNumberOfRecords = -1;
+    this.resetTotalNumberOfRecords();
     // Set flag
     this.loadingNumberOfRecords = true;
     // Add only record count

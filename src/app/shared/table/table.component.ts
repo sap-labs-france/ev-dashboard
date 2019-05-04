@@ -23,7 +23,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public searchObservable: Observable<string>;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
-  public maxRecords = Constants.MAX_RECORDS;
+  public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
 
   private autoRefeshTimer;

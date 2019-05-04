@@ -185,6 +185,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Clean up
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
+      this.autoRefeshTimer = null;
     }
   }
 

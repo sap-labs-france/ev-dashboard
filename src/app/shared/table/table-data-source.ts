@@ -16,7 +16,7 @@ export abstract class TableDataSource<T> {
 
   public data: any[] = [];
   public paging: Paging = {
-    limit: Constants.DEFAULT_PAGE_SIZE,
+    limit: this.getPageSize(),
     skip: 0
   };
   public sort: MatSort = new MatSort();

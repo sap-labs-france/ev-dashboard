@@ -92,6 +92,10 @@ export class LogsDataSource extends TableDataSource<Log> {
       map(log => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
+  public getPageSize(): number {
+    return 200;
+  }
+
   public buildTableDef(): TableDef {
     return {
       search: {

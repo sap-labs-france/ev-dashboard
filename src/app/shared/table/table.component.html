@@ -127,7 +127,7 @@
           <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
               class="text-left col-5em pt-2">
             <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
-              *ngIf="dataSource.tableDef.rowSelection.multiple"
+              *ngIf="dataSource.tableDef.rowSelection.multiple" [disabled]="dataSource.totalNumberOfRecords <= 0"
               [checked]="dataSource.selectedRows > 0 && dataSource.selectedRows === dataSource.data.length"
               [indeterminate]="dataSource.selectedRows > 0 && dataSource.selectedRows !== dataSource.data.length">
             </mat-checkbox>

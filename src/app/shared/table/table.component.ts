@@ -75,7 +75,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           // Set
           this.dataSource.setSearchValue(text);
           // Load data
-          this.loadData();
+          this.refresh();
       });
     }
     if (this.dataSource.tableActionsRightDef) {
@@ -114,7 +114,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
     // Reload data
-    this.loadData();
+    this.refresh();
   }
 
   public sortChanged(tableColumnDef: TableColumnDef) {
@@ -130,7 +130,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
       }
       // Load data
-      this.loadData();
+      this.refresh();
     }
   }
 
@@ -202,12 +202,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Enable animation in button
     if (autoRefresh) {
       this.ongoingRefresh = true;
+    } else {
+      // Show Spinner
+      this.spinnerService.show();
     }
     // Load Data
     this.dataSource.refreshData().subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
+      } else {
+        // Hide Spinner
+        this.spinnerService.hide();
       }
     });
   }
@@ -216,7 +222,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.setSearchValue('');
     this.dataSource.resetFilters();
     this.searchInput.nativeElement.value = '';
-    this.loadData();
+    this.refresh();
   }
 
   public actionTriggered(actionDef: TableActionDef, event?) {

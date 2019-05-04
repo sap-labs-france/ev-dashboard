@@ -38,6 +38,7 @@ import { ChargingStations } from '../../../utils/ChargingStations';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-details/error-code-details.component';
 import en from '../../../../assets/i18n/en.json';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
+import { SpinnerService } from 'app/services/spinner.service';
 
 const ACTION_MAP = {
   missingSettings: [
@@ -63,6 +64,7 @@ const ACTION_MAP = {
 export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
 
   constructor(
+    public spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
@@ -72,10 +74,10 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
-    super();
+    super(spinnerService);
     // Init
-    this.initDataSource();
     this.setStaticFilters([{ 'WithSite': true }]);
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

@@ -6,14 +6,16 @@ import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 export class SitesDataSource extends DialogTableDataSource<Site> {
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private router: Router,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

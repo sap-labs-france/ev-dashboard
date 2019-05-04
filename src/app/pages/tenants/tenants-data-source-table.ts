@@ -19,10 +19,12 @@ import {DialogService} from '../../services/dialog.service';
 import {Injectable} from '@angular/core';
 import {TableOpenAction} from '../../shared/table/actions/table-open-action';
 import {WindowService} from '../../services/window.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -31,7 +33,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

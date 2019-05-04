@@ -24,12 +24,14 @@ import { DialogService } from 'app/services/dialog.service';
 import { SiteDialogComponent } from './site/site.dialog.component';
 import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public isAdmin = false;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -38,11 +40,11 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
-    super();
+    super(spinnerService);
     // Init
-    this.initDataSource();
-    this.setStaticFilters([{ 'WithCompany': true }]);
     this.isAdmin = this.authorizationService.isAdmin();
+    this.setStaticFilters([{ 'WithCompany': true }]);
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

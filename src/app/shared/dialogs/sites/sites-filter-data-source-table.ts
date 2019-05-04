@@ -1,4 +1,3 @@
-import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {Site, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
@@ -6,14 +5,15 @@ import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 export class SitesFilterDataSource extends DialogTableDataSource<Site> {
   constructor(
       private messageService: MessageService,
-      private translateService: TranslateService,
+      public spinnerService: SpinnerService,
       private router: Router,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

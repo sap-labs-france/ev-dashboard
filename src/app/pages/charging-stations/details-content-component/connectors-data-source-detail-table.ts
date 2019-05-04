@@ -26,6 +26,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -38,6 +39,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
   private dialogRefSession: MatDialogRef<SessionDialogComponent>;
 
   constructor(
+      public spinnerService: SpinnerService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
       private appUnitPipe: AppUnitPipe,
@@ -46,7 +48,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       private messageService: MessageService,
       private router: Router,
       private dialogService: DialogService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
     this.noAction.getActionDef().disabled = true;

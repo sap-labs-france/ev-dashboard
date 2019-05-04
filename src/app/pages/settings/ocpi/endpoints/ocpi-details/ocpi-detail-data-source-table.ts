@@ -20,6 +20,7 @@ import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-t
 import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail-success-evses-status.component';
 import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-detail-failure-evses-status.component';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
@@ -29,6 +30,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   private ocpiEndpoint: OcpiEndpoint;
 
   constructor(
+      public spinnerService: SpinnerService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
       private localeService: LocaleService,
@@ -36,7 +38,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
       private router: Router,
       private dialogService: DialogService,
       private datePipe: AppDatePipe) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

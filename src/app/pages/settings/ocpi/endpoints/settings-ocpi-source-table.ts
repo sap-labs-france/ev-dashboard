@@ -24,11 +24,13 @@ import { OcpiEndpointStatusComponent } from './formatters/ocpi-status.component'
 import { OcpiPatchJobResultComponent } from './formatters/ocpi-patch-job-result.component';
 import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.component';
 import { OcpiEndpointDetailComponent} from './ocpi-details/ocpi-detail-component.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -36,7 +38,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

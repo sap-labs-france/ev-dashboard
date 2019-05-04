@@ -17,6 +17,7 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { DialogService } from 'app/services/dialog.service';
 import { SacLinkDialogComponent } from './sac-link.dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SacLinksDataSource extends TableDataSource<SacLink> {
@@ -24,11 +25,12 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
   private formGroup: FormGroup;
 
   constructor(
+      public spinnerService: SpinnerService,
       private translateService: TranslateService,
       private dialogService: DialogService,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

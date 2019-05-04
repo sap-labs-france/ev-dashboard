@@ -37,6 +37,7 @@ import {TableOpenInMapsAction} from 'app/shared/table/actions/table-open-in-maps
 import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
@@ -45,6 +46,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   isOrganizationComponentActive: boolean;
 
   constructor(
+    public spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
@@ -55,12 +57,12 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
-    super();
+    super(spinnerService);
     // Init
-    this.initDataSource();
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

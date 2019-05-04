@@ -22,12 +22,14 @@ import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
 import { CompanyDialogComponent } from './company/company.dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
   public isAdmin = false;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -36,11 +38,11 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
-    super();
+    super(spinnerService);
     // Init
-    this.initDataSource();
-    this.setStaticFilters([{'WithLogo': true}]);
     this.isAdmin = this.authorizationService.isAdmin();
+    this.setStaticFilters([{'WithLogo': true}]);
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

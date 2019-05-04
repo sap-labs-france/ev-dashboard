@@ -26,10 +26,12 @@ import {DialogService} from '../../services/dialog.service';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../shared/table/actions/table-export-action';
 import {AuthorizationService} from '../../services/authorization-service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private localeService: LocaleService,
@@ -39,7 +41,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

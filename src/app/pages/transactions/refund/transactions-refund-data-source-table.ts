@@ -38,7 +38,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   private hasConcurConnectionConfigured = false;
 
   constructor(
-      private spinnerService: SpinnerService,
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -55,7 +55,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe,
       private currencyPipe: CurrencyPipe) {
-    super();
+    super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     // Check

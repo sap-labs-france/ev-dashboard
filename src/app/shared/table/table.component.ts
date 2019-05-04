@@ -202,18 +202,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Enable animation in button
     if (autoRefresh) {
       this.ongoingRefresh = true;
-    } else {
-      // Show Spinner
-      this.spinnerService.show();
     }
     // Load Data
-    this.dataSource.refreshData().subscribe(() => {
+    this.dataSource.refreshData(!this.ongoingRefresh).subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
-      } else {
-        // Hide Spinner
-        this.spinnerService.hide();
       }
     });
   }
@@ -257,16 +251,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
-    // Show Spinner
-    this.spinnerService.show();
     // Load data source
-    this.dataSource.loadData().subscribe((data) => {
-      // Hide Spinner
-      this.spinnerService.hide();
-    }, (error) => {
-      // Hide Spinner
-      this.spinnerService.hide();
-    });
+    this.dataSource.loadData().subscribe();
   }
 
   public showHideDetailsClicked(row) {

@@ -33,6 +33,7 @@ import {ComponentEnum, ComponentService} from '../../../services/component.servi
 import en from '../../../../assets/i18n/en.json';
 import * as moment from 'moment';
 import { AuthorizationService } from 'app/services/authorization-service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 
 @Injectable()
@@ -41,6 +42,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   private dialogRefSession;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -55,7 +57,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private currencyPipe: CurrencyPipe,
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe) {
-    super();
+    super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     // Init

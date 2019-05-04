@@ -8,9 +8,10 @@ export abstract class DialogTableDataComponent<T> {
   public title: string;
   public buttonTitle: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) data,
-    protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>,
-    dialogTableDataSource?: DialogTableDataSource<T>) {
+  constructor(
+      @Inject(MAT_DIALOG_DATA) data,
+      protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>,
+      public dialogTableDataSource?: DialogTableDataSource<T>) {
     // Assign dialog table data source if provided
     if (dialogTableDataSource) {
       this.dialogDataSource = dialogTableDataSource;

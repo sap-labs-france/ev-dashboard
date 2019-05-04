@@ -34,6 +34,7 @@ import {SessionDialogComponent} from '../../../shared/dialogs/session/session-di
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import * as moment from 'moment';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -42,6 +43,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   private dialogRefSession;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -59,7 +61,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe,
       private currencyPipe: CurrencyPipe) {
-    super();
+    super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     // Init

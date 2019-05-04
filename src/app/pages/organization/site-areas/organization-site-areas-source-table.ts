@@ -25,12 +25,14 @@ import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component'
 import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   public isAdmin = false;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -39,11 +41,11 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
-    super();
+    super(spinnerService);
     // Init
-    this.initDataSource();
     this.setStaticFilters([{ 'WithSite': true }]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

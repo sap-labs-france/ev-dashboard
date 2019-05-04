@@ -13,19 +13,21 @@ import {DialogService} from 'app/services/dialog.service';
 import {Constants} from 'app/utils/Constants';
 import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
   private _site: Site;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private router: Router,
       private dialog: MatDialog,
       private dialogService: DialogService,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

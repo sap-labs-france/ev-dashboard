@@ -1,8 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Router} from '@angular/router';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue,  SiteArea} from '../../../common.types';
 import {SiteAreasFilterDataSourceTable} from './site-areas-filter-data-source-table';
@@ -12,10 +9,8 @@ import {SiteAreasFilterDataSourceTable} from './site-areas-filter-data-source-ta
 })
 export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<SiteArea> {
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
+    public dialogDataSource: SiteAreasFilterDataSourceTable,
     protected dialogRef: MatDialogRef<SiteAreasFilterDialogComponent>,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
     super(data, dialogRef);
@@ -23,12 +18,6 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
     if (this.title === '') {
       this.title = 'site_areas.select_site_areas';
     }
-    // Create table data source
-    this.dialogDataSource = new SiteAreasFilterDataSourceTable(
-      this.messageService,
-      this.router,
-      this.centralServerService
-    );
   }
 
   getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {

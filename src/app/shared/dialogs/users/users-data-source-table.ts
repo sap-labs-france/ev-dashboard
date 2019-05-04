@@ -6,14 +6,16 @@ import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersDataSource extends DialogTableDataSource<User> {
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private router: Router,
       private centralServerService: CentralServerService) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

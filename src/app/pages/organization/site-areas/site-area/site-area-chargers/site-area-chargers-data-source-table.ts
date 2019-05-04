@@ -14,6 +14,7 @@ import { Constants } from 'app/utils/Constants';
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
@@ -21,6 +22,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public isAdmin = false;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private router: Router,
@@ -28,7 +30,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       private dialogService: DialogService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
-    super();
+    super(spinnerService);
     // Set
     this.isAdmin = this.authorizationService.isAdmin();
     // Init

@@ -3,6 +3,7 @@ import {MatSort} from '@angular/material';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
+import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
 
 export abstract class TableDataSource<T> {
@@ -32,6 +33,10 @@ export abstract class TableDataSource<T> {
 
   private searchValue = '';
   private staticFilters = [];
+
+  constructor(
+    public spinnerService: SpinnerService) {
+  }
 
   public isRowSelectionEnabled(): boolean {
     // Return
@@ -353,7 +358,7 @@ export abstract class TableDataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public refreshData(): Observable<any> {
+  public refreshData(showSpinner = true): Observable<any> {
     // Init paging
     const currentPaging = this.getPaging();
     // Reload all loaded records
@@ -362,16 +367,24 @@ export abstract class TableDataSource<T> {
       limit: currentPaging.limit + currentPaging.skip
     });
     // Load data
-    return this.loadData();
+    return this.loadData(showSpinner);
   }
 
-  public loadData(): Observable<any> {
+  public loadData(showSpinner = true): Observable<any> {
     return new Observable((observer) => {
-      // Load data source
+      if (showSpinner) {
+        // Show Spinner
+        this.spinnerService.show();
+      }
+        // Load data source
       this.loadDataImpl().subscribe((data) => {
         // Ok
         this.setData(data);
-        // Request nbr of records
+        if (showSpinner) {
+          // Hide Spinner
+          this.spinnerService.hide();
+        }
+            // Request nbr of records
         setTimeout(() => {
           // Check
           if (this.data.length !== this.totalNumberOfRecords) {

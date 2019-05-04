@@ -28,10 +28,12 @@ import {UserStatusComponent} from './formatters/user-status.component';
 import {TableAssignSiteAction} from '../../shared/table/actions/table-edit-location';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 import {ComponentEnum, ComponentService} from '../../services/component.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
   constructor(
+      public spinnerService: SpinnerService,
       private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
@@ -45,7 +47,7 @@ export class UsersDataSource extends TableDataSource<User> {
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

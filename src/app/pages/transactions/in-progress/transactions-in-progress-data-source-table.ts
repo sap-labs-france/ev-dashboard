@@ -31,6 +31,7 @@ import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
@@ -38,6 +39,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   private dialogRefSession;
 
   constructor(
+      public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -54,7 +56,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       private appBatteryPercentagePipe: AppBatteryPercentagePipe,
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe) {
-    super();
+    super(spinnerService);
     // Init
     this.initDataSource();
   }

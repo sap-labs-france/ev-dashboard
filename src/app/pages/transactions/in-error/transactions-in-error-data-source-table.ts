@@ -161,7 +161,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 
@@ -245,6 +245,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.data = {
       transactionId: transaction.id
     };
+    // disable outside click close
+    dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));

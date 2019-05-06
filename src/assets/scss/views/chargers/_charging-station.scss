@@ -17,3 +17,19 @@
         }
     }
 }
+
+.card-connector-icon {
+    font-family: none !important; // Need to be deactivate to display properly SVG icons
+}
+
+.charger-param-component {
+    max-height: 74vh !important;
+}
+
+.charger-prop-component {
+    max-height: 80vh !important;
+}
+
+.ocpp-param-component {
+    max-height: 69vh !important;
+}

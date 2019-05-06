@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './table-template.component.html'
 })
 export class TableTemplateComponent {
-  
+
 }

@@ -133,7 +133,7 @@ export class BasicTableDataSource extends TableDataSource<any> {
         defaultValue: 'Default',
         headerClass: 'd-none d-xl-table-cell',
         formatter: (value) => {
-          return 'formatted ' + value; 
+          return 'formatted ' + value;
         },
       }
     ]

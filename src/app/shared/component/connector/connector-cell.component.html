@@ -7,12 +7,12 @@
                 {{row.connectorId | appConnectorId}}
             </div>
         </div>
-        <div class="d-inline-block" appTooltip [attr.data-offset]="tooltipTypeOffest" data-placement="bottom" data-toogle="tooltip" [title]="typeTooltip | translate">
-            <div *ngIf="!isSimpleConnectorDisplay && (row.type || row.type === null)" [appChargerStatus]="{status: chargerStatus, target: 'background-image',
-                baseClass: baseClassConnectorTypeText}">
-                <mat-icon *ngIf="row.type !== null" [svgIcon]="typeSvgIcon" class="d-flex"></mat-icon>
-                <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
+        <ng-container *ngIf="!isSimpleConnectorDisplay && row.hasOwnProperty('type')">
+            <div class="d-inline-block" appTooltip [attr.data-offset]="tooltipTypeOffest" data-placement="bottom" data-toogle="tooltip" [title]="typeTooltip | translate">
+                <div [appChargerStatus]="{status: chargerStatus, target: 'background-image', baseClass: baseClassConnectorTypeText}">
+                    <mat-icon [svgIcon]="typeSvgIcon" class="d-flex"></mat-icon>
+                </div>
             </div>
-        </div>
+        </ng-container>
     </div>
 </div>

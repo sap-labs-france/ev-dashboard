@@ -8,6 +8,7 @@ import {Constants} from '../../../utils/Constants';
 import {Connector, Image, SiteArea, Transaction} from '../../../common.types';
 import {LocaleService} from '../../../services/locale.service';
 import {ConsumptionChartComponent} from '../../component/transaction-chart/consumption-chart.component';
+import {PercentPipe} from '@angular/common';
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -23,6 +24,7 @@ export class SessionDialogComponent implements OnInit {
   private totalInactivitySecs: number;
   private totalDurationSecs: number;
   private locale: string;
+  private percentOfInactivity: string;
 
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
@@ -32,12 +34,20 @@ export class SessionDialogComponent implements OnInit {
     private localeService: LocaleService,
     private translateService: TranslateService,
     private router: Router,
+    private percentPipe: PercentPipe,
     protected dialogRef: MatDialogRef<SessionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.locale = localeService.getCurrentFullLocaleForJS();
     if (data) {
       this.transactionId = data.transactionId;
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -65,6 +75,7 @@ export class SessionDialogComponent implements OnInit {
         this.totalDurationSecs = transaction.currentTotalDurationSecs;
         this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }
+      this.percentOfInactivity = ` (${this.percentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
       if (transaction.hasOwnProperty('stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';

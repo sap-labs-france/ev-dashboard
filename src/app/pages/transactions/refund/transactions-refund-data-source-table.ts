@@ -196,7 +196,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       case  Constants.ROLE_SUPER_ADMIN:
       case  Constants.ROLE_ADMIN:
         // Show Site Area Filter If Organization component is active
-        if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+        if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
           filters.push(new SiteAreasTableFilter().getFilterDef());
         }
     }
@@ -282,6 +282,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       }
       this.spinnerService.hide();
       this.loadData();
+      this.clearSelectedRows();
     }, (error) => {
       this.spinnerService.hide();
       this.clearSelectedRows();

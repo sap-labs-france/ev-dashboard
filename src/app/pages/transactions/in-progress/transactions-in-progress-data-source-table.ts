@@ -207,10 +207,10 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)){
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
-    
+
     switch (this.centralServerService.getLoggedUser().role) {
       case  Constants.ROLE_DEMO:
       case  Constants.ROLE_BASIC:
@@ -237,9 +237,13 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _stationStopTransaction(transaction: Transaction) {
     this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
+      if (response.status === 'Rejected') {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      } else {
+        this.messageService.showSuccessMessage(
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      }
       this.loadData(false);
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -248,9 +252,13 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
+      if (response.status === 'Rejected') {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      } else {
+        this.messageService.showSuccessMessage(
         this.translateService.instant('transactions.notification.soft_stop.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+      }
       this.loadData(false);
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.soft_stop.error');
@@ -275,6 +283,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         dialogConfig.data = {
           transactionId: transaction.id,
         };
+        // disable outside click close
+        dialogConfig.disableClose = true;
         // Open
         this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
         this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));

@@ -2,7 +2,7 @@
   "general": {
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.18",
+    "last_update": "Version 2.0.21",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -131,6 +131,7 @@
       "delete": "Delete",
       "edit": "Edit",
       "edit_chargers": "Edit charging station",
+      "display_chargers": "Display charging stations",
       "assign_site": "Assign to Site",
       "edit_users": "Edit user",
       "no_action": "No possible actions",
@@ -480,8 +481,8 @@
     "connector": "Connector",
     "connector0": "Charger",
     "connector_type": "Type",
-    "connector_error_title": "Code Erreur",
-    "connector_info_title": "Erreur info",
+    "connector_error_title": "Error",
+    "connector_info_title": "Error information",
     "connector_vendor_error_code_title": "Vendor error",
     "connector_max_power": "Maximum Power (Watts)",
     "charger_url": "URL",
@@ -652,6 +653,10 @@
     "unlock_connector_error": "Error occurred while unlocking the connector",
     "connector_type_unknown": "Not set",
     "connector_type_type2": "Type 2",
+    "connector_type_type1": "Type 1",
+    "connector_type_type1ccs": "Type 1 - Combo",
+    "connector_type_type3c": "Type 3C",
+    "connector_type_domestic": "Domestic",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
     "direct_current": "Direct Current",
@@ -1105,7 +1110,7 @@
     "hour_short": "h",
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
-    "refundDate": "Refunded At",
+    "refundDate": "Transferred On",
     "filter": {
       "type": {
         "name": "Type",
@@ -1162,8 +1167,8 @@
         "error": "An error occurred during session deletion"
       },
       "soft_stop": {
-        "success": "Session of {{user}} stopped successfully",
-        "error": "An error occurred during session stop"
+        "success": "Session of {{user}} stopped successfully.",
+        "error": "An error occurred during session stop."
       },
       "refund": {
         "success": "{{inSuccess}} refund requested successfully",

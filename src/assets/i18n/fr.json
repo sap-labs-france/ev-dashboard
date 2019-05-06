@@ -1,8 +1,9 @@
+
 {
   "general": {
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.18",
+    "last_update": "Version 2.0.21",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -130,7 +131,8 @@
       "create": "Créer",
       "delete": "Effacer",
       "edit": "Editer",
-      "edit_chargers": "Editer une borne",
+      "edit_chargers": "Editer les bornes",
+      "display_chargers": "Afficher les bornes",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
       "no_action": "Aucunes actions supplémentaires",
@@ -480,9 +482,9 @@
     "connector": "Connecteur",
     "connector0": "Borne",
     "connector_type": "Type",
-    "connector_error_title": "Code erreur",
-    "connector_info_title": "Error info",
-    "connector_vendor_error_code_title": "Vendor error",
+    "connector_error_title": "Erreur",
+    "connector_info_title": "Information erreur",
+    "connector_vendor_error_code_title": "Code erreur Fab.",
     "connector_max_power": "Puissance Maximum (Watts)",
     "charger_url": "URL",
     "charger_param_key": "Clé",
@@ -652,6 +654,10 @@
     "unlock_connector_error": "Une erreur est survenue lors du dévérouillage du connecteur",
     "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
+    "connector_type_type1": "Type 1",
+    "connector_type_type1ccs": "Type 1 - Combo",
+    "connector_type_type3c": "Type 3C",
+    "connector_type_domestic": "Domestique",
     "connector_type_combo": "Combo (CSS)",
     "connector_type_chademo": "CHAdeMO",
     "direct_current": "Courant Continu",
@@ -1103,7 +1109,7 @@
     "hour_short": "h",
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
-    "refundDate": "Remboursée le",
+    "refundDate": "Transférée le",
     "filter": {
       "type": {
         "name": "Type",
@@ -1160,8 +1166,8 @@
         "error": "Une erreur est survenue pendant la suppression de la session"
       },
       "soft_stop": {
-        "success": "La session de {{user}} est arrétée avec succès",
-        "error": "Une erreur est survenue pendant l'arret de la session"
+        "success": "La session de {{user}} est arrétée avec succès.",
+        "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
         "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",

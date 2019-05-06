@@ -7,9 +7,10 @@ export abstract class DialogTableDataComponent<T> {
   public dialogDataSource: DialogTableDataSource<T>;
   public title: string;
   public buttonTitle: string;
-  protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>
 
-  constructor(@Inject(MAT_DIALOG_DATA) data, dialogTableDataSource?: DialogTableDataSource<T>) {
+  constructor(@Inject(MAT_DIALOG_DATA) data,
+    protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>,
+    dialogTableDataSource?: DialogTableDataSource<T>) {
     // Assign dialog table data source if provided
     if (dialogTableDataSource) {
       this.dialogDataSource = dialogTableDataSource;
@@ -21,6 +22,17 @@ export abstract class DialogTableDataComponent<T> {
     if (data && data.tableDef) {
       this.dialogDataSource.setTableDef(data.tableDef);
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.cancel();
+      }
+      // check if enter
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        this.validate();
+      }
+    });
   }
 
   validate() {

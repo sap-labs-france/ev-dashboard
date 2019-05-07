@@ -122,6 +122,12 @@ export abstract class TableDataSource<T> {
   }
 
   public setSearchValue(searchValue: string) {
+    // Reset to default paging
+    this.setPaging({
+      skip: 0,
+      limit: this.getPageSize()
+    });
+    // Set value
     this.searchValue = searchValue;
   }
 

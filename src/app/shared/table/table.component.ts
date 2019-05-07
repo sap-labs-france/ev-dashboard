@@ -8,7 +8,7 @@ import {TableDataSource} from './table-data-source';
 import {LocaleService} from '../../services/locale.service';
 import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 import {SpinnerService} from 'app/services/spinner.service';
-import {Observable, fromEvent} from 'rxjs';
+import {fromEvent} from 'rxjs';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
 
@@ -20,7 +20,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   @ViewChild('searchInput') searchInput: ElementRef;
   public searchPlaceholder = '';
-  public searchObservable: Observable<string>;
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;

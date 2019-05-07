@@ -990,6 +990,8 @@
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
     "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
     "background_job_no_run": "Non executée",
+    "stop_background_job_title": "Arrêter le processus de mise à jour",
+    "stop_background_job_confirm": "Voulez-vous vraiment arrêter le processus de mise à jour pour IOP '{{name}}' ?",
     "totalChargePoints": "Points de Charge",
     "succeeded": "Succès",
     "failed": "Echecs"

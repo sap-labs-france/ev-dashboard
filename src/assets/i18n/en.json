@@ -991,6 +991,8 @@
     "background_job_activated": "Background job activated successfully",
     "background_job_desactivated": "Background job disabled successfully",
     "background_job_no_run": "Not Executed",
+    "stop_background_job_title": "Stop Background Job",
+    "stop_background_job_confirm": "Do you want to stop the background job for IOP '{{name}}'?",
     "totalChargePoints": "Total Charge Points",
     "succeeded": "Succeeded",
     "failed": "Failed"

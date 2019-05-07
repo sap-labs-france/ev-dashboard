@@ -28,7 +28,7 @@ export class AuthorizationService {
     // Get the logged user
     const currentLoggedUser = this.centralServerService.getLoggedUser();
     // Check
-    if (!this.loggedUser || this.loggedUser.id !== currentLoggedUser.id) {
+    if (!this.loggedUser || this.loggedUser.id !== currentLoggedUser.id || this.loggedUser.role !== currentLoggedUser.role ) {
       // Keep user
       this.loggedUser = currentLoggedUser;
       // Create Auth

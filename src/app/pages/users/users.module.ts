@@ -17,6 +17,7 @@ import {UserStatusPipe} from './formatters/user-status.pipe';
 import {FormattersModule} from '../../shared/formatters/formatters.module';
 import {UserDialogComponent} from './user/user.dialog.component';
 import {UserStatusComponent} from './formatters/user-status.component';
+import {AppFormatUserStatusPipe} from './formatters/user-status.component';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 import {ConnectionComponent} from './connections/connection.component';
 
@@ -35,6 +36,7 @@ import {ConnectionComponent} from './connections/connection.component';
   ],
   declarations: [
     UserStatusComponent,
+    AppFormatUserStatusPipe,
     UsersComponent,
     UserComponent,
     UserDialogComponent,

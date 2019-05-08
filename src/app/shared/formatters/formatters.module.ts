@@ -9,6 +9,8 @@ import {AppConnectorErrorCodePipe} from './app-connector-error-code.pipe';
 import {AppUnitPipe} from './app-unit.pipe';
 import {LocaleService} from '../../services/locale.service';
 import {AppBatteryPercentagePipe} from './app-battery-percentage.pipe';
+import {AppFormatRowCellPipe} from './app-format-row-cell';
+
 
 @NgModule({
   imports: [],
@@ -21,6 +23,7 @@ import {AppBatteryPercentagePipe} from './app-battery-percentage.pipe';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
+    AppFormatRowCellPipe,
     AppUnitPipe
   ],
   exports: [
@@ -29,6 +32,7 @@ import {AppBatteryPercentagePipe} from './app-battery-percentage.pipe';
     AppDatePipe,
     AppDurationPipe,
     AppConnectorIdPipe,
+    AppFormatRowCellPipe,
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,

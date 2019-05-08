@@ -1,7 +1,19 @@
 import {ButtonType, DialogType, FilterType} from '../common.types';
 
 export class Constants {
+  public static DEFAULT_PAGE_SIZE = 100;
+  public static INFINITE_RECORDS = -1;
+  public static DEFAULT_POLLING_MILLIS = 10000;
+
   public static REST_RESPONSE_SUCCESS = 'Success';
+
+  public static CHIP_TYPE_PRIMARY = 'chip-primary';
+  public static CHIP_TYPE_DEFAULT = 'chip-default';
+  public static CHIP_TYPE_INFO = 'chip-info';
+  public static CHIP_TYPE_SUCCESS = 'chip-success';
+  public static CHIP_TYPE_DANGER = 'chip-danger';
+  public static CHIP_TYPE_WARNING = 'chip-warning';
+  public static CHIP_TYPE_GREY = 'chip-grey';
 
   /* Authorization */
   public static ROLE_ADMIN = 'A';
@@ -121,6 +133,18 @@ export class Constants {
   public static FILTER_TYPE_DIALOG_TABLE: FilterType = 'dialog-table';
   public static FILTER_TYPE_DATE: FilterType = 'date';
 
+  /* Connector Status */
+  public static CONN_STATUS_AVAILABLE = 'Available';
+  public static CONN_STATUS_OCCUPIED = 'Occupied';
+  public static CONN_STATUS_CHARGING = 'Charging';
+  public static CONN_STATUS_FAULTED = 'Faulted';
+  public static CONN_STATUS_RESERVED = 'Reserved';
+  public static CONN_STATUS_FINISHING = 'Finishing';
+  public static CONN_STATUS_PREPARING = 'Preparing';
+  public static CONN_STATUS_SUSPENDED_EVSE = 'SuspendedEVSE';
+  public static CONN_STATUS_SUSPENDED_EV =  'SuspendedEV';
+  public static CONN_STATUS_UNAVAILABLE = 'Unavailable';
+
   /* Dialog buttons */
   public static BUTTON_TYPE_OK: ButtonType = 'OK';
   public static BUTTON_TYPE_CANCEL: ButtonType = 'CANCEL';
@@ -148,13 +172,13 @@ export class Constants {
   /* Settings */
 
   /* OCPI status */
-  public static OCPIENDPOINT_STATUS_NEW = 'new';
-  public static OCPIENDPOINT_STATUS_REGISTERED = 'registered';
-  public static OCPIENDPOINT_STATUS_UNREGISTERED = 'unregistered';
+  public static OCPI_ENDPOINT_STATUS_NEW = 'new';
+  public static OCPI_ENDPOINT_STATUS_REGISTERED = 'registered';
+  public static OCPI_ENDPOINT_STATUS_UNREGISTERED = 'unregistered';
 
   /* OCPI Patch Job status */
-  public static OCPIENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
-  public static OCPIENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
+  public static OCPI_ENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
+  public static OCPI_ENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';
 
   /* RegEx validation rule */
   public static REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;

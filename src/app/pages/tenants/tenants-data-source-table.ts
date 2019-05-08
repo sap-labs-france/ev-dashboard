@@ -7,9 +7,7 @@ import {CentralServerNotificationService} from '../../services/central-server-no
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../services/central-server.service';
-import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {TenantDialogComponent} from './dialog/tenant.dialog.component';
@@ -21,57 +19,49 @@ import {DialogService} from '../../services/dialog.service';
 import {Injectable} from '@angular/core';
 import {TableOpenAction} from '../../shared/table/actions/table-open-action';
 import {WindowService} from '../../services/window.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
-  private readonly tableActionsRow: TableActionDef[];
-
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private windowService: WindowService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService) {
-    super();
-
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableOpenAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private windowService: WindowService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get the Tenants
-    this.centralServerService.getTenants(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((tenants) => {
-      // Hide
-      this.spinnerService.hide();
-      // Update nbr records
-      this.setNumberOfRecords(tenants.count);
-      // Update Paginator
-      this.updatePaginator();
-      this.setData(tenants.result);
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Show error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // Get the Tenants
+      this.centralServerService.getTenants(this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((tenants) => {
+        // Update nbr records
+        this.setTotalNumberOfRecords(tenants.count);
+        // Ok
+        observer.next(tenants.result);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -114,16 +104,20 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
       ...tableActionsDef
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+  public buildTableRowActions(): TableActionDef[] {
+    return [
+      new TableEditAction().getActionDef(),
+      new TableOpenAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -131,7 +125,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showTenantDialog();
+        this.showTenantDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -141,31 +135,31 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showTenantDialog(rowItem);
+        this.showTenantDialog(rowItem);
         break;
       case 'delete':
-        this._deleteTenant(rowItem);
+        this.deleteTenant(rowItem);
         break;
       case 'open':
-        this._openTenant(rowItem);
+        this.openTenant(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction().getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
-  private _showTenantDialog(tenant?: any) {
+  private showTenantDialog(tenant?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '60vw';
@@ -175,24 +169,22 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
-  private _openTenant(tenant?: any) {
+  private openTenant(tenant?: any) {
     if (tenant) {
       window.open(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
     }
   }
 
-  private _deleteTenant(tenant) {
+  private deleteTenant(tenant) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('tenants.delete_title'),
       this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
           } else {
@@ -200,7 +192,6 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
               this.messageService, 'tenants.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'tenants.delete_error');
         });

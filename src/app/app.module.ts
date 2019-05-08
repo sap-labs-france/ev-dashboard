@@ -109,7 +109,6 @@ registerLocaleData(localeFr, 'fr');
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    // MatTooltipModule
   ],
   providers: [
     {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter}
@@ -170,7 +169,6 @@ export function localeFactory(
     AdminLayoutComponent,
     AuthLayoutComponent,
     ReleaseNotesComponent,
-    // TooltipDirective,
   ],
   exports: [
     TranslateModule

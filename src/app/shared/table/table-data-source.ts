@@ -1,149 +1,156 @@
-import {BehaviorSubject, interval, Observable, of, Subject, Subscription} from 'rxjs';
-import {ElementRef} from '@angular/core';
-import {MatPaginator, MatSort} from '@angular/material';
-import {CollectionViewer, DataSource, SelectionModel} from '@angular/cdk/collections';
+import {Observable, of} from 'rxjs';
+import {MatSort} from '@angular/material';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
-import {Utils} from '../../utils/Utils';
-
+import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
-import {takeWhile} from 'rxjs/operators';
 
-export abstract class TableDataSource<T> implements DataSource<T> {
-  public rowActionsDef: TableActionDef[];
-  private dataSubject = new BehaviorSubject<any[]>([]);
-  private searchInput: ElementRef;
-  private paginator: MatPaginator;
-  private sort: MatSort;
-  private numberOfRecords = 0;
-  private tableDef: TableDef;
-  private tableColumnDef: TableColumnDef[];
-  private actionsDef: TableActionDef[];
-  private actionsRightDef: TableActionDef[];
-  private filtersDef: TableFilterDef[];
-  private selectionModel: SelectionModel<any>;
-  private data: any[] = [];
-  protected formattedData = [];
-  private locale;
-  private dataChangeSubscription: Subscription;
-  // private _refreshInterval;
+export abstract class TableDataSource<T> {
+  public tableDef: TableDef;
+  public tableColumnDefs: TableColumnDef[];
+  public tableFiltersDef: TableFilterDef[];
+  public tableActionsDef: TableActionDef[];
+  public tableActionsRightDef: TableActionDef[];
+  public tableRowActionsDef: TableActionDef[];
+
+  public data: any[] = [];
+  public paging: Paging = {
+    limit: this.getPageSize(),
+    skip: 0
+  };
+  public sort: MatSort = new MatSort();
+
+  public hasActions: boolean;
+  public hasFilters: boolean;
+  public isSearchEnabled: boolean;
+  public isFooterEnabled: boolean;
+  public hasRowActions: boolean;
+  public selectedRows = 0;
+  public maxSelectableRows = 0;
+  public lastSelectedRow;
+  public totalNumberOfRecords = Constants.INFINITE_RECORDS;
+
+  private loadingNumberOfRecords = false;
+  private searchValue = '';
   private staticFilters = [];
-  private pollingInterval = 0;
-  private _ongoingAutoRefresh = new BehaviorSubject<boolean>(false);
-  private _ongoingManualRefresh = new BehaviorSubject<boolean>(false);
-  private _rowRefresh = new Subject<any>();
-  protected _displayDetailsColumns = new BehaviorSubject<boolean>(true);
-  private _isDestroyed = false;
 
-  public setPollingInterval(pollingInterval: number) {
-    this.pollingInterval = pollingInterval;
-  }
-
-  public isEmpty(): boolean {
-    // Empty?
-    return this.data.length === 0;
-  }
-
-  public hasActions(): boolean {
-    this._checkInitialized();
-    return (this.actionsDef && this.actionsDef.length > 0) || (this.actionsRightDef && this.actionsRightDef.length > 0);
-  }
-
-  public hasRowActions(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.rowActionsDef && this.rowActionsDef.length > 0;
-  }
-
-  public hasFilters(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.filtersDef && this.filtersDef.length > 0;
+  constructor(
+    public spinnerService: SpinnerService) {
   }
 
   public isRowSelectionEnabled(): boolean {
-    // Check
-    this._checkInitialized();
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    // Check
-    this._checkInitialized();
     // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    // Check
-    this._checkInitialized();
     // Return
-    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('hideShowField');
+    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    // Check
-    this._checkInitialized();
     // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
-  public isFooterEnabled(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-  }
-
-  public isSearchEnabled(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-  }
-
-  public isDesignFlat(): boolean {
-    // Check
-    this._checkInitialized();
-    // Return
-    return this.tableDef && this.tableDef.design && this.tableDef.design.flat;
-  }
-
-  public getSelectionModel(): SelectionModel<any> {
-    if (!this.selectionModel) {
-      this.selectionModel = new SelectionModel<any>(
-        this.isMultiSelectionEnabled(), []);
-    }
-    return this.selectionModel;
-  }
-
   public getSelectedRows(): T[] {
-    return this.getSelectionModel().selected.map(element => element['data']);
+    return this.data.filter((row) => row.isSelected);
   }
 
   public hasSelectedRows(): boolean {
-    return this.getSelectionModel().hasValue();
+    return (this.selectedRows > 0)
   }
 
   public clearSelectedRows() {
-    return this.getSelectionModel().clear();
+    // Clear
+    this.selectedRows = 0;
+    this.data.forEach((row) => {
+      if (row.isSelectable) {
+        row.isSelected = false;
+      }
+    })
   }
 
-  public getDataSubjet(): BehaviorSubject<T[]> {
-    return this.dataSubject;
+  public selectAllRows() {
+    // Select All
+    this.selectedRows = 0;
+    this.data.forEach((row) => {
+      // Check
+      if (row.isSelectable) {
+        row.isSelected = true;
+        this.selectedRows++;
+      }
+    })
   }
 
-  public setPaginator(paginator: MatPaginator) {
-    this.paginator = paginator;
+  public toggleMasterSelect() {
+    if (this.isAllSelected()) {
+      // Unselect All
+      this.clearSelectedRows();
+    } else {
+      // Select All
+      this.selectAllRows();
+    }
   }
 
-  public getPaginator(): MatPaginator {
-    // Return one of them
-    return this.paginator;
+  public toggleRowSelection(row) {
+    // Invert
+    row.isSelected = !row.isSelected;
+    // Adjust number of selected rows
+    if (row.isSelected) {
+      this.selectedRows++
+      // Single Select?
+      if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
+        // Unselect last row
+        this.lastSelectedRow.isSelected = false;
+      }
+      this.lastSelectedRow = row;
+    } else {
+      this.selectedRows--
+      this.lastSelectedRow = null;
+    }
+  }
+
+  public isAllSelected() {
+    return (this.selectedRows === this.maxSelectableRows);
+  }
+
+  public setSearchValue(searchValue: string) {
+    // Reset to default paging
+    this.setPaging({
+      skip: 0,
+      limit: this.getPageSize()
+    });
+    // Set value
+    this.searchValue = searchValue;
+  }
+
+  public getSearchValue(): string {
+    return this.searchValue;
+  }
+
+  public getPageSize(): number {
+    return Constants.DEFAULT_PAGE_SIZE;
+  }
+
+  public setPaging(paging: Paging) {
+    this.paging = paging;
+  }
+
+  public getPaging(): Paging {
+    if (!this.paging) {
+      this.paging = {
+        skip: 0,
+        limit: this.getPageSize()
+      }
+    }
+    return this.paging;
   }
 
   public setSort(sort: MatSort) {
@@ -154,125 +161,42 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     return this.sort;
   }
 
-  public setSearchInput(searchInput: ElementRef) {
-    this.searchInput = searchInput;
-  }
-
-  public setSearchValue(searchValue: String) {
-    this.searchInput.nativeElement.value = searchValue;
-  }
-
-  public getSearchValue(): string {
-    // Check
-    if (this.searchInput) {
-      return this.searchInput.nativeElement.value;
-    }
-    return '';
-  }
-
-  public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    this._isDestroyed = false;
-    if (!this.dataSubject || this.dataSubject.isStopped || this.dataSubject.closed) {
-      this.dataSubject = new BehaviorSubject<any[]>([]);
-    }
-    return this.dataSubject.asObservable();
-  }
-
-  public disconnect(collectionViewer: CollectionViewer): void {
-    this._isDestroyed = true;
-    if (this._displayDetailsColumns) {
-      this._displayDetailsColumns.complete();
-      this._displayDetailsColumns = null;
-    }
-    if (this._rowRefresh) {
-      this._rowRefresh.complete();
-      this._rowRefresh = null;
-    }
-    if (this._ongoingAutoRefresh) {
-      this._ongoingAutoRefresh.complete();
-      this._ongoingAutoRefresh = null;
-    }
-    if (this._ongoingManualRefresh) {
-      this._ongoingManualRefresh.complete();
-      this._ongoingManualRefresh = null;
-    }
-    this.unregisterToDataChange();
-    this.paginator = null;
-    this.sort = null;
-
-    this.dataSubject.complete();
-  }
-
-  public updatePaginator() {
-    if (this.paginator) { // Might happen in case destroy occurs before the end of the loadData
-      this.paginator.length = this.getNumberOfRecords();
-    }
-  }
-
-  public getPaginatorPageSizes() {
-    return [50, 100, 250, 500];
-  }
-
-  public getPaging(): Paging {
-    if (this.getPaginator()) {
-      return {
-        skip: this.getPaginator().pageIndex * this.getPaginator().pageSize,
-        limit: this.getPaginator().pageSize
-      };
-    } else {
-      return {
-        skip: 0,
-        limit: this.getPaginatorPageSizes()[0]
-      };
-    }
-  }
-
-  public getOrdering(): Ordering[] {
+  public getSorting(): Ordering[] {
     if (this.getSort()) {
       return [
         {field: this.getSort().active, direction: this.getSort().direction}
       ]
     } else {
       // Find Sorted columns
-      const columnDef = this.tableColumnDef.find((column) => column.sorted === true);
+      const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
       // Found?
       if (columnDef) {
         // Yes: Set Sorting
         return [
           {field: columnDef.id, direction: columnDef.direction}
         ]
-      } else {
-        return [
-          // { field: 'id', direction: 'asc' }
-        ]
       }
     }
   }
 
-  public setNumberOfRecords(numberOfRecords: number) {
-    this.numberOfRecords = numberOfRecords;
+  public setTotalNumberOfRecords(totalNumberOfRecords: number) {
+    // Set only when all records have been retrieved
+    if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
+      this.totalNumberOfRecords = totalNumberOfRecords;
+    }
   }
 
-  public getNumberOfRecords(): number {
-    return this.numberOfRecords;
+  public getTotalNumberOfRecords(): number {
+    return this.totalNumberOfRecords;
   }
 
-  public setData(data: T[]) {
-    this.refreshData(data);
-    this.dataSubject.next(this.formattedData);
+  public resetTotalNumberOfRecords() {
+    this.totalNumberOfRecords = Constants.INFINITE_RECORDS;
   }
 
-  public getData(): any[] {
-    return this.data;
-  }
-
-  public getFormattedData(): any[] {
-    return this.formattedData;
-  }
-
-  public getTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     // Return default
-    if (this.filtersDef && this.filtersDef.length > 0) {
+    if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
         new TableResetFiltersAction().getActionDef()
       ];
@@ -281,23 +205,55 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public getTableActionsDef(): TableActionDef[] {
+    if (!this.tableActionsDef) {
+      this.tableActionsDef = this.buildTableActionsDef();
+    }
+    return this.tableActionsDef;
+  }
+
+  public buildTableActionsRightDef(): TableActionDef[] {
     // Return default
     return [];
   }
 
-  public getTableRowActions(item?: T): TableActionDef[] {
+  public getTableActionsRightDef(): TableActionDef[] {
+    if (!this.tableActionsRightDef) {
+      this.tableActionsRightDef = this.buildTableActionsRightDef();
+    }
+    return this.tableActionsRightDef;
+  }
+
+  public buildTableRowActions(): TableActionDef[] {
     // Return default
+    return [];
+  }
+
+  public getTableRowActions(): TableActionDef[] {
+    if (!this.tableRowActionsDef) {
+      this.tableRowActionsDef = this.buildTableRowActions();
+    }
+    return this.tableRowActionsDef;
+  }
+
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
   public getTableFiltersDef(): TableFilterDef[] {
-    // Return default
-    return [];
+    if (!this.tableFiltersDef) {
+      this.tableFiltersDef = this.buildTableFiltersDef();
+    }
+    return this.tableFiltersDef;
   }
 
+  abstract buildTableDef(): TableDef;
+
   public getTableDef(): TableDef {
-    return {rowFieldNameIdentifier: ''};
+    if (!this.tableDef) {
+      this.tableDef = this.buildTableDef();
+    }
+    return this.tableDef;
   }
 
   public setTableDef(tableDef: TableDef) {
@@ -305,58 +261,39 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public filterChanged(filter: TableFilterDef) {
+    // Reset to default paging
+    this.setPaging({
+      skip: 0,
+      limit: this.getPageSize()
+    });
     // Update Filter
-    const foundFilter = this.filtersDef.find((filterDef) => {
+    const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
     });
     // Update value
     foundFilter.currentValue = filter.currentValue;
-    // Reload data
-    this.loadData(false);
-  }
-
-  public reset() {
-    this.unregisterToDataChange();
-    this.resetFilters();
-    this.tableDef = null;
-    this.filtersDef = null;
-    this.actionsDef = null;
-    this.actionsRightDef = null;
-    this.rowActionsDef = null;
   }
 
   public resetFilters() {
-    if (this.filtersDef) {
-      this.filtersDef.forEach((filterDef: TableFilterDef) => {
-        filterDef.reset();
+    if (this.tableFiltersDef) {
+      // Reset all filter fields
+      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+        switch (filterDef.type) {
+          case 'dropdown':
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            filterDef.reset();
+            break;
+        }
       });
     }
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    // Check common actions
-    switch (actionDef.id) {
-      case 'refresh':
-        this.clearSelectedRows();
-        this._manualRefreshReload();
-        break;
-      // Auto Refresh
-      case 'auto-refresh':
-        // Check Change Listener
-        if (actionDef.currentValue) {
-          // Activate
-          this.registerToDataChange();
-        } else {
-          // Disable
-          this.unregisterToDataChange();
-        }
-        break;
-      case 'reset_filters':
-        this.setSearchValue('');
-        this.resetFilters();
-        this.loadData(false);
-        break;
-    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
@@ -367,126 +304,17 @@ export abstract class TableDataSource<T> implements DataSource<T> {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
-  public subscribeAutoRefresh(fn): Subscription {
-    if (!this._ongoingAutoRefresh || this._ongoingAutoRefresh.isStopped) {
-      // restart observable
-      this._ongoingAutoRefresh = new BehaviorSubject(false);
-    }
-    return this._ongoingAutoRefresh.subscribe(fn);
-  }
-
-  public subscribeManualRefresh(fn): Subscription {
-    if (!this._ongoingManualRefresh || this._ongoingManualRefresh.isStopped) {
-      // restart observable
-      this._ongoingManualRefresh = new BehaviorSubject(false);
-    }
-    return this._ongoingManualRefresh.subscribe(fn);
-  }
-
-  public subscribeRowRefresh(fn): Subscription {
-    if (!this._rowRefresh || this._rowRefresh.isStopped) {
-      // restart observable
-      this._rowRefresh = new Subject();
-    }
-    return this._rowRefresh.subscribe(fn);
-  }
-
-  public subscribeDisplayDetailsColumn(fn): Subscription {
-    if (!this._displayDetailsColumns || this._displayDetailsColumns.isStopped) {
-      this._displayDetailsColumns = new BehaviorSubject<boolean>(true);
-    }
-    return this._displayDetailsColumns.subscribe(fn);
-  }
-
-  public registerToDataChange() {
-    if (!this._isDestroyed && !this.dataChangeSubscription) {
-      if (this.pollingInterval > 1000) {
-        this.dataChangeSubscription = interval(this.pollingInterval).pipe(takeWhile(() => !this._isDestroyed)).subscribe((occurrence) => {
-          if (this._isDestroyed) {
-            this.dataChangeSubscription.unsubscribe();
-          } else {
-            this.refreshReload();
-          }
-        });
-      } else {
-        this.dataChangeSubscription = this.getDataChangeSubject().subscribe(() => {
-          this._ongoingAutoRefresh.next(true);
-          this.loadData(true);
-          this._ongoingAutoRefresh.next(false);
-        });
-      }
-    }
-  }
-
-  refreshReload() {
-    let refreshStatus;
-    if (this._ongoingManualRefresh) {
-      this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
-    }
-    this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
-    if (refreshStatus) {
-      return;
-    }
-    this._ongoingAutoRefresh.next(true);
-    const startDate = new Date().getTime();
-    this.loadData(true);
-    const endDate = new Date().getTime();
-    // display the spinner at min 1s
-    if (endDate - startDate > 1000) {
-      this._ongoingAutoRefresh.next(false);
-    } else {
-      setTimeout(() => {
-        if (this._ongoingAutoRefresh) { // check if component si not destroyed in the meantime
-          this._ongoingAutoRefresh.next(false);
-        }
-      }, 1000 - (endDate - startDate));
-    }
-  }
-
-  private _manualRefreshReload() {
-    // check if there is not already an ongoing refresh
-    let refreshStatus;
-    this._ongoingManualRefresh.subscribe(value => refreshStatus = value).unsubscribe();
-    if (this._ongoingAutoRefresh) {
-      this._ongoingAutoRefresh.subscribe(value => refreshStatus = refreshStatus || value).unsubscribe();
-    }
-    if (refreshStatus) {
-      return;
-    }
-    // Start manual refresh
-    this._ongoingManualRefresh.next(true);
-    const startDate = new Date().getTime();
-    this.loadData(true);
-    const endDate = new Date().getTime();
-    // display the spinner for min 1s
-    if (endDate - startDate > 1000) {
-      this._ongoingManualRefresh.next(false);
-    } else {
-      setTimeout(() => {
-        if (this._ongoingManualRefresh) {
-          this._ongoingManualRefresh.next(false);
-        }
-      }, 1000 - (endDate - startDate));
-    }
-  }
-
-
-  public unregisterToDataChange() {
-    if (this.dataChangeSubscription) {
-      this.dataChangeSubscription.unsubscribe();
-      this.dataChangeSubscription = null;
-    }
-  }
-
-  public getFilterValues(withSearch: boolean = true) {
+  public buildFilterValues(withSearch: boolean = true) {
     let filterJson = {};
     // Parse filters
-    if (this.filtersDef) {
-      this.filtersDef.forEach((filterDef) => {
+    if (this.tableFiltersDef) {
+      this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+          // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+          // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -502,6 +330,7 @@ export abstract class TableDataSource<T> implements DataSource<T> {
                 }
               }
             }
+          // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -537,206 +366,225 @@ export abstract class TableDataSource<T> implements DataSource<T> {
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
-    // Should be implemented in implementation
-  }
-
-  public getTableColumnDefs(): TableColumnDef[] {
-    if (!this.tableColumnDef) {
-      this.tableColumnDef = this.buildTableColumnDefs();
-    }
-    return this.tableColumnDef;
   }
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
-  abstract loadData(refreshAction?: boolean);
+  public getTableColumnDefs(): TableColumnDef[] {
+    if (!this.tableColumnDefs) {
+      this.tableColumnDefs = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDefs;
+  }
 
-  refreshData(freshData: any[]) {
-    const freshFormattedData = [];
-    const rowRefreshed = [];
-    freshData.forEach((freshRow) => {
-      const rowIdentifier = (this.getTableDef().rowFieldNameIdentifier ? this.getTableDef().rowFieldNameIdentifier : 'id');
-      const index = this.data.findIndex(row => row[rowIdentifier] === freshRow[rowIdentifier]);
-      if (index !== -1) {
-        if (_.isEqual(this.data[index], freshRow)) {
-          freshFormattedData.push(this.formattedData[index]);
-        } else {
-          const formattedRow = this._formatRow(freshRow);
-          if ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-            (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue())) {
-            // Check if row is expanded
-            if (this.formattedData[index]['data'].hasOwnProperty('isExpanded')) {
-              formattedRow['data'].isExpanded = this.formattedData[index]['data'].isExpanded;
+  public refreshData(showSpinner = true): Observable<any> {
+    // Init paging
+    const currentPaging = this.getPaging();
+    // Reload all loaded records
+    this.setPaging({
+      skip: 0,
+      limit: currentPaging.limit + currentPaging.skip
+    });
+    // Load data
+    return this.loadData(showSpinner, true);
+  }
+
+  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<any> {
+    return new Observable((observer) => {
+      // Show Spinner
+      if (showSpinner) {
+        this.spinnerService.show();
+      }
+        // Load data source
+      this.loadDataImpl().subscribe((data) => {
+        // Ok
+        this.setData(data);
+        // Hide Spinner
+        if (showSpinner) {
+          this.spinnerService.hide();
+        }
+        // Load number of records
+        setTimeout(() => {
+          // Loading on going?
+          if (!this.loadingNumberOfRecords) {
+            // No: Check
+            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
+               (forceRefreshRecords || // Force refresh records
+                this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
+                this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
+              ) {
+                // Load records
+                this.requestNumberOfRecords();
             }
           }
-          // Update specific row actions
-          const specificRowActions = this.specificRowActions(formattedRow['data']);
-          if (specificRowActions.length > 0) {
-            formattedRow['specificRowActions'] = specificRowActions;
-          }
-          freshFormattedData.push(formattedRow);
-          rowRefreshed.push({
-            newValue: formattedRow, previousValue: this.formattedData[index]['data'],
-            isAutoRefresh: ((this._ongoingAutoRefresh && this._ongoingAutoRefresh.getValue()) ||
-              (this._ongoingManualRefresh && this._ongoingManualRefresh.getValue()))
-          });
+        }, 1);
+        // Notify
+        observer.next(data);
+        observer.complete();
+      }, (error) => {
+        // handle errors
+      });
+    });
+  }
+
+  abstract loadDataImpl(): Observable<any>;
+
+  private setData(data: T[]) {
+    // Format the data
+    this.enrichData(data);
+    // Check Paging
+    if (this.paging.skip === 0) {
+      // Clear array
+      this.data.length = 0;
+      this.data.push(...data);
+    } else {
+      // Add
+      this.data.splice(this.paging.skip, this.paging.limit, ...data);
+    }
+    // Update Selection variables
+    if (this.tableDef.rowSelection &&
+        this.tableDef.rowSelection.enabled &&
+        this.tableDef.rowSelection.multiple) {
+      // Init
+      this.maxSelectableRows = 0;
+      this.selectedRows = 0;
+      for (const row of this.data) {
+        if (row.isSelectable) {
+          this.maxSelectableRows++;
         }
-      } else {
-        const formattedRow = this._formatRow(freshRow);
-        // Update specific row actions
-        const specificRowActions = this.specificRowActions(formattedRow['data']);
-        if (specificRowActions.length > 0) {
-          formattedRow['specificRowActions'] = specificRowActions;
+        if (row.isSelected) {
+          this.selectedRows++;
         }
-        freshFormattedData.push(formattedRow);
       }
-    });
-    this.formattedData = freshFormattedData;
-    this.data = freshData;
-    if (this._rowRefresh) {
-      rowRefreshed.forEach((row) => {
-        this._rowRefresh.next(row);
-      })
     }
   }
 
-  _formatRow(row): any[] {
-    const formattedRow = [];
-    this.tableColumnDef.forEach((columnDef) => {
-      formattedRow.push(this._buildCellValue(row, columnDef));
-    });
-    formattedRow['data'] = row;
-    return formattedRow;
+  public getData(): any[] {
+    return this.data;
   }
 
-  changeLocaleTo(locale: string) {
-    if (this.locale !== locale) {
-      this.locale = locale;
-      this.formattedData = [];
-      const toRefresh = this.data;
-      this.data = [];
-      this.setData(toRefresh);
+  requestNumberOfRecords() {
+    // Reset
+    this.resetTotalNumberOfRecords();
+    // Set flag
+    this.loadingNumberOfRecords = true;
+    // Add only record count
+    const staticFilters = [
+      ...this.getStaticFilters(),
+      { 'OnlyRecordCount': true}
+    ];
+    // Set
+    this.setStaticFilters(staticFilters);
+    // Load data
+    this.loadDataImpl().subscribe(() => {
+      // Unset flag
+      this.loadingNumberOfRecords = false;
+    });
+    // Remove OnlyRecordCount
+    staticFilters.splice(staticFilters.length - 1, 1)
+    // Reset static filter
+    this.setStaticFilters(staticFilters);
+  }
+
+  private enrichData(freshData: any[]) {
+    const isRowSelectionEnabled = this.isRowSelectionEnabled();
+    const expandedRowIDs = this.data.filter((row) => row.isExpanded);
+    const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
+    for (let i = 0; i < freshData.length; i++) {
+      const freshRow = freshData[i];
+      // Check for complex property
+      for (const tableColumnDef of this.tableColumnDefs) {
+        // Check for complex column id with dot
+        if (tableColumnDef.id.indexOf('.') !== -1) {
+          // Create new var for direct access
+          freshRow[tableColumnDef.id] = _.get(freshRow, tableColumnDef.id);
+        }
+      }
+      // Check dynamic row actions
+      if (this.tableDef.hasDynamicRowAction) {
+        const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
+        if (dynamicRowActions.length > 0) {
+          freshRow['dynamicRowActions'] = dynamicRowActions;
+        }
+      }
+      // Check Row Action Authorization
+      if (this.hasRowActions) {
+        // Check if authorized
+        this.tableRowActionsDef.forEach((rowActionDef) => {
+          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
+        });
+      }
+      // Check if row can be selected
+      if (isRowSelectionEnabled) {
+        freshRow.isSelectable = this.isSelectable(freshRow);
+      }
+      // Set row ID
+      if (!freshRow.id) {
+        // Get row ID
+        const rowID = this.getTableDef().rowFieldNameIdentifier;
+        // Trigger exception
+        if (!rowID) {
+          throw new Error('Table Def has no row ID defined!');
+        }
+        // Set the ID
+        freshRow.id = freshRow[rowID];
+      }
+      // Check if Expanded
+      const foundExpandedRow = expandedRowIDs.find((expandedRow) => expandedRow.id === freshRow.id);
+      if (foundExpandedRow) {
+        // Check if the table has a specific field to hide/show details
+        if (this.tableDef.rowDetails.showDetailsField) {
+          // Check if it's still visible
+          if (freshRow.hasOwnProperty(this.tableDef.rowDetails.showDetailsField)) {
+            // Set
+            freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];
+          } else {
+            freshRow.isExpanded = true;
+          }
+        } else {
+          // Not hiding: keep the row expanded
+          freshRow.isExpanded = true;
+        }
+        // Detailed field?
+        if (this.tableDef.rowDetails.detailsField) {
+          freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
+        }
+      }
+      // Check if Selected
+      if (selectedRowIDs.indexOf(freshRow.id) !== -1) {
+        // Select it
+        freshRow.isSelected = true;
+      }
     }
+  }
+
+  buildTableDynamicRowActions(row: T): TableActionDef[] {
+    return [];
   }
 
   canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
     return true;
   }
 
-  private _checkInitialized(): any {
-    // Check
-    if (!this.tableDef) {
-      this.tableDef = this.getTableDef();
-    }
-    if (!this.filtersDef) {
-      this.filtersDef = this.getTableFiltersDef();
-    }
-    if (!this.actionsDef) {
-      this.actionsDef = this.getTableActionsDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsDef);
-    }
-    if (!this.actionsRightDef) {
-      // Get
-      this.actionsRightDef = this.getTableActionsRightDef();
-      // Check known actions
-      this._checkKnownActions(this.actionsRightDef);
-    }
-    if (!this.rowActionsDef) {
-      this.rowActionsDef = this.getTableRowActions();
-      // Check known actions
-      this._checkKnownActions(this.rowActionsDef);
-    }
-    if (!this.tableColumnDef) {
-      this.tableColumnDef = this.buildTableColumnDefs();
-    }
+  protected initDataSource(): any {
+    // Init data from sub-classes
+    this.getTableColumnDefs();
+    this.getTableDef();
+    this.getTableFiltersDef();
+    this.getTableActionsDef();
+    this.getTableActionsRightDef();
+    this.getTableRowActions();
+
+    // Init vars
+    // tslint:disable-next-line:max-line-length
+    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
+      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
+    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
+    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+      this.tableDef.hasDynamicRowAction;
   }
-
-  private _checkKnownActions(actionsDef: TableActionDef[]): any {
-    // Check
-    if (actionsDef) {
-      // Check
-      actionsDef.forEach((actionDef) => {
-        // Check known actions
-        switch (actionDef.id) {
-          // Auto Refresh
-          case 'auto-refresh':
-            // Check Change Listener
-            if (actionDef.currentValue) {
-              // Activate
-              this.registerToDataChange();
-            } else {
-              // Disable
-              this.unregisterToDataChange();
-            }
-            break;
-        }
-      });
-    }
-  }
-
-  private findPropertyValue(columnDef, propertyName, source) {
-    let propertyValue = null;
-    propertyValue = source[propertyName];
-    if (propertyName.indexOf('.') > 0) {
-      propertyValue = source;
-      propertyName.split('.').forEach((key) => {
-          if (propertyValue.hasOwnProperty(key)) {
-            propertyValue = propertyValue[key];
-          } else if (columnDef.defaultValue) {
-            propertyValue = columnDef.defaultValue;
-          } else {
-            switch (columnDef.type) {
-              case 'number':
-              case 'float':
-                propertyValue = 0;
-                break;
-              default:
-                propertyValue = '';
-                break;
-            }
-          }
-        }
-      );
-    }
-    return propertyValue;
-  }
-
-  private _buildCellValue(row: any, columnDef: TableColumnDef) {
-    let propertyValue = this.findPropertyValue(columnDef, columnDef.id, row);
-    // Type?
-    switch (columnDef.type) {
-      // Date
-      case 'date':
-        propertyValue = Utils.convertToDate(propertyValue);
-        break;
-      // Integer
-      case 'integer':
-        propertyValue = Utils.convertToInteger(propertyValue);
-        break;
-      // Float
-      case 'float':
-        propertyValue = Utils.convertToFloat(propertyValue);
-        break;
-    }
-
-    if (columnDef.formatter) {
-      propertyValue = columnDef.formatter(propertyValue, row);
-    }
-    // Return the property
-    return `${propertyValue ? propertyValue : ''}`;
-  }
-
-  /**
-   * Used to retrieve individual line actions instead of general action table
-   *
-   * @param {*} row
-   * @memberof TableDataSource
-   */
-  specificRowActions(row: T): TableActionDef[] {
-    return [];
-  }
-
 
   isSelectable(row: T) {
     return true;

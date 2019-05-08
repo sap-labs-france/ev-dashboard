@@ -1,44 +1,45 @@
-import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {Site, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
+import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class SitesFilterDataSource extends DialogTableDataSource<Site> {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private centralServerService: CentralServerService,
-    private spinnerService: SpinnerService) {
-    super();
+      private messageService: MessageService,
+      public spinnerService: SpinnerService,
+      private router: Router,
+      private centralServerService: CentralServerService) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
-  loadData() {
-    // Show spinner
-    this.spinnerService.show();
-    // Get data
-    this.centralServerService.getSites(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((sites) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // Set number of records
-        this.setNumberOfRecords(sites.count);
-        // Update page length (number of sites is in User)
-        this.updatePaginator();
-        this.setData(sites.result);
-      }, (error) => {
-        // Hide spinner
-        this.spinnerService.hide();
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+ public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // Get data
+      this.centralServerService.getSites(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((sites) => {
+          // Set number of records
+          this.setTotalNumberOfRecords(sites.count);
+          // Ok
+          observer.next(sites.result);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -55,7 +56,7 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('sites.name'),
+        name: 'sites.name',
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
@@ -63,12 +64,12 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
       },
       {
         id: 'address.city',
-        name: this.translateService.instant('general.city'),
+        name: 'general.city',
         class: 'text-left col-350px'
       },
       {
         id: 'address.country',
-        name: this.translateService.instant('general.country'),
+        name: 'general.country',
         class: 'text-left col-300px'
       }
     ];

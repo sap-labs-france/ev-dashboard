@@ -1,6 +1,10 @@
 
 {
   "general": {
+    "more_records": "Plus",
+    "click_here": "cliquez ici",
+    "selected_records": "Selectionnés",
+    "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
     "last_update": "Version 2.0.21",
@@ -460,7 +464,7 @@
     "model": "Modèle",
     "name": "Nom",
     "heartbeat_title": "Etat",
-    "charger_disconnected": "Déconnectée ({{from}})",
+    "charger_disconnected": "Déconnectée",
     "charger_connected": "Connectée",
     "connectors_title": "Connecteurs",
     "consumption_title": "Puissance instantanée",
@@ -494,8 +498,8 @@
     "status_available": "Disponible",
     "status_preparing": "En Préparation",
     "status_charging": "En Charge",
-    "status_suspended_evse": "EVSE Suspendu",
-    "status_suspended_ev": "EV Suspendu",
+    "status_suspendedevse": "EVSE Suspendu",
+    "status_suspendedev": "EV Suspendu",
     "status_finishing": "Terminé",
     "status_reserved": "Réservée",
     "show_active_only": "Connecté",

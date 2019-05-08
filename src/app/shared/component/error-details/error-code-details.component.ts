@@ -14,7 +14,6 @@ import {ErrorCodeDetailsDialogComponent} from '../../dialogs/error-details/error
   }`]
 })
 export class ErrorCodeDetailsComponent extends CellContentTemplateComponent implements OnInit {
-
   @Input() row: any;
 
   constructor(private dialog: MatDialog) {

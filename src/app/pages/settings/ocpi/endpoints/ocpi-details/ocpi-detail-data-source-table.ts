@@ -218,6 +218,22 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   private enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
+    if (enable) {
+      this.enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable);
+    } else {
+    // stop background job with dialog:
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.stop_background_job_title'),
+        this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable);
+        }
+      });
+    }
+  }
+
+  private enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable: boolean) {
     // switch background job state
     ocpiendpoint.backgroundPatchJob = enable;
     // update it

@@ -286,7 +286,7 @@ export interface SacLink {
   url: string;
 }
 
-export interface Ocpiendpoint {
+export interface OcpiEndpoint {
   id: string;
   name: string;
   countryCode: string;
@@ -298,9 +298,9 @@ export interface Ocpiendpoint {
   lastPatchJobResult: any;
 }
 
-export interface OcpiendpointDetail {
+export interface OcpiEndpointDetail {
   id: string;
-  ocpiendpoint: Ocpiendpoint;
+  ocpiendpoint: OcpiEndpoint;
   status: string;
   backgroundPatchJob: boolean;
   lastPatchJobOn: Date;
@@ -309,9 +309,9 @@ export interface OcpiendpointDetail {
   totalNbr: number;
 }
 
-export interface OcpiendpointResult {
+export interface OcpiEndpointResult {
   count: number,
-  result: Ocpiendpoint[]
+  result: OcpiEndpoint[]
 }
 
 export interface TransactionResult {
@@ -414,12 +414,12 @@ export interface TableDef {
   rowDetails?: {
     enabled: boolean;
     detailsField?: string;
-    isDetailComponent?: boolean;
-    detailComponentName?: any;
-    hideShowField?: string;
+    angularComponent?: any;
+    showDetailsField?: string;
   },
   rowFieldNameIdentifier?: string,
   isSimpleTable?: boolean;
+  hasDynamicRowAction?: boolean;
 }
 
 export interface TableColumnDef {
@@ -429,13 +429,12 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  dynamicClass?: Function;
   formatter?: Function,
   sortable?: boolean,
   sorted?: boolean;
   direction?: SortDirection;
   isAngularComponent?: boolean
-  angularComponentName?: any;
+  angularComponent?: any;
   defaultValue?: any;
 }
 

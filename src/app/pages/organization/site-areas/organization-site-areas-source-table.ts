@@ -6,12 +6,9 @@ import { Injectable } from '@angular/core';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, SiteArea, Charger } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -28,60 +25,58 @@ import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component'
 import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   public isAdmin = false;
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
-    super();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
+    super(spinnerService);
+    // Init
     this.setStaticFilters([{ 'WithSite': true }]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadData() {
-    // Show
-    this.spinnerService.show();
-    // Get Site Areas
-    this.centralServerService.getSiteAreas(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((siteAreas) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(siteAreas.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(siteAreas.result);
-        // Set the data
-        this.setData(siteAreas.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // Get Site Areas
+      this.centralServerService.getSiteAreas(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
+          // Update nbr records
+          this.setTotalNumberOfRecords(siteAreas.count);
+          // Ok
+          observer.next(siteAreas.result);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -120,8 +115,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef(),
@@ -132,29 +127,10 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    if (this.isAdmin) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableViewAction().getActionDef(),
-        new TableDisplayChargersAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
-  }
-
-  specificRowActions(siteArea: SiteArea) {
+  buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-
     // check if GPs are available
     openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude ) ? false : true;
-
     if (this.isAdmin) {
       return [
         new TableEditAction().getActionDef(),
@@ -204,14 +180,14 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new SitesTableFilter().getFilterDef()
     ];
@@ -237,7 +213,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private _showChargersDialog(charger?: Charger) {
@@ -259,18 +235,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       this.translateService.instant('site_areas.delete_confirm', { 'siteAreaName': siteArea.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteSiteArea(siteArea.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { 'siteAreaName': siteArea.name });
-            this.loadData();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'site_areas.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'site_areas.delete_error');
         });

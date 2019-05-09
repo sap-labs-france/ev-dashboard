@@ -22,9 +22,6 @@ export class AddressComponent implements OnInit {
   public latitude: AbstractControl;
   public longitude: AbstractControl;
 
-  constructor() {
-  }
-
   ngOnInit() {
     // Form
     this.address = <FormGroup>this.formGroup.controls['address'];

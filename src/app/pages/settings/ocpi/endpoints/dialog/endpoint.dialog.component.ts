@@ -119,10 +119,10 @@ export class EndpointDialogComponent implements OnInit {
 
     if (this.currentEndpoint.id) {
       // update existing Ocpi Endpoint
-      this._updateOcpiendpoint(endpoint);
+      this.updateOcpiendpoint(endpoint);
     } else {
       // create new Ocpi Endpoint
-      this._createOcpiendpoint(endpoint);
+      this.createOcpiendpoint(endpoint);
     }
   }
 
@@ -178,7 +178,7 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  private _createOcpiendpoint(ocpiendpoint) {
+  private createOcpiendpoint(ocpiendpoint) {
     this.centralServerService.createOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
@@ -195,7 +195,7 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  private _updateOcpiendpoint(ocpiendpoint) {
+  private updateOcpiendpoint(ocpiendpoint) {
     this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {

@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-company-dialog-cmp',
-  templateUrl: 'company.dialog.component.html'
+  template: '<app-company-cmp [currentCompanyID]="companyID" [inDialog]="true" [dialogRef]="dialogRef"></app-company-cmp>'
 })
 export class CompanyDialogComponent {
   companyID: string;

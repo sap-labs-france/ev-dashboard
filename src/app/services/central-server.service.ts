@@ -19,7 +19,7 @@ import {
   Log,
   Logo,
   LogResult,
-  OcpiendpointResult,
+  OcpiEndpointResult,
   Ordering,
   Paging,
   SettingResult,
@@ -148,9 +148,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<CompanyResult>(
       `${this.centralRestServerServiceSecuredURL}/Companies`,
@@ -216,9 +216,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/Sites`,
@@ -270,9 +270,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<SiteResult>(
       `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
@@ -353,9 +353,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
       {
@@ -386,9 +386,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
       {
@@ -404,9 +404,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Users`,
       {
@@ -422,9 +422,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UsersInError`,
       {
@@ -440,9 +440,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
       {
@@ -458,9 +458,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
@@ -488,8 +488,8 @@ export class CentralServerService {
 
   public exportLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
-    this._buildPaging(paging, params);
-    this._buildOrdering(ordering, params);
+    this._getPaging(paging, params);
+    this._getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
       {
         headers: this._buildHttpHeaders(),
@@ -503,8 +503,8 @@ export class CentralServerService {
 
   public exportTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
-    this._buildPaging(paging, params);
-    this._buildOrdering(ordering, params);
+    this._getPaging(paging, params);
+    this._getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
       {
         headers: this._buildHttpHeaders(),
@@ -518,8 +518,8 @@ export class CentralServerService {
 
   public exportChargingStations(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
-    this._buildPaging(paging, params);
-    this._buildOrdering(ordering, params);
+    this._getPaging(paging, params);
+    this._getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
       {
         headers: this._buildHttpHeaders(),
@@ -536,9 +536,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
@@ -555,9 +555,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
       {
@@ -570,13 +570,13 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiendpointResult> {
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiEndpointResult> {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
       {
@@ -647,9 +647,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Build Paging
-    this._buildPaging(paging, params);
+    this._getPaging(paging, params);
     // Build Ordering
-    this._buildOrdering(ordering, params);
+    this._getSorting(ordering, params);
     // Execute the REST service
     // Execute
     return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
@@ -1384,7 +1384,6 @@ export class CentralServerService {
         }
       }
     }`;
-    // console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1408,7 +1407,6 @@ export class CentralServerService {
         "csChargingProfiles": ${JSON.stringify(chargingProfile)}
       }
     }`;
-    // console.log(body);
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
@@ -1449,9 +1447,7 @@ export class CentralServerService {
       body += `"stackLevel": ${stackLevel}`;
     }
     body += `}
-      }`;
-
-    // console.log(body);
+    }`;
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
@@ -1606,7 +1602,7 @@ export class CentralServerService {
     return new HttpHeaders(header);
   }
 
-  private _buildOrdering(ordering: Ordering[], queryString: any) {
+  private _getSorting(ordering: Ordering[], queryString: any) {
     // Check
     if (ordering && ordering.length) {
       if (!queryString['SortFields']) {
@@ -1621,7 +1617,7 @@ export class CentralServerService {
     }
   }
 
-  private _buildPaging(paging: Paging, queryString: any) {
+  private _getPaging(paging: Paging, queryString: any) {
     // Limit
     if (paging.limit) {
       queryString['Limit'] = paging.limit;

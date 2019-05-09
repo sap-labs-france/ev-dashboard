@@ -30,12 +30,13 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
-  private hasConcurConnectionConfigured = false;
+  private refundSetting = undefined;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -217,20 +218,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     ];
   }
 
+  buildTableRowActions(): TableActionDef[] {
+    return [new TableOpenAction().getActionDef()];
+  }
+
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'delete':
-      case 'refund':
-        return !transaction.hasOwnProperty('refund');
+      case 'open':
+        return transaction.refundData && transaction.refundData.refundId !== undefined;
       default:
-        return true;
+        return false;
     }
   }
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case 'refund':
-        if (!this.hasConcurConnectionConfigured) {
+        if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
@@ -247,6 +251,22 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         break;
       default:
         super.actionTriggered(actionDef);
+    }
+  }
+
+  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+    switch (actionDef.id) {
+      case 'open':
+        if (!this.refundSetting) {
+          this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
+        } else {
+          if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
+            window.open(this.refundSetting.content.concur.apiUrl, '_blank');
+          }
+        }
+        break;
+      default:
+        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
@@ -278,10 +298,10 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             {inSuccess: response.inSuccess}));
       }
       this.spinnerService.hide();
+      this.clearSelectedRows();
       this.refreshData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
-      this.clearSelectedRows();
 
       switch (error.status) {
         case 560: // not authorized
@@ -304,7 +324,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.hasConcurConnectionConfigured = true;
+          this.refundSetting = settingResult.result[0];
         }
       });
     }

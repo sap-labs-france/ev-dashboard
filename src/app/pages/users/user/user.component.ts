@@ -516,7 +516,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private loadApplicationSettings() {
-    if (this.authorizationService.canListSettings()) {
+    // if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0];
@@ -536,7 +536,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           }
         });
       }
-    }
+    // }
   }
 
   private createUser(user) {

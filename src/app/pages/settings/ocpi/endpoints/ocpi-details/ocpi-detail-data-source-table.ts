@@ -218,40 +218,33 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   private enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
-    if (enable) {
-      this.enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable);
-    } else {
-    // stop background job with dialog:
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('ocpiendpoints.stop_background_job_title'),
-        this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
-          this.enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable);
-        }
-      });
-    }
-  }
-
-  private enableDisableBackgroundJobWithoutDialog(ocpiendpoint, enable: boolean) {
     // switch background job state
     ocpiendpoint.backgroundPatchJob = enable;
-    // update it
-    this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        if (ocpiendpoint.backgroundPatchJob) {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
-        } else {
-          this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
-        }
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'ocpiendpoints.update_error');
+    // update it with dialog
+    this.dialogService.createAndShowYesNoDialog(
+      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_title')
+                : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
+      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { 'name': ocpiendpoint.name })
+                : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (ocpiendpoint.backgroundPatchJob) {
+              this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
+            } else {
+              this.messageService.showSuccessMessage('ocpiendpoints.background_job_desactivated');
+            }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.update_error');
+          }
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.update_error');
+          });
       }
-      this.refreshData().subscribe();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'ocpiendpoints.update_error');
     });
   }
 }

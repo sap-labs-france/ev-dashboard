@@ -18,7 +18,7 @@
   <div class="card-footer mat-dialog-actions">
     <span class="toolbar-spacer"></span>
 
-    <button mat-raised-button color="primary" (click)="validate()" [disabled]="!dialogDataSource.hasSelectedRows()">
+    <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
       {{buttonTitle | translate}}
     </button>
     <button mat-raised-button (click)="cancel()">

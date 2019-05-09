@@ -1,9 +1,9 @@
 // tslint:disable-next-line:max-line-length
-import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
+import { Component, Input, OnInit, Injectable, AfterViewInit } from '@angular/core';
+import { Charger } from 'app/common.types';
 import { LocaleService } from 'app/services/locale.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -21,7 +21,6 @@ import { DialogService } from 'app/services/dialog.service';
 @Injectable()
 export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterViewInit {
   @Input() charger: Charger;
-  private messages;
   public userLocales;
   public isAdmin;
 
@@ -44,10 +43,6 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Get translated messages
-    this.translateService.get('chargers', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
@@ -90,7 +85,8 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
           }, (error) => {
             this.spinnerService.hide();
             this.dialog.closeAll();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.more_actions.get_diagnostics_error');
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.more_actions.get_diagnostics_error');
           });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),

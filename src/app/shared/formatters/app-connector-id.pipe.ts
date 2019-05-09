@@ -16,12 +16,6 @@ const connectorIdMap = {
   12: 'L'
 }
 
-/**
- * Transform a connector ID as a number to a letter
- *
- * @class AppConnectorIdPipe
- * @implements {PipeTransform}
- */
 @Pipe({name: 'appConnectorId'})
 export class AppConnectorIdPipe implements PipeTransform {
 

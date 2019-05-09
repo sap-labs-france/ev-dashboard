@@ -3,7 +3,7 @@ import {OrganizationCompaniesDataSource} from './organization-companies-source-t
 
 @Component({
   selector: 'app-organization-companies',
-  templateUrl: 'organization-companies.component.html',
+  template: '<app-table [dataSource]="companiesDataSource"></app-table>',
   providers: [
     OrganizationCompaniesDataSource
   ]
@@ -11,9 +11,7 @@ import {OrganizationCompaniesDataSource} from './organization-companies-source-t
 export class OrganizationCompaniesComponent implements OnInit {
 
   constructor(
-    public companiesDataSource: OrganizationCompaniesDataSource
-  ) {
-
+    public companiesDataSource: OrganizationCompaniesDataSource) {
   }
 
   ngOnInit(): void {

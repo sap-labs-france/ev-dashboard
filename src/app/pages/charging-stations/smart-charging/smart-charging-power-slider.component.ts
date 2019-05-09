@@ -107,9 +107,6 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-    /*    if (this.startValue) {
-          this.setSliderValue(this.startValue.value, this.startValue.unit);
-        }    */
   }
 
   public formatPowerPercent(value: number | null) {

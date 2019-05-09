@@ -1,16 +1,14 @@
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from '../../../services/locale.service';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { MessageService } from '../../../services/message.service';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
-import { DialogService } from '../../../services/dialog.service';
 import { Charger } from '../../../common.types';
 import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';
-import { Utils } from 'app/utils/Utils';
 
 const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
@@ -43,7 +41,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialog: MatDialog,
-    private dialogService: DialogService,
     public dialogRef: MatDialogRef<ChargingStationComponent>,
     private router: Router) {
 

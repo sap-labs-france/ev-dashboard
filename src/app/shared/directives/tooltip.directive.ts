@@ -1,14 +1,9 @@
 import {AfterViewInit, Directive, ElementRef, OnDestroy} from '@angular/core';
 import {Placement} from 'bootstrap';
-// import * as $ from 'jquery';
-// Here we declare $ as variable to be able to use it after.
-// declare var $:any;
-
 @Directive({
   selector: '[appTooltip]'
 })
 export class TooltipDirective implements AfterViewInit, OnDestroy {
-
   constructor(private elementRef: ElementRef) {
   }
 
@@ -23,5 +18,4 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     jQuery(this.elementRef.nativeElement).tooltip('hide');
   }
-
 }

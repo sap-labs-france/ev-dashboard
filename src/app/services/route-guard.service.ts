@@ -107,7 +107,6 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   canLoad(route: Route, segments: UrlSegment[]): boolean {
     if (route.data && route.data.options && route.data.options.onlyDev) {
-      console.log('Environment ' + environment.production);
       return !environment.production; // if prod = false it will load module
     } else {
       return true;

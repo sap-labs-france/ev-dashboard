@@ -1,21 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {OrganizationSiteAreasDataSource} from './organization-site-areas-source-table';
 
 @Component({
   selector: 'app-organization-site-areas',
-  templateUrl: 'organization-site-areas.component.html',
+  template: '<app-table [dataSource]="siteAreasDataSource"></app-table>',
   providers: [
     OrganizationSiteAreasDataSource
   ]
 })
-export class OrganizationSiteAreasComponent implements OnInit {
-
+export class OrganizationSiteAreasComponent {
   constructor(
-    public siteAreasDataSource: OrganizationSiteAreasDataSource,
-  ) {
-
-  }
-
-  ngOnInit(): void {
+    public siteAreasDataSource: OrganizationSiteAreasDataSource) {
   }
 }

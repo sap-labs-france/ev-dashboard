@@ -417,9 +417,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public saveUser(user) {
     if (this.currentUserID) {
-      this._updateUser(user);
+      this.updateUser(user);
     } else {
-      this._createUser(user);
+      this.createUser(user);
     }
     if (this.inDialog && this.dialogRef) {
       this.dialogRef.close();
@@ -466,7 +466,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   linkConcurAccount() {
     if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
-      this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
+      this.messageService.showErrorMessage(
+        this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
       const concurSetting = this.refundSetting.content.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
@@ -476,7 +477,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         appId: this.refundSetting.id,
         userId: this.currentUserID
       };
-      this.document.location.href = `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+      this.document.location.href =
+        `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 
@@ -487,7 +489,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   alreadyLinkedToConcur() {
-    return this.concurConnection && this.concurConnection.validUntil && new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
+    return this.concurConnection &&
+      this.concurConnection.validUntil &&
+      new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
   }
 
   getInvoice() {
@@ -512,7 +516,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private loadApplicationSettings() {
-    if (this.authorizationService.canListSettings()) {
+    // if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0];
@@ -532,10 +536,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           }
         });
       }
-    }
+    // }
   }
 
-  private _createUser(user) {
+  private createUser(user) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -578,7 +582,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private _updateUser(user) {
+  private updateUser(user) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -619,7 +623,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   toUpperCase(control: AbstractControl) {
-    console.log('toUpperCase');
     control.setValue(control.value.toUpperCase());
   }
 

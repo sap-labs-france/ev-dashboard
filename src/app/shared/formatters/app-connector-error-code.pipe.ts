@@ -20,12 +20,6 @@ const connectorErrorCodeMap = {
   'WeakSignal': 'chargers.status_error_weak_signal'
 }
 
-/**
- * Transform a connector errocode to a description letter
- *
- * @class AppConnectorErrorCodePipe
- * @implements {PipeTransform}
- */
 @Pipe({name: 'appConnectorErrorCode'})
 export class AppConnectorErrorCodePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {

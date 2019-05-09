@@ -3,8 +3,8 @@
     "protocol": "https",
     "host": "localhost",
     "port": 443,
-    "pollEnabled": false,
-    "pollIntervalSecs": 5
+    "pollEnabled": true,
+    "pollIntervalSecs": 10
   },
   "FrontEnd": {
     "host": "localhost"

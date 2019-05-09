@@ -12,46 +12,52 @@ import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
 import {DialogService} from 'app/services/dialog.service';
 import {Constants} from 'app/utils/Constants';
 import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
   private _site: Site;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
-    super();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private dialog: MatDialog,
+      private dialogService: DialogService,
+      private centralServerService: CentralServerService) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
-  public loadData() {
-    // Site provided?
-    if (this._site) {
-      // Yes: Get data
-      this.centralServerService.getUsers(this.getFilterValues(),
-        this.getPaging(), this.getOrdering()).subscribe((users) => {
-        // Set number of records
-        this.setNumberOfRecords(users.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(users.result);
-        // Set the data
-        this.setData(users.result);
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
-    } else {
-      this.updatePaginator();
-        this.setData([]);
-    }
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // Site provided?
+      if (this._site) {
+        // Yes: Get data
+        this.centralServerService.getUsers(this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((users) => {
+          // Set number of records
+          this.setTotalNumberOfRecords(users.count);
+          // Ok
+          observer.next(users.result);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+      } else {
+        observer.next([]);
+        observer.complete();
+      }
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -96,8 +102,8 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     this._site = site;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableAddAction().getActionDef(),
       new TableRemoveAction().getActionDef(),
@@ -132,11 +138,12 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           });
         }
         break;
-        case 'reset_filters':
-          this.setSearchValue('');
-          this.resetFilters();
-          this.loadData();
-          break;
+
+      case 'reset-filters':
+        this.setSearchValue('');
+        this.resetFilters();
+        this.refreshData().subscribe();
+        break;
     }
   }
 
@@ -171,7 +178,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
         // Refresh
-        this.loadData();
+        this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -196,7 +203,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
           // Refresh
-          this.loadData();
+          this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

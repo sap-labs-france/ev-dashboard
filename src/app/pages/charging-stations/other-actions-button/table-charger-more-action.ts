@@ -17,17 +17,36 @@ export class TableChargerMoreAction implements TableAction {
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,
     dropdownItems: [
-      { id: ACTION_SMART_CHARGING, name: 'chargers.more_actions_items.smart_charging_item',
-        icon: 'battery_charging_full', tooltip: 'general.tooltips.smartcharging' },
-      { id: ACTION_CLEAR_CACHE, name: 'chargers.more_actions_items.clear_cache_item',
-        icon: 'layers_clear', tooltip: 'general.tooltips.clear_cache' },
-      { id: ACTION_SOFT_RESET, name: 'chargers.more_actions_items.soft_reset_item',
-        icon: 'refresh', tooltip: 'general.tooltips.soft_reset' },
-      // { id: 'sitearea', icon: 'view_week', name: 'chargers.assign_sitearea_action', tooltip: 'chargers.assign_sitearea_action_tooltip' },
-      { id: 'delete', icon: 'delete', name: 'general.delete',
-        tooltip: 'general.tooltips.delete'},
-      { id: ACTION_MORE_ACTIONS, name: 'chargers.more_actions_items.more_actions_item',
-        icon: 'more_horiz', tooltip: 'general.tooltips.more_actions' }
+      {
+        id: ACTION_SMART_CHARGING,
+        name: 'chargers.more_actions_items.smart_charging_item',
+        icon: 'battery_charging_full',
+        tooltip: 'general.tooltips.smartcharging'
+      },
+      {
+        id: ACTION_CLEAR_CACHE,
+        name: 'chargers.more_actions_items.clear_cache_item',
+        icon: 'layers_clear',
+        tooltip: 'general.tooltips.clear_cache'
+      },
+      {
+        id: ACTION_SOFT_RESET,
+        name: 'chargers.more_actions_items.soft_reset_item',
+        icon: 'refresh',
+        tooltip: 'general.tooltips.soft_reset'
+      },
+      {
+        id: 'delete',
+        icon: 'delete',
+        name: 'general.delete',
+        tooltip: 'general.tooltips.delete'
+      },
+      {
+        id: ACTION_MORE_ACTIONS,
+        name: 'chargers.more_actions_items.more_actions_item',
+        icon: 'more_horiz',
+        tooltip: 'general.tooltips.more_actions'
+      }
     ]
   };
 

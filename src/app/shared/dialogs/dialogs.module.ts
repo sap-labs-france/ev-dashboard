@@ -4,12 +4,10 @@ import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/com
 import {RouterModule} from '@angular/router';
 import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
-import {SitesDialogComponent} from './sites/sites-dialog-component';
 import {ConfirmationDialogComponent} from './confirmation/confirmation-dialog-component';
 import {TableModule} from '../table/table.module';
 import {UsersDialogComponent} from './users/users-dialog-component';
 import {ChargersDialogComponent} from './chargers/chargers-dialog-component';
-import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {CompaniesFilterDialogComponent} from './companies/companies-filter-dialog-component';
 import {ComponentModule} from '../component/component.module';
 import {ConsumptionChartComponent} from '../component/transaction-chart/consumption-chart.component';
@@ -18,11 +16,13 @@ import {FormattersModule} from '../formatters/formatters.module';
 import {GeoMapDialogComponent} from './geomap/geomap-dialog-component';
 import {AgmCoreModule} from '@agm/core';
 import {GooglePlaceModule} from 'ngx-google-places-autocomplete';
-import {SiteAreasDialogComponent} from './sites/site-areas-dialog-component';
-import {SiteAreasFilterDialogComponent} from './sites/site-areas-filter-dialog.component';
 import {ErrorCodeDetailsDialogComponent} from './error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../component/error-details/error-code-details.component';
 import {DialogService} from '../../services/dialog.service';
+import {SitesDialogComponent} from './sites/sites-dialog-component';
+import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
+import {SiteAreasDialogComponent} from './site-areas/site-areas-dialog-component';
+import {SiteAreasFilterDialogComponent} from './site-areas/site-areas-filter-dialog.component';
 
 export class FooterModule {
 }

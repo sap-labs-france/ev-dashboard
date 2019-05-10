@@ -1,57 +1,54 @@
-import {Component, ComponentFactoryResolver, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-
-import {CellContentTemplateDirective} from './cell-content-template.directive';
+import {Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef, SimpleChanges, OnChanges} from '@angular/core';
 import {CellContentTemplateComponent} from './cell-content-template.component';
-import {TableColumnDef} from '../../../common.types';
+import {TableColumnDef, TableDef} from '../../../common.types';
 
 @Component({
   selector: 'app-cell-component-container',
-  template: `
-    <ng-template appCellContentTemplate></ng-template>
-  `
+  template: `<ng-template></ng-template>`
 })
+
 // tslint:disable-next-line:component-class-suffix
-export class CellContentComponentContainer implements OnInit, OnDestroy, OnChanges {
+export class CellContentComponentContainer implements OnInit, OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
+  @Input() tableDef: TableDef;
+
   private cellComponent: CellContentTemplateComponent;
+  private cellComponentRef: any;
 
-  @ViewChild(CellContentTemplateDirective) angularCellContentDirective: CellContentTemplateDirective;
-
-  componentRef: any;
-
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
-  }
-
-  ngOnInit() {
-    this.loadComponent();
-  }
-
-  ngOnDestroy() {
-  }
-
-  loadComponent() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.columnDef.angularComponentName);
-    const viewContainerRef = this.angularCellContentDirective.viewContainerRef;
-    viewContainerRef.clear();
-    this.componentRef = viewContainerRef.createComponent(componentFactory);
-    this.cellComponent = <CellContentTemplateComponent>this.componentRef.instance;
-    this.cellComponent.row = this.row;
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    public viewContainerRef: ViewContainerRef) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.row.isFirstChange()) {
-      // console.log('REload cell component ' + this.columnDef.angularComponentName.name);
-//        this.loadComponent();
-      if (this.cellComponent && changes.row && changes.row.currentValue) {
-        // console.log('REFRESH cell component ' + this.columnDef.angularComponentName.name);
-        if (typeof this.cellComponent.refresh === 'function') {
-          this.cellComponent.row = changes.row.currentValue;
-          this.cellComponent.refresh();
-        } else {
-          console.error('missing refresh in component ' + this.columnDef.angularComponentName.name);
-        }
-      }
+    if (this.cellComponent) {
+      // Set the row
+      this.cellComponent.row = this.row;
+      // Propagate the changes
+      this.cellComponent.ngOnChanges(changes);
+    }
+  }
+
+  ngOnInit() {
+    // Get the component name
+    let component;
+    // Table Details?
+    if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.angularComponent) {
+      component = this.tableDef.rowDetails.angularComponent;
+    }
+    // Table Column
+    if (this.columnDef && this.columnDef.angularComponent) {
+      component = this.columnDef.angularComponent;
+    }
+    // Create the component
+    if (component) {
+      this.viewContainerRef.clear();
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+      this.cellComponentRef = this.viewContainerRef.createComponent(componentFactory);
+      this.cellComponent = <CellContentTemplateComponent>this.cellComponentRef.instance;
+      // Pass the data
+      this.cellComponent.row = this.row;
     }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
 import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
@@ -11,16 +11,13 @@ import {ComponentEnum, ComponentService} from '../../services/component.service'
   encapsulation: ViewEncapsulation.None,
   styles: ['.transactions app-detail-component-container{width: 100%}']
 })
-export class TransactionsComponent extends AbstractTabComponent implements OnInit {
+export class TransactionsComponent extends AbstractTabComponent {
 
   constructor(
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'refund']);
-  }
-
-  ngOnInit() {
   }
 
   canAccessRefund() {

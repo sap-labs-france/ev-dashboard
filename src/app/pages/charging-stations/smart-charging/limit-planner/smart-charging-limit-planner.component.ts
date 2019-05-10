@@ -14,7 +14,6 @@ import { Utils } from 'app/utils/Utils';
 import { SmartChargingLimitPlannerChartComponent } from './smart-charging-limit-planner-chart.component';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
-import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
 
 interface DisplayedSlot extends ScheduleSlot {
   displayedLimitInkW: number,
@@ -216,7 +215,6 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
         try {
           // Build OCPP planning
           const chargingProfile = this._buildProfile();
-          // console.log('Profile ' + JSON.stringify(chargingProfile, null, ' '));
           // call REST service
           this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
@@ -231,7 +229,8 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
           }, (error) => {
             this.spinnerService.hide();
             this.dialog.closeAll();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
           });
         } catch (error) {
           Utils.handleError(JSON.stringify(error),

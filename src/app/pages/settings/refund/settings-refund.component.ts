@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CentralServerService} from '../../../services/central-server.service';
 import {Constants} from '../../../utils/Constants';
@@ -31,14 +30,13 @@ export class SettingsRefundComponent implements OnInit {
   private currentSettingID;
 
   constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router
   ) {
-    this.isActive = componentService.isActive(ComponentEnum.REFUND);
+    this.isActive = this.componentService.isActive(ComponentEnum.REFUND);
   }
 
   ngOnInit(): void {
@@ -148,7 +146,7 @@ export class SettingsRefundComponent implements OnInit {
     if (this.currentSettingID) {
       this._updateConfiguration(content);
     } else {
-      this._createConfiguration(content);
+      this.createConfiguration(content);
     }
   }
 
@@ -186,7 +184,7 @@ export class SettingsRefundComponent implements OnInit {
     });
   }
 
-  private _createConfiguration(content) {
+  private createConfiguration(content) {
     // build setting payload
     const setting = {
       'id': null,

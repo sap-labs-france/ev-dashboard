@@ -4,7 +4,6 @@ import {LocaleService} from '../../../services/locale.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {SessionDialogComponent} from 'app/shared/dialogs/session/session-dialog-component';
 import {AuthorizationService} from 'app/services/authorization-service';
-import {CentralServerService} from 'app/services/central-server.service';
 
 @Component({
   template: `
@@ -23,12 +22,12 @@ export class SessionDetailComponent extends CellContentTemplateComponent impleme
   displaySessionAuthorized: boolean;
   dialogRef: MatDialogRef<SessionDialogComponent>;
 
-  constructor(localeService: LocaleService,
-              private authorizationService: AuthorizationService,
-              private centralServerService: CentralServerService,
-              private dialog: MatDialog) {
+  constructor(
+      private localeService: LocaleService,
+      private authorizationService: AuthorizationService,
+      private dialog: MatDialog) {
     super();
-    this.locale = localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentFullLocaleForJS();
   }
 
   showSessionDialog() {

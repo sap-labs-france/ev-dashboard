@@ -1,6 +1,4 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {AuthorizationService} from '../../services/authorization-service';
-import {Constants} from '../../utils/Constants';
 import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
@@ -20,15 +18,14 @@ export class SettingsComponent extends AbstractTabComponent {
   public isSacActive = false;
 
   constructor(
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['ocpi', 'refund', 'pricing', 'sac']);
-    this.isOCPIActive = componentService.isActive(ComponentEnum.OCPI);
-    this.isRefundActive = componentService.isActive(ComponentEnum.REFUND);
-    this.isPricingActive = componentService.isActive(ComponentEnum.PRICING);
-    this.isSacActive = componentService.isActive(ComponentEnum.SAC);
+    this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);
+    this.isRefundActive = this.componentService.isActive(ComponentEnum.REFUND);
+    this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.isSacActive = this.componentService.isActive(ComponentEnum.SAC);
   }
 }

@@ -2,14 +2,13 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 
 export class SmartChargingUtils {
   /**
-  *
   * Return the value in th eexpected display format
   * All values are displayed in kW
   * @param {*} value : value to convert
   * @param {*} valueUnit : unit (W, kW, A) of the value
   */
-  // tslint:disable-next-line:max-line-length
-  static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision, powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
+  static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision,
+      powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
     switch (valueUnit) {
       case 'W':
         return appUnitFormatter.transform(value, valueUnit, displayUnit, addUnit, powerDigitPrecision, powerFloatingPrecision);

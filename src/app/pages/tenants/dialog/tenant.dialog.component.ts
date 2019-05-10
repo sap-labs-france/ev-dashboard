@@ -20,7 +20,15 @@ export class TenantDialogComponent implements OnInit {
   public email: AbstractControl;
   public pricingType: AbstractControl;
   public components: FormGroup;
-  public pricingTypes = [{key: 'convergentCharging', description: 'settings.pricing.convergentcharging.title'}, {key: 'simple', description: 'settings.pricing.simple.title'}];
+  public pricingTypes = [
+    {
+      key: 'convergentCharging',
+      description: 'settings.pricing.convergentcharging.title'
+    }, {
+      key: 'simple',
+      description: 'settings.pricing.simple.title'
+    }
+  ];
   public selectedPricing: string;
   private readonly currentTenant: any;
 

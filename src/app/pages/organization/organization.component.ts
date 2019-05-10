@@ -3,8 +3,6 @@ import {AbstractTabComponent} from 'app/shared/component/tab/AbstractTab.compone
 import {ActivatedRoute} from '@angular/router';
 import {WindowService} from 'app/services/window.service';
 
-declare const $: any;
-
 @Component({
   selector: 'app-organization',
   templateUrl: './organization.component.html',

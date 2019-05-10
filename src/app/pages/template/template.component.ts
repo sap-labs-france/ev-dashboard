@@ -7,17 +7,11 @@ import {WindowService} from '../../services/window.service';
 @Component({
   templateUrl: 'template.component.html'
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent {
   isAdmin: boolean;
   constructor (
-    private authorizationService: AuthorizationService,
-    activatedRoute: ActivatedRoute,
-    windowService: WindowService
+    private authorizationService: AuthorizationService
   ) {
-    // super(activatedRoute, windowService, ['all', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-  }
-
-  ngOnInit() {
   }
 }

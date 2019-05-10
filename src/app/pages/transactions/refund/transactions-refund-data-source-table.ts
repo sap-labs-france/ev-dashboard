@@ -7,7 +7,6 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog} from '@angular/material';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
@@ -23,7 +22,7 @@ import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../components/consumption-chart-detail.component';
+import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import * as moment from 'moment';
 import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
 import {TransactionsTypeFilter} from './transactions-type-filter';
@@ -31,57 +30,64 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
-  private hasConcurConnectionConfigured = false;
+  private refundSetting = undefined;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private componentService: ComponentService,
-    private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
-    private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private appDurationPipe: AppDurationPipe,
-    private currencyPipe: CurrencyPipe) {
-    super();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private localeService: LocaleService,
+      private router: Router,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private componentService: ComponentService,
+      private authorizationService: AuthorizationService,
+      private appDatePipe: AppDatePipe,
+      private appUnitPipe: AppUnitPipe,
+      private percentPipe: PercentPipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe,
+      private appDurationPipe: AppDurationPipe,
+      private currencyPipe: CurrencyPipe) {
+    super(spinnerService);
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
+    // Check
     this.checkConcurConnection();
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData() {
-    this.spinnerService.show();
-    const filters = this.getFilterValues();
-    filters['UserID'] = this.centralServerService.getLoggedUser().id;
-    this.centralServerService.getTransactions(filters, this.getPaging(), this.getOrdering())
-      .subscribe((transactions) => {
-        this.spinnerService.hide();
-        this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
-        this.setData(transactions.result);
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      const filters = this.buildFilterValues();
+      filters['UserID'] = this.centralServerService.getLoggedUser().id;
+      this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
+        .subscribe((transactions) => {
+          this.setTotalNumberOfRecords(transactions.count);
+          // Ok
+          observer.next(transactions.result);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -92,8 +98,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       },
       rowDetails: {
         enabled: false,
-        isDetailComponent: true,
-        detailComponentName: ConsumptionChartDetailComponent
+        angularComponent: ConsumptionChartDetailComponent
       }
     };
   }
@@ -183,8 +188,9 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
   }
 
-  getTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+  buildTableFiltersDef(): TableFilterDef[] {
+    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
+      moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new TransactionsTypeFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef()];
@@ -204,32 +210,31 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   }
 
-  getTableRowActions(): TableActionDef[] {
-    return [];
-  }
-
-  getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableRefundAction().getActionDef(),
       ...tableActionsDef
     ];
   }
 
+  buildTableRowActions(): TableActionDef[] {
+    return [new TableOpenAction().getActionDef()];
+  }
+
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'delete':
-      case 'refund':
-        return !transaction.hasOwnProperty('refund');
+      case 'open':
+        return transaction.refundData && transaction.refundData.refundId !== undefined;
       default:
-        return true;
+        return false;
     }
   }
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case 'refund':
-        if (!this.hasConcurConnectionConfigured) {
+        if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
@@ -239,7 +244,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
-              this._refundTransactions(this.getSelectedRows());
+              this.refundTransactions(this.getSelectedRows());
             }
           });
         }
@@ -249,7 +254,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+    switch (actionDef.id) {
+      case 'open':
+        if (!this.refundSetting) {
+          this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
+        } else {
+          if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
+            window.open(this.refundSetting.content.concur.apiUrl, '_blank');
+          }
+        }
+        break;
+      default:
+        super.rowActionTriggered(actionDef, transaction);
+    }
+  }
+
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
@@ -260,11 +281,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return !row.refundData;
   }
 
-  forAdmin(isAdmin: boolean) {
-    this.isAdmin = isAdmin
-  }
-
-  protected _refundTransactions(transactions: Transaction[]) {
+  protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
       if (response.inError > 0) {
@@ -281,21 +298,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
             {inSuccess: response.inSuccess}));
       }
       this.spinnerService.hide();
-      this.loadData();
       this.clearSelectedRows();
+      this.refreshData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
-      this.clearSelectedRows();
 
       switch (error.status) {
         case 560: // not authorized
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.not_authorized');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.not_authorized');
           break;
         case 551: // cannot refund another user transactions
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.refund.error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'transactions.notification.refund.error');
           break;
       }
     });
@@ -305,11 +324,9 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.hasConcurConnectionConfigured = true;
+          this.refundSetting = settingResult.result[0];
         }
       });
     }
   }
-
-
 }

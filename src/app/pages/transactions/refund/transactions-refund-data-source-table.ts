@@ -30,7 +30,7 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
-import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import {TableOpenInConcurAction} from '../../../shared/table/actions/table-open-in-concur-action';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -39,23 +39,23 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   private refundSetting = undefined;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private localeService: LocaleService,
-      private router: Router,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private authorizationService: AuthorizationService,
-      private appDatePipe: AppDatePipe,
-      private appUnitPipe: AppUnitPipe,
-      private percentPipe: PercentPipe,
-      private appConnectorIdPipe: AppConnectorIdPipe,
-      private appUserNamePipe: AppUserNamePipe,
-      private appDurationPipe: AppDurationPipe,
-      private currencyPipe: CurrencyPipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private localeService: LocaleService,
+    private router: Router,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
+    private appDatePipe: AppDatePipe,
+    private appUnitPipe: AppUnitPipe,
+    private percentPipe: PercentPipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe,
+    private currencyPipe: CurrencyPipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -109,6 +109,11 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     const columns = [];
     columns.push(
       {
+        id: 'refundData.reportId',
+        name: 'transactions.reportId',
+        sortable: true
+      },
+      {
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
@@ -128,45 +133,26 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         name: 'transactions.user',
         class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value)
-      });
-    columns.push(
+      },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
-      });
-    columns.push({
-      id: 'stop.totalInactivitySecs',
-      name: 'transactions.inactivity',
-      headerClass: 'd-none d-lg-table-cell',
-      class: 'text-left d-none d-lg-table-cell',
-      formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
-    });
-    columns.push({
-      id: 'chargeBoxID',
-      name: 'transactions.charging_station',
-      class: 'text-left',
-      formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
-    });
-    columns.push({
-      id: 'tagID',
-      name: 'transactions.badge_id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'text-left d-none d-xl-table-cell'
-    });
-    columns.push({
-      id: 'stop.totalConsumption',
-      name: 'transactions.total_consumption',
-      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-    });
-    if (this.isAdmin) {
-      columns.push({
+      }, {
+        id: 'stop.totalConsumption',
+        name: 'transactions.total_consumption',
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+      }, {
         id: 'stop.price',
         name: 'transactions.price',
         formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit, locale)
+      }, {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        class: 'text-left',
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       });
-    }
 
     return columns as TableColumnDef[];
   }
@@ -214,21 +200,9 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableRefundAction().getActionDef(),
+      new TableOpenInConcurAction().getActionDef(),
       ...tableActionsDef
     ];
-  }
-
-  buildTableRowActions(): TableActionDef[] {
-    return [new TableOpenAction().getActionDef()];
-  }
-
-  canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
-    switch (actionDef.id) {
-      case 'open':
-        return transaction.refundData && transaction.refundData.refundId !== undefined;
-      default:
-        return false;
-    }
   }
 
   actionTriggered(actionDef: TableActionDef) {
@@ -249,14 +223,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
           });
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
-    }
-  }
-
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
-    switch (actionDef.id) {
-      case 'open':
+      case 'open_in_concur':
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else {
@@ -266,7 +233,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         }
         break;
       default:
-        super.rowActionTriggered(actionDef, transaction);
+        super.actionTriggered(actionDef);
     }
   }
 

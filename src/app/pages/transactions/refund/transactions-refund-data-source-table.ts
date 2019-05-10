@@ -31,6 +31,7 @@ import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
+import { WindowService } from 'app/services/window.service';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -40,6 +41,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public windowService: WindowService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -56,7 +58,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe,
       private currencyPipe: CurrencyPipe) {
-    super(spinnerService);
+        super(spinnerService, windowService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     // Check

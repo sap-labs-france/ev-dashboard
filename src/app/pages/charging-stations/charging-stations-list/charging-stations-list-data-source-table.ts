@@ -38,6 +38,7 @@ import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-com
 import {TableNoAction} from 'app/shared/table/actions/table-no-action';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
@@ -47,6 +48,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public windowService: WindowService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
@@ -57,7 +59,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
-    super(spinnerService);
+    super(spinnerService, windowService);
     // Init
     this.setStaticFilters([{'WithSite': true}]);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();

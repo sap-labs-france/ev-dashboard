@@ -28,15 +28,16 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
-      private windowService: WindowService,
+      public windowService: WindowService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService) {
-    super(spinnerService);
-    // Init
-    this.initDataSource();
-  }
+      private centralServerService: CentralServerService)
+      {
+      super(spinnerService);
+      // Init
+      this.initDataSource();
+    }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectTenants();

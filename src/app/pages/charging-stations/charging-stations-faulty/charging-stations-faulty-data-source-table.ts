@@ -39,6 +39,7 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-detai
 import en from '../../../../assets/i18n/en.json';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 
 const ACTION_MAP = {
   missingSettings: [
@@ -65,6 +66,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
 
   constructor(
     public spinnerService: SpinnerService,
+    public windowService: WindowService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private router: Router,
@@ -74,7 +76,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {
-    super(spinnerService);
+    super(spinnerService, windowService);
     // Init
     this.setStaticFilters([{ 'WithSite': true }]);
     this.initDataSource();

@@ -35,6 +35,7 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import * as moment from 'moment';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -44,6 +45,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   constructor(
       public spinnerService: SpinnerService,
+      public windowService: WindowService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -60,12 +62,13 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe,
-      private currencyPipe: CurrencyPipe) {
-    super(spinnerService);
-    // Admin
-    this.isAdmin = this.authorizationService.isAdmin();
-    // Init
-    this.initDataSource();
+      private currencyPipe: CurrencyPipe)
+      {
+      super(spinnerService, windowService);
+      // Admin
+      this.isAdmin = this.authorizationService.isAdmin();
+      // Init
+      this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {

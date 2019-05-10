@@ -5,6 +5,7 @@ import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
+import { WindowService } from 'app/services/window.service';
 
 export abstract class TableDataSource<T> {
   public tableDef: TableDef;
@@ -36,7 +37,8 @@ export abstract class TableDataSource<T> {
   private staticFilters = [];
 
   constructor(
-    public spinnerService: SpinnerService) {
+    public spinnerService: SpinnerService,
+    public windowService?: WindowService) {
   }
 
   public isRowSelectionEnabled(): boolean {
@@ -270,6 +272,24 @@ export abstract class TableDataSource<T> {
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
     });
+    // Update URL with filter value
+    if (filter.currentValue === 'null' || !filter.currentValue ) {
+      this.windowService.deleteSearch(filter.id);
+    } else {
+      switch (typeof filter.currentValue) {
+        case 'object': {
+          this.windowService.setSearch(filter.id, filter.currentValue[0].key);
+          break;
+        }
+        case 'string': {
+          this.windowService.setSearch(filter.id, filter.currentValue);
+          break;
+        }
+        default: {
+          break;
+        }
+      }  
+    }
     // Update value
     foundFilter.currentValue = filter.currentValue;
   }

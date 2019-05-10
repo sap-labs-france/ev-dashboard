@@ -8,6 +8,7 @@ import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
 import {SpinnerService} from '../../services/spinner.service';
+import {ReCaptchaV3Service} from 'ng-recaptcha';
 
 @Component({
   selector: 'app-retrieve-password-cmp',
@@ -20,8 +21,6 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   private messages: Object;
   public resetPasswordHash: string;
   public resetPasswordEmail: string;
-  public captchaSiteKey: string;
-  @ViewChild('recaptcha') public recaptcha;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -30,7 +29,9 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private reCaptchaV3Service: ReCaptchaV3Service
+    ) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
@@ -41,16 +42,10 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.email
-        ])),
-      'captcha': new FormControl('',
-        Validators.compose([
-          Validators.required
         ]))
     });
     // Form
     this.email = this.formGroup.controls['email'];
-    // Set the Captcha Key
-    this.captchaSiteKey = this.configService.getUser().captchaSiteKey;
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     this.resetPasswordEmail = this.route.snapshot.queryParamMap.get('email');
   }
@@ -83,48 +78,47 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   }
 
   resetPassword(data) {
-    // Show
-    this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.resetUserPassword(data).subscribe((response) => {
-      // Hide
-      this.spinnerService.hide();
-      // Success
-      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Show message`
-        this.messageService.showSuccessMessage(
-          this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
-        // Go back to login
-        this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-        // Unexpected Error
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['reset_password_error']).subscribe(() => {
-          // Reset
-          this.recaptcha.reset();
+    this.reCaptchaV3Service.execute('Reset')
+      .subscribe((token) => {
+        data['captcha'] = token;
+        // Show
+        this.spinnerService.show();
+        // Yes: Update
+        this.centralServerService.resetUserPassword(data).subscribe((response) => {
+          // Hide
+          this.spinnerService.hide();
+          // Success
+          if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+            // Show message`
+            this.messageService.showSuccessMessage(
+              this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
+            // Go back to login
+            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+            // Unexpected Error
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.messages['reset_password_error']);
+          }
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Check status error code
+          switch (error.status) {
+            // Hash no longer valid
+            case 540:
+              // Report the error
+              this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
+              break;
+            // Email does not exist
+            case 550:
+              // Report the error
+              this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
+              break;
+            default:
+              // Unexpected error`
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          }
         });
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Reset
-      this.recaptcha.reset();
-      // Check status error code
-      switch (error.status) {
-        // Hash no longer valid
-        case 540:
-          // Report the error
-          this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
-          break;
-        // Email does not exist
-        case 550:
-          // Report the error
-          this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
-          break;
-        default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-      }
     });
   }
 }

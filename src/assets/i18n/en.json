@@ -51,6 +51,7 @@
     "reload": "Reload",
     "stop": "Stop",
     "refund": "Refund",
+    "open_in_concur": "Jump to your Expenses",
     "connect": "Connect",
     "register": "Register",
     "close": "Close",
@@ -1070,7 +1071,7 @@
     "user": "User",
     "badge_id": "Badge ID",
     "connector": "Connector",
-    "total_consumption": "Power",
+    "total_consumption": "Consumption",
     "current_consumption": "Instant Power",
     "state": "Status",
     "price": "Price",
@@ -1119,6 +1120,7 @@
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
     "refundDate": "Transferred On",
+    "reportId": "Report ID",
     "filter": {
       "type": {
         "name": "Type",

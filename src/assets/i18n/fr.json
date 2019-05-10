@@ -52,6 +52,7 @@
     "reload": "Recharger",
     "stop": "Stop",
     "refund": "Rembourser",
+    "open_in_concur": "Voir vos remboursements",
     "connect": "Connexion",
     "register": "Enregistrer",
     "close": "Fermer",
@@ -1069,7 +1070,7 @@
     "user": "Utilisateur",
     "badge_id": "ID de badge",
     "connector": "Connecteur",
-    "total_consumption": "Puissance",
+    "total_consumption": "Consommation",
     "current_consumption": "Puissance Instantanée",
     "state": "Status",
     "price": "Prix",
@@ -1118,6 +1119,7 @@
     "no_active_transaction": "Pas de session active",
     "no_history": "Pas d'historique pendant cette période",
     "refundDate": "Transférée le",
+    "reportId": "Rapport ID",
     "filter": {
       "type": {
         "name": "Type",

@@ -451,6 +451,8 @@ export abstract class TableDataSource<T> {
       for (const row of this.data) {
         if (row.isSelectable) {
           this.maxSelectableRows++;
+        } else {
+          row.isSelected = false;
         }
         if (row.isSelected) {
           this.selectedRows++;

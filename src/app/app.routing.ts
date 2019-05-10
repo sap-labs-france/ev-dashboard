@@ -125,8 +125,8 @@ export const AppRoutes: Routes = [
             path: '/settings'
           },
           auth: {
-            entity: Constants.ENTITY_SETTINGS,
-            action: Constants.ACTION_LIST
+            entity: Constants.ENTITY_SETTING,
+            action: Constants.ACTION_CREATE
           }
         }
       },

@@ -14,6 +14,7 @@
     "select_at_least_one_record": "Vous devez sélectionner au moins une ligne dans la liste",
     "mandatory_field": "Champs obligatoire",
     "no_record_found": "Aucun enregistrement n'a été trouvé",
+    "no_connector_available": "Aucun connecteur disponible",
     "error_max_length": "La Longueur maximale est {{length}}",
     "error_min_length": "La Longueur minimale est {{length}}",
     "error_url_pattern": "URL Invalide",

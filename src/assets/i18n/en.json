@@ -13,6 +13,7 @@
     "select_at_least_one_record": "You must select at least one record in the list",
     "mandatory_field": "Required field",
     "no_record_found": "No records have been found",
+    "no_connector_available": "No connector available",
     "error_max_length": "Maximum length is {{length}}",
     "error_min_length": "Minimum length is {{length}}",
     "error_url_pattern": "Incorrect URL pattern",

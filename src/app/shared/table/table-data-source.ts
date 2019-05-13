@@ -422,7 +422,10 @@ export abstract class TableDataSource<T> {
         observer.next(data);
         observer.complete();
       }, (error) => {
-        // handle errors
+        // Hide Spinner
+        if (showSpinner) {
+          this.spinnerService.hide();
+        }
       });
     });
   }

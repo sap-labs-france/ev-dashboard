@@ -1157,8 +1157,8 @@
         "confirm": "Do you really want to stop the session of {{user}}?"
       },
       "refund": {
-        "title": "Refund Sessions",
-        "confirm": "Do you really want to request the refund of {{quantity}} sessions?"
+        "title": "Refund",
+        "confirm": "Do you really want to transfer {{quantity}} sessions to your refunding system?"
       },
       "session": {
         "tooltips": {
@@ -1182,9 +1182,9 @@
         "error": "An error occurred during session stop."
       },
       "refund": {
-        "success": "{{inSuccess}} refund requests have been transferred successfully",
-        "partial": "{{inError}} out of {{total}} refund requests have encountered an error",
-        "forbidden_refund_another_user": "You cannot refund another user's session",
+        "success": "{{inSuccess}} sessions have been transferred successfully",
+        "partial": "{{inError}} out of {{total}} sessions have encountered an error",
+        "forbidden_refund_another_user": "You cannot transfer another user's session",
         "not_authorized": "You are not authorized to perform this request",
         "error": "The E-Mobility application couldn't connect to the refunding system. Contact an administrator.",
         "concur_connection_invalid": "Your refunding system connection is not configured correctly. Contact an administrator.",

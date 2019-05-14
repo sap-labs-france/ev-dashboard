@@ -13,6 +13,7 @@
     "select_at_least_one_record": "You must select at least one record in the list",
     "mandatory_field": "Required field",
     "no_record_found": "No records have been found",
+    "no_connector_available": "No connector available",
     "error_max_length": "Maximum length is {{length}}",
     "error_min_length": "Minimum length is {{length}}",
     "error_url_pattern": "Incorrect URL pattern",
@@ -51,6 +52,7 @@
     "reload": "Reload",
     "stop": "Stop",
     "refund": "Refund",
+    "open_in_concur": "Jump to your Expenses",
     "connect": "Connect",
     "register": "Register",
     "close": "Close",
@@ -599,11 +601,11 @@
       "get_diagnostics_error": "Error when starting diagnostics download"
     },
     "action_error": {
-      "transaction_start_title": "Start transaction error",
-      "transaction_start_not_available": "Connector is not available, unable to start a transaction",
-      "transaction_start_charger_inactive": "Charger is not connected, unable to start a transaction",
-      "transaction_stop_title": "Stop transaction error",
-      "transaction_stop_not_authorized": "You are not authorized to stop this transaction",
+      "transaction_start_title": "Start session error",
+      "transaction_start_not_available": "Connector is not available, unable to start a session",
+      "transaction_start_charger_inactive": "Charger is not connected, unable to start a session",
+      "transaction_stop_title": "Stop session error",
+      "transaction_stop_not_authorized": "You are not authorized to stop this session",
       "delete_title": "Delete charging station error",
       "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
       "command_title": "Charging station command error",
@@ -612,7 +614,7 @@
       "smart_charging_charger_disconnected": "Charging station is disconnected, no command can be sent",
       "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station",
       "session_details_title": "Session details error",
-      "session_details_not_authorized": "You are not authorized to display the transaction details",
+      "session_details_not_authorized": "You are not authorized to display the session details",
       "not_authorize": "You are not authorized to perform this action"
     },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
@@ -681,9 +683,9 @@
     "unsaved_changes": "You have unsaved changes. Save or cancel them.",
     "button_get_configuration": "Get Configuration",
     "created_on": "Creation date",
-    "start_transaction_admin_title": "Start transaction as Administrator",
+    "start_transaction_admin_title": "Start session as Administrator",
     "start_transaction_admin_message": "Do you want to start a session for:",
-    "start_transaction_user_select_title": "Select user for start transaction",
+    "start_transaction_user_select_title": "Select user for start session",
     "start_transaction_user_select_button": "Select",
     "start_for_myself_button": "Myself",
     "select_user_button": "Another user",
@@ -918,10 +920,10 @@
       "create_error": "Error occurred while creating the Pricing settings",
       "update_success": "Pricing settings have been updated successfully",
       "update_error": "Error occurred while updating the Pricing settings",
-      "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables transaction costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
+      "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
       "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
-        "description": "E-Mobility provides Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables transaction costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). To enable this feature, please contact your E-Mobility representative. More technical information available at ",
+        "description": "E-Mobility provides Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). To enable this feature, please contact your E-Mobility representative. More technical information available at ",
         "title": "Convergent Charging",
         "chargeable_item_name": "Chargeable Item Name",
         "url": "Url",
@@ -942,7 +944,7 @@
       "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
       "update_error": "Error occurred while updating the SAP Analytics Cloud settings",
-      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the transaction data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
+      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the session data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
       "settings": "Settings"
     },
     "information": "Information",
@@ -1071,7 +1073,7 @@
     "user": "User",
     "badge_id": "Badge ID",
     "connector": "Connector",
-    "total_consumption": "Power",
+    "total_consumption": "Consumption",
     "current_consumption": "Instant Power",
     "state": "Status",
     "price": "Price",
@@ -1120,6 +1122,7 @@
     "no_active_transaction": "No active session",
     "no_history": "No history during this period",
     "refundDate": "Transferred On",
+    "reportId": "Report ID",
     "filter": {
       "type": {
         "name": "Type",
@@ -1180,19 +1183,19 @@
         "error": "An error occurred during session stop."
       },
       "refund": {
-        "success": "{{inSuccess}} refund requested successfully",
-        "partial": "{{inError}} of {{total}} refund requested failed",
-        "forbidden_refund_another_user": "You cannot refund another user's transaction",
+        "success": "{{inSuccess}} refund requests have been transferred successfully",
+        "partial": "{{inError}} out of {{total}} refund requests have encountered an error",
+        "forbidden_refund_another_user": "You cannot refund another user's session",
         "not_authorized": "You are not authorized to perform this request",
-        "error": "The E-Mobility application couldn't connect to Concur. Please contact your E-Mobility administrator.",
-        "concur_connection_invalid": "Your Concur connection is not configured correctly. Please contact your E-Mobility administrator.",
-        "tenant_concur_connection_invalid": "The Tenant Concur configuration is not implemented. Please, contact your administrator"
+        "error": "The E-Mobility application couldn't connect to the refunding system. Contact an administrator.",
+        "concur_connection_invalid": "Your refunding system connection is not configured correctly. Contact an administrator.",
+        "tenant_concur_connection_invalid": "The Tenant of your refunding system configuration is not complete. Contact an administrator"
       }
     },
     "errors": {
       "no_consumption": {
         "title": "No Consumptions",
-        "description": "The transaction does not contains meter values",
+        "description": "The session does not contains meter values",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {

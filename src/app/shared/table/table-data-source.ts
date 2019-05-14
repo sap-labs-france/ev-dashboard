@@ -263,6 +263,8 @@ export abstract class TableDataSource<T> {
   }
 
   public filterChanged(filter: TableFilterDef) {
+    console.log(`>>> update: ${JSON.stringify(filter)}`);
+
     // Reset to default paging
     this.setPaging({
       skip: 0,
@@ -606,6 +608,20 @@ export abstract class TableDataSource<T> {
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
       this.tableDef.hasDynamicRowAction;
+
+    // Init filter values from URL
+    console.log(`>>> init: ${JSON.stringify(this.tableFiltersDef)}`);
+    if (this.hasFilters === true){
+      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+        if (filterDef.id) {
+        const res = this.windowService.getSearch(filterDef.id);
+        if (res !== null){
+          console.log(`>>> update filter: ${res}`);
+        }
+        }
+      })
+      this.windowService.clearSearch();
+    }  
   }
 
   isSelectable(row: T) {

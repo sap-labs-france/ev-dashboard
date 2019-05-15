@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {CentralServerService} from '../services/central-server.service';
 import {MessageService} from '../services/message.service';
 import {Router} from '@angular/router';
-import {BAD_REQUEST, CONFLICT, UNAUTHORIZED} from 'http-status-codes';
+import {BAD_REQUEST, CONFLICT, UNAUTHORIZED, FORBIDDEN} from 'http-status-codes';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
@@ -50,7 +50,7 @@ export class Utils {
         router.navigate(['/auth/login']);
         break;
       // Conflict in User Session
-      case CONFLICT:
+      case FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
         if (centralServerService.isAuthenticated()) {
           // Log Off (remove token)

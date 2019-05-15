@@ -74,14 +74,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(chargers.count);
-        // Update details status
-        chargers.result.forEach(charger => {
-          // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter(connector => connector != null);
-          charger.connectors.forEach(connector => {
-            connector.hasDetails = connector.activeTransactionID > 0;
+          // Set number of records
+          this.setTotalNumberOfRecords(chargers.count);
+          // Update details status
+          chargers.result.forEach(charger => {
+            // At first filter out the connectors that are null
+            charger.connectors = charger.connectors.filter(connector => connector != null);
+            charger.connectors.forEach(connector => {
+              connector.hasDetails = connector.activeTransactionID > 0;
+            });
           });
           // Ok
           observer.next(chargers.result);
@@ -92,7 +93,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           // Error
           observer.error(error);
         });
-      });
     });
   }
 

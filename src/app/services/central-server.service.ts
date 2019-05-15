@@ -762,7 +762,9 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    if (this.currentUser) {
+      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    }
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }

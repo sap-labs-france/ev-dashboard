@@ -12,6 +12,9 @@ export class AppDurationPipe implements PipeTransform {
 
   transform(durationInSecs: number): any {
     let result = '';
+    if (durationInSecs === 0) {
+      return `0 ${this.localeService.getI18nSecond()}`;
+    }
     const days = Math.floor(durationInSecs / (3600 * 24));
     durationInSecs -= days * 3600 * 24;
     const hours = Math.floor(durationInSecs / 3600);

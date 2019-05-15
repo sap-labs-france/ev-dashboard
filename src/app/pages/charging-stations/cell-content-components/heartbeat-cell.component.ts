@@ -11,7 +11,7 @@ import { LocaleService } from '../../../services/locale.service';
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">
-          {{'chargers.charger_disconnected' | translate}} ({{row.lastHeartBeat | amTimeAgo}})
+          {{'chargers.charger_disconnected' | translate}}
         </span>
       </ng-container>
       <ng-container *ngIf="!row.inactive">

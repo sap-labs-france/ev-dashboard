@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {TableDef} from '../../../common.types';
-import {DetailComponent} from '../../../shared/table/detail-component/detail-component.component';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
 @Component({
@@ -10,30 +9,23 @@ import {ConnectorsDataSource} from './connectors-data-source-detail-table';
   ]
 })
 
-export class ConnectorsDetailComponent extends DetailComponent {
-  connectorId: string;
-  chargerInactive: boolean;
-  classDateError: string;
-  heartbeatDate: string;
+export class ConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
+  @Input() row: any;
 
-  constructor(public connectorsDataSource: ConnectorsDataSource) {
+  constructor(
+      public connectorsDataSource: ConnectorsDataSource) {
     super();
   }
 
-  /**
-   * setData
-   */
-  setData(row: any, tabledef: TableDef) {
-    this.connectorsDataSource.setCharger(row);
-    this.connectorsDataSource.setDetailedDataSource(row.connectors);
+  ngOnInit(): void {
+    // Set the charger
+    this.connectorsDataSource.setCharger(this.row);
   }
 
-  refresh(row: any, autoRefresh: boolean) {
-    this.connectorsDataSource.setCharger(row);
-    this.connectorsDataSource.setDetailedDataSource(row.connectors, autoRefresh);
-  }
-
-  destroy() {
-    // this.connectorsDataSource.destroy();
+  ngOnChanges(changes: SimpleChanges): void {
+    // Set the charger
+    this.connectorsDataSource.setCharger(this.row);
+    // Reload data
+    this.connectorsDataSource.refreshData(false).subscribe();
   }
 }

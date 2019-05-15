@@ -1,25 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {AuthorizationService} from 'app/services/authorization-service';
+import {Component} from '@angular/core';
 import {OrganizationSitesDataSource} from './organization-sites-source-table';
 
 @Component({
   selector: 'app-organization-sites',
-  templateUrl: 'organization-sites.component.html',
+  template: '<app-table [dataSource]="sitesDataSource"></app-table>',
   providers: [
     OrganizationSitesDataSource
   ]
 })
-export class OrganizationSitesComponent implements OnInit {
+export class OrganizationSitesComponent {
 
   constructor(
-    public sitesDataSource: OrganizationSitesDataSource,
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService
-  ) {
-
-  }
-
-  ngOnInit(): void {
+    public sitesDataSource: OrganizationSitesDataSource) {
   }
 }

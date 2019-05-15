@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsInProgressDataSource} from './transactions-in-progress-data-source-table';
 import {MessageService} from '../../../services/message.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -13,16 +12,12 @@ import { WindowService } from '../../../services/window.service';
   ]
 })
 export class TransactionsInProgressComponent implements OnInit {
-  public isAdmin;
 
   constructor(
     public transactionsInProgressDataSource: TransactionsInProgressDataSource,
     private windowService: WindowService,
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private messageService: MessageService
-  ) {
-    this.isAdmin = this.authorizationService.isAdmin();
+    private messageService: MessageService) {
   }
 
   ngOnInit(): void {

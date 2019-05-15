@@ -9,6 +9,15 @@
   }
 }
 
+.mat-form-field, .mat-select-content, .mat-select, .mat-option {
+  font-size: $font-size-sm !important;
+  width: 100%;
+}
+
+.mat-form-field-infix {
+  border-top-width: 10px;
+}
+
 .spinner{
   position:fixed;
   top:0;
@@ -16,8 +25,9 @@
   width:100%;
   height:100%;
   z-index:1003;
-  background: transparent;
-  overflow:hidden
+  background:transparent;
+  overflow:hidden;
+  z-index:666666666666;
 }
 
 .spinner div:first-child{

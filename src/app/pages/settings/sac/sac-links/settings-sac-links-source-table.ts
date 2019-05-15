@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -9,11 +8,6 @@ import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, 
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { FormGroup } from '@angular/forms';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Constants } from 'app/utils/Constants';
 
@@ -23,40 +17,29 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { DialogService } from 'app/services/dialog.service';
 import { SacLinkDialogComponent } from './sac-link.dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
-
-const POLL_INTERVAL = 15000;
 @Injectable()
 export class SacLinksDataSource extends TableDataSource<SacLink> {
-  private readonly tableActionsRow: TableActionDef[];
   private sacLinks: SacLink[];
   private formGroup: FormGroup;
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
-    super();
-    this.setPollingInterval(POLL_INTERVAL);
-    this.tableActionsRow = [
-      new TableEditAction().getActionDef(),
-      new TableViewAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
-    ];
+      public spinnerService: SpinnerService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectSacLinks();
   }
 
-  public initSacLinks(sacLinks: SacLink[], formGroup: FormGroup) {
+  public setSacLinks(sacLinks: SacLink[], formGroup: FormGroup) {
     this.sacLinks = sacLinks ? sacLinks : [];
     this.formGroup = formGroup;
   }
@@ -65,15 +48,11 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return this.sacLinks;
   }
 
-  public getPaginatorPageSizes() {
-    return [];
-  }
-
-  public loadData() {
-    setTimeout(() => {
-      // Set number of records
-      this.setNumberOfRecords(this.getData().length);
-      // setTimeout(() => {
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+    // Set number of records
+    this.setTotalNumberOfRecords(this.getData().length);
+      // Check
       if (this.sacLinks) {
         this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
         const links = [];
@@ -83,15 +62,14 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           links.push(_link);
         }
         // Update nbr records
-        this.setNumberOfRecords(links.length);
-        // Update Paginator
-        this.updatePaginator();
-        this.setData(links);
+        this.setTotalNumberOfRecords(links.length);
+        observer.next(links);
+        observer.complete();
       }
-    }, 1);
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'sac-links-table-list',
       search: {
@@ -103,11 +81,11 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       footer: {
         enabled: false
       },
+      rowFieldNameIdentifier: 'url'
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'name',
@@ -135,16 +113,19 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    // const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    // const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef()
-      // ...tableActionsDef
     ];
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    return this.tableActionsRow;
+  public buildTableRowActions(): TableActionDef[] {
+    return [
+      new TableEditAction().getActionDef(),
+      new TableViewAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -152,7 +133,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showSacLinksDialog();
+        this.showSacLinksDialog();
         break;
     }
     super.actionTriggered(actionDef);
@@ -161,30 +142,30 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this._showSacLinksDialog(rowItem);
+        this.showSacLinksDialog(rowItem);
         break;
       case 'delete':
-        this._deleteSacLink(rowItem);
+        this.deleteSacLink(rowItem);
         break;
       case 'view':
-        this._viewSacLink(rowItem);
+        this.viewSacLink(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
-  private _showSacLinksDialog(sacLink?: any) {
+  private showSacLinksDialog(sacLink?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -206,12 +187,12 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           this.sacLinks.push(result);
         }
         this.formGroup.markAsDirty();
-        this.loadData();
+        this.refreshData().subscribe();
       }
     });
   }
 
-  private _deleteSacLink(sacLink) {
+  private deleteSacLink(sacLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sac.delete_title'),
       this.translateService.instant('sac.delete_confirm', { 'linkName': sacLink.name })
@@ -219,12 +200,12 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       if (result === Constants.BUTTON_TYPE_YES) {
         _.remove(this.sacLinks, function (o: SacLink) { return (o.id === sacLink.id) });
         this.formGroup.markAsDirty();
-        this.loadData();
+        this.refreshData().subscribe();
       }
     });
   }
 
-  private _viewSacLink(sacLink) {
+  private viewSacLink(sacLink) {
     window.open(sacLink.url);
   }
 }

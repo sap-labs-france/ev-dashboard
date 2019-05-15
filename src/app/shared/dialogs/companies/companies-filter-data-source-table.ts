@@ -1,44 +1,45 @@
-import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {Company, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
+import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private centralServerService: CentralServerService,
-    private spinnerService: SpinnerService) {
-    super();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private router: Router,
+      private centralServerService: CentralServerService) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
-  loadData() {
-    // Show spinner
-    this.spinnerService.show();
+ public loadDataImpl(): Observable<any> {
+  return new Observable((observer) => {
     // Get data
-    this.centralServerService.getCompanies(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((companies) => {
-        // Hide spinner
-        this.spinnerService.hide();
+    this.centralServerService.getCompanies(this.buildFilterValues(),
+      this.getPaging(), this.getSorting()).subscribe((companies) => {
         // Set number of records
-        this.setNumberOfRecords(companies.count);
-        // Update page length
-        this.updatePaginator();
-        this.setData(companies.result);
+        this.setTotalNumberOfRecords(companies.count);
+        // Ok
+        observer.next(companies.result);
+        observer.complete();
       }, (error) => {
-        // Hide spinner
-        this.spinnerService.hide();
         // No longer exists!
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
+    });
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -55,7 +56,7 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     return [
       {
         id: 'name',
-        name: this.translateService.instant('companies.name'),
+        name: 'companies.name',
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
@@ -63,12 +64,12 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
       },
       {
         id: 'address.city',
-        name: this.translateService.instant('general.city'),
+        name: 'general.city',
         class: 'text-left col-350px'
       },
       {
         id: 'address.country',
-        name: this.translateService.instant('general.country'),
+        name: 'general.country',
         class: 'text-left col-300px'
       }
     ];

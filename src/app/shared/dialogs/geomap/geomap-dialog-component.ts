@@ -1,10 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { LocaleService } from '../../../services/locale.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import {} from '@agm/core'
 
@@ -28,11 +23,6 @@ export class GeoMapDialogComponent {
   public dialogTitle: string;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private localeService: LocaleService,
-    private translateService: TranslateService,
-    private router: Router,
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
@@ -53,9 +43,6 @@ export class GeoMapDialogComponent {
       // check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
         this.cancel();
-      }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        this.validate();
       }
     });
   }

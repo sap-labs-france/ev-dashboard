@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsRefundDataSource} from './transactions-refund-data-source-table';
 
 @Component({
@@ -10,13 +9,7 @@ import {TransactionsRefundDataSource} from './transactions-refund-data-source-ta
   ]
 })
 export class TransactionsRefundComponent {
-  public isAdmin;
-
   constructor(
-    public transactionsRefundDataSource: TransactionsRefundDataSource,
-    private authorizationService: AuthorizationService
-  ) {
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.transactionsRefundDataSource.forAdmin(this.isAdmin);
+    public transactionsRefundDataSource: TransactionsRefundDataSource) {
   }
 }

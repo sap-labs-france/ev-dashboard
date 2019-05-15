@@ -12,22 +12,16 @@ export const CONNECTOR_TYPE_MAP =
     {key: 'U', description: 'chargers.connector_type_unknown', svgIconName: 'U', svgIconFile: 'assets/img/connectors/no-connector.svg'}
   ]
 
-/**
- * Transform a connector ID as a number to a letter
- *
- * @class AppConnectorIdPipe
- * @implements {PipeTransform}
- */
 @Pipe({name: 'appConnectorType'})
 export class AppConnectorTypePipe implements PipeTransform {
 
-  transform(type: string, asSvgIcon: boolean = true): any {
+  transform(type: string, target: string = 'icon'): any {
     // Return the found key
     const foundConnectorType = CONNECTOR_TYPE_MAP.find(
       (connectorType) => connectorType.key === type);
-    if (asSvgIcon) {
-        return (foundConnectorType ? foundConnectorType.svgIconName : 'U');
-    } else {
+    if (target === 'icon') {
+      return (foundConnectorType ? foundConnectorType.svgIconName : 'U');
+    } else if (target === 'text') {
       return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_type_unknown');
     }
   }

@@ -125,8 +125,8 @@ export const AppRoutes: Routes = [
             path: '/settings'
           },
           auth: {
-            entity: Constants.ENTITY_SETTINGS,
-            action: Constants.ACTION_LIST
+            entity: Constants.ENTITY_SETTING,
+            action: Constants.ACTION_CREATE
           }
         }
       },
@@ -145,13 +145,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'release-notes', component: ReleaseNotesComponent, canActivate: [RouteGuardService],
-        data: {
-          auth: {
-            entity: Constants.ENTITY_LOGGINGS,
-            action: Constants.ACTION_LIST
-          }
-        }
+        path: 'release-notes', component: ReleaseNotesComponent
       },
       {
         path: 'template',

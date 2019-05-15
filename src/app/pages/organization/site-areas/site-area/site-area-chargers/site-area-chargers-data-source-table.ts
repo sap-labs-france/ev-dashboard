@@ -2,7 +2,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Charger, TableActionDef, TableColumnDef, TableDef, User, SiteArea } from 'app/common.types';
+import { Charger, TableActionDef, TableColumnDef, TableDef, SiteArea } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
 import { MessageService } from 'app/services/message.service';
@@ -13,6 +13,8 @@ import { DialogService } from 'app/services/dialog.service';
 import { Constants } from 'app/utils/Constants';
 import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
+import { Observable } from 'rxjs';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
@@ -20,42 +22,48 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public isAdmin = false;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
-    super();
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private dialog: MatDialog,
+      private dialogService: DialogService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
+    super(spinnerService);
+    // Set
+    this.isAdmin = this.authorizationService.isAdmin();
+    // Init
+    this.initDataSource();
   }
 
-  public loadData() {
-    // siteArea provided?
-    if (this.siteArea) {
-      // Yes: Get data
-      this.centralServerService.getChargers(this.getFilterValues(),
-        this.getPaging(), this.getOrdering()).subscribe((chargers) => {
-          // Set number of records
-          this.setNumberOfRecords(chargers.count);
-          // Update Paginator
-          this.updatePaginator();
-          // Notify
-          this.getDataSubjet().next(chargers.result);
-          // Set the data
-          this.setData(chargers.result);
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        });
-    } else {
-      this.updatePaginator();
-      this.setData([]);
-    }
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // siteArea provided?
+      if (this.siteArea) {
+        // Yes: Get data
+        this.centralServerService.getChargers(this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((chargers) => {
+            // Set number of records
+            this.setTotalNumberOfRecords(chargers.count);
+            // Ok
+            observer.next(chargers.result);
+            observer.complete();
+          }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            // Error
+            observer.error(error);
+          });
+      } else {
+        // Ok
+        observer.next([]);
+        observer.complete();
+      }
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     if (this.isAdmin) {
       return {
         class: 'table-dialog-list',
@@ -113,8 +121,8 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     this.siteArea = siteArea;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableAddAction().getActionDef(),
@@ -131,7 +139,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     switch (actionDef.id) {
       // Add
       case 'add':
-        this._showAddChargersDialog();
+        this.showAddChargersDialog();
         break;
 
       // Remove
@@ -148,7 +156,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
               // Remove
-              this._removeChargers(this.getSelectedRows().map((row) => row.id));
+              this.removeChargers(this.getSelectedRows().map((row) => row.id));
             }
           });
         }
@@ -156,7 +164,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     }
   }
 
-  public _showAddChargersDialog() {
+  public showAddChargersDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
@@ -176,10 +184,10 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     // Show
     const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe(chargers => this._addChargers(chargers));
+    dialogRef.afterClosed().subscribe(chargers => this.addChargers(chargers));
   }
 
-  private _removeChargers(chargerIDs) {
+  private removeChargers(chargerIDs) {
     // Yes: Update
     this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe(response => {
       // Ok?
@@ -187,7 +195,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
-        this.loadData();
+        this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows()
       } else {
@@ -200,7 +208,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     });
   }
 
-  private _addChargers(chargers) {
+  private addChargers(chargers) {
     // Check
     if (chargers && chargers.length > 0) {
       // Get the IDs
@@ -212,7 +220,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh
-          this.loadData();
+          this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows()
         } else {

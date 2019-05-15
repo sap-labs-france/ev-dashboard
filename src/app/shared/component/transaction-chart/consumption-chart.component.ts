@@ -43,12 +43,13 @@ export class ConsumptionChartComponent implements OnInit {
     [238, 104, 104],
     [47, 100, 151]];
 
-  constructor(private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private localeService: LocaleService,
-              private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe,
-              private currencyPipe: CurrencyPipe) {
+  constructor(
+      private centralServerService: CentralServerService,
+      private translateService: TranslateService,
+      private localeService: LocaleService,
+      private datePipe: AppDatePipe,
+      private decimalPipe: DecimalPipe,
+      private currencyPipe: CurrencyPipe) {
   }
 
   ngOnInit(): void {
@@ -368,6 +369,4 @@ export class ConsumptionChartComponent implements OnInit {
   rgba(colour: Array<number>, alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
-
-
 }

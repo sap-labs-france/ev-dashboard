@@ -45,10 +45,10 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   private isBasic: boolean;
   private isDemo: boolean;
   private isOrganizationComponentActive: boolean;
-  private tableEditAction = new TableEditAction().getActionDef();
-  private tableRebootAction = new TableChargerRebootAction().getActionDef();
-  private tableMoreAction = new TableChargerMoreAction().getActionDef();
-  private tableNoAction = new TableNoAction().getActionDef();
+  private editAction = new TableEditAction().getActionDef();
+  private rebootAction = new TableChargerRebootAction().getActionDef();
+  private moreAction = new TableChargerMoreAction().getActionDef();
+  private noAction = new TableNoAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -454,10 +454,10 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
     if (this.isAdmin) {
       actionTable = [
-        this.tableEditAction,
+        this.editAction,
         openInMaps,
-        this.tableRebootAction,
-        this.tableMoreAction,
+        this.rebootAction,
+        this.moreAction,
       ];
     } else if (this.isDemo) {
       actionTable = [openInMaps];
@@ -465,7 +465,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       actionTable = [openInMaps];
     } else {
       return [
-        this.tableNoAction
+        this.noAction
       ];
     }
     return actionTable;

@@ -40,42 +40,43 @@ import en from '../../../../assets/i18n/en.json';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
 import { SpinnerService } from 'app/services/spinner.service';
 
-const ACTION_MAP = {
-  missingSettings: [
-    new TableEditAction().getActionDef(),
-    new TableDeleteAction().getActionDef()
-  ],
-  missingSiteArea: [
-    new TableEditAction().getActionDef(),
-    new TableDeleteAction().getActionDef()
-  ],
-  connectionBroken: [
-    new TableEditAction().getActionDef(),
-    new TableDeleteAction().getActionDef()
-  ],
-  connectorError: [
-    new TableChargerResetAction().getActionDef(),
-    new TableChargerRebootAction().getActionDef(),
-    new TableEditAction().getActionDef(),
-    new TableDeleteAction().getActionDef()
-  ]
-}
 @Injectable()
 export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
+  private isAdmin: boolean;
+  private actions = {
+    missingSettings: [
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ],
+    missingSiteArea: [
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ],
+    connectionBroken: [
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ],
+    connectorError: [
+      new TableChargerResetAction().getActionDef(),
+      new TableChargerRebootAction().getActionDef(),
+      new TableEditAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ]
+  }
 
   constructor(
-    public spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private router: Router,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private dialog: MatDialog,
-    private dialogService: DialogService
-  ) {
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private router: Router,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
+      private dialog: MatDialog,
+      private dialogService: DialogService) {
     super(spinnerService);
     // Init
+    this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{ 'WithSite': true }]);
     this.initDataSource();
   }
@@ -353,10 +354,8 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
   }
 
   buildTableDynamicRowActions(charger: ChargerInError) {
-    if (this.authorizationService.isAdmin()) {
-      // duplicate actions from the map
-      const actions = JSON.parse(JSON.stringify(ACTION_MAP[charger.errorCode]));
-      return actions;
+    if (this.isAdmin) {
+      return this.actions[charger.errorCode];
     } else {
       return [
       ];

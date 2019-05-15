@@ -24,10 +24,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
-
-  public sendEvseStatusesAction = new TableSendAction();
-
   private ocpiEndpoint: OcpiEndpoint;
+  private startAction = new TableStartAction().getActionDef();
+  private stopAction = new TableStopAction().getActionDef();
+  private sendAction = new TableSendAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -156,15 +156,14 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     const _actionRowButtons = [];
     if (rowItem && rowItem.ocpiendpoint) {
       // add send all EVSE Statuses
-      _actionRowButtons.push(new TableSendAction().getActionDef());
+      _actionRowButtons.push(this.sendAction);
       // Check is background job is active for the ocpi endpoint
       if (rowItem.ocpiendpoint.backgroundPatchJob) {
-        _actionRowButtons.push(new TableStopAction().getActionDef());
+        _actionRowButtons.push(this.stopAction);
       } else {
-        _actionRowButtons.push(new TableStartAction().getActionDef());
+        _actionRowButtons.push(this.startAction);
       }
     }
-    // return
     return _actionRowButtons;
   }
 

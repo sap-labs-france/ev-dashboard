@@ -1156,8 +1156,8 @@
         "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
       },
       "refund": {
-        "title": "Rembourser des Sessions",
-        "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
+        "title": "Remboursement",
+        "confirm": "Voulez-vous vraiment transférer {{quantity}} sessions vers votre système de remboursement ?"
       },
       "session": {
         "tooltips": {
@@ -1181,12 +1181,12 @@
         "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
-        "success": "{{inSuccess}} demandes de remboursement ont été transmises avec succés",
-        "partial": "{{inError}} sur {{total}} demandes de remboursement ont rencontré une erreur",
+        "success": "{{inSuccess}} sessions ont été transmises avec succés",
+        "partial": "{{inError}} sur {{total}} sessions ont rencontré une erreur",
         "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la session d'un autre utilisateur",
         "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
-        "error": "L'application E-Mobility n'a pas pu se connecter au systéme de remboursement.  Veuillez contacter un administrateur.",
-        "concur_connection_invalid": "Votre connection au systéme de remboursement n'est pas configurée correctement. Veuillez contacter un administrateur.",
+        "error": "L'application E-Mobility n'a pas pu se connecter au systéme de remboursement. Veuillez contacter un administrateur.",
+        "concur_connection_invalid": "La connection a votre systéme de remboursement n'est pas configurée correctement. Veuillez contacter un administrateur.",
         "tenant_concur_connection_invalid": "La configuration du systéme de remboursement de votre tenant n'est pas complète. Veuillez contacter un administrateur."
       }
     },

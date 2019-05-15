@@ -1,77 +1,51 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import * as moment from 'moment'
 import {LocaleService} from '../../services/locale.service';
-
-moment.updateLocale('fr', <any>{
-  durationLabelsStandard: {
-    S: 'milliseconde',
-    SS: 'millisecondes',
-    s: 'seconde',
-    ss: 'secondes',
-    m: 'minute',
-    mm: 'minutes',
-    h: 'heure',
-    hh: 'heures',
-    d: 'jour',
-    dd: 'jours',
-    w: 'semaine',
-    ww: 'semaines',
-    M: 'mois',
-    MM: 'mois',
-    y: 'année',
-    yy: 'années'
-  },
-  durationLabelsShort: {
-    S: 'msec',
-    SS: 'msecs',
-    s: 'sec',
-    ss: 'secs',
-    m: 'min',
-    mm: 'mins',
-    h: 'hr',
-    hh: 'hrs',
-    d: 'jr',
-    dd: 'jrs',
-    w: 'sem',
-    ww: 'sems',
-    M: 'mo',
-    MM: 'mos',
-    y: 'an',
-    yy: 'ans'
-  },
-  durationTimeTemplates: {
-    HMS: 'h:mm:ss',
-    HM: 'h:mm',
-    MS: 'm:ss'
-  },
-  durationLabelTypes: [
-    {type: 'standard', string: '__'},
-    {type: 'short', string: '_'}
-  ],
-  durationPluralKey: function (token, integerValue, decimalValue) {
-    // Singular for a value of `1`, but not for `1.0`.
-    if (integerValue === 1 && decimalValue === null) {
-      return token;
-    }
-
-    return token + token;
-  }
-});
 
 @Pipe({name: 'appDuration'})
 export class AppDurationPipe implements PipeTransform {
   private readonly locale: string;
+  private localeService: LocaleService;
 
-  constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentFullLocaleForJS();
-    moment.locale(locale.getCurrentFullLocale().substr(0, 2));
+  constructor(localeService: LocaleService) {
+    this.localeService = localeService;
   }
 
-  transform(durationInSecs: number, full: boolean = false): any {
-    const duration = moment.duration(durationInSecs, 'seconds');
-    if (duration.asHours() > 24 && !full) {
-      return (<any>duration).format(`D __ H __`, {trim: 'both mid'});
+  transform(durationInSecs: number): any {
+    let result = '';
+    const days = Math.floor(durationInSecs / (3600 * 24));
+    durationInSecs -= days * 3600 * 24;
+    const hours = Math.floor(durationInSecs / 3600);
+    durationInSecs -= hours * 3600;
+    const minutes = Math.floor(durationInSecs / 60);
+    const seconds = Math.floor(durationInSecs - (minutes * 60));
+    if (days > 0) {
+      if (days === 1) {
+        result += `${days} ${this.localeService.getI18nDay()} `;
+      } else {
+        result += `${days} ${this.localeService.getI18nDays()} `;
+      }
     }
-    return (<any>duration).format(`D __ H __ mm _`, {trim: 'both mid'});
+    if (hours > 0) {
+      if (hours === 1) {
+        result += `${hours} ${this.localeService.getI18nHour()} `;
+      } else {
+        result += `${hours} ${this.localeService.getI18nHours()} `;
+      }
+    }
+    if (minutes > 0) {
+      if (minutes === 1) {
+        result += `${minutes} ${this.localeService.getI18nMinute()} `;
+      } else {
+        result += `${minutes} ${this.localeService.getI18nMinutes()} `;
+      }
+    }
+    if (seconds > 0) {
+      if (seconds === 1) {
+        result += `${seconds} ${this.localeService.getI18nSecond()}`;
+      } else {
+        result += `${seconds} ${this.localeService.getI18nSeconds()}`;
+      }
+    }
+    return result;
   }
 }

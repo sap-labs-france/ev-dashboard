@@ -1,6 +1,14 @@
 
 {
   "general": {
+    "days": "jours",
+    "hours": "heures",
+    "minutes": "mins",
+    "seconds": "secs",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "min",
+    "second": "sec",
     "more_records": "Plus",
     "click_here": "cliquez ici",
     "selected_records": "Selectionnés",

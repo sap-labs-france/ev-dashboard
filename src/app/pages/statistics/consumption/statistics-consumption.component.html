@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header card-icon">
+
+        <h2 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h2>
+
+        <mat-form-field>
+            <mat-label>{{'statistics.transactions_years' | translate}}</mat-label>
+                <mat-select [(ngModel)]="selectedYear" (selectionChange)="refresh()">
+                  <mat-option *ngFor="let year of allYears" [value]="year">
+                    {{year}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+        <span class="toolbar-spacer"></span>
+
+        <h2 class="card-title" *ngIf=!!selectedYear>{{chartTitle}}</h2>
+
+
+        <button mat-raised-button *ngIf=!!selectedYear 
+            (click)="refresh()">
+            <mat-icon>refresh</mat-icon>{{'general.refresh' | translate}}
+        </button>
+
+    </div>
+        
+    <div class="card-body"> 
+        <canvas #myChart></canvas>
+
+        <button mat-raised-button *ngIf=!!selectedYear
+            (click)="toggleHideBarItems()">
+            {{'statistics.legend_select_unselect_all' | translate}}
+        </button>
+    </div> 
+
+</div>

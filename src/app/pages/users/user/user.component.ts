@@ -75,6 +75,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
+  public notificationsActive: AbstractControl;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -125,6 +126,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.required
         ])),
       'firstName': new FormControl('',
+        Validators.compose([
+          Validators.required
+        ])),
+      'notificationsActive': new FormControl('',
         Validators.compose([
           Validators.required
         ])),
@@ -233,6 +238,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
+    this.notificationsActive = this.formGroup.controls['notificationsActive'];
 
     if (this.currentUserID) {
       this.loadUser();
@@ -349,6 +355,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
+      }
+      if (user.notificationsActive !== null) {
+        this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
+      } else {
+        this.formGroup.controls.notificationsActive.setValue(true);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);

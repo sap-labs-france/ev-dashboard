@@ -808,6 +808,7 @@
     "cost_center": "Cost Center",
     "phone": "Phone",
     "mobile": "Mobile",
+    "notificationsActive": "Email notifications",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",

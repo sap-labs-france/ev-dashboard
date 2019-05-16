@@ -7,7 +7,7 @@ import {AppDatePipe} from '../../formatters/app-date.pipe';
 import * as moment from 'moment';
 import {Chart} from 'chart.js';
 import {ConsumptionValue} from '../../../common.types';
-import {AppDurationPipe} from '../../formatters/app-duration.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -17,18 +17,19 @@ import {AppDurationPipe} from '../../formatters/app-duration.pipe';
 export class ConsumptionChartComponent implements OnInit {
   @Input() transactionId: number;
   @Input() consumptions: ConsumptionValue[];
-  graphCreated = false;
-  currencyCode: string;
-  locale: string;
-  private lineTension = 0;
   @Input() ratio: number;
   @ViewChild('chart') ctx: ElementRef;
-  data = {
+
+  private graphCreated = false;
+  private currencyCode: string;
+  private locale: string;
+  private lineTension = 0;
+  private data = {
     labels: [],
     datasets: [],
   };
-  options: any;
-  chart: any;
+  private options: any;
+  private chart: any;
   // public ctx: any;
   private colors = [
     [255, 99, 132],
@@ -48,6 +49,7 @@ export class ConsumptionChartComponent implements OnInit {
       private translateService: TranslateService,
       private localeService: LocaleService,
       private datePipe: AppDatePipe,
+      private durationPipe: AppDurationPipe,
       private decimalPipe: DecimalPipe,
       private currencyPipe: CurrencyPipe) {
   }
@@ -264,9 +266,8 @@ export class ConsumptionChartComponent implements OnInit {
           title: (tooltipItems, data) => {
             const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
-
-            return this.datePipe.transform(currentDate, this.locale, 'time') +
-              ' - ' + (<any>moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', {trim: false});
+            return this.datePipe.transform(currentDate) +
+              ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
           }
         }
       },

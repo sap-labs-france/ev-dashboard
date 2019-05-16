@@ -29,7 +29,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
-  public isAdmin = false;
+  private isAdmin = false;
+  private editAction = new TableEditAction().getActionDef();
+  private editChargersAction = new TableEditChargersAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
+  private displayChargersAction = new TableDisplayChargersAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -133,15 +138,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude ) ? false : true;
     if (this.isAdmin) {
       return [
-        new TableEditAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
+        this.editAction,
+        this.editChargersAction,
         openInMaps,
-        new TableDeleteAction().getActionDef()
+        this.deleteAction
       ];
     } else {
       return [
-        new TableViewAction().getActionDef(),
-        new TableDisplayChargersAction().getActionDef(),
+        this.viewAction,
+        this.displayChargersAction,
         openInMaps
       ];
     }

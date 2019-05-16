@@ -222,8 +222,8 @@
                     <div *ngIf="alreadyLinkedToConcur()"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
-                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
-                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate}}</span>
                       </div>
                       <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
                         <mat-icon>delete</mat-icon>

@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {MomentModule} from 'ngx-moment';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -46,7 +45,6 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     TableModule,
     CommonDirectivesModule,
     DialogsModule,
-    MomentModule,
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,

@@ -397,12 +397,12 @@ export abstract class TableDataSource<T> {
       }
         // Load data source
       this.loadDataImpl().subscribe((data) => {
-        // Ok
-        this.setData(data);
         // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        // Ok
+        this.setData(data);
         // Load number of records
         setTimeout(() => {
           // Loading on going?

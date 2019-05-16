@@ -1,13 +1,21 @@
 
 {
   "general": {
+    "days": "jours",
+    "hours": "heures",
+    "minutes": "mins",
+    "seconds": "secs",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "min",
+    "second": "sec",
     "more_records": "Plus",
     "click_here": "cliquez ici",
     "selected_records": "Selectionnés",
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.22",
+    "last_update": "Version 2.0.23",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",

@@ -18,7 +18,6 @@ import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {LocaleService} from '../../../services/locale.service';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
@@ -35,6 +34,7 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import * as moment from 'moment';
 import { SpinnerService } from 'app/services/spinner.service';
+import { LocaleService } from 'app/services/locale.service';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -44,17 +44,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   constructor(
       public spinnerService: SpinnerService,
+      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
-      private localeService: LocaleService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
-      private appDatePipe: AppDatePipe,
+      private datePipe: AppDatePipe,
       private appUnitPipe: AppUnitPipe,
       private percentPipe: PercentPipe,
       private appConnectorIdPipe: AppConnectorIdPipe,
@@ -102,7 +102,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-
     const columns = [
       {
         id: 'timestamp',
@@ -111,7 +110,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'stop.totalDurationSecs',

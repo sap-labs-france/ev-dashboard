@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-site-area-dialog-cmp',
-  templateUrl: 'site-area.dialog.component.html'
+  template: '<app-site-area-cmp [currentSiteAreaID]="siteAreaID" [inDialog]="true" [dialogRef]="dialogRef"></app-site-area-cmp>'
 })
 export class SiteAreaDialogComponent {
   siteAreaID: string;

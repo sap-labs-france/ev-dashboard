@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CentralServerService} from '../../../services/central-server.service';
 import {Constants} from '../../../utils/Constants';
@@ -30,16 +29,15 @@ export class SettingsPricingComponent implements OnInit {
   private currentSettingID;
 
   constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router
   ) {
-    this.isActive = componentService.isActive(ComponentEnum.PRICING);
+    this.isActive = this.componentService.isActive(ComponentEnum.PRICING);
     if (this.isActive) {
-      this.pricingType = componentService.getActiveComponents().find(c => c.startsWith(ComponentEnum.PRICING + '_'));
+      this.pricingType = this.componentService.getActiveComponents().find(c => c.startsWith(ComponentEnum.PRICING + '_'));
     }
   }
 

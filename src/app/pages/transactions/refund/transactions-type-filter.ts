@@ -2,7 +2,6 @@ import {TableFilter} from '../../../shared/table/filters/table-filter';
 import {Constants} from '../../../utils/Constants';
 import {TableFilterDef} from '../../../common.types';
 import {transactionTypes} from './transactions-types.model';
-import {logLevels} from '../../logs/logs.model';
 
 export class TransactionsTypeFilter extends TableFilter {
   constructor() {

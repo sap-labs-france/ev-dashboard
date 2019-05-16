@@ -208,7 +208,7 @@
           </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6 col-xl-4">
+              <div *ngIf="refundSetting" class="col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
                     <a [attr.href]="getConcurUrl()" target="_blank">
@@ -222,8 +222,8 @@
                     <div *ngIf="alreadyLinkedToConcur()"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
-                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
-                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate}}</span>
                       </div>
                       <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
                         <mat-icon>delete</mat-icon>
@@ -240,6 +240,9 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div *ngIf="!refundSetting" class="mx-auto my-3">
+                <p class="font-weight-bold">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
           </div>

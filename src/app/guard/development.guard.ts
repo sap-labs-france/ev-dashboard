@@ -8,7 +8,6 @@ export class DevEnvGuard implements CanLoad {
   constructor() {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {
-      console.log('Environment ' + environment.production);
     return !environment.production; // if prod = false it will load module
   }
 }

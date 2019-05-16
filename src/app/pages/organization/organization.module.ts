@@ -12,13 +12,12 @@ import {OrganizationSiteAreasComponent} from './site-areas/organization-site-are
 import {CompanyLogoComponent} from './formatters/company-logo.component';
 import {CompanyDialogComponent} from './companies/company/company.dialog.component';
 import {CompanyComponent} from './companies/company/company.component';
-import {SiteDialogComponent} from './sites/site/site.dialog.component';
 import {SiteComponent} from './sites/site/site.component';
 import {SiteAreaDialogComponent} from './site-areas/site-area/site-area.dialog.component';
 import {SiteAreaComponent} from './site-areas/site-area/site-area.component';
 import {SiteUsersDialogComponent} from './sites/site/site-users/site-users.dialog.component';
 import {SiteAreaChargersDialogComponent} from './site-areas/site-area/site-area-chargers/site-area-chargers.dialog.component';
-
+import {SiteDialogComponent} from './sites/site/site.dialog.component';
 
 import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
@@ -45,10 +44,10 @@ import {OrganizationRoutes} from './organization.routing';
     CompanyComponent,
     CompanyDialogComponent,
     CompanyLogoComponent,
-    SiteDialogComponent,
     SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
+    SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent
   ],
@@ -59,14 +58,14 @@ import {OrganizationRoutes} from './organization.routing';
     OrganizationSiteAreasComponent,
     CompanyDialogComponent,
     CompanyLogoComponent,
-    SiteDialogComponent,
-    SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
+    SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent
   ],
-  providers: []
+  providers: [
+  ]
 })
 
 export class OrganizationModule {

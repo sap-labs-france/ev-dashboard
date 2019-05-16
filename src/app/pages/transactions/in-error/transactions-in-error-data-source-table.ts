@@ -5,20 +5,17 @@ import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, T
 import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {PercentPipe} from '@angular/common';
+import {CurrencyPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {LocaleService} from '../../../services/locale.service';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
@@ -26,71 +23,67 @@ import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-ac
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import * as moment from 'moment';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
 import {ErrorMessage} from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
 import {ErrorCodeDetailsComponent} from '../../../shared/component/error-details/error-code-details.component';
 import {ErrorTypeTableFilter} from '../../../shared/table/filters/error-type-filter';
-import en from '../../../../assets/i18n/en.json';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import en from '../../../../assets/i18n/en.json';
+import * as moment from 'moment';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { SpinnerService } from 'app/services/spinner.service';
 
-
-const POLL_INTERVAL = 10000;
 
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
-
   private isAdmin = false;
   private dialogRefSession;
 
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private localeService: LocaleService,
-    private router: Router,
-    private dialog: MatDialog,
-    private componentService: ComponentService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private appDatePipe: AppDatePipe,
-    private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
-    private appConnectorIdPipe: AppConnectorIdPipe,
-    private appUserNamePipe: AppUserNamePipe) {
-    super();
-    this.setPollingInterval(POLL_INTERVAL);
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private componentService: ComponentService,
+      private authorizationService: AuthorizationService,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private datePipe: AppDatePipe,
+      private currencyPipe: CurrencyPipe,
+      private appConnectorIdPipe: AppConnectorIdPipe,
+      private appUserNamePipe: AppUserNamePipe) {
+    super(spinnerService);
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadData(refreshAction = false) {
-    if (!refreshAction) {
-      this.spinnerService.show();
-    }
-    this.centralServerService.getTransactionsInError(this.getFilterValues(), this.getPaging(), this.getOrdering())
-      .subscribe((transactions) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
+  public loadDataImpl() {
+    return new Observable((observer) => {
+      this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
+          .subscribe((transactions) => {
         this.formatErrorMessages(transactions.result);
-        this.setNumberOfRecords(transactions.count);
-        this.updatePaginator();
-        this.setData(transactions.result);
+        this.setTotalNumberOfRecords(transactions.count);
+        // Ok
+        observer.next(transactions.result);
+        observer.complete();
       }, (error) => {
-        if (!refreshAction) {
-          this.spinnerService.hide();
-        }
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
-
+    });
   }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -99,7 +92,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [
       {
         id: 'timestamp',
@@ -108,13 +100,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'chargeBoxID',
@@ -128,21 +114,29 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sortable: false,
         class: 'action-cell text-left',
         isAngularComponent: true,
-        angularComponentName: ErrorCodeDetailsComponent
+        angularComponent: ErrorCodeDetailsComponent
       },
       {
         id: 'errorCode',
         name: 'errors.title',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(row.errorMessage.title)
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`)
       },
       {
         id: 'errorCodeDescription',
         name: 'errors.description',
         sortable: false,
-        formatter: (value, row) => this.translateService.instant(row.errorMessage.description)
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
       }
     ];
+    if (this.isAdmin) {
+      columns.splice(1, 0, {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      });
+    }
     return columns as TableColumnDef[];
   }
 
@@ -150,7 +144,11 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  getTableFiltersDef(): TableFilterDef[] {
+  formatPrice(price, priceUnit): string {
+    return this.currencyPipe.transform(price, priceUnit);
+  }
+
+  buildTableFiltersDef(): TableFilterDef[] {
     const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
 
     const filters: TableFilterDef[] = [
@@ -176,8 +174,11 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     return filters;
   }
 
-  getTableRowActions(): TableActionDef[] {
-    return [new TableOpenAction().getActionDef(), new TableDeleteAction().getActionDef()];
+  buildTableRowActions(): TableActionDef[] {
+    return [
+      new TableOpenAction().getActionDef(),
+      new TableDeleteAction().getActionDef()
+    ];
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -200,15 +201,11 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     }
   }
 
-  getTableActionsRightDef(): TableActionDef[] {
+  buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
-  }
-
-  forAdmin(isAdmin: boolean) {
-    this.isAdmin = isAdmin
   }
 
   protected _deleteTransaction(transaction: Transaction) {
@@ -216,7 +213,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
-      this.loadData();
+      this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
     });
@@ -249,6 +246,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.loadData(true));
+    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

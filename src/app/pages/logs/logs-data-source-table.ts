@@ -8,7 +8,6 @@ import {TableRefreshAction} from '../../shared/table/actions/table-refresh-actio
 import {CentralServerService} from '../../services/central-server.service';
 import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
-import {SpinnerService} from '../../services/spinner.service';
 import {LogSourceTableFilter} from './filters/log-source-filter';
 import {LogLevelTableFilter} from './filters/log-level-filter';
 import {Formatters} from '../../utils/Formatters';
@@ -24,74 +23,66 @@ import {map} from 'rxjs/operators';
 import {Constants} from '../../utils/Constants';
 import {TranslateService} from '@ngx-translate/core';
 import {DialogService} from '../../services/dialog.service';
-import {MatDialog} from '@angular/material';
 import saveAs from 'file-saver';
 import {TableExportAction} from '../../shared/table/actions/table-export-action';
 import {AuthorizationService} from '../../services/authorization-service';
-
-const POLL_INTERVAL = 10000;
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private dialogService: DialogService,
-    private spinnerService: SpinnerService,
-    private authorizationService: AuthorizationService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
-    super();
-    this.setPollingInterval(POLL_INTERVAL);
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private localeService: LocaleService,
+      private dialogService: DialogService,
+      private authorizationService: AuthorizationService,
+      private router: Router,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private datePipe: AppDatePipe) {
+    super(spinnerService);
+    // Init
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadData(refreshAction: boolean) {
-    if (!refreshAction) {
-      // Show
-      this.spinnerService.show();
-    }
-    // Get data
-    this.centralServerService.getLogs(this.getFilterValues(),
-      this.getPaging(), this.getOrdering()).subscribe((logs) => {
-      if (!refreshAction) {
-        // Show
-        this.spinnerService.hide();
-      }
-      // Set number of records
-      this.setNumberOfRecords(logs.count);
-      // Update page length
-      this.updatePaginator();
-      // Add the users in the message
-      logs.result.map((log) => {
-        let user;
-        // Set User
-        if (log.user) {
-          user = log.user;
-        }
-        // Set Action On User
-        if (log.actionOnUser) {
-          user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
-        }
-        // Set
-        if (user) {
-          log.message = `${user} > ${log.message}`;
-        }
-        return log;
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // Get data
+      this.centralServerService.getLogs(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((logs) => {
+        // Set number of records
+        this.setTotalNumberOfRecords(logs.count);
+        // Add the users in the message
+        logs.result.map((log) => {
+          let user;
+          // Set User
+          if (log.user) {
+            user = log.user;
+          }
+          // Set Action On User
+          if (log.actionOnUser) {
+            user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
+          }
+          // Set
+          if (user) {
+            log.message = `${user} > ${log.message}`;
+          }
+          return log;
+        });
+        // Ok
+        observer.next(logs.result);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
-      this.setData(logs.result);
-    }, (error) => {
-      // Show
-      this.spinnerService.hide();
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 
@@ -101,7 +92,11 @@ export class LogsDataSource extends TableDataSource<Log> {
       map(log => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
-  public getTableDef(): TableDef {
+  public getPageSize(): number {
+    return 200;
+  }
+
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
@@ -109,7 +104,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       rowDetails: {
         enabled: true,
         detailsField: 'detailedMessages',
-        hideShowField: 'hasDetailedMessages'
+        showDetailsField: 'hasDetailedMessages'
       }
     };
   }
@@ -121,7 +116,7 @@ export class LogsDataSource extends TableDataSource<Log> {
         id: 'level',
         name: 'logs.level',
         isAngularComponent: true,
-        angularComponentName: LogLevelComponent,
+        angularComponent: LogLevelComponent,
         headerClass: 'col-7p',
         class: 'col-7p',
         sortable: true
@@ -129,7 +124,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn) => this.datePipe.transform(createdOn, locale, 'datetime'),
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
@@ -161,12 +156,8 @@ export class LogsDataSource extends TableDataSource<Log> {
     ];
   }
 
-  public getPaginatorPageSizes() {
-    return [50, 100, 250, 500, 1000, 2000];
-  }
-
-  getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
         new TableExportAction().getActionDef(),
@@ -193,14 +184,14 @@ export class LogsDataSource extends TableDataSource<Log> {
     super.actionTriggered(actionDef);
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     if (this.authorizationService.isSuperAdmin()) {
       return [
         new LogDateFromTableFilter().getFilterDef(),
@@ -224,10 +215,10 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   private exportLogs() {
-    this.centralServerService.exportLogs(this.getFilterValues(), {
-      limit: this.getNumberOfRecords(),
+    this.centralServerService.exportLogs(this.buildFilterValues(), {
+      limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP
-    }, this.getOrdering())
+    }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');
       }, (error) => {

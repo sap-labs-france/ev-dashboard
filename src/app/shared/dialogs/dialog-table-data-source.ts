@@ -1,12 +1,16 @@
 import {TableDataSource} from '../table/table-data-source';
 import {TableDef, TableActionDef} from '../../common.types';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
-  constructor() {
-    super();
+  constructor(
+    public spinnerService: SpinnerService) {
+    super(spinnerService);
   }
 
-  getTableDef(): TableDef {
+  buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -19,11 +23,7 @@ export abstract class DialogTableDataSource<T> extends TableDataSource<T> {
     };
   }
 
-  public getTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     return [];
-  }
-
-  public getPaginatorPageSizes() {
-    return [50, 100, 200];
   }
 }

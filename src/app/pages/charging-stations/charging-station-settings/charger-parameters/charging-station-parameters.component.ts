@@ -15,7 +15,7 @@ import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-c
 import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
-import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/sites/site-areas-filter-dialog.component';
+import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-filter-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -322,7 +322,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result.length > 0 && result[0] && result[0].objectRef) {
+        if (result && result.length > 0 && result[0] && result[0].objectRef) {
           this.charger.siteArea = <SiteArea>(result[0].objectRef);
           this.formGroup.markAsDirty();
           this.formGroup.controls.siteArea.setValue(

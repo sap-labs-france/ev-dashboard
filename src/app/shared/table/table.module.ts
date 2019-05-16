@@ -6,8 +6,7 @@ import {MaterialModule} from '../../app.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormattersModule} from '../formatters/formatters.module';
 import {CellContentTemplateModule} from './cell-content-template/cell-content-template.module';
-import {DetailComponentModule} from './detail-component/detail-component.module';
-import { CommonDirectivesModule } from '../directives/common-directives.module';
+import {CommonDirectivesModule} from '../directives/common-directives.module';
 
 @NgModule({
   imports: [
@@ -17,7 +16,6 @@ import { CommonDirectivesModule } from '../directives/common-directives.module';
     TranslateModule,
     FormattersModule,
     CellContentTemplateModule,
-    DetailComponentModule,
     CommonDirectivesModule
   ],
   declarations: [

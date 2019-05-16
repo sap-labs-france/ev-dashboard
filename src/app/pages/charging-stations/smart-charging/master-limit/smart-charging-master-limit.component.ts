@@ -12,17 +12,9 @@ import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
-import { MatSlider } from '@angular/material/slider';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
 import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
-import { SmartChargingUtils } from '../smart-charging-utils';
-
-const MIN_POWER = 3000; // Minimum power in W under which we can't go
-const LIMIT_FOR_STEP_CHANGE = 10000;  // Limit in W for which we are changing the step of the slider
-const SMALL_SLIDER_STEP = 500;
-const LARGE_SLIDER_STEP = 1000;
-const DISPLAY_UNIT = 'kW';
 
 @Component({
   selector: 'app-smart-charging-master-limit',
@@ -32,7 +24,6 @@ const DISPLAY_UNIT = 'kW';
 export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit {
   @Input() charger: Charger;
   @Output() onApplyPlanning = new EventEmitter<any>();
-  private messages;
   public userLocales;
   public isAdmin;
 
@@ -48,9 +39,6 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
   public limitPlanning: ConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
-  private powerDigitPrecision = 2;
-  private powerFloatingPrecision = 0;
-
   @ViewChild('powerSlider') powerSliderComponent: SmartChargingPowerSliderComponent;
 
   constructor(
@@ -62,18 +50,13 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
     private localeService: LocaleService,
     private dialog: MatDialog,
     private router: Router,
-    private dialogService: DialogService,
-    private appUnitFormatter: AppUnitPipe) {
+    private dialogService: DialogService) {
 
     // Check auth
     if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Get translated messages
-    this.translateService.get('chargers', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
@@ -83,16 +66,9 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
   ngOnInit(): void {
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
-    // For small charger increase display precision
-    if (this.charger.maximumPower < 10000) {
-      this.powerDigitPrecision = 1;
-      this.powerFloatingPrecision = 2;
-    }
   }
 
   ngAfterViewInit(): void {
-    // Initialize slider
-    //    this.powerSliderComponent.setSliderValue(this.internalFormatCurrentLimit, 'W');
   }
 
   public applyPowerLimit() {
@@ -121,7 +97,8 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
         }, (error) => {
           this.spinnerService.hide();
           this.dialog.closeAll();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+          Utils.handleHttpError(
+            error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
         });
       }
     });

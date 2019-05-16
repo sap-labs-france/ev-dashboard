@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {ChartModule} from 'angular2-chartjs';
 import {MaterialModule} from '../../app.module';
 import {ChargingStationsComponent} from './charging-stations.component';
 import {ChargingStationsRoutes} from './charging-stations.routing';
@@ -17,15 +18,21 @@ import {ChargingStationsFaultyComponent} from './charging-stations-faulty/chargi
 import {ComponentModule} from 'app/shared/component/component.module';
 import {StartTransactionDialogComponent} from './details-content-component/start-transaction-dialog-component';
 import {SessionDialogComponent} from 'app/shared/dialogs/session/session-dialog-component';
-import {ChartModule} from 'angular2-chartjs';
-// tslint:disable-next-line:max-line-length
 import {ChargingStationMoreActionsDialogComponent} from './more-actions/charging-station-more-actions.dialog.component';
 import {ChargingStationGetDiagnosticsComponent} from './more-actions/get-diagnostics-component/get-diagnostics.component';
-import {ConnectorConsumptionChartDetailComponent} from './details-content-component/consumption-chart-detail.component';
-import {ConnectorsErrorDetailComponent} from './charging-stations-faulty/detail-component/connectors-error-detail-component.component';
-import {ChargingStationCellComponentsModule} from './cell-content-components/charging-station-cell-content.module';
 import {ChargingStationsSettingsModule} from './charging-station-settings/charging-stations-settings.module';
 import {ChargingStationSmartChargingModule} from './smart-charging/charging-station-smart-charging.module';
+import {ConnectorStatusComponent} from './cell-content-components/connector-status.component';
+import {AppFormatConnectorStatus} from './cell-content-components/connector-status.component';
+import {ConnectorsCellComponent} from './cell-content-components/connectors-cell.component';
+import {ConnectorCellComponent} from './cell-content-components/connector-cell.component';
+import {AppFormatConnector} from './cell-content-components/connector-cell.component';
+import {HeartbeatCellComponent} from './cell-content-components/heartbeat-cell.component';
+import {InstantPowerChargerProgressBarComponent} from './cell-content-components/instant-power-charger-progress-bar.component';
+import {InstantPowerConnectorProgressBarComponent} from './cell-content-components/instant-power-connector-progress-bar.component';
+import {AppFormatPowerConnectorPipe} from './cell-content-components/instant-power-connector-progress-bar.component';
+import {AppFormatPowerChargerPipe} from './cell-content-components/instant-power-charger-progress-bar.component';
+import {SessionDetailComponent} from './cell-content-components/session-detail.component';
 
 @NgModule({
   imports: [
@@ -42,7 +49,6 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationCellComponentsModule,
     ChargingStationsSettingsModule,
     ChargingStationSmartChargingModule
   ],
@@ -50,23 +56,37 @@ import {ChargingStationSmartChargingModule} from './smart-charging/charging-stat
     ConnectorsDetailComponent,
     StartTransactionDialogComponent,
     SessionDialogComponent,
+    HeartbeatCellComponent,
+    SessionDetailComponent,
+    InstantPowerChargerProgressBarComponent,
+    InstantPowerConnectorProgressBarComponent,
+    ConnectorStatusComponent,
+    ConnectorsCellComponent,
+    ConnectorCellComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
-    ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent,
-    ConnectorsErrorDetailComponent
+    ChargingStationsFaultyComponent
   ],
   declarations: [
+    AppFormatPowerChargerPipe,
+    AppFormatPowerConnectorPipe,
+    AppFormatConnectorStatus,
+    AppFormatConnector,
+    HeartbeatCellComponent,
+    SessionDetailComponent,
+    InstantPowerChargerProgressBarComponent,
+    InstantPowerConnectorProgressBarComponent,
+    ConnectorStatusComponent,
+    ConnectorsCellComponent,
+    ConnectorCellComponent,
     ChargingStationsComponent,
     ConnectorsDetailComponent,
     StartTransactionDialogComponent,
     ChargingStationMoreActionsDialogComponent,
     ChargingStationGetDiagnosticsComponent,
-    ConnectorConsumptionChartDetailComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent,
-    ConnectorsErrorDetailComponent
+    ChargingStationsFaultyComponent
   ],
   exports: [
     StartTransactionDialogComponent,

@@ -1,18 +1,17 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Charger } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import { LocaleService } from '../../../services/locale.service';
-import * as moment from 'moment';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 
 @Component({
   template: `
-      <span class="charger-heartbeat" appTooltip data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip" [attr.data-original-title]="tooltip">
+    <span class="charger-heartbeat" appTooltip
+        data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip"
+        [attr.data-original-title]="this.row.lastHeartBeat | appDate">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">
-          {{'chargers.charger_disconnected' | translate:disconnectedDuration }}
-          <!--{{row.lastHeartBeat | appDate : locale : 'datetime'}}-->
+          {{'chargers.charger_disconnected' | translate}}
         </span>
       </ng-container>
       <ng-container *ngIf="!row.inactive">
@@ -23,40 +22,13 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
     </span>
   `
 })
-export class HeartbeatCellComponent extends CellContentTemplateComponent implements OnInit {
-  //  row: any = {};
+export class HeartbeatCellComponent extends CellContentTemplateComponent {
+  @Input() row: Charger;
   locale: string;
 
-  @Input() row: Charger;
-  disconnectedDuration: any;
-  tooltip: string;
-
-  constructor(localeService: LocaleService,
-          private appDate: AppDatePipe) {
+  constructor(
+      private localeService: LocaleService) {
     super();
-    this.locale = localeService.getCurrentFullLocaleForJS()
+    this.locale = this.localeService.getCurrentFullLocaleForJS();
   }
-
-  ngOnInit(): void {
-    this.setData();
-  }
-
-  getDisconnectedDuration() {
-    moment.locale(this.locale);
-    return {from: moment(this.row.lastHeartBeat).fromNow()};
-  }
-
-  refresh(): void {
-    // console.log(`refresh heartbeat ${this.row.id} ${this.getDisconnectedDuration().from}`)
-    // this.disconnectedDuration = this.getDisconnectedDuration();
-    this.setData();
-  }
-
-  setData() {
-    if (this.row.inactive) {
-      this.disconnectedDuration = this.getDisconnectedDuration();
-    }
-    this.tooltip = this.appDate.transform(this.row.lastHeartBeat, this.locale, 'datetime');
-  }
-
 }

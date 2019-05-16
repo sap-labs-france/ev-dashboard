@@ -6,12 +6,9 @@ import { Injectable } from '@angular/core';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Company } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -25,68 +22,66 @@ import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
 import { CompanyLogoComponent } from '../formatters/company-logo.component';
 import { CompanyDialogComponent } from './company/company.dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
-  public isAdmin = false;
+  private isAdmin = false;
+  private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
 
   constructor(
-    private localeService: LocaleService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private spinnerService: SpinnerService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService
-    ) {
-    super();
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
+    super(spinnerService);
+    // Init
+    this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{'WithLogo': true}]);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectCompany();
   }
 
-  public loadData() {
-    // show
-    this.spinnerService.show();
-
-    // get companies
-    this.centralServerService.getCompanies(this.getFilterValues(), this.getPaging(), this.getOrdering()).subscribe((companies) => {
-        // Hide
-        this.spinnerService.hide();
-        // Update nbr records
-        this.setNumberOfRecords(companies.count);
-        // Update Paginator
-        this.updatePaginator();
-        // Notify
-        this.getDataSubjet().next(companies.result);
-        // lookup for logo otherwise assign default
-        for (let i = 0; i < companies.result.length; i++) {
-          if (!companies.result[i].logo) {
-            companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+  public loadDataImpl(): Observable<any> {
+    return new Observable((observer) => {
+      // get companies
+      this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
+          // Update nbr records
+          this.setTotalNumberOfRecords(companies.count);
+          // lookup for logo otherwise assign default
+          for (let i = 0; i < companies.result.length; i++) {
+            if (!companies.result[i].logo) {
+              companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+            }
           }
-        }
-
-        // Set the data
-        this.setData(companies.result);
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Ok
+          observer.next(companies.result);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       });
-  }
+    }
 
-  public getTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -98,7 +93,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponentName: CompanyLogoComponent
+        angularComponent: CompanyLogoComponent
       },
       {
         id: 'name',
@@ -126,8 +121,8 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     ];
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.getTableActionsDef();
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef(),
@@ -138,36 +133,19 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    if (this.isAdmin) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
-      ];
-    } else {
-      return [
-        new TableViewAction().getActionDef(),
-        new TableOpenInMapsAction().getActionDef()
-      ];
-    }
-  }
-
-  specificRowActions(company: Company) {
+  buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-
     // check if GPs are available
     openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
-
     if (this.isAdmin) {
       return [
-        new TableEditAction().getActionDef(),
+        this.editAction,
         openInMaps,
-        new TableDeleteAction().getActionDef()
+        this.deleteAction
       ];
     } else {
       return [
-        new TableViewAction().getActionDef(),
+        this.viewAction,
         openInMaps
       ];
     }
@@ -202,14 +180,14 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     }
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
@@ -232,7 +210,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.loadData());
+    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
   }
 
   private _deleteCompany(company) {
@@ -241,18 +219,15 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
         this.centralServerService.deleteCompany(company.id).subscribe(response => {
-          this.spinnerService.hide();
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
-            this.loadData();
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'companies.delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'companies.delete_error');
         });

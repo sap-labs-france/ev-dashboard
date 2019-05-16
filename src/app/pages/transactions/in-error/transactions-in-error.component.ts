@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
 import {TransactionsInErrorDataSource} from './transactions-in-error-data-source-table';
 
 @Component({
@@ -10,13 +9,7 @@ import {TransactionsInErrorDataSource} from './transactions-in-error-data-source
   ]
 })
 export class TransactionsInErrorComponent {
-  public isAdmin;
-
   constructor(
-    public transactionsInErrorDataSource: TransactionsInErrorDataSource,
-    private authorizationService: AuthorizationService
-  ) {
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.transactionsInErrorDataSource.forAdmin(this.isAdmin);
+    public transactionsInErrorDataSource: TransactionsInErrorDataSource) {
   }
 }

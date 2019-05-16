@@ -30,7 +30,7 @@ export abstract class TableDataSource<T> {
   public maxSelectableRows = 0;
   public lastSelectedRow;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
-  public footerStats = '';
+  public tableFooterStats = '';
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -185,14 +185,10 @@ export abstract class TableDataSource<T> {
     if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
       // Set
       this.totalNumberOfRecords = totalNumberOfRecords;
-      // Build footer stats
-      this.footerStats = this.buildFooterStats();
-    } else {
-      this.footerStats = '';
     }
   }
 
-  public buildFooterStats() {
+  public buildTableFooterStats(data) {
     return '';
   }
 
@@ -409,6 +405,8 @@ export abstract class TableDataSource<T> {
       this.loadDataImpl().subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
+        // Build stats
+        this.tableFooterStats = this.buildTableFooterStats(data);
         // Set array
         data = data.result;
         // Hide Spinner
@@ -500,6 +498,8 @@ export abstract class TableDataSource<T> {
       this.loadingNumberOfRecords = false;
       // Set nbr of records
       this.setTotalNumberOfRecords(data.count);
+      // Build stats
+      this.tableFooterStats = this.buildTableFooterStats(data);
     });
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)

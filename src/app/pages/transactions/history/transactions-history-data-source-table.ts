@@ -41,6 +41,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   private isAdmin = false;
   private dialogRefSession;
+  private currency: string;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -66,6 +67,16 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
+    // Get the Pricing settings
+    this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((setting) => {
+      // Get the currency
+      if (setting && setting.count > 0 && setting.result[0].content) {
+        const config = setting.result[0].content;
+        if (config.simple) {
+          this.currency = config.simple.currency ? config.simple.currency : '';
+        }
+      }
+    });
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -138,7 +149,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       },
       {
         id: 'stop.totalConsumption',
-        name: 'transactions.total_consumption',
+        name: 'transactions.consumption',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }
     ];
@@ -179,8 +190,30 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
   }
 
-  public buildFooterStats() {
-    return '';
+  public buildTableFooterStats(data) {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      const locale = this.localeService.getCurrentFullLocaleForJS();
+      // Build
+      const percentInactivity = Math.floor(data.totalInactivitySecs / data.totalDurationSecs * 100);
+      // Total Duration
+      // tslint:disable-next-line:max-line-length
+      let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.totalDurationSecs)} | `;
+      // Inactivity
+      // tslint:disable-next-line:max-line-length
+      stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.totalInactivitySecs)} (${percentInactivity}%) | `;
+      // Total Consumption
+      // tslint:disable-next-line:max-line-length
+      stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+      // Total Price
+      if (this.currency && this.currency.length > 0) {
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.currencyPipe.transform(data.totalPrice, this.currency, 'symbol', '1.0-0', locale)}`;
+      }
+      return stats;
+    } else {
+        this.tableFooterStats = '';
+    }
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

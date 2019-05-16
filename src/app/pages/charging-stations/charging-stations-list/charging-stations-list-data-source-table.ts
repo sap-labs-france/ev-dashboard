@@ -80,7 +80,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargers) => {
+          this.getPaging(), this.getSorting()).subscribe((chargers) => {
         // Set number of records
         this.setTotalNumberOfRecords(chargers.count);
         // Update details status
@@ -90,15 +90,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           charger.connectors.forEach(connector => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
-          // Ok
-          observer.next(chargers.result);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers.result);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
     });
   }

@@ -1,8 +1,8 @@
 <!--<ng-template *ngIf="consumptions; else noData">-->
-<div *ngIf="!canDisplayGraph()" class="graph-no-consumption">
+<div *ngIf="consumptions?.length === 0" class="graph-no-consumption">
   {{'transactions.graph.no_consumption' | translate}}
 </div>
-<div [hidden]=" !canDisplayGraph()">
+<div [hidden]="consumptions?.length === 0">
   <div class="chart-container mt-2">
     <canvas #chart></canvas>
   </div>

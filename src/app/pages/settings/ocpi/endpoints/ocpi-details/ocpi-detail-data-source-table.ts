@@ -104,7 +104,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
       {
         id: 'lastPatchJobOn',
         type: 'date',
-        formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn, locale, 'datetime') : '',
+        formatter: (lastPatchJobOn) => !!lastPatchJobOn ? this.datePipe.transform(lastPatchJobOn) : '',
         name: 'ocpiendpoints.lastPatchJobOn',
         headerClass: 'col-40p',
         class: 'text-left col-40p',

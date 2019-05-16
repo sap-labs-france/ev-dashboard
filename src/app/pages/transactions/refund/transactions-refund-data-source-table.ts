@@ -49,7 +49,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
+    private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
@@ -105,7 +105,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-
     const columns = [];
     columns.push(
       {
@@ -117,7 +116,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : ''
       },
       {
         id: 'timestamp',
@@ -126,7 +125,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'user',

@@ -7,6 +7,7 @@ import { Image, Transaction } from '../../../common.types';
 import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 import { PercentPipe } from '@angular/common';
 import { ConfigService } from 'app/services/config.service';
+import { SpinnerService } from 'app/services/spinner.service';
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -31,6 +32,7 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
 
   constructor(
+      private spinnerService: SpinnerService,
       private percentPipe: PercentPipe,
       private centralServerService: CentralServerService,
       private configService: ConfigService,
@@ -85,7 +87,9 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.spinnerService.show();
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
+      this.spinnerService.hide();
       this.transaction = transaction;
       // Transaction in progress?
       if (!transaction.stop) {

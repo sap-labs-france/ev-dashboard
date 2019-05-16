@@ -18,13 +18,11 @@ import {Injectable} from '@angular/core';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {ConnectorCellComponent} from '../components/connector-cell.component';
-import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import * as moment from 'moment';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
@@ -43,14 +41,13 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
-      private localeService: LocaleService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private componentService: ComponentService,
       private authorizationService: AuthorizationService,
-      private appDatePipe: AppDatePipe,
+      private datePipe: AppDatePipe,
       private percentPipe: PercentPipe,
       private appUnitPipe: AppUnitPipe,
       private appBatteryPercentagePipe: AppBatteryPercentagePipe,
@@ -94,8 +91,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
-
     const columns = [
       {
         id: 'timestamp',
@@ -104,7 +99,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'currentTotalDurationSecs',

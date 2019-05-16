@@ -57,9 +57,10 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
           totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
           lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null
         }
-        // Ok
-        this.setTotalNumberOfRecords(1);
-        observer.next([ocpiEndpointDetail]);
+        observer.next({
+          count: 1,
+          result: [ocpiEndpointDetail]
+        });
         observer.complete();
       }
     });

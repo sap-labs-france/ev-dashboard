@@ -91,8 +91,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       this.centralServerService.getChargersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           this.formatErrorMessages(chargers.result);
-          // Set number of records
-          this.setTotalNumberOfRecords(chargers.count);
           // Update details status
           chargers.result.forEach(charger => {
             // At first filter out the connectors that are null
@@ -102,7 +100,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
             });
           });
           // Ok
-          observer.next(chargers.result);
+          observer.next(chargers);
           observer.complete();
         }, (error) => {
           // No longer exists!

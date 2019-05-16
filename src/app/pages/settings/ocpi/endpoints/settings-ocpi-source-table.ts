@@ -52,10 +52,8 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiendpoints) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(ocpiendpoints.count);
           // Ok
-          observer.next(ocpiendpoints.result);
+          observer.next(ocpiendpoints);
           observer.complete();
         }, (error) => {
           // Show error

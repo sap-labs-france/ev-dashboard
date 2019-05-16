@@ -62,10 +62,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
-          observer.next(siteAreas.result);
+          observer.next(siteAreas);
           observer.complete();
         }, (error) => {
           // Show error

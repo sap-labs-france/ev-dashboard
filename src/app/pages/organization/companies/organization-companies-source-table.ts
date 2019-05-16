@@ -56,8 +56,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(companies.count);
           // lookup for logo otherwise assign default
           for (let i = 0; i < companies.result.length; i++) {
             if (!companies.result[i].logo) {
@@ -65,7 +63,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
             }
           }
           // Ok
-          observer.next(companies.result);
+          observer.next(companies);
           observer.complete();
         }, (error) => {
           // Show error

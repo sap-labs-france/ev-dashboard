@@ -55,8 +55,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(logs.count);
         // Add the users in the message
         logs.result.map((log) => {
           let user;
@@ -75,7 +73,7 @@ export class LogsDataSource extends TableDataSource<Log> {
           return log;
         });
         // Ok
-        observer.next(logs.result);
+        observer.next(logs);
         observer.complete();
       }, (error) => {
         // No longer exists!

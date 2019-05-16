@@ -261,7 +261,11 @@
       <div class="left-bottom-table">
         <!-- Multi-Selection enabled? -->
         <span *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
-          {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}
+          {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
+        </span>
+        <!-- Stats -->
+        <span>
+          {{dataSource.footerStats}}
         </span>
       </div>
       <!-- Right side -->

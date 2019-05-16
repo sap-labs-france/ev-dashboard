@@ -47,10 +47,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((tenants) => {
-        // Update nbr records
-        this.setTotalNumberOfRecords(tenants.count);
         // Ok
-        observer.next(tenants.result);
+        observer.next(tenants);
         observer.complete();
       }, (error) => {
         // Show error

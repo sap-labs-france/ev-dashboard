@@ -66,9 +66,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');

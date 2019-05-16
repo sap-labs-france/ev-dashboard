@@ -59,10 +59,8 @@ export class UsersDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Update nbr records
-        this.setTotalNumberOfRecords(users.count);
         // Ok
-        observer.next(users.result);
+        observer.next(users);
         observer.complete();
       }, (error) => {
         // Show error

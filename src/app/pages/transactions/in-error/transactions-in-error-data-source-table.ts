@@ -71,9 +71,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
         this.formatErrorMessages(transactions.result);
-        this.setTotalNumberOfRecords(transactions.count);
         // Ok
-        observer.next(transactions.result);
+        observer.next(transactions);
         observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');

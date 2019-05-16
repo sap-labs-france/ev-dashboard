@@ -55,10 +55,8 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Update nbr records
-        this.setTotalNumberOfRecords(users.count);
         // Ok
-        observer.next(users.result);
+        observer.next(users);
         observer.complete();
       }, (error) => {
         // Show error

@@ -76,9 +76,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -178,6 +177,10 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   formatPrice(price, priceUnit, locale): string {
     return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
+  }
+
+  public buildFooterStats() {
+    return '';
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

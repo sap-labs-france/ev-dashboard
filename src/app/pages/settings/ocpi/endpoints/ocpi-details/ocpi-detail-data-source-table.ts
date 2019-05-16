@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
-export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
+export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
   private ocpiEndpoint: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
@@ -174,7 +174,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case 'send':
-        this.sendEVSEStatusesOcpiendpoint(rowItem.ocpiendpoint);
+        this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
         break;
       case 'start':
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -187,14 +187,14 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     }
   }
 
-  private sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+  private sendEVSEStatusesOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Ping
-        this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe(response => {
           if (response.failure === 0 && response.success > 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
@@ -227,7 +227,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
                 : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             if (ocpiendpoint.backgroundPatchJob) {
               this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');

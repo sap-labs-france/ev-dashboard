@@ -39,7 +39,9 @@ export class ReleaseNotesComponent {
               `Update columns in refund table`,
               `Add table action to jump to Concur`,
               `Hide spinner in case of network exception in tables`,
+              `Fix charger's detail layout and connector types in dorp-down`,
               `Uncheck unselectable refund rows in table after a refunding`,
+              `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
             ]
           },
           {

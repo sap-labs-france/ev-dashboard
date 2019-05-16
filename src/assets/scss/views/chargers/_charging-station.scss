@@ -22,6 +22,14 @@
     font-family: none !important; // Need to be deactivate to display properly SVG icons
 }
 
+.charger-dialog-component {
+    max-height: 55vh !important;
+}
+
+.connector-type-select-fix .mat-form-field-infix {
+    height: 45px;
+}
+
 .charger-param-component {
     max-height: 74vh !important;
 }

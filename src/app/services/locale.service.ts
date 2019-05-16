@@ -77,6 +77,38 @@ export class LocaleService {
       {key: 'U', description: this.translateService.instant('users.locale_unknown', {})});
   }
 
+  public getI18nDays() {
+    return this.translateService.instant('general.days');
+  }
+
+  public getI18nHours() {
+    return this.translateService.instant('general.hours');
+  }
+
+  public getI18nMinutes() {
+    return this.translateService.instant('general.minutes');
+  }
+
+  public getI18nSeconds() {
+    return this.translateService.instant('general.seconds');
+  }
+
+  public getI18nDay() {
+    return this.translateService.instant('general.day');
+  }
+
+  public getI18nHour() {
+    return this.translateService.instant('general.hour');
+  }
+
+  public getI18nMinute() {
+    return this.translateService.instant('general.minute');
+  }
+
+  public getI18nSecond() {
+    return this.translateService.instant('general.second');
+  }
+
   public getDateFormat(): string {
     switch (this.language) {
       case 'fr':

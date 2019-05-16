@@ -110,7 +110,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (currentTotalDurationSecs, row: Transaction) => this.appDurationPipe.transform(moment().diff(row.timestamp, 'seconds'))
+        formatter: (currentTotalDurationSecs, row: Transaction) =>
+          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000)
       },
       {
         id: 'currentTotalInactivitySecs',

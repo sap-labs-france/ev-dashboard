@@ -322,7 +322,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result.length > 0 && result[0] && result[0].objectRef) {
+        if (result && result.length > 0 && result[0] && result[0].objectRef) {
           this.charger.siteArea = <SiteArea>(result[0].objectRef);
           this.formGroup.markAsDirty();
           this.formGroup.controls.siteArea.setValue(

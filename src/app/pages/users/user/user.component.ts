@@ -27,7 +27,8 @@ import {UserDialogComponent} from './user.dialog.component';
 
 @Component({
   selector: 'app-user-cmp',
-  templateUrl: 'user.component.html'
+  templateUrl: 'user.component.html',
+  styles: ['.card-min-height {min-height: 600px}']
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();

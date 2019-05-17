@@ -41,9 +41,14 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
-
-  isAdmin: boolean;
-  isOrganizationComponentActive: boolean;
+  private isAdmin: boolean;
+  private isBasic: boolean;
+  private isDemo: boolean;
+  private isOrganizationComponentActive: boolean;
+  private editAction = new TableEditAction().getActionDef();
+  private rebootAction = new TableChargerRebootAction().getActionDef();
+  private moreAction = new TableChargerMoreAction().getActionDef();
+  private noAction = new TableNoAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -60,7 +65,9 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     super(spinnerService);
     // Init
     this.setStaticFilters([{'WithSite': true}]);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
+    this.isDemo = this.authorizationService.isDemo();
+    this.isBasic = this.authorizationService.isBasic();
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     this.initDataSource();
   }
@@ -73,9 +80,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(chargers.count);
+          this.getPaging(), this.getSorting()).subscribe((chargers) => {
         // Update details status
         chargers.result.forEach(charger => {
           // At first filter out the connectors that are null
@@ -83,15 +88,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           charger.connectors.forEach(connector => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
-          // Ok
-          observer.next(chargers.result);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
     });
   }
@@ -169,28 +174,14 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             name: 'sites.site',
             sortable: true,
             defaultValue: 'sites.unassigned',
-            headerClass: 'd-none d-xl-table-cell',
-            formatter: (value) => {
-              if (value === 'sites.unassigned') {
-                return this.translateService.instant(value)
-              } else {
-                return value;
-              }
-            }
+            headerClass: 'd-none d-xl-table-cell'
           },
           {
             id: 'siteArea.name',
             name: 'site_areas.title',
             sortable: true,
             defaultValue: 'site_areas.unassigned',
-            headerClass: 'd-none d-xl-table-cell',
-            formatter: (value) => {
-              if (value === 'site_areas.unassigned') {
-                return this.translateService.instant(value)
-              } else {
-                return value;
-              }
-            }
+            headerClass: 'd-none d-xl-table-cell'
           }
         ]
       );
@@ -227,7 +218,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.isAdmin()) {
+    if (this.isAdmin) {
       return [
         // new TableOpenInMapsAction().getActionDef(),
         new TableExportAction().getActionDef(),
@@ -455,24 +446,24 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
   }
 
   buildTableDynamicRowActions(charger: Charger) {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
     let actionTable: any[];
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
     openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
-    if (this.authorizationService.isAdmin()) {
+    if (this.isAdmin) {
       actionTable = [
-        new TableEditAction().getActionDef(),
+        this.editAction,
         openInMaps,
-        new TableChargerRebootAction().getActionDef(),
-        new TableChargerMoreAction().getActionDef(),
+        this.rebootAction,
+        this.moreAction,
       ];
-    } else if (this.authorizationService.isDemo()) {
+    } else if (this.isDemo) {
       actionTable = [openInMaps];
-    } else if (this.authorizationService.isBasic()) {
+    } else if (this.isBasic) {
       actionTable = [openInMaps];
     } else {
       return [
-        new TableNoAction().getActionDef()
+        this.noAction
       ];
     }
     return actionTable;

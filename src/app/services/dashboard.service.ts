@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { CentralServerService } from './central-server.service';
 import { Company, Address } from 'app/common.types';
 import { BehaviorSubject } from 'rxjs';
+import { MessageService } from 'app/services/message.service';
+import { Utils } from 'app/utils/Utils';
+import { Router } from '@angular/router';
+
 import * as moment from 'moment';
 
 const DATA_LOAD_INTERVAL = 10000;
@@ -31,7 +35,9 @@ export class DashboardService {
   refreshData = new BehaviorSubject<SiteCurrentMetrics[]>([]);
   intervalReference;
 
-  constructor(private centralServerService: CentralServerService) {
+  constructor(private centralServerService: CentralServerService,
+              private messageService: MessageService,
+              private router: Router) {
     // First load
     this.loadData();
     this.startLoading();
@@ -46,6 +52,8 @@ export class DashboardService {
         this.refreshData.next(this.currentMetrics);
       }
     }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
     });
   }
 

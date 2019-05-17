@@ -5,7 +5,10 @@ import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue, Site} from '../../../common.types';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html'
+  templateUrl: '../dialog-table-data-component.html',
+  providers: [
+    SitesDataSource
+  ]
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   constructor(

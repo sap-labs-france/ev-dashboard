@@ -44,6 +44,7 @@ export class ReleaseNotesComponent {
               `Uncheck unselectable refund rows in table after a refunding`,
               `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
               `Users are logged off if their profile or tenant's config are changed`,
+              'Admin can disable the notifications for a given user'
             ]
           },
           {
@@ -54,7 +55,8 @@ export class ReleaseNotesComponent {
               `OCPI - OData - Requires authentication for metadata and schema`,
               `Add OCPP validation of transaction request (1.6 and 1.5)`,
               `Save last reboot date of Charging Station`,
-              `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`
+              `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`,
+              `Migration task to update the price of existing transactions`
             ]
           }
         ]

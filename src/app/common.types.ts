@@ -493,6 +493,7 @@ export interface User {
   email: string;
   phone: Date;
   mobile: string;
+  notificationsActive: boolean;
   address: {
     address1: string;
     address2: string;

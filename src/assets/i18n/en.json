@@ -817,6 +817,7 @@
     "cost_center": "Cost Center",
     "phone": "Phone",
     "mobile": "Mobile",
+    "notifications_active": "Enable the notifications (emails...)",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",

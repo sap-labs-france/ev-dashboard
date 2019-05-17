@@ -353,10 +353,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
-      if (user.notificationsActive !== null) {
+      if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
-      } else {
-        this.formGroup.controls.notificationsActive.setValue(true);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);

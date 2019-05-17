@@ -96,6 +96,7 @@
     "backend_not_running": "Cannot reach to the central server",
     "error_backend": "Error occurred while contacting the central server",
     "success_backend": "Connection to the central server has been restored",
+    "user_or_tenant_updated": "User or Tenant have been updated and requires login",
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localisation",
     "change_pending_title": "Pending Changes",

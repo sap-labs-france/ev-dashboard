@@ -518,6 +518,8 @@ export interface User {
   language: string;
   numberOfSites: number;
   activeComponents?: Array<string>;
+  userHashID: number;
+  tenantHashID: number;
 }
 
 export interface UserResult {

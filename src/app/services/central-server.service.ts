@@ -762,7 +762,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    if (!this.configService.getCentralSystemServer().pollEnabled) {
+    if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
       this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
     }
     // Set Language
@@ -1560,7 +1560,8 @@ export class CentralServerService {
 
   public deleteIntegrationConnection(userId: string, connectorId: string): Observable<ActionResponse> {
     this._checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
+    return this.httpClient.delete<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
       {
         headers: this._buildHttpHeaders()
       })

@@ -24,11 +24,16 @@ export class AuthorizationService {
     }
   }
 
+  public cleanUserAndUserAuthorization() {
+    this.loggedUser = null;
+    this.loggedUserAuthorization = null;
+  }
+
   public getAuthorization(): any {
     // Get the logged user
     const currentLoggedUser = this.centralServerService.getLoggedUser();
     // Check
-    if (!this.loggedUser || this.loggedUser.id !== currentLoggedUser.id) {
+    if (!this.loggedUser) {
       // Keep user
       this.loggedUser = currentLoggedUser;
       // Create Auth

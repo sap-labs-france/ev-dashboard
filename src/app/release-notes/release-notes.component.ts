@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `Hide Concur connector when Refunding is not activated`,
               `Update columns in refund table`,
               `Add table action to jump to Concur`,
+              `Added statistics in sessions history footer`,
               `Hide spinner in case of network exception in tables`,
               `Fix charger's detail layout and connector types in dorp-down`,
               `Uncheck unselectable refund rows in table after a refunding`,

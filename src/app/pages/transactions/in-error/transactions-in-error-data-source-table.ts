@@ -16,7 +16,6 @@ import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {LocaleService} from '../../../services/locale.service';
 import {TableDeleteAction} from '../../../shared/table/actions/table-delete-action';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
@@ -46,14 +45,13 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
-      private localeService: LocaleService,
       private router: Router,
       private dialog: MatDialog,
       private componentService: ComponentService,
       private authorizationService: AuthorizationService,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
-      private appDatePipe: AppDatePipe,
+      private datePipe: AppDatePipe,
       private currencyPipe: CurrencyPipe,
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe) {
@@ -73,9 +71,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
         this.formatErrorMessages(transactions.result);
-        this.setTotalNumberOfRecords(transactions.count);
         // Ok
-        observer.next(transactions.result);
+        observer.next(transactions);
         observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -94,7 +91,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [
       {
         id: 'timestamp',
@@ -103,7 +99,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'chargeBoxID',

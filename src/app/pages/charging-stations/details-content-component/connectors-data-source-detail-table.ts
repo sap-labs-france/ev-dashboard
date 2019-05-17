@@ -74,9 +74,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             connector.hasDetails = connector.activeTransactionID > 0 &&
               (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
           });
-          // Respond
-          this.setTotalNumberOfRecords(this.charger.connectors.length);
-          observer.next(this.charger.connectors);
+          observer.next({
+            count: this.charger.connectors.length,
+            result: this.charger.connectors
+          });
           observer.complete();
         }, (error) => {
           // Authorization issue!

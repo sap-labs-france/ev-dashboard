@@ -8,7 +8,7 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import { ChartComponent } from 'angular2-chartjs';
 import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
-import * as moment from 'moment';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 
 @Component({
   selector: 'app-limit-planner-chart',
@@ -26,11 +26,10 @@ import * as moment from 'moment';
 
 export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterViewInit {
   @Input() scheduleSlots: DisplayedScheduleSlot[];
-
   @Input() ratio: number;
-  data: any;
-  options: any;
   @ViewChild('chart') chartComponent: ChartComponent;
+  public data: any;
+  private options: any;
   private colors = [
     [255, 99, 132],
     [54, 162, 235],
@@ -39,6 +38,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
 
   constructor(private centralServerService: CentralServerService,
     private translateService: TranslateService,
+    private durationPipe: AppDurationPipe,
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private decimalPipe: DecimalPipe,
@@ -147,8 +147,8 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
 
-            return this.datePipe.transform(currentDate, this.localeService.getCurrentFullLocaleForJS(), 'time') +
-              ' - ' + (moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', { trim: false });
+            return this.datePipe.transform(currentDate) +
+            ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
           }
         }
       },

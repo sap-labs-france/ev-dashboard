@@ -28,8 +28,8 @@ export class CentralServerNotificationService {
   private subjectLoggings = new Subject<SubjectInfo>();
   private subjectSettings = new Subject<SubjectInfo>();
   private subjectSetting = new Subject<SubjectInfo>();
-  private subjectOcpiendpoints = new Subject<SubjectInfo>();
-  private subjectOcpiendpoint = new Subject<SubjectInfo>();
+  private subjectOcpiEndpoints = new Subject<SubjectInfo>();
+  private subjectOcpiEndpoint = new Subject<SubjectInfo>();
   private subjectSacLinks = new Subject<SubjectInfo>();
   private socket;
 
@@ -124,16 +124,16 @@ export class CentralServerNotificationService {
     return this.subjectSetting.asObservable();
   }
 
-  public getSubjectOcpiendpoints(): Observable<SubjectInfo> {
-    return this.subjectOcpiendpoints.asObservable();
+  public getSubjectOcpiEndpoints(): Observable<SubjectInfo> {
+    return this.subjectOcpiEndpoints.asObservable();
   }
 
   public getSubjectSacLinks(): Observable<SubjectInfo> {
     return this.subjectSacLinks.asObservable();
   }
 
-  public getSubjectOcpiendpoint(): Observable<SubjectInfo> {
-    return this.subjectOcpiendpoint.asObservable();
+  public getSubjectOcpiEndpoint(): Observable<SubjectInfo> {
+    return this.subjectOcpiEndpoint.asObservable();
   }
 
   public initSocketIO(tenantID: String) {

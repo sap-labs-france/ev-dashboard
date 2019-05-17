@@ -28,7 +28,11 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSitesDataSource extends TableDataSource<Site> {
-  public isAdmin = false;
+  private isAdmin = false;
+  private editAction = new TableEditAction().getActionDef();
+  private editUsersAction = new TableEditUsersAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -56,10 +60,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(sites.count);
           // Ok
-          observer.next(sites.result);
+          observer.next(sites);
           observer.complete();
         }, (error) => {
           // Show error
@@ -128,20 +130,18 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
 
   buildTableDynamicRowActions(site: Site) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude ) ? false : true;
-
     if (this.isAdmin) {
       return [
-        new TableEditAction().getActionDef(),
-        new TableEditUsersAction().getActionDef(),
+        this.editAction,
+        this.editUsersAction,
         openInMaps,
-        new TableDeleteAction().getActionDef()
+        this.deleteAction
       ];
     } else {
       return [
-        new TableViewAction().getActionDef(),
+        this.viewAction,
         openInMaps
       ];
     }

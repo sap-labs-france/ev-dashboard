@@ -7,11 +7,11 @@ import { LocaleService } from '../../../services/locale.service';
   template: `
     <span class="charger-heartbeat" appTooltip
         data-placement="bottom" data-offset="0px, 8px" data-toggle="tooltip"
-        [attr.data-original-title]="this.row.lastHeartBeat | appDate:locale:'datetime'">
+        [attr.data-original-title]="this.row.lastHeartBeat | appDate">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">
-          {{'chargers.charger_disconnected' | translate}} ({{row.lastHeartBeat | amTimeAgo}})
+          {{'chargers.charger_disconnected' | translate}}
         </span>
       </ng-container>
       <ng-container *ngIf="!row.inactive">

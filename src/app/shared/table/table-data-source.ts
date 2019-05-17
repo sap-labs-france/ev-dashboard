@@ -30,6 +30,7 @@ export abstract class TableDataSource<T> {
   public maxSelectableRows = 0;
   public lastSelectedRow;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
+  public tableFooterStats = '';
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -182,8 +183,13 @@ export abstract class TableDataSource<T> {
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
     // Set only when all records have been retrieved
     if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
+      // Set
       this.totalNumberOfRecords = totalNumberOfRecords;
     }
+  }
+
+  public buildTableFooterStats(data) {
+    return '';
   }
 
   public getTotalNumberOfRecords(): number {
@@ -397,12 +403,18 @@ export abstract class TableDataSource<T> {
       }
         // Load data source
       this.loadDataImpl().subscribe((data) => {
-        // Ok
-        this.setData(data);
+        // Set nbr of records
+        this.setTotalNumberOfRecords(data.count);
+        // Build stats
+        this.tableFooterStats = this.buildTableFooterStats(data);
+        // Set array
+        data = data.result;
         // Hide Spinner
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        // Ok
+        this.setData(data);
         // Load number of records
         setTimeout(() => {
           // Loading on going?
@@ -481,9 +493,13 @@ export abstract class TableDataSource<T> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().subscribe(() => {
+    this.loadDataImpl().subscribe((data) => {
       // Unset flag
       this.loadingNumberOfRecords = false;
+      // Set nbr of records
+      this.setTotalNumberOfRecords(data.count);
+      // Build stats
+      this.tableFooterStats = this.buildTableFooterStats(data);
     });
     // Remove OnlyRecordCount
     staticFilters.splice(staticFilters.length - 1, 1)

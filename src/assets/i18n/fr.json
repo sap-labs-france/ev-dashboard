@@ -97,7 +97,7 @@
     "backend_not_running": "Impossible de se conncter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "success_backend": "La connexion avec le serveur central a été restaurée",
-    "user_or_tenant_updated": "Le profile de l'utilisateur ou du tenant a été modifié. Une re-connection est nécessaire.",
+    "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre tenant",
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",

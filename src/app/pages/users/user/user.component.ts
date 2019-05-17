@@ -129,10 +129,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'notificationsActive': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
+      'notificationsActive': new FormControl(true),
       'email': new FormControl('',
         Validators.compose([
           Validators.required,
@@ -432,9 +429,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     } else {
       this.createUser(user);
     }
-    if (this.inDialog && this.dialogRef) {
-      this.dialogRef.close();
-    }
   }
 
   public imageChanged(event) {
@@ -566,7 +560,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
         this.currentUserID = user.id;
-        this.refresh();
+        // Close
+        if (this.inDialog && this.dialogRef) {
+          this.dialogRef.close();
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.create_error');
@@ -606,7 +603,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
-        this.refresh();
+        // Close
+        if (this.inDialog && this.dialogRef) {
+          this.dialogRef.close();
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.update_error');

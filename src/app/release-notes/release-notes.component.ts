@@ -43,6 +43,7 @@ export class ReleaseNotesComponent {
               `Fix charger's detail layout and connector types in dorp-down`,
               `Uncheck unselectable refund rows in table after a refunding`,
               `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
+              `Users are logged off if their profile or tenant's config are changed`,
             ]
           },
           {

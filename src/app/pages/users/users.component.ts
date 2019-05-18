@@ -11,10 +11,6 @@ import { MessageService } from 'app/services/message.service';
 @Component({
   selector: 'app-users-cmp',
   templateUrl: 'users.component.html',
-  providers: [
-    UsersDataSource,
-    UsersInErrorDataSource
-  ]
 })
 export class UsersComponent extends AbstractTabComponent implements OnInit {
   public isAdmin;

@@ -26,10 +26,8 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       filterValues['WithSite'] = true;
       this.centralServerService.getSiteAreas(filterValues,
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
-          observer.next(siteAreas.result);
+          observer.next(siteAreas);
           observer.complete();
         }, (error) => {
           // No longer exists!

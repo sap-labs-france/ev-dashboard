@@ -34,7 +34,7 @@
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
-              <mat-icon>timelapse</mat-icon><span class="first-text">{{transaction.timestamp | appDate:locale:'datetime'}}</span>
+              <mat-icon>timelapse</mat-icon><span class="first-text">{{transaction.timestamp | appDate}}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
@@ -44,7 +44,7 @@
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
-              <mat-icon>timer</mat-icon><span class="first-text">{{totalDurationSecs | appDuration: true }}</span>
+              <mat-icon>timer</mat-icon><span class="first-text">{{totalDurationSecs | appDuration}}</span>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-around">
@@ -54,7 +54,7 @@
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
-              <mat-icon>timer_off</mat-icon><span class="first-text">{{totalInactivitySecs | appDuration: true }} {{ percentOfInactivity }}</span>
+              <mat-icon>timer_off</mat-icon><span class="first-text">{{totalInactivitySecs | appDuration}} {{ percentOfInactivity }}</span>
             </div>
           </div>
           <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">

@@ -493,6 +493,7 @@ export interface User {
   email: string;
   phone: Date;
   mobile: string;
+  notificationsActive: boolean;
   address: {
     address1: string;
     address2: string;
@@ -518,6 +519,8 @@ export interface User {
   language: string;
   numberOfSites: number;
   activeComponents?: Array<string>;
+  userHashID: number;
+  tenantHashID: number;
 }
 
 export interface UserResult {

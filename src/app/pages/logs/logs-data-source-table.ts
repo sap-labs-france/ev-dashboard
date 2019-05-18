@@ -55,8 +55,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(logs.count);
         // Add the users in the message
         logs.result.map((log) => {
           let user;
@@ -75,7 +73,7 @@ export class LogsDataSource extends TableDataSource<Log> {
           return log;
         });
         // Ok
-        observer.next(logs.result);
+        observer.next(logs);
         observer.complete();
       }, (error) => {
         // No longer exists!
@@ -124,7 +122,7 @@ export class LogsDataSource extends TableDataSource<Log> {
       {
         id: 'timestamp',
         type: 'date',
-        formatter: (createdOn) => this.datePipe.transform(createdOn, locale, 'datetime'),
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
         name: 'logs.date',
         headerClass: 'col-15p',
         class: 'text-left col-15p',

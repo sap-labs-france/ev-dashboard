@@ -5,10 +5,7 @@ import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {Charger, KeyValue} from '../../../common.types';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    ChargersDataSource
-  ]
+  templateUrl: '../dialog-table-data-component.html'
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   constructor(

@@ -3,10 +3,9 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {CentralServerService} from '../services/central-server.service';
 import {MessageService} from '../services/message.service';
 import {Router} from '@angular/router';
-import {BAD_REQUEST, CONFLICT, UNAUTHORIZED} from 'http-status-codes';
+import {BAD_REQUEST, CONFLICT, UNAUTHORIZED, FORBIDDEN} from 'http-status-codes';
 
 export class Utils {
-
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
     const field1: FormControl = <FormControl>formGroup.controls[firstField];
     const field2: FormControl = <FormControl>formGroup.controls[secondField];
@@ -50,7 +49,15 @@ export class Utils {
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
-
+      // Conflict in User Session
+      case FORBIDDEN:
+        messageService.showWarningMessageUserOrTenantUpdated();
+        if (centralServerService.isAuthenticated()) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+        }
+        router.navigate(['/auth/login']);
+        break;
       case BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;

@@ -39,10 +39,8 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         // Yes: Get data
         this.centralServerService.getUsers(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((users) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(users.count);
           // Ok
-          observer.next(users.result);
+          observer.next(users);
           observer.complete();
         }, (error) => {
           // No longer exists!

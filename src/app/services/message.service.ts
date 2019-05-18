@@ -31,6 +31,10 @@ export class MessageService {
     this.showErrorMessage('general.backend_not_running');
   }
 
+  public showWarningMessageUserOrTenantUpdated() {
+    this.showWarningMessage('general.user_or_tenant_updated');
+  }
+
   public showMessage(message: string, params?: Object, title?: string) {
     this._showMessage('primary', message, title, params);
   }

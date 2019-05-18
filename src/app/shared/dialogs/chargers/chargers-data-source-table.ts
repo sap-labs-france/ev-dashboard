@@ -25,10 +25,8 @@ export class ChargersDataSource extends DialogTableDataSource<Charger> {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(chargers.count);
           // Ok
-          observer.next(chargers.result);
+          observer.next(chargers);
           observer.complete();
         }, (error) => {
           // No longer exists!

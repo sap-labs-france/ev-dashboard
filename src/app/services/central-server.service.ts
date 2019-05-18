@@ -578,7 +578,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Ocpiendpoints`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/OcpiEndpoints`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -762,7 +762,9 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
+      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    }
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
   }
@@ -850,7 +852,9 @@ export class CentralServerService {
     this._checkInit();
     this.getLoggedUserFromToken();
     // Init Socket IO
-    this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    if (!this.configService.getCentralSystemServer().pollEnabled) {
+      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    }
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
   }
@@ -1057,11 +1061,11 @@ export class CentralServerService {
       );
   }
 
-  public createOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+  public createOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointCreate`, ocpiendpoint,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1070,11 +1074,11 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+  public sendEVSEStatusesOcpiEndpoint(ocpiendpoint) {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointSendEVSEStatuses`, ocpiendpoint,
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1083,11 +1087,11 @@ export class CentralServerService {
       );
   }
 
-  public pingOcpiendpoint(ocpiendpoint) {
+  public pingOcpiEndpoint(ocpiendpoint) {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointPing`, ocpiendpoint,
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1096,11 +1100,11 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiendpoint(ocpiendpoint) {
+  public generateLocalTokenOcpiEndpoint(ocpiendpoint) {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiendpointGenerateLocalToken`, ocpiendpoint,
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1109,11 +1113,11 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiendpoint(ocpiendpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointUpdate`, ocpiendpoint,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiendpoint,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1122,12 +1126,12 @@ export class CentralServerService {
       );
   }
 
-  public deleteOcpiendpoint(id): Observable<ActionResponse> {
+  public deleteOcpiEndpoint(id): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointDelete?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1136,12 +1140,12 @@ export class CentralServerService {
       );
   }
 
-  public registerOcpiendpoint(id): Observable<ActionResponse> {
+  public registerOcpiEndpoint(id): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiendpointRegister?ID=${id}`,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointRegister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
         headers: this._buildHttpHeaders()
@@ -1556,7 +1560,8 @@ export class CentralServerService {
 
   public deleteIntegrationConnection(userId: string, connectorId: string): Observable<ActionResponse> {
     this._checkInit();
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
+    return this.httpClient.delete<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
       {
         headers: this._buildHttpHeaders()
       })

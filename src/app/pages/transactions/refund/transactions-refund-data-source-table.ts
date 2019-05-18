@@ -49,7 +49,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
-    private appDatePipe: AppDatePipe,
+    private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
     private percentPipe: PercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
@@ -73,11 +73,11 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
+      filters['MinimalPrice'] = 0;
       this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -105,7 +105,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const locale = this.localeService.getCurrentFullLocaleForJS();
-
     const columns = [];
     columns.push(
       {
@@ -117,7 +116,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.appDatePipe.transform(refundedAt, locale, 'datetime') : ''
+        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : ''
       },
       {
         id: 'timestamp',
@@ -126,7 +125,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'user',

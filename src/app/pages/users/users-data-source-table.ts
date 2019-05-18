@@ -6,7 +6,6 @@ import {CentralServerNotificationService} from '../../services/central-server-no
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../services/central-server.service';
-import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {MatDialog, MatDialogConfig} from '@angular/material';
@@ -34,7 +33,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 export class UsersDataSource extends TableDataSource<User> {
   constructor(
       public spinnerService: SpinnerService,
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -61,10 +59,8 @@ export class UsersDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Update nbr records
-        this.setTotalNumberOfRecords(users.count);
         // Ok
-        observer.next(users.result);
+        observer.next(users);
         observer.complete();
       }, (error) => {
         // Show error
@@ -85,7 +81,6 @@ export class UsersDataSource extends TableDataSource<User> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'status',
@@ -145,7 +140,7 @@ export class UsersDataSource extends TableDataSource<User> {
       {
         id: 'createdOn',
         name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn, locale, 'datetimeshort'),
+        formatter: (createdOn) => this.datePipe.transform(createdOn),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true
@@ -230,7 +225,11 @@ export class UsersDataSource extends TableDataSource<User> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private showSitesDialog(user?: User) {

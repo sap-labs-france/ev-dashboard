@@ -8,9 +8,6 @@ import {MessageService} from '../../../services/message.service';
   selector: 'app-charging-stations-list',
   templateUrl: 'charging-stations-list.component.html',
   styles: ['.fulldetails app-detail-component-container{width: 100%}'],
-  providers: [
-    ChargingStationsListDataSource
-  ]
 })
 export class ChargingStationsListComponent implements OnInit {
 

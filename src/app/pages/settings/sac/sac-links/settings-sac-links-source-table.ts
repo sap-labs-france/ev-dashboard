@@ -50,8 +50,6 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
 
   public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
-    // Set number of records
-    this.setTotalNumberOfRecords(this.getData().length);
       // Check
       if (this.sacLinks) {
         this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
@@ -61,11 +59,17 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
           _link.id = index;
           links.push(_link);
         }
-        // Update nbr records
-        this.setTotalNumberOfRecords(links.length);
-        observer.next(links);
-        observer.complete();
+        observer.next({
+          count: links.length,
+          result: links
+        });
+      } else {
+        observer.next({
+          count: 0,
+          result: []
+        });
       }
+      observer.complete();
     });
   }
 

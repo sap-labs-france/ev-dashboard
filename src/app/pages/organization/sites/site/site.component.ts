@@ -295,7 +295,7 @@ export class SiteComponent implements OnInit {
           { 'siteName': site.name });
         // close
         this.currentSiteID = site.id;
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'sites.create_error');
@@ -330,7 +330,7 @@ export class SiteComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.update_success', { 'siteName': site.name });
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'sites.update_error');
@@ -370,9 +370,9 @@ export class SiteComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  public closeDialog() {
+  public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
-      this.dialogRef.close();
+      this.dialogRef.close(saved);
     }
   }
 

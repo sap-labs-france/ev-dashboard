@@ -5,10 +5,7 @@ import {KeyValue,  SiteArea} from '../../../common.types';
 import {SiteAreasFilterDataSourceTable} from './site-areas-filter-data-source-table';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    SiteAreasFilterDataSourceTable
-  ]
+  templateUrl: '../dialog-table-data-component.html'
 })
 export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<SiteArea> {
   constructor(

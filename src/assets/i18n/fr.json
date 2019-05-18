@@ -1,19 +1,28 @@
 
 {
   "general": {
+    "days": "jours",
+    "hours": "heures",
+    "minutes": "mins",
+    "seconds": "secs",
+    "day": "jour",
+    "hour": "heure",
+    "minute": "min",
+    "second": "sec",
     "more_records": "Plus",
     "click_here": "cliquez ici",
     "selected_records": "Selectionnés",
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.22",
+    "last_update": "Version 2.0.23",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
     "select_at_least_one_record": "Vous devez sélectionner au moins une ligne dans la liste",
     "mandatory_field": "Champs obligatoire",
     "no_record_found": "Aucun enregistrement n'a été trouvé",
+    "no_connector_available": "Aucun connecteur disponible",
     "error_max_length": "La Longueur maximale est {{length}}",
     "error_min_length": "La Longueur minimale est {{length}}",
     "error_url_pattern": "URL Invalide",
@@ -88,6 +97,7 @@
     "backend_not_running": "Impossible de se conncter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "success_backend": "La connexion avec le serveur central a été restaurée",
+    "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre tenant",
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",
@@ -660,10 +670,10 @@
     "connector_type_unknown": "Non défini",
     "connector_type_type2": "Type 2",
     "connector_type_type1": "Type 1",
-    "connector_type_type1ccs": "Type 1 - Combo",
+    "connector_type_type1ccs": "Type 1 - Combo CCS",
     "connector_type_type3c": "Type 3C",
     "connector_type_domestic": "Domestique",
-    "connector_type_combo": "Combo (CSS)",
+    "connector_type_combo": "Type 2 - Combo (CCS)",
     "connector_type_chademo": "CHAdeMO",
     "direct_current": "Courant Continu",
     "single_phase": "Courant Alternatif - Monophasé",
@@ -682,7 +692,7 @@
     "unsaved_changes": "Vous avez des modifications en attente. Veuillez les sauvegarder ou les annuler.",
     "button_get_configuration": "Lire Configuration",
     "created_on": "Date de création",
-    "start_transaction_admin_title": "Démarrage de transaction en tant qu'Administrateur",
+    "start_transaction_admin_title": "Démarrage de session en tant qu'Administrateur",
     "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
     "start_transaction_user_select_title": "Sélectionner un utilisateur",
     "start_transaction_user_select_button": "Sélectionner",
@@ -808,6 +818,7 @@
     "cost_center": "Centre de coût",
     "phone": "Téléphone",
     "mobile": "Portable",
+    "notifications_active": "Activer les notifications (emails, ...)",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -920,7 +931,7 @@
       "update_success": "La configuration Pricing a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
-        "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de transaction fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
+        "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de session fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
         "title": "Convergent Charging",
         "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
@@ -941,7 +952,7 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
       "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud",
-      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de transaction via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
+      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
       "settings": "Configuration"
     },
     "information": "Information",
@@ -1070,7 +1081,7 @@
     "user": "Utilisateur",
     "badge_id": "ID de badge",
     "connector": "Connecteur",
-    "total_consumption": "Consommation",
+    "total_consumption": "Consommation Totale",
     "current_consumption": "Puissance Instantanée",
     "state": "Status",
     "price": "Prix",
@@ -1080,7 +1091,7 @@
     "charging_station": "Borne",
     "started_at": "Date Début",
     "end_date": "Date Fin",
-    "consumption": "Conso",
+    "consumption": "Consommation",
     "transactions_button": "Sessions",
     "transaction_today": "Aujourd'hui",
     "transaction_one_week_ago": "1 Semaine",
@@ -1155,8 +1166,8 @@
         "confirm": "Voulez-vous vraiment arréter la session de {{user}} ?"
       },
       "refund": {
-        "title": "Rembourser des Sessions",
-        "confirm": "Voulez-vous vraiment demander le remboursement de {{quantity}} sessions?"
+        "title": "Remboursement",
+        "confirm": "Voulez-vous vraiment transférer {{quantity}} sessions vers votre système de remboursement ?"
       },
       "session": {
         "tooltips": {
@@ -1180,20 +1191,20 @@
         "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
-        "success": "{{inSuccess}} demandes de remboursement tranmisent avec succés",
-        "partial": "{{inError}} sur {{total}} demandes de remboursement tranmisent en erreur",
-        "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la transaction d'un autre utilisateur",
+        "success": "{{inSuccess}} sessions ont été transmises avec succés",
+        "partial": "{{inError}} sur {{total}} sessions ont rencontré une erreur",
+        "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la session d'un autre utilisateur",
         "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
-        "error": "L'application E-Mobility n'a pas pu se connecter à Concur.  Veuillez contacter un administrateur de l'application E-Mobility.",
-        "concur_connection_invalid": "Votre connection à Concur n'est pas configurée correctement. Veuillez contacter un administrateur de l'application E-Mobility.",
-        "tenant_concur_connection_invalid": "La configuration Concur de votre tenant n'est pas complète. Contactez votre administrateur pour plus d'informations."
+        "error": "L'application E-Mobility n'a pas pu se connecter au systéme de remboursement. Veuillez contacter un administrateur.",
+        "concur_connection_invalid": "La connection a votre systéme de remboursement n'est pas configurée correctement. Veuillez contacter un administrateur.",
+        "tenant_concur_connection_invalid": "La configuration du systéme de remboursement de votre tenant n'est pas complète. Veuillez contacter un administrateur."
       }
     },
     "errors": {
       "no_consumption": {
         "title": "Pas de consommations",
-        "description": "La transaction ne contient pas de données",
-        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmisent par la borne."
+        "description": "La session ne contient pas de données",
+        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
         "title": "Consommation trop Importante",

@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="card card-profile card-testimonial">
+  <div class="card card-profile card-testimonial user-card-min-height">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                      animationDuration="0ms" disableRipple="true" class="mat-tab-info">
@@ -129,7 +129,7 @@
               <div *ngIf="isAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" type="text">
+                    <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" required type="text">
                     <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
                     <mat-error *ngIf="tagIDs.hasError('pattern')">
                       {{"users.invalid_tag_ids" | translate}}
@@ -145,6 +145,11 @@
                       {{"users.invalid_plate_id" | translate}}
                     </mat-error>
                   </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="isAdmin" class="col-md-6" style="text-align: left">
+                <div class="form-group">
+                  <mat-checkbox [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
                 </div>
               </div>
             </div>
@@ -208,7 +213,7 @@
           </ng-template>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6 col-xl-4">
+              <div *ngIf="refundSetting" class="col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
                     <a [attr.href]="getConcurUrl()" target="_blank">
@@ -222,8 +227,8 @@
                     <div *ngIf="alreadyLinkedToConcur()"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
-                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
-                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate:localeService.getCurrentFullLocaleForJS():'datetime'}}</span>
+                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate}}</span>
                       </div>
                       <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
                         <mat-icon>delete</mat-icon>
@@ -240,6 +245,9 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div *ngIf="!refundSetting" class="mx-auto my-3">
+                <p class="font-weight-bold">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
           </div>

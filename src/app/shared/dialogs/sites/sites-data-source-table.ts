@@ -7,7 +7,9 @@ import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Observable } from 'rxjs';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class SitesDataSource extends DialogTableDataSource<Site> {
   constructor(
       public spinnerService: SpinnerService,
@@ -25,10 +27,8 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
       // Get data
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(sites.count);
           // Ok
-          observer.next(sites.result);
+          observer.next(sites);
           observer.complete();
         }, (error) => {
           // No longer exists!

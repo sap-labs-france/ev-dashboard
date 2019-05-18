@@ -33,6 +33,9 @@ import {SettingsSacComponent} from './sac/settings-sac.component';
 import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component';
 import {OcpiJobResultComponent} from './ocpi/endpoints/formatters/ocpi-job-result.component';
 import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-job-result.component';
+import { OcpiEndpointDetailDataSource } from './ocpi/endpoints/ocpi-details/ocpi-detail-data-source-table';
+import { EndpointsDataSource } from './ocpi/endpoints/settings-ocpi-source-table';
+import { SacLinksDataSource } from './sac/sac-links/settings-sac-links-source-table';
 
 @NgModule({
   imports: [
@@ -89,7 +92,11 @@ import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-job-r
     OcpiPatchJobStatusComponent,
     OcpiEndpointDetailComponent
   ],
-  providers: []
+  providers: [
+    OcpiEndpointDetailDataSource,
+    EndpointsDataSource,
+    SacLinksDataSource
+  ]
 })
 
 export class SettingsModule {

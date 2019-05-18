@@ -6,10 +6,7 @@ import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'app-transactions-history',
-  templateUrl: 'transactions-history.component.html',
-  providers: [
-    TransactionsHistoryDataSource
-  ]
+  templateUrl: 'transactions-history.component.html'
 })
 export class TransactionsHistoryComponent implements OnInit {
   constructor(

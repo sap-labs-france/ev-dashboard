@@ -6,9 +6,6 @@ import { KeyValue, User } from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    UsersDataSource
-  ]
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(

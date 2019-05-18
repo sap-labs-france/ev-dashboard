@@ -23,6 +23,12 @@ import {SitesDialogComponent} from './sites/sites-dialog-component';
 import {SitesFilterDialogComponent} from './sites/sites-filter-dialog-component';
 import {SiteAreasDialogComponent} from './site-areas/site-areas-dialog-component';
 import {SiteAreasFilterDialogComponent} from './site-areas/site-areas-filter-dialog.component';
+import { ChargersDataSource } from './chargers/chargers-data-source-table';
+import { CompaniesFilterDataSource } from './companies/companies-filter-data-source-table';
+import { SiteAreasFilterDataSourceTable } from './site-areas/site-areas-filter-data-source-table';
+import { SitesDataSource } from './sites/sites-data-source-table';
+import { SitesFilterDataSource } from './sites/sites-filter-data-source-table';
+import { UsersDataSource } from './users/users-data-source-table';
 
 export class FooterModule {
 }
@@ -87,7 +93,13 @@ export class FooterModule {
     PercentPipe,
     DecimalPipe,
     AppConnectorIdPipe,
-    DialogService
+    DialogService,
+    ChargersDataSource,
+    CompaniesFilterDataSource,
+    SiteAreasFilterDataSourceTable,
+    SitesDataSource,
+    SitesFilterDataSource,
+    UsersDataSource
   ]
 })
 export class DialogsModule {

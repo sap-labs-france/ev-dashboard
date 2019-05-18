@@ -3,10 +3,7 @@ import {TransactionsInErrorDataSource} from './transactions-in-error-data-source
 
 @Component({
   selector: 'app-transactions-in-error',
-  templateUrl: 'transactions-in-error.component.html',
-  providers: [
-    TransactionsInErrorDataSource
-  ]
+  templateUrl: 'transactions-in-error.component.html'
 })
 export class TransactionsInErrorComponent {
   constructor(

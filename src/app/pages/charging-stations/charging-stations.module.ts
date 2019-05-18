@@ -33,6 +33,9 @@ import {InstantPowerConnectorProgressBarComponent} from './cell-content-componen
 import {AppFormatPowerConnectorPipe} from './cell-content-components/instant-power-connector-progress-bar.component';
 import {AppFormatPowerChargerPipe} from './cell-content-components/instant-power-charger-progress-bar.component';
 import {SessionDetailComponent} from './cell-content-components/session-detail.component';
+import { ChargingStationsFaultyDataSource } from './charging-stations-faulty/charging-stations-faulty-data-source-table';
+import { ChargingStationsListDataSource } from './charging-stations-list/charging-stations-list-data-source-table';
+import { ConnectorsDataSource } from './details-content-component/connectors-data-source-detail-table';
 
 @NgModule({
   imports: [
@@ -92,7 +95,11 @@ import {SessionDetailComponent} from './cell-content-components/session-detail.c
     StartTransactionDialogComponent,
     ChargingStationMoreActionsDialogComponent
   ],
-  providers: []
+  providers: [
+    ChargingStationsFaultyDataSource,
+    ChargingStationsListDataSource,
+    ConnectorsDataSource
+  ]
 })
 export class ChargingStationsModule {
 }

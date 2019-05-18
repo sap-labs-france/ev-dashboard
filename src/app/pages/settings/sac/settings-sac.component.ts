@@ -13,10 +13,7 @@ import {SacLinksDataSource} from './sac-links/settings-sac-links-source-table';
 
 @Component({
   selector: 'app-settings-sac',
-  templateUrl: 'settings-sac.component.html',
-  providers: [
-    SacLinksDataSource
-  ]
+  templateUrl: 'settings-sac.component.html'
 })
 export class SettingsSacComponent implements OnInit {
   public isAdmin;

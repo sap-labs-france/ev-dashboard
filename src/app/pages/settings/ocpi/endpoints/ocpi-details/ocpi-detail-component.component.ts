@@ -3,10 +3,7 @@ import {CellContentTemplateComponent} from 'app/shared/table/cell-content-templa
 import {OcpiEndpointDetailDataSource} from './ocpi-detail-data-source-table';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>',
-  providers: [
-    OcpiEndpointDetailDataSource
-  ]
+  template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>'
 })
 
 export class OcpiEndpointDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {

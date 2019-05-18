@@ -5,10 +5,7 @@ import {UserSitesDataSource} from './user-sites-data-source-table';
 
 @Component({
   selector: 'app-user-sites-dialog-cmp',
-  templateUrl: 'user-sites.dialog.component.html',
-  providers: [
-    UserSitesDataSource
-  ]
+  templateUrl: 'user-sites.dialog.component.html'
 })
 export class UserSitesDialogComponent {
 

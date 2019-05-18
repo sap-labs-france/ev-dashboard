@@ -560,7 +560,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.currentUserID = user.id;
         // Close
         if (this.inDialog && this.dialogRef) {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         }
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -603,7 +603,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
         // Close
         if (this.inDialog && this.dialogRef) {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         }
       } else {
         Utils.handleError(JSON.stringify(response),

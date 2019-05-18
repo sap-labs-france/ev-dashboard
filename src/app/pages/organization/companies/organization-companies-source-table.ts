@@ -208,7 +208,11 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private _deleteCompany(company) {

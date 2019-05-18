@@ -216,7 +216,11 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe()
+      }
+    });
   }
 
   private _showChargersDialog(charger?: Charger) {

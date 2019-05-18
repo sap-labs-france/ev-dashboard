@@ -183,7 +183,7 @@ export class EndpointDialogComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.create_success', { 'name': ocpiendpoint.name });
-        this.dialogRef.close();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.create_error');
@@ -200,7 +200,7 @@ export class EndpointDialogComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.update_success', { 'name': ocpiendpoint.name });
-        this.dialogRef.close();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
@@ -212,8 +212,8 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  public closeDialog() {
-    this.dialogRef.close();
+  public closeDialog(saved: boolean = false) {
+    this.dialogRef.close(saved);
   }
 
   public onClose() {

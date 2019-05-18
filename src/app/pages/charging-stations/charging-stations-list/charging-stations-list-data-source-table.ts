@@ -362,7 +362,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private deleteChargingStation(chargingStation: Charger) {
@@ -419,7 +423,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+      dialogRef.afterClosed().subscribe(saved => {
+        if (saved) {
+          this.refreshData().subscribe();
+        }
+      });
     }
   }
 
@@ -519,9 +527,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
-    });
+    this.dialog.open(GeoMapDialogComponent, dialogConfig);
   }
 
   private getChargerLatitudeLongitude(charger: Charger) {

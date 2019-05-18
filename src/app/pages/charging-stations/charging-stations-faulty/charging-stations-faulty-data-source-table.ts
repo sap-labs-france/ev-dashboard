@@ -319,7 +319,11 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private deleteChargingStation(chargingStation: Charger) {

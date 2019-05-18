@@ -209,7 +209,11 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private showSitesDialog(user?: User) {

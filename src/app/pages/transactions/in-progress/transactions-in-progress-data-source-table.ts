@@ -282,6 +282,5 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

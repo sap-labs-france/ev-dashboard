@@ -353,6 +353,5 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

@@ -128,8 +128,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
       case CHARGERS_PANE_NAME:
         this.chargerParametersComponent.saveChargeBox();
         break;
-      default:
-        break;
     }
   }
 

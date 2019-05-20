@@ -11,7 +11,7 @@ import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {CurrencyPipe, PercentPipe} from '@angular/common';
+import {PercentPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
@@ -34,7 +34,7 @@ import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import * as moment from 'moment';
 import { SpinnerService } from 'app/services/spinner.service';
-import { LocaleService } from 'app/services/locale.service';
+import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
@@ -45,7 +45,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
   constructor(
       public spinnerService: SpinnerService,
-      private localeService: LocaleService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
@@ -61,7 +60,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe,
-      private currencyPipe: CurrencyPipe) {
+      private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -111,7 +110,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [
       {
         id: 'timestamp',
@@ -166,7 +164,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           name: 'transactions.price',
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
-          formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit, locale)
+          formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit)
         });
       }
     }
@@ -186,14 +184,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  formatPrice(price, priceUnit, locale): string {
-    return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
-  }
-
   public buildTableFooterStats(data) {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
-      const locale = this.localeService.getCurrentFullLocaleForJS();
       // Build
       const percentInactivity = Math.floor(data.totalInactivitySecs / data.totalDurationSecs * 100);
       // Total Duration
@@ -208,7 +201,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       // Total Price
       if (this.currency && this.currency.length > 0) {
         // tslint:disable-next-line:max-line-length
-        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.currencyPipe.transform(data.totalPrice, this.currency, 'symbol', '1.0-0', locale)}`;
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.totalPrice, this.currency, '1.0-0')}`;
       }
       return stats;
     } else {

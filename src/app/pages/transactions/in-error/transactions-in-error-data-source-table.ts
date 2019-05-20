@@ -10,7 +10,6 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {CurrencyPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
@@ -34,7 +33,6 @@ import * as moment from 'moment';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { SpinnerService } from 'app/services/spinner.service';
 
-
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
@@ -52,7 +50,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe,
-      private currencyPipe: CurrencyPipe,
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe) {
     super(spinnerService);
@@ -141,10 +138,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   formatChargingStation(chargingStation, row) {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
-  }
-
-  formatPrice(price, priceUnit): string {
-    return this.currencyPipe.transform(price, priceUnit);
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

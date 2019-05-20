@@ -383,7 +383,7 @@ export abstract class TableDataSource<T> {
     return this.tableColumnDefs;
   }
 
-  public refreshData(showSpinner = true): Observable<any> {
+  public refreshData(showSpinner = true): Observable<T> {
     // Init paging
     const currentPaging = this.getPaging();
     // Reload all loaded records
@@ -395,7 +395,7 @@ export abstract class TableDataSource<T> {
     return this.loadData(showSpinner, true);
   }
 
-  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<any> {
+  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<T> {
     return new Observable((observer) => {
       // Show Spinner
       if (showSpinner) {

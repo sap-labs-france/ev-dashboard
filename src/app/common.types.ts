@@ -1,5 +1,6 @@
 import {SortDirection} from '@angular/material/typings';
 import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { ComponentEnum } from './services/component.service';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -578,12 +579,14 @@ export enum PricingSettingsType {
 }
 
 export interface PricingSettings {
+  id: string;
+  identifier: ComponentEnum.PRICING;
   type: PricingSettingsType;
   simplePricing: {
     price: number;
     currency: string;
   }
-  convergentCharging: {
+  convergentChargingPricing: {
     url: string;
     chargeableItemName: string;
     user: string;

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthorizationService } from '../../../../services/authorization-service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -56,8 +54,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService,
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
@@ -80,8 +76,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
         'website': ''
       }
     };
-
-
   }
 
   ngOnInit(): void {

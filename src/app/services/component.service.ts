@@ -40,12 +40,16 @@ export class ComponentService {
 
   public getPricingSettings(): Observable<PricingSettings> {
     return new Observable((observer) => {
-      const pricingSettings = {} as PricingSettings;
+      const pricingSettings = {
+        identifier: ComponentEnum.PRICING
+      } as PricingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((setting) => {
+      this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((settings) => {
         // Get the currency
-        if (setting && setting.count > 0 && setting.result[0].content) {
-          const config = setting.result[0].content;
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // ID
+          pricingSettings.id = settings.result[0].id;
           // Simple price
           if (config.simple) {
             pricingSettings.type = PricingSettingsType.simple;
@@ -57,7 +61,7 @@ export class ComponentService {
           // Convergeant Charging
           if (config.convergentCharging) {
             pricingSettings.type = PricingSettingsType.convergentCharging;
-            pricingSettings.convergentCharging = {
+            pricingSettings.convergentChargingPricing = {
               url: config.convergentCharging.url ? config.convergentCharging.url : '',
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
               user: config.convergentCharging.user ? config.convergentCharging.user : '',

@@ -16,7 +16,7 @@
     </h4>
   </div>
 </div>
-<div *ngIf="isActive && pricingType==='pricing_simple'">
+<div *ngIf="isActive && pricingSettings?.type === 'simple'">
   <form class="form" [formGroup]="formGroup">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<form *ngIf="isActive && pricingType==='pricing_convergentCharging'" class="form" [formGroup]="formGroup">
+<form *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" class="form" [formGroup]="formGroup">
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">

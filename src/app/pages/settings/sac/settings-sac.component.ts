@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import * as moment from 'moment-timezone';
-
 import {CentralServerService} from 'app/services/central-server.service';
 import {MessageService} from 'app/services/message.service';
 import {Constants} from 'app/utils/Constants';
@@ -10,6 +9,7 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from 'app/utils/Utils';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import {SacLinksDataSource} from './sac-links/settings-sac-links-source-table';
+import { SacSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-sac',
@@ -24,6 +24,7 @@ export class SettingsSacComponent implements OnInit {
 
   public timezoneList: any = [];
   public currentSettingID: any;
+  public sacSettings: SacSettings;
 
   private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
@@ -47,41 +48,38 @@ export class SettingsSacComponent implements OnInit {
         Validators.pattern(this.urlPattern)),
       'timezone': new FormControl('')
     });
-
     this.mainUrl = this.formGroup.controls['mainUrl'];
     this.timezone = this.formGroup.controls['timezone'];
 
-    this.loadSACConfiguration();
+    this.loadConfiguration();
   }
 
-  public loadSACConfiguration() {
-    // Show spinner
+  public loadConfiguration() {
     this.spinnerService.show();
-    // Yes, get it
-    this.centralServerService.getSettings(ComponentEnum.SAC).subscribe((sacConfiguration) => {
-      // Hide spinner
+    this.componentService.getSacSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // get SAC configuration
-      let sacContent = { mainUrl: '', timezone: '', links: []};
-      if (sacConfiguration && sacConfiguration.count > 0 && sacConfiguration.result[0].content) {
-        // define setting ID
-        this.currentSettingID = sacConfiguration.result[0].id;
-        // build default void object
-        sacContent = sacConfiguration.result[0].content;
+      // Init form
+      this.formGroup.markAsPristine();
+      // Default
+      if (!settings) {
+        settings = {
+          'identifier': ComponentEnum.SAC,
+          'mainUrl': '',
+          'timezone': '',
+          'links': []
+        };
       }
+      // Keep
+      this.sacSettings = settings;
       // get SAC Main Url
-      if (sacContent.mainUrl) {
-        this.mainUrl.setValue(sacContent.mainUrl);
-      }
+      this.mainUrl.setValue(settings.mainUrl);
       // set SAC Links Data Source
-      this.sacLinksDataSource.setSacLinks(sacContent.links, this.formGroup);
+      this.sacLinksDataSource.setSacLinks(settings.links, this.formGroup);
       this.sacLinksDataSource.refreshData().subscribe();
 
-      this.formGroup.markAsPristine();
-
       // get timezone
-      if (sacContent.timezone) {
-        this.timezone.setValue(sacContent.timezone);
+      if (settings.timezone && settings.timezone.length > 0) {
+        this.timezone.setValue(settings.timezone);
       } else {
         this.timezone.setValue(moment.tz.guess());
         this.formGroup.markAsDirty();
@@ -107,9 +105,8 @@ export class SettingsSacComponent implements OnInit {
   public save(content) {
     // add links to content
     content.links = this.sacLinksDataSource.getSacLinks();
-
     // create or update
-    if (this.currentSettingID) {
+    if (this.sacSettings.id) {
       this.updateSACConfiguration(content);
     } else {
       this.createSACConfiguration(content);
@@ -160,7 +157,7 @@ export class SettingsSacComponent implements OnInit {
   private updateSACConfiguration(content) {
     // build setting payload
     const setting = {
-      'id': this.currentSettingID,
+      'id': this.sacSettings.id,
       'identifier': ComponentEnum.SAC,
       'content': content
     };
@@ -198,7 +195,7 @@ export class SettingsSacComponent implements OnInit {
 
   public refresh() {
     // Load Setting
-    this.loadSACConfiguration();
+    this.loadConfiguration();
   }
 
   openUrl() {

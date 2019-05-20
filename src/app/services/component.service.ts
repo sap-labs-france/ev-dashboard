@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CentralServerService} from './central-server.service';
-import { PricingSettings, PricingSettingsType, OcpiSettings } from 'app/common.types';
+import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings } from 'app/common.types';
 import { Observable } from 'rxjs';
 
 export enum ComponentEnum {
@@ -93,6 +93,29 @@ export class ComponentService {
           ocpiSettings.business_details = config.business_details;
         }
         observer.next(ocpiSettings);
+        observer.complete();
+      });
+    });
+  }
+
+  public getSacSettings(): Observable<SacSettings> {
+    return new Observable((observer) => {
+      const sacSettings = {
+        identifier: ComponentEnum.SAC
+      } as SacSettings;
+      // Get the Pricing settings
+      this.centralServerService.getSettings(ComponentEnum.SAC).subscribe((settings) => {
+        // Get the currency
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // ID
+          sacSettings.id = settings.result[0].id;
+          // Set
+          sacSettings.mainUrl = config.mainUrl;
+          sacSettings.timezone = config.timezone;
+          sacSettings.links = config.links;
+        }
+        observer.next(sacSettings);
         observer.complete();
       });
     });

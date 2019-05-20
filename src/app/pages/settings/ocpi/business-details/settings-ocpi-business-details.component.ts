@@ -8,7 +8,6 @@ import { Utils } from '../../../../utils/Utils';
 import { Constants } from '../../../../utils/Constants';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
 import { OcpiSettings } from 'app/common.types';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -115,8 +114,10 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
+      // Init form
+      this.formGroup.markAsPristine();
+      // Default
       if (!settings) {
-        // Default
         settings = {
           'country_code': '',
           'identifier': ComponentEnum.OCPI,
@@ -137,7 +138,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
       }
       // Keep
       this.ocpiSettings = settings;
-      // build default void object
       // business details - CPO identifier
       this.country_code.setValue(settings.country_code);
       this.party_id.setValue(settings.party_id);
@@ -152,9 +152,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
         this.logo_type.setValue(logo.type);
         this.logo_width.setValue(logo.width);
         this.logo_height.setValue(logo.height);
-      }
-      if (this.formGroup) {
-        this.formGroup.markAsPristine();
       }
     }, (error) => {
       // Hide

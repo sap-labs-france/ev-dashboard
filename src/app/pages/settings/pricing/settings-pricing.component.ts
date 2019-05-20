@@ -102,12 +102,9 @@ export class SettingsPricingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getPricingSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      if (this.formGroupConvergentCharging) {
-        this.formGroupConvergentCharging.markAsPristine();
-      }
-      if (this.formGroupSimple) {
-        this.formGroupSimple.markAsPristine();
-      }
+      // Init forms
+      this.formGroupConvergentCharging.markAsPristine();
+      this.formGroupSimple.markAsPristine();
       // Keep
       this.pricingSettings = settings;
       // Init with settings

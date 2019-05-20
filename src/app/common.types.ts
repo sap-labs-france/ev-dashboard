@@ -612,3 +612,10 @@ export interface OcpiSettings {
     }
   }
 }
+export interface SacSettings {
+  id?: string;
+  identifier: ComponentEnum.SAC;
+  mainUrl: string;
+  timezone: string;
+  links: SacLink[];
+}

@@ -172,13 +172,13 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
   public save(content) {
     if (this.ocpiSettings.id) {
-      this.updateocpiSettings(content);
+      this.updateOcpiSettings(content);
     } else {
-      this.createocpiSettings(content);
+      this.createOcpiSettings(content);
     }
   }
 
-  private createocpiSettings(content) {
+  private createOcpiSettings(content) {
     // build setting payload
     const setting = {
       'id': null,
@@ -218,7 +218,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     });
   }
 
-  private updateocpiSettings(content) {
+  private updateOcpiSettings(content) {
     // build setting payload
     const setting = {
       'id': this.ocpiSettings.id,

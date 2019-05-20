@@ -7,6 +7,7 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {MessageService} from '../../../services/message.service';
 import {Router} from '@angular/router';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import { RefundSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-refund',
@@ -27,7 +28,7 @@ export class SettingsRefundComponent implements OnInit {
   public concurPolicyId: AbstractControl;
   public concurReportName: AbstractControl;
 
-  private currentSettingID;
+  private refundSettings: RefundSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -107,27 +108,24 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   loadConfiguration() {
-    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((setting) => {
+    this.spinnerService.show();
+    this.componentService.getRefundSettings().subscribe((settings) => {
       this.spinnerService.hide();
-
-      // takes the first one
-      if (setting && setting.count > 0 && setting.result[0].content) {
-        const config = setting.result[0].content;
-        this.currentSettingID = setting.result[0].id;
-
-        if (config.concur) {
-          this.concurAuthenticationUrl.setValue(config.concur.authenticationUrl ? config.concur.authenticationUrl : '');
-          this.concurApiUrl.setValue(config.concur.apiUrl ? config.concur.apiUrl : '');
-          this.concurClientId.setValue(config.concur.clientId ? config.concur.clientId : '');
-          this.concurClientSecret.setValue(config.concur.clientSecret ? config.concur.clientSecret : '');
-          this.concurPaymentTypeId.setValue(config.concur.paymentTypeId ? config.concur.paymentTypeId : '');
-          this.concurExpenseTypeCode.setValue(config.concur.expenseTypeCode ? config.concur.expenseTypeCode : '');
-          this.concurPolicyId.setValue(config.concur.policyId ? config.concur.policyId : '');
-          this.concurReportName.setValue(config.concur.reportName ? config.concur.reportName : '');
-        }
-      }
+      // Init form
       this.formGroup.markAsPristine();
-
+      // Keep
+      this.refundSettings = settings;
+      // takes the first one
+      if (settings && settings.concur) {
+        this.concurAuthenticationUrl.setValue(settings.concur.authenticationUrl ? settings.concur.authenticationUrl : '');
+        this.concurApiUrl.setValue(settings.concur.apiUrl ? settings.concur.apiUrl : '');
+        this.concurClientId.setValue(settings.concur.clientId ? settings.concur.clientId : '');
+        this.concurClientSecret.setValue(settings.concur.clientSecret ? settings.concur.clientSecret : '');
+        this.concurPaymentTypeId.setValue(settings.concur.paymentTypeId ? settings.concur.paymentTypeId : '');
+        this.concurExpenseTypeCode.setValue(settings.concur.expenseTypeCode ? settings.concur.expenseTypeCode : '');
+        this.concurPolicyId.setValue(settings.concur.policyId ? settings.concur.policyId : '');
+        this.concurReportName.setValue(settings.concur.reportName ? settings.concur.reportName : '');
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -143,7 +141,7 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public save(content) {
-    if (this.currentSettingID) {
+    if (this.refundSettings.id) {
       this._updateConfiguration(content);
     } else {
       this.createConfiguration(content);
@@ -157,7 +155,7 @@ export class SettingsRefundComponent implements OnInit {
   private _updateConfiguration(content) {
     // build setting payload
     const setting = {
-      'id': this.currentSettingID,
+      'id': this.refundSettings.id,
       'identifier': ComponentEnum.REFUND,
       'content': content
     };

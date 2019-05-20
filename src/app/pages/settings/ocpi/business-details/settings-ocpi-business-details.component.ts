@@ -49,9 +49,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     { key: 'OWNER', description: 'Owner' },
     { key: 'OTHER', description: 'Other' }
   ]
-
   private numberPattern = /^[0-9]*$/;
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   constructor(
     private messageService: MessageService,
@@ -79,10 +77,10 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
       'business_details': new FormGroup({
         'name': new FormControl(''),
         'website': new FormControl('',
-          Validators.pattern(this.urlPattern)),
+          Validators.pattern(Constants.URL_PATTERN)),
         'logo': new FormGroup({
           'url': new FormControl('',
-            Validators.pattern(this.urlPattern)),
+            Validators.pattern(Constants.URL_PATTERN)),
           'thumbnail': new FormControl(''),
           'category': new FormControl(''),
           'type': new FormControl(''),

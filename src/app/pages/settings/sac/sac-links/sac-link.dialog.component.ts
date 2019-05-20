@@ -7,6 +7,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { SpinnerService } from 'app/services/spinner.service';
 import { DialogService } from 'app/services/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Constants } from 'app/utils/Constants';
 
 @Component({
   templateUrl: './sac-link.dialog.component.html'
@@ -17,8 +18,6 @@ export class SacLinkDialogComponent implements OnInit {
   public name: AbstractControl;
   public description: AbstractControl;
   public url: AbstractControl;
-
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   public currentSacLink: any;
 
@@ -50,7 +49,7 @@ export class SacLinkDialogComponent implements OnInit {
       'url': new FormControl(this.currentSacLink.url,
         Validators.compose([
           Validators.required,
-          Validators.pattern(this.urlPattern)
+          Validators.pattern(Constants.URL_PATTERN)
         ]))
     });
 

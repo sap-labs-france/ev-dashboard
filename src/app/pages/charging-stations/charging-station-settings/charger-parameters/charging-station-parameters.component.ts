@@ -30,7 +30,6 @@ export const POWER_UNIT_MAP =
     { key: 'A', description: 'chargers.amper' }
   ]
 
-const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
   templateUrl: './charging-station-parameters.html'
@@ -94,7 +93,7 @@ export class ChargingStationParametersComponent implements OnInit {
       'chargingStationURL': new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(URL_PATTERN)
+          Validators.pattern(Constants.URL_PATTERN)
         ])),
       'numberOfConnectedPhase': new FormControl('',
         Validators.compose([

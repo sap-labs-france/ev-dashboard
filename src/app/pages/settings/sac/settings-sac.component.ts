@@ -26,8 +26,6 @@ export class SettingsSacComponent implements OnInit {
   public currentSettingID: any;
   public sacSettings: SacSettings;
 
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
-
   constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -45,7 +43,7 @@ export class SettingsSacComponent implements OnInit {
     // build form
     this.formGroup = new FormGroup({
       'mainUrl': new FormControl('',
-        Validators.pattern(this.urlPattern)),
+        Validators.pattern(Constants.URL_PATTERN)),
       'timezone': new FormControl('')
     });
     this.mainUrl = this.formGroup.controls['mainUrl'];

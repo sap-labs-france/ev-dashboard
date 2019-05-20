@@ -24,8 +24,6 @@ export class EndpointDialogComponent implements OnInit {
   public token: AbstractControl;
   public isBackgroundPatchJobActive: AbstractControl;
 
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
-
   public currentEndpoint: any;
 
   constructor(
@@ -66,7 +64,7 @@ export class EndpointDialogComponent implements OnInit {
       'baseUrl': new FormControl(this.currentEndpoint.baseUrl,
         Validators.compose([
           Validators.required,
-          Validators.pattern(this.urlPattern)
+          Validators.pattern(Constants.URL_PATTERN)
         ])),
       'countryCode': new FormControl(this.currentEndpoint.countryCode,
         Validators.compose([

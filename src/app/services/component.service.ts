@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CentralServerService} from './central-server.service';
-import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings } from 'app/common.types';
+import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings } from 'app/common.types';
 import { Observable } from 'rxjs';
 
 export enum ComponentEnum {
@@ -116,6 +116,27 @@ export class ComponentService {
           sacSettings.links = config.links;
         }
         observer.next(sacSettings);
+        observer.complete();
+      });
+    });
+  }
+
+  public getRefundSettings(): Observable<RefundSettings> {
+    return new Observable((observer) => {
+      const refundSettings = {
+        identifier: ComponentEnum.REFUND
+      } as RefundSettings;
+      // Get the Pricing settings
+      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settings) => {
+        // Get the currency
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // ID
+          refundSettings.id = settings.result[0].id;
+          // Set
+          refundSettings.concur = config.concur;
+        }
+        observer.next(refundSettings);
         observer.complete();
       });
     });

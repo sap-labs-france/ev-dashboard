@@ -612,10 +612,26 @@ export interface OcpiSettings {
     }
   }
 }
+
 export interface SacSettings {
   id?: string;
   identifier: ComponentEnum.SAC;
   mainUrl: string;
   timezone: string;
   links: SacLink[];
+}
+
+export interface RefundSettings {
+  id?: string;
+  identifier: ComponentEnum.REFUND;
+  concur?: {
+    authenticationUrl: string;
+    apiUrl: string;
+    clientId: string;
+    clientSecret: string;
+    paymentTypeId: string;
+    expenseTypeCode: string;
+    policyId: string;
+    reportName: string;
+  }
 }

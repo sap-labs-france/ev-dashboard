@@ -2,7 +2,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { LocaleService } from 'app/services/locale.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentEnum } from 'app/services/component.service';
+import { ComponentEnum, ComponentService } from 'app/services/component.service';
+import { PricingSettingsType } from 'app/common.types';
 
 @Pipe({name: 'appCurrency'})
 export class AppCurrencyPipe implements PipeTransform {
@@ -11,18 +12,15 @@ export class AppCurrencyPipe implements PipeTransform {
 
   constructor(
       private currencyPipe: CurrencyPipe,
-      private centralServerService: CentralServerService,
+      private componentService: ComponentService,
       private localeService: LocaleService) {
     // Get the locale
     this.locale = this.localeService.getCurrentFullLocaleForJS();
     // Get the Pricing settings
-    this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((setting) => {
+    this.componentService.getPricingSettings().subscribe((settings) => {
       // Get the currency
-      if (setting && setting.count > 0 && setting.result[0].content) {
-        const config = setting.result[0].content;
-        if (config.simple) {
-          this.currency = config.simple.currency ? config.simple.currency : '';
-        }
+      if (settings && settings.type === PricingSettingsType.simple) {
+        this.currency = settings.simplePricing.currency;
       }
     });
   }

@@ -571,3 +571,22 @@ export interface ConnectorSchedule {
   connectorId: number;
   slots: ScheduleSlot[];
 }
+
+export enum PricingSettingsType {
+  simple = 'simple',
+  convergentCharging = 'convergentCharging'
+}
+
+export interface PricingSettings {
+  type: PricingSettingsType;
+  simplePricing: {
+    price: number;
+    currency: string;
+  }
+  convergentCharging: {
+    url: string;
+    chargeableItemName: string;
+    user: string;
+    password: string;
+  }
+}

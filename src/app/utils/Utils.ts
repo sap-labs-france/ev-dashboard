@@ -27,10 +27,8 @@ export class Utils {
     return messageService.showErrorMessage(errorMessage);
   }
 
-  public static handleHttpError(error, router: Router,
-                                messageService: MessageService,
-                                centralServerService: CentralServerService,
-                                errorMessage: string) {
+  public static handleHttpError(error, router: Router, messageService: MessageService,
+      centralServerService: CentralServerService, errorMessage: string) {
     // Check error
     switch (error.status) {
       // Server connection error`

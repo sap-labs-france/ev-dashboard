@@ -71,6 +71,8 @@ export class ComponentService {
         }
         observer.next(pricingSettings);
         observer.complete();
+      }, (error) => {
+        observer.error(error);
       });
     });
   }
@@ -94,6 +96,8 @@ export class ComponentService {
         }
         observer.next(ocpiSettings);
         observer.complete();
+      }, (error) => {
+        observer.error(error);
       });
     });
   }
@@ -117,6 +121,8 @@ export class ComponentService {
         }
         observer.next(sacSettings);
         observer.complete();
+      }, (error) => {
+        observer.error(error);
       });
     });
   }
@@ -138,6 +144,8 @@ export class ComponentService {
         }
         observer.next(refundSettings);
         observer.complete();
+      }, (error) => {
+        observer.error(error);
       });
     });
   }

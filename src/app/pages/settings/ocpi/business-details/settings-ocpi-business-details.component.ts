@@ -112,9 +112,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   }
 
   public loadConfiguration() {
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
     this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
       if (!settings) {

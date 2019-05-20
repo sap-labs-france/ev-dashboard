@@ -189,6 +189,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
         this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'tenants.delete_error');

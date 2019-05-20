@@ -579,7 +579,7 @@ export enum PricingSettingsType {
 }
 
 export interface PricingSettings {
-  id: string;
+  id?: string;
   identifier: ComponentEnum.PRICING;
   type: PricingSettingsType;
   simplePricing: {
@@ -591,5 +591,24 @@ export interface PricingSettings {
     chargeableItemName: string;
     user: string;
     password: string;
+  }
+}
+
+export interface OcpiSettings {
+  id?: string;
+  identifier: ComponentEnum.OCPI;
+  country_code: string;
+  party_id: string;
+  business_details: {
+    name: string;
+    website: string;
+    logo: {
+      url: string;
+      thumbnail: string;
+      category: string;
+      type: string;
+      width: string;
+      height: string;
+    }
   }
 }

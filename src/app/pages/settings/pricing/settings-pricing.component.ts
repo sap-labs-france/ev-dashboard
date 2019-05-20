@@ -42,9 +42,6 @@ export class SettingsPricingComponent implements OnInit {
   ngOnInit(): void {
     // Load the conf
     this.loadConfiguration().subscribe((settings) => {
-      if (!settings) {
-        return;
-      }
       // Keep
       this.pricingSettings = settings;
       // Convergent Charging

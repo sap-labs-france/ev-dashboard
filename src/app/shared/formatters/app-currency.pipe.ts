@@ -26,8 +26,8 @@ export class AppCurrencyPipe implements PipeTransform {
   }
 
   transform(price: number, currency?: string, digitInfo: string = '1.0-2', display: string|boolean = 'symbol'): string {
+    // Take from the conf
     if (!currency) {
-      // Take from the conf
       currency = this.currency;
     }
     return this.currencyPipe.transform(price, currency, display, digitInfo, this.locale);

@@ -40,8 +40,6 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
-  private dialogRefSession;
-  private currency: string;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -66,16 +64,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
-    // Get the Pricing settings
-    this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((setting) => {
-      // Get the currency
-      if (setting && setting.count > 0 && setting.result[0].content) {
-        const config = setting.result[0].content;
-        if (config.simple) {
-          this.currency = config.simple.currency ? config.simple.currency : '';
-        }
-      }
-    });
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -199,10 +187,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       // tslint:disable-next-line:max-line-length
       stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
       // Total Price
-      if (this.currency && this.currency.length > 0) {
-        // tslint:disable-next-line:max-line-length
-        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.totalPrice, this.currency, '1.0-0')}`;
-      }
+      // tslint:disable-next-line:max-line-length
+      stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.totalPrice, null, '1.0-0')}`;
       return stats;
     } else {
         this.tableFooterStats = '';
@@ -345,6 +331,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 }

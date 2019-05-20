@@ -27,7 +27,7 @@ export class SettingsPricingComponent implements OnInit {
   public convergentChargingChargeableItemName: AbstractControl;
   public convergentChargingUser: AbstractControl;
   public convergentChargingPassword: AbstractControl;
-  private pricingSettings: PricingSettings;
+  public pricingSettings: PricingSettings;
 
   constructor(
     private centralServerService: CentralServerService,

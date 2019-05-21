@@ -141,73 +141,34 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public save(content) {
-    if (this.refundSettings.id) {
-      this._updateConfiguration(content);
-    } else {
-      this.createConfiguration(content);
-    }
+    // Set the content
+    this.refundSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+    // Save
+    this.spinnerService.show();
+    this.componentService.saveRefundSetting(this.refundSettings).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage(
+          (!this.refundSettings.id ? 'settings.refund.create_success' : 'settings.refund.update_success'));
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case 550:
+          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+      }
+    });
   }
 
   public refresh() {
     this.loadConfiguration();
-  }
-
-  private _updateConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': this.refundSettings.id,
-      'identifier': ComponentEnum.REFUND,
-      'content': content
-    };
-
-    this.spinnerService.show();
-    this.centralServerService.updateSetting(setting).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.refund.update_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.refund.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case 550:
-          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.update_error');
-      }
-    });
-  }
-
-  private createConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': null,
-      'identifier': ComponentEnum.REFUND,
-      'content': content
-    };
-    this.spinnerService.show();
-    this.centralServerService.createSetting(setting).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.refund.create_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.refund.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case 550:
-          this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.create_error');
-      }
-    });
   }
 }

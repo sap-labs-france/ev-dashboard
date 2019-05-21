@@ -96,6 +96,23 @@ export class ComponentService {
     }
   }
 
+  public saveRefundSetting(settings: RefundSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.REFUND,
+      'content': settings
+    };
+    // Save
+    if (!settings.id) {
+      // Create
+      return this.centralServerService.createSetting(settingsToSave);
+    } else {
+      // Update
+      return this.centralServerService.updateSetting(settingsToSave);
+    }
+  }
+
   public getOcpiSettings(): Observable<OcpiSettings> {
     return new Observable((observer) => {
       const ocpiSettings = {

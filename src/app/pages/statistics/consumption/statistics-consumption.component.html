@@ -5,10 +5,8 @@
 
         <mat-form-field>
             <mat-label>{{'statistics.transactions_years' | translate}}</mat-label>
-                <mat-select [(ngModel)]="selectedYear" (selectionChange)="refresh()">
-                  <mat-option *ngFor="let year of allYears" [value]="year">
-                    {{year}}
-                  </mat-option>
+                <mat-select [(value)]="selectedYear" (selectionChange)="setYear()">
+                  <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
                 </mat-select>
               </mat-form-field>
 
@@ -18,19 +16,34 @@
 
 
         <button mat-raised-button *ngIf=!!selectedYear 
-            (click)="refresh()">
-            <mat-icon>refresh</mat-icon>{{'general.refresh' | translate}}
+            class="button-refresh" (click)="refresh()"
+            appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
+            <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
+                <div class="loader"></div>
+            </div>
+            <div *ngIf="!ongoingRefresh" class="refresh-icon">
+                <mat-icon>refresh</mat-icon>{{'general.refresh' | translate}}
+            </div>    
         </button>
 
     </div>
         
     <div class="card-body"> 
-        <canvas #myChart></canvas>
+        <canvas #consumptionBarChart></canvas>
 
         <button mat-raised-button *ngIf=!!selectedYear
             (click)="toggleHideBarItems()">
             {{'statistics.legend_select_unselect_all' | translate}}
         </button>
+        <span class="toolbar-spacer"></span>
+
+        <canvas #consumptionPieChart></canvas>
+
+        <button mat-raised-button *ngIf=!!selectedYear
+            (click)="toggleHidePieItems()">
+            {{'statistics.legend_select_unselect_all' | translate}}
+        </button>
+
     </div> 
 
 </div>

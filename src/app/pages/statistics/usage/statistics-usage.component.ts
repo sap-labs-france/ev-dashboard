@@ -4,4 +4,6 @@ import {Component} from '@angular/core';
   selector: 'app-statistics-usage',
   templateUrl: './statistics-usage.component.html'
 })
-export class StatisticsUsageComponent {}
+
+export class StatisticsUsageComponent {
+}

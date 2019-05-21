@@ -11,6 +11,7 @@ import {ComponentEnum, ComponentService} from '../../services/component.service'
   templateUrl: './statistics.component.html',
   encapsulation: ViewEncapsulation.None
 })
+
 export class StatisticsComponent extends AbstractTabComponent {
 
   constructor(

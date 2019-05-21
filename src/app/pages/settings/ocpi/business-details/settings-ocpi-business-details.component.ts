@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthorizationService } from '../../../../services/authorization-service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
 import { Constants } from '../../../../utils/Constants';
-import {ComponentEnum} from '../../../../services/component.service';
+import {ComponentEnum, ComponentService} from '../../../../services/component.service';
+import { OcpiSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -31,8 +30,7 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   public logo_width: AbstractControl;
   public logo_height: AbstractControl;
 
-  public currentCPODetails: any;
-  public currentSettingID: any;
+  public ocpiSettings: OcpiSettings;
 
   public logoTypes: any = [
     { key: '', description: '' },
@@ -51,76 +49,51 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     { key: 'OWNER', description: 'Owner' },
     { key: 'OTHER', description: 'Other' }
   ]
-
   private numberPattern = /^[0-9]*$/;
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private translateService: TranslateService,
     private messageService: MessageService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private spinnerService: SpinnerService,
-    private router: Router
-  ) {
-    // define default value
-    this.currentCPODetails = {
-      'country_code': '',
-      'party_id': '',
-      'business_details': {
-        'name': '',
-        'logo': {
-          'url': '',
-          'thumbnail': '',
-          'category': '',
-          'type': '',
-          'width': undefined,
-          'height': undefined
-        },
-        'website': ''
-      }
-    };
-
-
+    private router: Router) {
   }
 
   ngOnInit(): void {
     // build form
     this.formGroup = new FormGroup({
-      'country_code': new FormControl(this.currentCPODetails.country_code,
+      'country_code': new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2)
         ])),
-      'party_id': new FormControl(this.currentCPODetails.party_id,
+      'party_id': new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3)
         ])),
       'business_details': new FormGroup({
-        'name': new FormControl(this.currentCPODetails.business_details.name),
-        'website': new FormControl(this.currentCPODetails.business_details.website,
-          Validators.pattern(this.urlPattern)),
+        'name': new FormControl(''),
+        'website': new FormControl('',
+          Validators.pattern(Constants.URL_PATTERN)),
         'logo': new FormGroup({
-          'url': new FormControl(this.currentCPODetails.business_details.logo.url,
-            Validators.pattern(this.urlPattern)),
-          'thumbnail': new FormControl(this.currentCPODetails.business_details.logo.thumbnail),
-          'category': new FormControl(this.currentCPODetails.business_details.logo.category),
-          'type': new FormControl(this.currentCPODetails.business_details.logo.type),
-          'width': new FormControl(this.currentCPODetails.business_details.logo.width,
+          'url': new FormControl('',
+            Validators.pattern(Constants.URL_PATTERN)),
+          'thumbnail': new FormControl(''),
+          'category': new FormControl(''),
+          'type': new FormControl(''),
+          'width': new FormControl(undefined,
             Validators.pattern(this.numberPattern)),
-          'height': new FormControl(this.currentCPODetails.business_details.logo.height,
+          'height': new FormControl(undefined,
             Validators.pattern(this.numberPattern))
         })
       })
     });
-
     // business details - CPO identifier
     this.country_code = this.formGroup.controls['country_code'];
     this.party_id = this.formGroup.controls['party_id'];
-
     // business details - image
     this.name = (<FormGroup>this.formGroup.controls['business_details']).controls['name'];
     this.website = (<FormGroup>this.formGroup.controls['business_details']).controls['website'];
@@ -131,67 +104,53 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.logo_type = this.logoGroup.controls['type'];
     this.logo_width = this.logoGroup.controls['width'];
     this.logo_height = this.logoGroup.controls['height'];
-
-    // load ocpi configuration
-    this.loadOCPIConfiguration();
+    // Load the conf
+    this.loadConfiguration();
   }
 
-  public loadOCPIConfiguration() {
-    // Show spinner
+  public loadConfiguration() {
     this.spinnerService.show();
-    // Yes, get it
-    this.centralServerService.getSettings(ComponentEnum.OCPI).subscribe((ocpiConfiguration) => {
+    this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
-
-      // initialize empty
-      let ocpiContent = {
-        'country_code': '',
-        'party_id': '',
-        'business_details': {
-          'name': '',
-          'logo': {
-            'url': '',
-            'thumbnail': '',
-            'category': '',
-            'type': '',
-            'width': undefined,
-            'height': undefined
-          },
-          'website': ''
-        }
-      };
-
-      // takes the first one
-      if (ocpiConfiguration && ocpiConfiguration.count > 0 && ocpiConfiguration.result[0].content) {
-        // build default void object
-        ocpiContent = ocpiConfiguration.result[0].content;
-
-        // define setting ID
-        this.currentSettingID = ocpiConfiguration.result[0].id;
-
-        // business details - CPO identifier
-        if (ocpiContent.country_code) { this.country_code.setValue(ocpiContent.country_code); }
-        if (ocpiContent.party_id) { this.party_id.setValue(ocpiContent.party_id); }
-
-        if (ocpiContent.business_details) {
-          const businessDetails = ocpiContent.business_details;
-          if (businessDetails.name) { this.name.setValue(businessDetails.name); }
-          if (businessDetails.website) { this.website.setValue(businessDetails.website); }
-
-          if (businessDetails.logo) {
-            const logo = businessDetails.logo;
-
-            if (logo.url) { this.logo_url.setValue(logo.url); }
-            if (logo.thumbnail) { this.logo_thumbnail.setValue(logo.thumbnail); }
-            if (logo.category) { this.logo_category.setValue(logo.category); }
-            if (logo.type) { this.logo_type.setValue(logo.type); }
-            if (logo.width) { this.logo_width.setValue(logo.width); }
-            if (logo.height) { this.logo_height.setValue(logo.height); }
-          }
-        }
-      }
+      // Init form
       this.formGroup.markAsPristine();
-
+      // Default
+      if (!settings) {
+        settings = {
+          'country_code': '',
+          'identifier': ComponentEnum.OCPI,
+          'party_id': '',
+          'business_details': {
+            'name': '',
+            'website': '',
+            'logo': {
+              'url': '',
+              'thumbnail': '',
+              'category': '',
+              'type': '',
+              'width': undefined,
+              'height': undefined
+            },
+          }
+        };
+      }
+      // Keep
+      this.ocpiSettings = settings;
+      // business details - CPO identifier
+      this.country_code.setValue(settings.country_code);
+      this.party_id.setValue(settings.party_id);
+      const businessDetails = settings.business_details;
+      this.name.setValue(businessDetails.name);
+      this.website.setValue(businessDetails.website);
+      if (businessDetails.logo) {
+        const logo = businessDetails.logo;
+        this.logo_url.setValue(logo.url);
+        this.logo_thumbnail.setValue(logo.thumbnail);
+        this.logo_category.setValue(logo.category);
+        this.logo_type.setValue(logo.type);
+        this.logo_width.setValue(logo.width);
+        this.logo_height.setValue(logo.height);
+      }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -212,21 +171,20 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
 
   public save(content) {
-    if (this.currentSettingID) {
-      this.updateOCPIConfiguration(content);
+    if (this.ocpiSettings.id) {
+      this.updateOcpiSettings(content);
     } else {
-      this.createOCPIConfiguration(content);
+      this.createOcpiSettings(content);
     }
   }
 
-  private createOCPIConfiguration(content) {
+  private createOcpiSettings(content) {
     // build setting payload
     const setting = {
       'id': null,
       'identifier': ComponentEnum.OCPI,
       'content': content
     };
-
     // Show
     this.spinnerService.show();
     // Yes: Update
@@ -260,10 +218,10 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     });
   }
 
-  private updateOCPIConfiguration(content) {
+  private updateOcpiSettings(content) {
     // build setting payload
     const setting = {
-      'id': this.currentSettingID,
+      'id': this.ocpiSettings.id,
       'identifier': ComponentEnum.OCPI,
       'content': content
     };
@@ -301,7 +259,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
 
   public refresh() {
     // Load Setting
-    this.loadOCPIConfiguration();
+    this.loadConfiguration();
   }
-
 }

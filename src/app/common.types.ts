@@ -1,5 +1,6 @@
 import {SortDirection} from '@angular/material/typings';
 import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { ComponentEnum } from './services/component.service';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -493,6 +494,7 @@ export interface User {
   email: string;
   phone: Date;
   mobile: string;
+  notificationsActive: boolean;
   address: {
     address1: string;
     address2: string;
@@ -518,6 +520,8 @@ export interface User {
   language: string;
   numberOfSites: number;
   activeComponents?: Array<string>;
+  userHashID: number;
+  tenantHashID: number;
 }
 
 export interface UserResult {
@@ -567,4 +571,67 @@ export interface ScheduleSlot {
 export interface ConnectorSchedule {
   connectorId: number;
   slots: ScheduleSlot[];
+}
+
+export enum PricingSettingsType {
+  simple = 'simple',
+  convergentCharging = 'convergentCharging'
+}
+
+export interface PricingSettings {
+  id?: string;
+  identifier: ComponentEnum.PRICING;
+  type: PricingSettingsType;
+  simplePricing: {
+    price: number;
+    currency: string;
+  }
+  convergentChargingPricing: {
+    url: string;
+    chargeableItemName: string;
+    user: string;
+    password: string;
+  }
+}
+
+export interface OcpiSettings {
+  id?: string;
+  identifier: ComponentEnum.OCPI;
+  country_code: string;
+  party_id: string;
+  business_details: {
+    name: string;
+    website: string;
+    logo: {
+      url: string;
+      thumbnail: string;
+      category: string;
+      type: string;
+      width: string;
+      height: string;
+    }
+  }
+}
+
+export interface SacSettings {
+  id?: string;
+  identifier: ComponentEnum.SAC;
+  mainUrl: string;
+  timezone: string;
+  links: SacLink[];
+}
+
+export interface RefundSettings {
+  id?: string;
+  identifier: ComponentEnum.REFUND;
+  concur?: {
+    authenticationUrl: string;
+    apiUrl: string;
+    clientId: string;
+    clientSecret: string;
+    paymentTypeId: string;
+    expenseTypeCode: string;
+    policyId: string;
+    reportName: string;
+  }
 }

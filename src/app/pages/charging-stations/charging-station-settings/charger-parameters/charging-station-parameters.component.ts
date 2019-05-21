@@ -30,7 +30,6 @@ export const POWER_UNIT_MAP =
     { key: 'A', description: 'chargers.amper' }
   ]
 
-const URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 @Component({
   selector: 'app-charging-station-parameters',
   templateUrl: './charging-station-parameters.html'
@@ -94,7 +93,7 @@ export class ChargingStationParametersComponent implements OnInit {
       'chargingStationURL': new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(URL_PATTERN)
+          Validators.pattern(Constants.URL_PATTERN)
         ])),
       'numberOfConnectedPhase': new FormControl('',
         Validators.compose([
@@ -377,12 +376,10 @@ export class ChargingStationParametersComponent implements OnInit {
           if (result.latitude) {
             this.formGroup.controls.latitude.setValue(result.latitude);
             this.formGroup.markAsDirty();
-            // this.formGroup.controls.latitude.markAsPending();
           }
           if (result.longitude) {
             this.formGroup.controls.longitude.setValue(result.longitude);
             this.formGroup.markAsDirty();
-            // this.formGroup.controls.longitude.markAsPending();
           }
         }
       });
@@ -400,7 +397,7 @@ export class ChargingStationParametersComponent implements OnInit {
         // Ok
         // tslint:disable-next-line:max-line-length
         this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.messages['change_config_error']);
@@ -426,9 +423,9 @@ export class ChargingStationParametersComponent implements OnInit {
     });
   }
 
-  public closeDialog() {
+  public closeDialog(saved: boolean = false) {
     if ( this.dialogRef) {
-      this.dialogRef.close();
+      this.dialogRef.close(saved);
     }
   }
 

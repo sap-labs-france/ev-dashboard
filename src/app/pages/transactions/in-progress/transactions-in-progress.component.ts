@@ -6,10 +6,7 @@ import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'app-transactions-in-progress',
-  templateUrl: 'transactions-in-progress.component.html',
-  providers: [
-    TransactionsInProgressDataSource
-  ]
+  templateUrl: 'transactions-in-progress.component.html'
 })
 export class TransactionsInProgressComponent implements OnInit {
 

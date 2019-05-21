@@ -47,10 +47,8 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((tenants) => {
-        // Update nbr records
-        this.setTotalNumberOfRecords(tenants.count);
         // Ok
-        observer.next(tenants.result);
+        observer.next(tenants);
         observer.complete();
       }, (error) => {
         // Show error
@@ -169,7 +167,11 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
     }
     // Open
     const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private openTenant(tenant?: any) {
@@ -187,6 +189,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
         this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
+            this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'tenants.delete_error');

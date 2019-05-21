@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="card card-profile card-testimonial">
+  <div class="card card-profile card-testimonial user-card-min-height">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                      animationDuration="0ms" disableRipple="true" class="mat-tab-info">
@@ -129,7 +129,7 @@
               <div *ngIf="isAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" type="text">
+                    <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" required type="text">
                     <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
                     <mat-error *ngIf="tagIDs.hasError('pattern')">
                       {{"users.invalid_tag_ids" | translate}}
@@ -145,6 +145,11 @@
                       {{"users.invalid_plate_id" | translate}}
                     </mat-error>
                   </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="isAdmin" class="col-md-6" style="text-align: left">
+                <div class="form-group">
+                  <mat-checkbox [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
                 </div>
               </div>
             </div>

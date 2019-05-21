@@ -62,10 +62,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
-          observer.next(siteAreas.result);
+          observer.next(siteAreas);
           observer.complete();
         }, (error) => {
           // Show error
@@ -218,7 +216,11 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe()
+      }
+    });
   }
 
   private _showChargersDialog(charger?: Charger) {

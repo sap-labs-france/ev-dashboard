@@ -6,7 +6,6 @@ import {CentralServerNotificationService} from '../../services/central-server-no
 import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
 import {CentralServerService} from '../../services/central-server.service';
-import {LocaleService} from '../../services/locale.service';
 import {MessageService} from '../../services/message.service';
 import {LogSourceTableFilter} from './filters/log-source-filter';
 import {LogLevelTableFilter} from './filters/log-level-filter';
@@ -34,7 +33,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
-      private localeService: LocaleService,
       private dialogService: DialogService,
       private authorizationService: AuthorizationService,
       private router: Router,
@@ -55,8 +53,6 @@ export class LogsDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(logs.count);
         // Add the users in the message
         logs.result.map((log) => {
           let user;
@@ -75,7 +71,7 @@ export class LogsDataSource extends TableDataSource<Log> {
           return log;
         });
         // Ok
-        observer.next(logs.result);
+        observer.next(logs);
         observer.complete();
       }, (error) => {
         // No longer exists!
@@ -110,7 +106,6 @@ export class LogsDataSource extends TableDataSource<Log> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'level',

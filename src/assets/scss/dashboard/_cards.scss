@@ -4,10 +4,12 @@
 @import "../core/cards/card-profile";
 @import "../core/cards/card-background";
 
-// dashboard Cards
-
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14);
+
+  &.user-card-min-height {
+    min-height: 600px
+  }
 
   .table tr:first-child td {
     border-top: none;

@@ -33,8 +33,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
-
-  private dialogRefSession;
+  private openAction = new TableOpenAction().getActionDef();
+  private stopAction = new TableStopAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -66,9 +66,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -86,7 +85,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -212,11 +212,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
-    return [
-      new TableOpenAction().getActionDef(),
-      new TableStopAction().getActionDef()
+  buildTableDynamicRowActions(): TableActionDef[] {
+    const actions = [
+      this.openAction
     ];
+    if (!this.authorizationService.isDemo()) {
+      actions.push(this.stopAction);
+    }
+    return actions;
   }
 
   buildTableActionsRightDef(): TableActionDef[] {
@@ -282,7 +285,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
+    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 }

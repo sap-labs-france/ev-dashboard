@@ -23,6 +23,11 @@ import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {TableModule} from '../../shared/table/table.module';
 import {OrganizationComponent} from './organization.component';
 import {OrganizationRoutes} from './organization.routing';
+import { OrganizationCompaniesDataSource } from './companies/organization-companies-source-table';
+import { OrganizationSiteAreasDataSource } from './site-areas/organization-site-areas-source-table';
+import { SiteAreaChargersDataSource } from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
+import { OrganizationSitesDataSource } from './sites/organization-sites-source-table';
+import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
 
 @NgModule({
   imports: [
@@ -65,6 +70,11 @@ import {OrganizationRoutes} from './organization.routing';
     SiteAreaChargersDialogComponent
   ],
   providers: [
+    OrganizationCompaniesDataSource,
+    OrganizationSiteAreasDataSource,
+    SiteAreaChargersDataSource,
+    OrganizationSitesDataSource,
+    SiteUsersDataSource
   ]
 })
 

@@ -4,9 +4,6 @@ import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>',
-  providers: [
-    ConnectorsDataSource
-  ]
 })
 
 export class ConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {

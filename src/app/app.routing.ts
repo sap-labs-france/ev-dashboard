@@ -88,20 +88,6 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
-          menu: {
-            title: 'users',
-            type: 'link',
-            icon: 'people',
-            path: '/users'
-          },
-          auth: {
-            entity: Constants.ENTITY_USERS,
-            action: Constants.ACTION_LIST
-          }
-        }
-      },
-      {
         path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule', data: {
           menu: {
             title: 'tenants',
@@ -111,6 +97,20 @@ export const AppRoutes: Routes = [
           },
           auth: {
             entity: Constants.ENTITY_TENANTS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
+        path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
+          menu: {
+            title: 'users',
+            type: 'link',
+            icon: 'people',
+            path: '/users'
+          },
+          auth: {
+            entity: Constants.ENTITY_USERS,
             action: Constants.ACTION_LIST
           }
         }

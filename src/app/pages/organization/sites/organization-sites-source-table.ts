@@ -60,10 +60,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(sites.count);
           // Ok
-          observer.next(sites.result);
+          observer.next(sites);
           observer.complete();
         }, (error) => {
           // Show error
@@ -213,7 +211,11 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private _showUsersDialog(site?: Site) {

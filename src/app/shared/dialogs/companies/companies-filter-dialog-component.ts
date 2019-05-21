@@ -5,10 +5,7 @@ import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue, Company} from '../../../common.types';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    CompaniesFilterDataSource
-  ]
+  templateUrl: '../dialog-table-data-component.html'
 })
 export class CompaniesFilterDialogComponent extends DialogTableDataComponent<Company> {
   constructor(

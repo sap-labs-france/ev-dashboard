@@ -25,10 +25,8 @@ export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
     // Get data
     this.centralServerService.getCompanies(this.buildFilterValues(),
       this.getPaging(), this.getSorting()).subscribe((companies) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(companies.count);
         // Ok
-        observer.next(companies.result);
+        observer.next(companies);
         observer.complete();
       }, (error) => {
         // No longer exists!

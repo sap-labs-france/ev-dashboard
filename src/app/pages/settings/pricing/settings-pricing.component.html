@@ -16,8 +16,8 @@
     </h4>
   </div>
 </div>
-<div *ngIf="isActive && pricingType==='pricing_simple'">
-  <form class="form" [formGroup]="formGroup">
+<div *ngIf="isActive && pricingSettings?.type === 'simple'">
+  <form class="form" [formGroup]="formGroupSimple">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
@@ -28,8 +28,8 @@
 
       <div class="card-body">
         <div class="mat-toolbar-row">
-          <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-            [disabled]="!formGroup.valid || !formGroup.dirty">
+          <button mat-raised-button color="warn" (click)="save(formGroupSimple.value)"
+            [disabled]="!formGroupSimple.valid || !formGroupSimple.dirty">
             <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
           </button>
         </div>
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<form *ngIf="isActive && pricingType==='pricing_convergentCharging'" class="form" [formGroup]="formGroup">
+<form *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" class="form" [formGroup]="formGroupConvergentCharging">
   <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
@@ -113,8 +113,8 @@
 
     <div class="card-body">
       <div class="mat-toolbar-row">
-        <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button mat-raised-button color="warn" (click)="save(formGroupConvergentCharging.value)"
+          [disabled]="!formGroupConvergentCharging.valid || !formGroupConvergentCharging.dirty">
           <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
         </button>
       </div>
@@ -178,8 +178,8 @@
     </div>
     <div class="card-footer text-center">
       <span class="toolbar-spacer"></span>
-      <button mat-icon-button (click)="save(formGroup.value)"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-icon-button (click)="save(formGroupConvergentCharging.value)"
+        [disabled]="!formGroupConvergentCharging.valid || !formGroupConvergentCharging.dirty">
         <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
       </button>
     </div>

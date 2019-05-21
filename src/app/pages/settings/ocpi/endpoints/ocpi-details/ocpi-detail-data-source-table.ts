@@ -6,7 +6,6 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'app/services/message.service';
 import { DialogService } from 'app/services/dialog.service';
-import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
@@ -23,7 +22,7 @@ import { Observable } from 'rxjs';
 import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
-export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
+export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
   private ocpiEndpoint: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
@@ -33,7 +32,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
       public spinnerService: SpinnerService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
-      private localeService: LocaleService,
       private messageService: MessageService,
       private router: Router,
       private dialogService: DialogService,
@@ -57,9 +55,10 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
           totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
           lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null
         }
-        // Ok
-        this.setTotalNumberOfRecords(1);
-        observer.next([ocpiEndpointDetail]);
+        observer.next({
+          count: 1,
+          result: [ocpiEndpointDetail]
+        });
         observer.complete();
       }
     });
@@ -90,7 +89,6 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'patchJobStatus',
@@ -174,7 +172,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case 'send':
-        this.sendEVSEStatusesOcpiendpoint(rowItem.ocpiendpoint);
+        this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
         break;
       case 'start':
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -187,14 +185,14 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
     }
   }
 
-  private sendEVSEStatusesOcpiendpoint(ocpiendpoint) {
+  private sendEVSEStatusesOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Ping
-        this.centralServerService.sendEVSEStatusesOcpiendpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe(response => {
           if (response.failure === 0 && response.success > 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
@@ -227,7 +225,7 @@ export class OcpiendpointDetailDataSource extends TableDataSource<OcpiEndpointDe
                 : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             if (ocpiendpoint.backgroundPatchJob) {
               this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');

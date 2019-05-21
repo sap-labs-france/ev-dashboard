@@ -134,7 +134,7 @@ export class TenantDialogComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('tenants.create_success', {'name': tenant.name});
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'tenants.create_error');
@@ -151,7 +151,7 @@ export class TenantDialogComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('tenants.update_success', {'name': tenant.name});
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'tenants.update_error');

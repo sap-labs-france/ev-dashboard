@@ -81,8 +81,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        // Set number of records
-        this.setTotalNumberOfRecords(chargers.count);
         // Update details status
         chargers.result.forEach(charger => {
           // At first filter out the connectors that are null
@@ -92,7 +90,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           });
         });
         // Ok
-        observer.next(chargers.result);
+        observer.next(chargers);
         observer.complete();
       }, (error) => {
         // No longer exists!
@@ -364,7 +362,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private deleteChargingStation(chargingStation: Charger) {
@@ -421,7 +423,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+      dialogRef.afterClosed().subscribe(saved => {
+        if (saved) {
+          this.refreshData().subscribe();
+        }
+      });
     }
   }
 
@@ -521,9 +527,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
-    });
+    this.dialog.open(GeoMapDialogComponent, dialogConfig);
   }
 
   private getChargerLatitudeLongitude(charger: Charger) {

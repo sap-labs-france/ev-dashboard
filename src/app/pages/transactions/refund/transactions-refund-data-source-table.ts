@@ -10,14 +10,13 @@ import {Utils} from '../../../utils/Utils';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {CurrencyPipe, PercentPipe} from '@angular/common';
+import {PercentPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
 import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {LocaleService} from '../../../services/locale.service';
 import {Constants} from '../../../utils/Constants';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
@@ -31,6 +30,7 @@ import {AuthorizationService} from '../../../services/authorization-service';
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import {TableOpenInConcurAction} from '../../../shared/table/actions/table-open-in-concur-action';
+import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -43,7 +43,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     private messageService: MessageService,
     private translateService: TranslateService,
     private dialogService: DialogService,
-    private localeService: LocaleService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -55,7 +54,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private currencyPipe: CurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -73,11 +72,11 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
+      filters['MinimalPrice'] = 0;
       this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -104,7 +103,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     const columns = [];
     columns.push(
       {
@@ -145,7 +143,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       }, {
         id: 'stop.price',
         name: 'transactions.price',
-        formatter: (price, row) => this.formatPrice(price, row.stop.priceUnit, locale)
+        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit)
       }, {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
@@ -167,10 +165,6 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   formatChargingStation(chargingStation, row) {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
-  }
-
-  formatPrice(price, priceUnit, locale): string {
-    return this.currencyPipe.transform(price, priceUnit, undefined, undefined, locale);
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

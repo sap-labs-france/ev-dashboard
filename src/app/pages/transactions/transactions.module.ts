@@ -20,6 +20,10 @@ import {TransactionsRefundComponent} from './refund/transactions-refund.componen
 import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
 import {ConnectorCellComponent} from './components/connector-cell.component';
 import {AppFormatConnector} from './components/connector-cell.component';
+import { TransactionsHistoryDataSource } from './history/transactions-history-data-source-table';
+import { TransactionsInErrorDataSource } from './in-error/transactions-in-error-data-source-table';
+import { TransactionsInProgressDataSource } from './in-progress/transactions-in-progress-data-source-table';
+import { TransactionsRefundDataSource } from './refund/transactions-refund-data-source-table';
 
 @NgModule({
   imports: [
@@ -60,7 +64,11 @@ import {AppFormatConnector} from './components/connector-cell.component';
   providers: [
     CurrencyPipe,
     PercentPipe,
-    DecimalPipe
+    DecimalPipe,
+    TransactionsHistoryDataSource,
+    TransactionsInErrorDataSource,
+    TransactionsInProgressDataSource,
+    TransactionsRefundDataSource
   ]
 })
 

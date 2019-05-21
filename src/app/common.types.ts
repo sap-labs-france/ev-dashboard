@@ -582,11 +582,11 @@ export interface PricingSettings {
   id?: string;
   identifier: ComponentEnum.PRICING;
   type: PricingSettingsType;
-  simplePricing: {
+  simple: {
     price: number;
     currency: string;
   }
-  convergentChargingPricing: {
+  convergentCharging: {
     url: string;
     chargeableItemName: string;
     user: string;

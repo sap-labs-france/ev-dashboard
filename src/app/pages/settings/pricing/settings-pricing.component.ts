@@ -40,6 +40,7 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Convergent Charging pricing
     this.formGroupConvergentCharging = new FormGroup({
       'convergentCharging': new FormGroup({
         'url': new FormControl('',
@@ -73,7 +74,7 @@ export class SettingsPricingComponent implements OnInit {
     this.convergentChargingChargeableItemName = this.convergentCharging.controls['chargeableItemName'];
     this.convergentChargingUser = this.convergentCharging.controls['user'];
     this.convergentChargingPassword = this.convergentCharging.controls['password'];
-
+    // Simple pricing
     this.formGroupSimple = new FormGroup({
       'simple': new FormGroup({
         'price': new FormControl('',
@@ -110,15 +111,15 @@ export class SettingsPricingComponent implements OnInit {
       // Init with settings
       if (this.pricingSettings) {
         // Convergeant Charging
-        if (this.pricingSettings.type === PricingSettingsType.convergentCharging && this.pricingSettings.convergentChargingPricing) {
-          this.convergentChargingUrl.setValue(this.pricingSettings.convergentChargingPricing.url);
-          this.convergentChargingChargeableItemName.setValue(this.pricingSettings.convergentChargingPricing.chargeableItemName);
-          this.convergentChargingUser.setValue(this.pricingSettings.convergentChargingPricing.user);
-          this.convergentChargingPassword.setValue(this.pricingSettings.convergentChargingPricing.password);
+        if (this.pricingSettings.type === PricingSettingsType.convergentCharging && this.pricingSettings.convergentCharging) {
+          this.convergentChargingUrl.setValue(this.pricingSettings.convergentCharging.url);
+          this.convergentChargingChargeableItemName.setValue(this.pricingSettings.convergentCharging.chargeableItemName);
+          this.convergentChargingUser.setValue(this.pricingSettings.convergentCharging.user);
+          this.convergentChargingPassword.setValue(this.pricingSettings.convergentCharging.password);
         // Simple
-        } else if (this.pricingSettings.type === PricingSettingsType.simple && this.pricingSettings.simplePricing) {
-          this.price.setValue(this.pricingSettings.simplePricing.price);
-          this.currency.setValue(this.pricingSettings.simplePricing.currency);
+        } else if (this.pricingSettings.type === PricingSettingsType.simple && this.pricingSettings.simple) {
+          this.price.setValue(this.pricingSettings.simple.price);
+          this.currency.setValue(this.pricingSettings.simple.currency);
         }
       }
     }, (error) => {
@@ -134,72 +135,34 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public save(content) {
-    if (this.pricingSettings.id) {
-      this._updateConfiguration(content);
-    } else {
-      this._createConfiguration(content);
-    }
+    // Set the content
+    this.pricingSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+    // Save
+    this.spinnerService.show();
+    this.componentService.savePriceSetting(this.pricingSettings).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage(
+          (!this.pricingSettings.id ? 'settings.pricing.create_success' : 'settings.pricing.update_success'));
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case 550:
+          this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+      }
+    });
   }
 
   public refresh() {
     this.loadConfiguration();
-  }
-
-  private _updateConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': this.pricingSettings.id,
-      'identifier': ComponentEnum.PRICING,
-      'content': content
-    };
-    this.spinnerService.show();
-    this.centralServerService.updateSetting(setting).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.pricing.update_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.pricing.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case 550:
-          this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.update_error');
-      }
-    });
-  }
-
-  private _createConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': null,
-      'identifier': ComponentEnum.PRICING,
-      'content': content
-    };
-    this.spinnerService.show();
-    this.centralServerService.createSetting(setting).subscribe(response => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.pricing.create_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.pricing.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case 550:
-          this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.create_error');
-      }
-    });
   }
 }

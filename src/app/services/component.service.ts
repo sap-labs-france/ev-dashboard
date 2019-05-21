@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CentralServerService} from './central-server.service';
-import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings } from 'app/common.types';
+import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings, ActionResponse } from 'app/common.types';
 import { Observable } from 'rxjs';
 
 export enum ComponentEnum {
@@ -53,7 +53,7 @@ export class ComponentService {
           // Simple price
           if (config.simple) {
             pricingSettings.type = PricingSettingsType.simple;
-            pricingSettings.simplePricing = {
+            pricingSettings.simple = {
               price: config.simple.price ? parseFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : ''
             }
@@ -61,7 +61,7 @@ export class ComponentService {
           // Convergeant Charging
           if (config.convergentCharging) {
             pricingSettings.type = PricingSettingsType.convergentCharging;
-            pricingSettings.convergentChargingPricing = {
+            pricingSettings.convergentCharging = {
               url: config.convergentCharging.url ? config.convergentCharging.url : '',
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
               user: config.convergentCharging.user ? config.convergentCharging.user : '',
@@ -75,6 +75,25 @@ export class ComponentService {
         observer.error(error);
       });
     });
+  }
+
+  public savePriceSetting(settings: PricingSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.PRICING,
+      'content': (settings.simple ?
+        {simple: settings.simple} :
+        {convergentCharging: settings.convergentCharging})
+    };
+    // Save
+    if (!settings.id) {
+      // Create
+      return this.centralServerService.createSetting(settingsToSave);
+    } else {
+      // Update
+      return this.centralServerService.updateSetting(settingsToSave);
+    }
   }
 
   public getOcpiSettings(): Observable<OcpiSettings> {

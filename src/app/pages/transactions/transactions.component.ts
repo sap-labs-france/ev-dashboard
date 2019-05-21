@@ -27,5 +27,4 @@ export class TransactionsComponent extends AbstractTabComponent {
   canAccessInErrorTab() {
     return this.authorizationService.isAdmin();
   }
-
 }

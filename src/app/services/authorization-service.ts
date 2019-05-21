@@ -461,19 +461,35 @@ export class AuthorizationService {
   }
 
   public isAdmin(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
+    } else {
+      return false;
+    }
   }
 
   public isSuperAdmin(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
+    } else {
+      return false;
+    }
   }
 
   public isBasic(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_BASIC;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_BASIC;
+    } else {
+      return false;
+    }
   }
 
   public isDemo(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_DEMO;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_DEMO;
+    } else {
+      return false;
+    }
   }
 
   private _canPerformAction(entity, fieldNamesValues): boolean {

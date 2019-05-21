@@ -145,7 +145,7 @@ export class SettingsRefundComponent implements OnInit {
     this.refundSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
     // Save
     this.spinnerService.show();
-    this.componentService.saveRefundSetting(this.refundSettings).subscribe((response) => {
+    this.componentService.saveRefundSettings(this.refundSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage(

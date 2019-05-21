@@ -44,7 +44,7 @@
                   <mat-form-field>
                     <input [formControl]="name" appSetAutoFocus matInput placeholder="{{'users.name' | translate}}"
                            required (input)="toUpperCase(name)" type="text">
-                    <mat-error *ngIf="name.hasError('required')">
+                    <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -53,7 +53,7 @@
                   <mat-form-field>
                     <input [formControl]="firstName" matInput placeholder="{{'users.first_name' | translate}}" required
                            type="text">
-                    <mat-error *ngIf="firstName.hasError('required')">
+                    <mat-error *ngIf="firstName.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -64,10 +64,10 @@
                   <mat-form-field>
                     <input [formControl]="email" matInput placeholder="{{'users.email' | translate}}" required
                            type="text">
-                    <mat-error *ngIf="email.hasError('email')">
+                    <mat-error *ngIf="email.errors?.email">
                       {{"authentication.invalid_email" | translate}}
                     </mat-error>
-                    <mat-error *ngIf="email.hasError('required')">
+                    <mat-error *ngIf="email.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -88,7 +88,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="phone" matInput placeholder="{{'users.phone' | translate}}" type="text">
-                    <mat-error *ngIf="phone.hasError('pattern')">
+                    <mat-error *ngIf="phone.errors?.pattern">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -98,7 +98,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text">
-                    <mat-error *ngIf="mobile.hasError('pattern')">
+                    <mat-error *ngIf="mobile.errors?.pattern">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -131,7 +131,7 @@
                   <mat-form-field>
                     <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" required type="text">
                     <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
-                    <mat-error *ngIf="tagIDs.hasError('pattern')">
+                    <mat-error *ngIf="tagIDs.errors?.pattern">
                       {{"users.invalid_tag_ids" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -141,7 +141,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="plateID" matInput placeholder="{{'users.plate_id' | translate}}" type="text">
-                    <mat-error *ngIf="plateID.hasError('pattern')">
+                    <mat-error *ngIf="plateID.errors?.pattern">
                       {{"users.invalid_plate_id" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -179,10 +179,10 @@
                     <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
                               matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
-                    <mat-error *ngIf="password.hasError('noSpace')">
+                    <mat-error *ngIf="password.errors?.noSpace">
                       {{"authentication.no_space_in_password" | translate}}
                     </mat-error>
-                    <mat-error *ngIf="password.hasError('invalidPassword')">
+                    <mat-error *ngIf="password.errors?.invalidPassword">
                       {{"authentication.password_rule" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -197,7 +197,7 @@
                     <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword" class="icon-clickable" matSuffix>
                       {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
-                    <mat-error *ngIf="passwords.hasError('notEqual')">
+                    <mat-error *ngIf="passwords.errors?.notEqual">
                       {{"authentication.password_not_equal" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -263,7 +263,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="iNumber" matInput placeholder="{{'users.inumber' | translate}}" type="text">
-                    <mat-error *ngIf="iNumber.hasError('pattern')">
+                    <mat-error *ngIf="iNumber.errors?.pattern">
                       {{"general.invalid_value" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -274,7 +274,7 @@
                   <mat-form-field>
                     <input [formControl]="costCenter" matInput placeholder="{{'users.cost_center' | translate}}"
                            type="text">
-                    <mat-error *ngIf="costCenter.hasError('pattern')">
+                    <mat-error *ngIf="costCenter.errors?.pattern">
                       {{"general.invalid_value" | translate}}
                     </mat-error>
                   </mat-form-field>

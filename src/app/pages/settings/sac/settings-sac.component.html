@@ -38,11 +38,11 @@
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="mainUrl"
               placeholder="{{'sac.mainurl' | translate}}">
-            <mat-error *ngIf="mainUrl.hasError('pattern')">
+            <mat-error *ngIf="mainUrl.errors?.pattern">
               <div [translate]="'general.error_url_pattern'"></div>
             </mat-error>
             <button mat-button matSuffix mat-icon-button aria-label="View" (click)="openUrl()"
-              [disabled]="mainUrl.hasError('pattern')">
+              [disabled]="mainUrl.errors?.pattern">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
           </mat-form-field>

@@ -908,7 +908,7 @@
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
       "concur": {
-        "title": "Concur",
+        "title": "SAP Concur",
         "authentication_url": "Url d'authentification",
         "api_url": "Url d'api",
         "client_id": "Client ID",
@@ -932,7 +932,7 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
       "convergentcharging": {
         "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de session fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
-        "title": "Convergent Charging",
+        "title": "SAP Convergent Charging",
         "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
         "user": "Utilisateur",
@@ -1015,6 +1015,7 @@
     "failed": "Echecs"
   },
   "ocpi": {
+    "gireve": "Gireve",
     "title": "Itinérance",
     "emsps": "Plate-forme d'interopérabilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",

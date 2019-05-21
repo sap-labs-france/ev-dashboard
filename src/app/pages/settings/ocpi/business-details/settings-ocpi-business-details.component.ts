@@ -169,90 +169,38 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     });
   }
 
-
   public save(content) {
-    if (this.ocpiSettings.id) {
-      this.updateOcpiSettings(content);
-    } else {
-      this.createOcpiSettings(content);
+    console.log('content');
+    console.log(content);
+    // Set the content
+    for (const key in content) {
+      if (content.hasOwnProperty(key)) {
+        this.ocpiSettings[key] = content[key];
+      }
     }
-  }
-
-  private createOcpiSettings(content) {
-    // build setting payload
-    const setting = {
-      'id': null,
-      'identifier': ComponentEnum.OCPI,
-      'content': content
-    };
-    // Show
+    console.log('ocpiSettings');
+    console.log(this.ocpiSettings);
+    // Save
     this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.createSetting(setting).subscribe(response => {
-      // Hide
+    this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();
-      // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.ocpi.create_success');
-        // Refresh
+        this.messageService.showSuccessMessage(
+          (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.ocpi.create_error');
+          this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Setting deleted
         case 550:
-          // Show error
           this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.ocpi.create_error');
-      }
-    });
-  }
-
-  private updateOcpiSettings(content) {
-    // build setting payload
-    const setting = {
-      'id': this.ocpiSettings.id,
-      'identifier': ComponentEnum.OCPI,
-      'content': content
-    };
-    // Show
-    this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.updateSetting(setting).subscribe(response => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.ocpi.update_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.ocpi.update_error');
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Setting deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
-          break;
-        default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.ocpi.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
       }
     });
   }

@@ -135,11 +135,23 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public save(content) {
+    console.log('pricing content');
+    console.log(content);
     // Set the content
-    this.pricingSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+    if (content.convergentCharging) {
+      this.pricingSettings.convergentCharging = content.convergentCharging;
+      this.pricingSettings.type = PricingSettingsType.convergentCharging;
+    } else if (content.simple) {
+      this.pricingSettings.simple = content.simple;
+      this.pricingSettings.type = PricingSettingsType.simple;
+    } else {
+      return;
+    }
+    console.log('pricing pricingSettings 2');
+    console.log(this.pricingSettings);
     // Save
     this.spinnerService.show();
-    this.componentService.savePriceSetting(this.pricingSettings).subscribe((response) => {
+    this.componentService.savePricingSettings(this.pricingSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage(

@@ -907,7 +907,7 @@
       "update_success": "Refunding settings have been updated successfully",
       "update_error": "Error occurred while updating the Refunding settings",
       "concur": {
-        "title": "Concur",
+        "title": "SAP Concur",
         "authentication_url": "Authentication Url",
         "api_url": "API Url",
         "client_id": "Client ID",
@@ -933,7 +933,7 @@
       "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
         "description": "E-Mobility provides Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). To enable this feature, please contact your E-Mobility representative. More technical information available at ",
-        "title": "Convergent Charging",
+        "title": "SAP Convergent Charging",
         "chargeable_item_name": "Chargeable Item Name",
         "url": "Url",
         "user": "User",
@@ -1016,6 +1016,7 @@
     "failed": "Failed"
   },
   "ocpi": {
+    "gireve": "Gireve",
     "title": "Roaming",
     "emsps": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
@@ -1048,7 +1049,7 @@
     }
   },
   "sac": {
-    "title": "Analytics",
+    "title": "SAP Analytics",
     "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
     "timezone": "Timezone used in SAP Analytics Cloud",

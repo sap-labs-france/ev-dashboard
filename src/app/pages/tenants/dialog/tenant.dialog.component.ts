@@ -18,8 +18,9 @@ export class TenantDialogComponent implements OnInit {
   public name: AbstractControl;
   public subdomain: AbstractControl;
   public email: AbstractControl;
-  public pricingType: AbstractControl;
   public components: FormGroup;
+  private readonly currentTenant: any;
+
   public pricingTypes = [
     {
       key: 'convergentCharging',
@@ -29,8 +30,27 @@ export class TenantDialogComponent implements OnInit {
       description: 'settings.pricing.simple.title'
     }
   ];
-  public selectedPricing: string;
-  private readonly currentTenant: any;
+
+  public refundTypes = [
+    {
+      key: 'concur',
+      description: 'settings.refund.concur.title'
+    }
+  ];
+
+  public ocpiTypes = [
+    {
+      key: 'gireve',
+      description: 'settings.refund.ocpi.gireve'
+    }
+  ];
+
+  public analyticsTypes = [
+    {
+      key: 'sac',
+      description: 'settings.refund.sac.title'
+    }
+  ];
 
   constructor(
     private centralServerService: CentralServerService,
@@ -79,36 +99,38 @@ export class TenantDialogComponent implements OnInit {
     this.email = this.formGroup.controls['email'];
     this.subdomain = this.formGroup.controls['subdomain'];
 
-    // add available components
+    // Add available components
     this.components = <FormGroup>this.formGroup.controls['components'];
     for (const componentIdentifier of Object.values(ComponentEnum)) {
-      // check if value is available
+      // Get the params
       let activeFlag = false;
+      let type = '';
       if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {
         activeFlag = this.currentTenant.components[componentIdentifier].active === true;
+        type = this.currentTenant.components[componentIdentifier].type;
       }
+      // Create forms
       this.components.addControl(componentIdentifier, new FormGroup({
-        'active': new FormControl(activeFlag)
+        'active': new FormControl(activeFlag),
+        'type': new FormControl(type)
       }));
     }
-    let type =  '';
-    if (this.currentTenant.components && this.currentTenant.components.pricing && this.currentTenant.components.pricing.active) {
-      type = this.currentTenant.components.pricing.type;
-    }
-    (<FormGroup>this.components.controls['pricing']).addControl('type',
-      new FormControl(type));
-    this.pricingType = (<FormGroup>this.components.controls['pricing']).controls['type'];
   }
-
 
   cancel() {
     this.dialogRef.close();
   }
 
   save(tenant) {
-    // Show
-    this.spinnerService.show();
-
+    // Clear inactive type
+    for (const component in tenant.components) {
+      if (tenant.components.hasOwnProperty(component)) {
+        if (!tenant.components[component].active) {
+          tenant.components[component].type = null;
+        }
+      }
+    }
+    console.log(tenant);
     if (this.currentTenant.id) {
       // update existing tenant
       this._updateTenant(tenant);
@@ -118,18 +140,8 @@ export class TenantDialogComponent implements OnInit {
     }
   }
 
-  updatePricingType() {
-    if (this.components.get('pricing').get('active').value) {
-      this.selectedPricing = 'simple';
-    } else {
-      this.selectedPricing = '';
-    }
-    this.pricingType.setValue(this.selectedPricing);
-    this.components.get('pricing').updateValueAndValidity();
-    this.formGroup.markAsTouched();
-  }
-
   private _createTenant(tenant) {
+    this.spinnerService.show();
     this.centralServerService.createTenant(tenant).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
@@ -147,6 +159,7 @@ export class TenantDialogComponent implements OnInit {
   }
 
   private _updateTenant(tenant) {
+    this.spinnerService.show();
     this.centralServerService.updateTenant(tenant).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {

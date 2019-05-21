@@ -621,9 +621,14 @@ export interface SacSettings {
   links: SacLink[];
 }
 
+export enum RefundSettingsType {
+  concur = 'concur'
+}
+
 export interface RefundSettings {
   id?: string;
   identifier: ComponentEnum.REFUND;
+  type: RefundSettingsType;
   concur?: {
     authenticationUrl: string;
     apiUrl: string;

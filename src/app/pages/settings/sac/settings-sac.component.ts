@@ -43,8 +43,10 @@ export class SettingsSacComponent implements OnInit {
     // build form
     this.formGroup = new FormGroup({
       'mainUrl': new FormControl('',
-        Validators.pattern(Constants.URL_PATTERN)),
-      'timezone': new FormControl('')
+        Validators.compose([
+          Validators.pattern(Constants.URL_PATTERN)
+        ])),
+      'timezone': new FormControl('', Validators.required)
     });
     this.mainUrl = this.formGroup.controls['mainUrl'];
     this.timezone = this.formGroup.controls['timezone'];

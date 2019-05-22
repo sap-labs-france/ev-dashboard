@@ -891,6 +891,9 @@
       "sac": "Analytics"
     },
     "ocpi": {
+      "gireve": {
+        "title": "Gireve"
+      },
       "setting_do_not_exist": "OCPI Settings not found",
       "setting_not_found": "OCPI Settings not found",
       "create_success": "OCPI settings have been created successfully",
@@ -947,6 +950,9 @@
       }
     },
     "sac": {
+      "sac": {
+        "title": "SAP Analytics"
+      },
       "setting_do_not_exist": "SAP Analytics Cloud Settings not found",
       "setting_not_found": "SAP Analytics Cloud Settings not found",
       "create_success": "SAP Analytics Cloud settings have been created successfully",
@@ -1016,8 +1022,8 @@
     "failed": "Failed"
   },
   "ocpi": {
-    "gireve": "Gireve",
     "title": "Roaming",
+    "type_placeholder": "Type",
     "emsps": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
@@ -1049,7 +1055,8 @@
     }
   },
   "sac": {
-    "title": "SAP Analytics",
+    "title": "Analytics",
+    "type_placeholder": "Type",
     "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
     "timezone": "Timezone used in SAP Analytics Cloud",
@@ -1065,6 +1072,7 @@
   },
   "refund": {
     "title": "Refunding",
+    "type_placeholder": "Type",
     "description": "Refunding Interface"
   },
   "pricing": {
@@ -1229,4 +1237,3 @@
     "action": "Recommended action"
   }
 }
-

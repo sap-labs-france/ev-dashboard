@@ -145,6 +145,27 @@ export class ComponentService {
     }
   }
 
+  public saveSacSettings(settings: SacSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.SAC,
+      'content': JSON.parse(JSON.stringify(settings))
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    console.log(settingsToSave);
+    // Save
+    if (!settings.id) {
+      // Create
+      return this.centralServerService.createSetting(settingsToSave);
+    } else {
+      // Update
+      return this.centralServerService.updateSetting(settingsToSave);
+    }
+  }
+
   public getOcpiSettings(): Observable<OcpiSettings> {
     return new Observable((observer) => {
       const ocpiSettings = {
@@ -155,12 +176,9 @@ export class ComponentService {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
-          // ID
-          ocpiSettings.id = settings.result[0].id;
           // Set
-          ocpiSettings.country_code = config.country_code;
-          ocpiSettings.party_id = config.party_id;
-          ocpiSettings.business_details = config.business_details;
+          ocpiSettings.id = settings.result[0].id;
+          ocpiSettings.gireve = config.gireve;
         }
         observer.next(ocpiSettings);
         observer.complete();
@@ -180,12 +198,9 @@ export class ComponentService {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
-          // ID
-          sacSettings.id = settings.result[0].id;
           // Set
-          sacSettings.mainUrl = config.mainUrl;
-          sacSettings.timezone = config.timezone;
-          sacSettings.links = config.links;
+          sacSettings.id = settings.result[0].id;
+          sacSettings.sac = config.sac;
         }
         observer.next(sacSettings);
         observer.complete();

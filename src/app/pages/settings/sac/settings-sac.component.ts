@@ -9,7 +9,7 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {Utils} from 'app/utils/Utils';
 import {ComponentEnum, ComponentService} from '../../../services/component.service';
 import {SacLinksDataSource} from './sac-links/settings-sac-links-source-table';
-import { SacSettings } from 'app/common.types';
+import { SacSettings, SacSettingsType } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-sac',
@@ -48,7 +48,6 @@ export class SettingsSacComponent implements OnInit {
     });
     this.mainUrl = this.formGroup.controls['mainUrl'];
     this.timezone = this.formGroup.controls['timezone'];
-
     this.loadConfiguration();
   }
 
@@ -56,32 +55,31 @@ export class SettingsSacComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getSacSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Init form
-      this.formGroup.markAsPristine();
       // Default
       if (!settings) {
         settings = {
           'identifier': ComponentEnum.SAC,
-          'mainUrl': '',
-          'timezone': '',
-          'links': []
+          'type': SacSettingsType.sac,
+          'sac': {
+            'mainUrl': '',
+            'timezone': '',
+            'links': []
+          }
         };
       }
       // Keep
       this.sacSettings = settings;
       // get SAC Main Url
-      this.mainUrl.setValue(settings.mainUrl);
+      this.mainUrl.setValue((settings.sac ? settings.sac.mainUrl : ''));
       // set SAC Links Data Source
-      this.sacLinksDataSource.setSacLinks(settings.links, this.formGroup);
-      this.sacLinksDataSource.refreshData().subscribe();
-
+      this.sacLinksDataSource.setSacLinks(settings.sac ? settings.sac.links : [], this.formGroup);
+      this.sacLinksDataSource.loadData().subscribe();
       // get timezone
-      if (settings.timezone && settings.timezone.length > 0) {
-        this.timezone.setValue(settings.timezone);
-      } else {
-        this.timezone.setValue(moment.tz.guess());
-        this.formGroup.markAsDirty();
+      if (settings.sac && settings.sac.timezone && settings.sac.timezone.length > 0) {
+        this.timezone.setValue(settings.sac.timezone);
       }
+      // Init form
+      this.formGroup.markAsPristine();
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -103,90 +101,30 @@ export class SettingsSacComponent implements OnInit {
   public save(content) {
     // add links to content
     content.links = this.sacLinksDataSource.getSacLinks();
-    // create or update
-    if (this.sacSettings.id) {
-      this.updateSACConfiguration(content);
-    } else {
-      this.createSACConfiguration(content);
-    }
-  }
-
-  private createSACConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': null,
-      'identifier': ComponentEnum.SAC,
-      'content': content
-    };
-
-    // Show
+    this.sacSettings.sac = content;
+    this.sacSettings.type = SacSettingsType.sac;
+    console.log(this.sacSettings);
+    // Save
     this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.createSetting(setting).subscribe(response => {
-      // Hide
+    this.componentService.saveSacSettings(this.sacSettings).subscribe((response) => {
       this.spinnerService.hide();
-      // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.sac.create_success');
-        // Refresh
+        this.messageService.showSuccessMessage(
+          (!this.sacSettings.id ? 'settings.sac.create_success' : 'settings.sac.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.sac.create_error');
+          this.messageService, (!this.sacSettings.id ? 'settings.sac.create_error' : 'settings.sac.update_error'));
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Setting deleted
         case 550:
-          // Show error
           this.messageService.showErrorMessage('settings.sac.setting_do_not_exist');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.sac.create_error');
-      }
-    });
-  }
-
-  private updateSACConfiguration(content) {
-    // build setting payload
-    const setting = {
-      'id': this.sacSettings.id,
-      'identifier': ComponentEnum.SAC,
-      'content': content
-    };
-    // Show
-    this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.updateSetting(setting).subscribe(response => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.sac.update_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.sac.update_error');
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Setting deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('settings.sac.setting_do_not_exist');
-          break;
-        default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.sac.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            (!this.sacSettings.id ? 'settings.sac.create_error' : 'settings.sac.update_error'));
       }
     });
   }

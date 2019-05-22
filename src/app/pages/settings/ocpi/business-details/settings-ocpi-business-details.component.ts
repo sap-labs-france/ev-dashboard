@@ -7,7 +7,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
 import { Constants } from '../../../../utils/Constants';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
-import { OcpiSettings } from 'app/common.types';
+import { OcpiSettings, OcpiSettingsType } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -112,45 +112,50 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Init form
-      this.formGroup.markAsPristine();
       // Default
       if (!settings) {
         settings = {
-          'country_code': '',
           'identifier': ComponentEnum.OCPI,
-          'party_id': '',
-          'business_details': {
-            'name': '',
-            'website': '',
-            'logo': {
-              'url': '',
-              'thumbnail': '',
-              'category': '',
-              'type': '',
-              'width': undefined,
-              'height': undefined
-            },
+          'type': OcpiSettingsType.gireve,
+          'gireve' : {
+            'country_code': '',
+            'party_id': '',
+            'business_details': {
+              'name': '',
+              'website': '',
+              'logo': {
+                'url': '',
+                'thumbnail': '',
+                'category': '',
+                'type': '',
+                'width': undefined,
+                'height': undefined
+              },
+            }
           }
         };
       }
       // Keep
       this.ocpiSettings = settings;
       // business details - CPO identifier
-      this.country_code.setValue(settings.country_code);
-      this.party_id.setValue(settings.party_id);
-      const businessDetails = settings.business_details;
-      this.name.setValue(businessDetails.name);
-      this.website.setValue(businessDetails.website);
-      if (businessDetails.logo) {
-        const logo = businessDetails.logo;
-        this.logo_url.setValue(logo.url);
-        this.logo_thumbnail.setValue(logo.thumbnail);
-        this.logo_category.setValue(logo.category);
-        this.logo_type.setValue(logo.type);
-        this.logo_width.setValue(logo.width);
-        this.logo_height.setValue(logo.height);
+      this.country_code.setValue(settings.gireve.country_code);
+      this.party_id.setValue(settings.gireve.party_id);
+      const businessDetails = settings.gireve.business_details;
+      if (businessDetails) {
+        this.name.setValue(businessDetails.name);
+        this.website.setValue(businessDetails.website);
+        if (businessDetails.logo) {
+          const logo = businessDetails.logo;
+          this.logo_url.setValue(logo.url);
+          this.logo_thumbnail.setValue(logo.thumbnail);
+          this.logo_category.setValue(logo.category);
+          this.logo_type.setValue(logo.type);
+          this.logo_width.setValue(logo.width);
+          this.logo_height.setValue(logo.height);
+        }
       }
+      // Init form
+      this.formGroup.markAsPristine();
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -170,16 +175,8 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   }
 
   public save(content) {
-    console.log('content');
-    console.log(content);
-    // Set the content
-    for (const key in content) {
-      if (content.hasOwnProperty(key)) {
-        this.ocpiSettings[key] = content[key];
-      }
-    }
-    console.log('ocpiSettings');
-    console.log(this.ocpiSettings);
+    this.ocpiSettings.gireve = content;
+    this.ocpiSettings.type = OcpiSettingsType.gireve;
     // Save
     this.spinnerService.show();
     this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {

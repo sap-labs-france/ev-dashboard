@@ -41,14 +41,14 @@ export class TenantDialogComponent implements OnInit {
   public ocpiTypes = [
     {
       key: 'gireve',
-      description: 'settings.refund.ocpi.gireve'
+      description: 'settings.ocpi.gireve.title'
     }
   ];
 
-  public analyticsTypes = [
+  public sacTypes = [
     {
       key: 'sac',
-      description: 'settings.refund.sac.title'
+      description: 'settings.sac.sac.title'
     }
   ];
 
@@ -122,7 +122,7 @@ export class TenantDialogComponent implements OnInit {
   }
 
   save(tenant) {
-    // Clear inactive type
+    // Clear Type of inactive tenants
     for (const component in tenant.components) {
       if (tenant.components.hasOwnProperty(component)) {
         if (!tenant.components[component].active) {
@@ -130,7 +130,6 @@ export class TenantDialogComponent implements OnInit {
         }
       }
     }
-    console.log(tenant);
     if (this.currentTenant.id) {
       // update existing tenant
       this._updateTenant(tenant);

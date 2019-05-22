@@ -594,9 +594,11 @@ export interface PricingSettings {
   }
 }
 
-export interface OcpiSettings {
-  id?: string;
-  identifier: ComponentEnum.OCPI;
+export enum OcpiSettingsType {
+  gireve = 'gireve'
+}
+
+export interface OcpiCommon {
   country_code: string;
   party_id: string;
   business_details: {
@@ -613,12 +615,26 @@ export interface OcpiSettings {
   }
 }
 
+export interface OcpiSettings {
+  id?: string;
+  identifier: ComponentEnum.OCPI;
+  type: OcpiSettingsType;
+  gireve: OcpiCommon;
+}
+
+export enum SacSettingsType {
+  sac = 'sac'
+}
+
 export interface SacSettings {
   id?: string;
   identifier: ComponentEnum.SAC;
-  mainUrl: string;
-  timezone: string;
-  links: SacLink[];
+  type: SacSettingsType,
+  sac: {
+    mainUrl: string;
+    timezone: string;
+    links: SacLink[];
+  }
 }
 
 export enum RefundSettingsType {

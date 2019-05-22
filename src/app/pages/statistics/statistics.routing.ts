@@ -8,7 +8,7 @@ export const StatisticsRoutes: Routes = [
   {
     path: '', component: StatisticsComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Constants.ENTITY_LOGGINGS,
+        entity: Constants.ENTITY_TRANSACTIONS,
         action: Constants.ACTION_LIST
       }
     }

@@ -1,49 +1,85 @@
 <div class="card">
-    <div class="card-header card-icon">
+    <div class="card-header card-header-icon card-header-primary">
+      <div class="card-icon">
+        <mat-icon>ev_station</mat-icon>
+      </div>
 
-        <h2 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h2>
-
-        <mat-form-field>
-            <mat-label>{{'statistics.transactions_years' | translate}}</mat-label>
-                <mat-select [(value)]="selectedYear" (selectionChange)="setYear()">
-                  <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-        <span class="toolbar-spacer"></span>
-
-        <h2 class="card-title" *ngIf=!!selectedYear>{{chartTitle}}</h2>
-
-
-        <button mat-raised-button *ngIf=!!selectedYear 
-            class="button-refresh" (click)="refresh()"
-            appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
-            <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
-                <div class="loader"></div>
-            </div>
-            <div *ngIf="!ongoingRefresh" class="refresh-icon">
-                <mat-icon>refresh</mat-icon>{{'general.refresh' | translate}}
-            </div>    
-        </button>
+      <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
+      <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number}} {{'statistics.charger_kw_h' | translate}}</h3>
 
     </div>
-        
-    <div class="card-body"> 
-        <canvas #consumptionBarChart></canvas>
+ 
+    <div class="card-body">
 
+        <!-- Toolbar -->
+        <div class="mat-toolbar">
+            <!-- Actions  -->
+            <div class="left-actions d-flex flex-row mat-toolbar-row ">
+                <!-- Create Left Actions -->
+                <!-- Reset Filters -->
+                <button mat-raised-button (click)="resetFilters()"
+                        [color]="'primary'" appTooltip="" data-placement="bottom"
+                        data-toggle="tooltip" [title]="'general.reset_filters' | translate">
+                    <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
+                </button>
+  
+                <!-- Spacer -->
+                <span class="toolbar-spacer"></span>
+  
+                <!-- Create Right Actions -->
+                <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+                <!-- Refresh -->
+                    <button mat-raised-button 
+                            class="button-refresh" (click)="refresh()"
+                            [color]="'primary'"
+                            appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
+                        <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
+                            <div class="loader"></div>
+                        </div>
+                        <div *ngIf="!ongoingRefresh" class="refresh-icon">
+                            <mat-icon>refresh</mat-icon>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- filters -->
+            <mat-form-field>    
+                <mat-label>{{'statistics.transactions_years' | translate}}</mat-label>
+                <mat-select [(value)]="selectedYear" (selectionChange)="setYear()">
+                <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+        </div>
+    </div>    
+</div>
+<div class="card">
+    <div class="card-header card-header-icon card-header-primary"></div>
+    <div class="card-body">      
+        <canvas #consumptionBarChart></canvas>
+<!--     
         <button mat-raised-button *ngIf=!!selectedYear
             (click)="toggleHideBarItems()">
             {{'statistics.legend_select_unselect_all' | translate}}
         </button>
-        <span class="toolbar-spacer"></span>
+    -->
+    </div>
+</div>    
+    <!--    <span class="toolbar-spacer"></span> -->
 
+<div class="card">
+    <div class="card-header card-header-icon card-header-primary"></div>
+    <div class="card-body">
         <canvas #consumptionPieChart></canvas>
-
+<!--
         <button mat-raised-button *ngIf=!!selectedYear
             (click)="toggleHidePieItems()">
             {{'statistics.legend_select_unselect_all' | translate}}
         </button>
-
+    -->
     </div> 
 
 </div>

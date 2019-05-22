@@ -82,7 +82,7 @@ export const AppRoutes: Routes = [
             path: '/statistics'
           },
           auth: {
-            entity: Constants.ENTITY_LOGGINGS,
+            entity: Constants.ENTITY_TRANSACTIONS,
             action: Constants.ACTION_LIST
           }
         }

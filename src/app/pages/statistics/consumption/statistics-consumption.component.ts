@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
 import { SpinnerService } from 'app/services/spinner.service';
+import { LocaleService } from 'app/services/locale.service';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -99,7 +100,10 @@ export class StatisticsConsumptionComponent implements OnInit {
       fontSize: titleFontSize
     };
 
-    chartOptions['legend'] = { position: 'bottom' };
+    chartOptions['legend'] = {
+      display: false,
+      position: 'bottom'
+    };
 
     chartOptions['plugins'] = {};
     chartOptions['plugins']['datalabels'] = {
@@ -125,13 +129,23 @@ export class StatisticsConsumptionComponent implements OnInit {
         //        return context.dataset.data[context.dataIndex] > maxValue
         return context.dataset.data[context.dataIndex] > 0
       },
-      font: { weight: 'bold' },
+      //      font: { weight: 'bold' },
       formatter: Math.round
     };
 
     chartOptions['animation'] = {
       duration: 2000,
       easing: 'easeOutBounce'
+    };
+
+    chartOptions['tooltips'] = {
+      enabled: true,
+      callbacks: {
+        label: (tooltipItem, data) => {
+          return data.datasets[tooltipItem.datasetIndex].label + ' : ' +
+            data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+        }
+      }
     };
 
     chartOptions['scales'] = {
@@ -151,16 +165,21 @@ export class StatisticsConsumptionComponent implements OnInit {
             display: true,
             labelString: labelYAxis,
             fontStyle: 'bold'
+          },
+          ticks: {
+            beginAtZero: true,
+            callback: (value, index, values) => {
+              return value.toLocaleString();
+            }
           }
-        }],
-      ticks: { beginAtZero: true }
+        }]
     }
 
     return chartOptions;
   }
 
   updateBarOptions(): void {
-    let maxValue = 0;
+    let minValue = 0;
     let amount = this.barChartData.datasets.length;
     if (amount > 1) { amount -= 1 } else { amount = 1 }
     let number;
@@ -171,20 +190,22 @@ export class StatisticsConsumptionComponent implements OnInit {
         for (let i = 0; i < dataset.data.length; i++) {
           number = dataset.data[i];
           if (typeof (number) === 'number') {
-            if (number > maxValue) { maxValue = number }
+            if (number > minValue) { minValue = number }
           }
         };
       }
     });
-    maxValue = maxValue / amount / 2
+    minValue = minValue / amount / 2
 
     this.barChartOptions['plugins']['datalabels'] = {
       color: 'black',
       display: (context) => {
-        return context.dataset.data[context.dataIndex] > maxValue
+        return context.dataset.data[context.dataIndex] > minValue
       },
-      font: { weight: 'bold' },
-      formatter: Math.round
+      //      font: { weight: 'bold' },
+      formatter: (value, context) => {
+        return Math.round(value).toLocaleString();
+      }
     };
   }
 
@@ -198,9 +219,10 @@ export class StatisticsConsumptionComponent implements OnInit {
       fontSize: titleFontSize
     };
 
-    chartOptions['tooltips'] = { enabled: true };
-
-    chartOptions['legend'] = { position: 'bottom' };
+    chartOptions['legend'] = {
+      display: false,
+      position: 'bottom'
+    };
 
     chartOptions['plugins'] = {};
     chartOptions['plugins']['datalabels'] = {
@@ -226,8 +248,6 @@ export class StatisticsConsumptionComponent implements OnInit {
         //        return context.dataset.data[context.dataIndex] > maxValue
         return context.dataset.data[context.dataIndex] > 0
       },
-      font: { weight: 'bold' },
-      formatter: Math.round
     };
 
     chartOptions['animation'] = {
@@ -235,11 +255,21 @@ export class StatisticsConsumptionComponent implements OnInit {
       easing: 'easeOutBounce'
     };
 
+    chartOptions['tooltips'] = {
+      enabled: true,
+      callbacks: {
+        label: (tooltipItem, data) => {
+          return data.labels[tooltipItem.index] + ' : ' +
+            data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+        }
+      }
+    };
+
     return chartOptions;
   }
 
   updatePieOptions(): void {
-    let maxValue = 0;
+    let minValue = 0;
     let amount = 0;
     let number;
 
@@ -248,22 +278,24 @@ export class StatisticsConsumptionComponent implements OnInit {
         for (let i = 0; i < dataset.data.length; i++) {
           number = dataset.data[i];
           if (typeof (number) === 'number') {
-            maxValue = maxValue + number;
+            minValue = minValue + number;
           }
         }
         amount += dataset.data.length;
       }
     });
     if (amount < 1) { amount = 1 }
-    maxValue = maxValue / amount / 2
+    minValue = minValue / amount / 2
 
     this.pieChartOptions['plugins']['datalabels'] = {
       color: 'black',
       display: (context) => {
-        return context.dataset.data[context.dataIndex] > maxValue
+        return context.dataset.data[context.dataIndex] > minValue
       },
-      font: { weight: 'bold' },
-      formatter: Math.round
+      //      font: { weight: 'bold' },
+      formatter: (value, context) => {
+        return Math.round(value).toLocaleString();
+      }
     };
 
   }
@@ -306,10 +338,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   createChartTitle(selectedYear: number, totalConsumption: number): string {
-
-    return this.translateService.instant('statistics.total_consumption_year', { year: selectedYear }) + ': '
-      + totalConsumption + ' '
-      + this.translateService.instant('statistics.charger_kw_h');
+    return this.translateService.instant('statistics.total_consumption_year', { 'year': this.selectedYear })
 
   }
 

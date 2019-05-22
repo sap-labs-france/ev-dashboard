@@ -17,28 +17,28 @@
       <div class="row" style="margin-top: 1em">
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="country_code"
+            <input appSetAutoFocus matInput type="text" [formControl]="countryCode"
               placeholder="{{'ocpi.cpo_country_code' | translate}}" required>
-            <mat-error *ngIf="country_code.errors?.required">{{"general.mandatory_field"
+            <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="country_code.errors?.maxlength">
+            <mat-error *ngIf="countryCode.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
-            <mat-error *ngIf="country_code.errors?.minlength">
+            <mat-error *ngIf="countryCode.errors?.minlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field>
-            <input appSetAutoFocus matInput type="text" [formControl]="party_id"
+            <input appSetAutoFocus matInput type="text" [formControl]="partyID"
               placeholder="{{'ocpi.cpo_party_id' | translate}}" required>
-            <mat-error *ngIf="party_id.errors?.required">{{"general.mandatory_field"
+            <mat-error *ngIf="partyID.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="party_id.errors?.maxlength">
+            <mat-error *ngIf="partyID.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
-            <mat-error *ngIf="party_id.errors?.minlength">
+            <mat-error *ngIf="partyID.errors?.minlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
           </mat-form-field>
@@ -46,7 +46,7 @@
       </div>
 
       <!-- CPO identifier business details -->
-      <legend>{{'ocpi.cpo_business_details' | translate}}</legend>
+      <legend>{{'ocpi.cpo_businessDetails' | translate}}</legend>
       <div class="row">
         <div class="col-md-6">
           <mat-form-field>

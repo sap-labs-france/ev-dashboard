@@ -599,9 +599,9 @@ export enum OcpiSettingsType {
 }
 
 export interface OcpiCommon {
-  country_code: string;
-  party_id: string;
-  business_details: {
+  countryCode: string;
+  partyID: string;
+  businessDetails: {
     name: string;
     website: string;
     logo: {
@@ -619,7 +619,7 @@ export interface OcpiSettings {
   id?: string;
   identifier: ComponentEnum.OCPI;
   type: OcpiSettingsType;
-  gireve: OcpiCommon;
+  ocpi: OcpiCommon;
 }
 
 export enum SacSettingsType {

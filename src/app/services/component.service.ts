@@ -178,7 +178,7 @@ export class ComponentService {
           const config = settings.result[0].content;
           // Set
           ocpiSettings.id = settings.result[0].id;
-          ocpiSettings.gireve = config.gireve;
+          ocpiSettings.ocpi = config.ocpi;
         }
         observer.next(ocpiSettings);
         observer.complete();

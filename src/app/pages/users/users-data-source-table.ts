@@ -85,12 +85,6 @@ export class UsersDataSource extends TableDataSource<User> {
     const columns = [];
     columns.push(
     {
-      id: 'id',
-      name: 'transactions.id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'd-none d-xl-table-cell',
-    },
-    {
       id: 'status',
       name: 'users.status',
       isAngularComponent: true,
@@ -98,6 +92,12 @@ export class UsersDataSource extends TableDataSource<User> {
       headerClass: 'col-10p',
       class: 'col-10p',
       sortable: true
+    },
+    {
+      id: 'id',
+      name: 'transactions.id',
+      headerClass: 'd-none d-xl-table-cell',
+      class: 'd-none d-xl-table-cell',
     },
     {
       id: 'role',

@@ -5,8 +5,14 @@ import { TranslateService } from '@ngx-translate/core';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
+import { KeyValue, Site, SiteArea, Charger, User } from '../../../common.types';
 import { SpinnerService } from 'app/services/spinner.service';
 import { LocaleService } from 'app/services/locale.service';
+import { MatDialog, MatSort, MatDialogConfig } from '@angular/material';
+
+
+//import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+// import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -18,9 +24,14 @@ export class StatisticsConsumptionComponent implements OnInit {
   public ongoingRefresh = false;
   public transactionYears: number[];
   public selectedYear: number;
-  public consumptionBarChart: any; // Chart; does not know options!
-  public consumptionPieChart: any; // Chart;
+  public selectedSite: Site;
+  public selectedSiteArea: SiteArea;
+  public selectedCharger: Charger;
+  public selectedUser: User;
+  public consumptionBarChart: Chart;
+  public consumptionPieChart: Chart;
 
+  private firstSite: Site;
   private totalConsumption = 0;
   private nameTotalsLabel: string;
   private barChartOptions: ChartOptions;
@@ -36,7 +47,8 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   constructor(public spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
-    private translateService: TranslateService) { };
+    private translateService: TranslateService,
+    private dialog: MatDialog) { };
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -55,6 +67,111 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.buildChart(this.selectedYear);
   }
 
+  showDialogTableFilter(id: string) {
+    console.log('show: ', id);
+
+    // Disable outside click close
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    // Set Validate button title to 'Set Filter'
+    dialogConfig.data = {
+      validateButtonTitle: 'general.set_filter'
+    };
+    // Render the Dialog Container transparent
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Show
+    switch (id) {
+      case 'charger':
+        const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
+        // Add sites
+        dialogRef.afterClosed().subscribe(data => {
+          if (data) {
+            this.selectedCharger = data;
+            //        this.filterChanged(filterDef);
+          }
+        });
+    }
+  }
+
+  resetDialogTableFilter(id: string, update = true): boolean {
+    let filtersChanged = false;
+
+    console.log('reset:', id);
+
+    switch (id) {
+      case 'sites':
+        if (this.selectedSite !== this.firstSite) {
+          filtersChanged = true;
+          this.selectedSite = this.firstSite;
+        }
+        break;
+      case 'siteAreas':
+        if (this.selectedSiteArea) {
+          if (this.selectedSiteArea.id !== '') {
+            filtersChanged = true;
+            this.selectedSiteArea.id = '';
+          }
+          this.selectedSiteArea.name = '';
+        }
+        break;
+      case 'charger':
+        if (this.selectedCharger) {
+          if (this.selectedCharger.id !== '') {
+            filtersChanged = true;
+            this.selectedCharger.id = '';
+          }
+        }
+        break;
+      case 'user':
+        if (this.selectedUser) {
+          if (this.selectedUser.id !== '') {
+            filtersChanged = true;
+            this.selectedUser.id = '';
+          }
+          this.selectedUser.name = '';
+        }
+        break;
+    }
+
+    if (filtersChanged && update) {
+      this.buildChart(this.selectedYear);
+    }
+
+    return filtersChanged
+  }
+
+  resetFilters() {
+    let filtersChanged = false;
+    const oldYear = this.selectedYear;
+    let dialogFilterChanged = false;
+
+    this.selectedYear = new Date().getFullYear();
+    if (oldYear !== this.selectedYear) {
+      filtersChanged = true;
+    }
+
+    dialogFilterChanged = this.resetDialogTableFilter('sites', false);
+    if (dialogFilterChanged) {
+      filtersChanged = true;
+    }
+
+    dialogFilterChanged = this.resetDialogTableFilter('siteAreas', false);
+    if (dialogFilterChanged) {
+      filtersChanged = true;
+    }
+    dialogFilterChanged = this.resetDialogTableFilter('charger', false);
+    if (dialogFilterChanged) {
+      filtersChanged = true;
+    }
+    dialogFilterChanged = this.resetDialogTableFilter('user', false);
+    if (dialogFilterChanged) {
+      filtersChanged = true;
+    }
+
+    if (filtersChanged) {
+      this.buildChart(this.selectedYear);
+    }
+  }
 
   initChart(contextBar: ElementRef, contextPie: ElementRef): void {
 
@@ -326,12 +443,18 @@ export class StatisticsConsumptionComponent implements OnInit {
       // recognized by compiler, but by browser!) => solved by type 'any' instead of 'Chart'
       // 2nd problem: in Promise processing or in Observable callback, animation is skipped for each new chart
       // => solved by initializing charts before Promise processing
+      let anyChart: any;
 
       this.updateBarOptions();
-      this.consumptionBarChart.options = this.barChartOptions;
+      anyChart = this.consumptionBarChart;
+      anyChart.options = this.barChartOptions;
+      this.consumptionBarChart = anyChart;
       this.updateChart(this.consumptionBarChart, this.barChartData);
+
       this.updatePieOptions();
-      this.consumptionPieChart.options = this.pieChartOptions;
+      anyChart = this.consumptionPieChart;
+      anyChart.options = this.pieChartOptions;
+      this.consumptionPieChart = anyChart;
       this.updateChart(this.consumptionPieChart, this.pieChartData)
 
     });
@@ -389,14 +512,6 @@ export class StatisticsConsumptionComponent implements OnInit {
           this.barChartData.datasets = [];
         }
 
-        if (!this.pieChartData.labels) {
-          this.pieChartData.labels = [];
-        }
-
-        if (!this.pieChartData.datasets) {
-          this.pieChartData.datasets = [];
-        }
-
         // now for all chargers:
         for (const key in consumptionValue) {
           if (key !== monthLabel) {
@@ -419,36 +534,6 @@ export class StatisticsConsumptionComponent implements OnInit {
               numberArray = this.barChartData.datasets[dataSetIndex].data;
               numberArray.push(consumptionValue[key]);
               this.barChartData.datasets[dataSetIndex].data = numberArray;
-            }
-
-
-            dataSetIndex = this.pieChartData.labels.findIndex((element) => element === key);
-
-            if (dataSetIndex < 0) {
-              this.pieChartData.labels.push(key);
-
-              //            numberArray = [];
-              //            numberArray.push(consumptionValue[key]);
-              //            this.pieChartData.datasets.push({ 'label': key, 'data': numberArray });
-              //          } else {
-              //            numberArray = this.pieChartData.datasets[dataSetIndex].data;
-              //            numberArray[0] += consumptionValue[key];
-              //            this.pieChartData.datasets[dataSetIndex].data = numberArray;
-              //          }
-
-              if (this.pieChartData.datasets.length === 0) {
-                numberArray = [];
-                numberArray.push(consumptionValue[key]);
-                this.pieChartData.datasets.push({ 'data': numberArray });
-              } else {
-                numberArray = this.pieChartData.datasets[0].data;
-                numberArray.push(consumptionValue[key]);
-                this.pieChartData.datasets[0].data = numberArray;
-              }
-            } else {
-              numberArray = this.pieChartData.datasets[0].data;
-              numberArray[dataSetIndex] += consumptionValue[key];
-              this.pieChartData.datasets[0].data = numberArray;
             }
 
             totalValuePerMonth += consumptionValue[key];
@@ -474,7 +559,50 @@ export class StatisticsConsumptionComponent implements OnInit {
         totalValue += totalValuePerMonth;
       });
 
-      // Last dataset for totals:
+      // sort bar chart datasets by label name:
+      this.barChartData.datasets.sort((obj1, obj2) => {
+        if (obj1['label'] < obj2['label']) {
+          return -1
+        } else {
+          if (obj1['label'] > obj2['label']) {
+            return 1
+          } else {
+            return 0
+          }
+        }
+      });
+
+      // now build pie chart from sorted bar chart data:
+      if (!this.pieChartData.labels) {
+        this.pieChartData.labels = [];
+      }
+
+      if (!this.pieChartData.datasets) {
+        this.pieChartData.datasets = [];
+      }
+
+      this.barChartData.datasets.forEach((obj) => {
+        let sum = 0;
+        let numberArray = [];
+        this.pieChartData.labels.push(obj['label']);
+        sum = 0;
+        numberArray = obj['data'];
+        numberArray.forEach((data) => {
+          sum += data;
+        })
+        if (this.pieChartData.datasets.length === 0) {
+          numberArray = [];
+          numberArray.push(sum);
+          this.pieChartData.datasets.push({ 'data': numberArray });
+        } else {
+          numberArray = this.pieChartData.datasets[0].data;
+          numberArray.push(sum);
+          this.pieChartData.datasets[0].data = numberArray;
+        }
+      });
+
+
+      // Last bar chart dataset for totals:
       this.barChartData.datasets.push({ 'label': totalLabel, 'data': totalDataArray });
 
       this.totalConsumption = Math.round(this.totalConsumption);

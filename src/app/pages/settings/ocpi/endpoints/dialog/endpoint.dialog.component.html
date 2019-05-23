@@ -16,8 +16,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.name' | translate}}" type="text"
                         [formControl]="name" required>
-                      <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field"
-                                                    | translate}}</mat-error>
+                      <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="name.errors?.maxlength">
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
                       </mat-error>
@@ -30,8 +29,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
                         type="text" [formControl]="baseUrl" required>
-                      <mat-error *ngIf="baseUrl.errors?.required">{{"general.mandatory_field"
-                                                    | translate}}</mat-error>
+                      <mat-error *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="baseUrl.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
@@ -44,8 +42,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.countryCode' | translate}}"
                         type="text" [formControl]="countryCode">
-                      <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field"
-                                                    | translate}}</mat-error>
+                      <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="countryCode.errors?.maxlength">
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
                       </mat-error>
@@ -60,8 +57,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'ocpiendpoints.partyId' | translate}}"
                         type="text" [formControl]="partyId">
-                      <mat-error *ngIf="partyId.errors?.required">{{"general.mandatory_field"
-                                                    | translate}}</mat-error>
+                      <mat-error *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="partyId.errors?.maxlength">
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
                       </mat-error>

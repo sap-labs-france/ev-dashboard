@@ -10,7 +10,6 @@ import {TableModule} from '../../shared/table/table.module';
 import {SettingsComponent} from './settings.component';
 import {SettingsRoutes} from './settings.routing';
 import {SettingsOcpiComponent} from './ocpi/settings-ocpi.component';
-import {SettingsOcpiBusinessDetailsComponent} from './ocpi/business-details/settings-ocpi-business-details.component';
 import {SettingsOcpiEndpointsComponent} from './ocpi/endpoints/settings-ocpi.component';
 import {EndpointDialogComponent} from './ocpi/endpoints/dialog/endpoint.dialog.component';
 import {OcpiEndpointStatusComponent} from './ocpi/endpoints/formatters/ocpi-status.component';
@@ -62,7 +61,6 @@ import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
     SettingsSacComponent,
     OcpiJobResultComponent,
     AnalyticsLinkDialogComponent,
-    SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
     OcpiEndpointStatusComponent,

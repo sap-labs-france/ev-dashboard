@@ -496,11 +496,6 @@ export class AuthorizationService {
     // Create Auth
     const auth = this.getAuthorization();
     // Check
-    if (auth.check(entity, fieldNamesValues)) {
-      // Authorized!
-      return true;
-    } else {
-      return false;
-    }
+    return auth && auth.check(entity, fieldNamesValues);
   }
 }

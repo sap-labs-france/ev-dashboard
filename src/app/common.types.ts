@@ -262,6 +262,7 @@ export interface Tenant {
   name: string;
   email: string;
   subdomain: string;
+  components?: any;
 }
 
 export interface TenantResult {

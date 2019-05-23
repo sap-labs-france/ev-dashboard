@@ -768,6 +768,7 @@
     }
   },
   "users": {
+    "id": "Id",
     "tabs": {
       "list": "Users",
       "in_error": "In Error"

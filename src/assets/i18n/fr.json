@@ -769,6 +769,7 @@
     }
   },
   "users": {
+    "id": "Id",
     "tabs": {
       "list": "Utilisateurs",
       "in_error": "En Erreur"

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CentralServerService} from './central-server.service';
 // tslint:disable-next-line:max-line-length
-import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings, ActionResponse, RefundSettingsType } from 'app/common.types';
+import { PricingSettings, PricingSettingsType, OcpiSettings, AnalyticsSettings, RefundSettings, ActionResponse, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 
 export enum ComponentEnum {
@@ -9,7 +9,7 @@ export enum ComponentEnum {
   ORGANIZATION = 'organization',
   PRICING = 'pricing',
   REFUND = 'refund',
-  SAC = 'sac'
+  ANALYTICS = 'analytics'
 }
 
 @Injectable()
@@ -112,8 +112,6 @@ export class ComponentService {
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
-    console.log('saveRefundSettings');
-    console.log(settingsToSave);
     // Save
     if (!settings.id) {
       // Create
@@ -134,7 +132,6 @@ export class ComponentService {
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
-    console.log(settingsToSave);
     // Save
     if (!settings.id) {
       // Create
@@ -145,17 +142,16 @@ export class ComponentService {
     }
   }
 
-  public saveSacSettings(settings: SacSettings): Observable<ActionResponse> {
+  public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {
       'id': settings.id,
-      'identifier': ComponentEnum.SAC,
+      'identifier': ComponentEnum.ANALYTICS,
       'content': JSON.parse(JSON.stringify(settings))
     };
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
-    console.log(settingsToSave);
     // Save
     if (!settings.id) {
       // Create
@@ -188,21 +184,22 @@ export class ComponentService {
     });
   }
 
-  public getSacSettings(): Observable<SacSettings> {
+  public getSacSettings(): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
-      const sacSettings = {
-        identifier: ComponentEnum.SAC
-      } as SacSettings;
+      const analyticsSettings = {
+        identifier: ComponentEnum.ANALYTICS
+      } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.SAC).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentEnum.ANALYTICS).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
           // Set
-          sacSettings.id = settings.result[0].id;
-          sacSettings.sac = config.sac;
+          analyticsSettings.id = settings.result[0].id;
+          analyticsSettings.sac = config.sac;
+          analyticsSettings.links = config.links;
         }
-        observer.next(sacSettings);
+        observer.next(analyticsSettings);
         observer.complete();
       }, (error) => {
         observer.error(error);

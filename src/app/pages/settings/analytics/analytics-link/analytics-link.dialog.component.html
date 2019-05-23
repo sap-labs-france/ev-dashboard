@@ -1,4 +1,7 @@
 <div class="main-content">
+  <div style="margin-top: 1em">
+    <legend>{{'analytics.links' | translate}}</legend>
+  </div>
   <div class="card card-profile card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
       <mat-tab>
@@ -10,11 +13,11 @@
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row">
-                <!-- SAC Link - Name -->
+                <!-- Link - Name -->
                 <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'sac.link.name' | translate}}" type="text" [formControl]="name"
+                      <input matInput placeholder="{{'analytics.link.name' | translate}}" type="text" [formControl]="name"
                         required>
                       <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
@@ -24,22 +27,22 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- SAC Link - Description -->
+                <!-- Link - Description -->
                 <div class="col-md-8">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'sac.link.description' | translate}}"
+                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.description' | translate}}"
                         type="text" [formControl]="description" required>
                       <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- SAC Link - Url -->
+                <!-- Link - Url -->
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'sac.link.url' | translate}}" type="text"
+                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.url' | translate}}" type="text"
                         [formControl]="url" required>
                       <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
@@ -60,14 +63,14 @@
         </div>
         <div class="card-footer mat-dialog-actions" align="end">
           <span class="app-spacer"></span>
-          <ng-template [ngIf]="this.currentSacLink.id === ''" [ngIfElse]="update">
-            <button mat-raised-button color="warn" (click)="setLink(formGroup.value)"
+          <ng-template [ngIf]="this.currentLink.id === ''" [ngIfElse]="update">
+            <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
               {{"general.create" | translate}}
             </button>
           </ng-template>
           <ng-template #update>
-            <button mat-raised-button color="warn" (click)="setLink(formGroup.value)"
+            <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
               {{"general.update" | translate}}
             </button>

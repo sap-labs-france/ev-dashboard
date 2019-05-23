@@ -47,10 +47,10 @@ export class TenantDialogComponent implements OnInit {
     }
   ];
 
-  public sacTypes = [
+  public analyticsTypes = [
     {
       key: 'sac',
-      description: 'settings.sac.sac.title'
+      description: 'settings.analytics.sac.title'
     }
   ];
 
@@ -103,7 +103,7 @@ export class TenantDialogComponent implements OnInit {
         'type': new FormControl('')
       }));
     }
-// Load
+    // Load
     this.loadTenant();
   }
 

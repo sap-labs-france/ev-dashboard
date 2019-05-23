@@ -888,7 +888,7 @@
       "ocpi": "Roaming",
       "refund": "Refunding",
       "pricing": "Pricing",
-      "sac": "Analytics"
+      "analytics": "Analytics"
     },
     "ocpi": {
       "gireve": {
@@ -949,18 +949,18 @@
         "currency": "Currency"
       }
     },
-    "sac": {
+    "analytics": {
       "sac": {
-        "title": "SAP Analytics"
+        "title": "SAP Analytics",
+        "settings": "Settings"
       },
-      "setting_do_not_exist": "SAP Analytics Cloud Settings not found",
+      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the session data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
+      "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "SAP Analytics Cloud Settings not found",
       "create_success": "SAP Analytics Cloud settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
-      "update_error": "Error occurred while updating the SAP Analytics Cloud settings",
-      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the session data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
-      "settings": "Settings"
+      "update_error": "Error occurred while updating the SAP Analytics Cloud settings"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."
@@ -1054,7 +1054,7 @@
       "siteareas": "Site Areas"
     }
   },
-  "sac": {
+  "analytics": {
     "title": "Analytics",
     "type_placeholder": "Type",
     "description": "Extended Analytics Interface",

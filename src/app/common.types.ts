@@ -281,13 +281,6 @@ export interface SettingResult {
   result: Setting[]
 }
 
-export interface SacLink {
-  id: number;
-  name: string;
-  description: string;
-  url: string;
-}
-
 export interface OcpiEndpoint {
   id: string;
   name: string;
@@ -623,19 +616,26 @@ export interface OcpiSettings {
   ocpi: OcpiCommon;
 }
 
-export enum SacSettingsType {
+export enum AnalyticsSettingsType {
   sac = 'sac'
 }
 
-export interface SacSettings {
+export interface AnalyticsLink {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+}
+
+export interface AnalyticsSettings {
   id?: string;
-  identifier: ComponentEnum.SAC;
-  type: SacSettingsType,
+  identifier: ComponentEnum.ANALYTICS;
+  type: AnalyticsSettingsType,
   sac: {
     mainUrl: string;
     timezone: string;
-    links: SacLink[];
   }
+  links: AnalyticsLink[];
 }
 
 export enum RefundSettingsType {

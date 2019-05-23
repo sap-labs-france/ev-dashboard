@@ -29,13 +29,14 @@ import {OcpiPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-patc
 import {AppFormatOcpiPatchJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-patch-job-status.component';
 import {SettingsRefundComponent} from './refund/settings-refund.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
-import {SettingsSacComponent} from './sac/settings-sac.component';
-import {SacLinkDialogComponent} from './sac/sac-links/sac-link.dialog.component';
+import {SettingsAnalyticsComponent} from './analytics/settings-analytics.component';
+import {AnalyticsLinkDialogComponent} from './analytics/analytics-link/analytics-link.dialog.component';
+import {AnalyticsLinksDataSource} from './analytics/analytics-link/analytics-links-source-table';
 import {OcpiJobResultComponent} from './ocpi/endpoints/formatters/ocpi-job-result.component';
 import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-job-result.component';
-import { OcpiEndpointDetailDataSource } from './ocpi/endpoints/ocpi-details/ocpi-detail-data-source-table';
-import { EndpointsDataSource } from './ocpi/endpoints/settings-ocpi-source-table';
-import { SacLinksDataSource } from './sac/sac-links/settings-sac-links-source-table';
+import {OcpiEndpointDetailDataSource} from './ocpi/endpoints/ocpi-details/ocpi-detail-data-source-table';
+import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-source-table';
+import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
 
 @NgModule({
   imports: [
@@ -53,9 +54,10 @@ import { SacLinksDataSource } from './sac/sac-links/settings-sac-links-source-ta
     SettingsOcpiComponent,
     SettingsRefundComponent,
     SettingsPricingComponent,
+    SettingsAnalyticsComponent,
     SettingsSacComponent,
     OcpiJobResultComponent,
-    SacLinkDialogComponent,
+    AnalyticsLinkDialogComponent,
     SettingsOcpiBusinessDetailsComponent,
     SettingsOcpiEndpointsComponent,
     EndpointDialogComponent,
@@ -80,8 +82,9 @@ import { SacLinksDataSource } from './sac/sac-links/settings-sac-links-source-ta
     SettingsOcpiComponent,
     SettingsRefundComponent,
     SettingsPricingComponent,
+    SettingsAnalyticsComponent,
     SettingsSacComponent,
-    SacLinkDialogComponent,
+    AnalyticsLinkDialogComponent,
     EndpointDialogComponent,
     OcpiEndpointStatusComponent,
     OcpiDetailJobStatusComponent,
@@ -95,7 +98,7 @@ import { SacLinksDataSource } from './sac/sac-links/settings-sac-links-source-ta
   providers: [
     OcpiEndpointDetailDataSource,
     EndpointsDataSource,
-    SacLinksDataSource
+    AnalyticsLinksDataSource
   ]
 })
 

@@ -1,12 +1,11 @@
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import * as _ from 'lodash';
 
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, SacLink } from 'app/common.types';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, AnalyticsLink } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { FormGroup } from '@angular/forms';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Constants } from 'app/utils/Constants';
@@ -16,13 +15,13 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { DialogService } from 'app/services/dialog.service';
-import { SacLinkDialogComponent } from './sac-link.dialog.component';
+import { AnalyticsLinkDialogComponent } from './analytics-link.dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
-export class SacLinksDataSource extends TableDataSource<SacLink> {
-  private sacLinks: SacLink[];
-  private formGroup: FormGroup;
+export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
+  @Output() changed = new EventEmitter<boolean>();
+  private analyticsLinks: AnalyticsLink[];
 
   constructor(
       public spinnerService: SpinnerService,
@@ -36,26 +35,25 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectSacLinks();
+    return this.centralServerNotificationService.getSubjectAnalyticsLinks();
   }
 
-  public setSacLinks(sacLinks: SacLink[], formGroup: FormGroup) {
-    this.sacLinks = sacLinks ? sacLinks : [];
-    this.formGroup = formGroup;
+  public setLinks(analyticsLinks: AnalyticsLink[]) {
+    this.analyticsLinks = analyticsLinks ? analyticsLinks : [];
   }
 
-  public getSacLinks(): SacLink[] {
-    return this.sacLinks;
+  public getLinks(): AnalyticsLink[] {
+    return this.analyticsLinks;
   }
 
   public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Check
-      if (this.sacLinks) {
-        this.sacLinks = _.orderBy(this.sacLinks, 'name', 'asc');
+      if (this.analyticsLinks) {
+        this.analyticsLinks = _.orderBy(this.analyticsLinks, 'name', 'asc');
         const links = [];
-        for (let index = 0; index < this.sacLinks.length; index++) {
-          const _link = this.sacLinks[index];
+        for (let index = 0; index < this.analyticsLinks.length; index++) {
+          const _link = this.analyticsLinks[index];
           _link.id = index;
           links.push(_link);
         }
@@ -75,7 +73,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
 
   public buildTableDef(): TableDef {
     return {
-      class: 'sac-links-table-list',
+      class: 'analytics-links-table-list',
       search: {
         enabled: false
       },
@@ -93,7 +91,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return [
       {
         id: 'name',
-        name: 'sac.link.name',
+        name: 'analytics.link.name',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
         sorted: true,
@@ -102,14 +100,14 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
       },
       {
         id: 'description',
-        name: 'sac.link.description',
+        name: 'analytics.link.description',
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: false
       },
       {
         id: 'url',
-        name: 'sac.link.url',
+        name: 'analytics.link.url',
         headerClass: 'col-45p',
         class: 'col-45p',
         sortable: false
@@ -137,7 +135,7 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this.showSacLinksDialog();
+        this.showLinksDialog();
         break;
     }
     super.actionTriggered(actionDef);
@@ -146,13 +144,13 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this.showSacLinksDialog(rowItem);
+        this.showLinksDialog(rowItem);
         break;
       case 'delete':
-        this.deleteSacLink(rowItem);
+        this.deleteLink(rowItem);
         break;
       case 'view':
-        this.viewSacLink(rowItem);
+        this.viewLink(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -169,47 +167,47 @@ export class SacLinksDataSource extends TableDataSource<SacLink> {
     return [];
   }
 
-  private showSacLinksDialog(sacLink?: any) {
+  private showLinksDialog(analyticsLink?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (sacLink) {
-      dialogConfig.data = sacLink;
+    if (analyticsLink) {
+      dialogConfig.data = analyticsLink;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SacLinkDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AnalyticsLinkDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // find object
-        const index = _.findIndex(this.sacLinks, { 'id': result.id });
+        const index = _.findIndex(this.analyticsLinks, { 'id': result.id });
         if (index >= 0) {
-          this.sacLinks.splice(index, 1, result);
+          this.analyticsLinks.splice(index, 1, result);
         } else {
-          this.sacLinks.push(result);
+          this.analyticsLinks.push(result);
         }
-        this.formGroup.markAsDirty();
         this.refreshData().subscribe();
+        this.changed.emit(true);
       }
     });
   }
 
-  private deleteSacLink(sacLink) {
+  private deleteLink(analyticsLink) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('sac.delete_title'),
-      this.translateService.instant('sac.delete_confirm', { 'linkName': sacLink.name })
+      this.translateService.instant('analytics.delete_title'),
+      this.translateService.instant('analytics.delete_confirm', { 'linkName': analyticsLink.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.sacLinks, function (o: SacLink) { return (o.id === sacLink.id) });
-        this.formGroup.markAsDirty();
+        _.remove(this.analyticsLinks, function (o: AnalyticsLink) { return (o.id === analyticsLink.id) });
         this.refreshData().subscribe();
+        this.changed.emit(true);
       }
     });
   }
 
-  private viewSacLink(sacLink) {
-    window.open(sacLink.url);
+  private viewLink(analyticsLink) {
+    window.open(analyticsLink.url);
   }
 }

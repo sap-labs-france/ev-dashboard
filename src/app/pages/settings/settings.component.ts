@@ -26,6 +26,6 @@ export class SettingsComponent extends AbstractTabComponent {
     this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);
     this.isRefundActive = this.componentService.isActive(ComponentEnum.REFUND);
     this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
-    this.isSacActive = this.componentService.isActive(ComponentEnum.SAC);
+    this.isSacActive = this.componentService.isActive(ComponentEnum.ANALYTICS);
   }
 }

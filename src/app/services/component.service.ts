@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CentralServerService} from './central-server.service';
-import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings, ActionResponse } from 'app/common.types';
+// tslint:disable-next-line:max-line-length
+import { PricingSettings, PricingSettingsType, OcpiSettings, SacSettings, RefundSettings, ActionResponse, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 
 export enum ComponentEnum {
@@ -77,15 +78,16 @@ export class ComponentService {
     });
   }
 
-  public savePriceSetting(settings: PricingSettings): Observable<ActionResponse> {
+  public savePricingSettings(settings: PricingSettings): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.PRICING,
-      'content': (settings.simple ?
-        {simple: settings.simple} :
-        {convergentCharging: settings.convergentCharging})
+      'content': JSON.parse(JSON.stringify(settings))
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
     // Save
     if (!settings.id) {
       // Create
@@ -96,13 +98,64 @@ export class ComponentService {
     }
   }
 
-  public saveRefundSetting(settings: RefundSettings): Observable<ActionResponse> {
+  public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = RefundSettingsType.concur;
+    }
     // build setting payload
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.REFUND,
-      'content': settings
+      'content': JSON.parse(JSON.stringify(settings))
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    console.log('saveRefundSettings');
+    console.log(settingsToSave);
+    // Save
+    if (!settings.id) {
+      // Create
+      return this.centralServerService.createSetting(settingsToSave);
+    } else {
+      // Update
+      return this.centralServerService.updateSetting(settingsToSave);
+    }
+  }
+
+  public saveOcpiSettings(settings: OcpiSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.OCPI,
+      'content': JSON.parse(JSON.stringify(settings))
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    console.log(settingsToSave);
+    // Save
+    if (!settings.id) {
+      // Create
+      return this.centralServerService.createSetting(settingsToSave);
+    } else {
+      // Update
+      return this.centralServerService.updateSetting(settingsToSave);
+    }
+  }
+
+  public saveSacSettings(settings: SacSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.SAC,
+      'content': JSON.parse(JSON.stringify(settings))
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    console.log(settingsToSave);
     // Save
     if (!settings.id) {
       // Create
@@ -123,12 +176,9 @@ export class ComponentService {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
-          // ID
-          ocpiSettings.id = settings.result[0].id;
           // Set
-          ocpiSettings.country_code = config.country_code;
-          ocpiSettings.party_id = config.party_id;
-          ocpiSettings.business_details = config.business_details;
+          ocpiSettings.id = settings.result[0].id;
+          ocpiSettings.ocpi = config.ocpi;
         }
         observer.next(ocpiSettings);
         observer.complete();
@@ -148,12 +198,9 @@ export class ComponentService {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
-          // ID
-          sacSettings.id = settings.result[0].id;
           // Set
-          sacSettings.mainUrl = config.mainUrl;
-          sacSettings.timezone = config.timezone;
-          sacSettings.links = config.links;
+          sacSettings.id = settings.result[0].id;
+          sacSettings.sac = config.sac;
         }
         observer.next(sacSettings);
         observer.complete();

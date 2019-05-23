@@ -103,9 +103,6 @@ export class SettingsPricingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getPricingSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Init forms
-      this.formGroupConvergentCharging.markAsPristine();
-      this.formGroupSimple.markAsPristine();
       // Keep
       this.pricingSettings = settings;
       // Init with settings
@@ -122,6 +119,9 @@ export class SettingsPricingComponent implements OnInit {
           this.currency.setValue(this.pricingSettings.simple.currency);
         }
       }
+      // Init forms
+      this.formGroupConvergentCharging.markAsPristine();
+      this.formGroupSimple.markAsPristine();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -135,11 +135,20 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   public save(content) {
-    // Set the content
-    this.pricingSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+    // Convergent Charging
+    if (content.convergentCharging) {
+      this.pricingSettings.convergentCharging = content.convergentCharging;
+      this.pricingSettings.type = PricingSettingsType.convergentCharging;
+    // Simple
+    } else if (content.simple) {
+      this.pricingSettings.simple = content.simple;
+      this.pricingSettings.type = PricingSettingsType.simple;
+    } else {
+      return;
+    }
     // Save
     this.spinnerService.show();
-    this.componentService.savePriceSetting(this.pricingSettings).subscribe((response) => {
+    this.componentService.savePricingSettings(this.pricingSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage(

@@ -7,7 +7,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
 import { Constants } from '../../../../utils/Constants';
 import {ComponentEnum, ComponentService} from '../../../../services/component.service';
-import { OcpiSettings } from 'app/common.types';
+import { OcpiSettings, OcpiSettingsType } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-ocpi-business-details',
@@ -19,8 +19,8 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   public logoGroup: FormGroup;
 
   public name: AbstractControl;
-  public country_code: AbstractControl;
-  public party_id: AbstractControl;
+  public countryCode: AbstractControl;
+  public partyID: AbstractControl;
   public website: AbstractControl;
 
   public logo_url: AbstractControl;
@@ -62,19 +62,19 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
   ngOnInit(): void {
     // build form
     this.formGroup = new FormGroup({
-      'country_code': new FormControl('',
+      'countryCode': new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2)
         ])),
-      'party_id': new FormControl('',
+      'partyID': new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3)
         ])),
-      'business_details': new FormGroup({
+      'businessDetails': new FormGroup({
         'name': new FormControl(''),
         'website': new FormControl('',
           Validators.pattern(Constants.URL_PATTERN)),
@@ -92,12 +92,12 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
       })
     });
     // business details - CPO identifier
-    this.country_code = this.formGroup.controls['country_code'];
-    this.party_id = this.formGroup.controls['party_id'];
+    this.countryCode = this.formGroup.controls['countryCode'];
+    this.partyID = this.formGroup.controls['partyID'];
     // business details - image
-    this.name = (<FormGroup>this.formGroup.controls['business_details']).controls['name'];
-    this.website = (<FormGroup>this.formGroup.controls['business_details']).controls['website'];
-    this.logoGroup = <FormGroup>(<FormGroup>this.formGroup.controls['business_details']).controls['logo'];
+    this.name = (<FormGroup>this.formGroup.controls['businessDetails']).controls['name'];
+    this.website = (<FormGroup>this.formGroup.controls['businessDetails']).controls['website'];
+    this.logoGroup = <FormGroup>(<FormGroup>this.formGroup.controls['businessDetails']).controls['logo'];
     this.logo_url = this.logoGroup.controls['url'];
     this.logo_thumbnail = this.logoGroup.controls['thumbnail'];
     this.logo_category = this.logoGroup.controls['category'];
@@ -112,45 +112,50 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Init form
-      this.formGroup.markAsPristine();
       // Default
       if (!settings) {
         settings = {
-          'country_code': '',
           'identifier': ComponentEnum.OCPI,
-          'party_id': '',
-          'business_details': {
-            'name': '',
-            'website': '',
-            'logo': {
-              'url': '',
-              'thumbnail': '',
-              'category': '',
-              'type': '',
-              'width': undefined,
-              'height': undefined
-            },
+          'type': OcpiSettingsType.gireve,
+          'ocpi' : {
+            'countryCode': '',
+            'partyID': '',
+            'businessDetails': {
+              'name': '',
+              'website': '',
+              'logo': {
+                'url': '',
+                'thumbnail': '',
+                'category': '',
+                'type': '',
+                'width': undefined,
+                'height': undefined
+              },
+            }
           }
         };
       }
       // Keep
       this.ocpiSettings = settings;
       // business details - CPO identifier
-      this.country_code.setValue(settings.country_code);
-      this.party_id.setValue(settings.party_id);
-      const businessDetails = settings.business_details;
-      this.name.setValue(businessDetails.name);
-      this.website.setValue(businessDetails.website);
-      if (businessDetails.logo) {
-        const logo = businessDetails.logo;
-        this.logo_url.setValue(logo.url);
-        this.logo_thumbnail.setValue(logo.thumbnail);
-        this.logo_category.setValue(logo.category);
-        this.logo_type.setValue(logo.type);
-        this.logo_width.setValue(logo.width);
-        this.logo_height.setValue(logo.height);
+      this.countryCode.setValue(settings.ocpi.countryCode);
+      this.partyID.setValue(settings.ocpi.partyID);
+      const businessDetails = settings.ocpi.businessDetails;
+      if (businessDetails) {
+        this.name.setValue(businessDetails.name);
+        this.website.setValue(businessDetails.website);
+        if (businessDetails.logo) {
+          const logo = businessDetails.logo;
+          this.logo_url.setValue(logo.url);
+          this.logo_thumbnail.setValue(logo.thumbnail);
+          this.logo_category.setValue(logo.category);
+          this.logo_type.setValue(logo.type);
+          this.logo_width.setValue(logo.width);
+          this.logo_height.setValue(logo.height);
+        }
       }
+      // Init form
+      this.formGroup.markAsPristine();
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -169,90 +174,30 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     });
   }
 
-
   public save(content) {
-    if (this.ocpiSettings.id) {
-      this.updateOcpiSettings(content);
-    } else {
-      this.createOcpiSettings(content);
-    }
-  }
-
-  private createOcpiSettings(content) {
-    // build setting payload
-    const setting = {
-      'id': null,
-      'identifier': ComponentEnum.OCPI,
-      'content': content
-    };
-    // Show
+    this.ocpiSettings.ocpi = content;
+    this.ocpiSettings.type = OcpiSettingsType.gireve;
+    // Save
     this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.createSetting(setting).subscribe(response => {
-      // Hide
+    this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();
-      // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.ocpi.create_success');
-        // Refresh
+        this.messageService.showSuccessMessage(
+          (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.ocpi.create_error');
+          this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Setting deleted
         case 550:
-          // Show error
           this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.ocpi.create_error');
-      }
-    });
-  }
-
-  private updateOcpiSettings(content) {
-    // build setting payload
-    const setting = {
-      'id': this.ocpiSettings.id,
-      'identifier': ComponentEnum.OCPI,
-      'content': content
-    };
-    // Show
-    this.spinnerService.show();
-    // Yes: Update
-    this.centralServerService.updateSetting(setting).subscribe(response => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('settings.ocpi.update_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'settings.ocpi.update_error');
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Setting deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
-          break;
-        default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.ocpi.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
       }
     });
   }

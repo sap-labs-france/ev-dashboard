@@ -29,6 +29,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
+  private editAction = new TableEditAction().getActionDef();
+  private registerAction = new TableRegisterAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -158,9 +162,9 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableRegisterAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.registerAction,
+      this.deleteAction
     ];
   }
 

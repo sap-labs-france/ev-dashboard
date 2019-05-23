@@ -262,6 +262,7 @@ export interface Tenant {
   name: string;
   email: string;
   subdomain: string;
+  components?: any;
 }
 
 export interface TenantResult {
@@ -594,12 +595,14 @@ export interface PricingSettings {
   }
 }
 
-export interface OcpiSettings {
-  id?: string;
-  identifier: ComponentEnum.OCPI;
-  country_code: string;
-  party_id: string;
-  business_details: {
+export enum OcpiSettingsType {
+  gireve = 'gireve'
+}
+
+export interface OcpiCommon {
+  countryCode: string;
+  partyID: string;
+  businessDetails: {
     name: string;
     website: string;
     logo: {
@@ -613,17 +616,36 @@ export interface OcpiSettings {
   }
 }
 
+export interface OcpiSettings {
+  id?: string;
+  identifier: ComponentEnum.OCPI;
+  type: OcpiSettingsType;
+  ocpi: OcpiCommon;
+}
+
+export enum SacSettingsType {
+  sac = 'sac'
+}
+
 export interface SacSettings {
   id?: string;
   identifier: ComponentEnum.SAC;
-  mainUrl: string;
-  timezone: string;
-  links: SacLink[];
+  type: SacSettingsType,
+  sac: {
+    mainUrl: string;
+    timezone: string;
+    links: SacLink[];
+  }
+}
+
+export enum RefundSettingsType {
+  concur = 'concur'
 }
 
 export interface RefundSettings {
   id?: string;
   identifier: ComponentEnum.REFUND;
+  type: RefundSettingsType;
   concur?: {
     authenticationUrl: string;
     apiUrl: string;

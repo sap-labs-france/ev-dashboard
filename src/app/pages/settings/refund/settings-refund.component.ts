@@ -111,8 +111,6 @@ export class SettingsRefundComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getRefundSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Init form
-      this.formGroup.markAsPristine();
       // Keep
       this.refundSettings = settings;
       // takes the first one
@@ -126,6 +124,8 @@ export class SettingsRefundComponent implements OnInit {
         this.concurPolicyId.setValue(settings.concur.policyId ? settings.concur.policyId : '');
         this.concurReportName.setValue(settings.concur.reportName ? settings.concur.reportName : '');
       }
+      // Init form
+      this.formGroup.markAsPristine();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -145,7 +145,7 @@ export class SettingsRefundComponent implements OnInit {
     this.refundSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
     // Save
     this.spinnerService.show();
-    this.componentService.saveRefundSetting(this.refundSettings).subscribe((response) => {
+    this.componentService.saveRefundSettings(this.refundSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage(

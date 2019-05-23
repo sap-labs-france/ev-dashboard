@@ -38,9 +38,9 @@
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="price"
                 placeholder="{{'settings.pricing.simple.price' | translate}}" required>
-              <mat-error *ngIf="price.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-              <mat-error *ngIf="price.hasError('pattern')">{{"general.error_not_a_number" | translate}}</mat-error>
-              <mat-error *ngIf="price.hasError('maxlength')">
+              <mat-error *ngIf="price.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="price.errors?.pattern">{{"general.error_not_a_number" | translate}}</mat-error>
+              <mat-error *ngIf="price.errors?.maxlength">
                 <div [translate]="'general.error_max_length'" [translateParams]="{length: 10}"></div>
               </mat-error>
             </mat-form-field>
@@ -74,8 +74,8 @@
                   <mat-option value="TRY">Turkish Lira</mat-option>
                   <mat-option value="USD">U.S. Dollar</mat-option>
                 </mat-select>
-              <mat-error *ngIf="currency.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
-              <mat-error *ngIf="currency.hasError('maxlength')">
+              <mat-error *ngIf="currency.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <mat-error *ngIf="currency.errors?.maxlength">
                 <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
             </mat-form-field>
@@ -123,12 +123,12 @@
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
               placeholder="{{'settings.pricing.convergentcharging.url' | translate}}" required>
-            <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
+            <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="convergentChargingUrl.hasError('maxlength')">
+            <mat-error *ngIf="convergentChargingUrl.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
-            <mat-error *ngIf="convergentChargingUrl.hasError('minlength')">
+            <mat-error *ngIf="convergentChargingUrl.errors?.minlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
           </mat-form-field>
@@ -137,9 +137,9 @@
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
               placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}" required>
-            <mat-error *ngIf="convergentChargingUrl.hasError('required')">{{"general.mandatory_field"
+            <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="convergentChargingUrl.hasError('maxlength')">
+            <mat-error *ngIf="convergentChargingUrl.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
             </mat-error>
           </mat-form-field>
@@ -150,12 +150,12 @@
           <mat-form-field>
             <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
               placeholder="{{'settings.pricing.convergentcharging.user' | translate}}" required>
-            <mat-error *ngIf="convergentChargingUser.hasError('required')">{{"general.mandatory_field"
+            <mat-error *ngIf="convergentChargingUser.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="convergentChargingUser.hasError('maxlength')">
+            <mat-error *ngIf="convergentChargingUser.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
-            <mat-error *ngIf="convergentChargingUser.hasError('minlength')">
+            <mat-error *ngIf="convergentChargingUser.errors?.minlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
           </mat-form-field>
@@ -164,12 +164,12 @@
           <mat-form-field>
             <input appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
               placeholder="{{'settings.pricing.convergentcharging.password' | translate}}" required>
-            <mat-error *ngIf="convergentChargingPassword.hasError('required')">{{"general.mandatory_field"
+            <mat-error *ngIf="convergentChargingPassword.errors?.required">{{"general.mandatory_field"
               | translate}}</mat-error>
-            <mat-error *ngIf="convergentChargingPassword.hasError('maxlength')">
+            <mat-error *ngIf="convergentChargingPassword.errors?.maxlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
-            <mat-error *ngIf="convergentChargingPassword.hasError('minlength')">
+            <mat-error *ngIf="convergentChargingPassword.errors?.minlength">
               <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
             </mat-error>
           </mat-form-field>

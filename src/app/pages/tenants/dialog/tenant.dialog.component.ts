@@ -157,7 +157,7 @@ export class TenantDialogComponent implements OnInit {
         }
       }
     }
-    if (this.currentTenant.id) {
+    if (this.currentTenant) {
       // update existing tenant
       this._updateTenant(tenant);
     } else {

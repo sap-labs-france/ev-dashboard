@@ -321,6 +321,37 @@ export class CentralServerService {
       );
   }
 
+  public getTransactionYears(): Observable<any> {
+    const params: any = [];
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/TransactionYears`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getChargingStationConsumptionStatistics(year, params?: any): Observable<any> {
+    params['Year'] = year;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+// obsolete:
   public getConsumptionStatistics(year): Observable<any> {
     const params: any = [];
     params['Year'] = year;
@@ -334,6 +365,21 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
+
+  public getUserConsumptionStatistics(year, params?: any): Observable<any> {
+    params['Year'] = year;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserConsumptionStatistics?`,
+    {
+      headers: this._buildHttpHeaders(),
+      params
+    })
+    .pipe(
+      catchError(this._handleHttpError)
+    );
+    }
 
   public getCurrentMetrics(): Observable<any> {
     const params: any = [];

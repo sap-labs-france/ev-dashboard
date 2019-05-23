@@ -11,7 +11,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { MatDialog, MatSort, MatDialogConfig } from '@angular/material';
 
 
-//import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
 // import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 
 @Component({
@@ -55,16 +55,26 @@ export class StatisticsConsumptionComponent implements OnInit {
 
     this.selectedYear = new Date().getFullYear();
 
-    // Todo: replace by HTTP request for endpoint '/TransactionYears' (to be added to central-server.service)
-    this.transactionYears = [2017, 2018, 2019];
+    this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
+      this.transactionYears = transactionYears;
+      if (this.transactionYears.indexOf(this.selectedYear) < 0) {
+        this.transactionYears.push(this.selectedYear);
+      }
+    });
 
     this.nameTotalsLabel = this.translateService.instant('statistics.total');
     if (this.nameTotalsLabel === '') { this.nameTotalsLabel = 'Total' }
 
     this.initChart(this.ctxBar, this.ctxPie);
 
-    // could be called in callback for selection of transactionYears:
-    this.buildChart(this.selectedYear);
+    this.centralServerService.getSites([])
+      .subscribe((sites) => {
+        if (sites && sites.result.length > 0) {
+          this.firstSite = sites.result[0];
+//          this.selectedSite = this.firstSite;
+        }
+        this.buildChart(this.selectedYear);
+      });
   }
 
   showDialogTableFilter(id: string) {
@@ -195,7 +205,8 @@ export class StatisticsConsumptionComponent implements OnInit {
       return new Chart(context.nativeElement.getContext('2d'), {
         type: chartType,
         plugins: [ChartDataLabels],
-        options: chartOptions
+        options: chartOptions,
+        data: { labels: [], datasets: [] }
       });
     } else {
       return new Chart(context.nativeElement.getContext('2d'), {
@@ -297,22 +308,24 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   updateBarOptions(): void {
     let minValue = 0;
-    let amount = this.barChartData.datasets.length;
-    if (amount > 1) { amount -= 1 } else { amount = 1 }
-    let number;
+    if (Array.isArray(this.barChartData.datasets)) {
+      let amount = this.barChartData.datasets.length;
+      if (amount > 1) { amount -= 1 } else { amount = 1 }
+      let number;
 
-    this.barChartData.datasets.forEach((dataset) => {
-      if (Array.isArray(dataset.data) === true &&
-        dataset.label === this.nameTotalsLabel) {
-        for (let i = 0; i < dataset.data.length; i++) {
-          number = dataset.data[i];
-          if (typeof (number) === 'number') {
-            if (number > minValue) { minValue = number }
-          }
-        };
-      }
-    });
-    minValue = minValue / amount / 2
+      this.barChartData.datasets.forEach((dataset) => {
+        if (Array.isArray(dataset.data) === true &&
+          dataset.label === this.nameTotalsLabel) {
+          for (let i = 0; i < dataset.data.length; i++) {
+            number = dataset.data[i];
+            if (typeof (number) === 'number') {
+              if (number > minValue) { minValue = number }
+            }
+          };
+        }
+      });
+      minValue = minValue / amount / 2
+    }
 
     this.barChartOptions['plugins']['datalabels'] = {
       color: 'black',
@@ -387,22 +400,24 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   updatePieOptions(): void {
     let minValue = 0;
-    let amount = 0;
-    let number;
+    if (Array.isArray(this.pieChartData.datasets)) {
+      let amount = 0;
+      let number;
 
-    this.pieChartData.datasets.forEach((dataset) => {
-      if (Array.isArray(dataset.data) === true) {
-        for (let i = 0; i < dataset.data.length; i++) {
-          number = dataset.data[i];
-          if (typeof (number) === 'number') {
-            minValue = minValue + number;
+      this.pieChartData.datasets.forEach((dataset) => {
+        if (Array.isArray(dataset.data) === true) {
+          for (let i = 0; i < dataset.data.length; i++) {
+            number = dataset.data[i];
+            if (typeof (number) === 'number') {
+              minValue = minValue + number;
+            }
           }
+          amount += dataset.data.length;
         }
-        amount += dataset.data.length;
-      }
-    });
-    if (amount < 1) { amount = 1 }
-    minValue = minValue / amount / 2
+      });
+      if (amount < 1) { amount = 1 }
+      minValue = minValue / amount / 2
+    }
 
     this.pieChartOptions['plugins']['datalabels'] = {
       color: 'black',
@@ -426,7 +441,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.totalConsumption = 0;
 
     const callServerAsPromise = new Promise(resolve => {
-      this.centralServerService.getConsumptionStatistics(selectedYear)
+      const params = [];
+
+      if (this.selectedSite && this.selectedSite.id) { params['SiteID'] = this.selectedSite.id }
+
+      this.centralServerService.getChargingStationConsumptionStatistics(selectedYear, params)
         .subscribe(statisticsData => {
 
           this.totalConsumption = this.buildStatistics(statisticsData);
@@ -455,7 +474,7 @@ export class StatisticsConsumptionComponent implements OnInit {
       anyChart = this.consumptionPieChart;
       anyChart.options = this.pieChartOptions;
       this.consumptionPieChart = anyChart;
-      this.updateChart(this.consumptionPieChart, this.pieChartData)
+      this.updateChart(this.consumptionPieChart, this.pieChartData);
 
     });
   }
@@ -466,8 +485,14 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   updateChart(chartName: Chart, chartData: ChartData) {
-
     chartName.data = chartData;
+    if (!chartName.data.labels) {
+      chartName.data.labels = [];
+    }
+    if (!chartName.data.datasets) {
+      chartName.data.datasets = [];
+    }
+
     chartName.update({ lazy: true });
   }
 
@@ -653,17 +678,29 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   getColorCode(counter: number) {
-    const colors = [[0, 128, 128, 0.8],
-    [128, 0, 128, 0.8],
-    [255, 255, 0, 0.8],
-    [0, 0, 128, 0.7],
-    [128, 0, 0, 0.7],
-    [255, 0, 255, 0.8],
-    [0, 128, 0, 0.8],
-    [255, 0, 0, 0.8],
-    [0, 255, 0, 0.9],
-    [0, 255, 255, 0.9]
+//    const colors = [[0, 128, 128, 0.8],
+//    [128, 0, 128, 0.8],
+//    [255, 255, 0, 0.8],
+//    [0, 0, 128, 0.7],
+//    [128, 0, 0, 0.7],
+//    [255, 0, 255, 0.8],
+//    [0, 128, 0, 0.8],
+//    [255, 0, 0, 0.8],
+//    [0, 255, 0, 0.9],
+//    [0, 255, 255, 0.9]
+//    ]
+    const colors = [[144, 238, 144, 0.8],
+      [255, 165, 0, 0.6],
+      [135, 206, 235, 0.8],
+      [222, 184, 135, 0.6],
+      [255, 182, 193, 0.8],
+      [102, 205, 170, 0.6],
+      [255, 160, 122, 0.8],
+      [70, 130, 180, 0.6],
+      [255, 222, 173, 0.8],
+      [218, 112, 214, 0.6]
     ]
+
 
     const div10 = counter % 10;
 

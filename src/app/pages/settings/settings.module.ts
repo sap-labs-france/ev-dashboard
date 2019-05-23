@@ -29,6 +29,8 @@ import {OcpiPatchJobStatusComponent} from './ocpi/endpoints/formatters/ocpi-patc
 import {AppFormatOcpiPatchJobStatusPipe} from './ocpi/endpoints/formatters/ocpi-patch-job-status.component';
 import {SettingsRefundComponent} from './refund/settings-refund.component';
 import {SettingsPricingComponent} from './pricing/settings-pricing.component';
+import {SettingsConvergentChargingComponent} from './pricing/convergent-charging/settings-convergent-charging.component';
+import {SettingsSimplePricingComponent} from './pricing/simple/settings-simple-pricing.component';
 import {SettingsAnalyticsComponent} from './analytics/settings-analytics.component';
 import {AnalyticsLinkDialogComponent} from './analytics/analytics-link/analytics-link.dialog.component';
 import {AnalyticsLinksDataSource} from './analytics/analytics-link/analytics-links-source-table';
@@ -54,6 +56,8 @@ import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
     SettingsOcpiComponent,
     SettingsRefundComponent,
     SettingsPricingComponent,
+    SettingsSimplePricingComponent,
+    SettingsConvergentChargingComponent,
     SettingsAnalyticsComponent,
     SettingsSacComponent,
     OcpiJobResultComponent,
@@ -82,7 +86,9 @@ import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
     SettingsOcpiComponent,
     SettingsRefundComponent,
     SettingsPricingComponent,
+    SettingsConvergentChargingComponent,
     SettingsAnalyticsComponent,
+    SettingsSimplePricingComponent,
     SettingsSacComponent,
     AnalyticsLinkDialogComponent,
     EndpointDialogComponent,

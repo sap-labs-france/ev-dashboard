@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {CentralServerService} from '../../../services/central-server.service';
 import {Constants} from '../../../utils/Constants';
 import {Utils} from '../../../utils/Utils';
@@ -14,19 +14,9 @@ import { PricingSettingsType, PricingSettings } from 'app/common.types';
   templateUrl: 'settings-pricing.component.html'
 })
 export class SettingsPricingComponent implements OnInit {
-  public isAdmin;
-  public formGroupConvergentCharging: FormGroup;
-  public formGroupSimple: FormGroup;
   public isActive = false;
 
-  public simplePricing: FormGroup;
-  public price: AbstractControl;
-  public currency: AbstractControl;
-  public convergentCharging: FormGroup;
-  public convergentChargingUrl: AbstractControl;
-  public convergentChargingChargeableItemName: AbstractControl;
-  public convergentChargingUser: AbstractControl;
-  public convergentChargingPassword: AbstractControl;
+  public formGroup: FormGroup;
   public pricingSettings: PricingSettings;
 
   constructor(
@@ -40,61 +30,8 @@ export class SettingsPricingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Convergent Charging pricing
-    this.formGroupConvergentCharging = new FormGroup({
-      'convergentCharging': new FormGroup({
-        'url': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        ),
-        'chargeableItemName': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        ),
-        'user': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        ),
-        'password': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-          ])
-        )
-      })
-    });
-    this.convergentCharging = <FormGroup>this.formGroupConvergentCharging.controls['convergentCharging'];
-    this.convergentChargingUrl = this.convergentCharging.controls['url'];
-    this.convergentChargingChargeableItemName = this.convergentCharging.controls['chargeableItemName'];
-    this.convergentChargingUser = this.convergentCharging.controls['user'];
-    this.convergentChargingPassword = this.convergentCharging.controls['password'];
-    // Simple pricing
-    this.formGroupSimple = new FormGroup({
-      'simple': new FormGroup({
-        'price': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.pattern(/^-?((\d+(\.\d+)?))$/),
-            Validators.maxLength(10)
-          ])
-        ),
-        'currency': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3)
-          ])
-        )
-      })
-    });
-    this.simplePricing = <FormGroup>this.formGroupSimple.controls['simple'];
-    this.price = this.simplePricing.controls['price'];
-    this.currency = this.simplePricing.controls['currency'];
+    // Build the form
+    this.formGroup = new FormGroup({});
     // Load the conf
     this.loadConfiguration();
   }
@@ -105,23 +42,8 @@ export class SettingsPricingComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.pricingSettings = settings;
-      // Init with settings
-      if (this.pricingSettings) {
-        // Convergeant Charging
-        if (this.pricingSettings.type === PricingSettingsType.convergentCharging && this.pricingSettings.convergentCharging) {
-          this.convergentChargingUrl.setValue(this.pricingSettings.convergentCharging.url);
-          this.convergentChargingChargeableItemName.setValue(this.pricingSettings.convergentCharging.chargeableItemName);
-          this.convergentChargingUser.setValue(this.pricingSettings.convergentCharging.user);
-          this.convergentChargingPassword.setValue(this.pricingSettings.convergentCharging.password);
-        // Simple
-        } else if (this.pricingSettings.type === PricingSettingsType.simple && this.pricingSettings.simple) {
-          this.price.setValue(this.pricingSettings.simple.price);
-          this.currency.setValue(this.pricingSettings.simple.currency);
-        }
-      }
-      // Init forms
-      this.formGroupConvergentCharging.markAsPristine();
-      this.formGroupSimple.markAsPristine();
+      // Init form
+      this.formGroup.markAsPristine();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

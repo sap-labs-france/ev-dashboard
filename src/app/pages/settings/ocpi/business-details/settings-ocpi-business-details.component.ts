@@ -112,29 +112,6 @@ export class SettingsOcpiBusinessDetailsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getOcpiSettings().subscribe((settings) => {
       this.spinnerService.hide();
-      // Default
-      if (!settings) {
-        settings = {
-          'identifier': ComponentEnum.OCPI,
-          'type': OcpiSettingsType.gireve,
-          'ocpi' : {
-            'countryCode': '',
-            'partyID': '',
-            'businessDetails': {
-              'name': '',
-              'website': '',
-              'logo': {
-                'url': '',
-                'thumbnail': '',
-                'category': '',
-                'type': '',
-                'width': undefined,
-                'height': undefined
-              },
-            }
-          }
-        };
-      }
       // Keep
       this.ocpiSettings = settings;
       // business details - CPO identifier

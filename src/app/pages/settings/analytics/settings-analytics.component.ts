@@ -31,9 +31,8 @@ export class SettingsAnalyticsComponent implements OnInit {
       this.formGroup.markAsDirty();
     });
     this.isAnalyticsActive = componentService.isActive(ComponentEnum.ANALYTICS);
-    // build form
-    this.formGroup = new FormGroup({
-    });
+    // Build form
+    this.formGroup = new FormGroup({});
   }
 
   ngOnInit(): void {

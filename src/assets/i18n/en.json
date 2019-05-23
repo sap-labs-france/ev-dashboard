@@ -1076,6 +1076,7 @@
     "update_error": "Error occurred while updating the price"
   },
   "transactions": {
+    "id": "Transaction",
     "date_from": "Date",
     "duration": "Duration",
     "inactivity": "Inactivity",

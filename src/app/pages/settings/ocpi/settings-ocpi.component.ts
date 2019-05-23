@@ -61,53 +61,55 @@ export class SettingsOcpiComponent implements OnInit {
   }
 
   ngOnInit() {
-    // build form
-    this.formGroup = new FormGroup({
-      'countryCode': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(2),
-          Validators.minLength(2)
-        ])),
-      'partyID': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(3),
-          Validators.minLength(3)
-        ])),
-      'businessDetails': new FormGroup({
-        'name': new FormControl(''),
-        'website': new FormControl('',
-          Validators.pattern(Constants.URL_PATTERN)),
-        'logo': new FormGroup({
-          'url': new FormControl('',
+    if (this.isActive) {
+      // build form
+      this.formGroup = new FormGroup({
+        'countryCode': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(2),
+            Validators.minLength(2)
+          ])),
+        'partyID': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(3),
+            Validators.minLength(3)
+          ])),
+        'businessDetails': new FormGroup({
+          'name': new FormControl(''),
+          'website': new FormControl('',
             Validators.pattern(Constants.URL_PATTERN)),
-          'thumbnail': new FormControl(''),
-          'category': new FormControl(''),
-          'type': new FormControl(''),
-          'width': new FormControl(undefined,
-            Validators.pattern(/^[0-9]*$/)),
-          'height': new FormControl(undefined,
-            Validators.pattern(/^[0-9]*$/))
-       })
-     })
-   });
-    // business details - CPO identifier
-    this.countryCode = this.formGroup.controls['countryCode'];
-    this.partyID = this.formGroup.controls['partyID'];
-    // business details - image
-    this.name = (<FormGroup>this.formGroup.controls['businessDetails']).controls['name'];
-    this.website = (<FormGroup>this.formGroup.controls['businessDetails']).controls['website'];
-    this.logoGroup = <FormGroup>(<FormGroup>this.formGroup.controls['businessDetails']).controls['logo'];
-    this.logoURL = this.logoGroup.controls['url'];
-    this.logoThumbnail = this.logoGroup.controls['thumbnail'];
-    this.logoCategory = this.logoGroup.controls['category'];
-    this.logoType = this.logoGroup.controls['type'];
-    this.logoWidth = this.logoGroup.controls['width'];
-    this.logoHeight = this.logoGroup.controls['height'];
-    // Load the conf
-    this.loadConfiguration();
- }
+          'logo': new FormGroup({
+            'url': new FormControl('',
+              Validators.pattern(Constants.URL_PATTERN)),
+            'thumbnail': new FormControl(''),
+            'category': new FormControl(''),
+            'type': new FormControl(''),
+            'width': new FormControl(undefined,
+              Validators.pattern(/^[0-9]*$/)),
+            'height': new FormControl(undefined,
+              Validators.pattern(/^[0-9]*$/))
+          })
+        })
+      });
+      // business details - CPO identifier
+      this.countryCode = this.formGroup.controls['countryCode'];
+      this.partyID = this.formGroup.controls['partyID'];
+      // business details - image
+      this.name = (<FormGroup>this.formGroup.controls['businessDetails']).controls['name'];
+      this.website = (<FormGroup>this.formGroup.controls['businessDetails']).controls['website'];
+      this.logoGroup = <FormGroup>(<FormGroup>this.formGroup.controls['businessDetails']).controls['logo'];
+      this.logoURL = this.logoGroup.controls['url'];
+      this.logoThumbnail = this.logoGroup.controls['thumbnail'];
+      this.logoCategory = this.logoGroup.controls['category'];
+      this.logoType = this.logoGroup.controls['type'];
+      this.logoWidth = this.logoGroup.controls['width'];
+      this.logoHeight = this.logoGroup.controls['height'];
+      // Load the conf
+      this.loadConfiguration();
+    }
+  }
 
   public loadConfiguration() {
     this.spinnerService.show();

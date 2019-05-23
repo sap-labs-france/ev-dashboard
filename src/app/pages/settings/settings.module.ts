@@ -38,6 +38,7 @@ import {AppFormatOcpiJobResultPipe} from './ocpi/endpoints/formatters/ocpi-job-r
 import {OcpiEndpointDetailDataSource} from './ocpi/endpoints/ocpi-details/ocpi-detail-data-source-table';
 import {EndpointsDataSource} from './ocpi/endpoints/settings-ocpi-source-table';
 import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
+import { SettingsConcurComponent } from './refund/concur/settings-concur.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
     SettingsComponent,
     SettingsOcpiComponent,
     SettingsRefundComponent,
+    SettingsConcurComponent,
     SettingsPricingComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
@@ -83,6 +85,7 @@ import {SettingsSacComponent} from './analytics/sac/settings-sac.component';
     SettingsComponent,
     SettingsOcpiComponent,
     SettingsRefundComponent,
+    SettingsConcurComponent,
     SettingsPricingComponent,
     SettingsConvergentChargingComponent,
     SettingsAnalyticsComponent,

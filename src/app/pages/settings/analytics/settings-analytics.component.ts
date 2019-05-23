@@ -15,7 +15,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: 'settings-analytics.component.html'
 })
 export class SettingsAnalyticsComponent implements OnInit {
-  public isAnalyticsActive = false;
+  public isActive = false;
   public analyticsSettings: AnalyticsSettings;
   public formGroup: FormGroup;
 
@@ -27,10 +27,10 @@ export class SettingsAnalyticsComponent implements OnInit {
     private router: Router,
     public analyticsLinksDataSource: AnalyticsLinksDataSource
   ) {
-    this.analyticsLinksDataSource.changed.subscribe((value) => {
+    this.analyticsLinksDataSource.changed.subscribe(_ => {
       this.formGroup.markAsDirty();
     });
-    this.isAnalyticsActive = componentService.isActive(ComponentEnum.ANALYTICS);
+    this.isActive = componentService.isActive(ComponentEnum.ANALYTICS);
     // Build form
     this.formGroup = new FormGroup({});
   }

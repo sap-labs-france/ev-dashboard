@@ -150,7 +150,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.pattern('^[A-Z]{1}[0-9]{6}$')
         ])),
       'tagIDs': new FormControl(this.generateTagID(),
-        Validators.compose(this.isAdmin ? 
+        Validators.compose(this.isAdmin ?
           [
             Validators.required,
             Validators.minLength(3),
@@ -487,6 +487,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href =
+        // tslint:disable-next-line:max-line-length
         `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }

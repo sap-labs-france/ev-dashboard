@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <mat-icon>business</mat-icon>
+    </div>
+    <h3 class="card-title">{{'settings.pricing.convergentcharging.title' | translate}}</h3>
+  </div>
+
+  <div class="card-body">
+    <div class="row" style="margin-top: 1em">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
+            placeholder="{{'settings.pricing.convergentcharging.url' | translate}}" required>
+          <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
+            | translate}}</mat-error>
+          <mat-error *ngIf="convergentChargingUrl.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+          </mat-error>
+          <mat-error *ngIf="convergentChargingUrl.errors?.minlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
+            placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}" required>
+          <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
+            | translate}}</mat-error>
+          <mat-error *ngIf="convergentChargingUrl.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
+            placeholder="{{'settings.pricing.convergentcharging.user' | translate}}" required>
+          <mat-error *ngIf="convergentChargingUser.errors?.required">{{"general.mandatory_field"
+            | translate}}</mat-error>
+          <mat-error *ngIf="convergentChargingUser.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+          </mat-error>
+          <mat-error *ngIf="convergentChargingUser.errors?.minlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
+            placeholder="{{'settings.pricing.convergentcharging.password' | translate}}" required>
+          <mat-error *ngIf="convergentChargingPassword.errors?.required">{{"general.mandatory_field"
+            | translate}}</mat-error>
+          <mat-error *ngIf="convergentChargingPassword.errors?.maxlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+          </mat-error>
+          <mat-error *ngIf="convergentChargingPassword.errors?.minlength">
+            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="save(formGroup.value)"
+      [disabled]="!formGroup.valid || !formGroup.dirty">
+      <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+    </button>
+  </div>
+</div>

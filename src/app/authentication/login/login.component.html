@@ -22,8 +22,8 @@
                     <mat-form-field>
                       <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}" autocomplete="username"
                              [formControl]="email" required>
-                      <mat-error *ngIf="email.hasError('email')">{{"authentication.invalid_email" | translate}}</mat-error>
-                      <mat-error *ngIf="email.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+                      <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                   <div class="input-group-prepend">
@@ -34,9 +34,9 @@
                       <input id="password-field" matInput type="password" placeholder="{{'authentication.password' | translate}}" autocomplete="current-password"
                              [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
                       <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                      <mat-error *ngIf="password.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error
-                        *ngIf="password.hasError('noSpace')">{{"authentication.no_space_in_password" | translate}}</mat-error>
+                        *ngIf="password.errors?.noSpace">{{"authentication.no_space_in_password" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>

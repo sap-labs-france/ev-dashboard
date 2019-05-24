@@ -262,6 +262,7 @@ export interface Tenant {
   name: string;
   email: string;
   subdomain: string;
+  components?: any;
 }
 
 export interface TenantResult {
@@ -278,13 +279,6 @@ export interface Setting {
 export interface SettingResult {
   count: number,
   result: Setting[]
-}
-
-export interface SacLink {
-  id: number;
-  name: string;
-  description: string;
-  url: string;
 }
 
 export interface OcpiEndpoint {
@@ -582,11 +576,11 @@ export interface PricingSettings {
   id?: string;
   identifier: ComponentEnum.PRICING;
   type: PricingSettingsType;
-  simplePricing: {
+  simple: {
     price: number;
     currency: string;
   }
-  convergentChargingPricing: {
+  convergentCharging: {
     url: string;
     chargeableItemName: string;
     user: string;
@@ -594,12 +588,14 @@ export interface PricingSettings {
   }
 }
 
-export interface OcpiSettings {
-  id?: string;
-  identifier: ComponentEnum.OCPI;
-  country_code: string;
-  party_id: string;
-  business_details: {
+export enum OcpiSettingsType {
+  gireve = 'gireve'
+}
+
+export interface OcpiCommon {
+  countryCode: string;
+  partyID: string;
+  businessDetails: {
     name: string;
     website: string;
     logo: {
@@ -613,17 +609,43 @@ export interface OcpiSettings {
   }
 }
 
-export interface SacSettings {
+export interface OcpiSettings {
   id?: string;
-  identifier: ComponentEnum.SAC;
-  mainUrl: string;
-  timezone: string;
-  links: SacLink[];
+  identifier: ComponentEnum.OCPI;
+  type: OcpiSettingsType;
+  ocpi: OcpiCommon;
+}
+
+export enum AnalyticsSettingsType {
+  sac = 'sac'
+}
+
+export interface AnalyticsLink {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+}
+
+export interface AnalyticsSettings {
+  id?: string;
+  identifier: ComponentEnum.ANALYTICS;
+  type: AnalyticsSettingsType,
+  sac: {
+    mainUrl: string;
+    timezone: string;
+  }
+  links: AnalyticsLink[];
+}
+
+export enum RefundSettingsType {
+  concur = 'concur'
 }
 
 export interface RefundSettings {
   id?: string;
   identifier: ComponentEnum.REFUND;
+  type: RefundSettingsType;
   concur?: {
     authenticationUrl: string;
     apiUrl: string;

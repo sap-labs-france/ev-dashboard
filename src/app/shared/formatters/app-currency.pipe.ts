@@ -20,7 +20,7 @@ export class AppCurrencyPipe implements PipeTransform {
     this.componentService.getPricingSettings().subscribe((settings) => {
       // Get the currency
       if (settings && settings.type === PricingSettingsType.simple) {
-        this.currency = settings.simplePricing.currency;
+        this.currency = settings.simple.currency;
       }
     });
   }

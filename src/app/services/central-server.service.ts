@@ -500,6 +500,20 @@ export class CentralServerService {
       );
   }
 
+  public getTenant(id: string): Observable<Tenant> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Tenant`,
+      {
+        headers: this._buildHttpHeaders(),
+        params: {ID: id}
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
     // Verify init
     this._checkInit();

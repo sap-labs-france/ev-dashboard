@@ -105,6 +105,7 @@ export class Constants {
   public static USER_STATUS_BLOCKED = 'B';
   public static USER_STATUS_LOCKED = 'L';
   public static USER_STATUS_UNKNOWN = 'U';
+  public static USER_ROLE_SUPER_ADMIN = 'S';
   public static USER_ROLE_ADMIN = 'A';
   public static USER_ROLE_BASIC = 'B';
   public static USER_ROLE_DEMO = 'D';

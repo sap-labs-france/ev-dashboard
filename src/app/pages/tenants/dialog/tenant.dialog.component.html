@@ -81,61 +81,61 @@
                             <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
                             <div>{{"ocpi.description" | translate}}</div>
                           </div>
-                          <mat-form-field *ngIf="components.controls.ocpi['controls'].active.value" class="flex-shrink-1 mx-5">
-                            <mat-select [formControl]="components.controls.ocpi.controls.type"
+                          <mat-form-field *ngIf="components['controls'].ocpi['controls'].active.value" class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="components['controls'].ocpi['controls'].type"
                                 [placeholder]="'ocpi.type_placeholder' | translate"
-                                [required]="components.controls.ocpi.controls.active.value">
+                                [required]="components['controls'].ocpi['controls'].active.value">
                               <mat-option *ngFor="let ocpiType of ocpiTypes" [value]="ocpiType.key">
                                 {{ocpiType.description | translate}}
                               </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="components.controls.ocpi.controls.active.errors?.required">
+                            <mat-error *ngIf="components['controls'].ocpi['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components.controls.ocpi['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle [formControl]="components['controls'].ocpi['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
                           <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
                             <div><strong><b>{{"refund.title" | translate}}</b></strong></div>
                             <div>{{"refund.description" | translate}}</div>
                           </div>
-                          <mat-form-field *ngIf="components.controls.refund['controls'].active.value" class="flex-shrink-1 mx-5">
-                            <mat-select [formControl]="components.controls.refund.controls.type"
+                          <mat-form-field *ngIf="components['controls'].refund['controls'].active.value" class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="components['controls'].refund['controls'].type"
                                 [placeholder]="'refund.type_placeholder' | translate"
-                                [required]="components.controls.refund.controls.active.value">
+                                [required]="components['controls'].refund['controls'].active.value">
                               <mat-option *ngFor="let refundType of refundTypes" [value]="refundType.key">
                                 {{refundType.description | translate}}
                               </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="components.controls.refund.controls.active.errors?.required">
+                            <mat-error *ngIf="components['controls'].refund['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components.controls.refund['controls'].controls.active"></mat-slide-toggle>
+                          <mat-slide-toggle [formControl]="components['controls'].refund['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
                           <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
                             <div><strong><b>{{"pricing.title" | translate}}</b></strong></div>
                             <div>{{"pricing.description" | translate}}</div>
                           </div>
-                          <mat-form-field *ngIf="components.controls.pricing['controls'].active.value" class="flex-shrink-1 mx-5">
-                            <mat-select [formControl]="components.controls.pricing.controls.type"
+                          <mat-form-field *ngIf="components['controls'].pricing['controls'].active.value" class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="components['controls'].pricing['controls'].type"
                                 [placeholder]="'pricing.type_placeholder' | translate"
-                                [required]="components.controls.pricing.controls.active.value">
+                                [required]="components['controls'].pricing['controls'].active.value">
                               <mat-option *ngFor="let pricingType of pricingTypes" [value]="pricingType.key">
                                 {{pricingType.description | translate}}
                               </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="components.controls.pricing.controls.active.errors?.required">
+                            <mat-error *ngIf="components['controls'].pricing['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components.controls.pricing['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle [formControl]="components['controls'].pricing['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
                           <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
                             <div><strong><b>{{"organization.title" | translate}}</b></strong></div>
                             <div>{{"organization.description" | translate}}</div>
                           </div>
-                          <mat-slide-toggle [formControl]="components.controls.organization['controls'].active">
+                          <mat-slide-toggle [formControl]="components['controls'].organization['controls'].active">
                           </mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
@@ -143,18 +143,18 @@
                             <div><strong><b>{{"analytics.title" | translate}}</b></strong></div>
                             <div>{{"analytics.description" | translate}}</div>
                           </div>
-                          <mat-form-field *ngIf="components.controls.analytics['controls'].active.value" class="flex-shrink-1 mx-5">
-                            <mat-select [formControl]="components.controls.analytics.controls.type"
+                          <mat-form-field *ngIf="components['controls'].analytics['controls'].active.value" class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="components['controls'].analytics['controls'].type"
                                 [placeholder]="'analytics.type_placeholder' | translate"
-                                [required]="components.controls.analytics.controls.active.value">
+                                [required]="components['controls'].analytics['controls'].active.value">
                               <mat-option *ngFor="let analyticsType of analyticsTypes" [value]="analyticsType.key">
                                 {{analyticsType.description | translate}}
                               </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="components.controls.analytics.controls.active.errors?.required">
+                            <mat-error *ngIf="components['controls'].analytics['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components.controls.analytics['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle [formControl]="components['controls'].analytics['controls'].active"></mat-slide-toggle>
                         </div>
                       </div>
                     </div>

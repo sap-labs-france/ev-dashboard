@@ -38,6 +38,7 @@ export class ReleaseNotesComponent {
               `When two Charging Stations detail panes were opened, the second overrode the first one`,
               `Fixed Dialog Filters kept the last selection`,
               `Removed unnecessary authorization for Super Admin user`,
+              `Make all connectors unavailable if the charger does not report to the backend`,
               `Super Admin cannot access Settings in Master Tenant`,
               `Added creation of Tenant with Components`,
               `Added Component's type drop-down per component`,

@@ -9,10 +9,12 @@ import { KeyValue, Site, SiteArea, Charger, User } from '../../../common.types';
 import { SpinnerService } from 'app/services/spinner.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MatDialog, MatSort, MatDialogConfig } from '@angular/material';
-
-
-import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
-// import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
+import {TableFilterDef} from '../../../common.types';
+import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
+import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
+import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
+import {UserTableFilter} from '../../../shared/table/filters/user-filter';
+import {Constants} from '../../../utils/Constants';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -24,12 +26,11 @@ export class StatisticsConsumptionComponent implements OnInit {
   public ongoingRefresh = false;
   public transactionYears: number[];
   public selectedYear: number;
-  public selectedSite: Site;
-  public selectedSiteArea: SiteArea;
-  public selectedCharger: Charger;
-  public selectedUser: User;
   public consumptionBarChart: Chart;
   public consumptionPieChart: Chart;
+
+  public tableFiltersDef: TableFilterDef[] = [];
+  private filterDef: TableFilterDef;
 
   private firstSite: Site;
   private totalConsumption = 0;
@@ -65,122 +66,172 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.nameTotalsLabel = this.translateService.instant('statistics.total');
     if (this.nameTotalsLabel === '') { this.nameTotalsLabel = 'Total' }
 
+    this.filterDef = new SitesTableFilter().getFilterDef();
+    this.tableFiltersDef.push(this.filterDef);
+
+    this.filterDef = new SiteAreasTableFilter().getFilterDef();
+    this.tableFiltersDef.push(this.filterDef);
+
+    this.filterDef = new ChargerTableFilter().getFilterDef();
+    this.tableFiltersDef.push(this.filterDef);
+
+    // only for admin user
+    this.filterDef = new UserTableFilter().getFilterDef();
+    this.tableFiltersDef.push(this.filterDef);
+
     this.initChart(this.ctxBar, this.ctxPie);
 
     this.centralServerService.getSites([])
       .subscribe((sites) => {
         if (sites && sites.result.length > 0) {
           this.firstSite = sites.result[0];
-//          this.selectedSite = this.firstSite;
+          // only for admin user (to limit results on first select!):
+          this.filterDef = new SitesTableFilter().getFilterDef();
+          this.filterDef.currentValue = [{key: this.firstSite.id, value: this.firstSite.name, objectRef: this.firstSite}];
+          this.filterChanged(this.filterDef);
         }
         this.buildChart(this.selectedYear);
       });
   }
 
-  showDialogTableFilter(id: string) {
-    console.log('show: ', id);
+  public filterChanged(filter: TableFilterDef) {
+    // Get Actions def
+    // Reset to default paging
+    // this.setPaging({
+    // skip: 0,
+    // limit: this.getPageSize()
+    // });
 
+    // Update Filter
+    const foundFilter = this.tableFiltersDef.find((filterDef) => {
+      return filterDef.id === filter.id;
+    });
+
+    // Update value (usually this is not needed!)
+    foundFilter.currentValue = filter.currentValue;
+  }
+
+  public resetFilters(): void {
+    let filterWasChanged = false;
+
+    const oldYear = this.selectedYear;
+
+    this.selectedYear = new Date().getFullYear();
+    if (oldYear !== this.selectedYear) {
+      filterWasChanged = true;
+    }
+
+    if (this.tableFiltersDef) {
+      // Reset all filter fields
+      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+        switch (filterDef.type) {
+          case 'dropdown':
+            if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+            filterDef.currentValue = null;
+            break;
+          case 'dialog-table':
+            if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+            filterDef.currentValue = null;
+            break;
+          case 'date':
+            // to be sure:
+            filterWasChanged = true;
+            filterDef.reset();
+            break;
+        }
+      });
+    }
+
+    if (filterWasChanged) {
+      this.refresh();
+    }
+  }
+
+  public resetDialogTableFilter(filterDef: TableFilterDef): void {
+    let filterWasChanged = false;
+
+    if (filterDef.type === 'date') {
+      // to be sure:
+      filterWasChanged = true;
+      filterDef.reset();
+    } else {
+      if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+      filterDef.currentValue = null;
+    }
+
+    this.filterChanged(filterDef);
+
+    if (filterWasChanged) {
+      this.refresh();
+    }
+  }
+
+  public showDialogTableFilter(filterDef: TableFilterDef): void {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     // Set Validate button title to 'Set Filter'
     dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter'
+      validateButtonTitle : 'general.set_filter'
     };
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
-    switch (id) {
-      case 'charger':
-        const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
-        // Add sites
-        dialogRef.afterClosed().subscribe(data => {
-          if (data) {
-            this.selectedCharger = data;
-            //        this.filterChanged(filterDef);
-          }
-        });
-    }
+    const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
+    // Update value
+    dialogRef.afterClosed().subscribe(data => {
+      let filterWasChanged = false;
+      if (data) {
+        if (!filterDef.currentValue || filterDef.currentValue !== data) {
+          filterWasChanged = true;
+          filterDef.currentValue = data;
+        };
+
+        this.filterChanged(filterDef);
+
+        if (filterWasChanged) {
+          this.refresh();
+        }
+      }
+    });
   }
 
-  resetDialogTableFilter(id: string, update = true): boolean {
-    let filtersChanged = false;
-
-    console.log('reset:', id);
-
-    switch (id) {
-      case 'sites':
-        if (this.selectedSite !== this.firstSite) {
-          filtersChanged = true;
-          this.selectedSite = this.firstSite;
-        }
-        break;
-      case 'siteAreas':
-        if (this.selectedSiteArea) {
-          if (this.selectedSiteArea.id !== '') {
-            filtersChanged = true;
-            this.selectedSiteArea.id = '';
+  public buildFilterValues(): Object {
+    const filterJson = {};
+    // Parse filters
+    if (this.tableFiltersDef) {
+      this.tableFiltersDef.forEach((filterDef) => {
+        // Check the 'All' value
+        if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+          // Date
+          if (filterDef.type === 'date') {
+            filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+          // Table
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+            if (filterDef.currentValue.length > 0) {
+              if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
+                if (filterDef.currentValue.length > 1) {
+                  // Handle multiple key selection as a JSON array
+                  const jsonKeys = [];
+                  for (let index = 0; index < filterDef.currentValue.length; index++) {
+                    jsonKeys.push(filterDef.currentValue[index].key);
+                  }
+                  filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                } else {
+                  filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                }
+              }
+            }
+          // Others
+          } else {
+            // Set it
+            filterJson[filterDef.httpId] = filterDef.currentValue;
           }
-          this.selectedSiteArea.name = '';
         }
-        break;
-      case 'charger':
-        if (this.selectedCharger) {
-          if (this.selectedCharger.id !== '') {
-            filtersChanged = true;
-            this.selectedCharger.id = '';
-          }
-        }
-        break;
-      case 'user':
-        if (this.selectedUser) {
-          if (this.selectedUser.id !== '') {
-            filtersChanged = true;
-            this.selectedUser.id = '';
-          }
-          this.selectedUser.name = '';
-        }
-        break;
+      });
     }
 
-    if (filtersChanged && update) {
-      this.buildChart(this.selectedYear);
-    }
-
-    return filtersChanged
-  }
-
-  resetFilters() {
-    let filtersChanged = false;
-    const oldYear = this.selectedYear;
-    let dialogFilterChanged = false;
-
-    this.selectedYear = new Date().getFullYear();
-    if (oldYear !== this.selectedYear) {
-      filtersChanged = true;
-    }
-
-    dialogFilterChanged = this.resetDialogTableFilter('sites', false);
-    if (dialogFilterChanged) {
-      filtersChanged = true;
-    }
-
-    dialogFilterChanged = this.resetDialogTableFilter('siteAreas', false);
-    if (dialogFilterChanged) {
-      filtersChanged = true;
-    }
-    dialogFilterChanged = this.resetDialogTableFilter('charger', false);
-    if (dialogFilterChanged) {
-      filtersChanged = true;
-    }
-    dialogFilterChanged = this.resetDialogTableFilter('user', false);
-    if (dialogFilterChanged) {
-      filtersChanged = true;
-    }
-
-    if (filtersChanged) {
-      this.buildChart(this.selectedYear);
-    }
+    return filterJson;
   }
 
   initChart(contextBar: ElementRef, contextPie: ElementRef): void {
@@ -441,9 +492,9 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.totalConsumption = 0;
 
     const callServerAsPromise = new Promise(resolve => {
-      const params = [];
+      let params;
 
-      if (this.selectedSite && this.selectedSite.id) { params['SiteID'] = this.selectedSite.id }
+      params = this.buildFilterValues();
 
       this.centralServerService.getChargingStationConsumptionStatistics(selectedYear, params)
         .subscribe(statisticsData => {
@@ -708,15 +759,14 @@ export class StatisticsConsumptionComponent implements OnInit {
     return `rgba(${colors[div10][0]}, ${colors[div10][1]}, ${colors[div10][2]}, ${colors[div10][3]})`
   }
 
-
   setYear(): void {
-    this.buildChart(this.selectedYear);
+    this.refresh();
   }
 
-  refresh(): void {
-    this.ongoingRefresh = true;
+  refresh(buttonPressed?: false): void {
+    if (buttonPressed) { this.ongoingRefresh = true; }
     this.buildChart(this.selectedYear);
-    this.ongoingRefresh = false;
+    if (buttonPressed) { this.ongoingRefresh = false; }
   }
 
   toggleHideBarItems(): void {

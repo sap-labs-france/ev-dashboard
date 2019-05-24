@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Convergent Charging based on Site Area instead of Charging Station`,
               `When two Charging Stations detail panes were opened, the second overrode the first one`,
               `Fixed Dialog Filters kept the last selection`,
+              `Super Admin cannot access Settings in Master Tenant`,
               `Added creation of Tenant with Components`,
               `Added Component's type drop-down per component`,
               `Changed storage structure of Component's settings`

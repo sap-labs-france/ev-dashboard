@@ -205,7 +205,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab>
+        <mat-tab *ngIf="!isSuperAdmin">
           <ng-template mat-tab-label>
             <mat-icon>link</mat-icon>
             <span>{{'general.connectors' | translate}}</span>

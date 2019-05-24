@@ -37,6 +37,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private dialogRefSession;
+  private openAction = new TableOpenAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -168,8 +170,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   buildTableRowActions(): TableActionDef[] {
     return [
-      new TableOpenAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.openAction,
+      this.deleteAction
     ];
   }
 

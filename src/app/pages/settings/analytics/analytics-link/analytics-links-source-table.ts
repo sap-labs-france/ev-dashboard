@@ -22,6 +22,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
   @Output() changed = new EventEmitter<boolean>();
   private analyticsLinks: AnalyticsLink[];
+  private editAction = new TableEditAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -124,9 +127,9 @@ export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableViewAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.viewAction,
+      this.deleteAction
     ];
   }
 

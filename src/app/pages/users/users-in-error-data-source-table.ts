@@ -28,6 +28,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersInErrorDataSource extends TableDataSource<User> {
+  private editAction = new TableEditAction().getActionDef();
+  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -150,9 +154,9 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableAssignSiteAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.assignSiteAction,
+      this.deleteAction
     ];
   }
 

@@ -38,8 +38,9 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
-
   private isAdmin = false;
+  private openAction = new TableOpenAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -219,9 +220,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   buildTableRowActions(): TableActionDef[] {
-    const rowActions = [new TableOpenAction().getActionDef()];
+    const rowActions = [this.openAction];
     if (this.isAdmin) {
-      rowActions.push(new TableDeleteAction().getActionDef());
+      rowActions.push(this.deleteAction);
     }
     return rowActions;
   }

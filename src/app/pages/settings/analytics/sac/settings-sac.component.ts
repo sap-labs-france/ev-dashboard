@@ -49,4 +49,8 @@ export class SettingsSacComponent implements OnInit {
     // Init form
     this.formGroup.markAsPristine();
   }
+
+  openUrl() {
+    window.open(this.mainUrl.value);
+  }
 }

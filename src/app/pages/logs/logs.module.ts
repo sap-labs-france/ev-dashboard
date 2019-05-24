@@ -13,7 +13,7 @@ import {DialogsModule} from '../../shared/dialogs/dialogs.module';
 import {LogLevelComponent} from './formatters/log-level.component';
 import {AppFormatLogLevelPipe} from './formatters/log-level.component';
 import {ComponentModule} from '../../shared/component/component.module';
-import { LogsDataSource } from './logs-data-source-table';
+import {LogsDataSource} from './logs-data-source-table';
 
 
 @NgModule({

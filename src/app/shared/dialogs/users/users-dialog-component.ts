@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Self } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UsersDataSource } from './users-data-source-table';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -6,11 +6,12 @@ import { KeyValue, User } from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
+  providers: [UsersDataSource]
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
-    private usersDataSource: UsersDataSource,
+    @Self() private usersDataSource: UsersDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
     super(data, dialogRef, usersDataSource);
     // Default title

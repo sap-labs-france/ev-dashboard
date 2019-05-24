@@ -62,7 +62,7 @@ export class MessageService {
         message: this.translateService.instant(message, params)
       }, {
         type: type,
-        delay: 10000,
+        delay: 3000,
         timer: 1500,
         allow_dismiss: true,
         placement: {

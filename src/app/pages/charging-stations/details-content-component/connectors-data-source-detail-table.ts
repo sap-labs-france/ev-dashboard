@@ -224,11 +224,11 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       // Start Transaction
       case 'start':
         // Check
-        if (connector.activeTransactionID) {
+        if (!connector.isStartAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
-            this.translateService.instant('chargers.action_error.transaction_in_progress'));
-            return;
+            this.translateService.instant('chargers.action_error.transaction_start_not_authorized'));
+          return;
         }
         if (!this.charger.inactive) {
           this.dialogService.createAndShowOkDialog(
@@ -236,11 +236,11 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
           return;
         }
-        if (!connector.isStartAuthorized) {
+        if (connector.activeTransactionID) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
-            this.translateService.instant('chargers.action_error.transaction_start_not_authorized'));
-          return;
+            this.translateService.instant('chargers.action_error.transaction_in_progress'));
+            return;
         }
         // Check
         if (this.authorizationService.isAdmin()) {

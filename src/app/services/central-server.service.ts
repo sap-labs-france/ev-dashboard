@@ -1251,7 +1251,7 @@ export class CentralServerService {
       );
   }
 
-  stationStopTransaction(chargeBoxId: string, transactionId: number) {
+  chargingStationStopTransaction(chargeBoxId: string, transactionId: number) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -1268,7 +1268,7 @@ export class CentralServerService {
       );
   }
 
-  stationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
+  chargingStationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,

@@ -229,8 +229,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  protected _stationStopTransaction(transaction: Transaction) {
-    this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+  protected _chargingStationStopTransaction(transaction: Transaction) {
+    this.centralServerService.chargingStationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -268,7 +268,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     if (transaction.status === 'Available') {
       this._softStopTransaction(transaction);
     } else {
-      this._stationStopTransaction(transaction);
+      this._chargingStationStopTransaction(transaction);
     }
   }
 

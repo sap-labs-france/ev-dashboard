@@ -6,7 +6,6 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'app/services/message.service';
 import { DialogService } from 'app/services/dialog.service';
-import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
@@ -33,7 +32,6 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
       public spinnerService: SpinnerService,
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
-      private localeService: LocaleService,
       private messageService: MessageService,
       private router: Router,
       private dialogService: DialogService,
@@ -91,7 +89,6 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
     return [
       {
         id: 'patchJobStatus',

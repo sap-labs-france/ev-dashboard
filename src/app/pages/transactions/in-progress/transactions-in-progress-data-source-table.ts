@@ -33,8 +33,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
-
-  private dialogRefSession;
+  private openAction = new TableOpenAction().getActionDef();
+  private stopAction = new TableStopAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -85,7 +85,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -211,11 +212,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
-    return [
-      new TableOpenAction().getActionDef(),
-      new TableStopAction().getActionDef()
+  buildTableDynamicRowActions(): TableActionDef[] {
+    const actions = [
+      this.openAction
     ];
+    if (!this.authorizationService.isDemo()) {
+      actions.push(this.stopAction);
+    }
+    return actions;
   }
 
   buildTableActionsRightDef(): TableActionDef[] {
@@ -225,8 +229,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  protected _stationStopTransaction(transaction: Transaction) {
-    this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+  protected _chargingStationStopTransaction(transaction: Transaction) {
+    this.centralServerService.chargingStationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -264,7 +268,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     if (transaction.status === 'Available') {
       this._softStopTransaction(transaction);
     } else {
-      this._stationStopTransaction(transaction);
+      this._chargingStationStopTransaction(transaction);
     }
   }
 
@@ -281,6 +285,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 }

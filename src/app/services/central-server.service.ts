@@ -454,6 +454,20 @@ export class CentralServerService {
       );
   }
 
+  public getTenant(id: string): Observable<Tenant> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Tenant`,
+      {
+        headers: this._buildHttpHeaders(),
+        params: {ID: id}
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
     // Verify init
     this._checkInit();
@@ -1237,7 +1251,7 @@ export class CentralServerService {
       );
   }
 
-  stationStopTransaction(chargeBoxId: string, transactionId: number) {
+  chargingStationStopTransaction(chargeBoxId: string, transactionId: number) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -1254,7 +1268,7 @@ export class CentralServerService {
       );
   }
 
-  stationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
+  chargingStationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,

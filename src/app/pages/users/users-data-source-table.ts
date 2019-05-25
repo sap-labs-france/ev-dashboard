@@ -31,6 +31,11 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
+  private editAction = new TableEditAction().getActionDef();
+  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private currentUser: User;
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -48,6 +53,8 @@ export class UsersDataSource extends TableDataSource<User> {
     super(spinnerService);
     // Init
     this.initDataSource();
+    // Store the current user
+    this.currentUser = this.centralServerService.getLoggedUser();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -75,7 +82,8 @@ export class UsersDataSource extends TableDataSource<User> {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -156,19 +164,22 @@ export class UsersDataSource extends TableDataSource<User> {
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(user: User): TableActionDef[] {
+    let actions;
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableAssignSiteAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
+      actions = [
+        this.editAction,
+        this.assignSiteAction,
       ];
     } else {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
+      actions = [
+        this.editAction,
       ];
     }
+    if (this.currentUser.id !== user.id) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

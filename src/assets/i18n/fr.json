@@ -1,4 +1,3 @@
-
 {
   "general": {
     "days": "jours",
@@ -15,7 +14,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.23",
+    "last_update": "Version 2.0.24",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -611,16 +610,20 @@
     },
     "action_error": {
       "transaction_start_title": "Erreur démarrage de session",
+      "transaction_in_progress": "Une session est en cours, impossible de démarrer une nouvelle session",
+      "no_active_transaction": "Pas de session active",
       "transaction_start_not_available": "Le connecteur n'est pas disponible, impossible de démarrer une session",
-      "transaction_start_charger_inactive": "La borne n'est pas connectée, impossible de démarrer une session",
+      "transaction_start_charger_inactive": "La borne n'est pas disponible, impossible de démarrer une session",
+      "transaction_start_not_authorized": "Vous n'êtes pas autorisé à demarrer une session",
       "transaction_stop_title": "Erreur d'arrêt de session",
       "transaction_stop_not_authorized": "Vous n'êtes pas autorisé à arrêter cette session",
+      "transaction_stop_not_available": "Le connecteur n'est pas disponible, impossible de stopper une session",
       "delete_title": "Suppression d'une borne impossible",
       "delete_active_transaction": "La suppression d'une borne n'est pas autorisée quand une session est en cours",
       "command_title": "Erreur d'envoi de commande ",
-      "command_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "command_charger_disconnected": "La borne n'est pas disponible, aucunes commandes ne peut être envoyées",
       "smart_charging_title": "Erreur dans smart charging",
-      "smart_charging_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "smart_charging_charger_disconnected": "La borne n'est pas disponible, aucunes commandes ne peut être envoyées",
       "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging",
       "session_details_title": "Erreur pour les details de session",
       "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session",
@@ -889,9 +892,12 @@
       "ocpi": "Itinérance",
       "refund": "Remboursement",
       "pricing": "Pricing",
-      "sac": "Analytics"
+      "analytics": "Analytics"
     },
     "ocpi": {
+      "gireve": {
+        "title": "Gireve"
+      },
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
       "setting_not_found": "La configuration OCPI n'est pas disponible",
       "create_success": "La configuration OCPI a été créé avec succès",
@@ -908,7 +914,7 @@
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
       "concur": {
-        "title": "Concur",
+        "title": "SAP Concur",
         "authentication_url": "Url d'authentification",
         "api_url": "Url d'api",
         "client_id": "Client ID",
@@ -930,9 +936,11 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration Pricing",
       "update_success": "La configuration Pricing a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
+      "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
+      "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
         "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de session fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
-        "title": "Convergent Charging",
+        "title": "SAP Convergent Charging",
         "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
         "user": "Utilisateur",
@@ -945,15 +953,18 @@
         "currency": "Devise"
       }
     },
-    "sac": {
-      "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
-      "setting_not_found": "La configuration SAP Analytics Cloud n'est pas disponible",
+    "analytics": {
+      "sac": {
+        "title": "SAP Analytics",
+        "settings": "Configuration"
+      },
+      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
+      "setting_not_found": "La configuration n'a pas été trouvée",
       "create_success": "La configuration SAP Analytics Cloud a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
+      "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
       "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud",
-      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
-      "settings": "Configuration"
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
@@ -1016,6 +1027,7 @@
   },
   "ocpi": {
     "title": "Itinérance",
+    "type_placeholder": "Type",
     "emsps": "Plate-forme d'interopérabilité",
     "cpo": "Identification Opérateur d’Infrastructure de Recharge",
     "description": "Open Charge Point Interface",
@@ -1046,8 +1058,9 @@
       "siteareas": "Zones"
     }
   },
-  "sac": {
+  "analytics": {
     "title": "Analytique",
+    "type_placeholder": "Type",
     "description": "Interface Analytique",
     "mainurl": "URL d'acceuil SAP Analytics Cloud",
     "timezone": "Fuseau horaire utilisé dans SAP Analytics Cloud",
@@ -1063,6 +1076,7 @@
   },
   "refund": {
     "title": "Remboursement",
+    "type_placeholder": "Type",
     "description": "Interface de Remboursement"
   },
   "pricing": {

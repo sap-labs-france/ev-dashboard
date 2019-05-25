@@ -28,6 +28,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersInErrorDataSource extends TableDataSource<User> {
+  private editAction = new TableEditAction().getActionDef();
+  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -90,7 +94,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role) => this.userRolePipe.transform(role, loggedUserRole),
+        formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         sortable: true
@@ -150,9 +154,9 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableAssignSiteAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.assignSiteAction,
+      this.deleteAction
     ];
   }
 

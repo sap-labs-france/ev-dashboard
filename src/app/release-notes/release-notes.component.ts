@@ -28,6 +28,32 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.24',
+        date: new Date('2019-05-24'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Convergent Charging based on Site Area instead of Charging Station`,
+              `When two Charging Stations detail panes were opened, the second overrode the first one`,
+              `Fixed Dialog Filters kept the last selection`,
+              `Removed unnecessary authorization for Super Admin user`,
+              `Make all connectors unavailable if the charger does not report to the backend`,
+              `Super Admin cannot access Settings in Master Tenant`,
+              `Added creation of Tenant with Components`,
+              `Added Component's type drop-down per component`,
+              `Changed storage structure of Component's settings`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              ``
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.23',
         date: new Date('2019-05-18'),
         componentChanges: [
@@ -44,7 +70,7 @@ export class ReleaseNotesComponent {
               `Uncheck unselectable refund rows in table after a refunding`,
               `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
               `Users are logged off if their profile or tenant's config are changed`,
-              'Admin can disable the notifications for a given user'
+              `Admin can disable the notifications for a given user`
             ]
           },
           {

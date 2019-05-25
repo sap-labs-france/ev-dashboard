@@ -1,9 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
-
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
 import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
-import {RouteGuardService} from './services/route-guard.service';
 import {ModuleWithProviders} from '@angular/core';
 import {DevEnvGuard} from './guard/development.guard';
 import {Constants} from './utils/Constants';

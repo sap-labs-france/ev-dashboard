@@ -617,6 +617,7 @@
       "transaction_start_not_authorized": "You are not authorized to start a session",
       "transaction_stop_title": "Stop session error",
       "transaction_stop_not_authorized": "You are not authorized to stop this session",
+      "transaction_stop_not_available": "Connector is not available, unable to stop a session",
       "delete_title": "Delete charging station error",
       "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
       "command_title": "Charging station command error",

@@ -230,7 +230,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.translateService.instant('chargers.action_error.transaction_start_not_authorized'));
           return;
         }
-        if (!this.charger.inactive) {
+        if (this.charger.inactive) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
             this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
@@ -273,6 +273,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_stop_title'),
             this.translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
+        }
+        if (this.charger.inactive) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
+          return;
         }
         if (!connector.activeTransactionID) {
           this.dialogService.createAndShowOkDialog(

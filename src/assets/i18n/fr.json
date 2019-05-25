@@ -617,6 +617,7 @@
       "transaction_start_not_authorized": "Vous n'êtes pas autorisé à demarrer une session",
       "transaction_stop_title": "Erreur d'arrêt de session",
       "transaction_stop_not_authorized": "Vous n'êtes pas autorisé à arrêter cette session",
+      "transaction_stop_not_available": "Le connecteur n'est pas disponible, impossible de stopper une session",
       "delete_title": "Suppression d'une borne impossible",
       "delete_active_transaction": "La suppression d'une borne n'est pas autorisée quand une session est en cours",
       "command_title": "Erreur d'envoi de commande ",

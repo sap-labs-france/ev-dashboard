@@ -223,7 +223,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     switch (actionDef.id) {
       // Start Transaction
       case 'start':
-        // Check
         if (!connector.isStartAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
@@ -235,6 +234,11 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             this.translateService.instant('chargers.action_error.transaction_start_title'),
             this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
           return;
+        }
+        if (connector.status === Constants.CONN_STATUS_AVAILABLE) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_start_not_available'));
         }
         if (connector.activeTransactionID) {
           this.dialogService.createAndShowOkDialog(
@@ -276,9 +280,14 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         }
         if (this.charger.inactive) {
           this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_stop_title'),
             this.translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
           return;
+        }
+        if (connector.status === Constants.CONN_STATUS_AVAILABLE) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_stop_title'),
+            this.translateService.instant('chargers.action_error.transaction_stop_not_available'));
         }
         if (!connector.activeTransactionID) {
           this.dialogService.createAndShowOkDialog(

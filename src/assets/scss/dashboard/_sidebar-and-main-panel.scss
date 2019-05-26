@@ -415,7 +415,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-@media (min-width: 991px) {
+@media (max-width: 1280px) {
   .sidebar-mini {
     .sidebar,
     .sidebar .sidebar-wrapper {

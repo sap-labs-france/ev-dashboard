@@ -41,6 +41,7 @@ export class ReleaseNotesComponent {
               `Super Admin cannot access Settings and Connectors in Master Tenant`,
               `Added creation of Tenant with Components`,
               `Added Component's type drop-down per component`,
+              `Unfold the sidebar when the screen width is greater than 1280 pixels`
             ]
           },
           {
@@ -51,6 +52,7 @@ export class ReleaseNotesComponent {
               `Check Serial Number if the Vendor/Model does not match during a Boot Notification`,
               `Make all connectors unavailable if the charger does not report to the backend`,
               `Convergent Charging based on Site Area instead of Charging Station`,
+              `Add extra inactivity when the connector's status changes from Finishing to Available at the end of the transaction`,
               `Updated the authentication token size`,
               `Changed storage structure of Component's settings`
             ]

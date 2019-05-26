@@ -27,7 +27,7 @@
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
     "error_not_a_number": "Not a valid number",
-    "id": "ID",
+    "id": "Id",
     "ok": "Ok",
     "cancel": "Cancel",
     "actions": "Actions",

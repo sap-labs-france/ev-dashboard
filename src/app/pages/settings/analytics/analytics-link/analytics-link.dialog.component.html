@@ -10,44 +10,44 @@
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row">
-                <!-- SAC Link - Name -->
+                <!-- Link - Name -->
                 <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'sac.link.name' | translate}}" type="text" [formControl]="name"
+                      <input matInput placeholder="{{'analytics.link.name' | translate}}" type="text" [formControl]="name"
                         required>
-                      <mat-error *ngIf="name.hasError('required')">{{"general.mandatory_field" | translate}}
+                      <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
-                      <mat-error *ngIf="name.hasError('maxlength')">
+                      <mat-error *ngIf="name.errors?.maxlength">
                         <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- SAC Link - Description -->
+                <!-- Link - Description -->
                 <div class="col-md-8">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'sac.link.description' | translate}}"
+                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.description' | translate}}"
                         type="text" [formControl]="description" required>
-                      <mat-error *ngIf="description.hasError('required')">{{"general.mandatory_field" | translate}}
+                      <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- SAC Link - Url -->
+                <!-- Link - Url -->
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'sac.link.url' | translate}}" type="text"
+                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.url' | translate}}" type="text"
                         [formControl]="url" required>
-                      <mat-error *ngIf="url.hasError('required')">{{"general.mandatory_field" | translate}}
+                      <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
-                      <mat-error *ngIf="url.hasError('pattern')">
+                      <mat-error *ngIf="url.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
                       <button mat-icon-button matSuffix aria-label="View" (click)="openUrl()"
-                        [disabled]="url.hasError('pattern') || url.hasError('required')">
+                        [disabled]="url.errors?.pattern || url.errors?.required">
                         <mat-icon>remove_red_eye</mat-icon>
                       </button>
                     </mat-form-field>
@@ -60,14 +60,14 @@
         </div>
         <div class="card-footer mat-dialog-actions" align="end">
           <span class="app-spacer"></span>
-          <ng-template [ngIf]="this.currentSacLink.id === ''" [ngIfElse]="update">
-            <button mat-raised-button color="warn" (click)="setLink(formGroup.value)"
+          <ng-template [ngIf]="this.currentLink.id === ''" [ngIfElse]="update">
+            <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
               {{"general.create" | translate}}
             </button>
           </ng-template>
           <ng-template #update>
-            <button mat-raised-button color="warn" (click)="setLink(formGroup.value)"
+            <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
               {{"general.update" | translate}}
             </button>
@@ -79,7 +79,7 @@
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button (click)="cancel()">
+          <button mat-icon-button ngClass="mat-button-tab-close-only" (click)="cancel()">
             <mat-icon>close</mat-icon>
           </button>
         </ng-template>

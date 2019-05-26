@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.24',
-        date: new Date('2019-05-24'),
+        date: new Date('2019-05-26'),
         componentChanges: [
           {
             name: 'Front-end',
@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Fixed when two Charging Station details are opened, the second one overrode the first one`,
               `Fixed Dialog Filters kept the last selection`,
               `Can perform a Remote Start Session on Occupied connector (Keba)`,
+              `Show IDs in all list for Admin users`,
               `Super Admin cannot access Settings and Connectors in Master Tenant`,
               `Added creation of Tenant with Components`,
               `Added Component's type drop-down per component`,
@@ -50,6 +51,7 @@ export class ReleaseNotesComponent {
               `Check Serial Number if the Vendor/Model does not match during a Boot Notification`,
               `Make all connectors unavailable if the charger does not report to the backend`,
               `Convergent Charging based on Site Area instead of Charging Station`,
+              `Updated the authentication token size`,
               `Changed storage structure of Component's settings`
             ]
           }

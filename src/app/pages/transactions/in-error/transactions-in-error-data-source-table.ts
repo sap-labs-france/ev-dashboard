@@ -90,8 +90,16 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
-      {
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -125,8 +133,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         name: 'errors.description',
         sortable: false,
         formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
-      }
-    ];
+      });
     if (this.isAdmin) {
       columns.splice(1, 0, {
         id: 'user',

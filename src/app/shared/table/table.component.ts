@@ -11,6 +11,7 @@ import {SpinnerService} from 'app/services/spinner.service';
 import {fromEvent} from 'rxjs';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-table',
@@ -34,6 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService: TranslateService,
     protected localService: LocaleService,
     public spinnerService: SpinnerService,
+    public windowService: WindowService,
     private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
@@ -112,8 +114,35 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public filterChanged(filterDef: TableFilterDef) {
     // Get Actions def
     this.dataSource.filterChanged(filterDef);
+    // Update URL with filter
+    this.updateUrlWithFilters(filterDef);
     // Reload data
     this.refresh();
+  }
+
+  public updateUrlWithFilters(filter: TableFilterDef) {
+    // Update URL with filter value
+    if (filter.id && filter.id !== 'null') {
+      // Capitalize first letter of search id
+      const filterIdInCap = filter.id.charAt(0).toUpperCase() + filter.id.slice(1);
+      if (filter.currentValue === 'null' || !filter.currentValue ) {
+        this.windowService.deleteSearch(filterIdInCap);
+      } else {
+        switch (typeof filter.currentValue) {
+          case 'object': {
+            this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
+            break;
+          }
+          case 'string': {
+            this.windowService.setSearch(filterIdInCap, filter.currentValue);
+            break;
+          }
+          default: {
+            break;
+          }
+        }  
+      }
+    }
   }
 
   public sortChanged(tableColumnDef: TableColumnDef) {

@@ -84,7 +84,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'logo',
         name: 'companies.logo',
@@ -96,7 +96,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       {
         id: 'name',
         name: 'companies.name',
-        // headerClass: 'col-30p',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -117,6 +116,15 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
         sortable: true
       }
     ];
+    if (this.isAdmin) {
+      tableColumnDef.unshift({
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'd-none col-15p d-xl-table-cell',
+        class: 'd-none col-15p d-xl-table-cell'
+      });
+    }
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

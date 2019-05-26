@@ -104,6 +104,14 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
     columns.push(
       {
         id: 'refundData.reportId',

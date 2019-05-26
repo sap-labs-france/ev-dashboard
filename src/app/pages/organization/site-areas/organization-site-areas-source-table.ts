@@ -84,7 +84,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
         name: 'site_areas.title',
@@ -116,6 +116,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         sortable: true
       }
     ];
+    if (this.isAdmin) {
+      tableColumnDef.unshift({
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'd-none col-15p d-xl-table-cell',
+        class: 'd-none col-15p d-xl-table-cell'
+      });
+    }
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

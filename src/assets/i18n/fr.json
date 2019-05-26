@@ -27,7 +27,7 @@
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
     "error_not_a_number": "La valeur n'est pas un nombre",
-    "id": "ID",
+    "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
     "actions": "Actions",
@@ -772,6 +772,7 @@
     }
   },
   "users": {
+    "id": "Id",
     "tabs": {
       "list": "Utilisateurs",
       "in_error": "En Erreur"
@@ -1089,6 +1090,7 @@
     "update_error": "Une erreur est survenue pendant la mise à jour du prix"
   },
   "transactions": {
+    "id": "Id",
     "date_from": "Date",
     "duration": "Durée",
     "inactivity": "Inactivité",

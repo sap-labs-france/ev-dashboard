@@ -99,9 +99,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
-      {
-        id: 'timestamp',
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
+      id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
         sorted: true,
@@ -138,8 +146,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      }
-    ];
+      });
     if (this.isAdmin) {
       columns.splice(1, 0, {
         id: 'user',

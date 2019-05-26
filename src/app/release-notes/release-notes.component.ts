@@ -46,6 +46,7 @@ export class ReleaseNotesComponent {
             name: 'Backend',
             changes: [
               `Removed unnecessary authorizations for Super Admin user`,
+              `Enhanced Concur logging`,
               `Check Serial Number if the Vendor/Model does not match during a Boot Notification`,
               `Make all connectors unavailable if the charger does not report to the backend`,
               `Convergent Charging based on Site Area instead of Charging Station`,

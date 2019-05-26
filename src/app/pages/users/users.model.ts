@@ -13,10 +13,7 @@ export class UserRoles {
   public static getAvailableRoles(role: String): KeyValue[] {
     if (role === Constants.ROLE_SUPER_ADMIN) {
       return [
-        {key: 'A', value: 'users.role_admin'},
         {key: 'S', value: 'users.role_super_admin'},
-        {key: 'B', value: 'users.role_basic'},
-        {key: 'D', value: 'users.role_demo'}
       ];
     }
     return [

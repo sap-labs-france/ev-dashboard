@@ -11,6 +11,11 @@
   font-size: 0.9rem;
   border-radius: 0;
 
+  legend {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
   .card-category:not([class*="text-"]) {
     color: $brand-text;
   }

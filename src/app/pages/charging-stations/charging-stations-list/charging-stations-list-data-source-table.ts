@@ -220,7 +220,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
-        // new TableOpenInMapsAction().getActionDef(),
         new TableExportAction().getActionDef(),
         ...tableActionsDef
       ];

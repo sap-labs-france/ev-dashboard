@@ -14,7 +14,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.23",
+    "last_update": "Version 2.0.24",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -610,16 +610,20 @@
     },
     "action_error": {
       "transaction_start_title": "Start session error",
+      "transaction_in_progress": "A session is in progress, unable to start a new session",
+      "no_active_transaction": "No active session",
       "transaction_start_not_available": "Connector is not available, unable to start a session",
-      "transaction_start_charger_inactive": "Charger is not connected, unable to start a session",
+      "transaction_start_charger_inactive": "Charger is not available, unable to start a session",
+      "transaction_start_not_authorized": "You are not authorized to start a session",
       "transaction_stop_title": "Stop session error",
       "transaction_stop_not_authorized": "You are not authorized to stop this session",
+      "transaction_stop_not_available": "Connector is not available, unable to stop a session",
       "delete_title": "Delete charging station error",
       "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
       "command_title": "Charging station command error",
-      "command_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "command_charger_disconnected": "Charging station is not available, no command can be sent",
       "smart_charging_title": "Snart charging error",
-      "smart_charging_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_charger_disconnected": "Charging station is not available, no command can be sent",
       "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station",
       "session_details_title": "Session details error",
       "session_details_not_authorized": "You are not authorized to display the session details",
@@ -889,9 +893,12 @@
       "ocpi": "Roaming",
       "refund": "Refunding",
       "pricing": "Pricing",
-      "sac": "Analytics"
+      "analytics": "Analytics"
     },
     "ocpi": {
+      "gireve": {
+        "title": "Gireve"
+      },
       "setting_do_not_exist": "OCPI Settings not found",
       "setting_not_found": "OCPI Settings not found",
       "create_success": "OCPI settings have been created successfully",
@@ -908,7 +915,7 @@
       "update_success": "Refunding settings have been updated successfully",
       "update_error": "Error occurred while updating the Refunding settings",
       "concur": {
-        "title": "Concur",
+        "title": "SAP Concur",
         "authentication_url": "Authentication Url",
         "api_url": "API Url",
         "client_id": "Client ID",
@@ -934,7 +941,7 @@
       "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
         "description": "E-Mobility provides Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). To enable this feature, please contact your E-Mobility representative. More technical information available at ",
-        "title": "Convergent Charging",
+        "title": "SAP Convergent Charging",
         "chargeable_item_name": "Chargeable Item Name",
         "url": "Url",
         "user": "User",
@@ -947,15 +954,18 @@
         "currency": "Currency"
       }
     },
-    "sac": {
-      "setting_do_not_exist": "SAP Analytics Cloud Settings not found",
+    "analytics": {
+      "sac": {
+        "title": "SAP Analytics",
+        "settings": "Settings"
+      },
+      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the session data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
+      "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "SAP Analytics Cloud Settings not found",
       "create_success": "SAP Analytics Cloud settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
-      "update_error": "Error occurred while updating the SAP Analytics Cloud settings",
-      "description": "E-Mobility exposes its data to external analytics tools. This feature exposes real-time all the session data through a connector to external data analytics tools. E-Mobility is currently using SAP Analytics Cloud via an OData connector. SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making. More technical information available at ",
-      "settings": "Settings"
+      "update_error": "Error occurred while updating the SAP Analytics Cloud settings"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."
@@ -1018,6 +1028,7 @@
   },
   "ocpi": {
     "title": "Roaming",
+    "type_placeholder": "Type",
     "emsps": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
     "description": "Open Charge Point Interface",
@@ -1048,8 +1059,9 @@
       "siteareas": "Site Areas"
     }
   },
-  "sac": {
+  "analytics": {
     "title": "Analytics",
+    "type_placeholder": "Type",
     "description": "Extended Analytics Interface",
     "mainurl": "SAP Analytics Cloud Home Page",
     "timezone": "Timezone used in SAP Analytics Cloud",
@@ -1065,6 +1077,7 @@
   },
   "refund": {
     "title": "Refunding",
+    "type_placeholder": "Type",
     "description": "Refunding Interface"
   },
   "pricing": {
@@ -1230,4 +1243,3 @@
     "action": "Recommended action"
   }
 }
-

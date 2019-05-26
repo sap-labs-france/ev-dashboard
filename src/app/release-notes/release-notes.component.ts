@@ -28,6 +28,34 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.24',
+        date: new Date('2019-05-24'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Fixed when two Charging Station details are opened, the second one overrode the first one`,
+              `Fixed Dialog Filters kept the last selection`,
+              `Can perform a Remote Start Session on Occupied connector (Keba)`,
+              `Super Admin cannot access Settings and Connectors in Master Tenant`,
+              `Added creation of Tenant with Components`,
+              `Added Component's type drop-down per component`,
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed unnecessary authorizations for Super Admin user`,
+              `Enhanced Concur logging`,
+              `Check Serial Number if the Vendor/Model does not match during a Boot Notification`,
+              `Make all connectors unavailable if the charger does not report to the backend`,
+              `Convergent Charging based on Site Area instead of Charging Station`,
+              `Changed storage structure of Component's settings`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.23',
         date: new Date('2019-05-18'),
         componentChanges: [
@@ -44,7 +72,7 @@ export class ReleaseNotesComponent {
               `Uncheck unselectable refund rows in table after a refunding`,
               `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
               `Users are logged off if their profile or tenant's config are changed`,
-              'Admin can disable the notifications for a given user'
+              `Admin can disable the notifications for a given user`
             ]
           },
           {
@@ -53,10 +81,10 @@ export class ReleaseNotesComponent {
               `Fixed Charging Station, Company, Site and Site Area to not break pagination in the frontend`,
               `Post expense entries in parallel and add retry process in case of error`,
               `OCPI - OData - Requires authentication for metadata and schema`,
-              `Add OCPP validation of transaction request (1.6 and 1.5)`,
+              `Add OCPP validation of Session request (1.6 and 1.5)`,
               `Save last reboot date of Charging Station`,
               `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`,
-              `Migration task to update the price of existing transactions`
+              `Migration task to update the price of existing Sessions`
             ]
           }
         ]
@@ -107,10 +135,10 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Handling of number of phases of DC Chargers`,
-              `Should be able to start a transaction when connector status is 'Preparing'`,
+              `Should be able to start a Session when connector status is 'Preparing'`,
               `Should be able to see the list of chargers in Site Area`,
-              `Display an error message when transaction fails to start`,
-              `Handle auto stop of transaction when user got locked after starting one`,
+              `Display an error message when Session fails to start`,
+              `Handle auto stop of Session when user got locked after starting one`,
             ]
           },
           {

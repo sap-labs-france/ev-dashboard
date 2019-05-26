@@ -9,6 +9,14 @@
   }
 }
 
+.mat-toolbar-settings {
+  padding: 10px 0 0 0px;
+}
+
+.component-item {
+  height: 60px;
+}
+
 .mat-form-field, .mat-select-content, .mat-select, .mat-option {
   font-size: $font-size-sm !important;
   width: 100%;

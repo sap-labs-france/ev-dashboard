@@ -6,8 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
 import { KeyValue, Site, SiteArea, Charger, User } from '../../../common.types';
-import { SpinnerService } from 'app/services/spinner.service';
-import { LocaleService } from 'app/services/locale.service';
+import {AuthorizationService} from '../../../services/authorization-service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { LocaleService } from '../../../services/locale.service';
 import { MatDialog, MatSort, MatDialogConfig } from '@angular/material';
 import {TableFilterDef} from '../../../common.types';
 import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
@@ -22,9 +23,11 @@ import {Constants} from '../../../utils/Constants';
 })
 
 export class StatisticsConsumptionComponent implements OnInit {
+  public isAdmin: boolean;
   public chartTitle: string;
   public ongoingRefresh = false;
   public transactionYears: number[];
+  public selectedCategory = 'C';
   public selectedYear: number;
   public consumptionBarChart: Chart;
   public consumptionPieChart: Chart;
@@ -46,13 +49,16 @@ export class StatisticsConsumptionComponent implements OnInit {
   @ViewChild('consumptionBarChart') ctxBar: ElementRef;
   @ViewChild('consumptionPieChart') ctxPie: ElementRef;
 
-  constructor(public spinnerService: SpinnerService,
+  constructor(
+    private authorizationService: AuthorizationService,
+    public spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private dialog: MatDialog) { };
 
   ngOnInit(): void {
     this.spinnerService.show();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     this.selectedYear = new Date().getFullYear();
 
@@ -76,8 +82,10 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.tableFiltersDef.push(this.filterDef);
 
     // only for admin user
-    this.filterDef = new UserTableFilter().getFilterDef();
-    this.tableFiltersDef.push(this.filterDef);
+    if (this.isAdmin) {
+      this.filterDef = new UserTableFilter().getFilterDef();
+      this.tableFiltersDef.push(this.filterDef);
+    }
 
     this.initChart(this.ctxBar, this.ctxPie);
 
@@ -86,9 +94,11 @@ export class StatisticsConsumptionComponent implements OnInit {
         if (sites && sites.result.length > 0) {
           this.firstSite = sites.result[0];
           // only for admin user (to limit results on first select!):
-          this.filterDef = new SitesTableFilter().getFilterDef();
-          this.filterDef.currentValue = [{key: this.firstSite.id, value: this.firstSite.name, objectRef: this.firstSite}];
-          this.filterChanged(this.filterDef);
+          if (this.isAdmin) {
+            this.filterDef = new SitesTableFilter().getFilterDef();
+            this.filterDef.currentValue = [{key: this.firstSite.id, value: this.firstSite.name, objectRef: this.firstSite}];
+            this.filterChanged(this.filterDef);
+          }
         }
         this.buildChart(this.selectedYear);
       });
@@ -357,7 +367,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     return chartOptions;
   }
 
-  updateBarOptions(): void {
+  updateBarOptions(mainLabel?: string): void {
+    if (mainLabel) {
+      this.barChartOptions.title.text = mainLabel;
+    }
+
     let minValue = 0;
     if (Array.isArray(this.barChartData.datasets)) {
       let amount = this.barChartData.datasets.length;
@@ -375,7 +389,8 @@ export class StatisticsConsumptionComponent implements OnInit {
           };
         }
       });
-      minValue = minValue / amount / 2
+//      minValue = minValue / amount / 2
+      minValue = minValue / 40;
     }
 
     this.barChartOptions['plugins']['datalabels'] = {
@@ -449,7 +464,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     return chartOptions;
   }
 
-  updatePieOptions(): void {
+  updatePieOptions(mainLabel?: string): void {
+    if (mainLabel) {
+      this.pieChartOptions.title.text = mainLabel;
+    }
+
     let minValue = 0;
     if (Array.isArray(this.pieChartData.datasets)) {
       let amount = 0;
@@ -467,7 +486,8 @@ export class StatisticsConsumptionComponent implements OnInit {
         }
       });
       if (amount < 1) { amount = 1 }
-      minValue = minValue / amount / 2
+//      minValue = minValue / amount / 2
+      minValue = minValue / 40;
     }
 
     this.pieChartOptions['plugins']['datalabels'] = {
@@ -495,17 +515,28 @@ export class StatisticsConsumptionComponent implements OnInit {
       let params;
 
       params = this.buildFilterValues();
+      this.chartTitle = this.createChartTitle(selectedYear, this.totalConsumption);
 
-      this.centralServerService.getChargingStationConsumptionStatistics(selectedYear, params)
-        .subscribe(statisticsData => {
 
-          this.totalConsumption = this.buildStatistics(statisticsData);
-          this.spinnerService.hide();
+      if (this.selectedCategory === 'C') {
+        this.centralServerService.getChargingStationConsumptionStatistics(selectedYear, params)
+          .subscribe(statisticsData => {
 
-          this.chartTitle = this.createChartTitle(selectedYear, this.totalConsumption);
+            this.totalConsumption = this.buildStatistics(statisticsData);
+            this.spinnerService.hide();
 
-          resolve('chartDataCreated');
-        })
+            resolve('chartDataCreated');
+          })
+      } else {
+        this.centralServerService.getUserConsumptionStatistics(selectedYear, params)
+          .subscribe(statisticsData => {
+
+            this.totalConsumption = this.buildStatistics(statisticsData);
+            this.spinnerService.hide();
+
+            resolve('chartDataCreated');
+          })
+      }
     });
 
     callServerAsPromise.then(() => {
@@ -514,14 +545,25 @@ export class StatisticsConsumptionComponent implements OnInit {
       // 2nd problem: in Promise processing or in Observable callback, animation is skipped for each new chart
       // => solved by initializing charts before Promise processing
       let anyChart: any;
+      let mainLabel: string;
 
-      this.updateBarOptions();
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
+      } else {
+        mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title');
+      }
+      this.updateBarOptions(mainLabel);
       anyChart = this.consumptionBarChart;
       anyChart.options = this.barChartOptions;
       this.consumptionBarChart = anyChart;
       this.updateChart(this.consumptionBarChart, this.barChartData);
 
-      this.updatePieOptions();
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
+      } else {
+        mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title');
+      }
+      this.updatePieOptions(mainLabel);
       anyChart = this.consumptionPieChart;
       anyChart.options = this.pieChartOptions;
       this.consumptionPieChart = anyChart;
@@ -684,7 +726,7 @@ export class StatisticsConsumptionComponent implements OnInit {
       this.totalConsumption = Math.round(this.totalConsumption);
 
       // Add data configuration like color information:
-      const nameChargerStack = 'Charger';
+      const nameChargerStack = 'Item';
 
       this.updateBarDataSets(this.barChartData.datasets, nameChargerStack, this.nameTotalsLabel);
       this.updatePieDataSets(this.pieChartData.datasets);
@@ -759,7 +801,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     return `rgba(${colors[div10][0]}, ${colors[div10][1]}, ${colors[div10][2]}, ${colors[div10][3]})`
   }
 
-  setYear(): void {
+  categoryChanged(): void {
+    this.refresh();
+  }
+
+  yearChanged(): void {
     this.refresh();
   }
 

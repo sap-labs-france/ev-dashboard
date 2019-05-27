@@ -1,7 +1,12 @@
 <div class="card">
     <div class="card-header card-header-icon card-header-primary">
       <div class="card-icon">
-        <mat-icon>ev_station</mat-icon>
+        <div *ngIf="(selectedCategory === 'C'); else otherIcon">
+            <mat-icon>ev_station</mat-icon>
+        </div>
+        <ng-template #otherIcon>
+            <mat-icon>person</mat-icon>
+        </ng-template>
       </div>
 
       <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
@@ -46,11 +51,21 @@
 
             <!-- filters -->
             <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
+                <!-- Category of statistics -->
+                <div *ngIf="isAdmin" class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
+                    <mat-form-field>
+                        <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
+                        [placeholder]="'statistics.category_label' | translate">
+                        <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
+                        <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>    
+                </div>
 
                 <!-- transaction year -->
                 <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
                     <mat-form-field>    
-                        <mat-select (selectionChange)="setYear()" [(value)]="selectedYear"
+                        <mat-select (selectionChange)="yearChanged($event)" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">
                             <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}
                             </mat-option>

@@ -42,7 +42,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
-              ``,
+              `Clear charging data on connectors if Charging Station is unavailable`,
             ]
           }
         ]

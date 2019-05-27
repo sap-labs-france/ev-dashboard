@@ -34,8 +34,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              `Fixed User's role is not translated in Faulty list`,
-              `Fixed extra inactivity in session's list footer stats`
+              `User's role is not translated in Faulty list`,
+              `Added extra inactivity (until connector is unplugged) in session's list footer stats`,
+              `Fixed date filters not working anymore in all list`
             ]
           },
           {

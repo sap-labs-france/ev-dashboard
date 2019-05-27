@@ -28,6 +28,24 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.25',
+        date: new Date('2019-05-27'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Fixed User's role is not translated in Faulty list`,
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              ``,
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.24',
         date: new Date('2019-05-26'),
         componentChanges: [

@@ -1,4 +1,14 @@
 
 .grecaptcha-badge {
-    z-index: 9999 !important;
+    display: none;
+}
+
+.recaptcha-text {
+    padding: 0 5%;
+    font-size: small;
+    color: $gray-light;
+
+    a {
+        color: $brand-info;
+    }
 }

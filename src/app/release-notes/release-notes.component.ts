@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Fixed User's role is not translated in Faulty list`,
+              `Fixed extra inactivity in session's list footer stats`
             ]
           },
           {

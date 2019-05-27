@@ -183,24 +183,26 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public buildTableFooterStats(data) {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
-      // Build
-      const percentInactivity = Math.floor(data.totalInactivitySecs / data.totalDurationSecs * 100);
-      // Total Duration
-      // tslint:disable-next-line:max-line-length
-      let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.totalDurationSecs)} | `;
-      // Inactivity
-      // tslint:disable-next-line:max-line-length
-      stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.totalInactivitySecs)} (${percentInactivity}%) | `;
-      // Total Consumption
-      // tslint:disable-next-line:max-line-length
-      stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
-      // Total Price
-      // tslint:disable-next-line:max-line-length
-      stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.totalPrice, null, '1.0-0')}`;
-      return stats;
-    } else {
-        this.tableFooterStats = '';
+      // Stats?
+      if (data.stats) {
+        // Build
+        const percentInactivity = Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100);
+        // Total Duration
+        // tslint:disable-next-line:max-line-length
+        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        // Inactivity
+        // tslint:disable-next-line:max-line-length
+        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        // Total Consumption
+        // tslint:disable-next-line:max-line-length
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        // Total Price
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, null, '1.0-0')}`;
+        return stats;
+      }
     }
+    this.tableFooterStats = '';
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

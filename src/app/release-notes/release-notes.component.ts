@@ -28,6 +28,26 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.25',
+        date: new Date('2019-05-27'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `User's role is not translated in Faulty list`,
+              `Added extra inactivity (until connector is unplugged) in session's list footer stats`,
+              `Fixed date filters not working anymore in all list`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Clear charging data on connectors if Charging Station is unavailable`,
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.24',
         date: new Date('2019-05-26'),
         componentChanges: [

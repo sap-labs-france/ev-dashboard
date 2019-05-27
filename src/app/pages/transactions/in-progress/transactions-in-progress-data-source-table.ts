@@ -240,7 +240,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   protected _chargingStationStopTransaction(transaction: Transaction) {
-    this.centralServerService.chargingStationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+    this.centralServerService.chargingStationStopTransaction(
+        transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));

@@ -101,7 +101,7 @@ export class UsersInErrorDataSource extends TableDataSource<User> {
     {
       id: 'role',
       name: 'users.role',
-      formatter: (role) => this.userRolePipe.transform(role, loggedUserRole),
+      formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
       sortable: true

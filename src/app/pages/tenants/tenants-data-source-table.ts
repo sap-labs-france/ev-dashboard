@@ -23,6 +23,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
+  private editAction = new TableEditAction().getActionDef();
+  private openAction = new TableOpenAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -112,9 +116,9 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableOpenAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.openAction,
+      this.deleteAction
     ];
   }
 

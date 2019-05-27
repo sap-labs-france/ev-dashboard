@@ -38,8 +38,9 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
-
   private isAdmin = false;
+  private openAction = new TableOpenAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -98,9 +99,17 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
-      {
-        id: 'timestamp',
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
+      id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
         sorted: true,
@@ -137,8 +146,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
-      }
-    ];
+      });
     if (this.isAdmin) {
       columns.splice(1, 0, {
         id: 'user',
@@ -175,24 +183,26 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   public buildTableFooterStats(data) {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
-      // Build
-      const percentInactivity = Math.floor(data.totalInactivitySecs / data.totalDurationSecs * 100);
-      // Total Duration
-      // tslint:disable-next-line:max-line-length
-      let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.totalDurationSecs)} | `;
-      // Inactivity
-      // tslint:disable-next-line:max-line-length
-      stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.totalInactivitySecs)} (${percentInactivity}%) | `;
-      // Total Consumption
-      // tslint:disable-next-line:max-line-length
-      stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
-      // Total Price
-      // tslint:disable-next-line:max-line-length
-      stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.totalPrice, null, '1.0-0')}`;
-      return stats;
-    } else {
-        this.tableFooterStats = '';
+      // Stats?
+      if (data.stats) {
+        // Build
+        const percentInactivity = Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100);
+        // Total Duration
+        // tslint:disable-next-line:max-line-length
+        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        // Inactivity
+        // tslint:disable-next-line:max-line-length
+        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        // Total Consumption
+        // tslint:disable-next-line:max-line-length
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        // Total Price
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, null, '1.0-0')}`;
+        return stats;
+      }
     }
+    this.tableFooterStats = '';
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
@@ -219,9 +229,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
   }
 
   buildTableRowActions(): TableActionDef[] {
-    const rowActions = [new TableOpenAction().getActionDef()];
+    const rowActions = [this.openAction];
     if (this.isAdmin) {
-      rowActions.push(new TableDeleteAction().getActionDef());
+      rowActions.push(this.deleteAction);
     }
     return rowActions;
   }

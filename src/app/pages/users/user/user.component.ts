@@ -38,6 +38,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public userRoles;
   public userLocales;
   public isAdmin;
+  public isSuperAdmin;
   public originalEmail;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
@@ -108,7 +109,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
+    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
   }
 
   updateRoute(event: number) {
@@ -147,12 +149,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$')
         ])),
-      'tagIDs': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9,]*$')
-        ])),
+      'tagIDs': new FormControl(this.generateTagID(),
+        Validators.compose(this.isAdmin ?
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern('^[a-zA-Z0-9,]*$')
+          ] :
+          []
+        )),
       'plateID': new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$')
@@ -165,7 +170,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'role': new FormControl(Constants.USER_ROLE_BASIC,
+      'role': new FormControl(
+        this.isSuperAdmin ? Constants.USER_ROLE_SUPER_ADMIN : Constants.USER_ROLE_BASIC,
         Validators.compose([
           Validators.required
         ])),
@@ -481,6 +487,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href =
+        // tslint:disable-next-line:max-line-length
         `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
@@ -635,7 +642,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     control.setValue(control.value.toUpperCase());
   }
 
-  private generateTagID(user: User) {
+  private generateTagID(user?: User) {
     let tagID = '';
     if (user) {
       if (user.name && user.name.length > 0) {
@@ -645,7 +652,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         tagID += user.firstName[0].toUpperCase();
       }
     } else {
-      tagID = 'UU';
+      tagID = 'SF';
     }
     tagID += Math.floor((Math.random() * 2147483648) + 1);
     return tagID;

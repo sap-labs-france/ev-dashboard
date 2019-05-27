@@ -4,9 +4,9 @@ import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
 import {DialogTableDataSource} from '../dialog-table-data-source';
-import { Observable } from 'rxjs';
-import { SpinnerService } from 'app/services/spinner.service';
-import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
+import {SpinnerService} from 'app/services/spinner.service';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteArea> {

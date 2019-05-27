@@ -14,7 +14,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.23",
+    "last_update": "Version 2.0.25",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -27,7 +27,7 @@
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
     "error_not_a_number": "La valeur n'est pas un nombre",
-    "id": "ID",
+    "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
     "actions": "Actions",
@@ -610,16 +610,20 @@
     },
     "action_error": {
       "transaction_start_title": "Erreur démarrage de session",
+      "transaction_in_progress": "Une session est en cours, impossible de démarrer une nouvelle session",
+      "no_active_transaction": "Pas de session active",
       "transaction_start_not_available": "Le connecteur n'est pas disponible, impossible de démarrer une session",
-      "transaction_start_charger_inactive": "La borne n'est pas connectée, impossible de démarrer une session",
+      "transaction_start_charger_inactive": "La borne n'est pas disponible, impossible de démarrer une session",
+      "transaction_start_not_authorized": "Vous n'êtes pas autorisé à demarrer une session",
       "transaction_stop_title": "Erreur d'arrêt de session",
       "transaction_stop_not_authorized": "Vous n'êtes pas autorisé à arrêter cette session",
+      "transaction_stop_not_available": "Le connecteur n'est pas disponible, impossible de stopper une session",
       "delete_title": "Suppression d'une borne impossible",
       "delete_active_transaction": "La suppression d'une borne n'est pas autorisée quand une session est en cours",
       "command_title": "Erreur d'envoi de commande ",
-      "command_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "command_charger_disconnected": "La borne n'est pas disponible, aucunes commandes ne peut être envoyées",
       "smart_charging_title": "Erreur dans smart charging",
-      "smart_charging_charger_disconnected": "La borne n'est pas connectée, aucunes commandes ne peut être envoyées",
+      "smart_charging_charger_disconnected": "La borne n'est pas disponible, aucunes commandes ne peut être envoyées",
       "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging",
       "session_details_title": "Erreur pour les details de session",
       "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session",
@@ -768,6 +772,7 @@
     }
   },
   "users": {
+    "id": "Id",
     "tabs": {
       "list": "Utilisateurs",
       "in_error": "En Erreur"
@@ -1085,6 +1090,7 @@
     "update_error": "Une erreur est survenue pendant la mise à jour du prix"
   },
   "transactions": {
+    "id": "Id",
     "date_from": "Date",
     "duration": "Durée",
     "inactivity": "Inactivité",

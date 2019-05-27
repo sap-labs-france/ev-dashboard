@@ -31,6 +31,11 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class UsersDataSource extends TableDataSource<User> {
+  private editAction = new TableEditAction().getActionDef();
+  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private currentUser: User;
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -48,6 +53,8 @@ export class UsersDataSource extends TableDataSource<User> {
     super(spinnerService);
     // Init
     this.initDataSource();
+    // Store the current user
+    this.currentUser = this.centralServerService.getLoggedUser();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -75,77 +82,85 @@ export class UsersDataSource extends TableDataSource<User> {
     return {
       search: {
         enabled: true
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
-    return [
-      {
-        id: 'status',
-        name: 'users.status',
-        isAngularComponent: true,
-        angularComponent: UserStatusComponent,
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: true
-      },
-      {
-        id: 'role',
-        name: 'users.role',
-        formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        sortable: true
-      },
-      {
-        id: 'name',
-        name: 'users.name',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        direction: 'asc',
-        sortable: true
-      },
-      {
-        id: 'firstName',
-        name: 'users.first_name',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true
-      },
-      {
-        id: 'email',
-        name: 'users.email',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: true
-      },
-      {
-        id: 'tagIDs',
-        name: 'users.tag_ids',
-        formatter: this.arrayToStringPipe.transform,
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true
-      },
-      {
-        id: 'plateID',
-        name: 'users.plate_id',
-        headerClass: 'col-10p',
-        class: 'col-10p',
-        sortable: true
-      },
-      {
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true
-      }
-    ];
+    const columns = [];
+    columns.push(
+    {
+      id: 'status',
+      name: 'users.status',
+      isAngularComponent: true,
+      angularComponent: UserStatusComponent,
+      headerClass: 'col-10p',
+      class: 'col-10p',
+      sortable: true
+    },
+    {
+      id: 'id',
+      name: 'transactions.id',
+      headerClass: 'd-none d-xl-table-cell',
+      class: 'd-none d-xl-table-cell',
+    },
+    {
+      id: 'role',
+      name: 'users.role',
+      formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
+      headerClass: 'col-10p',
+      class: 'text-left col-10p',
+      sortable: true
+    },
+    {
+      id: 'name',
+      name: 'users.name',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sorted: true,
+      direction: 'asc',
+      sortable: true
+    },
+    {
+      id: 'firstName',
+      name: 'users.first_name',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true
+    },
+    {
+      id: 'email',
+      name: 'users.email',
+      headerClass: 'col-20p',
+      class: 'col-20p',
+      sortable: true
+    },
+    {
+      id: 'tagIDs',
+      name: 'users.tag_ids',
+      formatter: this.arrayToStringPipe.transform,
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true
+    },
+    {
+      id: 'plateID',
+      name: 'users.plate_id',
+      headerClass: 'col-10p',
+      class: 'col-10p',
+      sortable: true
+    },
+    {
+      id: 'createdOn',
+      name: 'users.created_on',
+      formatter: (createdOn) => this.datePipe.transform(createdOn),
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true
+    });
+    return columns as TableColumnDef[];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -156,19 +171,22 @@ export class UsersDataSource extends TableDataSource<User> {
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(user: User): TableActionDef[] {
+    let actions;
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableAssignSiteAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
+      actions = [
+        this.editAction,
+        this.assignSiteAction,
       ];
     } else {
-      return [
-        new TableEditAction().getActionDef(),
-        new TableDeleteAction().getActionDef()
+      actions = [
+        this.editAction,
       ];
     }
+    if (this.currentUser.id !== user.id) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

@@ -14,7 +14,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.23",
+    "last_update": "Version 2.0.25",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -27,7 +27,7 @@
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
     "error_not_a_number": "Not a valid number",
-    "id": "ID",
+    "id": "Id",
     "ok": "Ok",
     "cancel": "Cancel",
     "actions": "Actions",
@@ -610,16 +610,20 @@
     },
     "action_error": {
       "transaction_start_title": "Start session error",
+      "transaction_in_progress": "A session is in progress, unable to start a new session",
+      "no_active_transaction": "No active session",
       "transaction_start_not_available": "Connector is not available, unable to start a session",
-      "transaction_start_charger_inactive": "Charger is not connected, unable to start a session",
+      "transaction_start_charger_inactive": "Charger is not available, unable to start a session",
+      "transaction_start_not_authorized": "You are not authorized to start a session",
       "transaction_stop_title": "Stop session error",
       "transaction_stop_not_authorized": "You are not authorized to stop this session",
+      "transaction_stop_not_available": "Connector is not available, unable to stop a session",
       "delete_title": "Delete charging station error",
       "delete_active_transaction": "Charging station deletion is not allowed when a session is ongoing",
       "command_title": "Charging station command error",
-      "command_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "command_charger_disconnected": "Charging station is not available, no command can be sent",
       "smart_charging_title": "Snart charging error",
-      "smart_charging_charger_disconnected": "Charging station is disconnected, no command can be sent",
+      "smart_charging_charger_disconnected": "Charging station is not available, no command can be sent",
       "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station",
       "session_details_title": "Session details error",
       "session_details_not_authorized": "You are not authorized to display the session details",
@@ -768,6 +772,7 @@
     }
   },
   "users": {
+    "id": "Id",
     "tabs": {
       "list": "Users",
       "in_error": "In Error"
@@ -1085,6 +1090,7 @@
     "update_error": "Error occurred while updating the price"
   },
   "transactions": {
+    "id": "Id",
     "date_from": "Date",
     "duration": "Duration",
     "inactivity": "Inactivity",

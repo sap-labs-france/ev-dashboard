@@ -8,7 +8,7 @@ import {SpinnerService} from '../../../services/spinner.service';
 import {Utils} from '../../../utils/Utils';
 import {Constants} from '../../../utils/Constants';
 import {ComponentEnum} from '../../../services/component.service';
-import { Tenant } from 'app/common.types';
+import {Tenant} from 'app/common.types';
 
 @Component({
   templateUrl: './tenant.dialog.component.html'
@@ -67,7 +67,7 @@ export class TenantDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.formGroup = new FormGroup({
       'id': new FormControl(''),
       'name': new FormControl('',
@@ -137,8 +137,7 @@ export class TenantDialogComponent implements OnInit {
       }, (error) => {
         // Hide
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'general.unexpected_error_backend');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
         this.dialogRef.close();
       });
     }
@@ -159,14 +158,14 @@ export class TenantDialogComponent implements OnInit {
     }
     if (this.currentTenant) {
       // update existing tenant
-      this._updateTenant(tenant);
+      this.updateTenant(tenant);
     } else {
       // create new tenant
-      this._createTenant(tenant);
+      this.createTenant(tenant);
     }
   }
 
-  private _createTenant(tenant) {
+  private createTenant(tenant) {
     this.spinnerService.show();
     this.centralServerService.createTenant(tenant).subscribe(response => {
       this.spinnerService.hide();
@@ -174,17 +173,15 @@ export class TenantDialogComponent implements OnInit {
         this.messageService.showSuccessMessage('tenants.create_success', {'name': tenant.name});
         this.dialogRef.close(true);
       } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'tenants.create_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'tenants.create_error');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
     });
   }
 
-  private _updateTenant(tenant) {
+  private updateTenant(tenant) {
     this.spinnerService.show();
     this.centralServerService.updateTenant(tenant).subscribe(response => {
       this.spinnerService.hide();
@@ -192,8 +189,7 @@ export class TenantDialogComponent implements OnInit {
         this.messageService.showSuccessMessage('tenants.update_success', {'name': tenant.name});
         this.dialogRef.close(true);
       } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'tenants.update_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
       }
     }, (error) => {
       this.spinnerService.hide();

@@ -86,7 +86,7 @@ export class AuthorizationService {
     // Check
     return this._canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': Constants.ACTION_START_TRANSACTION,
+        'Action': Constants.ACTION_REMOTE_START_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
@@ -95,7 +95,7 @@ export class AuthorizationService {
     // Check
     return this._canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': Constants.ACTION_STOP_TRANSACTION,
+        'Action': Constants.ACTION_REMOTE_STOP_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
@@ -496,11 +496,6 @@ export class AuthorizationService {
     // Create Auth
     const auth = this.getAuthorization();
     // Check
-    if (auth.check(entity, fieldNamesValues)) {
-      // Authorized!
-      return true;
-    } else {
-      return false;
-    }
+    return auth && auth.check(entity, fieldNamesValues);
   }
 }

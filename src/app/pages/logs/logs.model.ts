@@ -63,4 +63,12 @@ export const logActions: KeyValue[] = [
   {key: 'UserCreate', value: 'UserCreate'},
   {key: 'UserDelete', value: 'UserDelete'},
   {key: 'UserUpdate', value: 'UserUpdate'}
-];
+].sort((action1, action2) => {
+  if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
+    return -1;
+  } else if (action1.value.toLocaleLowerCase() > action2.value.toLocaleLowerCase()) {
+    return 1;
+  } else {
+    return 0;
+  }
+});

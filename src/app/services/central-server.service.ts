@@ -1297,7 +1297,7 @@ export class CentralServerService {
       );
   }
 
-  stationStopTransaction(chargeBoxId: string, transactionId: number) {
+  chargingStationStopTransaction(chargeBoxId: string, transactionId: number) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -1305,7 +1305,7 @@ export class CentralServerService {
         transactionId: transactionId
       }
     };
-    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStopTransaction`, body,
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStopTransaction`, body,
       {
         headers: this._buildHttpHeaders()
       })
@@ -1314,7 +1314,7 @@ export class CentralServerService {
       );
   }
 
-  stationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
+  chargingStationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string) {
     this._checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -1323,7 +1323,7 @@ export class CentralServerService {
         connectorID: connectorID
       }
     };
-    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationStartTransaction`, body,
+    return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStartTransaction`, body,
       {
         headers: this._buildHttpHeaders()
       })

@@ -35,6 +35,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
   private openAction = new TableOpenAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
+  private isAdmin = false;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -54,6 +55,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe) {
     super(spinnerService);
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
   }
@@ -91,8 +94,16 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
-      {
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -156,8 +167,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
           }
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         }
-      }
-    ];
+      });
     if (this.authorizationService.isAdmin()) {
       columns.splice(1, 0, {
         id: 'user',
@@ -229,8 +239,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  protected _stationStopTransaction(transaction: Transaction) {
-    this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+  protected _chargingStationStopTransaction(transaction: Transaction) {
+    this.centralServerService.chargingStationStopTransaction(
+        transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -268,7 +279,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     if (transaction.status === 'Available') {
       this._softStopTransaction(transaction);
     } else {
-      this._stationStopTransaction(transaction);
+      this._chargingStationStopTransaction(transaction);
     }
   }
 

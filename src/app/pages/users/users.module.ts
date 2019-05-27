@@ -20,6 +20,9 @@ import {UserStatusComponent} from './formatters/user-status.component';
 import {AppFormatUserStatusPipe} from './formatters/user-status.component';
 import {UserSitesDialogComponent} from './user/user-sites.dialog.component';
 import {ConnectionComponent} from './connections/connection.component';
+import { UserSitesDataSource } from './user/user-sites-data-source-table';
+import { UsersInErrorDataSource } from './users-in-error-data-source-table';
+import { UsersDataSource } from './users-data-source-table';
 
 @NgModule({
   imports: [
@@ -56,7 +59,10 @@ import {ConnectionComponent} from './connections/connection.component';
   providers: [
     UserRolePipe,
     UserStatusPipe,
-    UserComponent
+    UserComponent,
+    UserSitesDataSource,
+    UsersDataSource,
+    UsersInErrorDataSource
   ]
 })
 

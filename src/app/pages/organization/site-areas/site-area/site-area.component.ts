@@ -295,7 +295,7 @@ export class SiteAreaComponent implements OnInit {
           { 'siteAreaName': siteArea.name });
         // Close
         this.currentSiteAreaID = siteArea.id;
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'site_areas.create_error');
@@ -330,7 +330,7 @@ export class SiteAreaComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.update_success', { 'siteAreaName': siteArea.name });
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'site_areas.update_error');
@@ -370,9 +370,9 @@ export class SiteAreaComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  public closeDialog() {
+  public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
-      this.dialogRef.close();
+      this.dialogRef.close(saved);
     }
   }
 

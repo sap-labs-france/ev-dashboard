@@ -29,6 +29,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
+  private editAction = new TableEditAction().getActionDef();
+  private registerAction = new TableRegisterAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -44,7 +48,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectOcpiendpoints();
+    return this.centralServerNotificationService.getSubjectOcpiEndpoints();
   }
 
   public loadDataImpl(): Observable<any> {
@@ -52,10 +56,8 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((ocpiendpoints) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(ocpiendpoints.count);
           // Ok
-          observer.next(ocpiendpoints.result);
+          observer.next(ocpiendpoints);
           observer.complete();
         }, (error) => {
           // Show error
@@ -160,9 +162,9 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      new TableEditAction().getActionDef(),
-      new TableRegisterAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.editAction,
+      this.registerAction,
+      this.deleteAction
     ];
   }
 
@@ -171,7 +173,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this.showOcpiendpointDialog();
+        this.showOcpiEndpointDialog();
         break;
     }
     super.actionTriggered(actionDef);
@@ -180,13 +182,13 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
-        this.showOcpiendpointDialog(rowItem);
+        this.showOcpiEndpointDialog(rowItem);
         break;
       case 'delete':
-        this.deleteOcpiendpoint(rowItem);
+        this.deleteOcpiEndpoint(rowItem);
         break;
       case 'register':
-        this.registerOcpiendpoint(rowItem);
+        this.registerOcpiEndpoint(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -200,7 +202,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     ];
   }
 
-  private showOcpiendpointDialog(endpoint?: any) {
+  private showOcpiEndpointDialog(endpoint?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -212,16 +214,20 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
-  private deleteOcpiendpoint(ocpiendpoint) {
+  private deleteOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteOcpiendpoint(ocpiendpoint.id).subscribe(response => {
+        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
             this.refreshData().subscribe();
@@ -237,13 +243,13 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
     });
   }
 
-  private registerOcpiendpoint(ocpiendpoint) {
+  private registerOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.registerOcpiendpoint(ocpiendpoint.id).subscribe(response => {
+        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
             this.refreshData().subscribe();

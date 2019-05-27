@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
-              <div class="row">
+              <div class="row app-organization-align-center">
                 <div class="col-md-5">
                   <div class="rotating-card-container app-organization-image-border"
                     [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
@@ -46,7 +46,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'sites.name' | translate}}"
                         class="app-organization-name-bold" type="text" [formControl]="name" required>
-                      <mat-error *ngIf="name.hasError('required')">
+                      <mat-error *ngIf="name.errors?.required">
                         {{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>

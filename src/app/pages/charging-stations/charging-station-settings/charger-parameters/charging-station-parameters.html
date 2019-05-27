@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row align-items-center">
+            <div class="row">
                 <div class="col-md-6 col-xl-3">
                     <div class="form-group">
                         <mat-form-field>
@@ -51,8 +51,8 @@
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
                         <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin" >
-                        <mat-error *ngIf="latitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
-                        <mat-error *ngIf="latitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
+                        <mat-error *ngIf="latitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
                             <mat-icon>pin_drop</mat-icon>
                         </button>
@@ -61,8 +61,8 @@
                 <div class="col-md-6 col-xl-3">
                     <mat-form-field>
                         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" required [formControl]="longitude" [readOnly]="!isAdmin" >
-                        <mat-error *ngIf="longitude.hasError('pattern')">{{"general.invalid_value" | translate}}</mat-error>
-                        <mat-error *ngIf="longitude.hasError('required')">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
+                        <mat-error *ngIf="longitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                         <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
                             <mat-icon>pin_drop</mat-icon>
                         </button>
@@ -105,15 +105,18 @@
                             </div>
                             <div class="card-body">
                                 <div class="">
-                                    <mat-form-field>
+                                    <mat-form-field class="connector-type-select-fix">
                                         <mat-select placeholder="{{'chargers.connector_type' | translate}}"
                                             [formControlName]="'connectorType' + connector.connectorId" required value=connect>
                                             <mat-select-trigger>
-                                                <mat-icon [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value" style="padding-bottom: 3px;"></mat-icon>
-                                                <span>{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:'text' | translate}}</span>
+                                                <div class="d-flex align-items-center">
+                                                    <mat-icon class="d-flex mr-2 mat-select-icon" [svgIcon]="formGroup.controls['connectorType' + connector.connectorId].value">
+                                                    </mat-icon>
+                                                    <div class="d-flex">{{formGroup.controls['connectorType' + connector.connectorId].value | appConnectorType:false | translate}}</div>
+                                                </div>
                                             </mat-select-trigger>
                                             <mat-option *ngFor="let type of connectorTypeMap" [value]="type.key" class="connector-type-select-option">
-                                                <mat-icon [svgIcon]="type.key"></mat-icon>
+                                                <mat-icon [svgIcon]="type.key" class="mat-select-icon"></mat-icon>
                                                 <span>{{type.description | translate}}</span>
                                             </mat-option>
                                         </mat-select>

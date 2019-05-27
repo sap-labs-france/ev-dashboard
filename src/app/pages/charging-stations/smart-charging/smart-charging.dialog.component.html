@@ -6,7 +6,7 @@
             <mat-icon>battery_charging_full</mat-icon>
             <span>{{charger.id}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body" style="margin-top: 15px">
           <div *ngIf="charger.maximumPower" class="row">
             <div class="col-md-6">
               <app-smart-charging-limit-planning #limitPlanning [charger]="charger"

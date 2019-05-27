@@ -1,5 +1,6 @@
 import {SortDirection} from '@angular/material/typings';
 import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { ComponentEnum } from './services/component.service';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -261,6 +262,7 @@ export interface Tenant {
   name: string;
   email: string;
   subdomain: string;
+  components?: any;
 }
 
 export interface TenantResult {
@@ -277,13 +279,6 @@ export interface Setting {
 export interface SettingResult {
   count: number,
   result: Setting[]
-}
-
-export interface SacLink {
-  id: number;
-  name: string;
-  description: string;
-  url: string;
 }
 
 export interface OcpiEndpoint {
@@ -493,6 +488,7 @@ export interface User {
   email: string;
   phone: Date;
   mobile: string;
+  notificationsActive: boolean;
   address: {
     address1: string;
     address2: string;
@@ -518,6 +514,8 @@ export interface User {
   language: string;
   numberOfSites: number;
   activeComponents?: Array<string>;
+  userHashID: number;
+  tenantHashID: number;
 }
 
 export interface UserResult {
@@ -567,4 +565,95 @@ export interface ScheduleSlot {
 export interface ConnectorSchedule {
   connectorId: number;
   slots: ScheduleSlot[];
+}
+
+export enum PricingSettingsType {
+  simple = 'simple',
+  convergentCharging = 'convergentCharging'
+}
+
+export interface PricingSettings {
+  id?: string;
+  identifier: ComponentEnum.PRICING;
+  type: PricingSettingsType;
+  simple: {
+    price: number;
+    currency: string;
+  }
+  convergentCharging: {
+    url: string;
+    chargeableItemName: string;
+    user: string;
+    password: string;
+  }
+}
+
+export enum OcpiSettingsType {
+  gireve = 'gireve'
+}
+
+export interface OcpiCommon {
+  countryCode: string;
+  partyID: string;
+  businessDetails: {
+    name: string;
+    website: string;
+    logo: {
+      url: string;
+      thumbnail: string;
+      category: string;
+      type: string;
+      width: string;
+      height: string;
+    }
+  }
+}
+
+export interface OcpiSettings {
+  id?: string;
+  identifier: ComponentEnum.OCPI;
+  type: OcpiSettingsType;
+  ocpi: OcpiCommon;
+}
+
+export enum AnalyticsSettingsType {
+  sac = 'sac'
+}
+
+export interface AnalyticsLink {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+}
+
+export interface AnalyticsSettings {
+  id?: string;
+  identifier: ComponentEnum.ANALYTICS;
+  type: AnalyticsSettingsType,
+  sac: {
+    mainUrl: string;
+    timezone: string;
+  }
+  links: AnalyticsLink[];
+}
+
+export enum RefundSettingsType {
+  concur = 'concur'
+}
+
+export interface RefundSettings {
+  id?: string;
+  identifier: ComponentEnum.REFUND;
+  type: RefundSettingsType;
+  concur?: {
+    authenticationUrl: string;
+    apiUrl: string;
+    clientId: string;
+    clientSecret: string;
+    paymentTypeId: string;
+    expenseTypeCode: string;
+    policyId: string;
+    reportName: string;
+  }
 }

@@ -18,6 +18,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 @Injectable()
 export class UserSitesDataSource extends TableDataSource<Site> {
   private user: User;
+  private addAction = new TableAddAction().getActionDef();
+  private removeAction = new TableRemoveAction().getActionDef()
 
   constructor(
       public spinnerService: SpinnerService,
@@ -39,10 +41,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Yes: Get data
         this.centralServerService.getSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(sites.count);
           // Ok
-          observer.next(sites.result);
+          observer.next(sites);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -108,8 +108,8 @@ export class UserSitesDataSource extends TableDataSource<Site> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableAddAction().getActionDef(),
-      new TableRemoveAction().getActionDef(),
+      this.addAction,
+      this.removeAction,
       ...tableActionsDef
     ];
   }

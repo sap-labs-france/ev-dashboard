@@ -4,9 +4,6 @@ import {OrganizationSiteAreasDataSource} from './organization-site-areas-source-
 @Component({
   selector: 'app-organization-site-areas',
   template: '<app-table [dataSource]="siteAreasDataSource"></app-table>',
-  providers: [
-    OrganizationSiteAreasDataSource
-  ]
 })
 export class OrganizationSiteAreasComponent {
   constructor(

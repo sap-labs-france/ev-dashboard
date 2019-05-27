@@ -12,6 +12,10 @@
   border-bottom-style: solid;
 }
 
+.tenant-dialog-body {
+  min-height: 350px;
+}
+
 .modal-dialog {
   & .modal-content {
     @include shadow-z-5();

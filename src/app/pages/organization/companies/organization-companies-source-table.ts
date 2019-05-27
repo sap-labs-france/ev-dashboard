@@ -26,7 +26,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
-  public isAdmin = false;
+  private isAdmin = false;
+  private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -53,8 +56,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(companies.count);
           // lookup for logo otherwise assign default
           for (let i = 0; i < companies.result.length; i++) {
             if (!companies.result[i].logo) {
@@ -62,7 +63,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
             }
           }
           // Ok
-          observer.next(companies.result);
+          observer.next(companies);
           observer.complete();
         }, (error) => {
           // Show error
@@ -83,7 +84,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'logo',
         name: 'companies.logo',
@@ -95,7 +96,6 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       {
         id: 'name',
         name: 'companies.name',
-        // headerClass: 'col-30p',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -116,6 +116,15 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
         sortable: true
       }
     ];
+    if (this.isAdmin) {
+      tableColumnDef.unshift({
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'd-none col-15p d-xl-table-cell',
+        class: 'd-none col-15p d-xl-table-cell'
+      });
+    }
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -132,18 +141,17 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
 
   buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-
     // check if GPs are available
     openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
     if (this.isAdmin) {
       return [
-        new TableEditAction().getActionDef(),
+        this.editAction,
         openInMaps,
-        new TableDeleteAction().getActionDef()
+        this.deleteAction
       ];
     } else {
       return [
-        new TableViewAction().getActionDef(),
+        this.viewAction,
         openInMaps
       ];
     }
@@ -208,7 +216,11 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
   }
 
   private _deleteCompany(company) {

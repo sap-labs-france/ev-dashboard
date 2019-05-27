@@ -1,26 +1,16 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
+import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
+  private locale: string;
+  constructor(
+    private localeService: LocaleService) {
+      this.locale = this.localeService.getCurrentFullLocaleForJS();
+  }
 
-  transform(value: any, locale = 'en-US', format = 'date'): any {
-    let displayFormat;
-    switch (format) {
-      case 'datetime':
-        displayFormat = 'L LTS';
-        break;
-      case 'datetimeshort':
-        displayFormat = 'L LT';
-        break;
-      case 'time':
-        displayFormat = 'LTS';
-        break;
-      case 'date':
-      default:
-        displayFormat = 'L';
-        break;
-    }
-    return moment(value).locale(locale).format(displayFormat);
+  transform(value: any): string {
+    return new DatePipe(this.locale).transform(value, 'medium');
   }
 }

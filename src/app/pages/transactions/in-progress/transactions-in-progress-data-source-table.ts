@@ -18,13 +18,11 @@ import {Injectable} from '@angular/core';
 import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
 import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
 import {ConnectorCellComponent} from '../components/connector-cell.component';
-import {LocaleService} from '../../../services/locale.service';
 import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
 import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
 import {TableDataSource} from '../../../shared/table/table-data-source';
 import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
 import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import * as moment from 'moment';
 import {AuthorizationService} from '../../../services/authorization-service';
 import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
 import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
@@ -35,28 +33,30 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
-
-  private dialogRefSession;
+  private openAction = new TableOpenAction().getActionDef();
+  private stopAction = new TableStopAction().getActionDef();
+  private isAdmin = false;
 
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
       private translateService: TranslateService,
       private dialogService: DialogService,
-      private localeService: LocaleService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private componentService: ComponentService,
       private authorizationService: AuthorizationService,
-      private appDatePipe: AppDatePipe,
+      private datePipe: AppDatePipe,
       private percentPipe: PercentPipe,
       private appUnitPipe: AppUnitPipe,
       private appBatteryPercentagePipe: AppBatteryPercentagePipe,
       private appUserNamePipe: AppUserNamePipe,
       private appDurationPipe: AppDurationPipe) {
     super(spinnerService);
+    // Admin
+    this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
   }
@@ -69,9 +69,8 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
-          this.setTotalNumberOfRecords(transactions.count);
           // Ok
-          observer.next(transactions.result);
+          observer.next(transactions);
           observer.complete();
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -89,28 +88,36 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const locale = this.localeService.getCurrentFullLocaleForJS();
-
-    const columns = [
-      {
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.appDatePipe.transform(value, locale, 'datetime')
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (currentTotalDurationSecs, row: Transaction) => this.appDurationPipe.transform(moment().diff(row.timestamp, 'seconds'))
+        formatter: (currentTotalDurationSecs, row: Transaction) =>
+          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000)
       },
       {
         id: 'currentTotalInactivitySecs',
@@ -160,8 +167,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
           }
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         }
-      }
-    ];
+      });
     if (this.authorizationService.isAdmin()) {
       columns.splice(1, 0, {
         id: 'user',
@@ -216,11 +222,14 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
-    return [
-      new TableOpenAction().getActionDef(),
-      new TableStopAction().getActionDef()
+  buildTableDynamicRowActions(): TableActionDef[] {
+    const actions = [
+      this.openAction
     ];
+    if (!this.authorizationService.isDemo()) {
+      actions.push(this.stopAction);
+    }
+    return actions;
   }
 
   buildTableActionsRightDef(): TableActionDef[] {
@@ -230,8 +239,9 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     ];
   }
 
-  protected _stationStopTransaction(transaction: Transaction) {
-    this.centralServerService.stationStopTransaction(transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+  protected _chargingStationStopTransaction(transaction: Transaction) {
+    this.centralServerService.chargingStationStopTransaction(
+        transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.soft_stop.error'));
@@ -269,7 +279,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     if (transaction.status === 'Available') {
       this._softStopTransaction(transaction);
     } else {
-      this._stationStopTransaction(transaction);
+      this._chargingStationStopTransaction(transaction);
     }
   }
 
@@ -286,7 +296,6 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
+    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 }

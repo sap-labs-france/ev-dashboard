@@ -1,19 +1,17 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, Self} from '@angular/core';
 import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
 import {ConnectorsDataSource} from './connectors-data-source-detail-table';
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>',
-  providers: [
-    ConnectorsDataSource
-  ]
+  providers: [ ConnectorsDataSource ]
 })
 
 export class ConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
   @Input() row: any;
 
   constructor(
-      public connectorsDataSource: ConnectorsDataSource) {
+      @Self() public connectorsDataSource: ConnectorsDataSource) {
     super();
   }
 

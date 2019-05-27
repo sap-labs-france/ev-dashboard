@@ -10,6 +10,7 @@ import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
 import {MatDialog} from '@angular/material';
 import {SpinnerService} from '../../services/spinner.service';
+import {AuthorizationService} from '../../services/authorization-service';
 
 declare var $: any;
 
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private authorizationService: AuthorizationService) {
 
     // Set
     this.nativeElement = element.nativeElement;
@@ -128,6 +130,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(user: Object): void {
     // Show
     this.spinnerService.show();
+    // clear User and UserAuthorization
+    this.authorizationService.cleanUserAndUserAuthorization();
     // Login
     this.centralServerService.login(user).subscribe((result) => {
       // Hide

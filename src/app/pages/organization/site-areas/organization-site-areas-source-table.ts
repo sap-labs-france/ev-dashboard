@@ -29,7 +29,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
-  public isAdmin = false;
+  private isAdmin = false;
+  private editAction = new TableEditAction().getActionDef();
+  private editChargersAction = new TableEditChargersAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
+  private displayChargersAction = new TableDisplayChargersAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -57,10 +62,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
-          observer.next(siteAreas.result);
+          observer.next(siteAreas);
           observer.complete();
         }, (error) => {
           // Show error
@@ -81,7 +84,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
         name: 'site_areas.title',
@@ -113,6 +116,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         sortable: true
       }
     ];
+    if (this.isAdmin) {
+      tableColumnDef.unshift({
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'd-none col-15p d-xl-table-cell',
+        class: 'd-none col-15p d-xl-table-cell'
+      });
+    }
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -133,15 +145,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude ) ? false : true;
     if (this.isAdmin) {
       return [
-        new TableEditAction().getActionDef(),
-        new TableEditChargersAction().getActionDef(),
+        this.editAction,
+        this.editChargersAction,
         openInMaps,
-        new TableDeleteAction().getActionDef()
+        this.deleteAction
       ];
     } else {
       return [
-        new TableViewAction().getActionDef(),
-        new TableDisplayChargersAction().getActionDef(),
+        this.viewAction,
+        this.displayChargersAction,
         openInMaps
       ];
     }
@@ -213,7 +225,11 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe()
+      }
+    });
   }
 
   private _showChargersDialog(charger?: Charger) {

@@ -9,7 +9,7 @@
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
-              <div class="row">
+              <div class="row app-organization-align-center">
                 <div class="col-md-5" style="display: block; margin-top: auto">
                   <div class="rotating-card-container app-organization-image-border"
                     [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
@@ -47,7 +47,7 @@
                     <mat-form-field>
                       <input appSetAutoFocus matInput placeholder="{{'site_areas.name' | translate}}"
                         class="app-organization-name-bold" type="text" [formControl]="name" required>
-                      <mat-error *ngIf="name.hasError('required')">
+                      <mat-error *ngIf="name.errors?.required">
                         {{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>
@@ -55,7 +55,7 @@
                       <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}" required>
                         <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
                       </mat-select>
-                      <mat-error *ngIf="siteID.hasError('required')">
+                      <mat-error *ngIf="siteID.errors?.required">
                         {{"general.mandatory_field" | translate}}
                       </mat-error>
                     </mat-form-field>
@@ -66,7 +66,7 @@
                         [hidden]="maximumPower.value === null || maximumPower.value === ''">
                         <mat-icon>clear</mat-icon>
                       </button>
-                      <mat-error *ngIf="maximumPower.hasError('pattern')">
+                      <mat-error *ngIf="maximumPower.errors?.pattern">
                         {{"chargers.invalid_power_value" | translate}}
                       </mat-error>
                     </mat-form-field>

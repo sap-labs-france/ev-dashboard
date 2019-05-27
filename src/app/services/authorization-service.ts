@@ -24,11 +24,16 @@ export class AuthorizationService {
     }
   }
 
+  public cleanUserAndUserAuthorization() {
+    this.loggedUser = null;
+    this.loggedUserAuthorization = null;
+  }
+
   public getAuthorization(): any {
     // Get the logged user
     const currentLoggedUser = this.centralServerService.getLoggedUser();
     // Check
-    if (!this.loggedUser || this.loggedUser.id !== currentLoggedUser.id) {
+    if (!this.loggedUser) {
       // Keep user
       this.loggedUser = currentLoggedUser;
       // Create Auth
@@ -81,7 +86,7 @@ export class AuthorizationService {
     // Check
     return this._canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': Constants.ACTION_START_TRANSACTION,
+        'Action': Constants.ACTION_REMOTE_START_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
@@ -90,7 +95,7 @@ export class AuthorizationService {
     // Check
     return this._canPerformAction(Constants.ENTITY_CHARGING_STATION,
       {
-        'Action': Constants.ACTION_STOP_TRANSACTION,
+        'Action': Constants.ACTION_REMOTE_STOP_TRANSACTION,
         'ChargingStationID': chargingStation.id
       });
   }
@@ -456,30 +461,41 @@ export class AuthorizationService {
   }
 
   public isAdmin(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_ADMIN;
+    } else {
+      return false;
+    }
   }
 
   public isSuperAdmin(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_SUPER_ADMIN;
+    } else {
+      return false;
+    }
   }
 
   public isBasic(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_BASIC;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_BASIC;
+    } else {
+      return false;
+    }
   }
 
   public isDemo(): boolean {
-    return this.centralServerService.getLoggedUser().role === Constants.ROLE_DEMO;
+    if (this.centralServerService.getLoggedUser()) {
+      return this.centralServerService.getLoggedUser().role === Constants.ROLE_DEMO;
+    } else {
+      return false;
+    }
   }
 
   private _canPerformAction(entity, fieldNamesValues): boolean {
     // Create Auth
     const auth = this.getAuthorization();
     // Check
-    if (auth.check(entity, fieldNamesValues)) {
-      // Authorized!
-      return true;
-    } else {
-      return false;
-    }
+    return auth && auth.check(entity, fieldNamesValues);
   }
 }

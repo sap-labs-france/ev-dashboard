@@ -252,7 +252,7 @@ export class CompanyComponent implements OnInit {
           { 'companyName': company.name });
         // Refresh
         this.currentCompanyID = company.id;
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'companies.create_error');
@@ -287,7 +287,7 @@ export class CompanyComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.update_success', { 'companyName': company.name });
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'companies.update_error');
@@ -327,9 +327,9 @@ export class CompanyComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  public closeDialog() {
+  public closeDialog(saved: boolean = false) {
     if (this.inDialog) {
-      this.dialogRef.close();
+      this.dialogRef.close(saved);
     }
   }
 

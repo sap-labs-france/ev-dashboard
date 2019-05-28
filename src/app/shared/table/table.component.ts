@@ -145,7 +145,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           default: {
             break;
           }
-        }  
+        }
       }
     }
   }

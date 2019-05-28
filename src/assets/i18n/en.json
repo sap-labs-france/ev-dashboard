@@ -473,6 +473,7 @@
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
+    "inactivity": "Inactivity",
     "heartbeat_title": "Status",
     "charger_disconnected": "Disconnected",
     "charger_connected": "Connected",

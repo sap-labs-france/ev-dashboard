@@ -27,6 +27,7 @@ import {Observable} from 'rxjs';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -43,6 +44,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
       private appUnitPipe: AppUnitPipe,
+      private appDurationPipe: AppDurationPipe,
       private dialog: MatDialog,
       private authorizationService: AuthorizationService,
       private messageService: MessageService,
@@ -146,6 +148,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         id: 'totalConsumption',
         name: 'chargers.total_consumption_title',
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
+        sortable: false
+      },
+      {
+        id: 'totalInactivitySecs',
+        name: 'chargers.inactivity',
+        formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
         sortable: false
       },
       {

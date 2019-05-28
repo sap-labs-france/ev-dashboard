@@ -171,7 +171,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Date?
     if (filterDef.type === 'date') {
       // Date is one way binding: update the value manually
-      filterDef.currentValue = event.value;
+      // filterDef.currentValue = event.value;
+      filterDef.currentValue = new Date(<string>$(`#${filterDef.id}`).val());
     }
     // Update filter
     this.filterChanged(filterDef);

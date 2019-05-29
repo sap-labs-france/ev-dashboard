@@ -442,7 +442,7 @@ export class StatisticsConsumptionComponent implements OnInit {
         //        if (amount < 1) { amount = 1 }
         //        maxValue = maxValue / amount / 2
         //        return context.dataset.data[context.dataIndex] > maxValue
-        return context.dataset.data[context.dataIndex] > 0
+       return context.dataset.data[context.dataIndex] > 0
       },
     };
 

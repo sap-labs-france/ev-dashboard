@@ -5,7 +5,7 @@
             <mat-icon>ev_station</mat-icon>
         </div>
         <ng-template #otherIcon>
-            <mat-icon>person</mat-icon>
+            <mat-icon>people</mat-icon>
         </ng-template>
       </div>
 
@@ -21,6 +21,7 @@
             <!-- Actions  -->
             <div class="left-actions d-flex flex-row mat-toolbar-row ">
                 <!-- Create Left Actions -->
+
                 <!-- Reset Filters -->
                 <button mat-raised-button (click)="resetFilters()"
                         [color]="'primary'" appTooltip="" data-placement="bottom"
@@ -52,7 +53,7 @@
             <!-- filters -->
             <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
                 <!-- Category of statistics -->
-                <div *ngIf="isAdmin" class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
+                <div *ngIf="isAdmin">  <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
                     <mat-form-field>
                         <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
                         [placeholder]="'statistics.category_label' | translate">
@@ -63,7 +64,7 @@
                 </div>
 
                 <!-- transaction year -->
-                <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
+                <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
                     <mat-form-field>    
                         <mat-select (selectionChange)="yearChanged($event)" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">

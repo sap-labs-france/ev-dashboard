@@ -4,8 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {WindowService} from '../../services/window.service';
 import {AuthorizationService} from '../../services/authorization-service';
 
-// declare const $: any;
-
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',

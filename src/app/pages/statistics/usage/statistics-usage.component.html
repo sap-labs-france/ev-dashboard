@@ -1,1 +1,36 @@
-And here comes the second chart!
+<div class="card">
+    <div class="card-header card-header-icon card-header-primary">
+      <div class="card-icon">
+        <div *ngIf="(selectedCategory === 'C'); else otherIcon">
+            <mat-icon>ev_station</mat-icon>
+        </div>
+        <ng-template #otherIcon>
+            <mat-icon>people</mat-icon>
+        </ng-template>
+      </div>
+
+      <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.usage' | translate}}</h3>
+      <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalUsage | number}} {{'statistics.hours' | translate}}</h3>
+
+    </div>
+ 
+    <div class="card-body">
+        <app-statistics-filters [tableFiltersDef]="allFiltersDef"
+                                (setCategory)="categoryChanged($event)" (setYear)="yearChanged($event)" 
+                                (setFilters)="filtersChanged($event)" (refreshAll)="buildCharts($event)"></app-statistics-filters>
+    </div> 
+</div>   
+
+<div class="card">
+    <div class="card-header card-header-icon card-header-primary"></div>
+    <div class="card-body">      
+        <canvas #usageBarChart></canvas>
+    </div>
+</div>    
+
+<div class="card">
+    <div class="card-header card-header-icon card-header-primary"></div>
+    <div class="card-body">
+        <canvas #usagePieChart></canvas>
+    </div>
+</div>

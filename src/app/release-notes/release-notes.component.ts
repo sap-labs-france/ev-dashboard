@@ -36,13 +36,20 @@ export class ReleaseNotesComponent {
             changes: [
               `User's role is not translated in Faulty list`,
               `Added extra inactivity (until connector is unplugged) in session's list footer stats`,
-              `Fixed date filters not working anymore in all list`
+              `Fixed date filters not working anymore in all list`,
+              `Add missing actions in Log action filter`
             ]
           },
           {
             name: 'Backend',
             changes: [
               `Clear charging data on connectors if Charging Station is unavailable`,
+              `Reworked database indexes in Logs collection`,
+              `Migrate database only in master NodeJs instance not in workers`,
+              `Watch MongoDB collections at DB level to enhance the performances`,
+              `Removed query string in LEGRAND charging station supervision URL`,
+              `Handle Meter Value consumption as floating point instead of integer for KEBA certification`,
+              `Round instant power in transaction's consumption`
             ]
           }
         ]

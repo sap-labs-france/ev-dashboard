@@ -9,8 +9,7 @@ import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filt
 import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {StatisticsBuildService} from '../shared/statistics-build.service';
-import {ChartData} from 'chart.js';
-import {ChartHelperClass} from '../shared/chart-helper.class';
+import {ChartData, ChartClass} from '../shared/chart-utilities';
 
 @Component({
   selector: 'app-statistics-usage',
@@ -26,8 +25,8 @@ export class StatisticsUsageComponent implements OnInit {
   private totalUsage = 0;
   private allFiltersDef: TableFilterDef[] = [];
 
-  private barChart: ChartHelperClass;
-  private pieChart: ChartHelperClass;
+  private barChart: ChartClass;
+  private pieChart: ChartClass;
 
 
   @ViewChild('usageBarChart') ctxBarChart: ElementRef;
@@ -81,11 +80,11 @@ export class StatisticsUsageComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_usage_y_axis');
 
-    this.barChart = new ChartHelperClass(this.translateService, 'stackedBar', mainLabel, labelXAxis, labelYAxis);
+    this.barChart = new ChartClass('stackedBar', mainLabel, labelXAxis, labelYAxis);
     this.barChart.initChart(this.ctxBarChart);
 
     mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
-    this.pieChart = new ChartHelperClass(this.translateService, 'pie', mainLabel);
+    this.pieChart = new ChartClass('pie', mainLabel);
     this.pieChart.initChart(this.ctxPieChart);
   }
 
@@ -97,35 +96,33 @@ export class StatisticsUsageComponent implements OnInit {
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {
-      mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title');
-
       this.centralServerService.getChargingStationUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
           pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
 
-//          console.log(barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
 
+          mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title');
           this.barChart.updateChart(barChartData, mainLabel);
+          mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
           this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
         })
     } else {
-      mainLabel = this.translateService.instant('statistics.usage_per_user_month_title');
-
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
           pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
 
-//          console.log(barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
 
+          mainLabel = this.translateService.instant('statistics.usage_per_user_month_title');
           this.barChart.updateChart(barChartData, mainLabel);
+          mainLabel = this.translateService.instant('statistics.usage_per_user_year_title');
           this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();

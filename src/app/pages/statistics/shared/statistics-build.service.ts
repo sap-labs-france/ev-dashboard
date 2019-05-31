@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {ChartData} from 'chart.js'; // could also use any other data definition
+import {ChartConstants, ChartData} from './chart-utilities';
+
 import * as moment from 'moment';
 
 @Injectable()
@@ -10,15 +11,15 @@ export class StatisticsBuildService {
 
     constructor(
         private translateService: TranslateService) {
-            this.totalLabel = this.translateService.instant('statistics.total');
-            if (this.totalLabel === '') {
-                this.totalLabel = 'Total';
-            }
-            this.monthLabel = 'month';
+        this.totalLabel = this.translateService.instant('statistics.total');
+        if (this.totalLabel === '') {
+            this.totalLabel = 'Total'; // should never happen
         }
+        this.monthLabel = 'month';
+    }
 
     public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0): ChartData {
-        const stackedChartData: ChartData = { labels: [], datasets: []};
+        const stackedChartData: ChartData = { labels: [], datasets: [] };
 
         let roundingFactor = 1;
         let monthString = '';
@@ -29,9 +30,15 @@ export class StatisticsBuildService {
         const totalDataArray = [];
         const transactionValues = statisticsData;
 
-        if (roundingDecimals > 0) {
-            for (let i = 0; i < roundingDecimals; i++) {
-                roundingFactor *= 10;
+        if (roundingDecimals !== 0) {
+            if (roundingDecimals > 0) {
+                for (let i = 0; i < roundingDecimals; i++) {
+                    roundingFactor *= 10;
+                }
+            } else {
+                for (let i = roundingDecimals; i < 0; i++) {
+                    roundingFactor /= 10;
+                }
             }
         }
 
@@ -71,7 +78,7 @@ export class StatisticsBuildService {
                             }
 
                             numberArray.push(transactionValue[key]);
-                            stackedChartData.datasets.push({ 'label': key, 'data': numberArray });
+                            stackedChartData.datasets.push({ 'label': key, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
                         } else {
                             numberArray = stackedChartData.datasets[dataSetIndex].data;
                             numberArray.push(transactionValue[key]);
@@ -84,7 +91,7 @@ export class StatisticsBuildService {
 
                 // add trailing zero if no activity in the current month:
                 stackedChartData.datasets.forEach((dataset) => {
-                    if (dataset.label !== this.totalLabel) {
+                    if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
                         numberArray = dataset.data;
                         if (numberArray.length < countMonths) {
                             for (let i = numberArray.length; i < countMonths; i++) {
@@ -113,7 +120,7 @@ export class StatisticsBuildService {
             });
 
             // Last chart dataset for totals:
-            stackedChartData.datasets.push({ 'label': this.totalLabel, 'data': totalDataArray });
+            stackedChartData.datasets.push({ 'label': this.totalLabel, 'data': totalDataArray, 'stack': ChartConstants.STACKED_TOTAL });
         }
 
         return stackedChartData
@@ -125,44 +132,61 @@ export class StatisticsBuildService {
         let numberArray = [];
 
         // is the chart a stacked chart (with totals)?
-        dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.label === this.totalLabel);
+        dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
         if (dataSetIndex < 0) {
-        // no, it is a simple chart
+            // no, it is a simple chart
             if (chartData.datasets.length > 0) {
                 numberArray = chartData.datasets[0].data;
-                numberArray.forEach((number) => {totalValue += number});
+                if (Array.isArray(numberArray)) {
+                    numberArray.forEach((number) => {
+                        if (typeof (number) === 'number') {
+                            totalValue += number
+                        }
+                    });
+                }
             }
         } else {
-        // yes, it is a stacked chart with totals
+            // yes, it is a stacked chart with totals
             numberArray = chartData.datasets[dataSetIndex].data;
-            numberArray.forEach((number) => {totalValue += number});
+            if (Array.isArray(numberArray)) {
+                numberArray.forEach((number) => {
+                    if (typeof (number) === 'number') {
+                        totalValue += number
+                    }
+                });
+            }
         }
-
         return totalValue;
     }
 
     public calculateTotalChartDataFromStackedChartData(stackedChartData: ChartData): ChartData {
-        const totalChartData: ChartData = { labels: [], datasets: []};
+        const totalChartData: ChartData = { labels: [], datasets: [] };
         let totalValue = 0;
         let numberArray = [];
 
         stackedChartData.datasets.forEach((dataset) => {
-            if (dataset.label !== this.totalLabel) {
+            if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
                 totalChartData.labels.push(dataset.label);
 
                 totalValue = 0;
                 numberArray = dataset.data;
-                numberArray.forEach((number) => {totalValue += number});
+                if (Array.isArray(numberArray)) {
+                    numberArray.forEach((number) => {
+                        if (typeof (number) === 'number') {
+                            totalValue += number
+                        }
+                    });
+                }
 
                 if (totalChartData.datasets.length === 0) {
                     numberArray = [];
                     numberArray.push(totalValue);
-                    totalChartData.datasets.push({ 'data': numberArray });
-                  } else {
+                    totalChartData.datasets.push({ 'data': numberArray }); // no 'label, no 'stack'
+                } else {
                     numberArray = totalChartData.datasets[0].data;
                     numberArray.push(totalValue);
                     totalChartData.datasets[0].data = numberArray;
-                  }
+                }
             }
         })
 

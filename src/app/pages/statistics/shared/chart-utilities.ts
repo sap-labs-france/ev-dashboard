@@ -1,37 +1,39 @@
 import {ElementRef} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
 import {Chart, ChartData, ChartOptions} from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
-export class ChartHelperClass {
+export class ChartConstants {
+    public static STACKED_ITEM = 'item';
+    public static STACKED_TOTAL = 'total';
+}
+
+export {ChartData} from 'chart.js'; // could also use any local, but similar data definition!
+
+export class ChartClass {
     private chart: Chart;
     private chartType: string;
     private stackedChart = false;
     private chartOptions: ChartOptions;
     private chartData: ChartData;
+    private roundedLabels: boolean;
     private constLabelSize = 20;
-    private totalLabel: string;
+    private constMinDivisorBar = 40;
+    private constMinDivisorPie = 40;
     private itemsHidden = false;
 
-    constructor(private translateService: TranslateService,
-                chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
-                labelXAxis?: string, labelYAxis?: string, withLegend = false) {
-
-        this.totalLabel = this.translateService.instant('statistics.total');
-        if (this.totalLabel === '') {
-            this.totalLabel = 'Total';
-        }
+    constructor(chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
+        labelXAxis?: string, labelYAxis?: string, roundedLabels = true, withLegend = false) {
 
         switch (chartType) {
             case 'pie':
-                this.createPieChartOptions(mainLabel, withLegend);
+                this.createPieChartOptions(mainLabel, roundedLabels, withLegend);
                 break;
             case 'bar':
-                this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, withLegend);
+                this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, roundedLabels, withLegend);
                 break;
             case 'stackedBar':
-                this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, withLegend);
+                this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, roundedLabels, withLegend);
         }
     }
 
@@ -41,7 +43,7 @@ export class ChartHelperClass {
             plugins: [ChartDataLabels],
             options: this.chartOptions,
             data: { labels: [], datasets: [] }
-        } )
+        })
     }
 
     public updateChart(chartData: ChartData, mainLabel?: string): void {
@@ -62,7 +64,7 @@ export class ChartHelperClass {
 
         if (this.stackedChart) {
             this.chartData.datasets.forEach((dataset) => {
-                if (dataset.label !== this.totalLabel) {
+                if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
                     dataset.hidden = this.itemsHidden;
                 }
             })
@@ -70,15 +72,17 @@ export class ChartHelperClass {
             const meta = this.chart.getDatasetMeta(0);
             meta.data.forEach((object) => {
                 object.hidden = this.itemsHidden;
-              });
+            });
         }
 
         this.chart.update();
     }
 
-    private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string, withLegend: boolean): void {
+    private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
+        roundedLabels: boolean, withLegend: boolean): void {
         this.chartType = 'bar';
         this.stackedChart = stacked;
+        this.roundedLabels = roundedLabels;
 
         this.chartOptions = {};
 
@@ -98,7 +102,7 @@ export class ChartHelperClass {
         this.chartOptions['plugins']['datalabels'] = {
             color: 'black',
             display: (context) => {
-              return context.dataset.data[context.dataIndex] > 0
+                return context.dataset.data[context.dataIndex] > 0
             }
         };
 
@@ -111,8 +115,17 @@ export class ChartHelperClass {
             enabled: true,
             callbacks: {
                 label: (tooltipItem, data) => {
-                    return data.datasets[tooltipItem.datasetIndex].label + ' : ' +
-                    data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+                    let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    if (this.roundedLabels &&
+                        typeof(number) === 'number') {
+                            number = Math.round(number);
+                    }
+                    if (this.stackedChart) {
+                        return data.datasets[tooltipItem.datasetIndex].label
+                                + ' : ' + number.toLocaleString();
+                    } else {
+                        return number.toLocaleString();
+                    }
                 }
             }
         };
@@ -145,8 +158,9 @@ export class ChartHelperClass {
         }
     }
 
-    private createPieChartOptions(mainLabel: string, withLegend: boolean): void {
+    private createPieChartOptions(mainLabel: string, roundedLabels: boolean, withLegend: boolean): void {
         this.chartType = 'pie';
+        this.roundedLabels = roundedLabels;
 
         this.chartOptions = {};
 
@@ -179,8 +193,13 @@ export class ChartHelperClass {
             enabled: true,
             callbacks: {
                 label: (tooltipItem, data) => {
+                    let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    if (this.roundedLabels &&
+                        typeof(number) === 'number') {
+                            number = Math.round(number);
+                    }
                     return data.labels[tooltipItem.index] + ' : ' +
-                    data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+                            number.toLocaleString();
                 }
             }
         };
@@ -189,40 +208,45 @@ export class ChartHelperClass {
     private updateChartOptions(chartData: ChartData, mainLabel: string): void {
         let minValue = 0;
         let number: any;
+        let minDivisor = number;
 
         if (mainLabel) {
             this.chartOptions.title.text = mainLabel;
         }
 
-        if (this.stackedChart) {
-            if (Array.isArray(chartData.datasets)) {
-                chartData.datasets.forEach((dataset) => {
-                  if (Array.isArray(dataset.data) === true &&
-                    dataset.label === this.totalLabel) {
-                    for (let i = 0; i < dataset.data.length; i++) {
-                      number = dataset.data[i];
-                      if (typeof (number) === 'number') {
-                        if (number > minValue) { minValue = number }
-                      }
-                    };
-                  }
-                });
-                minValue = minValue / 40;
-              }
+        if (this.chartType === 'pie') {
+            minDivisor = this.constMinDivisorPie;
         } else {
-            if (Array.isArray(chartData.datasets)) {
-                chartData.datasets.forEach((dataset) => {
-                  if (Array.isArray(dataset.data) === true) {
+            minDivisor = this.constMinDivisorBar;
+        }
+
+        if (this.stackedChart) {
+            chartData.datasets.forEach((dataset) => {
+                if (Array.isArray(dataset.data) === true &&
+                    dataset.stack === ChartConstants.STACKED_TOTAL) {
                     for (let i = 0; i < dataset.data.length; i++) {
-                      number = dataset.data[i];
-                      if (typeof (number) === 'number') {
-                        minValue = minValue + number;
-                      }
+                        number = dataset.data[i];
+                        if (typeof(number) === 'number') {
+                            if (number > minValue) {
+                                minValue = number
+                            }
+                        }
                     }
-                  }
-                });
-                minValue = minValue / 40;
-              }
+                }
+            });
+            minValue = minValue / minDivisor;
+        } else {
+            chartData.datasets.forEach((dataset) => {
+                if (Array.isArray(dataset.data) === true) {
+                    for (let i = 0; i < dataset.data.length; i++) {
+                        number = dataset.data[i];
+                        if (typeof(number) === 'number') {
+                            minValue = minValue + number;
+                        }
+                    }
+                }
+            });
+            minValue = minValue / minDivisor;
         }
 
         this.chartOptions['plugins']['datalabels'] = {
@@ -230,9 +254,13 @@ export class ChartHelperClass {
             display: (context) => {
                 return context.dataset.data[context.dataIndex] > minValue
             },
-        //  font: { weight: 'bold' },
+            //  font: { weight: 'bold' },
             formatter: (value, context) => {
-                return value.toLocaleString();
+                if (this.roundedLabels) {
+                    return Math.round(value).toLocaleString();
+                } else {
+                    return value.toLocaleString();
+                }
             }
         };
     }
@@ -252,13 +280,12 @@ export class ChartHelperClass {
 
         if (this.stackedChart) {
             chartData.datasets.forEach((dataset) => {
-                if (dataset.label === this.totalLabel) {
-                    dataset.stack = this.totalLabel;
+                if (dataset.stack === ChartConstants.STACKED_TOTAL) {
                     dataset.hidden = false;
-                    dataset.backgroundColor = 'darkgrey';
+                    dataset.backgroundColor = 'lightgrey';
                     dataset.borderWidth = 0;
                 } else {
-                    dataset.stack = 'item';
+                    dataset.stack = ChartConstants.STACKED_ITEM; // to be sure
                     dataset.hidden = false;
                     dataset.backgroundColor = this.getColorCode(countData);
                     countData++;
@@ -270,16 +297,17 @@ export class ChartHelperClass {
                 dataset.hidden = false;
                 dataset.backgroundColor = [];
                 for (let i = 0; i < dataset.data.length; i++) {
-                  dataset.backgroundColor.push(this.getColorCode(i));
+                    dataset.backgroundColor.push(this.getColorCode(i));
                 }
 
                 dataset.borderWidth = 0;
-              });
+            });
         }
     }
 
     private getColorCode(counter: number) {
-        const colors = [[144, 238, 144, 0.8],
+        const colors = [
+            [144, 238, 144, 0.8],
             [255, 165, 0, 0.6],
             [135, 206, 235, 0.8],
             [222, 184, 135, 0.6],
@@ -288,10 +316,20 @@ export class ChartHelperClass {
             [255, 160, 122, 0.8],
             [70, 130, 180, 0.6],
             [255, 222, 173, 0.8],
-            [218, 112, 214, 0.6]
-            ];
+            [218, 112, 214, 0.6],
+            [144, 238, 144, 0.4],
+            [255, 165, 0, 1],
+            [135, 206, 235, 0.4],
+            [222, 184, 135, 1],
+            [255, 182, 193, 0.4],
+            [102, 205, 170, 1],
+            [255, 160, 122, 0.4],
+            [70, 130, 180, 1],
+            [255, 222, 173, 0.4],
+            [218, 112, 214, 1]
+        ];
 
-        const div10 = counter % 10;
-        return `rgba(${colors[div10][0]}, ${colors[div10][1]}, ${colors[div10][2]}, ${colors[div10][3]})`
+        const div20 = counter % 20;
+        return `rgba(${colors[div20][0]}, ${colors[div20][1]}, ${colors[div20][2]}, ${colors[div20][3]})`
     }
 }

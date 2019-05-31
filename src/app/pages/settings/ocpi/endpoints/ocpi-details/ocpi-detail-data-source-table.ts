@@ -215,8 +215,6 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
   }
 
   private enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
-    // switch background job state
-    ocpiendpoint.backgroundPatchJob = enable;
     // update it with dialog
     this.dialogService.createAndShowYesNoDialog(
       (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_title')
@@ -225,6 +223,8 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
                 : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
+        // Switch background job state
+        ocpiendpoint.backgroundPatchJob = enable;
         this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             if (ocpiendpoint.backgroundPatchJob) {

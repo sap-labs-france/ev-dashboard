@@ -259,7 +259,7 @@ export class CentralServerNotificationService {
   }
 
   public resetSocketIO() {
-    // Check: socket not initialised and user logged
+    // Check: socket not initialized and user logged
     if (this.socket) {
       // Close
       this.socket.disconnect();

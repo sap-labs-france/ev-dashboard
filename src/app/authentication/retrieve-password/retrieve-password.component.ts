@@ -3,7 +3,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CentralServerService} from '../../services/central-server.service';
-import {ConfigService} from '../../services/config.service';
 import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
@@ -23,15 +22,13 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   public resetPasswordEmail: string;
 
   constructor(
-    private centralServerService: CentralServerService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private configService: ConfigService,
-    private reCaptchaV3Service: ReCaptchaV3Service
-    ) {
+      private centralServerService: CentralServerService,
+      private router: Router,
+      private route: ActivatedRoute,
+      private spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private reCaptchaV3Service: ReCaptchaV3Service) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;

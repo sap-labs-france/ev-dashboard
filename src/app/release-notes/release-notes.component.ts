@@ -40,7 +40,7 @@ export class ReleaseNotesComponent {
               `Fixed date filters not working anymore in all list`,
               `Added missing actions in Log action filter`,
               `Added inactivity in Charging Station list`,
-              `Added basic Statistics`
+              `Added Statistics on Consumption and Usage`
             ]
           },
           {

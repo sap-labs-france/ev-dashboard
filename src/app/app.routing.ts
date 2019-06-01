@@ -71,6 +71,21 @@ export const AppRoutes: Routes = [
         }
       },
       {
+        path: 'statistics', loadChildren: './pages/statistics/statistics.module#StatisticsModule',
+        data: {
+          menu: {
+            title: 'statistics',
+            type: 'link',
+            icon: 'assessment',
+            path: '/statistics'
+          },
+          auth: {
+            entity: Constants.ENTITY_TRANSACTIONS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
         path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule', data: {
           menu: {
             title: 'tenants',

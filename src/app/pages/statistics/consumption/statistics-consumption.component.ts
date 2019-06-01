@@ -17,17 +17,17 @@ import {ChartData, ChartClass} from '../shared/chart-utilities';
 })
 
 export class StatisticsConsumptionComponent implements OnInit {
+  public chartTitle: string;
+  public totalConsumption = 0;
+
   private isAdmin: boolean;
   private selectedCategory: string;
   private selectedYear: number;
-  private chartTitle: string;
   private filterParams = {};
-  private totalConsumption = 0;
   private allFiltersDef: TableFilterDef[] = [];
 
   private barChart: ChartClass;
   private pieChart: ChartClass;
-
 
   @ViewChild('consumptionBarChart') ctxBarChart: ElementRef;
   @ViewChild('consumptionPieChart') ctxPieChart: ElementRef;
@@ -37,13 +37,12 @@ export class StatisticsConsumptionComponent implements OnInit {
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
-    private statisticsBuildService: StatisticsBuildService) {}
+    private statisticsBuildService: StatisticsBuildService) {
+  }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
-
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
+    this.isAdmin = this.authorizationService.isAdmin();
     filterDef = new SitesTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
@@ -129,5 +128,4 @@ export class StatisticsConsumptionComponent implements OnInit {
         })
     }
   }
-
 }

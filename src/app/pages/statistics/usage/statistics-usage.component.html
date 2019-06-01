@@ -8,16 +8,14 @@
             <mat-icon>people</mat-icon>
         </ng-template>
       </div>
-
-      <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.usage' | translate}}</h3>
-      <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalUsage | number}} {{'statistics.hours' | translate}}</h3>
-
+      <h3 class="card-title" *ngIf="!selectedYear">{{'general.menu.usage' | translate}}</h3>
+      <h3 class="card-title" *ngIf="selectedYear">{{chartTitle}} : {{totalUsage | number}} {{'statistics.hours' | translate}}</h3>
     </div>
  
     <div class="card-body">
         <app-statistics-filters [tableFiltersDef]="allFiltersDef"
-                                (setCategory)="categoryChanged($event)" (setYear)="yearChanged($event)" 
-                                (setFilters)="filtersChanged($event)" (refreshAll)="buildCharts($event)"></app-statistics-filters>
+                                (category)="categoryChanged($event)" (year)="yearChanged($event)" 
+                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts($event)"></app-statistics-filters>
     </div> 
 </div>   
 

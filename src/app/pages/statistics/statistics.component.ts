@@ -9,7 +9,6 @@ import {AuthorizationService} from '../../services/authorization-service';
   templateUrl: './statistics.component.html',
   encapsulation: ViewEncapsulation.None
 })
-
 export class StatisticsComponent extends AbstractTabComponent {
   isAdmin: boolean;
   constructor(
@@ -18,6 +17,6 @@ export class StatisticsComponent extends AbstractTabComponent {
     windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['consumption', 'usage']);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 }

@@ -10,19 +10,19 @@ import {Constants} from '../../../utils/Constants';
   selector: 'app-statistics-filters',
   templateUrl: './statistics-filters.component.html'
 })
-
 export class StatisticsFiltersComponent implements OnInit {
+  public ongoingRefresh = false;
+
   private isAdmin: boolean;
-  private ongoingRefresh = false;
   private selectedCategory = 'C';
   private selectedYear: number;
   private transactionYears: number[];
-  @Input() tableFiltersDef: TableFilterDef[] = [];
   private filterParams = {};
 
-  @Output() setCategory = new EventEmitter;
-  @Output() setYear = new EventEmitter;
-  @Output() setFilters = new EventEmitter;
+  @Input() tableFiltersDef: TableFilterDef[] = [];
+  @Output() category = new EventEmitter;
+  @Output() year = new EventEmitter;
+  @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
 
   constructor(
@@ -31,48 +31,43 @@ export class StatisticsFiltersComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
-    this.setCategory.emit(this.selectedCategory);
-
+    this.isAdmin = this.authorizationService.isAdmin();
+    this.category.emit(this.selectedCategory);
     this.selectedYear = new Date().getFullYear();
-    this.setYear.emit(this.selectedYear);
-
+    this.year.emit(this.selectedYear);
+    // Get the years from the existing transactions
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
     });
-
+    // Provided filters
     if (this.tableFiltersDef) {
+      // Site filter
       const foundSitesFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === 'sites');
-
-// If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
+      // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
       if (foundSitesFilter && this.isAdmin) {
-        this.centralServerService.getSites([])
-          .subscribe((sites) => {
-            if (sites && sites.result.length > 0) {
-              const firstSite = sites.result[0];
-              const filterDef = new SitesTableFilter().getFilterDef();
-              filterDef.currentValue = [{key: firstSite.id, value: firstSite.name, objectRef: firstSite}];
-              this.filterChanged(filterDef);
-            }
-            this.filterParams = this.buildFilterValues();
-            this.setFilters.emit(this.filterParams);
-
-            this.refreshAll.emit();
-          });
+        // Get the sites
+        this.centralServerService.getSites([]).subscribe((sites) => {
+          if (sites && sites.result.length > 0) {
+            const firstSite = sites.result[0];
+            const filterDef = new SitesTableFilter().getFilterDef();
+            filterDef.currentValue = [{key: firstSite.id, value: firstSite.name, objectRef: firstSite}];
+            this.filterChanged(filterDef);
+          }
+          this.filterParams = this.buildFilterValues();
+          this.filters.emit(this.filterParams);
+          this.refreshAll.emit();
+        });
       } else {
         this.filterParams = this.buildFilterValues();
-        this.setFilters.emit(this.filterParams);
-
+        this.filters.emit(this.filterParams);
         this.refreshAll.emit();
       }
     } else {
       this.filterParams = this.buildFilterValues();
-      this.setFilters.emit(this.filterParams);
-
+      this.filters.emit(this.filterParams);
       this.refreshAll.emit();
     }
   }
@@ -82,69 +77,67 @@ export class StatisticsFiltersComponent implements OnInit {
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
     });
-
     // Update value (if needed!)
     foundFilter.currentValue = filter.currentValue;
   }
 
   public resetFilters(): void {
     let filterWasChanged = false;
-
+    // Handle year
     const oldYear = this.selectedYear;
-
     this.selectedYear = new Date().getFullYear();
     if (oldYear !== this.selectedYear) {
       filterWasChanged = true;
-      this.setYear.emit(this.selectedYear);
+      this.year.emit(this.selectedYear);
     }
-
+    // Handle filters
     if (this.tableFiltersDef) {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case 'dropdown':
-            if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+            if (filterDef.currentValue && filterDef.currentValue !== null) {
+              filterWasChanged = true;
+            }
             filterDef.currentValue = null;
             break;
           case 'dialog-table':
-            if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+            if (filterDef.currentValue && filterDef.currentValue !== null) {
+              filterWasChanged = true;
+            }
             filterDef.currentValue = null;
             break;
           case 'date':
-            // to be sure:
             filterWasChanged = true;
             filterDef.reset();
             break;
         }
       });
     }
-
+    // Changed?
     if (filterWasChanged) {
+      // Set & Reload all
       this.filterParams = this.buildFilterValues();
-      this.setFilters.emit(this.filterParams);
-
+      this.filters.emit(this.filterParams);
       this.refreshAll.emit();
     }
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef): void {
     let filterWasChanged = false;
-
     if (filterDef.type === 'date') {
-      // to be sure:
       filterWasChanged = true;
       filterDef.reset();
     } else {
-      if (filterDef.currentValue && filterDef.currentValue !== null) { filterWasChanged = true; }
+      if (filterDef.currentValue && filterDef.currentValue !== null) {
+        filterWasChanged = true;
+      }
       filterDef.currentValue = null;
     }
-
     this.filterChanged(filterDef);
-
     if (filterWasChanged) {
       this.filterParams = this.buildFilterValues();
-      this.setFilters.emit(this.filterParams);
-
+      this.filters.emit(this.filterParams);
       this.refreshAll.emit();
     }
   }
@@ -169,13 +162,10 @@ export class StatisticsFiltersComponent implements OnInit {
           filterWasChanged = true;
           filterDef.currentValue = data;
         };
-
         this.filterChanged(filterDef);
-
         if (filterWasChanged) {
           this.filterParams = this.buildFilterValues();
-          this.setFilters.emit(this.filterParams);
-
+          this.filters.emit(this.filterParams);
           this.refreshAll.emit();
         }
       }
@@ -216,19 +206,16 @@ export class StatisticsFiltersComponent implements OnInit {
         }
       });
     }
-
     return filterJson;
   }
 
   categoryChanged(): void {
-    this.setCategory.emit(this.selectedCategory);
-
+    this.category.emit(this.selectedCategory);
     this.refreshAll.emit();
   }
 
   yearChanged(): void {
-    this.setYear.emit(this.selectedYear);
-
+    this.year.emit(this.selectedYear);
     this.refreshAll.emit();
   }
 

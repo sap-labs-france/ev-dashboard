@@ -17,7 +17,7 @@
     <div class="card-body">
         <app-statistics-filters [tableFiltersDef]="allFiltersDef"
                                 (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts($event)"></app-statistics-filters>
+                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
     </div> 
 </div>   
     

@@ -12,11 +12,11 @@ import {Constants} from '../../../utils/Constants';
 })
 export class StatisticsFiltersComponent implements OnInit {
   public ongoingRefresh = false;
+  public isAdmin: boolean;
+  public selectedYear: number;
+  public transactionYears: number[];
 
-  private isAdmin: boolean;
   private selectedCategory = 'C';
-  private selectedYear: number;
-  private transactionYears: number[];
   private filterParams = {};
 
   @Input() tableFiltersDef: TableFilterDef[] = [];

@@ -19,12 +19,12 @@ import {ChartData, ChartClass} from '../shared/chart-utilities';
 export class StatisticsConsumptionComponent implements OnInit {
   public chartTitle: string;
   public totalConsumption = 0;
+  public selectedCategory: string;
+  public selectedYear: number;
+  public allFiltersDef: TableFilterDef[] = [];
+  public isAdmin: boolean;
 
-  private isAdmin: boolean;
-  private selectedCategory: string;
-  private selectedYear: number;
   private filterParams = {};
-  private allFiltersDef: TableFilterDef[] = [];
 
   private barChart: ChartClass;
   private pieChart: ChartClass;

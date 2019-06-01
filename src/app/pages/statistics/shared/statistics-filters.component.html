@@ -18,7 +18,7 @@
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
         <!-- Refresh -->
             <button mat-raised-button 
-                    class="button-refresh" (click)="refresh(true)"
+                    class="button-refresh" (click)="refresh()"
                     [color]="'primary'"
                     appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
                 <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
@@ -48,7 +48,7 @@
         <!-- transaction year -->
         <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
             <mat-form-field>    
-                <mat-select (selectionChange)="yearChanged($event)" [(value)]="selectedYear"
+                <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">
                     <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}
                     </mat-option>

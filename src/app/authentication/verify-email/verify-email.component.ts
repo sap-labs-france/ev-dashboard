@@ -162,23 +162,22 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         switch (error.status) {
           // Account already active
           case 530:
-            // Report the error
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-            // Go to login
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
             break;
           // Email does not exist
           case 550:
-            // Report the error
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
             break;
+          // Unexpected Error
           default:
-            // Unexpected Error
             Utils.handleHttpError(error, this.router,
               this.messageService, this.centralServerService, 'authentication.verify_email_resend_error');
             break;
         }
       });
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
   }
 }

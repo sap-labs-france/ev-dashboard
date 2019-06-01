@@ -75,8 +75,7 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   }
 
   resetPassword(data) {
-    this.reCaptchaV3Service.execute('Reset')
-      .subscribe((token) => {
+    this.reCaptchaV3Service.execute('Reset').subscribe((token) => {
         data['captcha'] = token;
         // Show
         this.spinnerService.show();
@@ -103,19 +102,19 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
           switch (error.status) {
             // Hash no longer valid
             case 540:
-              // Report the error
               this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
               break;
             // Email does not exist
             case 550:
-              // Report the error
               this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
               break;
+            // Unexpected error`
             default:
-              // Unexpected error`
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
           }
         });
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
   }
 }

@@ -8,6 +8,7 @@ import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
 import {SpinnerService} from '../../services/spinner.service';
+import {ReCaptchaV3Service} from 'ng-recaptcha';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -18,10 +19,8 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
   public verifyEmailAction: boolean;
   private messages: Object;
-  public captchaSiteKey: string;
   public verificationToken: string;
   public verificationEmail: string;
-  @ViewChild('recaptcha') public recaptcha;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -30,6 +29,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private reCaptchaV3Service: ReCaptchaV3Service,
     private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
@@ -41,16 +41,10 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.email
-        ])),
-      'captcha': new FormControl('',
-        Validators.compose([
-          Validators.required
         ]))
     });
     // Form
     this.email = this.formGroup.controls['email'];
-    // Set the Captcha Key
-    this.captchaSiteKey = this.configService.getUser().captchaSiteKey;
     // Get verificationToken & email
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
@@ -81,8 +75,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       } else {
         // Enable resend verification email
         this.verifyEmailAction = false;
-        // Set the Captcha Key
-        this.captchaSiteKey = this.configService.getUser().captchaSiteKey;
       }
     }
   }
@@ -134,7 +126,8 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
           break;
         default:
           // Unexpected Error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'authentication.verify_email_error');
           break;
       }
       // Go to login
@@ -143,45 +136,49 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   resendVerificationEmail(data) {
-    // Show
-    this.spinnerService.show();
-    // Resend
-    this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
-      // Hide
-      this.spinnerService.hide();
-      // Success
-      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Show message
-        this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
-        // Go back to login
-        this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-        // Unexpected Error
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['verify_email_resend_error']);
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status error code
-      switch (error.status) {
-        // Account already active
-        case 530:
-          // Report the error
-          this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-          // Go to login
+    this.reCaptchaV3Service.execute('Verify').subscribe((token) => {
+      data['captcha'] = token;
+      // Show
+      this.spinnerService.show();
+      // Resend
+      this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
+        // Hide
+        this.spinnerService.hide();
+        // Success
+        if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+          // Show message
+          this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
+          // Go back to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-          break;
-        // Email does not exist
-        case 550:
-          // Report the error
-          this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
-          break;
-        default:
           // Unexpected Error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_resend_error');
-          break;
-      }
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.messages['verify_email_resend_error']);
+        }
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        // Check status error code
+        switch (error.status) {
+          // Account already active
+          case 530:
+            // Report the error
+            this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
+            // Go to login
+            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+            break;
+          // Email does not exist
+          case 550:
+            // Report the error
+            this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
+            break;
+          default:
+            // Unexpected Error
+            Utils.handleHttpError(error, this.router,
+              this.messageService, this.centralServerService, 'authentication.verify_email_resend_error');
+            break;
+        }
+      });
     });
   }
 }

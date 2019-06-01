@@ -1,0 +1,90 @@
+
+<!-- Toolbar -->
+<div class="mat-toolbar">
+    <!-- Actions  -->
+    <div class="left-actions d-flex flex-row mat-toolbar-row ">
+        <!-- Create Left Actions -->
+        <!-- Reset Filters -->
+        <button mat-raised-button (click)="resetFilters()"
+            [color]="'primary'" appTooltip="" data-placement="bottom"
+            data-toggle="tooltip" [title]="'general.reset_filters' | translate">
+            <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
+        </button>
+  
+        <!-- Spacer -->
+        <span class="toolbar-spacer"></span>
+ 
+        <!-- Create Right Actions -->
+        <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+        <!-- Refresh -->
+            <button mat-raised-button 
+                    class="button-refresh" (click)="refresh()"
+                    [color]="'primary'"
+                    appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
+                <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
+                    <div class="loader"></div>
+                </div>
+                <div *ngIf="!ongoingRefresh" class="refresh-icon">
+                    <mat-icon>refresh</mat-icon>
+                </div>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- filters -->
+    <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
+        <!-- Category of statistics -->
+        <div *ngIf="isAdmin">  <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+            <mat-form-field>
+                <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
+                            [placeholder]="'statistics.category_label' | translate">
+                    <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
+                     <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
+                </mat-select>
+            </mat-form-field>    
+        </div>
+
+        <!-- transaction year -->
+        <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+            <mat-form-field>    
+                <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
+                            [placeholder]="'statistics.transactions_years' | translate">
+                    <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> 
+
+        <!-- dynamically defined filters, like for Site ID -->
+        <div *ngFor="let filterDef of tableFiltersDef; let i=index"
+              [class]="(filterDef.class ? filterDef.class : '')">
+            <!-- Dropdown Filter -->
+            <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+                <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+                            [placeholder]="filterDef.name | translate">
+                    <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- Dialog Table Filter -->
+            <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+                <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                        [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                        class="form-field-popup" matInput readonly=true type="text" />
+                <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </mat-form-field>
+            <!-- Date Filter -->
+            <mat-form-field *ngIf="filterDef.type === 'date'">
+                <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                </mat-datetimepicker>
+                <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                <input matInput [placeholder]="filterDef.name | translate"
+                        (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
+                        [value]="filterDef.currentValue" autocomplete="false">
+            </mat-form-field>
+        </div>
+    </div>
+</div>

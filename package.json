@@ -65,7 +65,7 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "moment-timezone": "^0.5.25",
-    "ng-recaptcha": "^4.2.1",
+    "ng-recaptcha": "^4.3.0-beta.1",
     "ngx-google-places-autocomplete": "^2.0.3",
     "node-authorization": "^1.0.7",
     "perfect-scrollbar": "^1.4.0",

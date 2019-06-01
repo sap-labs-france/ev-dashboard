@@ -13,7 +13,7 @@ import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate
 import {LocalStorageService} from './services/local-storage.service';
 import {ConfigService} from './services/config.service'
 import {MessageService} from './services/message.service';
-import {RecaptchaModule} from 'ng-recaptcha';
+import {RecaptchaModule, RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY} from 'ng-recaptcha';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {RouteGuardService} from './services/route-guard.service';
 
@@ -155,6 +155,7 @@ export function localeFactory(
     RecaptchaModule.forRoot(),
     HttpClientModule,
     ChartModule,
+    RecaptchaV3Module,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
     TranslateModule.forRoot({
       loader: {
@@ -192,6 +193,7 @@ export function localeFactory(
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
     {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    {provide: RECAPTCHA_V3_SITE_KEY, useValue: '6Ld8nKIUAAAAADiTyAJ097yT16L68tZ6whvab7XK'}
     // {provide: RouteReuseStrategy, useClass: CustomRouteStrategy}
   ],
   bootstrap: [AppComponent]

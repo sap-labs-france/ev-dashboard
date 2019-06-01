@@ -72,6 +72,11 @@
                         <mat-error *ngIf="!repeatPassword.errors?.required && passwords.errors?.notEqual">{{"authentication.password_not_equal" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
+                    <div class="recaptcha-text">
+                      This site is protected by reCAPTCHA and the Google
+                      <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+                      <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+                    </div>
                     <div class="input-group-prepend justify-content-center mt-3 ml-2">
                       <mat-checkbox [formControl]="acceptEula" required>
                         <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
@@ -79,11 +84,6 @@
                           <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
                         </a>
                       </mat-checkbox>
-                    </div>
-                    <div class="input-group-prepend mt-2 captcha-container">
-                      <re-captcha id="captcha-checkbox" #recaptcha formControlName="captcha" [siteKey]="captchaSiteKey"
-                                  class="captcha" theme="light" >
-                      </re-captcha>
                     </div>
                   </div>
                 </span>

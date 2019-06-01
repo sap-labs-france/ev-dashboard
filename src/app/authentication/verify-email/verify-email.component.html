@@ -26,11 +26,12 @@
                         <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
-                    <div class="input-group-prepend mt-2 captcha-container" [hidden]="verifyEmailAction">
-                      <re-captcha #recaptcha formControlName="captcha" [siteKey]="captchaSiteKey" class="captcha">
-                      </re-captcha>
-                    </div>
                   </div>
+                  <div class="recaptcha-text">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+                  </div>    
                 </span>
             </div>
             <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">

@@ -38,7 +38,9 @@ export class ReleaseNotesComponent {
               `User's role is not translated in Faulty list`,
               `Added extra inactivity (until connector is unplugged) in session's list footer stats`,
               `Fixed date filters not working anymore in all list`,
-              `Add missing actions in Log action filter`
+              `Added missing actions in Log action filter`,
+              `Added inactivity in Charging Station list`,
+              `Added basic Statistics`
             ]
           },
           {
@@ -52,7 +54,8 @@ export class ReleaseNotesComponent {
               `Removed query string in LEGRAND charging station supervision URL`,
               `Handle Meter Value consumption as floating point instead of integer for KEBA certification`,
               `Round instant power in transaction's consumption`,
-              `Fixed Is Authorized to Stop Transaction for Mobile app`
+              `Fixed Is Authorized to Stop Transaction for Mobile app`,
+              `Add inactivity in Charging Station's connectors`
             ]
           }
         ]

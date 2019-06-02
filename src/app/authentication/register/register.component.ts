@@ -10,7 +10,7 @@ import {Utils} from '../../utils/Utils';
 import {ParentErrorStateMatcher} from '../../utils/ParentStateMatcher';
 import {SpinnerService} from '../../services/spinner.service';
 import {Constants} from '../../utils/Constants';
-import {ReCaptchaV3Service} from 'ng-recaptcha';
+import {ReCaptchaV3Service} from 'ngx-captcha';
 
 @Component({
   selector: 'app-register-cmp',
@@ -31,18 +31,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public hidePassword = true;
   public hideRepeatPassword = true;
 
+  private siteKey: string;
+
   constructor(
     private centralServerService: CentralServerService,
     private router: Router,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private configService: ConfigService,
-    private reCaptchaV3Service: ReCaptchaV3Service) {
+    private reCaptchaV3Service: ReCaptchaV3Service,
+    private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
+    // Get the Site Key
+    this.siteKey = this.configService.getUser().captchaSiteKey;
+    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'name': new FormControl('',
@@ -105,7 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register(user) {
-    this.reCaptchaV3Service.execute('RegisterUser').subscribe((token) => {
+    this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
       user['captcha'] = token;
       if (this.formGroup.valid) {
         // Show
@@ -144,8 +149,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         });
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
   }
 }

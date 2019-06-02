@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {RecaptchaFormsModule} from 'ng-recaptcha/forms';
-import {RecaptchaModule} from 'ng-recaptcha';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -23,8 +21,6 @@ import {DialogsModule} from '../shared/dialogs/dialogs.module';
     ReactiveFormsModule,
     MaterialModule,
     TranslateModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
     DialogsModule
   ],
   declarations: [

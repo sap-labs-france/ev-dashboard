@@ -7,7 +7,8 @@ import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
 import {SpinnerService} from '../../services/spinner.service';
-import {ReCaptchaV3Service} from 'ng-recaptcha';
+import {ConfigService} from 'app/services/config.service';
+import {ReCaptchaV3Service} from 'ngx-captcha';
 
 @Component({
   selector: 'app-retrieve-password-cmp',
@@ -21,18 +22,24 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   public resetPasswordHash: string;
   public resetPasswordEmail: string;
 
+  private siteKey: string;
+
   constructor(
       private centralServerService: CentralServerService,
       private router: Router,
       private route: ActivatedRoute,
       private spinnerService: SpinnerService,
       private messageService: MessageService,
-      private translateService: TranslateService,
-      private reCaptchaV3Service: ReCaptchaV3Service) {
+      private reCaptchaV3Service: ReCaptchaV3Service,
+      private configService: ConfigService,
+      private translateService: TranslateService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
+    // Get the Site Key
+    this.siteKey = this.configService.getUser().captchaSiteKey;
+    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'email': new FormControl('',
@@ -75,46 +82,44 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
   }
 
   resetPassword(data) {
-    this.reCaptchaV3Service.execute('Reset').subscribe((token) => {
-        data['captcha'] = token;
-        // Show
-        this.spinnerService.show();
-        // Yes: Update
-        this.centralServerService.resetUserPassword(data).subscribe((response) => {
-          // Hide
-          this.spinnerService.hide();
-          // Success
-          if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-            // Show message`
-            this.messageService.showSuccessMessage(
-              this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
-            // Go back to login
-            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-            // Unexpected Error
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.messages['reset_password_error']);
-          }
-        }, (error) => {
-          // Hide
-          this.spinnerService.hide();
-          // Check status error code
-          switch (error.status) {
-            // Hash no longer valid
-            case 540:
-              this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
-              break;
-            // Email does not exist
-            case 550:
-              this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
-              break;
-            // Unexpected error`
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-          }
-        });
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+    this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
+      data['captcha'] = token;
+      // Show
+      this.spinnerService.show();
+      // Yes: Update
+      this.centralServerService.resetUserPassword(data).subscribe((response) => {
+        // Hide
+        this.spinnerService.hide();
+        // Success
+        if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+          // Show message`
+          this.messageService.showSuccessMessage(
+            this.messages[(!this.resetPasswordHash ? 'reset_password_success' : 'reset_password_success_ok')]);
+          // Go back to login
+          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+          // Unexpected Error
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.messages['reset_password_error']);
+        }
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        // Check status error code
+        switch (error.status) {
+          // Hash no longer valid
+          case 540:
+            this.messageService.showErrorMessage(this.messages['reset_password_hash_not_valid']);
+            break;
+          // Email does not exist
+          case 550:
+            this.messageService.showErrorMessage(this.messages['reset_password_email_not_valid']);
+            break;
+          // Unexpected error`
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
     });
   }
 }

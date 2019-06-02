@@ -1,5 +1,10 @@
 {
   "general": {
+    "captcha_text_1": "Ce site est protégé par reCAPTCHA et Google",
+    "captcha_text_2": "Règles de Confidentialité",
+    "captcha_text_3": " et l'application des ",
+    "captcha_text_4": "Conditions d’Utilisation",
+    "captcha_text_5": "",
     "days": "jours",
     "hours": "heures",
     "minutes": "mins",

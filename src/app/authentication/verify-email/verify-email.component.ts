@@ -8,7 +8,7 @@ import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
 import {SpinnerService} from '../../services/spinner.service';
-import {ReCaptchaV3Service} from 'ng-recaptcha';
+import {ReCaptchaV3Service} from 'ngx-captcha';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -21,6 +21,8 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   private messages: Object;
   public verificationToken: string;
   public verificationEmail: string;
+
+  private siteKey: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -35,6 +37,9 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
+    // Get the Site Key
+    this.siteKey = this.configService.getUser().captchaSiteKey;
+    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'email': new FormControl('',
@@ -136,7 +141,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   }
 
   resendVerificationEmail(data) {
-    this.reCaptchaV3Service.execute('Verify').subscribe((token) => {
+    this.reCaptchaV3Service.execute(this.siteKey, 'ActivateAccount', (token) => {
       data['captcha'] = token;
       // Show
       this.spinnerService.show();
@@ -176,8 +181,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
             break;
         }
       });
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
   }
 }

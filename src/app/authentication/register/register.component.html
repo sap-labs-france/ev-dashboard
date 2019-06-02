@@ -73,9 +73,9 @@
                       </mat-form-field>
                     </div>
                     <div class="recaptcha-text">
-                      This site is protected by reCAPTCHA and the Google
-                      <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
-                      <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+                      {{"general.captcha_text_1" | translate}}
+                      <a href="https://policies.google.com/privacy" target="_blank">{{"general.captcha_text_2" | translate}}</a>{{"general.captcha_text_3" | translate}}
+                      <a href="https://policies.google.com/terms" target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
                     </div>
                     <div class="input-group-prepend justify-content-center mt-3 ml-2">
                       <mat-checkbox [formControl]="acceptEula" required>

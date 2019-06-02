@@ -193,8 +193,7 @@ export function localeFactory(
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
     {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
-    {provide: RECAPTCHA_V3_SITE_KEY, useValue: '6Ld8nKIUAAAAADiTyAJ097yT16L68tZ6whvab7XK'}
-    // {provide: RouteReuseStrategy, useClass: CustomRouteStrategy}
+    // {provide: RECAPTCHA_V3_SITE_KEY, useValue: '6Ld8nKIUAAAAADiTyAJ097yT16L68tZ6whvab7XK'}
   ],
   bootstrap: [AppComponent]
 })

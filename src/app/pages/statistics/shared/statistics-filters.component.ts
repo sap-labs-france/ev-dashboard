@@ -1,10 +1,10 @@
-import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
-import {CentralServerService } from '../../../services/central-server.service';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TableFilterDef} from '../../../common.types';
-import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
-import {Constants} from '../../../utils/Constants';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { CentralServerService } from '../../../services/central-server.service';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TableFilterDef } from '../../../common.types';
+import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
+import { Constants } from '../../../utils/Constants';
 
 @Component({
   selector: 'app-statistics-filters',
@@ -53,7 +53,7 @@ export class StatisticsFiltersComponent implements OnInit {
           if (sites && sites.result.length > 0) {
             const firstSite = sites.result[0];
             const filterDef = new SitesTableFilter().getFilterDef();
-            filterDef.currentValue = [{key: firstSite.id, value: firstSite.name, objectRef: firstSite}];
+            filterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
             this.filterChanged(filterDef);
           }
           this.filterParams = this.buildFilterValues();
@@ -148,7 +148,7 @@ export class StatisticsFiltersComponent implements OnInit {
     dialogConfig.disableClose = true;
     // Set Validate button title to 'Set Filter'
     dialogConfig.data = {
-      validateButtonTitle : 'general.set_filter'
+      validateButtonTitle: 'general.set_filter'
     };
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -182,7 +182,7 @@ export class StatisticsFiltersComponent implements OnInit {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Table
+            // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -198,7 +198,7 @@ export class StatisticsFiltersComponent implements OnInit {
                 }
               }
             }
-          // Others
+            // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;

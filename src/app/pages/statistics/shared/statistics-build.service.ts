@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ChartConstants, ChartData } from './chart-utilities';
+import {Injectable} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {LocaleService} from '../../../services/locale.service';
+import {ChartConstants, ChartData} from './chart-utilities';
 
 import * as moment from 'moment';
 
@@ -10,7 +11,8 @@ export class StatisticsBuildService {
   private monthLabel: string;
 
   constructor(
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private localeService: LocaleService) {
     this.totalLabel = this.translateService.instant('statistics.total');
     if (this.totalLabel === '') {
       this.totalLabel = 'Total'; // should never happen
@@ -51,7 +53,7 @@ export class StatisticsBuildService {
 
         monthIndex = transactionValue[this.monthLabel];
 
-        monthString = moment().month(monthIndex).format('MMMM');
+        monthString = moment().locale(this.localeService.language).month(monthIndex).format('MMMM');
 
         if (stackedChartData.labels.indexOf(monthString) < 0) {
           stackedChartData.labels.push(monthString);

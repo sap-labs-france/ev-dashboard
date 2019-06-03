@@ -28,6 +28,26 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.26',
+        date: new Date('2019-06-03'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Added units in Statistics + Format numbers with locale in User's profile`,
+              `Fixed all values appear in Session's charging curve`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed from Log's source the instance ID`,
+              `Take into consideration the price to optimize the Session charging curve`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.25',
         date: new Date('2019-06-01'),
         componentChanges: [

@@ -28,6 +28,24 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.26',
+        date: new Date('2019-06-03'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              ``
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed from Log's source the instance ID`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.25',
         date: new Date('2019-06-01'),
         componentChanges: [

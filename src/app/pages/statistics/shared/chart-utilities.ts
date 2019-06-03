@@ -10,7 +10,7 @@ export class ChartConstants {
 
 export { ChartData } from 'chart.js'; // could also use any local, but similar data definition!
 
-export class ChartClass {
+export class SimpleChart {
   private chart: Chart;
   private chartType: string;
   private stackedChart = false;
@@ -21,19 +21,25 @@ export class ChartClass {
   private constMinDivisorBar = 40;
   private constMinDivisorPie = 40;
   private itemsHidden = false;
+  private language: string;
 
-  constructor(chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
+  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string, toolTipUnit?: string,
     labelXAxis?: string, labelYAxis?: string, roundedLabels = true, withLegend = false) {
+
+    // Unregister global activation of Chart labels
+    Chart.plugins.unregister(ChartDataLabels);
+
+    this.language = language;
 
     switch (chartType) {
       case 'pie':
-        this.createPieChartOptions(mainLabel, roundedLabels, withLegend);
+        this.createPieChartOptions(mainLabel, toolTipUnit, roundedLabels, withLegend);
         break;
       case 'bar':
-        this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(false, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
         break;
       case 'stackedBar':
-        this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(true, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
     }
   }
 
@@ -78,7 +84,7 @@ export class ChartClass {
     this.chart.update();
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
+  private createBarChartOptions(stacked: boolean, mainLabel: string, toolTipUnit: string, labelXAxis: string, labelYAxis: string,
     roundedLabels: boolean, withLegend: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
@@ -116,16 +122,22 @@ export class ChartClass {
       callbacks: {
         label: (tooltipItem, data) => {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          let toolTip: string;
+
           if (this.roundedLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
           if (this.stackedChart) {
-            return data.datasets[tooltipItem.datasetIndex].label
-              + ' : ' + number.toLocaleString();
+            toolTip = data.datasets[tooltipItem.datasetIndex].label
+              + ' : ' + number.toLocaleString(this.language);
           } else {
-            return number.toLocaleString();
+            toolTip = number.toLocaleString(this.language);
           }
+          if (toolTipUnit) {
+            toolTip = toolTip + ` ${toolTipUnit}`;
+          }
+          return toolTip
         }
       }
     };
@@ -151,14 +163,14 @@ export class ChartClass {
           ticks: {
             beginAtZero: true,
             callback: (value, index, values) => {
-              return value.toLocaleString();
+              return value.toLocaleString(this.language);
             }
           }
         }]
     }
   }
 
-  private createPieChartOptions(mainLabel: string, roundedLabels: boolean, withLegend: boolean): void {
+  private createPieChartOptions(mainLabel: string, toolTipUnit: string, roundedLabels: boolean, withLegend: boolean): void {
     this.chartType = 'pie';
     this.roundedLabels = roundedLabels;
 
@@ -194,12 +206,19 @@ export class ChartClass {
       callbacks: {
         label: (tooltipItem, data) => {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          let toolTip: string;
+
           if (this.roundedLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
-          return data.labels[tooltipItem.index] + ' : ' +
-            number.toLocaleString();
+          toolTip = data.labels[tooltipItem.index] + ' : '
+            + number.toLocaleString(this.language);
+
+          if (toolTipUnit) {
+            toolTip = toolTip + ` ${toolTipUnit}`;
+          }
+          return toolTip
         }
       }
     };
@@ -257,9 +276,9 @@ export class ChartClass {
       //  font: { weight: 'bold' },
       formatter: (value, context) => {
         if (this.roundedLabels) {
-          return Math.round(value).toLocaleString();
+          return Math.round(value).toLocaleString(this.language);
         } else {
-          return value.toLocaleString();
+          return value.toLocaleString(this.language);
         }
       }
     };

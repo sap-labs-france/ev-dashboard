@@ -6,7 +6,7 @@ declare var $: any;
 @Injectable()
 export class MessageService {
   // Message Template
-  private _message_template = `
+  private messageTemplate = `
       <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">
         <button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">
           <i class="material-icons">close</i>
@@ -29,6 +29,10 @@ export class MessageService {
 
   public showErrorMessageConnectionLost() {
     this.showErrorMessage('general.backend_not_running');
+  }
+
+  public showWarningMessageUserOrTenantUpdated() {
+    this.showWarningMessage('general.user_or_tenant_updated');
   }
 
   public showMessage(message: string, params?: Object, title?: string) {
@@ -58,13 +62,15 @@ export class MessageService {
         message: this.translateService.instant(message, params)
       }, {
         type: type,
-        timer: 3000,
+        delay: 3000,
+        timer: 1500,
+        allow_dismiss: true,
         placement: {
           from: from,
           align: align
         },
         z_index: 10000,
-        template: this._message_template
+        template: this.messageTemplate
       }
     );
   }

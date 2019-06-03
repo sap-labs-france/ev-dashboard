@@ -1,6 +1,6 @@
 {
   "name": "ev-dashboard",
-  "version": "2.0.17",
+  "version": "2.0.25",
   "repository": {
     "type": "git",
     "url": "https://github.com/LucasBrazi06/ev-dashboard-new"
@@ -55,6 +55,7 @@
     "bootstrap-tagsinput": "^0.7.1",
     "canvas-gauges": "^2.1.5",
     "chart.js": "^2.8.0",
+    "chartjs-plugin-datalabels": "^0.6.0",
     "chartjs-plugin-zoom": "^0.6.6",
     "file-saver": "^2.0.1",
     "hammerjs": "^2.0.8",
@@ -65,9 +66,9 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "moment-timezone": "^0.5.25",
-    "ng-recaptcha": "^4.2.1",
+    "ngx-captcha": "^6.4.0",
     "ngx-google-places-autocomplete": "^2.0.3",
-    "node-authorization": "^1.0.6",
+    "node-authorization": "^1.0.7",
     "perfect-scrollbar": "^1.4.0",
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.1",

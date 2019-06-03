@@ -1,6 +1,8 @@
 import {ButtonType, DialogType, FilterType} from '../common.types';
 
 export class Constants {
+  public static URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
+
   public static DEFAULT_PAGE_SIZE = 100;
   public static INFINITE_RECORDS = -1;
   public static DEFAULT_POLLING_MILLIS = 10000;
@@ -50,8 +52,8 @@ export class Constants {
   public static ACTION_LIST = 'List';
   public static ACTION_RESET = 'Reset';
   public static ACTION_CLEAR_CACHE = 'ClearCache';
-  public static ACTION_START_TRANSACTION = 'StartTransaction';
-  public static ACTION_STOP_TRANSACTION = 'StopTransaction';
+  public static ACTION_REMOTE_START_TRANSACTION = 'StartTransaction';
+  public static ACTION_REMOTE_STOP_TRANSACTION = 'StopTransaction';
   public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';
@@ -103,6 +105,7 @@ export class Constants {
   public static USER_STATUS_BLOCKED = 'B';
   public static USER_STATUS_LOCKED = 'L';
   public static USER_STATUS_UNKNOWN = 'U';
+  public static USER_ROLE_SUPER_ADMIN = 'S';
   public static USER_ROLE_ADMIN = 'A';
   public static USER_ROLE_BASIC = 'B';
   public static USER_ROLE_DEMO = 'D';

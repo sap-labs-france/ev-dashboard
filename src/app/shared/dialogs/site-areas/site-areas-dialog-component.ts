@@ -1,15 +1,16 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, Self} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue, SiteArea} from '../../../common.types';
 import {SiteAreasDataSourceTable} from './site-areas-data-source-table';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html'
+  templateUrl: '../dialog-table-data-component.html',
+  providers: [SiteAreasDataSourceTable]
 })
 export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea> {
   constructor(
-      public dialogDataSource: SiteAreasDataSourceTable,
+      @Self() public dialogDataSource: SiteAreasDataSourceTable,
       protected dialogRef: MatDialogRef<SiteAreasDialogComponent>,
       @Inject(MAT_DIALOG_DATA) data) {
     // Super class

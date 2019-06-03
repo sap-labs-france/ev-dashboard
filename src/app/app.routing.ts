@@ -1,9 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
-
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
 import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
-import {RouteGuardService} from './services/route-guard.service';
 import {ModuleWithProviders} from '@angular/core';
 import {DevEnvGuard} from './guard/development.guard';
 import {Constants} from './utils/Constants';
@@ -73,15 +71,16 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
+        path: 'statistics', loadChildren: './pages/statistics/statistics.module#StatisticsModule',
+        data: {
           menu: {
-            title: 'users',
+            title: 'statistics',
             type: 'link',
-            icon: 'people',
-            path: '/users'
+            icon: 'assessment',
+            path: '/statistics'
           },
           auth: {
-            entity: Constants.ENTITY_USERS,
+            entity: Constants.ENTITY_TRANSACTIONS,
             action: Constants.ACTION_LIST
           }
         }
@@ -96,6 +95,20 @@ export const AppRoutes: Routes = [
           },
           auth: {
             entity: Constants.ENTITY_TENANTS,
+            action: Constants.ACTION_LIST
+          }
+        }
+      },
+      {
+        path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
+          menu: {
+            title: 'users',
+            type: 'link',
+            icon: 'people',
+            path: '/users'
+          },
+          auth: {
+            entity: Constants.ENTITY_USERS,
             action: Constants.ACTION_LIST
           }
         }

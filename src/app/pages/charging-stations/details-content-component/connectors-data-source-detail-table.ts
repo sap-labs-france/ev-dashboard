@@ -27,6 +27,7 @@ import {Observable} from 'rxjs';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -43,6 +44,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
       private centralServerService: CentralServerService,
       private translateService: TranslateService,
       private appUnitPipe: AppUnitPipe,
+      private appDurationPipe: AppDurationPipe,
       private dialog: MatDialog,
       private authorizationService: AuthorizationService,
       private messageService: MessageService,
@@ -74,9 +76,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
             connector.hasDetails = connector.activeTransactionID > 0 &&
               (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
           });
-          // Respond
-          this.setTotalNumberOfRecords(this.charger.connectors.length);
-          observer.next(this.charger.connectors);
+          observer.next({
+            count: this.charger.connectors.length,
+            result: this.charger.connectors
+          });
           observer.complete();
         }, (error) => {
           // Authorization issue!
@@ -148,6 +151,12 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         sortable: false
       },
       {
+        id: 'totalInactivitySecs',
+        name: 'chargers.inactivity',
+        formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
+        sortable: false
+      },
+      {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
         formatter: (errorCode, row) => this.formatError(errorCode, row.info, row.vendorErrorCode),
@@ -213,30 +222,6 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ];
   }
 
-  specificRowActions(connector: Connector): TableActionDef[] {
-    const actionAuthorize = [];
-    if (connector && connector.activeTransactionID) {
-      if (connector.isTransactionDisplayAuthorized) {
-        actionAuthorize.push(new TableOpenAction().getActionDef());
-      }
-      if (connector.isStopAuthorized) {
-        actionAuthorize.push(this.stopAction.getActionDef());
-      }
-    } else {
-      if (connector.isStartAuthorized) {
-        actionAuthorize.push(this.startAction.getActionDef());
-      }
-    }
-    if (actionAuthorize.length > 0) {
-      return actionAuthorize;
-    } else {
-      // No action
-      return [
-        this.noAction.getActionDef()
-      ];
-    }
-  }
-
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     super.actionTriggered(actionDef);
@@ -244,60 +229,105 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
 
   public rowActionTriggered(actionDef: TableActionDef, connector: Connector) {
     switch (actionDef.id) {
+      // Start Transaction
       case 'start':
-        if ((connector.status === Constants.CONN_STATUS_AVAILABLE || connector.status === Constants.CONN_STATUS_PREPARING) &&
-            !this.charger.inactive && connector.isStartAuthorized) {
-          if (this.authorizationService.isAdmin()) {
-            // Admin can start transaction for themself or any other user
-            this.startTransactionAsAdmin(connector)
-          } else {
-            this.startTransaction(connector, this.centralServerService.getLoggedUser());
-          }
+        if (!connector.isStartAuthorized) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_start_not_authorized'));
+          return;
+        }
+        if (this.charger.inactive) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
+          return;
+        }
+        if (connector.status === Constants.CONN_STATUS_UNAVAILABLE) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_start_not_available'));
+          return;
+        }
+        if (connector.activeTransactionID) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_start_title'),
+            this.translateService.instant('chargers.action_error.transaction_in_progress'));
+            return;
+        }
+        // Check
+        if (this.authorizationService.isAdmin()) {
+          this.startTransactionAsAdmin(connector)
         } else {
-          if (connector.status !== Constants.CONN_STATUS_AVAILABLE) {
-            this.dialogService.createAndShowOkDialog(
-              this.translateService.instant('chargers.action_error.transaction_start_title'),
-              this.translateService.instant('chargers.action_error.transaction_start_not_available'));
-          } else if (this.charger.inactive) {
-            this.dialogService.createAndShowOkDialog(
-              this.translateService.instant('chargers.action_error.transaction_start_title'),
-              this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
-          }
+          this.startTransaction(connector, this.centralServerService.getLoggedUser());
         }
         break;
+
+      // Open Transaction
       case 'open':
-        if (connector && connector.activeTransactionID && connector.isTransactionDisplayAuthorized) {
-          this.openSession(connector);
-        } else {
+        // Check
+        if (!connector.isTransactionDisplayAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
             this.translateService.instant('chargers.action_error.session_details_not_authorized'));
         }
+        if (!connector.activeTransactionID) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.session_details_title'),
+            this.translateService.instant('chargers.action_error.no_active_transaction'));
+        }
+        // Show
+        this.openSession(connector);
         break;
+
+      // Stop Transaction
       case 'stop':
-        // check authorization
-        if (connector && connector.activeTransactionID && connector.isStopAuthorized) {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('chargers.stop_transaction_title'),
-            this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
-          ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
-              this.centralServerService.stationStopTransaction(
-                this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
-                this.messageService.showSuccessMessage(
-                  this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
-              }, (error) => {
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'chargers.stop_transaction_error');
-              });
-            }
-          });
-        } else {
+        if (!connector.isStopAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_stop_title'),
             this.translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
         }
+        if (this.charger.inactive) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_stop_title'),
+            this.translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
+          return;
+        }
+        if (connector.status === Constants.CONN_STATUS_UNAVAILABLE) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_stop_title'),
+            this.translateService.instant('chargers.action_error.transaction_stop_not_available'));
+          return;
+        }
+        if (!connector.activeTransactionID) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.action_error.transaction_stop_title'),
+            this.translateService.instant('chargers.action_error.no_active_transaction'));
+        }
+        // Check authorization
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('chargers.stop_transaction_title'),
+          this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this.centralServerService.chargingStationStopTransaction(
+                this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
+              // Ok?
+              if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+                this.messageService.showSuccessMessage(
+                  this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
+              } else {
+                Utils.handleError(JSON.stringify(response),
+                  this.messageService, this.translateService.instant('chargers.stop_transaction_error'));
+              }
+            }, (error) => {
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'chargers.stop_transaction_error');
+            });
+          }
+        });
         break;
+
       case 'more':
         break;
       default:
@@ -311,14 +341,19 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
-        this.centralServerService.stationStartTransaction(
+        this.centralServerService.chargingStationStartTransaction(
             this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
-          // Ok
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
-          // Reload
-          this.refreshData().subscribe();
-          return true;
+          // Ok?
+          if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            // Ok
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
+            // Reload
+            this.refreshData().subscribe();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('chargers.start_transaction_error'));
+          }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
           return false;

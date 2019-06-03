@@ -28,8 +28,91 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.26',
+        date: new Date('2019-06-03'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              ``
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed from Log's source the instance ID`
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.0.25',
+        date: new Date('2019-06-01'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Migrated reCaptcha V2 to V3 in Reset Password, Register User and Resend Verification Link screens`,
+              `User's role is not translated in Faulty list`,
+              `Added extra inactivity (until connector is unplugged) in session's list footer stats`,
+              `Fixed date filters not working anymore in all list`,
+              `Added missing actions in Log action filter`,
+              `Added inactivity in Charging Station list`,
+              `Added Statistics on Consumption and Usage`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Optimized Session's consumptions with lots of duplicate points`,
+              `Clear charging data on connectors if Charging Station is unavailable`,
+              `Reworked database indexes in Logs collection`,
+              `Migrate database only in master NodeJs instance not in workers`,
+              `Watch MongoDB collections at DB level to enhance the performances`,
+              `Removed query string in LEGRAND charging station supervision URL`,
+              `Handle Meter Value consumption as floating point instead of integer for KEBA certification`,
+              `Round instant power in transaction's consumption`,
+              `Fixed Is Authorized to Stop Transaction for Mobile app`,
+              `Add inactivity in Charging Station's connectors`
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.0.24',
+        date: new Date('2019-05-26'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Fixed when two Charging Station details are opened, the second one overrode the first one`,
+              `Fixed Dialog Filters kept the last selection`,
+              `Can perform a Remote Start Session on Occupied connector (Keba)`,
+              `Show IDs in all list for Admin users`,
+              `Super Admin cannot access Settings and Connectors in Master Tenant`,
+              `Added creation of Tenant with Components`,
+              `Added Component's type drop-down per component`,
+              `Unfold the sidebar when the screen width is greater than 1280 pixels`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed unnecessary authorizations for Super Admin user`,
+              `Enhanced Concur logging`,
+              `Check Serial Number if the Vendor/Model does not match during a Boot Notification`,
+              `Make all connectors unavailable if the charger does not report to the backend`,
+              `Convergent Charging based on Site Area instead of Charging Station`,
+              `Add extra inactivity when the connector's status changes from Finishing to Available at the end of the transaction`,
+              `Updated the authentication token size`,
+              `Changed storage structure of Component's settings`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.23',
-        date: new Date('2019-05-15'),
+        date: new Date('2019-05-18'),
         componentChanges: [
           {
             name: 'Front-end',
@@ -38,8 +121,13 @@ export class ReleaseNotesComponent {
               `Hide Concur connector when Refunding is not activated`,
               `Update columns in refund table`,
               `Add table action to jump to Concur`,
+              `Added statistics in sessions history footer`,
               `Hide spinner in case of network exception in tables`,
+              `Fix charger's detail layout and connector types in dorp-down`,
               `Uncheck unselectable refund rows in table after a refunding`,
+              `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
+              `Users are logged off if their profile or tenant's config are changed`,
+              `Admin can disable the notifications for a given user`
             ]
           },
           {
@@ -48,9 +136,10 @@ export class ReleaseNotesComponent {
               `Fixed Charging Station, Company, Site and Site Area to not break pagination in the frontend`,
               `Post expense entries in parallel and add retry process in case of error`,
               `OCPI - OData - Requires authentication for metadata and schema`,
-              `Add OCPP validation of transaction request (1.6 and 1.5)`,
+              `Add OCPP validation of Session request (1.6 and 1.5)`,
               `Save last reboot date of Charging Station`,
-              `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`
+              `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`,
+              `Migration task to update the price of existing Sessions`
             ]
           }
         ]
@@ -101,10 +190,10 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Handling of number of phases of DC Chargers`,
-              `Should be able to start a transaction when connector status is 'Preparing'`,
+              `Should be able to start a Session when connector status is 'Preparing'`,
               `Should be able to see the list of chargers in Site Area`,
-              `Display an error message when transaction fails to start`,
-              `Handle auto stop of transaction when user got locked after starting one`,
+              `Display an error message when Session fails to start`,
+              `Handle auto stop of Session when user got locked after starting one`,
             ]
           },
           {

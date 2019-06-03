@@ -24,8 +24,6 @@ export class EndpointDialogComponent implements OnInit {
   public token: AbstractControl;
   public isBackgroundPatchJobActive: AbstractControl;
 
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
-
   public currentEndpoint: any;
 
   constructor(
@@ -66,7 +64,7 @@ export class EndpointDialogComponent implements OnInit {
       'baseUrl': new FormControl(this.currentEndpoint.baseUrl,
         Validators.compose([
           Validators.required,
-          Validators.pattern(this.urlPattern)
+          Validators.pattern(Constants.URL_PATTERN)
         ])),
       'countryCode': new FormControl(this.currentEndpoint.countryCode,
         Validators.compose([
@@ -119,10 +117,10 @@ export class EndpointDialogComponent implements OnInit {
 
     if (this.currentEndpoint.id) {
       // update existing Ocpi Endpoint
-      this.updateOcpiendpoint(endpoint);
+      this.updateOcpiEndpoint(endpoint);
     } else {
       // create new Ocpi Endpoint
-      this.createOcpiendpoint(endpoint);
+      this.createOcpiEndpoint(endpoint);
     }
   }
 
@@ -130,7 +128,7 @@ export class EndpointDialogComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Generate new local token
-    this.centralServerService.generateLocalTokenOcpiendpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.localToken.setValue(response.localToken);
@@ -149,7 +147,7 @@ export class EndpointDialogComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Ping
-    this.centralServerService.pingOcpiendpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { 'name': ocpiendpoint.name });
@@ -178,12 +176,12 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  private createOcpiendpoint(ocpiendpoint) {
-    this.centralServerService.createOcpiendpoint(ocpiendpoint).subscribe(response => {
+  private createOcpiEndpoint(ocpiendpoint) {
+    this.centralServerService.createOcpiEndpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.create_success', { 'name': ocpiendpoint.name });
-        this.dialogRef.close();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.create_error');
@@ -195,12 +193,12 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  private updateOcpiendpoint(ocpiendpoint) {
-    this.centralServerService.updateOcpiendpoint(ocpiendpoint).subscribe(response => {
+  private updateOcpiEndpoint(ocpiendpoint) {
+    this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.update_success', { 'name': ocpiendpoint.name });
-        this.dialogRef.close();
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'ocpiendpoints.update_error');
@@ -212,8 +210,8 @@ export class EndpointDialogComponent implements OnInit {
     });
   }
 
-  public closeDialog() {
-    this.dialogRef.close();
+  public closeDialog(saved: boolean = false) {
+    this.dialogRef.close(saved);
   }
 
   public onClose() {

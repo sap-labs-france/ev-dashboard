@@ -10,6 +10,7 @@ import {Utils} from '../../utils/Utils';
 import {ParentErrorStateMatcher} from '../../utils/ParentStateMatcher';
 import {SpinnerService} from '../../services/spinner.service';
 import {Constants} from '../../utils/Constants';
+import {ReCaptchaV3Service} from 'ngx-captcha';
 
 @Component({
   selector: 'app-register-cmp',
@@ -27,10 +28,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public repeatPassword: AbstractControl;
   public acceptEula: AbstractControl;
   private messages: Object;
-  public captchaSiteKey: string;
   public hidePassword = true;
   public hideRepeatPassword = true;
-  @ViewChild('recaptcha') public recaptcha;
+
+  private siteKey: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -38,11 +39,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
+    private reCaptchaV3Service: ReCaptchaV3Service,
     private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
+    // Get the Site Key
+    this.siteKey = this.configService.getUser().captchaSiteKey;
+    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'name': new FormControl('',
@@ -72,10 +77,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
-      'captcha': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
       'acceptEula': new FormControl('',
         Validators.compose([
           Validators.required
@@ -89,8 +90,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.firstName = this.formGroup.controls['firstName'];
     this.acceptEula = this.formGroup.controls['acceptEula'];
-    // Set the Captcha Key
-    this.captchaSiteKey = this.configService.getUser().captchaSiteKey;
   }
 
   ngOnInit() {
@@ -111,48 +110,45 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register(user) {
-    if (this.formGroup.valid) {
-      // Show
-      this.spinnerService.show();
-      // Create
-      this.centralServerService.registerUser(user).subscribe((response) => {
-        // Hide
-        this.spinnerService.hide();
-        // Ok?
-        if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-          // Show success
-          this.messageService.showSuccessMessage(this.messages['register_user_success']);
-          // login successful so redirect to return url
-          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-        } else {
-          // Unexpected Error
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.messages['register_user_error']);
-        }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Enabled again
-        this.recaptcha.reset();
-        // Check status
-        switch (error.status) {
-          // Email already exists
-          case 510:
-            // Show error
-            this.messageService.showErrorMessage(this.messages['email_already_exists']);
-            break;
-
-          // User Agreement not checked
-          case 520:
-            // You must accept
-            this.messageService.showErrorMessage(this.messages['must_accept_eula']);
-            break;
-
-          default:
+    this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
+      user['captcha'] = token;
+      if (this.formGroup.valid) {
+        // Show
+        this.spinnerService.show();
+        // Create
+        this.centralServerService.registerUser(user).subscribe((response) => {
+          // Hide
+          this.spinnerService.hide();
+          // Ok?
+          if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+            // Show success
+            this.messageService.showSuccessMessage(this.messages['register_user_success']);
+            // login successful so redirect to return url
+            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+          } else {
+            // Unexpected Error
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.messages['register_user_error']);
+          }
+        }, (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Check status
+          switch (error.status) {
+            // Email already exists
+            case 510:
+              this.messageService.showErrorMessage(this.messages['email_already_exists']);
+              break;
+            // User Agreement not checked
+            case 520:
+              this.messageService.showErrorMessage(this.messages['must_accept_eula']);
+              break;
             // Unexpected error`
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-        }
-      });
-    }
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          }
+        });
+      }
+    });
   }
 }

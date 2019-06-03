@@ -62,10 +62,8 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-          // Update nbr records
-          this.setTotalNumberOfRecords(siteAreas.count);
           // Ok
-          observer.next(siteAreas.result);
+          observer.next(siteAreas);
           observer.complete();
         }, (error) => {
           // Show error
@@ -86,7 +84,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
         name: 'site_areas.title',
@@ -118,6 +116,15 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         sortable: true
       }
     ];
+    if (this.isAdmin) {
+      tableColumnDef.unshift({
+        id: 'id',
+        name: 'general.id',
+        headerClass: 'd-none col-15p d-xl-table-cell',
+        class: 'd-none col-15p d-xl-table-cell'
+      });
+    }
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -218,7 +225,11 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => this.refreshData().subscribe());
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe()
+      }
+    });
   }
 
   private _showChargersDialog(charger?: Charger) {

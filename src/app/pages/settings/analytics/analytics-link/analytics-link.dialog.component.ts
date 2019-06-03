@@ -1,35 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DialogService } from 'app/services/dialog.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Constants } from 'app/utils/Constants';
 
 @Component({
-  templateUrl: './sac-link.dialog.component.html'
+  templateUrl: './analytics-link.dialog.component.html'
 })
-export class SacLinkDialogComponent implements OnInit {
+export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
   public description: AbstractControl;
   public url: AbstractControl;
 
-  private urlPattern = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
-
-  public currentSacLink: any;
+  public currentLink: any;
 
   constructor(
-    protected dialogRef: MatDialogRef<SacLinkDialogComponent>,
+    protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
     if (data) {
-      this.currentSacLink = data;
+      this.currentLink = data;
     } else {
-      this.currentSacLink = {
+      this.currentLink = {
         'id': '',
         'name': '',
         'description': '',
@@ -40,17 +33,17 @@ export class SacLinkDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      'id': new FormControl(this.currentSacLink.id),
-      'name': new FormControl(this.currentSacLink.name,
+      'id': new FormControl(this.currentLink.id),
+      'name': new FormControl(this.currentLink.name,
         Validators.compose([
           Validators.required,
           Validators.maxLength(100)
         ])),
-      'description': new FormControl(this.currentSacLink.description, Validators.required),
-      'url': new FormControl(this.currentSacLink.url,
+      'description': new FormControl(this.currentLink.description, Validators.required),
+      'url': new FormControl(this.currentLink.url,
         Validators.compose([
           Validators.required,
-          Validators.pattern(this.urlPattern)
+          Validators.pattern(Constants.URL_PATTERN)
         ]))
     });
 
@@ -61,9 +54,11 @@ export class SacLinkDialogComponent implements OnInit {
 
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
+        this.cancel();
+      }
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        this.setLinkAndClose(this.formGroup.value);
       }
     });
   }
@@ -72,15 +67,11 @@ export class SacLinkDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  setLink(sacLink) {
-    this.dialogRef.close(sacLink);
+  setLinkAndClose(analyticsLink) {
+    this.dialogRef.close(analyticsLink);
   }
 
   openUrl() {
     window.open(this.url.value);
-  }
-
-  public onClose() {
-    this.dialogRef.close();
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, Self} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {SitesFilterDataSource} from './sites-filter-data-source-table';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
@@ -6,13 +6,11 @@ import {KeyValue, Site} from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    SitesFilterDataSource
-  ]
+  providers: [SitesFilterDataSource]
 })
 export class SitesFilterDialogComponent extends DialogTableDataComponent<Site> {
   constructor(
-    public dialogDataSource: SitesFilterDataSource,
+    @Self() public dialogDataSource: SitesFilterDataSource,
     protected dialogRef: MatDialogRef<SitesFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class

@@ -10,6 +10,7 @@ import {AppUnitPipe} from './app-unit.pipe';
 import {LocaleService} from '../../services/locale.service';
 import {AppBatteryPercentagePipe} from './app-battery-percentage.pipe';
 import {AppFormatRowCellPipe} from './app-format-row-cell';
+import { AppCurrencyPipe } from './app-currency.pipe';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {AppFormatRowCellPipe} from './app-format-row-cell';
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppFormatRowCellPipe,
-    AppUnitPipe
+    AppUnitPipe,
+    AppCurrencyPipe
   ],
   exports: [
     AppArrayToStringPipe,
@@ -36,7 +38,8 @@ import {AppFormatRowCellPipe} from './app-format-row-cell';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
-    AppUnitPipe
+    AppUnitPipe,
+    AppCurrencyPipe
   ],
   providers: [
     LocaleService,
@@ -48,7 +51,8 @@ import {AppFormatRowCellPipe} from './app-format-row-cell';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
-    AppUnitPipe
+    AppUnitPipe,
+    AppCurrencyPipe
   ]
 })
 export class FormattersModule {

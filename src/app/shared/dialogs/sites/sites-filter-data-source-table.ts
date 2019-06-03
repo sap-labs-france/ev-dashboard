@@ -25,10 +25,8 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
       // Get data
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Set number of records
-          this.setTotalNumberOfRecords(sites.count);
           // Ok
-          observer.next(sites.result);
+          observer.next(sites);
           observer.complete();
         }, (error) => {
           // No longer exists!

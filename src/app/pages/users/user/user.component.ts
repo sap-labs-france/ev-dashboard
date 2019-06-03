@@ -38,6 +38,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public userRoles;
   public userLocales;
   public isAdmin;
+  public isSuperAdmin;
   public originalEmail;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
@@ -75,6 +76,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
+  public notificationsActive: AbstractControl;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -107,7 +109,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin();
+    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
   }
 
   updateRoute(event: number) {
@@ -128,6 +131,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
+      'notificationsActive': new FormControl(true),
       'email': new FormControl('',
         Validators.compose([
           Validators.required,
@@ -145,12 +149,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$')
         ])),
-      'tagIDs': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9,]*$')
-        ])),
+      'tagIDs': new FormControl(this.generateTagID(),
+        Validators.compose(this.isAdmin ?
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern('^[a-zA-Z0-9,]*$')
+          ] :
+          []
+        )),
       'plateID': new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$')
@@ -163,7 +170,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'role': new FormControl(Constants.USER_ROLE_BASIC,
+      'role': new FormControl(
+        this.isSuperAdmin ? Constants.USER_ROLE_SUPER_ADMIN : Constants.USER_ROLE_BASIC,
         Validators.compose([
           Validators.required
         ])),
@@ -233,6 +241,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
+    this.notificationsActive = this.formGroup.controls['notificationsActive'];
 
     if (this.currentUserID) {
       this.loadUser();
@@ -350,6 +359,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
+      if (user.hasOwnProperty('notificationsActive')) {
+        this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
+      }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
       }
@@ -421,9 +433,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     } else {
       this.createUser(user);
     }
-    if (this.inDialog && this.dialogRef) {
-      this.dialogRef.close();
-    }
   }
 
   public imageChanged(event) {
@@ -478,6 +487,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         userId: this.currentUserID
       };
       this.document.location.href =
+        // tslint:disable-next-line:max-line-length
         `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
@@ -555,7 +565,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
         this.currentUserID = user.id;
-        this.refresh();
+        // Close
+        if (this.inDialog && this.dialogRef) {
+          this.dialogRef.close(true);
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.create_error');
@@ -595,7 +608,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
-        this.refresh();
+        // Close
+        if (this.inDialog && this.dialogRef) {
+          this.dialogRef.close(true);
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.update_error');
@@ -626,17 +642,19 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     control.setValue(control.value.toUpperCase());
   }
 
-  private generateTagID(user: User) {
+  private generateTagID(user?: User) {
     let tagID = '';
     if (user) {
       if (user.name && user.name.length > 0) {
-        tagID += user.name[0];
+        tagID = user.name[0].toUpperCase();
       }
       if (user.firstName && user.firstName.length > 0) {
-        tagID += user.firstName[0];
+        tagID += user.firstName[0].toUpperCase();
       }
-      tagID += Math.floor((Math.random() * 2147483648) + 1);
+    } else {
+      tagID = 'SF';
     }
+    tagID += Math.floor((Math.random() * 2147483648) + 1);
     return tagID;
   }
 }

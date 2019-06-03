@@ -4,9 +4,6 @@ import {OrganizationCompaniesDataSource} from './organization-companies-source-t
 @Component({
   selector: 'app-organization-companies',
   template: '<app-table [dataSource]="companiesDataSource"></app-table>',
-  providers: [
-    OrganizationCompaniesDataSource
-  ]
 })
 export class OrganizationCompaniesComponent implements OnInit {
 

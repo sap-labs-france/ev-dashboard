@@ -1,18 +1,15 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-import {OcpiendpointDetailDataSource} from './ocpi-detail-data-source-table';
+import {OcpiEndpointDetailDataSource} from './ocpi-detail-data-source-table';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>',
-  providers: [
-    OcpiendpointDetailDataSource
-  ]
+  template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>'
 })
 
 export class OcpiEndpointDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
   @Input() row: any;
 
-  constructor(public ocpiEndpointDetailDataSource: OcpiendpointDetailDataSource) {
+  constructor(public ocpiEndpointDetailDataSource: OcpiEndpointDetailDataSource) {
     super();
   }
 

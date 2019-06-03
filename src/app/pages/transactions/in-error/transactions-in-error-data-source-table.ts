@@ -10,7 +10,6 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
 import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {CurrencyPipe} from '@angular/common';
 import {DialogService} from '../../../services/dialog.service';
 import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
 import {Injectable} from '@angular/core';
@@ -34,11 +33,12 @@ import * as moment from 'moment';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { SpinnerService } from 'app/services/spinner.service';
 
-
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private dialogRefSession;
+  private openAction = new TableOpenAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -52,7 +52,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private datePipe: AppDatePipe,
-      private currencyPipe: CurrencyPipe,
       private appConnectorIdPipe: AppConnectorIdPipe,
       private appUserNamePipe: AppUserNamePipe) {
     super(spinnerService);
@@ -71,9 +70,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
         this.formatErrorMessages(transactions.result);
-        this.setTotalNumberOfRecords(transactions.count);
         // Ok
-        observer.next(transactions.result);
+        observer.next(transactions);
         observer.complete();
       }, (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -92,8 +90,16 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
-      {
+    const columns = [];
+    if (this.isAdmin) {
+      columns.push({
+        id: 'id',
+        name: 'transactions.id',
+        headerClass: 'd-none d-xl-table-cell',
+        class: 'd-none d-xl-table-cell',
+      });
+    }
+    columns.push({
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -127,8 +133,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
         name: 'errors.description',
         sortable: false,
         formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
-      }
-    ];
+      });
     if (this.isAdmin) {
       columns.splice(1, 0, {
         id: 'user',
@@ -142,10 +147,6 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   formatChargingStation(chargingStation, row) {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
-  }
-
-  formatPrice(price, priceUnit): string {
-    return this.currencyPipe.transform(price, priceUnit);
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
@@ -176,8 +177,8 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
   buildTableRowActions(): TableActionDef[] {
     return [
-      new TableOpenAction().getActionDef(),
-      new TableDeleteAction().getActionDef()
+      this.openAction,
+      this.deleteAction
     ];
   }
 

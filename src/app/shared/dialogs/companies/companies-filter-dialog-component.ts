@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, Self} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CompaniesFilterDataSource} from './companies-filter-data-source-table';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
@@ -6,13 +6,11 @@ import {KeyValue, Company} from '../../../common.types';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  providers: [
-    CompaniesFilterDataSource
-  ]
+  providers: [CompaniesFilterDataSource]
 })
 export class CompaniesFilterDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
-      public dialogDataSource: CompaniesFilterDataSource,
+      @Self() public dialogDataSource: CompaniesFilterDataSource,
       protected dialogRef: MatDialogRef<CompaniesFilterDialogComponent>,
       @Inject(MAT_DIALOG_DATA) data) {
     // Super class

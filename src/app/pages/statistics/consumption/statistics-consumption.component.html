@@ -10,7 +10,7 @@
         </div>
 
         <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
-        <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number}} {{'statistics.charger_kw_h' | translate}}</h3>
+        <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number: '1.0-0': localeService.language}} {{'statistics.charger_kw_h' | translate}}</h3>
     
     </div>
      

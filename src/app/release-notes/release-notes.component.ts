@@ -34,7 +34,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              ``
+              `Added units in Statistics + Format numbers with locale in User's profile`,
+              `Fixed all values appear in Session's charging curve`
             ]
           },
           {

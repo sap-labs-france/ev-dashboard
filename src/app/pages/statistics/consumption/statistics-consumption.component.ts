@@ -1,15 +1,16 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {CentralServerService} from '../../../services/central-server.service';
-import {TranslateService} from '@ngx-translate/core';
-import {SpinnerService} from '../../../services/spinner.service';
-import {TableFilterDef} from '../../../common.types';
-import {SitesTableFilter} from '../../../shared/table/filters/site-filter';
-import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
-import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {StatisticsBuildService} from '../shared/statistics-build.service';
-import {ChartData, ChartClass} from '../shared/chart-utilities';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from '../../../services/locale.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { TableFilterDef } from '../../../common.types';
+import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
+import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { StatisticsBuildService } from '../shared/statistics-build.service';
+import { ChartData, SimpleChart } from '../shared/chart-utilities';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -26,8 +27,8 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   private filterParams = {};
 
-  private barChart: ChartClass;
-  private pieChart: ChartClass;
+  private barChart: SimpleChart;
+  private pieChart: SimpleChart;
 
   @ViewChild('consumptionBarChart') ctxBarChart: ElementRef;
   @ViewChild('consumptionPieChart') ctxPieChart: ElementRef;
@@ -36,13 +37,15 @@ export class StatisticsConsumptionComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
+    private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService) {
+    // Admin?
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
-    this.isAdmin = this.authorizationService.isAdmin();
     filterDef = new SitesTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
@@ -63,7 +66,7 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   categoryChanged(category) {
     this.selectedCategory = category;
-    }
+  }
 
   yearChanged(year) {
     this.selectedYear = year;
@@ -78,12 +81,13 @@ export class StatisticsConsumptionComponent implements OnInit {
     let mainLabel: string = this.translateService.instant('statistics.consumption_per_cs_month_title');
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
+    const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
 
-    this.barChart = new ChartClass('stackedBar', mainLabel, labelXAxis, labelYAxis);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, toolTipUnit, labelXAxis, labelYAxis);
     this.barChart.initChart(this.ctxBarChart);
 
     mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
-    this.pieChart = new ChartClass('pie', mainLabel);
+    this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, toolTipUnit);
     this.pieChart.initChart(this.ctxPieChart);
   }
 

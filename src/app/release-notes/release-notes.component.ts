@@ -42,7 +42,8 @@ export class ReleaseNotesComponent {
             name: 'Backend',
             changes: [
               `Removed from Log's source the instance ID`,
-              `Take into consideration the price to optimize the Session charging curve`
+              `Take into consideration the price to optimize the Session charging curve`,
+              `Fixed disconnect user when he/she has more than 2 badges in his profile`
             ]
           }
         ]

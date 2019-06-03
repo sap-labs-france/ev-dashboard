@@ -41,7 +41,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
-              `Removed from Log's source the instance ID`
+              `Removed from Log's source the instance ID`,
+              `Take into consideration the price to optimize the Session charging curve`
             ]
           }
         ]

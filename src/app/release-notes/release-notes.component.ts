@@ -34,7 +34,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              `Removed double scroll bar when displaying the Session's charging curve`
+              `Removed double scroll bar when displaying the Session's charging curve`,
+              `Center vertically the tooltip in Statistics' bar chart`,
+              `Statistics' pie chart: Added the unit in labels and added a legend`
             ]
           },
           {

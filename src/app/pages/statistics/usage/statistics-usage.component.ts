@@ -83,11 +83,11 @@ export class StatisticsUsageComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_usage_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, toolTipUnit, labelXAxis, labelYAxis);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, labelXAxis, labelYAxis, toolTipUnit);
     this.barChart.initChart(this.ctxBarChart);
 
     mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, toolTipUnit);
+    this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
   }
 
@@ -95,6 +95,7 @@ export class StatisticsUsageComponent implements OnInit {
     let mainLabel: string;
     let barChartData: ChartData;
     let pieChartData: ChartData;
+    const maxLegendItems = 20;
 
     this.spinnerService.show();
 
@@ -110,6 +111,11 @@ export class StatisticsUsageComponent implements OnInit {
           mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title');
           this.barChart.updateChart(barChartData, mainLabel);
           mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
+          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
+            this.pieChart.hideLegend();
+          } else {
+            this.pieChart.showLegend();
+          }
           this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
@@ -126,6 +132,11 @@ export class StatisticsUsageComponent implements OnInit {
           mainLabel = this.translateService.instant('statistics.usage_per_user_month_title');
           this.barChart.updateChart(barChartData, mainLabel);
           mainLabel = this.translateService.instant('statistics.usage_per_user_year_title');
+          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
+            this.pieChart.hideLegend();
+          } else {
+            this.pieChart.showLegend();
+          }
           this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();

@@ -18,15 +18,16 @@ export class SimpleChart {
   private stackedChart = false;
   private chartOptions: ChartOptions;
   private chartData: ChartData;
-  private roundedLabels: boolean;
+  private roundedChartLabels: boolean;
   private constLabelSize = 20;
   private constMinDivisorBar = 40;
   private constMinDivisorPie = 40;
   private withLegend = false;
   private itemsHidden = false;
 
-  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string, toolTipUnit?: string,
-    labelXAxis?: string, labelYAxis?: string, roundedLabels = true, withLegend = false) {
+  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
+    labelXAxis?: string, labelYAxis?: string,
+    toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
 
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
@@ -71,13 +72,13 @@ export class SimpleChart {
 
     switch (chartType) {
       case 'pie':
-        this.createPieChartOptions(mainLabel, toolTipUnit, roundedLabels, withLegend);
+        this.createPieChartOptions(mainLabel, toolTipUnit, withLegend, roundedChartLabels);
         break;
       case 'bar':
-        this.createBarChartOptions(false, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
         break;
       case 'stackedBar':
-        this.createBarChartOptions(true, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
     }
   }
 
@@ -148,12 +149,12 @@ export class SimpleChart {
     this.chart.update();
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, toolTipUnit: string, labelXAxis: string, labelYAxis: string,
-    roundedLabels: boolean, withLegend: boolean): void {
+  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
+    toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
-    this.withLegend = withLegend;
     this.stackedChart = stacked;
-    this.roundedLabels = roundedLabels;
+    this.withLegend = withLegend;
+    this.roundedChartLabels = roundedChartLabels;
 
     this.chartOptions = {};
 
@@ -190,7 +191,7 @@ export class SimpleChart {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
-          if (this.roundedLabels &&
+          if (this.roundedChartLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
@@ -236,10 +237,10 @@ export class SimpleChart {
     }
   }
 
-  private createPieChartOptions(mainLabel: string, toolTipUnit: string, roundedLabels: boolean, withLegend: boolean): void {
+  private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'pie';
     this.withLegend = withLegend;
-    this.roundedLabels = roundedLabels;
+    this.roundedChartLabels = roundedChartLabels;
 
     this.chartOptions = {};
 
@@ -275,7 +276,7 @@ export class SimpleChart {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
-          if (this.roundedLabels &&
+          if (this.roundedChartLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
@@ -342,7 +343,7 @@ export class SimpleChart {
       },
       //  font: { weight: 'bold' },
       formatter: (value, context) => {
-        if (this.roundedLabels) {
+        if (this.roundedChartLabels) {
           return Math.round(value).toLocaleString(this.language);
         } else {
           return value.toLocaleString(this.language);

@@ -28,6 +28,43 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.27',
+        date: new Date('2019-06-04'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.0.26',
+        date: new Date('2019-06-03'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Added units in Statistics + Format numbers with locale in User's profile`,
+              `Fixed all values appear in Session's charging curve`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Removed from Log's source the instance ID`,
+              `Take into consideration the price to optimize the Session charging curve`,
+              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.25',
         date: new Date('2019-06-01'),
         componentChanges: [

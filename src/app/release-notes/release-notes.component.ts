@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
+              `Removed double scroll bar when displaying the Session's charging curve`
             ]
           },
           {

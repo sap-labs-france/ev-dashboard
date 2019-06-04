@@ -28,6 +28,22 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.27',
+        date: new Date('2019-06-04'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.26',
         date: new Date('2019-06-03'),
         componentChanges: [
@@ -43,7 +59,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Removed from Log's source the instance ID`,
               `Take into consideration the price to optimize the Session charging curve`,
-              `Fixed disconnect user when he/she has more than 2 badges in his profile`
+              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`
             ]
           }
         ]

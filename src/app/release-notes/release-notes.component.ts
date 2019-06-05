@@ -34,9 +34,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              `Removed double scroll bar when displaying the Session's charging curve`,
+              `Add the Tenant name into the notification email's subject`,
+              `Statistics' pie chart: Added the unit in labels and added a legend`,
               `Center vertically the tooltip in Statistics' bar chart`,
-              `Statistics' pie chart: Added the unit in labels and added a legend`
+              `Removed double scroll bar when displaying the Session's charging curve`,
             ]
           },
           {

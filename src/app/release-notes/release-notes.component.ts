@@ -43,6 +43,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
+              `Set first consumption to 0 kW.h in the Session's charging curve`
             ]
           }
         ]

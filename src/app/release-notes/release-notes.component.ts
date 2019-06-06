@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Add the Tenant name into the notification email's subject`,
               `Statistics' pie chart: Added the unit in labels and added a legend`,
+              `Use authorization based on scopes`,
               `Center vertically the tooltip in Statistics' bar chart`,
               `Removed double scroll bar when displaying the Session's charging curve`,
             ]
@@ -43,7 +44,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
-              `Set first consumption to 0 kW.h in the Session's charging curve`
+              `Set first consumption to 0 kW.h in the Session's charging curve`,
+              `Refactoring of Authorizations based on scopes`
             ]
           }
         ]

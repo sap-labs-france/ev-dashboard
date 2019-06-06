@@ -68,7 +68,6 @@
     "moment-timezone": "^0.5.25",
     "ngx-captcha": "^6.4.0",
     "ngx-google-places-autocomplete": "^2.0.4",
-    "node-authorization": "^1.0.7",
     "perfect-scrollbar": "^1.4.0",
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",

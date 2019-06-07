@@ -4,6 +4,10 @@
 </div>
 <div [hidden]="consumptions?.length === 0">
   <div class="chart-container mt-2">
+    <div #primary class='chart-primary'></div>
+    <div #accent class='chart-accent'></div>
+    <div #danger class='chart-danger'></div>
+    <div #success class='chart-success'></div>
     <canvas #chart></canvas>
   </div>
   <div class="icon-left">

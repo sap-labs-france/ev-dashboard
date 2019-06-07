@@ -385,7 +385,8 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           dialogConfig.data = {
             title: 'chargers.start_transaction_user_select_title',
             validateButtonTitle: 'chargers.start_transaction_user_select_button'
-          }
+          };
+          dialogConfig.panelClass = 'transparent-dialog-container';
           const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);
           // Add sites
           dialogRef2.afterClosed().subscribe(data => {

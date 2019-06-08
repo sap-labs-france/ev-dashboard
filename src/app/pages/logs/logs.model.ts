@@ -38,6 +38,9 @@ export const logActions: KeyValue[] = [
   {key: 'NotifyUnknownUserBadged', value: 'NotifyUnknownUserBadged'},
   {key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged'},
   {key: 'OCPIPatchLocations', value: 'OCPIPatchLocations'},
+  {key: 'OCPISendEVSEStatuses', value: 'OCPISendEVSEStatuses'},
+  {key: 'OCPIGetVersions', value: 'OCPIGetVersions'},
+  {key: 'OCPIPostCredentials', value: 'OCPIPostCredentials'},
   {key: 'PricingUpdate', value: 'PricingUpdate'},
   {key: 'RegisterUser', value: 'RegisterUser'},
   {key: 'VerifyEmail', value: 'VerifyEmail'},
@@ -47,7 +50,6 @@ export const logActions: KeyValue[] = [
   {key: 'RequestConfiguration', value: 'RequestConfiguration'},
   {key: 'Reset', value: 'Reset'},
   {key: 'SendEmail', value: 'SendEmail'},
-  {key: 'SendEVSEStatuses', value: 'SendEVSEStatuses'},
   {key: 'SetChargingProfile', value: 'SetChargingProfile'},
   {key: 'SessionHashHandling', value: 'SessionHashHandling'},
   {key: 'SiteAreaCreate', value: 'SiteAreaCreate'},
@@ -85,7 +87,8 @@ export const logActions: KeyValue[] = [
   {key: 'Startup', value: 'Startup'},
   {key: 'StrongSoapDebug', value: 'StrongSoapDebug'},
   {key: 'SecurePing', value: 'SecurePing'},
-  {key: 'UserUpdate', value: 'UserUpdate'}
+  {key: 'UserUpdate', value: 'UserUpdate'},
+  {key: 'SettingUpdate', value: 'SettingUpdate'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

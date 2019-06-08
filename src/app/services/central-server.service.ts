@@ -285,11 +285,9 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaId: string, withChargeBoxes: boolean = false, withSite: boolean = false): Observable<SiteArea> {
+  public getSiteArea(siteAreaId: string): Observable<SiteArea> {
     const params: any = [];
     params['ID'] = siteAreaId;
-    params['WithChargeBoxes'] = withChargeBoxes;
-    params['WithSite'] = withSite;
     // Verify init
     this._checkInit();
     // Execute the REST service

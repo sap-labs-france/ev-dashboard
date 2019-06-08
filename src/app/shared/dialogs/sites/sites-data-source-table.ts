@@ -1,6 +1,6 @@
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
-import {Site, TableColumnDef} from '../../../common.types';
+import {Site, TableColumnDef, TableDef} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
@@ -37,6 +37,19 @@ export class SitesDataSource extends DialogTableDataSource<Site> {
           observer.error(error);
         });
     });
+  }
+
+  public buildTableDef(): TableDef {
+    return {
+      class: 'table-dialog-list',
+      rowSelection: {
+        enabled: true,
+        multiple: true
+      },
+      search: {
+        enabled: true
+      }
+    };
   }
 
   buildTableColumnDefs(): TableColumnDef[] {

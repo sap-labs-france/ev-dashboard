@@ -510,10 +510,10 @@ export interface User {
   lastChangedOn: Date;
   role: string;
   locale: string;
-  auths: any;
   language: string;
   numberOfSites: number;
   activeComponents?: Array<string>;
+  scopes: Array<string>;
   userHashID: number;
   tenantHashID: number;
 }

@@ -2,6 +2,7 @@ import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+// mport { ThrowStmt } from '@angular/compiler';
 
 export class ChartConstants {
   public static STACKED_ITEM = 'item';
@@ -11,35 +12,73 @@ export class ChartConstants {
 export { ChartData } from 'chart.js'; // could also use any local, but similar data definition!
 
 export class SimpleChart {
+  private language: string;
   private chart: Chart;
   private chartType: string;
   private stackedChart = false;
   private chartOptions: ChartOptions;
   private chartData: ChartData;
-  private roundedLabels: boolean;
+  private roundedChartLabels: boolean;
   private constLabelSize = 20;
   private constMinDivisorBar = 40;
   private constMinDivisorPie = 40;
+  private withLegend = false;
   private itemsHidden = false;
-  private language: string;
 
-  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string, toolTipUnit?: string,
-    labelXAxis?: string, labelYAxis?: string, roundedLabels = true, withLegend = false) {
+  constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
+    labelXAxis?: string, labelYAxis?: string,
+    toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
 
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
+
+    Chart.Tooltip.positioners.customBar = function (elements, eventPosition) {
+      // Put the tooltip at the center of the selected bar (and not at the top)
+      // @param elements {Chart.Element[]} the tooltip elements
+      // @param eventPosition {Point} the position of the event in canvas coordinates
+      // @returns {Point} the tooltip position
+      let yOffset = 0;
+      let sum = 0;
+      const dataSets = elements[0]._chart.data.datasets;
+
+      if (Array.isArray(dataSets)) {
+        if (dataSets[elements[0]._datasetIndex].stack === ChartConstants.STACKED_TOTAL ||
+          dataSets.length === 1) {
+          yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+        } else {
+          for (let i = 0; i < dataSets.length; i++) {
+            if (i <= elements[0]._datasetIndex &&
+              dataSets[i].stack !== ChartConstants.STACKED_TOTAL) {
+              sum += dataSets[i].data[elements[0]._index];
+            }
+          }
+
+          if (sum === 0) {
+            yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+          } else {
+            yOffset = dataSets[elements[0]._datasetIndex].data[elements[0]._index] / sum;
+            yOffset *= (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
+          }
+        }
+      }
+
+      return {
+        x: elements[0]._model.x,
+        y: elements[0]._model.y + yOffset
+      };
+    };
 
     this.language = language;
 
     switch (chartType) {
       case 'pie':
-        this.createPieChartOptions(mainLabel, toolTipUnit, roundedLabels, withLegend);
+        this.createPieChartOptions(mainLabel, toolTipUnit, withLegend, roundedChartLabels);
         break;
       case 'bar':
-        this.createBarChartOptions(false, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
         break;
       case 'stackedBar':
-        this.createBarChartOptions(true, mainLabel, toolTipUnit, labelXAxis, labelYAxis, roundedLabels, withLegend);
+        this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
     }
   }
 
@@ -62,7 +101,33 @@ export class SimpleChart {
     anyChart.options = this.chartOptions;
     this.chart = anyChart;
     this.chart.update();
+  }
 
+  public showLegend(withUpdate: boolean = false) {
+    if (!this.withLegend) {
+      this.toggleHideLegend(withUpdate);
+    }
+  }
+
+  public hideLegend(withUpdate: boolean = false) {
+    if (this.withLegend) {
+      this.toggleHideLegend(withUpdate);
+    }
+  }
+
+  public toggleHideLegend(withUpdate: boolean = true) {
+    let anyChart: any;
+
+    this.withLegend = !this.withLegend;
+
+    this.chartOptions['legend'].display = this.withLegend;
+
+    anyChart = this.chart; // type Chart does not know 'options'
+    anyChart.options = this.chartOptions;
+    this.chart = anyChart;
+    if (withUpdate) {
+      this.chart.update();
+    }
   }
 
   public toggleHideItems() {
@@ -84,11 +149,12 @@ export class SimpleChart {
     this.chart.update();
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, toolTipUnit: string, labelXAxis: string, labelYAxis: string,
-    roundedLabels: boolean, withLegend: boolean): void {
+  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
+    toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
-    this.roundedLabels = roundedLabels;
+    this.withLegend = withLegend;
+    this.roundedChartLabels = roundedChartLabels;
 
     this.chartOptions = {};
 
@@ -119,12 +185,13 @@ export class SimpleChart {
 
     this.chartOptions['tooltips'] = {
       enabled: true,
+      position: 'customBar',
       callbacks: {
         label: (tooltipItem, data) => {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
-          if (this.roundedLabels &&
+          if (this.roundedChartLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
@@ -170,9 +237,10 @@ export class SimpleChart {
     }
   }
 
-  private createPieChartOptions(mainLabel: string, toolTipUnit: string, roundedLabels: boolean, withLegend: boolean): void {
+  private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'pie';
-    this.roundedLabels = roundedLabels;
+    this.withLegend = withLegend;
+    this.roundedChartLabels = roundedChartLabels;
 
     this.chartOptions = {};
 
@@ -208,7 +276,7 @@ export class SimpleChart {
           let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
-          if (this.roundedLabels &&
+          if (this.roundedChartLabels &&
             typeof (number) === 'number') {
             number = Math.round(number);
           }
@@ -275,7 +343,7 @@ export class SimpleChart {
       },
       //  font: { weight: 'bold' },
       formatter: (value, context) => {
-        if (this.roundedLabels) {
+        if (this.roundedChartLabels) {
           return Math.round(value).toLocaleString(this.language);
         } else {
           return value.toLocaleString(this.language);

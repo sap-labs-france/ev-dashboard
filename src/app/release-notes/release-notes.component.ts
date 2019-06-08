@@ -28,6 +28,31 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.27',
+        date: new Date('2019-06-08'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Add the Tenant name into the notification email's subject`,
+              `Statistics' pie chart: Added the unit in labels and added a legend`,
+              `Use authorization based on scopes`,
+              `Use theme colors in chart`,
+              `Enhanced Logging's Actions for OCPI`,
+              `Center vertically the tooltip in Statistics' bar chart`,
+              `Removed double scroll bar when displaying the Session's charging curve`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Set first consumption to 0 kW.h in the Session's charging curve`,
+              `Refactoring of Authorizations based on scopes`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.26',
         date: new Date('2019-06-03'),
         componentChanges: [
@@ -43,7 +68,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Removed from Log's source the instance ID`,
               `Take into consideration the price to optimize the Session charging curve`,
-              `Fixed disconnect user when he/she has more than 2 badges in his profile`
+              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`
             ]
           }
         ]

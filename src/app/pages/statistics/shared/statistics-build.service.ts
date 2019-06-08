@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../services/locale.service';
-import {ChartConstants, ChartData} from './chart-utilities';
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from '../../../services/locale.service';
+import { ChartConstants, ChartData } from './chart-utilities';
 
 import * as moment from 'moment';
 
@@ -194,4 +194,19 @@ export class StatisticsBuildService {
     return totalChartData;
   }
 
+  public countNumberOfChartItems(chartData: ChartData): number {
+    let count = 0;
+
+    if (chartData.datasets.length === 1) {
+      count = chartData.datasets[0].data.length;
+    } else {
+      chartData.datasets.forEach((dataset) => {
+        if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
+          count++;
+        }
+      });
+    }
+
+    return count
+  }
 }

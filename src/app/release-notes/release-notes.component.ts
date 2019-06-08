@@ -29,7 +29,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.27',
-        date: new Date('2019-06-04'),
+        date: new Date('2019-06-08'),
         componentChanges: [
           {
             name: 'Front-end',
@@ -37,8 +37,10 @@ export class ReleaseNotesComponent {
               `Add the Tenant name into the notification email's subject`,
               `Statistics' pie chart: Added the unit in labels and added a legend`,
               `Use authorization based on scopes`,
+              `Use theme colors in chart`,
+              `Enhanced Logging's Actions for OCPI`,
               `Center vertically the tooltip in Statistics' bar chart`,
-              `Removed double scroll bar when displaying the Session's charging curve`,
+              `Removed double scroll bar when displaying the Session's charging curve`
             ]
           },
           {

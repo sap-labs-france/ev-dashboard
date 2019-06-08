@@ -39,6 +39,8 @@ export const logActions: KeyValue[] = [
   {key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged'},
   {key: 'OCPIPatchLocations', value: 'OCPIPatchLocations'},
   {key: 'OCPISendEVSEStatuses', value: 'OCPISendEVSEStatuses'},
+  {key: 'OCPIGetVersions', value: 'OCPIGetVersions'},
+  {key: 'OCPIPostCredentials', value: 'OCPIPostCredentials'},
   {key: 'PricingUpdate', value: 'PricingUpdate'},
   {key: 'RegisterUser', value: 'RegisterUser'},
   {key: 'VerifyEmail', value: 'VerifyEmail'},

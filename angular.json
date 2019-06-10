@@ -32,13 +32,13 @@
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
-              "node_modules/moment/moment.js",
+              "node_modules/moment/min/moment.min.js",
               "node_modules/hammerjs/hammer.min.js",
-              "node_modules/bootstrap-notify/bootstrap-notify.js",
-              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.min.js",
+              "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
-              "node_modules/chart.js/dist/Chart.bundle.js",
-              "node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js",
+              "node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js",
               "node_modules/moment-duration-format/lib/moment-duration-format.js"
             ]
           },

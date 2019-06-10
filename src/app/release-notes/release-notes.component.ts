@@ -25,8 +25,27 @@ export class ReleaseNotesComponent {
   }
 
   buidlReleaseNotes(): any {
-    // Admin Release Notes
     this.releaseNotes = [
+      {
+        version: '2.0.28',
+        date: new Date('2019-06-10'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Migrated the application to Angular version 8`,
+              `Limited the Statistics to the Top 20 Consumptions/Usages`,
+              `Displayed Statistic chart's legends `
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Migrated the backend to the Typescript language (Typed JavaScript)`
+            ]
+          }
+        ]
+      },
       {
         version: '2.0.27',
         date: new Date('2019-06-08'),

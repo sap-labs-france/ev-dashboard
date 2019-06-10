@@ -33,7 +33,7 @@ export class SimpleChart {
     Chart.plugins.unregister(ChartDataLabels);
 
     Chart.Tooltip.positioners.customBar = function (elements, eventPosition) {
-      // Put the tooltip at the center of the selected bar (and not at the top)
+      // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
       // @param elements {Chart.Element[]} the tooltip elements
       // @param eventPosition {Point} the position of the event in canvas coordinates
       // @returns {Point} the tooltip position
@@ -42,13 +42,12 @@ export class SimpleChart {
       const dataSets = elements[0]._chart.data.datasets;
 
       if (Array.isArray(dataSets)) {
-        if (dataSets[elements[0]._datasetIndex].stack === ChartConstants.STACKED_TOTAL ||
-          dataSets.length === 1) {
+        if (dataSets.length === 1) {
           yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
         } else {
           for (let i = 0; i < dataSets.length; i++) {
             if (i <= elements[0]._datasetIndex &&
-              dataSets[i].stack !== ChartConstants.STACKED_TOTAL) {
+              dataSets[i].stack === dataSets[elements[0]._datasetIndex].stack) {
               sum += dataSets[i].data[elements[0]._index];
             }
           }

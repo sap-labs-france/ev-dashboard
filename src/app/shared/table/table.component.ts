@@ -237,12 +237,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Enable animation in button
     if (autoRefresh) {
       this.ongoingRefresh = true;
+      this.destroyAutoRefreshTimer();
     }
     // Load Data
     this.dataSource.refreshData(!this.ongoingRefresh).subscribe(() => {
       // Enable animation in button
       if (autoRefresh) {
         this.ongoingRefresh = false;
+        this.createAutoRefreshTimer();
       }
     });
   }

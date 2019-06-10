@@ -7,7 +7,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, AnalyticsLink } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Constants } from 'app/utils/Constants';
 
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';

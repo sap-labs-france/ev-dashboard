@@ -1,4 +1,4 @@
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from 'app/shared/table/table-data-source';

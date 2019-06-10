@@ -11,7 +11,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';

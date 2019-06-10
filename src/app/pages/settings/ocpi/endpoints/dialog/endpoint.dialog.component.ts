@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { Router } from '@angular/router';

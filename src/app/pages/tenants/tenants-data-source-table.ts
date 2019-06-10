@@ -9,7 +9,7 @@ import {TableRefreshAction} from '../../shared/table/actions/table-refresh-actio
 import {CentralServerService} from '../../services/central-server.service';
 import {MessageService} from '../../services/message.service';
 import {Utils} from '../../utils/Utils';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {TenantDialogComponent} from './dialog/tenant.dialog.component';
 import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
 import {TableEditAction} from '../../shared/table/actions/table-edit-action';

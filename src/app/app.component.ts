@@ -4,7 +4,7 @@ import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {SpinnerService} from './services/spinner.service';
 import 'moment-duration-format';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe';
 

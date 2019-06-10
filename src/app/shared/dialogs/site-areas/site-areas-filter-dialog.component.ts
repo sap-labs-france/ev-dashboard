@@ -1,5 +1,5 @@
 import {Component, Inject, Self} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue,  SiteArea} from '../../../common.types';
 import {SiteAreasFilterDataSourceTable} from './site-areas-filter-data-source-table';

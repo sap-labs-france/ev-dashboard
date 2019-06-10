@@ -35,7 +35,7 @@ import {
   UserResult
 } from '../common.types';
 import {WindowService} from './window.service';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class CentralServerService {

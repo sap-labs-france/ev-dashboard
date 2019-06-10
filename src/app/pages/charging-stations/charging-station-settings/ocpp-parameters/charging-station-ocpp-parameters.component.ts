@@ -3,7 +3,7 @@ import { Charger } from '../../../../common.types';
 import { LocaleService } from '../../../../services/locale.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { SpinnerService } from '../../../../services/spinner.service';

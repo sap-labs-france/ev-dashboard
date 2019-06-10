@@ -1,6 +1,6 @@
 
 import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CentralServerService } from '../../../services/central-server.service';
 import { Constants } from '../../../utils/Constants';
 import { Image, Transaction } from '../../../common.types';
@@ -29,7 +29,7 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   private autoRefeshPollEnabled;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
 
-  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
+  @ViewChild('chartConsumption', { static: false }) chartComponent: ConsumptionChartComponent;
 
   constructor(
       private spinnerService: SpinnerService,

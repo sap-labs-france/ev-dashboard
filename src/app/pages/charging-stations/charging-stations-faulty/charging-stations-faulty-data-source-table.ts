@@ -13,7 +13,7 @@ import {
   TableDef,
   TableFilterDef
 } from 'app/common.types';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogService } from 'app/services/dialog.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';

@@ -19,11 +19,11 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() consumptions: ConsumptionValue[];
   @Input() ratio: number;
 
-  @ViewChild('primary') primaryElement: ElementRef;
-  @ViewChild('accent') accentElement: ElementRef;
-  @ViewChild('danger') dangerElement: ElementRef;
-  @ViewChild('success') successElement: ElementRef;
-  @ViewChild('chart') chartElement: ElementRef;
+  @ViewChild('primary', { static: true }) primaryElement: ElementRef;
+  @ViewChild('accent', { static: true }) accentElement: ElementRef;
+  @ViewChild('danger', { static: true }) dangerElement: ElementRef;
+  @ViewChild('success', { static: true }) successElement: ElementRef;
+  @ViewChild('chart', { static: true }) chartElement: ElementRef;
 
   private graphCreated = false;
   private currencyCode: string;

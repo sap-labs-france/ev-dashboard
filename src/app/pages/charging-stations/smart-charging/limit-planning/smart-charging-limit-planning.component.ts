@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Injectable, ViewChild, AfterViewInit, Output,
 import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
 import { LocaleService } from 'app/services/locale.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -45,7 +45,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
   public limitPlanning: LocalConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
-  @ViewChild('limitChart') limitChartPlanningComponnent: SmartChargingLimitChartComponent;
+  @ViewChild('limitChart', { static: false }) limitChartPlanningComponnent: SmartChargingLimitChartComponent;
 
   private powerDigitPrecision = 2;
   private powerFloatingPrecision = 0;

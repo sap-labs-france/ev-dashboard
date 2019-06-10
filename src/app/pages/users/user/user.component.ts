@@ -2,7 +2,7 @@ import {mergeMap} from 'rxjs/operators';
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import {Address} from 'ngx-google-places-autocomplete/objects/address';
 import {LocaleService} from '../../../services/locale.service';

@@ -20,7 +20,10 @@ export class StatisticsBuildService {
     this.monthLabel = 'month';
   }
 
-  public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0): ChartData {
+  public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
+    sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
+    maxNumberOfItems = 20
+  ): ChartData {
     const stackedChartData: ChartData = { labels: [], datasets: [] };
 
     let roundingFactor = 1;
@@ -28,6 +31,8 @@ export class StatisticsBuildService {
     let dataSetIndex = 0;
     let monthIndex = 0;
     let countMonths = 0;
+    let numberArray = [];
+    let sum = 0;
 
     const totalDataArray = [];
     const transactionValues = statisticsData;
@@ -48,7 +53,6 @@ export class StatisticsBuildService {
       transactionValues.forEach((transactionValue: { [x: string]: number; }) => {
         // for each month (sorted from 0 to 11):
         let totalValuePerMonth = 0;
-        let numberArray = [];
         countMonths++;
 
         monthIndex = transactionValue[this.monthLabel];
@@ -107,18 +111,91 @@ export class StatisticsBuildService {
         totalDataArray.push(totalValuePerMonth);
       });
 
-      // sort chart datasets by label name:
+      // sort datasets:
+      if (sortedBy.startsWith('size-')) {
+        // add totals at index position 0, to be used for sorting:
+        stackedChartData.datasets.forEach((dataset) => {
+          numberArray = dataset.data;
+          sum = 0;
+          numberArray.forEach((numberItem) => {
+            if (typeof (numberItem) === 'number') {
+              sum += numberItem;
+            }
+          })
+          numberArray.unshift(sum);
+          dataset.data = numberArray;
+        });
+      }
+
       stackedChartData.datasets.sort((dataset1, dataset2) => {
-        if (dataset1['label'] < dataset2['label']) {
-          return -1
-        } else {
-          if (dataset1['label'] > dataset2['label']) {
-            return 1
-          } else {
-            return 0
-          }
+        switch (sortedBy) {
+          case 'label-asc':
+            if (dataset1.label < dataset2.label) {
+              return -1
+            } else {
+              if (dataset1.label > dataset2.label) {
+                return 1
+              } else {
+                return 0
+              }
+            }
+          case 'label-desc':
+            if (dataset1.label > dataset2.label) {
+              return -1
+            } else {
+              if (dataset1.label < dataset2.label) {
+                return 1
+              } else {
+                return 0
+              }
+            }
+          case 'size-asc':
+            if (dataset1.data[0] < dataset2.data[0]) {
+              return -1
+            } else {
+              if (dataset1.data[0] > dataset2.data[0]) {
+                return 1
+              } else {
+                return 0
+              }
+            }
+          case 'size-desc':
+            if (dataset1.data[0] > dataset2.data[0]) {
+              return -1
+            } else {
+              if (dataset1.data[0] < dataset2.data[0]) {
+                return 1
+              } else {
+                return 0
+              }
+            }
         }
       });
+
+      if (sortedBy.startsWith('size-')) {
+        // remove calcaluted totals again:
+        stackedChartData.datasets.forEach((dataset) => {
+          dataset.data.splice(0, 1);
+        })
+      }
+
+      if (maxNumberOfItems > 0 && stackedChartData.datasets.length > maxNumberOfItems) {
+        // push everything into the last dataset:
+        const lastValidIndex = maxNumberOfItems - 1;
+        let dataItem: any;
+        stackedChartData.datasets[lastValidIndex].label = this.translateService.instant('statistics.others');
+        for (let i = stackedChartData.datasets.length - 1; i > lastValidIndex; i--) {
+          numberArray = stackedChartData.datasets[i].data;
+          numberArray.forEach((numberItem, index) => {
+            dataItem = stackedChartData.datasets[lastValidIndex].data[index];
+            if (typeof (dataItem) === 'number' && typeof (numberItem) === 'number') {
+              dataItem += numberItem;
+              stackedChartData.datasets[lastValidIndex].data[index] = dataItem;
+            }
+          });
+          stackedChartData.datasets.pop();
+        }
+      }
 
       // Last chart dataset for totals:
       stackedChartData.datasets.push({ 'label': this.totalLabel, 'data': totalDataArray, 'stack': ChartConstants.STACKED_TOTAL });

@@ -41,6 +41,9 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   private defaultColor: string;
 
   static toRgba(rgb: string, alpha: number): string {
+    if (!rgb) {
+      return '';
+    }
     let rgba = rgb.replace(/rgb/i, 'rgba');
     rgba = rgba.replace(/\)/i, `,${alpha})`);
 
@@ -82,11 +85,6 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    if (this.canDisplayGraph()) {
-      this.prepareOrUpdateGraph();
-    } else {
-      this.refresh();
-    }
   }
 
   ngAfterViewInit(): void {
@@ -95,6 +93,12 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
     this.amountColor = getComputedStyle(this.dangerElement.nativeElement).color;
     this.stateOfChargeColor = getComputedStyle(this.successElement.nativeElement).color;
     this.defaultColor = getComputedStyle(this.chartElement.nativeElement).color;
+
+    if (this.canDisplayGraph()) {
+      this.prepareOrUpdateGraph();
+    } else {
+      this.refresh();
+    }
   }
 
   resetZoom() {

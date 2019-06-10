@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {CentralServerService} from '../../../services/central-server.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LocaleService} from '../../../services/locale.service';
@@ -6,19 +6,24 @@ import {DecimalPipe} from '@angular/common';
 import {AppDatePipe} from '../../formatters/app-date.pipe';
 import {Chart} from 'chart.js';
 import {ConsumptionValue} from '../../../common.types';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import {AppDurationPipe} from 'app/shared/formatters/app-duration.pipe';
+import {AppCurrencyPipe} from 'app/shared/formatters/app-currency.pipe';
 
 @Component({
   selector: 'app-transaction-chart',
   templateUrl: 'consumption-chart.component.html'
 })
 
-export class ConsumptionChartComponent implements OnInit {
+export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() transactionId: number;
   @Input() consumptions: ConsumptionValue[];
   @Input() ratio: number;
-  @ViewChild('chart') ctx: ElementRef;
+
+  @ViewChild('primary') primaryElement: ElementRef;
+  @ViewChild('accent') accentElement: ElementRef;
+  @ViewChild('danger') dangerElement: ElementRef;
+  @ViewChild('success') successElement: ElementRef;
+  @ViewChild('chart') chartElement: ElementRef;
 
   private graphCreated = false;
   private currencyCode: string;
@@ -29,31 +34,66 @@ export class ConsumptionChartComponent implements OnInit {
   };
   private options: any;
   private chart: any;
-  // public ctx: any;
-  private colors = [
-    [255, 99, 132],
-    [54, 162, 235],
-    [255, 206, 86],
-    [76, 186, 107],
-    [63, 164, 91],
-    [19, 164, 180],
-    [82, 93, 244],
-    [191, 57, 158],
-    [108, 136, 147],
-    [238, 104, 104],
-    [47, 100, 151]];
+  private consumptionColor: string;
+  private instantPowerColor: string;
+  private amountColor: string;
+  private stateOfChargeColor: string;
+  private defaultColor: string;
+
+  static toRgba(rgb: string, alpha: number): string {
+    if (!rgb) {
+      return '';
+    }
+    let rgba = rgb.replace(/rgb/i, 'rgba');
+    rgba = rgba.replace(/\)/i, `,${alpha})`);
+
+    return rgba;
+  }
+
+  static formatBarColor(color: string): any {
+    return {
+      backgroundColor: ConsumptionChartComponent.toRgba(color, 1),
+      borderColor: ConsumptionChartComponent.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 0.8),
+      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1)
+    };
+  }
+
+  static formatLineColor(color: string): any {
+    return {
+      backgroundColor: ConsumptionChartComponent.toRgba(color, 0.2),
+      borderColor: ConsumptionChartComponent.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 0.8),
+      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1)
+    };
+  }
 
   constructor(
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService,
-      private localeService: LocaleService,
-      private datePipe: AppDatePipe,
-      private durationPipe: AppDurationPipe,
-      private decimalPipe: DecimalPipe,
-      private appCurrencyPipe: AppCurrencyPipe) {
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private durationPipe: AppDurationPipe,
+    private decimalPipe: DecimalPipe,
+    private appCurrencyPipe: AppCurrencyPipe) {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.consumptionColor = getComputedStyle(this.accentElement.nativeElement).color;
+    this.instantPowerColor = getComputedStyle(this.primaryElement.nativeElement).color;
+    this.amountColor = getComputedStyle(this.dangerElement.nativeElement).color;
+    this.stateOfChargeColor = getComputedStyle(this.successElement.nativeElement).color;
+    this.defaultColor = getComputedStyle(this.chartElement.nativeElement).color;
+
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
     } else {
@@ -83,7 +123,7 @@ export class ConsumptionChartComponent implements OnInit {
         this.graphCreated = true;
         this.createOptions();
         this.createGraphData();
-        this.chart = new Chart(this.ctx.nativeElement.getContext('2d'),
+        this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'),
           {
             type: 'bar',
             data: this.data,
@@ -99,12 +139,11 @@ export class ConsumptionChartComponent implements OnInit {
   createGraphData() {
     this.data.datasets.push({
       name: 'instantPower',
-      colorIndex: 0,
       type: 'line',
       data: [],
       yAxisID: 'power',
       lineTension: this.lineTension,
-      ...this.formatLineColor(this.colors[0]),
+      ...ConsumptionChartComponent.formatLineColor(this.instantPowerColor),
       label: this.translateService.instant('transactions.graph.power')
     });
     this.options.scales.yAxes.push({
@@ -117,12 +156,11 @@ export class ConsumptionChartComponent implements OnInit {
     if (this.consumptions.find(c => c.stateOfCharge !== undefined)) {
       this.data.datasets.push({
         name: 'stateOfCharge',
-        colorIndex: 2,
         type: 'line',
         data: [],
         yAxisID: 'percentage',
         lineTension: this.lineTension,
-        ...this.formatLineColor(this.colors[2]),
+        ...ConsumptionChartComponent.formatLineColor(this.stateOfChargeColor),
         label:
           this.translateService.instant('transactions.graph.battery')
       });
@@ -137,31 +175,29 @@ export class ConsumptionChartComponent implements OnInit {
           },
           ticks: {
             callback: (value, index, values) => `${value}%`,
-            fontColor: '#0d47a1'
+            fontColor: this.defaultColor
           }
         });
     }
     this.data.datasets.push({
       name: 'cumulatedConsumption',
-      colorIndex: 1,
       type: 'line',
       data: [],
       hidden: true,
       yAxisID: 'power',
       lineTension: this.lineTension,
-      ...this.formatLineColor(this.colors[1]),
+      ...ConsumptionChartComponent.formatLineColor(this.consumptionColor),
       label: this.translateService.instant('transactions.graph.energy')
     });
     if (this.consumptions.find(c => c.hasOwnProperty('pricingSource')) !== undefined) {
       this.data.datasets.push({
         name: 'cumulatedAmount',
-        colorIndex: 3,
         type: 'line',
         data: [],
         hidden: true,
         yAxisID: 'amount',
         lineTension: this.lineTension,
-        ...this.formatLineColor(this.colors[3]),
+        ...ConsumptionChartComponent.formatLineColor(this.amountColor),
         label: this.translateService.instant('transactions.graph.cumulated_amount')
       });
       this.options.scales.yAxes.push(
@@ -176,7 +212,7 @@ export class ConsumptionChartComponent implements OnInit {
           ticks: {
             callback: (value) => this.appCurrencyPipe.transform(value, this.currencyCode),
             min: 0,
-            fontColor: '#fff'
+            fontColor: this.defaultColor
           }
         });
     }
@@ -224,7 +260,7 @@ export class ConsumptionChartComponent implements OnInit {
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: '#0d47a1'
+          fontColor: this.defaultColor
         }
       },
       responsive: true,
@@ -241,8 +277,8 @@ export class ConsumptionChartComponent implements OnInit {
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba(this.colors[this.data.datasets[tooltipItem.datasetIndex].colorIndex], 1)
-            }
+              backgroundColor: this.data.datasets[tooltipItem.datasetIndex].borderColor
+            };
           },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -285,7 +321,7 @@ export class ConsumptionChartComponent implements OnInit {
               color: 'rgba(0,0,0,0.2)'
             },
             ticks: {
-              fontColor: '#0d47a1'
+              fontColor: this.defaultColor
             }
           }
         ],
@@ -296,7 +332,7 @@ export class ConsumptionChartComponent implements OnInit {
             position: 'left',
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value / 1000),
-              fontColor: '#0d47a1'
+              fontColor: this.defaultColor
             },
             gridLines: {
               display: true,
@@ -339,33 +375,5 @@ export class ConsumptionChartComponent implements OnInit {
     this.options.pan.rangeMin.x = this.consumptions.length > 0 ? new Date(this.consumptions[0].date).getTime() : 0;
     // tslint:disable-next-line:max-line-length
     this.options.pan.rangeMax.x = this.consumptions.length > 0 ? new Date(this.consumptions[this.consumptions.length - 1].date).getTime() : 0;
-  }
-
-  formatLineColor(colors: Array<number>): any {
-    return {
-      backgroundColor: this.rgba(colors, 0.2),
-      borderColor: this.rgba(colors, 1),
-      pointRadius: 0,
-      pointHoverBackgroundColor: this.rgba(colors, 1),
-      pointHoverBorderColor: '#fff',
-      hoverBackgroundColor: this.rgba(colors, 0.8),
-      hoverBorderColor: this.rgba(colors, 1)
-    };
-  }
-
-  formatBarColor(colors: Array<number>): any {
-    return {
-      backgroundColor: this.rgba(colors, 1),
-      borderColor: this.rgba(colors, 1),
-      pointRadius: 0,
-      pointHoverBackgroundColor: this.rgba(colors, 1),
-      pointHoverBorderColor: '#fff',
-      hoverBackgroundColor: this.rgba(colors, 0.8),
-      hoverBorderColor: this.rgba(colors, 1)
-    };
-  }
-
-  rgba(colour: Array<number>, alpha: number): string {
-    return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 }

@@ -117,7 +117,7 @@ export class OrganizationCompaniesDataSource extends TableDataSource<Company> {
       }
     ];
     if (this.isAdmin) {
-      tableColumnDef.unshift({
+      tableColumnDef.splice(1, 0, {
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',

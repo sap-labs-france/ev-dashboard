@@ -1,5 +1,5 @@
 import {Component, Inject, Self} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {ChargersDataSource} from './chargers-data-source-table';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {Charger, KeyValue} from '../../../common.types';

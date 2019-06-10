@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from '../../../../services/authorization-service';
 import { Charger, ScheduleSlot, ConnectorSchedule } from 'app/common.types';
 import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogService } from 'app/services/dialog.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -43,7 +43,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   @Output() onApplyPlanning = new EventEmitter<any>();
 
   @ViewChildren('powerSliders') powerSliders: QueryList<SmartChargingPowerSliderComponent>;
-  @ViewChild('limitChart') limitChartPlannerComponent: SmartChargingLimitPlannerChartComponent;
+  @ViewChild('limitChart', { static: true }) limitChartPlannerComponent: SmartChargingLimitPlannerChartComponent;
 
   public profileTypeMap = PROFILE_TYPE_MAP;
   public powerUnit: string;

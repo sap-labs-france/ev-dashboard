@@ -1,5 +1,5 @@
 import {Observable, of} from 'rxjs';
-import {MatSort} from '@angular/material';
+import { MatSort } from '@angular/material/sort';
 import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
 import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 import {Constants} from '../../utils/Constants';

@@ -3,7 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {TableDataSource} from 'app/shared/table/table-data-source';
 import {Charger, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from 'app/common.types';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {DialogService} from 'app/services/dialog.service';
 import {CentralServerNotificationService} from 'app/services/central-server-notification.service';
 import {TableAutoRefreshAction} from 'app/shared/table/actions/table-auto-refresh-action';

@@ -27,7 +27,7 @@ import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterViewInit {
   @Input() scheduleSlots: DisplayedScheduleSlot[];
   @Input() ratio: number;
-  @ViewChild('chart') chartComponent: ChartComponent;
+  @ViewChild('chart', { static: false }) chartComponent: ChartComponent;
   public data: any;
   private options: any;
   private colors = [

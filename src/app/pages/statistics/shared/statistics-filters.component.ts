@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { CentralServerService } from '../../../services/central-server.service';
 import { AuthorizationService } from '../../../services/authorization-service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';

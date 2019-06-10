@@ -30,8 +30,8 @@ export class StatisticsUsageComponent implements OnInit {
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
 
-  @ViewChild('usageBarChart') ctxBarChart: ElementRef;
-  @ViewChild('usagePieChart') ctxPieChart: ElementRef;
+  @ViewChild('usageBarChart', { static: true }) ctxBarChart: ElementRef;
+  @ViewChild('usagePieChart', { static: true }) ctxPieChart: ElementRef;
 
   constructor(
     private authorizationService: AuthorizationService,

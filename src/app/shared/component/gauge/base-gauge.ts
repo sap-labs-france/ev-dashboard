@@ -13,7 +13,7 @@ export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends Can
     /**
      * Canvas element on the template used by the library to draw gauge element
      */
-    @ViewChild('gauge') canvas: ElementRef;
+    @ViewChild('gauge', { static: true }) canvas: ElementRef;
     /**
      * Gauge options for rendering
      */

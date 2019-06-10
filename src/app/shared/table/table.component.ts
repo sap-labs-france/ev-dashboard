@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {MatDialog, MatSort, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
 import {TranslateService} from '@ngx-translate/core';
 import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {DropdownItem, TableActionDef, TableFilterDef, TableColumnDef} from '../../common.types';
@@ -19,7 +20,7 @@ import { WindowService } from 'app/services/window.service';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
   public searchPlaceholder = '';
   public ongoingRefresh = false;
   public sort: MatSort = new MatSort();

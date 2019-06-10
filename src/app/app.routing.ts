@@ -11,7 +11,7 @@ import {ComponentEnum} from './services/component.service';
 export const AppRoutes: Routes = [
   {
     path: 'auth', component: AuthLayoutComponent,
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
@@ -25,7 +25,7 @@ export const AppRoutes: Routes = [
 
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
       {
-        path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: {
+        path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule), data: {
           menu: {
             title: 'dashboard',
             type: 'link',
@@ -43,7 +43,7 @@ export const AppRoutes: Routes = [
         canLoad: [DevEnvGuard]
       },
       {
-        path: 'charging-stations', loadChildren: './pages/charging-stations/charging-stations.module#ChargingStationsModule', data: {
+        path: 'charging-stations', loadChildren: () => import('./pages/charging-stations/charging-stations.module').then(m => m.ChargingStationsModule), data: {
           menu: {
             title: 'charging_stations',
             type: 'link',
@@ -57,7 +57,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'transactions', loadChildren: './pages/transactions/transactions.module#TransactionsModule', data: {
+        path: 'transactions', loadChildren: () => import('./pages/transactions/transactions.module').then(m => m.TransactionsModule), data: {
           menu: {
             title: 'transactions',
             type: 'link',
@@ -71,7 +71,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'statistics', loadChildren: './pages/statistics/statistics.module#StatisticsModule',
+        path: 'statistics', loadChildren: () => import('./pages/statistics/statistics.module').then(m => m.StatisticsModule),
         data: {
           menu: {
             title: 'statistics',
@@ -86,7 +86,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'tenants', loadChildren: './pages/tenants/tenants.module#TenantsModule', data: {
+        path: 'tenants', loadChildren: () => import('./pages/tenants/tenants.module').then(m => m.TenantsModule), data: {
           menu: {
             title: 'tenants',
             type: 'link',
@@ -100,7 +100,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: {
+        path: 'users', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule), data: {
           menu: {
             title: 'users',
             type: 'link',
@@ -114,7 +114,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'organization', loadChildren: './pages/organization/organization.module#OrganizationModule', data: {
+        path: 'organization', loadChildren: () => import('./pages/organization/organization.module').then(m => m.OrganizationModule), data: {
           menu: {
             title: 'organization',
             type: 'link',
@@ -129,7 +129,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'settings', loadChildren: './pages/settings/settings.module#SettingsModule',
+        path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule),
         data: {
           menu: {
             title: 'settings',
@@ -144,7 +144,7 @@ export const AppRoutes: Routes = [
         }
       },
       {
-        path: 'logs', loadChildren: './pages/logs/logs.module#LogsModule', data: {
+        path: 'logs', loadChildren: () => import('./pages/logs/logs.module').then(m => m.LogsModule), data: {
           menu: {
             title: 'logs',
             type: 'link',
@@ -163,7 +163,7 @@ export const AppRoutes: Routes = [
       {
         path: 'template',
         canLoad: [DevEnvGuard],
-        loadChildren: './pages/template/template.module#TemplateModule',
+        loadChildren: () => import('./pages/template/template.module').then(m => m.TemplateModule),
         data: {
           menu: {
             title: 'template',

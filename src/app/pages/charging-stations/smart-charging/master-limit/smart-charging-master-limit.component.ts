@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementR
 import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
 import { LocaleService } from 'app/services/locale.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -39,7 +39,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
   public limitPlanning: ConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
-  @ViewChild('powerSlider') powerSliderComponent: SmartChargingPowerSliderComponent;
+  @ViewChild('powerSlider', { static: true }) powerSliderComponent: SmartChargingPowerSliderComponent;
 
   constructor(
     private authorizationService: AuthorizationService,

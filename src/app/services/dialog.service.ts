@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ButtonType, DialogType} from '../common.types';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {Constants} from '../utils/Constants';
 import {ConfirmationDialogComponent} from '../shared/dialogs/confirmation/confirmation-dialog-component';

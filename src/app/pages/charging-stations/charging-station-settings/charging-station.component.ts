@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from '../../../services/locale.service';
 import { AuthorizationService } from '../../../services/authorization-service';
@@ -25,8 +25,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   private activePane: string = CHARGERS_PANE_NAME; // Default active pane is charging station pane
 
-  @ViewChild('ocppParameters') ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
-  @ViewChild('chargerParameters') chargerParametersComponent: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters', { static: false }) ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
+  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden: boolean; // by default deactivate

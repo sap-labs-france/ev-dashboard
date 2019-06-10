@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Injectable, AfterViewInit } from '@angular/co
 import { Charger } from 'app/common.types';
 import { LocaleService } from 'app/services/locale.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { SpinnerService } from 'app/services/spinner.service';

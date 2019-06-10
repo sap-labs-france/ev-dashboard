@@ -34,7 +34,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
   @Input() ratio: number;
   data: any;
   options: any;
-  @ViewChild('chart') chartComponent: ChartComponent;
+  @ViewChild('chart', { static: false }) chartComponent: ChartComponent;
   private colors = [
     [255, 99, 132],
     [54, 162, 235],

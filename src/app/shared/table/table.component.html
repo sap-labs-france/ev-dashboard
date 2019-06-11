@@ -53,10 +53,10 @@
                 class="button-refresh" (click)="refresh()"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')"
                 appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="actionRightDef.tooltip | translate">
-              <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
+              <div *ngIf="ongoingAutoRefresh" class="spinner-autorefresh2">
                 <div class="loader"></div>
               </div>
-              <div *ngIf="!ongoingRefresh" class="refresh-icon">
+              <div *ngIf="!ongoingAutoRefresh" class="refresh-icon">
                 <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
               </div>
             </button>

@@ -15,7 +15,7 @@ export class AppCurrencyPipe implements PipeTransform {
       private componentService: ComponentService,
       private localeService: LocaleService) {
     // Get the locale
-    this.locale = this.localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentLocaleJS();
     // Get the Pricing settings
     this.componentService.getPricingSettings().subscribe((settings) => {
       // Get the currency

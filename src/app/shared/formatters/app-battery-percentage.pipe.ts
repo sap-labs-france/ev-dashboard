@@ -8,7 +8,7 @@ export class AppBatteryPercentagePipe implements PipeTransform {
   private percentPipe: PercentPipe;
 
   constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentFullLocaleForJS();
+    this.locale = locale.getCurrentLocaleJS();
     this.percentPipe = new PercentPipe(this.locale);
   }
 

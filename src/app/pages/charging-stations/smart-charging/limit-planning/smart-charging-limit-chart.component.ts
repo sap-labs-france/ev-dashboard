@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ConnectorSchedule } from 'app/common.types';
-import { CentralServerService } from 'app/services/central-server.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';

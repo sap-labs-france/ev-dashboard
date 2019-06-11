@@ -27,7 +27,7 @@ export class LocaleService {
     }
   }
 
-  public getCurrentFullLocale() {
+  public getCurrentLocale() {
     switch (this.language) {
       case 'en':
         return 'en_US';
@@ -36,7 +36,7 @@ export class LocaleService {
     }
   }
 
-  public getCurrentFullLocaleForJS() {
+  public getCurrentLocaleJS() {
     switch (this.language) {
       case 'en':
         return 'en-US';
@@ -53,13 +53,13 @@ export class LocaleService {
     configLocales.fullSupported.forEach(localeFull => {
       locales.push({
         key: localeFull,
-        value: this.getFullLocaleDescription(localeFull)
+        value: this.getLocaleDescription(localeFull)
       });
     });
     return locales;
   }
 
-  public getFullLocaleDescription(localeFull) {
+  private getLocaleDescription(localeFull) {
     switch (localeFull) {
       case 'en_US':
         return this.translateService.instant('users.locale_desc_english');

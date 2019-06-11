@@ -27,7 +27,7 @@ export class SessionDetailComponent extends CellContentTemplateComponent impleme
       private authorizationService: AuthorizationService,
       private dialog: MatDialog) {
     super();
-    this.locale = this.localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentLocaleJS();
   }
 
   showSessionDialog() {

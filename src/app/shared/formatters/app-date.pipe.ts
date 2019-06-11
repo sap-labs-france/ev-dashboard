@@ -7,7 +7,7 @@ export class AppDatePipe implements PipeTransform {
   private locale: string;
   constructor(
     private localeService: LocaleService) {
-      this.locale = this.localeService.getCurrentFullLocaleForJS();
+      this.locale = this.localeService.getCurrentLocaleJS();
   }
 
   transform(value: any): string {

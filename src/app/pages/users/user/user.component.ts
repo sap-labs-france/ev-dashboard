@@ -175,7 +175,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'locale': new FormControl(this.localeService.getCurrentFullLocale(),
+      'locale': new FormControl(this.localeService.getCurrentLocale(),
         Validators.compose([
           Validators.required
         ])),

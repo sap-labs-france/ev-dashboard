@@ -18,17 +18,27 @@ import { ChartData, SimpleChart } from '../shared/chart-utilities';
 })
 
 export class StatisticsConsumptionComponent implements OnInit {
-  public chartTitle: string;
-  public totalConsumption = 0;
-  public selectedCategory: string;
-  public selectedYear: number;
-  public allFiltersDef: TableFilterDef[] = [];
-  public isAdmin: boolean;
+  private chartTitle: string;
+  private totalConsumption = 0;
+  private selectedChart: string;
+  private selectedCategory: string;
+  private selectedYear: number;
+  private allFiltersDef: TableFilterDef[] = [];
+  private isAdmin: boolean;
 
   private filterParams = {};
 
+  private chartsInitialized = false;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
+  private barChartData: ChartData;
+  private pieChartData: ChartData;
+
+
+  private chartSelectorButtons = [
+    { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
+    { name: 'year', title: 'statistics.transactions_years' },
+  ];
 
   @ViewChild('consumptionBarChart') ctxBarChart: ElementRef;
   @ViewChild('consumptionPieChart') ctxPieChart: ElementRef;
@@ -64,6 +74,22 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.initCharts();
   }
 
+  chartChanged(chartName) {
+    let mainLabel: string;
+
+    this.selectedChart = chartName;
+
+    if (this.selectedChart === 'month') {
+      mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
+      this.barChartData = this.barChart.cloneChartData(this.barChartData);
+      this.barChart.updateChart(this.barChartData, mainLabel);
+    } else {
+      mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
+      this.pieChartData = this.pieChart.cloneChartData(this.pieChartData);
+      this.pieChart.updateChart(this.pieChartData, mainLabel);
+    }
+  }
+
   categoryChanged(category) {
     this.selectedCategory = category;
   }
@@ -83,19 +109,18 @@ export class StatisticsConsumptionComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, labelXAxis, labelYAxis, toolTipUnit);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
     mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
     this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
+
+    this.chartsInitialized = true;
   }
 
   buildCharts() {
     let mainLabel: string;
-    let barChartData: ChartData;
-    let pieChartData: ChartData;
-    const maxLegendItems = 20;
 
     this.spinnerService.show();
 
@@ -103,20 +128,18 @@ export class StatisticsConsumptionComponent implements OnInit {
       this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
-          pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
 
-          this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
+          this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
-          mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
-          this.barChart.updateChart(barChartData, mainLabel);
-          mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
-          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
-            this.pieChart.hideLegend();
+          if (this.selectedChart === 'month') {
+            mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
+            this.barChart.updateChart(this.barChartData, mainLabel);
           } else {
-            this.pieChart.showLegend();
+            mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
+            this.pieChart.updateChart(this.pieChartData, mainLabel);
           }
-          this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
         })
@@ -124,20 +147,18 @@ export class StatisticsConsumptionComponent implements OnInit {
       this.centralServerService.getUserConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
-          pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
 
-          this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
+          this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
-          mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title');
-          this.barChart.updateChart(barChartData, mainLabel);
-          mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title');
-          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
-            this.pieChart.hideLegend();
+          if (this.selectedChart === 'month') {
+            mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title');
+            this.barChart.updateChart(this.barChartData, mainLabel);
           } else {
-            this.pieChart.showLegend();
+            mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title');
+            this.pieChart.updateChart(this.pieChartData, mainLabel);
           }
-          this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
         })

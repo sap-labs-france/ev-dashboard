@@ -6,6 +6,12 @@ import { TableFilterDef } from '../../../common.types';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
 
+export interface ChartSelectorButton {
+  name: string;
+  title: string;
+//  chart?: ChartDefinition
+}
+
 @Component({
   selector: 'app-statistics-filters',
   templateUrl: './statistics-filters.component.html'
@@ -19,9 +25,13 @@ export class StatisticsFiltersComponent implements OnInit {
   private selectedCategory = 'C';
   private filterParams = {};
 
-  @Input() tableFiltersDef: TableFilterDef[] = [];
+  @Input() tableFiltersDef?: TableFilterDef[] = [];
+  @Input() chartButtons?: ChartSelectorButton[];
+  @Input() chartButtonClass?: string;
+  private chartActiveButton: ChartSelectorButton;
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
+  @Output() chartName = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
 
@@ -36,6 +46,10 @@ export class StatisticsFiltersComponent implements OnInit {
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
+    if (this.chartButtons) {
+      this.chartActiveButton = this.chartButtons[0];
+      this.chartName.emit(this.chartActiveButton.name);
+    }
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
@@ -222,4 +236,17 @@ export class StatisticsFiltersComponent implements OnInit {
   refresh(): void {
     this.refreshAll.emit();
   }
+
+  chartChanged(buttonName: string): void {
+    let index = 0;
+    if (buttonName && this.chartButtons) {
+      index = this.chartButtons.findIndex((element) => element.name === buttonName);
+      if (index >= 0 &&
+        this.chartActiveButton.name !== buttonName) {
+        this.chartActiveButton = this.chartButtons[index];
+        this.chartName.emit(this.chartActiveButton.name);
+      }
+    }
+  }
+
 }

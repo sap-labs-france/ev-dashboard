@@ -16,6 +16,23 @@
  
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+<!--            <mat-button-toggle-group name="chartSelector">
+                        <mat-button-toggle value="month">Month</mat-button-toggle>
+                        <mat-button-toggle value="year">Year</mat-button-toggle>
+                      </mat-button-toggle-group> -->
+
+        <!-- Chart Selector -->                      
+            <div [class]="'btn-group ' + chartButtonClass">
+                <button mat-raised-button *ngFor="let button of chartButtons" 
+                        (click)="chartChanged(button.name)"
+                        [color]="'primary'"
+                        appTooltip="" data-placement="bottom"
+                        [class.app-card-stats]="chartActiveButton.name === button.name"
+                        [title]="button.title | translate">
+                    <span>{{button.title | translate}}</span>
+                </button>
+            </div>       
+            
         <!-- Refresh -->
             <button mat-raised-button 
                     class="button-refresh" (click)="refresh()"

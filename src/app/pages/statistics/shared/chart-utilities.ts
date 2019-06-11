@@ -14,6 +14,7 @@ export { ChartData } from 'chart.js'; // could also use any local, but similar d
 export class SimpleChart {
   private language: string;
   private chart: Chart;
+  private contextElement: ElementRef;
   private chartType: string;
   private stackedChart = false;
   private chartOptions: ChartOptions;
@@ -82,6 +83,8 @@ export class SimpleChart {
   }
 
   public initChart(context: ElementRef): void {
+    this.contextElement = context;
+
     this.chart = new Chart(context.nativeElement.getContext('2d'), {
       type: this.chartType,
       plugins: [ChartDataLabels],
@@ -93,13 +96,15 @@ export class SimpleChart {
   public updateChart(chartData: ChartData, mainLabel?: string): void {
     let anyChart: any;
 
-    this.updateChartOptions(chartData, mainLabel);
-    this.updateChartData(chartData);
-    this.chart.data = this.chartData;
-    anyChart = this.chart; // type Chart does not know 'options'
-    anyChart.options = this.chartOptions;
-    this.chart = anyChart;
-    this.chart.update();
+    if (chartData) {
+      this.updateChartOptions(chartData, mainLabel);
+      this.updateChartData(chartData);
+      this.chart.data = this.chartData;
+      anyChart = this.chart; // type Chart does not know 'options'
+      anyChart.options = this.chartOptions;
+      this.chart = anyChart;
+      this.chart.update();
+    }
   }
 
   public showLegend(withUpdate: boolean = false) {
@@ -146,6 +151,34 @@ export class SimpleChart {
     }
 
     this.chart.update();
+  }
+
+  public cloneChartData(chartData: ChartData, withZeroAmounts = false): ChartData {
+    const newChartData: ChartData = { labels: [], datasets: [] };
+    let numberArray: number[];
+    let anyArray: any[];
+
+    if (chartData) {
+      newChartData.labels = chartData.labels.slice();
+
+      chartData.datasets.forEach((dataset) => {
+        numberArray = [];
+        if (withZeroAmounts) {
+          for (let i = 0; i < dataset.data.length; i++) {
+            numberArray.push(0);
+          }
+          newChartData.datasets.push({ 'label': dataset.label, 'data': numberArray, 'stack': dataset.stack });
+        } else {
+          anyArray = [];
+          anyArray = dataset.data.slice();
+          newChartData.datasets.push({ 'label': dataset.label, 'data': anyArray, 'stack': dataset.stack });
+        }
+      });
+
+      this.updateChartData(newChartData);
+    }
+
+    return newChartData
   }
 
   private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,

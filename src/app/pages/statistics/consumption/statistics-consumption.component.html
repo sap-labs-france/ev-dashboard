@@ -15,18 +15,17 @@
     </div>
      
     <div class="card-body">
-        <app-statistics-filters [tableFiltersDef]="allFiltersDef"
+        <app-statistics-filters [chartButtons]="chartSelectorButtons"
+                                [tableFiltersDef]="allFiltersDef"
+                                (chartName)="chartChanged($event)"
                                 (category)="categoryChanged($event)" (year)="yearChanged($event)" 
                                 (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
-
-        <canvas #consumptionBarChart></canvas>
+        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+            <canvas #consumptionBarChart></canvas>
+        </div>
+        <div [hidden]="(selectedChart === 'month') && chartsInitialized">
+            <canvas #consumptionPieChart></canvas>
+        </div>
     </div>
 </div>    
-    
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary"></div>
-    <div class="card-body">
-        <canvas #consumptionPieChart></canvas>
-    </div>
-</div>
     

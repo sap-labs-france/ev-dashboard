@@ -273,6 +273,7 @@ export interface TenantResult {
 export interface Setting {
   id: string;
   identifier: string;
+  sensitiveData: string[];
   content: any;
 }
 
@@ -575,6 +576,7 @@ export enum PricingSettingsType {
 export interface PricingSettings {
   id?: string;
   identifier: ComponentEnum.PRICING;
+  sensitiveData: string[];
   type: PricingSettingsType;
   simple: {
     price: number;
@@ -612,6 +614,7 @@ export interface OcpiCommon {
 export interface OcpiSettings {
   id?: string;
   identifier: ComponentEnum.OCPI;
+  sensitiveData: string[];
   type: OcpiSettingsType;
   ocpi: OcpiCommon;
 }
@@ -630,6 +633,7 @@ export interface AnalyticsLink {
 export interface AnalyticsSettings {
   id?: string;
   identifier: ComponentEnum.ANALYTICS;
+  sensitiveData: string[];
   type: AnalyticsSettingsType,
   sac: {
     mainUrl: string;
@@ -646,6 +650,7 @@ export interface RefundSettings {
   id?: string;
   identifier: ComponentEnum.REFUND;
   type: RefundSettingsType;
+  sensitiveData: string[];
   concur?: {
     authenticationUrl: string;
     apiUrl: string;
@@ -655,5 +660,5 @@ export interface RefundSettings {
     expenseTypeCode: string;
     policyId: string;
     reportName: string;
-  }
+  };
 }

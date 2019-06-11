@@ -107,11 +107,13 @@ export class ComponentService {
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.REFUND,
+      'sensitiveData': settings.sensitiveData,
       'content': JSON.parse(JSON.stringify(settings))
     };
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     // Save
     if (!settings.id) {
       // Create
@@ -221,6 +223,8 @@ export class ComponentService {
           refundSettings.id = settings.result[0].id;
           // Set
           refundSettings.concur = config.concur;
+          // Sensitive data
+          refundSettings.sensitiveData = settings.result[0].sensitiveData;
         }
         observer.next(refundSettings);
         observer.complete();

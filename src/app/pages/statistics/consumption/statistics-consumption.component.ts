@@ -18,7 +18,6 @@ import { ChartData, SimpleChart } from '../shared/chart-utilities';
 })
 
 export class StatisticsConsumptionComponent implements OnInit {
-  private chartTitle: string;
   private totalConsumption = 0;
   private selectedChart: string;
   private selectedCategory: string;
@@ -74,19 +73,38 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.initCharts();
   }
 
-  chartChanged(chartName) {
+  getChartLabel(): string {
     let mainLabel: string;
 
+    if (this.selectedChart === 'month') {
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title',
+          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+      } else {
+        mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title',
+          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+      }
+    } else {
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
+          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+      } else {
+        mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
+          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+      }
+    }
+    return mainLabel
+  }
+
+  chartChanged(chartName) {
     this.selectedChart = chartName;
 
     if (this.selectedChart === 'month') {
-      mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
       this.barChartData = this.barChart.cloneChartData(this.barChartData);
-      this.barChart.updateChart(this.barChartData, mainLabel);
+      this.barChart.updateChart(this.barChartData, this.getChartLabel());
     } else {
-      mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
       this.pieChartData = this.pieChart.cloneChartData(this.pieChartData);
-      this.pieChart.updateChart(this.pieChartData, mainLabel);
+      this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
     }
   }
 
@@ -96,7 +114,6 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   yearChanged(year) {
     this.selectedYear = year;
-    this.chartTitle = this.translateService.instant('statistics.total_consumption_year', { 'year': this.selectedYear });
   }
 
   filtersChanged(filterParams) {
@@ -104,24 +121,21 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   initCharts() {
-    let mainLabel: string = this.translateService.instant('statistics.consumption_per_cs_month_title');
+    const dummyLabel = ' ';
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, labelXAxis, labelYAxis, toolTipUnit, true);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', dummyLabel, labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(this.localeService.language, 'pie', dummyLabel, undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 
     this.chartsInitialized = true;
   }
 
   buildCharts() {
-    let mainLabel: string;
-
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {
@@ -130,15 +144,12 @@ export class StatisticsConsumptionComponent implements OnInit {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
           if (this.selectedChart === 'month') {
-            mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title');
-            this.barChart.updateChart(this.barChartData, mainLabel);
+            this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
-            mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title');
-            this.pieChart.updateChart(this.pieChartData, mainLabel);
+            this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
 
           this.spinnerService.hide();
@@ -149,15 +160,12 @@ export class StatisticsConsumptionComponent implements OnInit {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
           if (this.selectedChart === 'month') {
-            mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title');
-            this.barChart.updateChart(this.barChartData, mainLabel);
+            this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
-            mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title');
-            this.pieChart.updateChart(this.pieChartData, mainLabel);
+            this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
 
           this.spinnerService.hide();

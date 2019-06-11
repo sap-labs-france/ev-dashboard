@@ -27,7 +27,6 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Input() tableFiltersDef?: TableFilterDef[] = [];
   @Input() chartButtons?: ChartSelectorButton[];
-  @Input() chartButtonClass?: string;
   private chartActiveButton: ChartSelectorButton;
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;

@@ -42,3 +42,28 @@
     margin-left: 5px;
   }
 }
+
+.mat-button-group {
+  @extend .btn-group;
+
+  button {
+    border-radius: 0;
+  }
+
+  button:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+  };
+
+  button:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  button.selected-button {
+    background-color: $brand-disabled; 
+    :hover,:focus {
+      background-color: $brand-disabled; 
+    }
+  }  
+}

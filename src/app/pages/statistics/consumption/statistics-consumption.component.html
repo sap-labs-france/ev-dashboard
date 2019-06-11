@@ -1,31 +1,12 @@
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-        <div class="card-icon" *ngIf=isAdmin>
-            <div *ngIf="(selectedCategory === 'C'); else otherIcon">
-                <mat-icon>ev_station</mat-icon>
-            </div>
-            <ng-template #otherIcon>
-                <mat-icon>people</mat-icon>
-            </ng-template>
-        </div>
+<app-statistics-filters [chartButtons]="chartSelectorButtons"
+                        [tableFiltersDef]="allFiltersDef"
+                        (chartName)="chartChanged($event)"
+                        (category)="categoryChanged($event)" (year)="yearChanged($event)" 
+                        (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
 
-        <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
-        <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number: '1.0-0': localeService.language}} {{'statistics.charger_kw_h' | translate}}</h3>
-    
-    </div>
-     
-    <div class="card-body">
-        <app-statistics-filters [chartButtons]="chartSelectorButtons"
-                                [tableFiltersDef]="allFiltersDef"
-                                (chartName)="chartChanged($event)"
-                                (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
-        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
-            <canvas #consumptionBarChart></canvas>
-        </div>
-        <div [hidden]="(selectedChart === 'month') && chartsInitialized">
-            <canvas #consumptionPieChart></canvas>
-        </div>
-    </div>
-</div>    
-    
+<div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+    <canvas #consumptionBarChart></canvas>
+</div>
+<div [hidden]="(selectedChart === 'month') && chartsInitialized">
+    <canvas #consumptionPieChart></canvas>
+</div>

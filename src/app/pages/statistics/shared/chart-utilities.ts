@@ -2,7 +2,6 @@ import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-// mport { ThrowStmt } from '@angular/compiler';
 
 export class ChartConstants {
   public static STACKED_ITEM = 'item';
@@ -14,7 +13,6 @@ export { ChartData } from 'chart.js'; // could also use any local, but similar d
 export class SimpleChart {
   private language: string;
   private chart: Chart;
-  private contextElement: ElementRef;
   private chartType: string;
   private stackedChart = false;
   private chartOptions: ChartOptions;
@@ -83,8 +81,6 @@ export class SimpleChart {
   }
 
   public initChart(context: ElementRef): void {
-    this.contextElement = context;
-
     this.chart = new Chart(context.nativeElement.getContext('2d'), {
       type: this.chartType,
       plugins: [ChartDataLabels],
@@ -154,6 +150,7 @@ export class SimpleChart {
   }
 
   public cloneChartData(chartData: ChartData, withZeroAmounts = false): ChartData {
+    // cloning sometimes needed to display the same chart again
     const newChartData: ChartData = { labels: [], datasets: [] };
     let numberArray: number[];
     let anyArray: any[];
@@ -163,15 +160,21 @@ export class SimpleChart {
 
       chartData.datasets.forEach((dataset) => {
         numberArray = [];
+        anyArray = [];
+
         if (withZeroAmounts) {
           for (let i = 0; i < dataset.data.length; i++) {
             numberArray.push(0);
           }
-          newChartData.datasets.push({ 'label': dataset.label, 'data': numberArray, 'stack': dataset.stack });
+          anyArray = numberArray;
         } else {
-          anyArray = [];
           anyArray = dataset.data.slice();
+        }
+
+        if (dataset.stack) {
           newChartData.datasets.push({ 'label': dataset.label, 'data': anyArray, 'stack': dataset.stack });
+        } else {
+          newChartData.datasets.push({ 'data': anyArray });
         }
       });
 

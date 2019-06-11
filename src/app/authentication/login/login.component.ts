@@ -8,7 +8,7 @@ import {Users} from '../../utils/Users';
 import {Utils} from '../../utils/Utils';
 import {Constants} from '../../utils/Constants';
 import {DialogService} from '../../services/dialog.service';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {SpinnerService} from '../../services/spinner.service';
 import {AuthorizationService} from '../../services/authorization-service';
 

@@ -41,7 +41,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   public powerDigitPrecision = 1;
   public powerFloatingPrecision = 0;
 
-  @ViewChild('powerSlider') powerSliderComponent: MatSlider;
+  @ViewChild('powerSlider', { static: true }) powerSliderComponent: MatSlider;
 
   constructor(
     private translateService: TranslateService,

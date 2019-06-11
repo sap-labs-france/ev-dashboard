@@ -40,8 +40,8 @@ export class StatisticsConsumptionComponent implements OnInit {
     { name: 'year', title: 'statistics.transactions_years' },
   ];
 
-  @ViewChild('consumptionBarChart') ctxBarChart: ElementRef;
-  @ViewChild('consumptionPieChart') ctxPieChart: ElementRef;
+  @ViewChild('consumptionBarChart', { static: true }) ctxBarChart: ElementRef;
+  @ViewChild('consumptionPieChart', { static: true }) ctxPieChart: ElementRef;
 
   constructor(
     private authorizationService: AuthorizationService,

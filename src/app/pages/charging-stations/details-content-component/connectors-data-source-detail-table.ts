@@ -1,7 +1,7 @@
 import {TranslateService} from '@ngx-translate/core';
 import {ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User} from '../../../common.types';
 import {CentralServerService} from '../../../services/central-server.service';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {MessageService} from '../../../services/message.service';
 import {DialogService} from '../../../services/dialog.service';

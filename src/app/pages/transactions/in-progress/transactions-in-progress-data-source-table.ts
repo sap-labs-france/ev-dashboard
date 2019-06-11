@@ -6,7 +6,7 @@ import {CentralServerNotificationService} from '../../../services/central-server
 import {CentralServerService} from '../../../services/central-server.service';
 import {MessageService} from '../../../services/message.service';
 import {Utils} from '../../../utils/Utils';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {UserTableFilter} from '../../../shared/table/filters/user-filter';
 import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
 import {PercentPipe} from '@angular/common';

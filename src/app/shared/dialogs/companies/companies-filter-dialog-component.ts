@@ -1,5 +1,5 @@
 import {Component, Inject, Self} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {CompaniesFilterDataSource} from './companies-filter-data-source-table';
 import {DialogTableDataComponent} from '../dialog-table-data.component';
 import {KeyValue, Company} from '../../../common.types';

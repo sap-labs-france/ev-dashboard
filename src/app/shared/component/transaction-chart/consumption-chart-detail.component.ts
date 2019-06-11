@@ -9,7 +9,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transaction-char
 
 export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
   @Input() row: any;
-  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
+  @ViewChild('chartConsumption', { static: false }) chartComponent: ConsumptionChartComponent;
   public transactionId;
 
   ngOnInit(): void {

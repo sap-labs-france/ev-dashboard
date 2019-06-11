@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  @ViewChild('app-navbar-cmp') button: any;
+  @ViewChild('app-navbar-cmp', { static: false }) button: any;
 
   constructor(
     location: Location,

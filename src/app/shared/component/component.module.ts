@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {MatChipsModule} from '@angular/material';
+import { MatChipsModule } from '@angular/material/chips';
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
 import {FormattersModule} from '../formatters/formatters.module';

@@ -1,5 +1,5 @@
 import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Charger } from 'app/common.types';
 import { SmartChargingMasterLimitComponent } from './master-limit/smart-charging-master-limit.component';
 import { SmartChargingLimitPlanningComponent } from './limit-planning/smart-charging-limit-planning.component';
@@ -20,9 +20,9 @@ import { Router } from '@angular/router';
 export class ChargingStationSmartChargingDialogComponent implements AfterViewInit {
   charger: Charger;
 
-  @ViewChild('masterLimit') masterLimitComponent: SmartChargingMasterLimitComponent;
-  @ViewChild('limitPlanning') limitPlanning: SmartChargingLimitPlanningComponent;
-  @ViewChild('limitPlanner') limitPlanner: SmartChargingLimitPlannerComponent;
+  @ViewChild('masterLimit', { static: false }) masterLimitComponent: SmartChargingMasterLimitComponent;
+  @ViewChild('limitPlanning', { static: false }) limitPlanning: SmartChargingLimitPlanningComponent;
+  @ViewChild('limitPlanner', { static: false }) limitPlanner: SmartChargingLimitPlannerComponent;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationSmartChargingDialogComponent>,

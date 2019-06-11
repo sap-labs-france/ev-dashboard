@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {MatDialog, MatSort, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
 import {TranslateService} from '@ngx-translate/core';
 import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {DropdownItem, TableActionDef, TableFilterDef, TableColumnDef} from '../../common.types';
@@ -19,9 +20,10 @@ import { WindowService } from 'app/services/window.service';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
   public searchPlaceholder = '';
-  public ongoingRefresh = false;
+  private ongoingRefresh = false;
+  public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
@@ -210,7 +212,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create timer
       this.autoRefeshTimer = setInterval(() => {
         // Reload
-        this.refresh(true);
+        if (!this.ongoingRefresh) {
+          this.refresh(true);
+        }
       }, this.autoRefeshPollingIntervalMillis);
     }
   }
@@ -234,17 +238,21 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public refresh(autoRefresh = false) {
-    // Enable animation in button
-    if (autoRefresh) {
+    if (!this.ongoingRefresh) {
       this.ongoingRefresh = true;
-    }
-    // Load Data
-    this.dataSource.refreshData(!this.ongoingRefresh).subscribe(() => {
-      // Enable animation in button
       if (autoRefresh) {
-        this.ongoingRefresh = false;
+        this.ongoingAutoRefresh = true;
+        this.destroyAutoRefreshTimer();
       }
-    });
+      // Load Data
+      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+        this.ongoingRefresh = false;
+        if (autoRefresh) {
+          this.ongoingAutoRefresh = false;
+          this.createAutoRefreshTimer();
+        }
+      });
+    }
   }
 
   public resetFilters() {

@@ -150,12 +150,14 @@ export class SimpleChart {
   }
 
   public cloneChartData(chartData: ChartData, withZeroAmounts = false): ChartData {
-    // cloning sometimes needed to display the same chart again
-    const newChartData: ChartData = { labels: [], datasets: [] };
+    // cloning needed to display the same chart again (with animation)
+    let newChartData: ChartData;
+
     let numberArray: number[];
     let anyArray: any[];
 
     if (chartData) {
+      newChartData = { labels: [], datasets: [] };
       newChartData.labels = chartData.labels.slice();
 
       chartData.datasets.forEach((dataset) => {
@@ -168,6 +170,7 @@ export class SimpleChart {
           }
           anyArray = numberArray;
         } else {
+
           anyArray = dataset.data.slice();
         }
 

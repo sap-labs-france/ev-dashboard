@@ -17,13 +17,13 @@
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
 
-        <!-- Chart Selector -->                      
-            <div class="mat-button-group mr-2">
-                <button mat-raised-button *ngFor="let button of chartButtons" 
-                        (click)="chartChanged(button.name)"
+        <!-- First button group -->                      
+            <div class="btn-group mat-button-group mr-2">
+                <button mat-raised-button *ngFor="let button of buttonsOfGroup1" 
+                        (click)="buttonOfGroup1Changed(button.name)"
                         [color]="'primary'"
                         appTooltip="" data-placement="bottom"
-                        [class.selected-button]="chartActiveButton.name === button.name"
+                        [class.selected-button]="activeButtonOfGroup1.name === button.name"
                         [title]="button.title | translate">
                     <span>{{button.title | translate}}</span>
                 </button>

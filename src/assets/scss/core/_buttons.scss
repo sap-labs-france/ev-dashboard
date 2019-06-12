@@ -44,26 +44,26 @@
 }
 
 .mat-button-group {
-  @extend .btn-group;
 
   button {
     border-radius: 0;
+    padding: 0;
   }
 
   button:first-child {
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
+      border-top-left-radius: 4px !important;
+      border-bottom-left-radius: 4px !important;
   };
 
   button:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
   }
 
   button.selected-button {
-    background-color: $brand-disabled; 
+    background-color: $brand-disabled !important; 
     :hover,:focus {
-      background-color: $brand-disabled; 
+      background-color: $brand-disabled !important; 
     }
   }  
 }

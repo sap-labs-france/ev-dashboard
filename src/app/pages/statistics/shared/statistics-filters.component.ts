@@ -6,10 +6,10 @@ import { TableFilterDef } from '../../../common.types';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
 
-export interface ChartSelectorButton {
+export interface StatisticsButtonGroup {
   name: string;
   title: string;
-//  chart?: ChartDefinition
+  refresh?: boolean;
 }
 
 @Component({
@@ -26,11 +26,11 @@ export class StatisticsFiltersComponent implements OnInit {
   private filterParams = {};
 
   @Input() tableFiltersDef?: TableFilterDef[] = [];
-  @Input() chartButtons?: ChartSelectorButton[];
-  private chartActiveButton: ChartSelectorButton;
+  @Input() buttonsOfGroup1?: StatisticsButtonGroup[];
+  private activeButtonOfGroup1: StatisticsButtonGroup;
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
-  @Output() chartName = new EventEmitter;
+  @Output() buttonOfGroup1 = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
 
@@ -42,19 +42,23 @@ export class StatisticsFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin();
     this.category.emit(this.selectedCategory);
+
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
-    if (this.chartButtons) {
-      this.chartActiveButton = this.chartButtons[0];
-      this.chartName.emit(this.chartActiveButton.name);
-    }
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
     });
+
+    // Button groups:
+    if (this.buttonsOfGroup1) {
+      this.activeButtonOfGroup1 = this.buttonsOfGroup1[0];
+      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+    }
+
     // Provided filters
     if (this.tableFiltersDef) {
       // Site filter
@@ -236,14 +240,17 @@ export class StatisticsFiltersComponent implements OnInit {
     this.refreshAll.emit();
   }
 
-  chartChanged(buttonName: string): void {
+  buttonOfGroup1Changed(buttonName: string): void {
     let index = 0;
-    if (buttonName && this.chartButtons) {
-      index = this.chartButtons.findIndex((element) => element.name === buttonName);
+    if (buttonName && this.buttonsOfGroup1) {
+      index = this.buttonsOfGroup1.findIndex((element) => element.name === buttonName);
       if (index >= 0 &&
-        this.chartActiveButton.name !== buttonName) {
-        this.chartActiveButton = this.chartButtons[index];
-        this.chartName.emit(this.chartActiveButton.name);
+        this.activeButtonOfGroup1.name !== buttonName) {
+        this.activeButtonOfGroup1 = this.buttonsOfGroup1[index];
+        this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+        if (this.activeButtonOfGroup1.refresh === true) {
+          this.refreshAll.emit();
+        }
       }
     }
   }

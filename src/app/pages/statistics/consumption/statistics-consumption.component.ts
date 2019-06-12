@@ -11,6 +11,7 @@ import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
+import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -33,8 +34,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   private barChartData: ChartData;
   private pieChartData: ChartData;
 
-
-  private chartSelectorButtons = [
+  private chartSelectorButtons: StatisticsButtonGroup[] = [
     { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
     { name: 'year', title: 'statistics.transactions_years' },
   ];
@@ -50,7 +50,7 @@ export class StatisticsConsumptionComponent implements OnInit {
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService) {
     // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
   ngOnInit(): void {
@@ -76,6 +76,11 @@ export class StatisticsConsumptionComponent implements OnInit {
   getChartLabel(): string {
     let mainLabel: string;
 
+    if (!this.selectedChart || !this.selectedCategory) {
+      // selection not yet defined:
+      return ' '
+    }
+
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title',
@@ -93,6 +98,7 @@ export class StatisticsConsumptionComponent implements OnInit {
           { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
       }
     }
+
     return mainLabel
   }
 
@@ -121,15 +127,16 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   initCharts() {
-    const dummyLabel = ' ';
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', dummyLabel, labelXAxis, labelYAxis, toolTipUnit, true);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+      this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie', dummyLabel, undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+      this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 
     this.chartsInitialized = true;

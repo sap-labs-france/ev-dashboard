@@ -1,12 +1,16 @@
-<app-statistics-filters [chartButtons]="chartSelectorButtons"
-                        [tableFiltersDef]="allFiltersDef"
-                        (chartName)="chartChanged($event)"
-                        (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                        (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
+<div class="h-100 d-flex flex-column">
+    <app-statistics-filters [buttonsOfGroup1]="chartSelectorButtons"
+                            [tableFiltersDef]="allFiltersDef"
+                            (buttonOfGroup1)="chartChanged($event)"
+                            (category)="categoryChanged($event)" (year)="yearChanged($event)" 
+                            (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
 
-<div [hidden]="(selectedChart !== 'month') && chartsInitialized">
-    <canvas #consumptionBarChart></canvas>
-</div>
-<div [hidden]="(selectedChart === 'month') && chartsInitialized">
-    <canvas #consumptionPieChart></canvas>
+    <div class="table">
+        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+             <canvas #consumptionBarChart></canvas>
+        </div>
+        <div [hidden]="(selectedChart === 'month') && chartsInitialized">
+            <canvas #consumptionPieChart></canvas>
+        </div>
+    </div>
 </div>

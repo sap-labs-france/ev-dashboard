@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, ObservableInput, EMPTY, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -429,6 +429,9 @@ export class CentralServerService {
   public getCharger(id: string): Observable<Charger> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
@@ -516,6 +519,9 @@ export class CentralServerService {
   public getTenant(id: string): Observable<Tenant> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
@@ -548,6 +554,9 @@ export class CentralServerService {
   public getTransaction(id: string): Observable<Transaction> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
@@ -738,6 +747,9 @@ export class CentralServerService {
   public getLog(id): Observable<Log> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Call
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
       {
@@ -752,6 +764,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
     return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
@@ -764,6 +779,9 @@ export class CentralServerService {
   public getUser(id: string): Observable<User> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
       {
@@ -777,6 +795,9 @@ export class CentralServerService {
   public getUserInvoice(id: string): Observable<any> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserInvoice?ID=${id}`,
       {

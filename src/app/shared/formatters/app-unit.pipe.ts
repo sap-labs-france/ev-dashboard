@@ -8,7 +8,7 @@ export class AppUnitPipe implements PipeTransform {
   private decimalPipe: DecimalPipe;
 
   constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentFullLocaleForJS();
+    this.locale = locale.getCurrentLocaleJS();
     this.decimalPipe = new DecimalPipe(this.locale);
   }
 

@@ -29,6 +29,6 @@ export class HeartbeatCellComponent extends CellContentTemplateComponent {
   constructor(
       private localeService: LocaleService) {
     super();
-    this.locale = this.localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentLocaleJS();
   }
 }

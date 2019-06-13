@@ -4,13 +4,14 @@
                             (buttonOfGroup1)="chartChanged($event)"
                             (category)="categoryChanged($event)" (year)="yearChanged($event)" 
                             (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
-
-    <div class="table">
-        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
-             <canvas #consumptionBarChart></canvas>
-        </div>
+       
+    <div class="chart">
         <div [hidden]="(selectedChart === 'month') && chartsInitialized">
-            <canvas #consumptionPieChart></canvas>
+            <h2><canvas #consumptionPieChart class='chart-primary'></canvas></h2>
+        </div>
+    
+        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+            <h2><canvas #consumptionBarChart class='chart-primary'></canvas></h2>
         </div>
     </div>
 </div>

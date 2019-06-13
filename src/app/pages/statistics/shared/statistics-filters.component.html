@@ -48,7 +48,7 @@
     <!-- filters -->
     <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Category of statistics -->
-        <div *ngIf="isAdmin">  <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+        <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
             <mat-form-field>
                 <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
                             [placeholder]="'statistics.category_label' | translate">
@@ -59,7 +59,7 @@
         </div>
 
         <!-- transaction year -->
-        <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+        <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
             <mat-form-field>    
                 <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">

@@ -5,12 +5,13 @@
                             (category)="categoryChanged($event)" (year)="yearChanged($event)" 
                             (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
 
-    <div class="table">
-        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
-            <canvas #usageBarChart></canvas>
-        </div>
+    <div class="chart">
         <div [hidden]="(selectedChart === 'month') && chartsInitialized">
             <canvas #usagePieChart></canvas>
+        </div>
+
+        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+                <canvas #usageBarChart></canvas>
         </div>
     </div>    
 </div>

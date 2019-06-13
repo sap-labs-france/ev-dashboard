@@ -452,6 +452,8 @@
     "verify_email_proceed_with_activation_button": "Proceed"
   },
   "statistics": {
+    "title": "Statistics",
+    "description": "Integrated Statistics",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Unselect/Select All",
     "graphic_title_consumption_y_axis": "Consumption (kW.h)",

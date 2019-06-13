@@ -82,7 +82,8 @@ export const AppRoutes: Routes = [
           auth: {
             entity: Constants.ENTITY_TRANSACTIONS,
             action: Constants.ACTION_LIST
-          }
+          },
+          component: ComponentEnum.STATISTICS
         }
       },
       {

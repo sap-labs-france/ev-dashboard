@@ -9,6 +9,7 @@ export enum ComponentEnum {
   ORGANIZATION = 'organization',
   PRICING = 'pricing',
   REFUND = 'refund',
+  STATISTICS = 'statistics',
   ANALYTICS = 'analytics'
 }
 

@@ -241,6 +241,8 @@ export interface Log {
   id: string;
   level: string;
   source: string;
+  host?: string;
+  process?: string;
   module: string;
   method: string;
   timestamp: Date;

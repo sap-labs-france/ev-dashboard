@@ -170,9 +170,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
     // Date?
     if (filterDef.type === 'date') {
-      // Date is one way binding: update the value manually
-      // filterDef.currentValue = event.value;
-      filterDef.currentValue = new Date(<string>$(`#${filterDef.id}`).val());
+      filterDef.currentValue = event.value.toDate();
     }
     // Update filter
     this.filterChanged(filterDef);

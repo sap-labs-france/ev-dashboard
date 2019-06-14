@@ -7,11 +7,11 @@
 
     <div class="chart">
         <div [hidden]="(selectedChart === 'month') && chartsInitialized">
-            <canvas #usagePieChart></canvas>
+            <h2><canvas #usagePieChart></canvas></h2>
         </div>
 
         <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
-                <canvas #usageBarChart></canvas>
+            <h2><canvas #usageBarChart></canvas></h2>
         </div>
     </div>    
 </div>

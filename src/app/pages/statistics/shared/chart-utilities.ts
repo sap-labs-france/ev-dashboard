@@ -26,6 +26,7 @@ export class SimpleChart {
   private language: string;
   private contextElement: ElementRef;
   private fontColor: string;
+  private inversedFontColor: string;
   private fontSize: string;
   private fontSizeNumber: number;
   private fontFamily: string;
@@ -103,20 +104,23 @@ export class SimpleChart {
 
     this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
     if (!this.fontColor || this.fontColor === '') {
-      this.fontColor = 'black';
+      this.fontColor = '#000';
     }
+    this.inversedFontColor = this.inverseColor(this.fontColor, true);
+
     this.fontFamily = getComputedStyle(this.contextElement.nativeElement).fontFamily;
     if (!this.fontFamily || this.fontFamily === '') {
-      this.fontFamily = '"Helvetica Neue", "Helvetica", "Arial", "sans-serif"';
+      this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
     }
     this.font = { family: this.fontFamily };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
-    if (!this.fontSize || this.fontSize === '') {
-      this.fontSize = '18px';
-      this.fontSizeNumber = 18;
+    if (!this.fontSize || this.fontSize === ''
+      || !this.fontSize.endsWith('px')) {
+      this.fontSize = '20px';
+      this.fontSizeNumber = 20;
+    } else {
+      this.fontSizeNumber = parseInt(this.fontSize, 10);
     }
-    this.fontSizeNumber = parseInt(this.fontSize, 10);
-    this.fontSizeNumber = 18; // todo
 
     if (chartData) {
       this.updateChartOptions(chartData, mainLabel);
@@ -395,6 +399,9 @@ export class SimpleChart {
     this.chartOptions.tooltips.bodyFontFamily = this.fontFamily;
     this.chartOptions.tooltips.footerFontFamily = this.fontFamily;
     this.chartOptions.tooltips.titleFontFamily = this.fontFamily;
+    this.chartOptions.tooltips.bodyFontColor = this.inversedFontColor;
+    this.chartOptions.tooltips.footerFontColor = this.inversedFontColor;
+    this.chartOptions.tooltips.titleFontColor = this.inversedFontColor;
 
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
@@ -431,7 +438,6 @@ export class SimpleChart {
       display: (context) => {
         return context.dataset.data[context.dataIndex] > minValue
       },
-      //  font: { weight: 'bold' },
       formatter: (value, context) => {
         if (this.roundedChartLabels) {
           return Math.round(value).toLocaleString(this.language);
@@ -508,5 +514,110 @@ export class SimpleChart {
 
     const div20 = counter % 20;
     return `rgba(${colors[div20][0]}, ${colors[div20][1]}, ${colors[div20][2]}, ${colors[div20][3]})`
+  }
+
+  private inverseColor(color: string, blackWhite = false): string {
+    let hex: string;
+    let rgba: string[];
+    let rgb: string[];
+
+    let sep: string;
+    let string: string;
+    let number: number;
+
+    let r: number;
+    let g: number;
+    let b: number;
+    let a: number;
+
+    // determine color format:
+    if (color.startsWith('#')) {
+      // color in hex format:
+      hex = color.slice(1);
+
+      // convert 3-digit hex to 6-digits.
+      if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      }
+
+      r = parseInt(hex.slice(0, 2), 16);
+      g = parseInt(hex.slice(2, 4), 16);
+      b = parseInt(hex.slice(4, 6), 16);
+    } else {
+      if (color.indexOf('rgba') === 0) {
+        // color in rgba format:
+        sep = color.indexOf(',') > -1 ? ',' : ' ';
+
+        rgba = color.substr(5).split(')')[0].split(sep);
+
+        // Strip the slash if using space-separated syntax
+        if (rgba.indexOf('/') > -1) {
+          rgba.splice(3, 1);
+        }
+
+        for (let i = 0; i < rgba.length; i++) {
+          string = rgba[i];
+          if (string.indexOf('%') > -1) {
+            number = parseInt(string.substr(0, string.length - 1), 10);
+            number /= 100;
+            if (i < 3) {
+              rgba[i] = Math.round(number * 255).toString(10);
+            } else {
+              rgba[i] = number.toString(10);
+            }
+          }
+        }
+
+        r = parseInt(rgba[0], 10);
+        g = parseInt(rgba[1], 10);
+        b = parseInt(rgba[2], 10);
+        a = parseInt(rgba[3], 10);
+      } else {
+        if (color.indexOf('rgb') === 0) {
+          // color in rgb format:
+          sep = color.indexOf(',') > -1 ? ',' : ' ';
+
+          rgb = color.substr(4).split(')')[0].split(sep);
+
+          for (let i = 0; i < rgb.length; i++) {
+            string = rgb[i];
+            if (string.indexOf('%') > -1) {
+              rgb[i] = Math.round(parseInt(string.substr(0, string.length - 1), 10) / 100 * 255).toString(10);
+            }
+          }
+
+          r = parseInt(rgb[0], 10);
+          g = parseInt(rgb[1], 10);
+          b = parseInt(rgb[2], 10);
+        } else {
+          return '#fff'
+        }
+      }
+    }
+
+    if (blackWhite) {
+      return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+        ? '#000'
+        : '#fff'
+    }
+
+    // invert color components
+    string = '#';
+    number = 255 - r;
+    if (number < 16) {
+      string += '0';
+    }
+    string += number.toString(16);
+    number = 255 - g;
+    if (number < 16) {
+      string += '0';
+    }
+    string += number.toString(16);
+    number = 255 - b;
+    if (number < 16) {
+      string += '0';
+    }
+    string += number.toString(16);
+    return string
   }
 }

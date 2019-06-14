@@ -19,22 +19,22 @@ import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 })
 
 export class StatisticsConsumptionComponent implements OnInit {
-  private totalConsumption = 0;
-  private selectedChart: string;
-  private selectedCategory: string;
-  private selectedYear: number;
-  private allFiltersDef: TableFilterDef[] = [];
-  private isAdmin: boolean;
+  public totalConsumption = 0;
+  public selectedChart: string;
+  public selectedCategory: string;
+  public selectedYear: number;
+  public allFiltersDef: TableFilterDef[] = [];
+  public isAdmin: boolean;
 
   private filterParams = {};
 
-  private chartsInitialized = false;
+  public chartsInitialized = false;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
   private pieChartData: ChartData;
 
-  private chartSelectorButtons: StatisticsButtonGroup[] = [
+  public chartSelectorButtons: StatisticsButtonGroup[] = [
     { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
     { name: 'year', title: 'statistics.transactions_years' },
   ];

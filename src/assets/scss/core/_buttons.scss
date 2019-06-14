@@ -42,3 +42,28 @@
     margin-left: 5px;
   }
 }
+
+.mat-button-group {
+
+  button {
+    border-radius: 0;
+    padding: 0;
+  }
+
+  button:first-child {
+      border-top-left-radius: 4px !important;
+      border-bottom-left-radius: 4px !important;
+  };
+
+  button:last-child {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  }
+
+  button.selected-button {
+    background-color: $brand-disabled !important; 
+    :hover,:focus {
+      background-color: $brand-disabled !important; 
+    }
+  }  
+}

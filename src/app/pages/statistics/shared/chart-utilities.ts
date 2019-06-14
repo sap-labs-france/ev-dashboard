@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
-// mport { ThrowStmt } from '@angular/compiler';
+import { Font } from 'chartjs-plugin-datalabels/types/options';
 
 export class ChartConstants {
   public static STACKED_ITEM = 'item';
@@ -12,18 +12,24 @@ export class ChartConstants {
 export { ChartData } from 'chart.js'; // could also use any local, but similar data definition!
 
 export class SimpleChart {
-  private language: string;
   private chart: Chart;
   private chartType: string;
   private stackedChart = false;
   private chartOptions: ChartOptions;
   private chartData: ChartData;
   private roundedChartLabels: boolean;
-  private constLabelSize = 20;
   private constMinDivisorBar = 40;
   private constMinDivisorPie = 40;
   private withLegend = false;
   private itemsHidden = false;
+
+  private language: string;
+  private contextElement: ElementRef;
+  private fontColor: string;
+  private fontSize: string;
+  private fontSizeNumber: number;
+  private fontFamily: string;
+  private font: Font;
 
   constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
     labelXAxis?: string, labelYAxis?: string,
@@ -82,7 +88,9 @@ export class SimpleChart {
   }
 
   public initChart(context: ElementRef): void {
-    this.chart = new Chart(context.nativeElement.getContext('2d'), {
+    this.contextElement = context;
+
+    this.chart = new Chart(this.contextElement.nativeElement.getContext('2d'), {
       type: this.chartType,
       plugins: [ChartDataLabels],
       options: this.chartOptions,
@@ -93,13 +101,32 @@ export class SimpleChart {
   public updateChart(chartData: ChartData, mainLabel?: string): void {
     let anyChart: any;
 
-    this.updateChartOptions(chartData, mainLabel);
-    this.updateChartData(chartData);
-    this.chart.data = this.chartData;
-    anyChart = this.chart; // type Chart does not know 'options'
-    anyChart.options = this.chartOptions;
-    this.chart = anyChart;
-    this.chart.update();
+    this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
+    if (!this.fontColor || this.fontColor === '') {
+      this.fontColor = 'black';
+    }
+    this.fontFamily = getComputedStyle(this.contextElement.nativeElement).fontFamily;
+    if (!this.fontFamily || this.fontFamily === '') {
+      this.fontFamily = '"Helvetica Neue", "Helvetica", "Arial", "sans-serif"';
+    }
+    this.font = { family: this.fontFamily };
+    this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
+    if (!this.fontSize || this.fontSize === '') {
+      this.fontSize = '18px';
+      this.fontSizeNumber = 18;
+    }
+    this.fontSizeNumber = parseInt(this.fontSize, 10);
+    this.fontSizeNumber = 18; // todo
+
+    if (chartData) {
+      this.updateChartOptions(chartData, mainLabel);
+      this.updateChartData(chartData);
+      this.chart.data = this.chartData;
+      anyChart = this.chart; // type Chart does not know 'options'
+      anyChart.options = this.chartOptions;
+      this.chart = anyChart;
+      this.chart.update();
+    }
   }
 
   public showLegend(withUpdate: boolean = false) {
@@ -148,6 +175,44 @@ export class SimpleChart {
     this.chart.update();
   }
 
+  public cloneChartData(chartData: ChartData, withZeroAmounts = false): ChartData {
+    // cloning needed to display the same chart again (with animation)
+    let newChartData: ChartData;
+
+    let numberArray: number[];
+    let anyArray: any[];
+
+    if (chartData) {
+      newChartData = { labels: [], datasets: [] };
+      newChartData.labels = chartData.labels.slice();
+
+      chartData.datasets.forEach((dataset) => {
+        numberArray = [];
+        anyArray = [];
+
+        if (withZeroAmounts) {
+          for (let i = 0; i < dataset.data.length; i++) {
+            numberArray.push(0);
+          }
+          anyArray = numberArray;
+        } else {
+
+          anyArray = dataset.data.slice();
+        }
+
+        if (dataset.stack) {
+          newChartData.datasets.push({ 'label': dataset.label, 'data': anyArray, 'stack': dataset.stack });
+        } else {
+          newChartData.datasets.push({ 'data': anyArray });
+        }
+      });
+
+      this.updateChartData(newChartData);
+    }
+
+    return newChartData
+  }
+
   private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
     toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
@@ -160,18 +225,17 @@ export class SimpleChart {
     this.chartOptions['title'] = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold',
-      fontSize: this.constLabelSize
+      fontStyle: 'bold'
     };
 
     this.chartOptions['legend'] = {
       display: withLegend,
+      labels: {},
       position: 'bottom'
     };
 
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
-      color: 'black',
       display: (context) => {
         return context.dataset.data[context.dataIndex] > 0
       }
@@ -215,8 +279,9 @@ export class SimpleChart {
           scaleLabel: {
             display: true,
             labelString: labelXAxis,
-            fontStyle: 'bold'
-          }
+            fontStyle: 'bold',
+          },
+          ticks: {}
         }],
       yAxes:
         [{
@@ -224,7 +289,7 @@ export class SimpleChart {
           scaleLabel: {
             display: true,
             labelString: labelYAxis,
-            fontStyle: 'bold'
+            fontStyle: 'bold',
           },
           ticks: {
             beginAtZero: true,
@@ -246,18 +311,17 @@ export class SimpleChart {
     this.chartOptions['title'] = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold',
-      fontSize: this.constLabelSize
+      fontStyle: 'bold'
     };
 
     this.chartOptions['legend'] = {
       display: withLegend,
+      labels: {},
       position: 'bottom'
     };
 
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
-      color: 'black',
       display: (context) => {
         return context.dataset.data[context.dataIndex] > 0
       },
@@ -300,11 +364,37 @@ export class SimpleChart {
       this.chartOptions.title.text = mainLabel;
     }
 
+    this.chartOptions.title.fontColor = this.fontColor;
+    this.chartOptions.title.fontFamily = this.fontFamily;
+    this.chartOptions.title.fontSize = this.fontSizeNumber;
+
+    if (this.withLegend) {
+      this.chartOptions.legend.labels.fontColor = this.fontColor;
+      this.chartOptions.legend.labels.fontFamily = this.fontFamily;
+    }
+
     if (this.chartType === 'pie') {
       minDivisor = this.constMinDivisorPie;
     } else {
       minDivisor = this.constMinDivisorBar;
+      this.chartOptions.scales.xAxes.forEach((xAxis) => {
+        xAxis.scaleLabel.fontColor = this.fontColor;
+        xAxis.scaleLabel.fontFamily = this.fontFamily;
+        xAxis.ticks.fontColor = this.fontColor;
+        xAxis.ticks.fontFamily = this.fontFamily;
+      });
+      this.chartOptions.scales.yAxes.forEach((yAxis) => {
+        yAxis.scaleLabel.fontColor = this.fontColor;
+        yAxis.scaleLabel.fontFamily = this.fontFamily;
+        yAxis.ticks.fontColor = this.fontColor;
+        yAxis.ticks.fontFamily = this.fontFamily;
+      });
     }
+
+    this.chartOptions.tooltips.backgroundColor = this.fontColor;
+    this.chartOptions.tooltips.bodyFontFamily = this.fontFamily;
+    this.chartOptions.tooltips.footerFontFamily = this.fontFamily;
+    this.chartOptions.tooltips.titleFontFamily = this.fontFamily;
 
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
@@ -336,7 +426,8 @@ export class SimpleChart {
     }
 
     this.chartOptions['plugins']['datalabels'] = {
-      color: 'black',
+      color: this.fontColor,
+      font: this.font,
       display: (context) => {
         return context.dataset.data[context.dataIndex] > minValue
       },

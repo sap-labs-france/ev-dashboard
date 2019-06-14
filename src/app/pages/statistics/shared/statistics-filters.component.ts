@@ -6,6 +6,12 @@ import { TableFilterDef } from '../../../common.types';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
 
+export interface StatisticsButtonGroup {
+  name: string;
+  title: string;
+  refresh?: boolean;
+}
+
 @Component({
   selector: 'app-statistics-filters',
   templateUrl: './statistics-filters.component.html'
@@ -19,9 +25,12 @@ export class StatisticsFiltersComponent implements OnInit {
   private selectedCategory = 'C';
   private filterParams = {};
 
-  @Input() tableFiltersDef: TableFilterDef[] = [];
+  @Input() tableFiltersDef?: TableFilterDef[] = [];
+  @Input() buttonsOfGroup1?: StatisticsButtonGroup[];
+  private activeButtonOfGroup1: StatisticsButtonGroup;
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
+  @Output() buttonOfGroup1 = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
 
@@ -33,6 +42,7 @@ export class StatisticsFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin();
     this.category.emit(this.selectedCategory);
+
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
@@ -42,6 +52,13 @@ export class StatisticsFiltersComponent implements OnInit {
         this.transactionYears.push(this.selectedYear);
       }
     });
+
+    // Button groups:
+    if (this.buttonsOfGroup1) {
+      this.activeButtonOfGroup1 = this.buttonsOfGroup1[0];
+      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+    }
+
     // Provided filters
     if (this.tableFiltersDef) {
       // Site filter
@@ -222,4 +239,20 @@ export class StatisticsFiltersComponent implements OnInit {
   refresh(): void {
     this.refreshAll.emit();
   }
+
+  buttonOfGroup1Changed(buttonName: string): void {
+    let index = 0;
+    if (buttonName && this.buttonsOfGroup1) {
+      index = this.buttonsOfGroup1.findIndex((element) => element.name === buttonName);
+      if (index >= 0 &&
+        this.activeButtonOfGroup1.name !== buttonName) {
+        this.activeButtonOfGroup1 = this.buttonsOfGroup1[index];
+        this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+        if (this.activeButtonOfGroup1.refresh === true) {
+          this.refreshAll.emit();
+        }
+      }
+    }
+  }
+
 }

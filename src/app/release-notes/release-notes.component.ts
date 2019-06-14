@@ -28,14 +28,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.28',
-        date: new Date('2019-06-10'),
+        date: new Date('2019-06-14'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
-              `Migrated the application to Angular version 8`,
+              `Switch on/off Statistics in Tenant's configuration`,
               `Limited the Statistics to the Top 20 Consumptions/Usages`,
               `Split Statistics chart to Year/Month`,
+              `Migrated the application to Angular version 8`,
               `Displayed Statistic chart's legends `
             ]
           },

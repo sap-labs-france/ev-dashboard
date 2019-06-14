@@ -35,13 +35,15 @@ export class ReleaseNotesComponent {
             changes: [
               `Migrated the application to Angular version 8`,
               `Limited the Statistics to the Top 20 Consumptions/Usages`,
+              `Split Statistics chart to Year/Month`,
               `Displayed Statistic chart's legends `
             ]
           },
           {
             name: 'Backend',
             changes: [
-              `Migrated the backend to the Typescript language (Typed JavaScript)`
+              `Migrated the backend to the Typescript language (Typed JavaScript)`,
+              `Encrypt sensitive data (password, secret key)`
             ]
           }
         ]

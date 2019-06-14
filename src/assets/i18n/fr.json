@@ -750,6 +750,8 @@
     "level": "Level",
     "date": "Date",
     "source": "Source",
+    "host": "Hôte",
+    "process": "Processus",
     "user": "Utilisateur",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
@@ -772,7 +774,7 @@
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
-        "title": "Exporter leg logs",
+        "title": "Exporter les logs",
         "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
       }
     }

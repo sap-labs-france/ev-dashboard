@@ -750,6 +750,8 @@
     "level": "Level",
     "date": "Date",
     "source": "Source",
+    "host": "Host",
+    "process": "Process",
     "user": "User",
     "on_user": "Action on User",
     "action": "Action",

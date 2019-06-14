@@ -8,6 +8,7 @@ import {TableRefreshAction} from '../../shared/table/actions/table-refresh-actio
 import {CentralServerService} from '../../services/central-server.service';
 import {MessageService} from '../../services/message.service';
 import {LogSourceTableFilter} from './filters/log-source-filter';
+import {LogHostTableFilter} from './filters/log-host-filter';
 import {LogLevelTableFilter} from './filters/log-level-filter';
 import {Formatters} from '../../utils/Formatters';
 import {Utils} from '../../utils/Utils';
@@ -135,6 +136,20 @@ export class LogsDataSource extends TableDataSource<Log> {
         sortable: true
       },
       {
+        id: 'host',
+        name: 'logs.host',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true
+      },
+      {
+        id: 'process',
+        name: 'logs.process',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true
+      },
+      {
         id: 'action',
         name: 'logs.action',
         headerClass: 'col-15p',
@@ -202,6 +217,7 @@ export class LogsDataSource extends TableDataSource<Log> {
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
+        // new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
     } else {

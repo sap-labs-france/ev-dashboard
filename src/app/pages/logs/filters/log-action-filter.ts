@@ -18,6 +18,7 @@ export class LogActionTableFilter extends TableFilter {
     };
     // Add <All>
     filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
+    // Set
     this.setFilterDef(filterDef);
   }
 }

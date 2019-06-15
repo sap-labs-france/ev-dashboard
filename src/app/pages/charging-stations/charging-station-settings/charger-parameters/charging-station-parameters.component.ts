@@ -1,34 +1,34 @@
-import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { Charger, SiteArea } from '../../../../common.types';
-import { LocaleService } from '../../../../services/locale.service';
-import { Router } from '@angular/router';
-import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { Component, ElementRef, Injectable, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { AuthorizationService } from '../../../../services/authorization-service';
-import { MessageService } from '../../../../services/message.service';
-import { Utils } from '../../../../utils/Utils';
-import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
-import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import {ComponentEnum, ComponentService} from '../../../../services/component.service';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-filter-dialog.component';
+import { Charger, SiteArea } from '../../../../common.types';
+import { AuthorizationService } from '../../../../services/authorization-service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../../services/component.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
+import { Constants } from '../../../../utils/Constants';
+import { Utils } from '../../../../utils/Utils';
 
 export const CONNECTED_PHASE_MAP =
   [
     { key: 1, description: 'chargers.single_phase' },
     { key: 3, description: 'chargers.tri_phases' },
     { key: 0, description: 'chargers.direct_current' }
-  ]
+  ];
 
 export const POWER_UNIT_MAP =
   [
     { key: 'W', description: 'chargers.watt' },
     { key: 'A', description: 'chargers.amper' }
-  ]
+  ];
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -38,7 +38,6 @@ export const POWER_UNIT_MAP =
 export class ChargingStationParametersComponent implements OnInit {
   @Input() charger: Charger;
   @Input() dialogRef: MatDialogRef<any>;
-  private messages;
   public userLocales;
   public isAdmin;
 
@@ -61,6 +60,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
   public isOrganizationComponentActive: boolean;
   public isOCPIActive: boolean;
+  private messages;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -248,7 +248,7 @@ export class ChargingStationParametersComponent implements OnInit {
       } else {
         if (this.isOrganizationComponentActive) {
           this.formGroup.controls.siteAreaID.setValue(0);
-          this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'))
+          this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'));
         } else {
           this.formGroup.controls.siteAreaID.setValue('');
           this.formGroup.controls.siteArea.setValue('');
@@ -317,7 +317,7 @@ export class ChargingStationParametersComponent implements OnInit {
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
       validateButtonTitle: 'general.select'
-    }
+    };
     // Open
     this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
@@ -366,7 +366,7 @@ export class ChargingStationParametersComponent implements OnInit {
       latitude: latitude,
       longitude: longitude,
       label: this.charger.id ? this.charger.id : ''
-    }
+    };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
@@ -383,6 +383,38 @@ export class ChargingStationParametersComponent implements OnInit {
           }
         }
       });
+  }
+
+  public closeDialog(saved: boolean = false) {
+    if ( this.dialogRef) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+          this.saveChargeBox();
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
   }
 
   private _updateChargeBoxID() {
@@ -421,38 +453,6 @@ export class ChargingStationParametersComponent implements OnInit {
             this.messages['change_config_error']);
       }
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if ( this.dialogRef) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
-          this.saveChargeBox();
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
   }
 
 }

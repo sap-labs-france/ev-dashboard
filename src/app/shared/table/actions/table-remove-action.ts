@@ -1,5 +1,5 @@
-import {TableAction} from './table-action';
-import {TableActionDef, ButtonColor} from '../../../common.types';
+import { ButtonColor, TableActionDef } from '../../../common.types';
+import { TableAction } from './table-action';
 
 export class TableRemoveAction implements TableAction {
   private action: TableActionDef = {
@@ -9,7 +9,7 @@ export class TableRemoveAction implements TableAction {
     color: ButtonColor.warn,
     name: 'general.remove',
     tooltip: 'general.tooltips.remove'
-  }
+  };
 
 
   // Return an action

@@ -1,7 +1,7 @@
-import {OcpiEndpoint} from 'app/common.types';
-import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-import {Component, Input, PipeTransform, Pipe} from '@angular/core';
-import {Constants} from 'app/utils/Constants';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { OcpiEndpoint } from 'app/common.types';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Constants } from 'app/utils/Constants';
 
 @Component({
   selector: 'app-ocpi-job-result-chip',
@@ -41,7 +41,7 @@ export class AppFormatOcpiJobResultPipe implements PipeTransform {
       let text = '';
       if (lastPatchJobResult) {
         const totalEVSEs = lastPatchJobResult.successNbr + lastPatchJobResult.failureNbr;
-        text = `${lastPatchJobResult.successNbr} / ${totalEVSEs}`
+        text = `${lastPatchJobResult.successNbr} / ${totalEVSEs}`;
         if (lastPatchJobResult.successNbr === 0 && lastPatchJobResult.failureNbr > 0) {
           text = 'general.error';
         } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr === 0) {

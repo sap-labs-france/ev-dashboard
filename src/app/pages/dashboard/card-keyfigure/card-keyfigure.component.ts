@@ -104,7 +104,7 @@ export class CardKeyfigureComponent implements OnChanges {
       // Calculate new trend value
       this.trendingRotationValue = Math.round((this.currentValue / this.trendValue) * 120 % 60);
       this.trendingRotationValue = (this.currentValue < this.trendValue ?
-            this.trendingRotationValue : this.trendingRotationValue * -1)
+            this.trendingRotationValue : this.trendingRotationValue * -1);
     }
   }
 

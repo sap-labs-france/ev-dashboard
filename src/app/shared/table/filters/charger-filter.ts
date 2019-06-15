@@ -1,7 +1,7 @@
-import {TableFilter} from './table-filter';
-import {Constants} from '../../../utils/Constants';
-import {TableFilterDef} from '../../../common.types';
-import {ChargersDialogComponent} from '../../dialogs/chargers/chargers-dialog-component';
+import { TableFilterDef } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
+import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog-component';
+import { TableFilter } from './table-filter';
 
 export class ChargerTableFilter extends TableFilter {
   constructor() {

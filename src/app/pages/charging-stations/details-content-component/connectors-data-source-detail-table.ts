@@ -1,33 +1,33 @@
-import {TranslateService} from '@ngx-translate/core';
-import {ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User} from '../../../common.types';
-import {CentralServerService} from '../../../services/central-server.service';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {MessageService} from '../../../services/message.service';
-import {DialogService} from '../../../services/dialog.service';
-import {ConnectorStatusComponent} from '../cell-content-components/connector-status.component';
-import {AppConnectorErrorCodePipe} from '../../../shared/formatters/app-connector-error-code.pipe';
-import {ConnectorCellComponent} from '../cell-content-components/connector-cell.component';
-import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {InstantPowerConnectorProgressBarComponent} from '../cell-content-components/instant-power-connector-progress-bar.component';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {TableStartAction} from '../../../shared/table/actions/table-start-action';
-import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
-import {TableNoAction} from '../../../shared/table/actions/table-no-action';
-import {Utils} from '../../../utils/Utils';
-import {Constants} from '../../../utils/Constants';
-import {BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent} from './start-transaction-dialog-component';
-import {UsersDialogComponent} from '../../../shared/dialogs/users/users-dialog-component';
-import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
-import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
-import {TableDataSource} from 'app/shared/table/table-data-source';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Observable } from 'rxjs';
+import { ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
+import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog-component';
+import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog-component';
+import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableNoAction } from '../../../shared/table/actions/table-no-action';
+import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
+import { TableStartAction } from '../../../shared/table/actions/table-start-action';
+import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
+import { ConnectorCellComponent } from '../cell-content-components/connector-cell.component';
+import { ConnectorStatusComponent } from '../cell-content-components/connector-status.component';
+import { InstantPowerConnectorProgressBarComponent } from '../cell-content-components/instant-power-connector-progress-bar.component';
+import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent } from './start-transaction-dialog-component';
 
 @Injectable()
 export class ConnectorsDataSource extends TableDataSource<Connector> {
@@ -257,7 +257,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         }
         // Check
         if (this.authorizationService.isAdmin()) {
-          this.startTransactionAsAdmin(connector)
+          this.startTransactionAsAdmin(connector);
         } else {
           this.startTransaction(connector, this.centralServerService.getLoggedUser());
         }
@@ -391,14 +391,14 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
           // Add sites
           dialogRef2.afterClosed().subscribe(data => {
             if (data && data.length > 0) {
-              return this.startTransaction(connector, data[0].objectRef)
+              return this.startTransaction(connector, data[0].objectRef);
             }
           });
           break;
         default:
           break;
       }
-    })
+    });
     return false;
   }
 

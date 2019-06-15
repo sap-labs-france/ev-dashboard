@@ -1,13 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, ObservableInput, EMPTY, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {ConfigService} from './config.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Constants} from '../utils/Constants';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {LocalStorageService} from './local-storage.service';
-import {CentralServerNotificationService} from './central-server-notification.service';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { TranslateService } from '@ngx-translate/core';
+import { throwError, BehaviorSubject, EMPTY, Observable, ObservableInput } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import {
   ActionResponse,
   Charger,
@@ -34,8 +31,11 @@ import {
   User,
   UserResult
 } from '../common.types';
-import {WindowService} from './window.service';
-import { MatDialog } from '@angular/material/dialog';
+import { Constants } from '../utils/Constants';
+import { CentralServerNotificationService } from './central-server-notification.service';
+import { ConfigService } from './config.service';
+import { LocalStorageService } from './local-storage.service';
+import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {

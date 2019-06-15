@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -27,7 +27,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
         'name': '',
         'description': '',
         'url': ''
-      }
+      };
     }
   }
 

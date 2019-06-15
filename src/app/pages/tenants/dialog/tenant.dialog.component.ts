@@ -1,14 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {SpinnerService} from '../../../services/spinner.service';
-import {Utils} from '../../../utils/Utils';
-import {Constants} from '../../../utils/Constants';
-import {ComponentEnum} from '../../../services/component.service';
-import {Tenant} from 'app/common.types';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Tenant } from 'app/common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum } from '../../../services/component.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: './tenant.dialog.component.html'
@@ -21,7 +21,6 @@ export class TenantDialogComponent implements OnInit {
   public email: AbstractControl;
   public components: FormGroup;
   public tenantID: string;
-  private currentTenant: Tenant;
 
   public pricingTypes = [
     {
@@ -53,6 +52,7 @@ export class TenantDialogComponent implements OnInit {
       description: 'settings.analytics.sac.title'
     }
   ];
+  private currentTenant: Tenant;
 
   constructor(
       private centralServerService: CentralServerService,

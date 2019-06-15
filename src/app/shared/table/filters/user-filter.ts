@@ -1,7 +1,7 @@
-import {TableFilter} from './table-filter';
-import {Constants} from '../../../utils/Constants';
-import {TableFilterDef} from '../../../common.types';
-import {UsersDialogComponent} from '../../dialogs/users/users-dialog-component';
+import { TableFilterDef } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
+import { UsersDialogComponent } from '../../dialogs/users/users-dialog-component';
+import { TableFilter } from './table-filter';
 
 export class UserTableFilter extends TableFilter {
   constructor() {

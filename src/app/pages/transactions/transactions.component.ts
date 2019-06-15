@@ -1,9 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {WindowService} from '../../services/window.service';
-import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
-import {AuthorizationService} from '../../services/authorization-service';
-import {ComponentEnum, ComponentService} from '../../services/component.service';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthorizationService } from '../../services/authorization-service';
+import { ComponentEnum, ComponentService } from '../../services/component.service';
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
 
 @Component({
   selector: 'app-transactions',

@@ -1,7 +1,7 @@
-import {TableFilter} from './table-filter';
-import {Constants} from '../../../utils/Constants';
-import {TableFilterDef} from '../../../common.types';
-import {SiteAreasFilterDialogComponent} from '../../dialogs/site-areas/site-areas-filter-dialog.component';
+import { TableFilterDef } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
+import { SiteAreasFilterDialogComponent } from '../../dialogs/site-areas/site-areas-filter-dialog.component';
+import { TableFilter } from './table-filter';
 
 export class SiteAreasTableFilter extends TableFilter {
   constructor() {

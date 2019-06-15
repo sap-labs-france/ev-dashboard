@@ -96,7 +96,7 @@ export class SimpleChart {
       plugins: [ChartDataLabels],
       options: this.chartOptions,
       data: { labels: [], datasets: [] }
-    })
+    });
   }
 
   public updateChart(chartData: ChartData, mainLabel?: string): void {
@@ -168,7 +168,7 @@ export class SimpleChart {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
           dataset.hidden = this.itemsHidden;
         }
-      })
+      });
     } else {
       const meta = this.chart.getDatasetMeta(0);
       meta.data.forEach((object) => {
@@ -214,7 +214,7 @@ export class SimpleChart {
       this.updateChartData(newChartData);
     }
 
-    return newChartData
+    return newChartData;
   }
 
   private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
@@ -241,7 +241,7 @@ export class SimpleChart {
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
       display: (context) => {
-        return context.dataset.data[context.dataIndex] > 0
+        return context.dataset.data[context.dataIndex] > 0;
       }
     };
 
@@ -271,7 +271,7 @@ export class SimpleChart {
           if (toolTipUnit) {
             toolTip = toolTip + ` ${toolTipUnit}`;
           }
-          return toolTip
+          return toolTip;
         }
       }
     };
@@ -302,7 +302,7 @@ export class SimpleChart {
             }
           }
         }]
-    }
+    };
   }
 
   private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
@@ -327,7 +327,7 @@ export class SimpleChart {
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
       display: (context) => {
-        return context.dataset.data[context.dataIndex] > 0
+        return context.dataset.data[context.dataIndex] > 0;
       },
     };
 
@@ -353,7 +353,7 @@ export class SimpleChart {
           if (toolTipUnit) {
             toolTip = toolTip + ` ${toolTipUnit}`;
           }
-          return toolTip
+          return toolTip;
         }
       }
     };
@@ -411,7 +411,7 @@ export class SimpleChart {
             number = dataset.data[i];
             if (typeof (number) === 'number') {
               if (number > minValue) {
-                minValue = number
+                minValue = number;
               }
             }
           }
@@ -436,7 +436,7 @@ export class SimpleChart {
       color: this.fontColor,
       font: this.font,
       display: (context) => {
-        return context.dataset.data[context.dataIndex] > minValue
+        return context.dataset.data[context.dataIndex] > minValue;
       },
       formatter: (value, context) => {
         if (this.roundedChartLabels) {
@@ -513,7 +513,7 @@ export class SimpleChart {
     ];
 
     const div20 = counter % 20;
-    return `rgba(${colors[div20][0]}, ${colors[div20][1]}, ${colors[div20][2]}, ${colors[div20][3]})`
+    return `rgba(${colors[div20][0]}, ${colors[div20][1]}, ${colors[div20][2]}, ${colors[div20][3]})`;
   }
 
   private inverseColor(color: string, blackWhite = false): string {
@@ -590,7 +590,7 @@ export class SimpleChart {
           g = parseInt(rgb[1], 10);
           b = parseInt(rgb[2], 10);
         } else {
-          return '#fff'
+          return '#fff';
         }
       }
     }
@@ -598,7 +598,7 @@ export class SimpleChart {
     if (blackWhite) {
       return (r * 0.299 + g * 0.587 + b * 0.114) > 186
         ? '#000'
-        : '#fff'
+        : '#fff';
     }
 
     // invert color components
@@ -618,6 +618,6 @@ export class SimpleChart {
       string += '0';
     }
     string += number.toString(16);
-    return string
+    return string;
   }
 }

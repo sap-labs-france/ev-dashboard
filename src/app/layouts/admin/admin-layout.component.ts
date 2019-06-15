@@ -1,13 +1,13 @@
 
-import {filter} from 'rxjs/operators';
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {NavItem, NavItemType} from '../../common.types';
-import {Subscription} from 'rxjs';
-import {Location, PopStateEvent} from '@angular/common';
+import { Location, PopStateEvent } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { NavItem, NavItemType } from '../../common.types';
 
-import {NavbarComponent} from '../../shared/navbar/navbar.component';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 declare const $: any;
 
@@ -17,14 +17,14 @@ declare const $: any;
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
-  private _router: Subscription;
-  private lastPoppedUrl: string;
-  private yScrollStack: number[] = [];
   url: string;
   location: Location;
 
   @ViewChild('sidebar', { static: false }) sidebar: any;
   @ViewChild(NavbarComponent, { static: true }) navbar: NavbarComponent;
+  private _router: Subscription;
+  private lastPoppedUrl: string;
+  private yScrollStack: number[] = [];
 
   constructor(private router: Router, location: Location) {
     this.location = location;

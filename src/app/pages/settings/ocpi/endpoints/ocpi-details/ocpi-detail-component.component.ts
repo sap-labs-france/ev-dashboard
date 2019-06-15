@@ -1,6 +1,6 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
-import {OcpiEndpointDetailDataSource} from './ocpi-detail-data-source-table';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { OcpiEndpointDetailDataSource } from './ocpi-detail-data-source-table';
 
 @Component({
   template: '<app-table class="endpoint-details" [dataSource]="ocpiEndpointDetailDataSource"></app-table>'

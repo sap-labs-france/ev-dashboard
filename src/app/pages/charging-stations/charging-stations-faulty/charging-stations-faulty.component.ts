@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ChargingStationsFaultyDataSource} from './charging-stations-faulty-data-source-table';
+import { Component } from '@angular/core';
+import { ChargingStationsFaultyDataSource } from './charging-stations-faulty-data-source-table';
 
 @Component({
   selector: 'app-charging-stations-faulty',

@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {CentralServerService} from 'app/services/central-server.service';
-import {MessageService} from 'app/services/message.service';
-import {Constants} from 'app/utils/Constants';
-import {SpinnerService} from 'app/services/spinner.service';
-import {Utils} from 'app/utils/Utils';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
-import {AnalyticsLinksDataSource} from './analytics-link/analytics-links-source-table';
-import {AnalyticsSettings, AnalyticsSettingsType} from 'app/common.types';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AnalyticsSettings, AnalyticsSettingsType } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { AnalyticsLinksDataSource } from './analytics-link/analytics-links-source-table';
 
 @Component({
   selector: 'app-settings-analytics',

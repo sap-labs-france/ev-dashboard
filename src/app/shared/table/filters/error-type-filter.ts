@@ -1,6 +1,6 @@
-import {Constants} from '../../../utils/Constants';
-import {TableFilter} from '../../../shared/table/filters/table-filter';
-import {TableFilterDef} from '../../../common.types';
+import { TableFilterDef } from '../../../common.types';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { Constants } from '../../../utils/Constants';
 
 
 export class ErrorTypeTableFilter extends TableFilter {

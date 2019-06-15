@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {AppAutofocusDirective} from './app-auto-focus.directive';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { AppAutofocusDirective } from './app-auto-focus.directive';
 import { TooltipDirective } from './tooltip.directive';
 
 @NgModule({

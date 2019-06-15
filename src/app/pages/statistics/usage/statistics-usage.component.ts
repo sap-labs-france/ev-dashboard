@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableFilterDef } from '../../../common.types';
-import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
-import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
+import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 
 @Component({
@@ -26,13 +26,7 @@ export class StatisticsUsageComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public isAdmin: boolean;
 
-  private filterParams = {};
-
   public chartsInitialized = false;
-  private barChart: SimpleChart;
-  private pieChart: SimpleChart;
-  private barChartData: ChartData;
-  private pieChartData: ChartData;
 
   public chartSelectorButtons: StatisticsButtonGroup[] = [
     { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
@@ -41,6 +35,12 @@ export class StatisticsUsageComponent implements OnInit {
 
   @ViewChild('usageBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('usagePieChart', { static: true }) ctxPieChart: ElementRef;
+
+  private filterParams = {};
+  private barChart: SimpleChart;
+  private pieChart: SimpleChart;
+  private barChartData: ChartData;
+  private pieChartData: ChartData;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -78,7 +78,7 @@ export class StatisticsUsageComponent implements OnInit {
 
     if (!this.selectedChart || !this.selectedCategory) {
       // selection not yet defined:
-      return ' '
+      return ' ';
     }
 
     if (this.selectedChart === 'month') {
@@ -99,7 +99,7 @@ export class StatisticsUsageComponent implements OnInit {
       }
     }
 
-    return mainLabel
+    return mainLabel;
   }
 
   chartChanged(chartName) {
@@ -160,7 +160,7 @@ export class StatisticsUsageComponent implements OnInit {
           }
 
           this.spinnerService.hide();
-        })
+        });
     } else {
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
@@ -176,7 +176,7 @@ export class StatisticsUsageComponent implements OnInit {
           }
 
           this.spinnerService.hide();
-        })
+        });
     }
   }
 }

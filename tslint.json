@@ -31,9 +31,11 @@
     "member-access": false,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": "fields-first"
+      }
     ],
+    "no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -44,9 +46,12 @@
       "timeEnd",
       "trace"
     ],
+    "use-isnan": true,
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
+    "no-duplicate-switch-case": true,
+    "no-duplicate-variable": true,
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
@@ -60,11 +65,11 @@
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
+    "unnecessary-else": true,
     "one-line": [
       true,
       "check-open-brace",
@@ -79,6 +84,7 @@
     ],
     "radix": true,
     "semicolon": [
+      true,
       "always"
     ],
     "triple-equals": [
@@ -102,9 +108,13 @@
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-rest-spread"
     ],
+    "no-irregular-whitespace": true,
+    "no-trailing-whitespace": true,
     "directive-selector": [
       true,
       "attribute",
@@ -117,6 +127,13 @@
       "app",
       "kebab-case"
     ],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-first",
+        "named-imports-order": "lowercase-first"
+      }
+    ],
     "no-inputs-metadata-property": true,
     "no-outputs-metadata-property": true,
     "no-host-metadata-property": true,
@@ -125,6 +142,8 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "await-promise": true,
+    "no-tautology-expression": true
   }
 }

@@ -121,7 +121,7 @@ export class StatisticsBuildService {
             if (typeof (numberItem) === 'number') {
               sum += numberItem;
             }
-          })
+          });
           numberArray.unshift(sum);
           dataset.data = numberArray;
         });
@@ -131,52 +131,52 @@ export class StatisticsBuildService {
         switch (sortedBy) {
           case 'label-asc':
             if (dataset1.label < dataset2.label) {
-              return -1
+              return -1;
             } else {
               if (dataset1.label > dataset2.label) {
-                return 1
+                return 1;
               } else {
-                return 0
+                return 0;
               }
             }
           case 'label-desc':
             if (dataset1.label > dataset2.label) {
-              return -1
+              return -1;
             } else {
               if (dataset1.label < dataset2.label) {
-                return 1
+                return 1;
               } else {
-                return 0
+                return 0;
               }
             }
           case 'size-asc':
             if (dataset1.data[0] < dataset2.data[0]) {
-              return -1
+              return -1;
             } else {
               if (dataset1.data[0] > dataset2.data[0]) {
-                return 1
+                return 1;
               } else {
-                return 0
+                return 0;
               }
             }
           case 'size-desc':
             if (dataset1.data[0] > dataset2.data[0]) {
-              return -1
+              return -1;
             } else {
               if (dataset1.data[0] < dataset2.data[0]) {
-                return 1
+                return 1;
               } else {
-                return 0
+                return 0;
               }
             }
         }
       });
 
       if (sortedBy.startsWith('size-')) {
-        // remove calcaluted totals again:
+        // remove calculated totals again:
         stackedChartData.datasets.forEach((dataset) => {
           dataset.data.splice(0, 1);
-        })
+        });
       }
 
       if (maxNumberOfItems > 0 && stackedChartData.datasets.length > maxNumberOfItems) {
@@ -201,7 +201,7 @@ export class StatisticsBuildService {
       stackedChartData.datasets.push({ 'label': this.totalLabel, 'data': totalDataArray, 'stack': ChartConstants.STACKED_TOTAL });
     }
 
-    return stackedChartData
+    return stackedChartData;
   }
 
   public calculateTotalValueFromChartData(chartData: ChartData): number {
@@ -218,7 +218,7 @@ export class StatisticsBuildService {
         if (Array.isArray(numberArray)) {
           numberArray.forEach((number) => {
             if (typeof (number) === 'number') {
-              totalValue += number
+              totalValue += number;
             }
           });
         }
@@ -229,7 +229,7 @@ export class StatisticsBuildService {
       if (Array.isArray(numberArray)) {
         numberArray.forEach((number) => {
           if (typeof (number) === 'number') {
-            totalValue += number
+            totalValue += number;
           }
         });
       }
@@ -251,7 +251,7 @@ export class StatisticsBuildService {
         if (Array.isArray(numberArray)) {
           numberArray.forEach((number) => {
             if (typeof (number) === 'number') {
-              totalValue += number
+              totalValue += number;
             }
           });
         }
@@ -266,7 +266,7 @@ export class StatisticsBuildService {
           totalChartData.datasets[0].data = numberArray;
         }
       }
-    })
+    });
 
     return totalChartData;
   }
@@ -284,6 +284,6 @@ export class StatisticsBuildService {
       });
     }
 
-    return count
+    return count;
   }
 }

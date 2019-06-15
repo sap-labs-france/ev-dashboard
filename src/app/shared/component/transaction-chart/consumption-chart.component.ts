@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {CentralServerService} from '../../../services/central-server.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LocaleService} from '../../../services/locale.service';
-import {DecimalPipe} from '@angular/common';
-import {AppDatePipe} from '../../formatters/app-date.pipe';
-import {Chart} from 'chart.js';
-import {ConsumptionValue} from '../../../common.types';
-import {AppDurationPipe} from 'app/shared/formatters/app-duration.pipe';
-import {AppCurrencyPipe} from 'app/shared/formatters/app-currency.pipe';
+import { DecimalPipe } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { Chart } from 'chart.js';
+import { ConsumptionValue } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { LocaleService } from '../../../services/locale.service';
+import { AppDatePipe } from '../../formatters/app-date.pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -39,6 +39,16 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   private amountColor: string;
   private stateOfChargeColor: string;
   private defaultColor: string;
+
+  constructor(
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private durationPipe: AppDurationPipe,
+    private decimalPipe: DecimalPipe,
+    private appCurrencyPipe: AppCurrencyPipe) {
+  }
 
   static toRgba(rgb: string, alpha: number): string {
     if (!rgb) {
@@ -72,16 +82,6 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
       hoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 0.8),
       hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1)
     };
-  }
-
-  constructor(
-    private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private localeService: LocaleService,
-    private datePipe: AppDatePipe,
-    private durationPipe: AppDurationPipe,
-    private decimalPipe: DecimalPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
   }
 
   ngOnInit(): void {

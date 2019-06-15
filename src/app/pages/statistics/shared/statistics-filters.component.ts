@@ -1,8 +1,8 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { CentralServerService } from '../../../services/central-server.service';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
 
@@ -22,17 +22,17 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedYear: number;
   public transactionYears: number[];
 
-  private selectedCategory = 'C';
-  private filterParams = {};
-
   @Input() tableFiltersDef?: TableFilterDef[] = [];
   @Input() buttonsOfGroup1?: StatisticsButtonGroup[];
-  private activeButtonOfGroup1: StatisticsButtonGroup;
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
   @Output() buttonOfGroup1 = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
+
+  private selectedCategory = 'C';
+  private filterParams = {};
+  private activeButtonOfGroup1: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -178,7 +178,7 @@ export class StatisticsFiltersComponent implements OnInit {
         if (!filterDef.currentValue || filterDef.currentValue !== data) {
           filterWasChanged = true;
           filterDef.currentValue = data;
-        };
+        }
         this.filterChanged(filterDef);
         if (filterWasChanged) {
           this.filterParams = this.buildFilterValues();

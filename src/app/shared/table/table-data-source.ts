@@ -1,10 +1,10 @@
-import {Observable, of} from 'rxjs';
 import { MatSort } from '@angular/material/sort';
-import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
-import {TableResetFiltersAction} from './actions/table-reset-filters-action';
-import {Constants} from '../../utils/Constants';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
+import { of, Observable } from 'rxjs';
+import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
+import { Constants } from '../../utils/Constants';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T> {
   public tableDef: TableDef;
@@ -65,7 +65,7 @@ export abstract class TableDataSource<T> {
   }
 
   public hasSelectedRows(): boolean {
-    return (this.selectedRows > 0)
+    return (this.selectedRows > 0);
   }
 
   public clearSelectedRows() {
@@ -75,7 +75,7 @@ export abstract class TableDataSource<T> {
       if (row.isSelectable) {
         row.isSelected = false;
       }
-    })
+    });
   }
 
   public selectAllRows() {
@@ -87,7 +87,7 @@ export abstract class TableDataSource<T> {
         row.isSelected = true;
         this.selectedRows++;
       }
-    })
+    });
   }
 
   public toggleMasterSelect() {
@@ -105,7 +105,7 @@ export abstract class TableDataSource<T> {
     row.isSelected = !row.isSelected;
     // Adjust number of selected rows
     if (row.isSelected) {
-      this.selectedRows++
+      this.selectedRows++;
       // Single Select?
       if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
         // Unselect last row
@@ -113,7 +113,7 @@ export abstract class TableDataSource<T> {
       }
       this.lastSelectedRow = row;
     } else {
-      this.selectedRows--
+      this.selectedRows--;
       this.lastSelectedRow = null;
     }
   }
@@ -149,7 +149,7 @@ export abstract class TableDataSource<T> {
       this.paging = {
         skip: 0,
         limit: this.getPageSize()
-      }
+      };
     }
     return this.paging;
   }
@@ -166,7 +166,7 @@ export abstract class TableDataSource<T> {
     if (this.getSort()) {
       return [
         {field: this.getSort().active, direction: this.getSort().direction}
-      ]
+      ];
     } else {
       // Find Sorted columns
       const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
@@ -175,7 +175,7 @@ export abstract class TableDataSource<T> {
         // Yes: Set Sorting
         return [
           {field: columnDef.id, direction: columnDef.direction}
-        ]
+        ];
       }
     }
   }
@@ -444,6 +444,69 @@ export abstract class TableDataSource<T> {
 
   abstract loadDataImpl(): Observable<any>;
 
+  public getData(): any[] {
+    return this.data;
+  }
+
+  requestNumberOfRecords() {
+    // Reset
+    this.resetTotalNumberOfRecords();
+    // Set flag
+    this.loadingNumberOfRecords = true;
+    // Add only record count
+    const staticFilters = [
+      ...this.getStaticFilters(),
+      { 'OnlyRecordCount': true}
+    ];
+    // Set
+    this.setStaticFilters(staticFilters);
+    // Load data
+    this.loadDataImpl().subscribe((data) => {
+      // Unset flag
+      this.loadingNumberOfRecords = false;
+      // Set nbr of records
+      this.setTotalNumberOfRecords(data.count);
+      // Build stats
+      this.tableFooterStats = this.buildTableFooterStats(data);
+    });
+    // Remove OnlyRecordCount
+    staticFilters.splice(staticFilters.length - 1, 1);
+    // Reset static filter
+    this.setStaticFilters(staticFilters);
+  }
+
+  buildTableDynamicRowActions(row: T): TableActionDef[] {
+    return [];
+  }
+
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+    return true;
+  }
+
+  isSelectable(row: T) {
+    return true;
+  }
+
+  protected initDataSource(): any {
+    // Init data from sub-classes
+    this.getTableColumnDefs();
+    this.getTableDef();
+    this.getTableFiltersDef();
+    this.getTableActionsDef();
+    this.getTableActionsRightDef();
+    this.getTableRowActions();
+
+    // Init vars
+    // tslint:disable-next-line:max-line-length
+    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
+      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
+    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
+    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+      this.tableDef.hasDynamicRowAction;
+  }
+
   private setData(data: T[]) {
     // Format the data
     this.enrichData(data);
@@ -474,37 +537,6 @@ export abstract class TableDataSource<T> {
         }
       }
     }
-  }
-
-  public getData(): any[] {
-    return this.data;
-  }
-
-  requestNumberOfRecords() {
-    // Reset
-    this.resetTotalNumberOfRecords();
-    // Set flag
-    this.loadingNumberOfRecords = true;
-    // Add only record count
-    const staticFilters = [
-      ...this.getStaticFilters(),
-      { 'OnlyRecordCount': true}
-    ];
-    // Set
-    this.setStaticFilters(staticFilters);
-    // Load data
-    this.loadDataImpl().subscribe((data) => {
-      // Unset flag
-      this.loadingNumberOfRecords = false;
-      // Set nbr of records
-      this.setTotalNumberOfRecords(data.count);
-      // Build stats
-      this.tableFooterStats = this.buildTableFooterStats(data);
-    });
-    // Remove OnlyRecordCount
-    staticFilters.splice(staticFilters.length - 1, 1)
-    // Reset static filter
-    this.setStaticFilters(staticFilters);
   }
 
   private enrichData(freshData: any[]) {
@@ -577,37 +609,5 @@ export abstract class TableDataSource<T> {
         freshRow.isSelected = true;
       }
     }
-  }
-
-  buildTableDynamicRowActions(row: T): TableActionDef[] {
-    return [];
-  }
-
-  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
-    return true;
-  }
-
-  protected initDataSource(): any {
-    // Init data from sub-classes
-    this.getTableColumnDefs();
-    this.getTableDef();
-    this.getTableFiltersDef();
-    this.getTableActionsDef();
-    this.getTableActionsRightDef();
-    this.getTableRowActions();
-
-    // Init vars
-    // tslint:disable-next-line:max-line-length
-    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
-      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
-    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
-    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
-      this.tableDef.hasDynamicRowAction;
-  }
-
-  isSelectable(row: T) {
-    return true;
   }
 }

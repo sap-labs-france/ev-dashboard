@@ -1,19 +1,19 @@
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from 'app/shared/table/table-data-source';
-import {Site, TableActionDef, TableColumnDef, TableDef, User} from 'app/common.types';
-import {CentralServerService} from 'app/services/central-server.service';
-import {UsersDialogComponent} from 'app/shared/dialogs/users/users-dialog-component';
-import {MessageService} from 'app/services/message.service';
-import {Utils} from 'app/utils/Utils';
-import {TableAddAction} from 'app/shared/table/actions/table-add-action';
-import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
-import {DialogService} from 'app/services/dialog.service';
-import {Constants} from 'app/utils/Constants';
-import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Site, TableActionDef, TableColumnDef, TableDef, User } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog-component';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
@@ -178,7 +178,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         // Refresh
         this.refreshData().subscribe();
         // Clear selection
-        this.clearSelectedRows()
+        this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.translateService.instant('sites.remove_users_error'));
@@ -203,7 +203,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
           // Refresh
           this.refreshData().subscribe();
           // Clear selection
-          this.clearSelectedRows()
+          this.clearSelectedRows();
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.translateService.instant('sites.update_users_error'));

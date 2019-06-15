@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {DecimalPipe} from '@angular/common';
-import {LocaleService} from '../../services/locale.service';
+import { DecimalPipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
+import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
@@ -14,9 +14,9 @@ export class AppUnitPipe implements PipeTransform {
 
   _parseMeasure(measureAsString): Measure {
     if (Unit[Unit[measureAsString]] === measureAsString) {
-      return {unit: Unit[measureAsString], size: Size.basis}
+      return {unit: Unit[measureAsString], size: Size.basis};
     }
-    return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any}
+    return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any};
   }
 
   transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,

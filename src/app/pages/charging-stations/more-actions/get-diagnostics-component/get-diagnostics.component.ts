@@ -1,17 +1,17 @@
 // tslint:disable-next-line:max-line-length
-import { Component, Input, OnInit, Injectable, AfterViewInit } from '@angular/core';
-import { Charger } from 'app/common.types';
-import { LocaleService } from 'app/services/locale.service';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, Injectable, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { Charger } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
-import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
-import { Constants } from 'app/utils/Constants';
+import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
+import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 
 
 @Component({

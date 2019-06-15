@@ -1,11 +1,11 @@
-import {RouterModule, Routes} from '@angular/router';
-import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
-import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
-import {ReleaseNotesComponent} from './release-notes/release-notes.component';
-import {ModuleWithProviders} from '@angular/core';
-import {DevEnvGuard} from './guard/development.guard';
-import {Constants} from './utils/Constants';
-import {ComponentEnum} from './services/component.service';
+import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DevEnvGuard } from './guard/development.guard';
+import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
+import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
+import { ComponentEnum } from './services/component.service';
+import { Constants } from './utils/Constants';
 
 
 export const AppRoutes: Routes = [

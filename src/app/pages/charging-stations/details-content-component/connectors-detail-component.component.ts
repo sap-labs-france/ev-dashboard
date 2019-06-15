@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges, Self} from '@angular/core';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
-import {ConnectorsDataSource} from './connectors-data-source-detail-table';
+import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { ConnectorsDataSource } from './connectors-data-source-detail-table';
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="connectorsDataSource"></app-table>',

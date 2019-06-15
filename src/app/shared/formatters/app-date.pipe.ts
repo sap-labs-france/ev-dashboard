@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
 import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDate'})

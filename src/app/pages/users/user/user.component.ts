@@ -1,29 +1,29 @@
-import {mergeMap} from 'rxjs/operators';
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { mergeMap } from 'rxjs/operators';
 
-import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import {LocaleService} from '../../../services/locale.service';
-import {CentralServerService} from '../../../services/central-server.service';
-import {SpinnerService} from '../../../services/spinner.service';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {MessageService} from '../../../services/message.service';
-import {ParentErrorStateMatcher} from '../../../utils/ParentStateMatcher';
-import {DialogService} from '../../../services/dialog.service';
-import {Constants} from '../../../utils/Constants';
-import {Users} from '../../../utils/Users';
-import {Utils} from '../../../utils/Utils';
-import {UserRoles, userStatuses} from '../users.model';
-import {DOCUMENT} from '@angular/common';
-import {ActionResponse, User} from '../../../common.types';
-import {WindowService} from '../../../services/window.service';
-import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
-import {ConfigService} from '../../../services/config.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ComponentEnum} from '../../../services/component.service';
-import {UserDialogComponent} from './user.dialog.component';
+import { DOCUMENT } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { ActionResponse, User } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum } from '../../../services/component.service';
+import { ConfigService } from '../../../services/config.service';
+import { DialogService } from '../../../services/dialog.service';
+import { LocaleService } from '../../../services/locale.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
+import { AbstractTabComponent } from '../../../shared/component/tab/AbstractTab.component';
+import { Constants } from '../../../utils/Constants';
+import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
+import { Users } from '../../../utils/Users';
+import { Utils } from '../../../utils/Utils';
+import { userStatuses, UserRoles } from '../users.model';
+import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user-cmp',
@@ -525,6 +525,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
+  toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
+  }
+
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
@@ -636,10 +640,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
-  }
-
-  toUpperCase(control: AbstractControl) {
-    control.setValue(control.value.toUpperCase());
   }
 
   private generateTagID(user?: User) {

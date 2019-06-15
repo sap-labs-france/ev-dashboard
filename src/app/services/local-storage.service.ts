@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class LocalStorageService {
@@ -14,32 +14,6 @@ export class LocalStorageService {
     }
     // Register event to listen from the iFrame
     window.addEventListener('message', this._receiveMessage.bind(this), false);
-  }
-
-  private _sendRequest(data) {
-    // Keep call back
-    this._requests[data.request.id] = data.callback;
-    // Post
-    parent.postMessage(JSON.stringify(data.request), '*');
-  }
-
-  private _receiveMessage(event) {
-    let data;
-    try {
-      // Parse the data
-      data = JSON.parse(event.data);
-    } catch (err) {
-      // ignore
-    }
-    if (data) {
-      if (this._requests[data.id]) {
-        // Call back
-        this._requests[data.id].next(data.value);
-        this._requests[data.id].complete();
-        // Clear
-        delete this._requests[data.id];
-      }
-    }
   }
 
   public setItem(key, value) {
@@ -117,6 +91,32 @@ export class LocalStorageService {
     } else {
       // Not in iFrame: use it rightaway
       localStorage.clear();
+    }
+  }
+
+  private _sendRequest(data) {
+    // Keep call back
+    this._requests[data.request.id] = data.callback;
+    // Post
+    parent.postMessage(JSON.stringify(data.request), '*');
+  }
+
+  private _receiveMessage(event) {
+    let data;
+    try {
+      // Parse the data
+      data = JSON.parse(event.data);
+    } catch (err) {
+      // ignore
+    }
+    if (data) {
+      if (this._requests[data.id]) {
+        // Call back
+        this._requests[data.id].next(data.value);
+        this._requests[data.id].complete();
+        // Clear
+        delete this._requests[data.id];
+      }
     }
   }
 }

@@ -1,12 +1,12 @@
-import {Router} from '@angular/router';
-import {Charger, TableColumnDef} from '../../../common.types';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Utils} from '../../../utils/Utils';
-import {DialogTableDataSource} from '../dialog-table-data-source';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Observable } from 'rxjs';
+import { Charger, TableColumnDef } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { Utils } from '../../../utils/Utils';
+import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class ChargersDataSource extends DialogTableDataSource<Charger> {

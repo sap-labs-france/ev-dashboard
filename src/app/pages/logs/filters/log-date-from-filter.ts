@@ -1,4 +1,4 @@
-import {DateTableFilter} from '../../../shared/table/filters/date-filter';
+import { DateTableFilter } from '../../../shared/table/filters/date-filter';
 
 export class LogDateFromTableFilter extends DateTableFilter {
   constructor(currentValue = null) {
@@ -8,6 +8,6 @@ export class LogDateFromTableFilter extends DateTableFilter {
     filter.httpId = 'DateFrom';
     filter.name = 'general.search_date_from';
     filter.currentValue = currentValue;
-    filter.reset = () => filter.currentValue = currentValue
+    filter.reset = () => filter.currentValue = currentValue;
   }
 }

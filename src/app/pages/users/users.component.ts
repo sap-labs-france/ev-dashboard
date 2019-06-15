@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../services/authorization-service';
-import {UsersDataSource} from './users-data-source-table';
-import {UsersInErrorDataSource} from './users-in-error-data-source-table';
-import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
-import {ActivatedRoute} from '@angular/router';
-import {WindowService} from '../../services/window.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
+import { AuthorizationService } from '../../services/authorization-service';
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { UsersDataSource } from './users-data-source-table';
+import { UsersInErrorDataSource } from './users-in-error-data-source-table';
 
 @Component({
   selector: 'app-users-cmp',

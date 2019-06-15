@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, AbstractControl, FormControl, Validators} from '@angular/forms';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
-import {OcpiSettings, OcpiSettingsType} from 'app/common.types';
-import {MessageService} from 'app/services/message.service';
-import {CentralServerService} from 'app/services/central-server.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {Router} from '@angular/router';
-import {Utils} from 'app/utils/Utils';
-import {Constants} from 'app/utils/Constants';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { OcpiSettings, OcpiSettingsType } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-ocpi',

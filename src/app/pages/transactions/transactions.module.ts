@@ -1,29 +1,29 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TranslateModule} from '@ngx-translate/core';
+import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
-import {MaterialModule} from '../../app.module';
-import {TransactionsComponent} from './transactions.component';
-import {TransactionsRoutes} from './transactions.routing';
-import {DialogsModule} from '../../shared/dialogs/dialogs.module';
-import {TableModule} from '../../shared/table/table.module';
-import {TransactionsHistoryComponent} from './history/transactions-history.component';
-import {TransactionsInProgressComponent} from './in-progress/transactions-in-progress.component';
-import {CommonDirectivesModule} from '../../shared/directives/common-directives.module';
-import {FormattersModule} from '../../shared/formatters/formatters.module';
-import {ComponentModule} from '../../shared/component/component.module';
-import {TransactionsInErrorComponent} from './in-error/transactions-in-error.component';
-import {ConsumptionChartComponent} from '../../shared/component/transaction-chart/consumption-chart.component';
-import {TransactionsRefundComponent} from './refund/transactions-refund.component';
-import {ErrorCodeDetailsComponent} from '../../shared/component/error-details/error-code-details.component';
-import {ConnectorCellComponent} from './components/connector-cell.component';
-import {AppFormatConnector} from './components/connector-cell.component';
+import { MaterialModule } from '../../app.module';
+import { ComponentModule } from '../../shared/component/component.module';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-details/error-code-details.component';
+import { ConsumptionChartComponent } from '../../shared/component/transaction-chart/consumption-chart.component';
+import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
+import { FormattersModule } from '../../shared/formatters/formatters.module';
+import { TableModule } from '../../shared/table/table.module';
+import { AppFormatConnector } from './components/connector-cell.component';
+import { ConnectorCellComponent } from './components/connector-cell.component';
 import { TransactionsHistoryDataSource } from './history/transactions-history-data-source-table';
+import { TransactionsHistoryComponent } from './history/transactions-history.component';
 import { TransactionsInErrorDataSource } from './in-error/transactions-in-error-data-source-table';
+import { TransactionsInErrorComponent } from './in-error/transactions-in-error.component';
 import { TransactionsInProgressDataSource } from './in-progress/transactions-in-progress-data-source-table';
+import { TransactionsInProgressComponent } from './in-progress/transactions-in-progress.component';
 import { TransactionsRefundDataSource } from './refund/transactions-refund-data-source-table';
+import { TransactionsRefundComponent } from './refund/transactions-refund.component';
+import { TransactionsComponent } from './transactions.component';
+import { TransactionsRoutes } from './transactions.routing';
 
 @NgModule({
   imports: [

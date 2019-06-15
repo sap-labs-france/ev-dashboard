@@ -1,18 +1,18 @@
-import { mergeMap } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { mergeMap } from 'rxjs/operators';
 
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { MessageService } from 'app/services/message.service';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
-import { DialogService } from 'app/services/dialog.service';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-cmp',
@@ -171,7 +171,7 @@ export class SiteComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableCompanies.count; i++) {
-        this.companies.push({ 'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name })
+        this.companies.push({ 'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name });
       }
     });
   }
@@ -279,6 +279,56 @@ export class SiteComponent implements OnInit {
     }
   }
 
+  public imageChanged(event) {
+    // load picture
+    let reader = new FileReader(); // tslint:disable-line
+    const file = event.target.files[0];
+    reader.onload = () => {
+      this.image = reader.result;
+    };
+    reader.readAsDataURL(file);
+    this.formGroup.markAsDirty();
+  }
+
+  public clearImage() {
+    // Clear
+    this.image = Constants.SITE_NO_IMAGE;
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+          this.saveSite(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
+  }
+
   private _createSite(site) {
     // Show
     this.spinnerService.show();
@@ -350,55 +400,5 @@ export class SiteComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_error');
       }
     });
-  }
-
-  public imageChanged(event) {
-    // load picture
-    let reader = new FileReader(); // tslint:disable-line
-    const file = event.target.files[0];
-    reader.onload = () => {
-      this.image = reader.result;
-    };
-    reader.readAsDataURL(file);
-    this.formGroup.markAsDirty();
-  }
-
-  public clearImage() {
-    // Clear
-    this.image = Constants.SITE_NO_IMAGE;
-    // Set form dirty
-    this.formGroup.markAsDirty();
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
-          this.saveSite(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
   }
 }

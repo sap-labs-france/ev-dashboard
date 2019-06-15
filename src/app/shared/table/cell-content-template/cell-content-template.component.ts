@@ -1,4 +1,4 @@
-import {Input, SimpleChanges, OnChanges} from '@angular/core';
+import { Input, OnChanges, SimpleChanges } from '@angular/core';
 
 export abstract class CellContentTemplateComponent implements OnChanges {
   @Input() row: any;

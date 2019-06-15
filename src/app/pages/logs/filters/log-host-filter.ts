@@ -1,5 +1,5 @@
-import { TableFilter } from 'app/shared/table/filters/table-filter';
 import { TableFilterDef } from 'app/common.types';
+import { TableFilter } from 'app/shared/table/filters/table-filter';
 import { Constants } from 'app/utils/Constants';
 
 export class LogHostTableFilter extends TableFilter {

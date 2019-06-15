@@ -1,7 +1,7 @@
-import {TableFilter} from '../../../shared/table/filters/table-filter';
-import {Constants} from '../../../utils/Constants';
-import {TableFilterDef} from '../../../common.types';
-import {logActions} from '../logs.model';
+import { TableFilterDef } from '../../../common.types';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { Constants } from '../../../utils/Constants';
+import { logActions } from '../logs.model';
 
 export class LogActionTableFilter extends TableFilter {
   constructor() {

@@ -1,9 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AnalyticsSettings } from 'app/common.types';
+import { Constants } from 'app/utils/Constants';
 import * as moment from 'moment-timezone';
-import {Constants} from 'app/utils/Constants';
-import {AnalyticsLinksDataSource} from '../analytics-link/analytics-links-source-table';
-import {AnalyticsSettings} from 'app/common.types';
+import { AnalyticsLinksDataSource } from '../analytics-link/analytics-links-source-table';
 
 @Component({
   selector: 'app-settings-sac',

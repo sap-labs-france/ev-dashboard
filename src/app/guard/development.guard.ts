@@ -1,7 +1,7 @@
-import { CanLoad, Route, UrlSegment } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { CanLoad, Route, UrlSegment } from '@angular/router';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class DevEnvGuard implements CanLoad {

@@ -1,16 +1,16 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './auth-layout.component.html'
 })
 export class AuthLayoutComponent implements OnInit {
+  mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
-  mobile_menu_visible: any = 0;
   private _router: Subscription;
 
   constructor(private router: Router, private element: ElementRef) {
@@ -35,14 +35,14 @@ export class AuthLayoutComponent implements OnInit {
     body.classList.add('nav-open');
 
     this.sidebarVisible = true;
-  };
+  }
 
   sidebarClose() {
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
     body.classList.remove('nav-open');
-  };
+  }
 
   sidebarToggle() {
     const body = document.getElementsByTagName('body')[0];

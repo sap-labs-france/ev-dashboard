@@ -1,9 +1,9 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {OrganizationComponent} from './organization.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {ComponentEnum} from '../../services/component.service';
-import {Constants} from '../../utils/Constants';
+import { ComponentEnum } from '../../services/component.service';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { OrganizationComponent } from './organization.component';
 
 export const OrganizationRoutes: Routes = [
   {

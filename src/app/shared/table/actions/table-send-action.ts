@@ -1,5 +1,5 @@
-import {TableAction} from './table-action';
-import {TableActionDef, ButtonColor} from '../../../common.types';
+import { ButtonColor, TableActionDef } from '../../../common.types';
+import { TableAction } from './table-action';
 
 export class TableSendAction implements TableAction {
   private action: TableActionDef = {
@@ -9,7 +9,7 @@ export class TableSendAction implements TableAction {
     color: ButtonColor.primary,
     name: 'general.send_evses_update',
     tooltip: 'general.tooltips.send'
-  }
+  };
 
 
   // Return an action

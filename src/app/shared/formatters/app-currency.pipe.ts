@@ -1,9 +1,9 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import { DatePipe, CurrencyPipe } from '@angular/common';
-import { LocaleService } from 'app/services/locale.service';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
+import { PricingSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentEnum, ComponentService } from 'app/services/component.service';
-import { PricingSettingsType } from 'app/common.types';
+import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appCurrency'})
 export class AppCurrencyPipe implements PipeTransform {

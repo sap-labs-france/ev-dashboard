@@ -1,9 +1,9 @@
-import {filter} from 'rxjs/operators';
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {CentralServerService} from '../../services/central-server.service';
-import {ActivatedRoute, NavigationEnd, Route, Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {RouteGuardService} from '../../services/route-guard.service';
+import { Location } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { CentralServerService } from '../../services/central-server.service';
+import { RouteGuardService } from '../../services/route-guard.service';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -19,14 +19,14 @@ declare var $: any;
 })
 
 export class NavbarComponent implements OnInit {
-  private listTitles: any[];
   location: Location;
   mobile_menu_visible: any = 0;
+
+  @ViewChild('app-navbar-cmp', { static: false }) button: any;
+  private listTitles: any[];
   private nativeElement: Node;
   private toggleButton: any;
   private sidebarVisible: boolean;
-
-  @ViewChild('app-navbar-cmp', { static: false }) button: any;
 
   constructor(
     location: Location,

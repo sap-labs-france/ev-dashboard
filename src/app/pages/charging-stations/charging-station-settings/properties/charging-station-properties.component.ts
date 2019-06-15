@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, Injectable } from '@angular/core';
-import { Charger } from '../../../../common.types';
 import { DatePipe } from '@angular/common';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Charger } from '../../../../common.types';
 import { LocaleService } from '../../../../services/locale.service';
 
 
 export interface PropertyDisplay {
-  key: string,
-  title: string,
-  value?: string
-  formatter?: Function
+  key: string;
+  title: string;
+  value?: string;
+  formatter?: Function;
 }
 
 @Component({

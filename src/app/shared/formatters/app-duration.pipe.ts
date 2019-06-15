@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {LocaleService} from '../../services/locale.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appDuration'})
 export class AppDurationPipe implements PipeTransform {

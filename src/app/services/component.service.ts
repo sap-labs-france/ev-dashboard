@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {CentralServerService} from './central-server.service';
+import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { PricingSettings, PricingSettingsType, OcpiSettings, AnalyticsSettings, RefundSettings, ActionResponse, RefundSettingsType } from 'app/common.types';
+import { ActionResponse, AnalyticsSettings, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
+import { CentralServerService } from './central-server.service';
 
 export enum ComponentEnum {
   OCPI = 'ocpi',
@@ -58,7 +58,7 @@ export class ComponentService {
             pricingSettings.simple = {
               price: config.simple.price ? parseFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : ''
-            }
+            };
           }
           // Convergeant Charging
           if (config.convergentCharging) {
@@ -68,7 +68,7 @@ export class ComponentService {
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
               user: config.convergentCharging.user ? config.convergentCharging.user : '',
               password: config.convergentCharging.password ? config.convergentCharging.password : ''
-            }
+            };
           }
         }
         observer.next(pricingSettings);

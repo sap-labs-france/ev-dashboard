@@ -1,25 +1,25 @@
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from '../../../shared/table/table-data-source';
-import {Site, TableActionDef, TableColumnDef, TableDef, User} from '../../../common.types';
-import {CentralServerService} from '../../../services/central-server.service';
-import {SitesDialogComponent} from '../../../shared/dialogs/sites/sites-dialog-component';
-import {MessageService} from '../../../services/message.service';
-import {Utils} from '../../../utils/Utils';
-import {TableAddAction} from '../../../shared/table/actions/table-add-action';
-import {TableRemoveAction} from '../../../shared/table/actions/table-remove-action';
-import {DialogService} from '../../../services/dialog.service';
-import {Constants} from '../../../utils/Constants';
-import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Observable } from 'rxjs';
+import { Site, TableActionDef, TableColumnDef, TableDef, User } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog-component';
+import { TableAddAction } from '../../../shared/table/actions/table-add-action';
+import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class UserSitesDataSource extends TableDataSource<Site> {
   private user: User;
   private addAction = new TableAddAction().getActionDef();
-  private removeAction = new TableRemoveAction().getActionDef()
+  private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -167,7 +167,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
         // Refresh
         this.refreshData().subscribe();
         // Clear selection
-        this.clearSelectedRows()
+        this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.translateService.instant('users.remove_sites_error'));
@@ -192,7 +192,7 @@ export class UserSitesDataSource extends TableDataSource<Site> {
           // Refresh
           this.refreshData().subscribe();
           // Clear selection
-          this.clearSelectedRows()
+          this.clearSelectedRows();
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.translateService.instant('users.update_error'));

@@ -1,6 +1,6 @@
-import {Component, NgZone, ElementRef, OnInit} from '@angular/core';
-import {BaseGauge} from './base-gauge';
+import { Component, ElementRef, NgZone, OnInit } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
+import { BaseGauge } from './base-gauge';
 
 /**
  * Implements Linear Gauge from the original library

@@ -1,4 +1,4 @@
-import {KeyValue} from '../../common.types';
+import { KeyValue } from '../../common.types';
 
 export const logLevels: KeyValue[] = [
   {key: 'E', value: 'logs.error'},

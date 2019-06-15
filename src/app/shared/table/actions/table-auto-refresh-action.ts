@@ -1,5 +1,5 @@
-import {TableAction} from './table-action';
-import {TableActionDef} from '../../../common.types';
+import { TableActionDef } from '../../../common.types';
+import { TableAction } from './table-action';
 
 export class TableAutoRefreshAction implements TableAction {
   private action: TableActionDef = {

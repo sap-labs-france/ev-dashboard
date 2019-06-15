@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {AuthorizationService} from 'app/services/authorization-service';
+import { Component } from '@angular/core';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 interface ReleaseNotes {
   version: string;
@@ -9,7 +9,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: String []
+  changes: String [];
 }
 
 @Component({

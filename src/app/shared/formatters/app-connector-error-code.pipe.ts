@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 const connectorErrorCodeMap = {
   'ConnectorLockFailure': 'chargers.status_error_connector_lock_failure',
@@ -18,7 +18,7 @@ const connectorErrorCodeMap = {
   'UnderVoltage': 'chargers.status_error_under_voltage',
   'OverVoltage': 'chargers.status_error_over_voltage',
   'WeakSignal': 'chargers.status_error_weak_signal'
-}
+};
 
 @Pipe({name: 'appConnectorErrorCode'})
 export class AppConnectorErrorCodePipe implements PipeTransform {

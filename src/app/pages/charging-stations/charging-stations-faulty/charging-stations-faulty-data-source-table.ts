@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TableDataSource } from 'app/shared/table/table-data-source';
+import { TranslateService } from '@ngx-translate/core';
 import {
   Charger,
   ChargerInError,
@@ -13,32 +13,32 @@ import {
   TableDef,
   TableFilterDef
 } from 'app/common.types';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DialogService } from 'app/services/dialog.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
-import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
-import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { ACTION_SMART_CHARGING, TableChargerMoreAction } from '../other-actions-button/table-charger-more-action';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
-import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
-import { Injectable } from '@angular/core';
 import { AuthorizationService } from 'app/services/authorization-service';
-import { Constants } from 'app/utils/Constants';
-import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
-import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { ErrorMessage } from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
-import { ChargingStations } from '../../../utils/ChargingStations';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-details/error-code-details.component';
-import en from '../../../../assets/i18n/en.json';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+import en from '../../../../assets/i18n/en.json';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-details/error-code-details.component';
+import { ErrorMessage } from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
+import { ChargingStations } from '../../../utils/ChargingStations';
+import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
+import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
+import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
+import { ACTION_SMART_CHARGING, TableChargerMoreAction } from '../other-actions-button/table-charger-more-action';
+import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
+import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
 
 @Injectable()
 export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
@@ -62,7 +62,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       new TableEditAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ]
-  }
+  };
 
   constructor(
       public spinnerService: SpinnerService,
@@ -185,23 +185,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     ];
   }
 
-  private formatErrorMessages(chargersInError: ChargerInError[]) {
-    chargersInError.forEach(chargerInError => {
-      const path = `chargers.errors.${chargerInError.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
-      switch (chargerInError.errorCode) {
-        case 'missingSettings':
-          errorMessage.actionParameters = {
-            missingSettings: ChargingStations.getListOfMissingSettings(chargerInError).map((setting) => {
-              return this.translateService.instant(setting.value);
-            }).map(setting => `"${setting}"`).join(',').toString()
-          };
-          break;
-      }
-      chargerInError.errorMessage = errorMessage;
-    });
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
@@ -272,6 +255,32 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
       new SitesTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];
+  }
+
+  buildTableDynamicRowActions(charger: ChargerInError) {
+    if (this.isAdmin) {
+      return this.actions[charger.errorCode];
+    } else {
+      return [
+      ];
+    }
+  }
+
+  private formatErrorMessages(chargersInError: ChargerInError[]) {
+    chargersInError.forEach(chargerInError => {
+      const path = `chargers.errors.${chargerInError.errorCode}`;
+      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      switch (chargerInError.errorCode) {
+        case 'missingSettings':
+          errorMessage.actionParameters = {
+            missingSettings: ChargingStations.getListOfMissingSettings(chargerInError).map((setting) => {
+              return this.translateService.instant(setting.value);
+            }).map(setting => `"${setting}"`).join(',').toString()
+          };
+          break;
+      }
+      chargerInError.errorMessage = errorMessage;
+    });
   }
 
   private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
@@ -352,15 +361,6 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
           });
         }
       });
-    }
-  }
-
-  buildTableDynamicRowActions(charger: ChargerInError) {
-    if (this.isAdmin) {
-      return this.actions[charger.errorCode];
-    } else {
-      return [
-      ];
     }
   }
 }

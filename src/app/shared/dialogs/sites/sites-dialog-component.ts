@@ -1,8 +1,8 @@
-import {Component, Inject, Self} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {SitesDataSource} from './sites-data-source-table';
-import {DialogTableDataComponent} from '../dialog-table-data.component';
-import {KeyValue, Site} from '../../../common.types';
+import { Component, Inject, Self } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { KeyValue, Site } from '../../../common.types';
+import { DialogTableDataComponent } from '../dialog-table-data.component';
+import { SitesDataSource } from './sites-data-source-table';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',

@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CentralServerService} from '../../services/central-server.service';
-import {ConfigService} from '../../services/config.service';
-import {MessageService} from '../../services/message.service';
-import {Users} from '../../utils/Users';
-import {Utils} from '../../utils/Utils';
-import {ParentErrorStateMatcher} from '../../utils/ParentStateMatcher';
-import {SpinnerService} from '../../services/spinner.service';
-import {Constants} from '../../utils/Constants';
-import {ReCaptchaV3Service} from 'ngx-captcha';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ReCaptchaV3Service } from 'ngx-captcha';
+import { CentralServerService } from '../../services/central-server.service';
+import { ConfigService } from '../../services/config.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { Constants } from '../../utils/Constants';
+import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
+import { Users } from '../../utils/Users';
+import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-register-cmp',
@@ -27,9 +27,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public acceptEula: AbstractControl;
-  private messages: Object;
   public hidePassword = true;
   public hideRepeatPassword = true;
+  private messages: Object;
 
   private siteKey: string;
 

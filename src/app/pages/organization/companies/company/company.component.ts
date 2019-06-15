@@ -1,17 +1,17 @@
-import { mergeMap } from 'rxjs/operators';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
 
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { AuthorizationService } from 'app/services/authorization-service';
-import { MessageService } from 'app/services/message.service';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
+import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 
 
@@ -236,6 +236,56 @@ export class CompanyComponent implements OnInit {
     }
   }
 
+  public logoChanged(event) {
+    // load picture
+    let reader = new FileReader(); // tslint:disable-line
+    const file = event.target.files[0];
+    reader.onload = () => {
+      this.logo = reader.result;
+    };
+    reader.readAsDataURL(file);
+    this.formGroup.markAsDirty();
+  }
+
+  public clearLogo() {
+    // Clear
+    this.logo = Constants.COMPANY_NO_LOGO;
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+          this.saveCompany(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
+  }
+
   private _createCompany(company) {
     // Show
     this.spinnerService.show();
@@ -307,55 +357,5 @@ export class CompanyComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'company.update_error');
       }
     });
-  }
-
-  public logoChanged(event) {
-    // load picture
-    let reader = new FileReader(); // tslint:disable-line
-    const file = event.target.files[0];
-    reader.onload = () => {
-      this.logo = reader.result;
-    };
-    reader.readAsDataURL(file);
-    this.formGroup.markAsDirty();
-  }
-
-  public clearLogo() {
-    // Clear
-    this.logo = Constants.COMPANY_NO_LOGO;
-    // Set form dirty
-    this.formGroup.markAsDirty();
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.inDialog) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
-          this.saveCompany(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
   }
 }

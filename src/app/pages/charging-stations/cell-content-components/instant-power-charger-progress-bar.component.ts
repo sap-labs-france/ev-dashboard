@@ -1,6 +1,6 @@
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {Charger, Connector} from '../../../common.types';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Charger, Connector } from '../../../common.types';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   template: `
@@ -36,9 +36,9 @@ export class AppFormatPowerChargerPipe implements PipeTransform {
         instantPowerKW /= 1000;
         // Handle decimals
         if (instantPowerKW < 10) {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(1))
+          instantPowerKW = parseFloat((instantPowerKW).toFixed(1));
         } else {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(0))
+          instantPowerKW = parseFloat((instantPowerKW).toFixed(0));
         }
         if (type === 'instantPowerKWPercent') {
           if (instantPowerKW === 0) {

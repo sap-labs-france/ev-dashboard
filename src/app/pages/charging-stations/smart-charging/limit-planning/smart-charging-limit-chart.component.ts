@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ConnectorSchedule } from 'app/common.types';
-import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
-import * as moment from 'moment';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
+import { ConnectorSchedule } from 'app/common.types';
+import { LocaleService } from 'app/services/locale.service';
+import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-limit-planning-chart',
@@ -67,7 +67,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
     this.data = {
       labels: [],
       datasets: []
-    }
+    };
     // build for each connectors
     for (let index = 0; index < limitPlanning.length; index++) {
       const connectorPlanning = limitPlanning[index];
@@ -128,7 +128,7 @@ export class SmartChargingLimitChartComponent implements OnInit, AfterViewInit {
             return {
               borderColor: 'rgba(0,0,0,0)',
               backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1)
-            }
+            };
           },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];

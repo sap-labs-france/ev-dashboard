@@ -1,5 +1,5 @@
-import {TableAction} from './table-action';
-import {TableActionDef, ButtonColor} from '../../../common.types';
+import { ButtonColor, TableActionDef } from '../../../common.types';
+import { TableAction } from './table-action';
 
 export class TableStopAction implements TableAction {
   private action: TableActionDef = {
@@ -9,7 +9,7 @@ export class TableStopAction implements TableAction {
     color: ButtonColor.warn,
     name: 'general.stop',
     tooltip: 'general.tooltips.stop'
-  }
+  };
 
 
   // Return an action

@@ -1,30 +1,30 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Site } from 'app/common.types';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Site, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import { AuthorizationService } from 'app/services/authorization-service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Utils } from 'app/utils/Utils';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AuthorizationService } from 'app/services/authorization-service';
 
+import { DialogService } from 'app/services/dialog.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { Constants } from 'app/utils/Constants';
-import { DialogService } from 'app/services/dialog.service';
-import { SiteDialogComponent } from './site/site.dialog.component';
-import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
-import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
+import { SiteDialogComponent } from './site/site.dialog.component';
 
 @Injectable()
 export class OrganizationSitesDataSource extends TableDataSource<Site> {

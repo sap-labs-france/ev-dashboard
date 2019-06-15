@@ -1,6 +1,6 @@
+import { PercentPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LocaleService } from '../../services/locale.service';
-import { PercentPipe } from '@angular/common';
 
 @Pipe({ name: 'appBatteryPercentage' })
 export class AppBatteryPercentagePipe implements PipeTransform {

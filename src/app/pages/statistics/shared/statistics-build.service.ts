@@ -173,7 +173,7 @@ export class StatisticsBuildService {
       });
 
       if (sortedBy.startsWith('size-')) {
-        // remove calcaluted totals again:
+        // remove calculated totals again:
         stackedChartData.datasets.forEach((dataset) => {
           dataset.data.splice(0, 1);
         });

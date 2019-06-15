@@ -13,7 +13,7 @@ import { UsersInErrorDataSource } from './users-in-error-data-source-table';
   templateUrl: 'users.component.html',
 })
 export class UsersComponent extends AbstractTabComponent implements OnInit {
-  public isAdmin;
+  public isAdmin: boolean;
 
   constructor(
     public usersDataSource: UsersDataSource,

@@ -590,7 +590,7 @@ export class SimpleChart {
           g = parseInt(rgb[1], 10);
           b = parseInt(rgb[2], 10);
         } else {
-          return '#fff'
+          return '#fff';
         }
       }
     }
@@ -598,7 +598,7 @@ export class SimpleChart {
     if (blackWhite) {
       return (r * 0.299 + g * 0.587 + b * 0.114) > 186
         ? '#000'
-        : '#fff'
+        : '#fff';
     }
 
     // invert color components
@@ -618,6 +618,6 @@ export class SimpleChart {
       string += '0';
     }
     string += number.toString(16);
-    return string
+    return string;
   }
 }

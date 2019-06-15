@@ -61,9 +61,9 @@
   }
 
   button.selected-button {
-    background-color: $brand-disabled !important; 
+    background-color: $brand-accent !important; 
     :hover,:focus {
-      background-color: $brand-disabled !important; 
+      background-color: $brand-accent !important; 
     }
   }  
 }

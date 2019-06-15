@@ -209,7 +209,7 @@ export class AppModule {
     translateService.addLangs(['en', 'fr']);
     // Default EN
     translateService.setDefaultLang('en');
-    // Use the browser's langage or default to EN
+    // Use the browser's language or default to EN
     translateService.use(language.match(/en|fr/) ? language : 'en');
   }
 }

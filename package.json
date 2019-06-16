@@ -21,7 +21,7 @@
     "clean-install-win": "rmdir node_modules /S /Q && del package-lock.json && npm cache clear --force && npm install",
     "clean-install-lin": "rm -rf ./node_modules && rm -f ./package-lock.json && npm cache clear --force && npm install",
     "npm-check": "npm-check",
-    "angular-update": "ng update @angular/cli @angular/core",
+    "angular-update": "ng update @angular/cli @angular/core @angular/material",
     "dependencies-update": "ng update --all=true"
   },
   "dependencies": {

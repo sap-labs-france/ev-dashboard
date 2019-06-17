@@ -392,17 +392,14 @@ export abstract class TableDataSource<T> {
       limit: currentPaging.limit + currentPaging.skip
     });
     // Load data
-    return this.loadData(showSpinner, true);
+    return this.loadData(showSpinner);
   }
 
-  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<T> {
+  public loadData(showSpinner = true): Observable<T> {
     return new Observable((observer) => {
       // Show Spinner
       if (showSpinner) {
         this.spinnerService.show();
-      }
-      if (forceRefreshRecords) {
-        this.resetTotalNumberOfRecords();
       }
       // Load data source
       this.loadDataImpl().subscribe((data) => {

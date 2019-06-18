@@ -9,7 +9,7 @@ import { Constants } from '../../../utils/Constants';
 export interface StatisticsButtonGroup {
   name: string;
   title: string;
-  refresh?: boolean;
+  inactive: boolean;
 }
 
 @Component({
@@ -23,9 +23,13 @@ export class StatisticsFiltersComponent implements OnInit {
   public transactionYears: number[];
 
   @Input() tableFiltersDef?: TableFilterDef[] = [];
-  @Input() buttonsOfGroup1?: StatisticsButtonGroup[];
+  public buttonsOfGroup1: StatisticsButtonGroup[] = [
+    { name: 'total', title: 'statistics.total', inactive: false },
+    { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
+  ];
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
+  @Input() allYears?= false;
   @Output() buttonOfGroup1 = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
@@ -51,13 +55,13 @@ export class StatisticsFiltersComponent implements OnInit {
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
+      if (this.allYears) {
+        this.transactionYears.push(0);
+      }
     });
 
     // Button groups:
-    if (this.buttonsOfGroup1) {
-      this.activeButtonOfGroup1 = this.buttonsOfGroup1[0];
-      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
-    }
+    this.setActiveButtonOfGroup1();
 
     // Provided filters
     if (this.tableFiltersDef) {
@@ -105,7 +109,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.selectedYear = new Date().getFullYear();
     if (oldYear !== this.selectedYear) {
       filterWasChanged = true;
-      this.year.emit(this.selectedYear);
+      this.yearChanged(false);
     }
     // Handle filters
     if (this.tableFiltersDef) {
@@ -231,27 +235,46 @@ export class StatisticsFiltersComponent implements OnInit {
     this.refreshAll.emit();
   }
 
-  yearChanged(): void {
+  yearChanged(refresh = true): void {
+    if (this.allYears) {
+      if (this.selectedYear > 0) {
+        this.buttonsOfGroup1[1].inactive = false;
+      } else {
+        this.buttonsOfGroup1[1].inactive = true;
+      }
+      const index = this.buttonsOfGroup1.findIndex((button) => button.name === this.activeButtonOfGroup1.name);
+      if (index >= 0 && this.buttonsOfGroup1[index].inactive) {
+        this.setActiveButtonOfGroup1();
+      }
+    }
+
     this.year.emit(this.selectedYear);
-    this.refreshAll.emit();
+    if (refresh) {
+      this.refreshAll.emit();
+    }
   }
 
   refresh(): void {
     this.refreshAll.emit();
   }
 
+  setActiveButtonOfGroup1(): void {
+    // Button group 1: always active
+    // set to first active button:
+    const firstActiveButton = this.buttonsOfGroup1.find((button) => button.inactive === false);
+    if (firstActiveButton && (firstActiveButton !== this.activeButtonOfGroup1)) {
+      this.activeButtonOfGroup1 = firstActiveButton;
+      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+    }
+  }
+
   buttonOfGroup1Changed(buttonName: string): void {
-    let index = 0;
-    if (buttonName && this.buttonsOfGroup1) {
-      index = this.buttonsOfGroup1.findIndex((element) => element.name === buttonName);
-      if (index >= 0 &&
-        this.activeButtonOfGroup1.name !== buttonName) {
-        this.activeButtonOfGroup1 = this.buttonsOfGroup1[index];
-        this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
-        if (this.activeButtonOfGroup1.refresh === true) {
-          this.refreshAll.emit();
-        }
-      }
+    const index = this.buttonsOfGroup1.findIndex((element) => element.name === buttonName);
+    if (index >= 0 &&
+      this.activeButtonOfGroup1.name !== buttonName &&
+      this.buttonsOfGroup1[index].inactive === false) {
+      this.activeButtonOfGroup1 = this.buttonsOfGroup1[index];
+      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
     }
   }
 

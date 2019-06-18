@@ -11,7 +11,6 @@ import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
-import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -23,15 +22,11 @@ export class StatisticsConsumptionComponent implements OnInit {
   public selectedChart: string;
   public selectedCategory: string;
   public selectedYear: number;
+  public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public isAdmin: boolean;
 
   public chartsInitialized = false;
-
-  public chartSelectorButtons: StatisticsButtonGroup[] = [
-    { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
-    { name: 'year', title: 'statistics.transactions_years' },
-  ];
 
   @ViewChild('consumptionBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('consumptionPieChart', { static: true }) ctxPieChart: ElementRef;
@@ -91,11 +86,21 @@ export class StatisticsConsumptionComponent implements OnInit {
       }
     } else {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
-          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        if (this.selectedYear > 0) {
+          mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
+            { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        } else {
+          mainLabel = this.translateService.instant('statistics.consumption_per_cs_total_title',
+            { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        }
       } else {
-        mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
-          { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        if (this.selectedYear > 0) {
+          mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
+            { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        } else {
+          mainLabel = this.translateService.instant('statistics.consumption_per_user_total_title',
+            { 'total': Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+        }
       }
     }
 

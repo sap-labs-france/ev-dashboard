@@ -44,6 +44,16 @@
   margin: 0 0 20px 0;
 }
 
+.chart-statistics {
+  position: relative;
+  width: 75vw;
+  height: 50vh;
+  @media (max-width: 1280px) {
+    width: 90vw;
+    height: 40vh;
+  }
+}
+
 .chart {
   position: relative;
   width: 100%;

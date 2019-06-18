@@ -1,11 +1,12 @@
 <div class="h-100 d-flex flex-column">
-    <app-statistics-filters [buttonsOfGroup1]="chartSelectorButtons"
-                            [tableFiltersDef]="allFiltersDef"
+    <app-statistics-filters [tableFiltersDef]="allFiltersDef"
                             (buttonOfGroup1)="chartChanged($event)"
-                            (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                            (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
+                            (category)="categoryChanged($event)"
+                            (year)="yearChanged($event)" [allYears]="allYears"
+                            (filters)="filtersChanged($event)"
+                            (refreshAll)="buildCharts()"></app-statistics-filters>
 
-    <div class="chart">
+    <div class="chart-statistics">
         <div [hidden]="(selectedChart === 'month') && chartsInitialized">
             <h2><canvas #usagePieChart></canvas></h2>
         </div>
@@ -13,5 +14,5 @@
         <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
             <h2><canvas #usageBarChart></canvas></h2>
         </div>
-    </div>    
+    </div>
 </div>

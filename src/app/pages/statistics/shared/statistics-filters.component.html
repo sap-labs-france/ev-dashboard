@@ -10,27 +10,28 @@
             data-toggle="tooltip" [title]="'general.reset_filters' | translate">
             <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
         </button>
-  
+
         <!-- Spacer -->
         <span class="toolbar-spacer"></span>
- 
+
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
 
-        <!-- First button group -->                      
+        <!-- First button group -->
             <div class="btn-group mat-button-group mr-2">
-                <button mat-raised-button *ngFor="let button of buttonsOfGroup1" 
+                <button mat-raised-button *ngFor="let button of buttonsOfGroup1"
                         (click)="buttonOfGroup1Changed(button.name)"
                         [color]="'primary'"
                         appTooltip="" data-placement="bottom"
-                        [class.selected-button]="activeButtonOfGroup1.name === button.name"
+                        [class.selected-button]="activeButtonOfGroup1 && (activeButtonOfGroup1.name === button.name)"
+                        [class.inactive-button]="button.inactive"
                         [title]="button.title | translate">
                     <span>{{button.title | translate}}</span>
                 </button>
-            </div>       
-            
+            </div>
+
         <!-- Refresh -->
-            <button mat-raised-button 
+            <button mat-raised-button
                     class="button-refresh" (click)="refresh()"
                     [color]="'primary'"
                     appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
@@ -55,19 +56,21 @@
                     <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
                      <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
                 </mat-select>
-            </mat-form-field>    
+            </mat-form-field>
         </div>
 
         <!-- transaction year -->
         <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
-            <mat-form-field>    
+            <mat-form-field>
                 <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">
-                    <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}
-                    </mat-option>
+                  <ng-template ngFor let-year [ngForOf]="transactionYears">
+                    <mat-option *ngIf="(year > 0); else allYears" [value]="year">{{year}}</mat-option>
+                    <ng-template #allYears><mat-option [value]=0>{{'general.all' | translate}}</mat-option></ng-template>
+                  </ng-template>
                 </mat-select>
             </mat-form-field>
-        </div> 
+        </div>
 
         <!-- dynamically defined filters, like for Site ID -->
         <div *ngFor="let filterDef of tableFiltersDef; let i=index"

@@ -54,12 +54,13 @@ import { UserRoutes } from './users.routing';
     UserSitesDialogComponent
   ],
   exports: [
+    UserRolePipe,
+    UserStatusPipe,
     UserDialogComponent
   ],
   providers: [
     UserRolePipe,
     UserStatusPipe,
-    UserComponent,
     UserSitesDataSource,
     UsersDataSource,
     UsersInErrorDataSource

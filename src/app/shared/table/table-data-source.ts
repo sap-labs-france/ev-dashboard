@@ -392,16 +392,16 @@ export abstract class TableDataSource<T> {
       limit: currentPaging.limit + currentPaging.skip
     });
     // Load data
-    return this.loadData(showSpinner, true);
+    return this.loadData(showSpinner);
   }
 
-  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<T> {
+  public loadData(showSpinner = true): Observable<T> {
     return new Observable((observer) => {
       // Show Spinner
       if (showSpinner) {
         this.spinnerService.show();
       }
-        // Load data source
+      // Load data source
       this.loadDataImpl().subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
@@ -421,8 +421,7 @@ export abstract class TableDataSource<T> {
           if (!this.loadingNumberOfRecords) {
             // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-               (forceRefreshRecords || // Force refresh records
-                this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
+               (this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
                 this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
               ) {
                 // Load records

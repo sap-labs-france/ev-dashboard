@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RefundSettings } from 'app/common.types';
 
@@ -6,7 +6,7 @@ import { RefundSettings } from 'app/common.types';
   selector: 'app-settings-concur',
   templateUrl: 'settings-concur.component.html'
 })
-export class SettingsConcurComponent implements OnInit {
+export class SettingsConcurComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
   @Input() refundSettings: RefundSettings;
 
@@ -84,13 +84,24 @@ export class SettingsConcurComponent implements OnInit {
     this.concurPolicyId = this.concur.controls['policyId'];
     this.concurReportName = this.concur.controls['reportName'];
     // Set data
-    this.concurAuthenticationUrl.setValue(this.refundSettings.concur.authenticationUrl);
-    this.concurApiUrl.setValue(this.refundSettings.concur.apiUrl ? this.refundSettings.concur.apiUrl : '');
-    this.concurClientId.setValue(this.refundSettings.concur.clientId ? this.refundSettings.concur.clientId : '');
-    this.concurClientSecret.setValue(this.refundSettings.concur.clientSecret ? this.refundSettings.concur.clientSecret : '');
-    this.concurPaymentTypeId.setValue(this.refundSettings.concur.paymentTypeId ? this.refundSettings.concur.paymentTypeId : '');
-    this.concurExpenseTypeCode.setValue(this.refundSettings.concur.expenseTypeCode ? this.refundSettings.concur.expenseTypeCode : '');
-    this.concurPolicyId.setValue(this.refundSettings.concur.policyId ? this.refundSettings.concur.policyId : '');
-    this.concurReportName.setValue(this.refundSettings.concur.reportName ? this.refundSettings.concur.reportName : '');
+    this.updateFormData();
+  }
+
+  ngOnChanges() {
+    this.updateFormData();
+  }
+
+  updateFormData() {
+    // Set data
+    if (this.concur) {
+      this.concurAuthenticationUrl.setValue(this.refundSettings.concur.authenticationUrl);
+      this.concurApiUrl.setValue(this.refundSettings.concur.apiUrl ? this.refundSettings.concur.apiUrl : '');
+      this.concurClientId.setValue(this.refundSettings.concur.clientId ? this.refundSettings.concur.clientId : '');
+      this.concurClientSecret.setValue(this.refundSettings.concur.clientSecret ? this.refundSettings.concur.clientSecret : '');
+      this.concurPaymentTypeId.setValue(this.refundSettings.concur.paymentTypeId ? this.refundSettings.concur.paymentTypeId : '');
+      this.concurExpenseTypeCode.setValue(this.refundSettings.concur.expenseTypeCode ? this.refundSettings.concur.expenseTypeCode : '');
+      this.concurPolicyId.setValue(this.refundSettings.concur.policyId ? this.refundSettings.concur.policyId : '');
+      this.concurReportName.setValue(this.refundSettings.concur.reportName ? this.refundSettings.concur.reportName : '');
+    }
   }
 }

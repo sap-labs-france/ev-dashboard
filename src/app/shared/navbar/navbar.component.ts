@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import * as jQuery from 'jquery';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CentralServerService } from '../../services/central-server.service';
 import { RouteGuardService } from '../../services/route-guard.service';
@@ -11,6 +10,8 @@ const misc: any = {
   active_collapse: true,
   disabled_collapse_init: 0,
 };
+
+declare var $: any;
 
 @Component({
   selector: 'app-navbar-cmp',
@@ -120,7 +121,10 @@ export class NavbarComponent implements OnInit {
   }
 
   onResize(event) {
-    return jQuery(window).width() <= 991;
+    if ($(window).width() > 991) {
+      return false;
+    }
+    return true;
   }
 
   sidebarOpen() {

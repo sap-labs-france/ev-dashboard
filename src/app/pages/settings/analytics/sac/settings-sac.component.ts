@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnalyticsSettings } from 'app/common.types';
 import { Constants } from 'app/utils/Constants';
@@ -9,7 +9,7 @@ import { AnalyticsLinksDataSource } from '../analytics-link/analytics-links-sour
   selector: 'app-settings-sac',
   templateUrl: 'settings-sac.component.html'
 })
-export class SettingsSacComponent implements OnInit {
+export class SettingsSacComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
   @Input() analyticsSettings: AnalyticsSettings;
 
@@ -37,20 +37,28 @@ export class SettingsSacComponent implements OnInit {
     );
     this.mainUrl = this.formGroup.controls['mainUrl'];
     this.timezone = this.formGroup.controls['timezone'];
-    // Get SAC Main Url
-    this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);
-    // set SAC Links Data Source
-    this.analyticsLinksDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);
-    this.analyticsLinksDataSource.loadData().subscribe();
-    // get timezone
-    if (this.analyticsSettings.sac.timezone && this.analyticsSettings.sac.timezone.length > 0) {
-      this.timezone.setValue(this.analyticsSettings.sac.timezone);
-    }
-    // Init form
-    this.formGroup.markAsPristine();
+    // Set data
+    this.updateFormData();
   }
 
   openUrl() {
     window.open(this.mainUrl.value);
+  }
+
+  ngOnChanges() {
+    this.updateFormData();
+  }
+
+  updateFormData() {
+    // Set data
+    if (this.mainUrl) {
+      this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);
+      this.analyticsLinksDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);
+      this.analyticsLinksDataSource.loadData().subscribe();
+      if (this.analyticsSettings.sac.timezone && this.analyticsSettings.sac.timezone.length > 0) {
+        this.timezone.setValue(this.analyticsSettings.sac.timezone);
+      }
+      this.formGroup.markAsPristine();
+    }
   }
 }

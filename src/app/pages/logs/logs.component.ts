@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {LogsDataSource} from './logs-data-source-table';
+import { Component, OnInit } from '@angular/core';
+import { LogsDataSource } from './logs-data-source-table';
 
 @Component({
   selector: 'app-logs-cmp',

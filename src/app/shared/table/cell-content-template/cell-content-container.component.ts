@@ -1,6 +1,6 @@
-import {Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef, SimpleChanges, OnChanges} from '@angular/core';
-import {CellContentTemplateComponent} from './cell-content-template.component';
-import {TableColumnDef, TableDef} from '../../../common.types';
+import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { TableColumnDef, TableDef } from '../../../common.types';
+import { CellContentTemplateComponent } from './cell-content-template.component';
 
 @Component({
   selector: 'app-cell-component-container',

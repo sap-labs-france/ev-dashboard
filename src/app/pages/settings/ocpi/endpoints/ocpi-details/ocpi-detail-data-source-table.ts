@@ -1,25 +1,25 @@
-import { TranslateService } from '@ngx-translate/core';
-import { OcpiEndpoint, OcpiEndpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'app/services/message.service';
+import { TranslateService } from '@ngx-translate/core';
+import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
+import { OcpiEndpoint, OcpiEndpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
-import { TableSendAction } from 'app/shared/table/actions/table-send-action';
-import { Utils } from 'app/utils/Utils';
-import { Constants } from 'app/utils/Constants';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Injectable } from '@angular/core';
-import { OcpiDetailJobStatusComponent } from '../formatters/ocpi-detail-job-status.component';
-import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-total-evses-status.component';
-import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail-success-evses-status.component';
-import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-detail-failure-evses-status.component';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SpinnerService } from 'app/services/spinner.service';
+import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-detail-failure-evses-status.component';
+import { OcpiDetailJobStatusComponent } from '../formatters/ocpi-detail-job-status.component';
+import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail-success-evses-status.component';
+import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-total-evses-status.component';
 
 @Injectable()
 export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
@@ -54,7 +54,7 @@ export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDe
           failureNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.failureNbr : 0,
           totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
           lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null
-        }
+        };
         observer.next({
           count: 1,
           result: [ocpiEndpointDetail]

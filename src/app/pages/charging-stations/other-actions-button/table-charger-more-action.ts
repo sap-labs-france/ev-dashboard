@@ -1,5 +1,5 @@
+import { ButtonColor, TableActionDef } from 'app/common.types';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { TableActionDef, ButtonColor } from 'app/common.types';
 
 export const ACTION_REBOOT = 'REBOOT';
 export const ACTION_SOFT_RESET = 'SOFT_RESET';

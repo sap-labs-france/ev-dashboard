@@ -1,7 +1,7 @@
-import {Component, Inject, AfterViewInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {Constants} from '../../../utils/Constants';
-import {TranslateService} from '@ngx-translate/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { Constants } from '../../../utils/Constants';
 
 @Component({
   templateUrl: './confirmation-dialog-component.html'

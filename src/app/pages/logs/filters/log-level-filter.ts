@@ -1,7 +1,7 @@
-import {Constants} from '../../../utils/Constants';
-import {TableFilter} from '../../../shared/table/filters/table-filter';
-import {TableFilterDef} from '../../../common.types';
-import {logLevels} from '../logs.model';
+import { TableFilterDef } from '../../../common.types';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { Constants } from '../../../utils/Constants';
+import { logLevels } from '../logs.model';
 
 export class LogLevelTableFilter extends TableFilter {
   constructor() {
@@ -16,6 +16,7 @@ export class LogLevelTableFilter extends TableFilter {
       currentValue: Constants.FILTER_ALL_KEY,
       items: Object.assign([], logLevels)
     };
+    // Add <All>
     filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     // Set
     this.setFilterDef(filterDef);

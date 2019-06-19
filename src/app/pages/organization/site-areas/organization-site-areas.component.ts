@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {OrganizationSiteAreasDataSource} from './organization-site-areas-source-table';
+import { Component } from '@angular/core';
+import { OrganizationSiteAreasDataSource } from './organization-site-areas-source-table';
 
 @Component({
   selector: 'app-organization-site-areas',

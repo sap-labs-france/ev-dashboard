@@ -1,8 +1,8 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {AbstractTabComponent} from '../../shared/component/tab/AbstractTab.component';
-import {ActivatedRoute} from '@angular/router';
-import {WindowService} from '../../services/window.service';
-import {ComponentEnum, ComponentService} from '../../services/component.service';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ComponentEnum, ComponentService } from '../../services/component.service';
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
 
 declare const $: any;
 

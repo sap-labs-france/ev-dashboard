@@ -1,14 +1,14 @@
 
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
 import { DecimalPipe } from '@angular/common';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
-import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
+import { CentralServerService } from 'app/services/central-server.service';
+import { LocaleService } from 'app/services/locale.service';
+import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { DisplayedScheduleSlot } from './smart-charging-limit-planner.component';
 
 @Component({
   selector: 'app-limit-planner-chart',
@@ -74,7 +74,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
     this.data = {
       labels: [],
       datasets: []
-    }
+    };
     // Build single connector data set
     // Line label
     const connectorLabel = this.translateService.instant('chargers.connector0');
@@ -137,7 +137,7 @@ export class SmartChargingLimitPlannerChartComponent implements OnInit, AfterVie
             return {
               borderColor: 'rgba(0,0,0,0)',
               backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1)
-            }
+            };
           },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y;

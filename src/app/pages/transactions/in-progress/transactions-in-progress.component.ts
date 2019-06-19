@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {TransactionsInProgressDataSource} from './transactions-in-progress-data-source-table';
-import {MessageService} from '../../../services/message.service';
+import { Component, OnInit } from '@angular/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
+import { TransactionsInProgressDataSource } from './transactions-in-progress-data-source-table';
 
 @Component({
   selector: 'app-transactions-in-progress',

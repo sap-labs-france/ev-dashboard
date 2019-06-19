@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ButtonType, DialogType} from '../common.types';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {Observable} from 'rxjs';
-import {Constants} from '../utils/Constants';
-import {ConfirmationDialogComponent} from '../shared/dialogs/confirmation/confirmation-dialog-component';
+import { Observable } from 'rxjs';
+import { ButtonType, DialogType } from '../common.types';
+import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog-component';
+import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class DialogService {
@@ -53,7 +53,7 @@ export class DialogService {
     // Set data
     dialogConfig.data = {
       title, message, dialogType
-    }
+    };
     // Show
     const dialogRef = this.matDialog.open(component, dialogConfig);
     // Register

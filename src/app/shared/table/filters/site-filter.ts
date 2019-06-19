@@ -1,7 +1,7 @@
-import {TableFilter} from './table-filter';
-import {Constants} from '../../../utils/Constants';
-import {TableFilterDef} from '../../../common.types';
-import {SitesFilterDialogComponent} from '../../dialogs/sites/sites-filter-dialog-component';
+import { TableFilterDef } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
+import { SitesFilterDialogComponent } from '../../dialogs/sites/sites-filter-dialog-component';
+import { TableFilter } from './table-filter';
 
 export class SitesTableFilter extends TableFilter {
   constructor() {

@@ -1,7 +1,7 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {AbstractTabComponent} from 'app/shared/component/tab/AbstractTab.component';
-import {ActivatedRoute} from '@angular/router';
-import {WindowService} from 'app/services/window.service';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WindowService } from 'app/services/window.service';
+import { AbstractTabComponent } from 'app/shared/component/tab/AbstractTab.component';
 
 @Component({
   selector: 'app-organization',

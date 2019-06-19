@@ -1,25 +1,25 @@
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Charger, TableActionDef, TableColumnDef, TableDef, SiteArea } from 'app/common.types';
+import { TranslateService } from '@ngx-translate/core';
+import { Charger, SiteArea, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import { AuthorizationService } from 'app/services/authorization-service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
+import { SpinnerService } from 'app/services/spinner.service';
+import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { DialogService } from 'app/services/dialog.service';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
-import { Injectable } from '@angular/core';
-import { AuthorizationService } from 'app/services/authorization-service';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
-  private siteArea: SiteArea;
   public isAdmin = false;
+  private siteArea: SiteArea;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -195,7 +195,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Refresh
         this.refreshData().subscribe();
         // Clear selection
-        this.clearSelectedRows()
+        this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
@@ -220,7 +220,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           // Refresh
           this.refreshData().subscribe();
           // Clear selection
-          this.clearSelectedRows()
+          this.clearSelectedRows();
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.translateService.instant('site_areas.update_error'));

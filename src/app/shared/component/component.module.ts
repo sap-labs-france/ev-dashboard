@@ -1,15 +1,15 @@
-import {NgModule} from '@angular/core';
+import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import {TranslateModule} from '@ngx-translate/core';
-import {CommonModule, CurrencyPipe, DecimalPipe, PercentPipe} from '@angular/common';
-import {FormattersModule} from '../formatters/formatters.module';
-import {CommonDirectivesModule} from '../directives/common-directives.module';
-import {ConsumptionChartComponent} from './transaction-chart/consumption-chart.component';
-import {ConsumptionChartDetailComponent} from './transaction-chart/consumption-chart-detail.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonDirectivesModule } from '../directives/common-directives.module';
+import { FormattersModule } from '../formatters/formatters.module';
+import { ConsumptionChartDetailComponent } from './transaction-chart/consumption-chart-detail.component';
+import { ConsumptionChartComponent } from './transaction-chart/consumption-chart.component';
 
-import {ChartModule} from 'angular2-chartjs';
-import {GaugesModule} from './gauge/gauge.module';
-import {MaterialModule} from 'app/app.module';
+import { ChartModule } from 'angular2-chartjs';
+import { MaterialModule } from 'app/app.module';
+import { GaugesModule } from './gauge/gauge.module';
 
 @NgModule({
   imports: [

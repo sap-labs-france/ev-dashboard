@@ -1,10 +1,10 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {UserComponent} from './user/user.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {UsersComponent} from './users.component';
-import {Constants} from '../../utils/Constants';
-import {ConnectionComponent} from './connections/connection.component';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { ConnectionComponent } from './connections/connection.component';
+import { UserComponent } from './user/user.component';
+import { UsersComponent } from './users.component';
 
 export const UserRoutes: Routes = [
   {

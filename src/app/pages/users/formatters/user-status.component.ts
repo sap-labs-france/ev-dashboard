@@ -1,8 +1,8 @@
-import {User} from '../../../common.types';
-import {userStatuses} from '../users.model';
-import {Constants} from '../../../utils/Constants';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {CellContentTemplateComponent} from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { User } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
+import { userStatuses } from '../users.model';
 
 @Component({
   selector: 'app-user-status-chip',
@@ -56,7 +56,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
   buildUserStatusText(status: string): string {
     for (const userStatus of userStatuses) {
       if (userStatus.key === status) {
-        return userStatus.value
+        return userStatus.value;
       }
     }
   }

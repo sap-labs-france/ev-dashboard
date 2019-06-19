@@ -1,8 +1,8 @@
-import {TableFilter} from '../../../shared/table/filters/table-filter';
-import {Constants} from '../../../utils/Constants';
-import {CentralServerService} from '../../../services/central-server.service';
-import {TableFilterDef} from '../../../common.types';
-import {UserRoles} from '../users.model';
+import { TableFilterDef } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { Constants } from '../../../utils/Constants';
+import { UserRoles } from '../users.model';
 
 export class UserRoleFilter extends TableFilter {
   constructor(

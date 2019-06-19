@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef, NgZone, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
+import { AfterViewInit, Component, ElementRef, Input, NgZone, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
     selector: 'app-chargers-gauge',

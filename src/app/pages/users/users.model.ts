@@ -1,5 +1,5 @@
-import {KeyValue} from '../../common.types';
-import {Constants} from '../../utils/Constants';
+import { KeyValue } from '../../common.types';
+import { Constants } from '../../utils/Constants';
 
 export const userStatuses: KeyValue[] = [
   {key: 'A', value: 'users.status_active'},

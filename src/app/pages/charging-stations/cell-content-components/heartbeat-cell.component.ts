@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Charger } from '../../../common.types';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import { LocaleService } from '../../../services/locale.service';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   template: `
@@ -29,6 +29,6 @@ export class HeartbeatCellComponent extends CellContentTemplateComponent {
   constructor(
       private localeService: LocaleService) {
     super();
-    this.locale = this.localeService.getCurrentFullLocaleForJS();
+    this.locale = this.localeService.getCurrentLocaleJS();
   }
 }

@@ -1,20 +1,34 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from 'app/shared/table/table-data-source';
-import {Charger, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from 'app/common.types';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {DialogService} from 'app/services/dialog.service';
-import {CentralServerNotificationService} from 'app/services/central-server-notification.service';
-import {TableAutoRefreshAction} from 'app/shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from 'app/shared/table/actions/table-refresh-action';
-import {CentralServerService} from 'app/services/central-server.service';
-import {MessageService} from 'app/services/message.service';
-import {Utils} from 'app/utils/Utils';
-import {InstantPowerChargerProgressBarComponent} from '../cell-content-components/instant-power-charger-progress-bar.component';
-import {ConnectorsDetailComponent} from '../details-content-component/connectors-detail-component.component';
-import {HeartbeatCellComponent} from '../cell-content-components/heartbeat-cell.component';
-import {ConnectorsCellComponent} from '../cell-content-components/connectors-cell.component';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Charger, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableNoAction } from 'app/shared/table/actions/table-no-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import saveAs from 'file-saver';
+import { Observable } from 'rxjs';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { TableExportAction } from '../../../shared/table/actions/table-export-action';
+import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
+import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
+import { InstantPowerChargerProgressBarComponent } from '../cell-content-components/instant-power-charger-progress-bar.component';
+import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
+import { ConnectorsDetailComponent } from '../details-content-component/connectors-detail-component.component';
+import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
 import {
   ACTION_CLEAR_CACHE,
   ACTION_MORE_ACTIONS,
@@ -22,22 +36,8 @@ import {
   ACTION_SOFT_RESET,
   TableChargerMoreAction
 } from '../other-actions-button/table-charger-more-action';
-import {SitesTableFilter} from 'app/shared/table/filters/site-filter';
-import {ChargingStationSettingsComponent} from '../charging-station-settings/charging-station-settings.component';
-import {Injectable} from '@angular/core';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {Constants} from 'app/utils/Constants';
-import {ChargingStationSmartChargingDialogComponent} from '../smart-charging/smart-charging.dialog.component';
-import {ChargingStationMoreActionsDialogComponent} from '../more-actions/charging-station-more-actions.dialog.component';
-import {TableEditAction} from 'app/shared/table/actions/table-edit-action';
-import saveAs from 'file-saver';
-import {TableExportAction} from '../../../shared/table/actions/table-export-action';
-import {TableChargerRebootAction} from '../other-actions-button/table-charger-reboot-action';
-import {TableOpenInMapsAction} from 'app/shared/table/actions/table-open-in-maps-action';
-import {GeoMapDialogComponent} from 'app/shared/dialogs/geomap/geomap-dialog-component';
-import {TableNoAction} from 'app/shared/table/actions/table-no-action';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
+import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
@@ -204,7 +204,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
             sortable: false
           }
         ]
-      )
+      );
     }
     return tableColumns;
   }
@@ -315,6 +315,51 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
+  public showChargingStationDialog(chargingStation?: Charger) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '60vh';
+    dialogConfig.height = '90vh';
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    if (chargingStation) {
+      dialogConfig.data = chargingStation;
+    }
+    // disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(saved => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
+  }
+
+  buildTableDynamicRowActions(charger: Charger) {
+    let actionTable: any[];
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // check if GPs are available
+    openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
+    if (this.isAdmin) {
+      actionTable = [
+        this.editAction,
+        openInMaps,
+        this.rebootAction,
+        this.moreAction,
+      ];
+    } else if (this.isDemo) {
+      actionTable = [openInMaps];
+    } else if (this.isBasic) {
+      actionTable = [openInMaps];
+    } else {
+      return [
+        this.noAction
+      ];
+    }
+    return actionTable;
+  }
+
   private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
     if (charger.inactive) {
       // Charger is not connected
@@ -345,27 +390,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         }
       });
     }
-  }
-
-  public showChargingStationDialog(chargingStation?: Charger) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '60vh';
-    dialogConfig.height = '90vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (chargingStation) {
-      dialogConfig.data = chargingStation;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(saved => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
   }
 
   private deleteChargingStation(chargingStation: Charger) {
@@ -452,30 +476,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     }
   }
 
-  buildTableDynamicRowActions(charger: Charger) {
-    let actionTable: any[];
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
-    if (this.isAdmin) {
-      actionTable = [
-        this.editAction,
-        openInMaps,
-        this.rebootAction,
-        this.moreAction,
-      ];
-    } else if (this.isDemo) {
-      actionTable = [openInMaps];
-    } else if (this.isBasic) {
-      actionTable = [openInMaps];
-    } else {
-      return [
-        this.noAction
-      ];
-    }
-    return actionTable;
-  }
-
   private exportChargingStations() {
     this.centralServerService.exportChargingStations(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
@@ -507,21 +507,21 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         label: charger.id ? charger.id : '',
         displayOnly: true,
         dialogTitle: charger.id ? charger.id : ''
-      }
+      };
     } else {
       const markers = this.getData().map(currCharger => {
         return {
           latitude: this.getChargerLatitudeLongitude(currCharger).latitude,
           longitude: this.getChargerLatitudeLongitude(currCharger).longitude,
           labelFormatted: currCharger.id
-        }
+        };
       });
       // Set data
       dialogConfig.data = {
         displayOnly: true,
         dialogTitle: this.translateService.instant('chargers.dialog.localisation.title'),
         markers: markers
-      }
+      };
     }
     // disable outside click close
     dialogConfig.disableClose = true;

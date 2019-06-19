@@ -1,31 +1,31 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, SiteArea, Charger } from 'app/common.types';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Charger, SiteArea, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import { AuthorizationService } from 'app/services/authorization-service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Utils } from 'app/utils/Utils';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AuthorizationService } from 'app/services/authorization-service';
 
+import { DialogService } from 'app/services/dialog.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { Constants } from 'app/utils/Constants';
-import { DialogService } from 'app/services/dialog.service';
-import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
-import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
-import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
-import { SpinnerService } from 'app/services/spinner.service';
+import { Constants } from 'app/utils/Constants';
+import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
+import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
 
 @Injectable()
 export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
@@ -227,7 +227,7 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
     const dialogRef = this.dialog.open(SiteAreaDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
-        this.refreshData().subscribe()
+        this.refreshData().subscribe();
       }
     });
   }

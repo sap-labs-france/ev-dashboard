@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ChargingStationsListDataSource } from './charging-stations-list-data-source-table';
 import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import {MessageService} from '../../../services/message.service';
+import { ChargingStationsListDataSource } from './charging-stations-list-data-source-table';
 
 @Component({
   selector: 'app-charging-stations-list',

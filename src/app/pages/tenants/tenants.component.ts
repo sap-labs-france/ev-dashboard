@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {TenantsDataSource} from './tenants-data-source-table';
+import { Component } from '@angular/core';
+import { TenantsDataSource } from './tenants-data-source-table';
 
 @Component({
   selector: 'app-tenants-cmp',

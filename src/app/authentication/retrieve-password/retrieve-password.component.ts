@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CentralServerService} from '../../services/central-server.service';
-import {MessageService} from '../../services/message.service';
-import {Utils} from '../../utils/Utils';
-import {Constants} from '../../utils/Constants';
-import {SpinnerService} from '../../services/spinner.service';
-import {ConfigService} from 'app/services/config.service';
-import {ReCaptchaV3Service} from 'ngx-captcha';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfigService } from 'app/services/config.service';
+import { ReCaptchaV3Service } from 'ngx-captcha';
+import { CentralServerService } from '../../services/central-server.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-retrieve-password-cmp',
@@ -18,9 +18,9 @@ import {ReCaptchaV3Service} from 'ngx-captcha';
 export class RetrievePasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
-  private messages: Object;
   public resetPasswordHash: string;
   public resetPasswordEmail: string;
+  private messages: Object;
 
   private siteKey: string;
 

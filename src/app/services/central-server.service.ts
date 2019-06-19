@@ -1,13 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, ObservableInput, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {ConfigService} from './config.service';
-import {TranslateService} from '@ngx-translate/core';
-import {Constants} from '../utils/Constants';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {LocalStorageService} from './local-storage.service';
-import {CentralServerNotificationService} from './central-server-notification.service';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { TranslateService } from '@ngx-translate/core';
+import { throwError, BehaviorSubject, EMPTY, Observable, ObservableInput } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import {
   ActionResponse,
   Charger,
@@ -34,8 +31,11 @@ import {
   User,
   UserResult
 } from '../common.types';
-import {WindowService} from './window.service';
-import { MatDialog } from '@angular/material/dialog';
+import { Constants } from '../utils/Constants';
+import { CentralServerNotificationService } from './central-server-notification.service';
+import { ConfigService } from './config.service';
+import { LocalStorageService } from './local-storage.service';
+import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
@@ -108,6 +108,20 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
       {'siteID': siteID, 'userIDs': userIDs},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public updateSiteUsersRole(siteID, userIDs, role) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUsersRoleUpdate`,
+      {'siteID': siteID, 'userIDs': userIDs, 'role': role},
       {
         headers: this._buildHttpHeaders()
       })
@@ -429,6 +443,9 @@ export class CentralServerService {
   public getCharger(id: string): Observable<Charger> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
@@ -450,6 +467,25 @@ export class CentralServerService {
     this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUsersBySite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    const params = {SiteID: siteID};
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/SiteUsers`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -516,6 +552,9 @@ export class CentralServerService {
   public getTenant(id: string): Observable<Tenant> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
@@ -548,6 +587,9 @@ export class CentralServerService {
   public getTransaction(id: string): Observable<Transaction> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
@@ -738,6 +780,9 @@ export class CentralServerService {
   public getLog(id): Observable<Log> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Call
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
       {
@@ -752,6 +797,9 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute the REST service
+    if (!id) {
+      return EMPTY;
+    }
     return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
@@ -764,6 +812,9 @@ export class CentralServerService {
   public getUser(id: string): Observable<User> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
       {
@@ -777,6 +828,9 @@ export class CentralServerService {
   public getUserInvoice(id: string): Observable<any> {
     // Verify init
     this._checkInit();
+    if (!id) {
+      return EMPTY;
+    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserInvoice?ID=${id}`,
       {

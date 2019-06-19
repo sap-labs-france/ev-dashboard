@@ -1,32 +1,17 @@
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-        <div class="card-icon" *ngIf=isAdmin>
-            <div *ngIf="(selectedCategory === 'C'); else otherIcon">
-                <mat-icon>ev_station</mat-icon>
-            </div>
-            <ng-template #otherIcon>
-                <mat-icon>people</mat-icon>
-            </ng-template>
+<div class="h-100 d-flex flex-column">
+    <app-statistics-filters [buttonsOfGroup1]="chartSelectorButtons"
+                            [tableFiltersDef]="allFiltersDef"
+                            (buttonOfGroup1)="chartChanged($event)"
+                            (category)="categoryChanged($event)" (year)="yearChanged($event)" 
+                            (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
+       
+    <div class="chart">
+        <div [hidden]="(selectedChart === 'month') && chartsInitialized">
+            <h2><canvas #consumptionPieChart></canvas></h2>
         </div>
-
-        <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
-        <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number: '1.0-0': localeService.language}} {{'statistics.charger_kw_h' | translate}}</h3>
     
-    </div>
-     
-    <div class="card-body">
-        <app-statistics-filters [tableFiltersDef]="allFiltersDef"
-                                (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
-
-        <canvas #consumptionBarChart></canvas>
-    </div>
-</div>    
-    
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary"></div>
-    <div class="card-body">
-        <canvas #consumptionPieChart></canvas>
+        <div [hidden]="(selectedChart !== 'month') && chartsInitialized">
+            <h2><canvas #consumptionBarChart></canvas></h2>
+        </div>
     </div>
 </div>
-    

@@ -1,8 +1,8 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {LogsComponent} from './logs.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {Constants} from '../../utils/Constants';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { LogsComponent } from './logs.component';
 
 export const LogsRoutes: Routes = [
   {

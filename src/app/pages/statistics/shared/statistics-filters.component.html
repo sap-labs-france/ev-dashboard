@@ -16,6 +16,19 @@
  
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+
+        <!-- First button group -->                      
+            <div class="btn-group mat-button-group mr-2">
+                <button mat-raised-button *ngFor="let button of buttonsOfGroup1" 
+                        (click)="buttonOfGroup1Changed(button.name)"
+                        [color]="'primary'"
+                        appTooltip="" data-placement="bottom"
+                        [class.selected-button]="activeButtonOfGroup1.name === button.name"
+                        [title]="button.title | translate">
+                    <span>{{button.title | translate}}</span>
+                </button>
+            </div>       
+            
         <!-- Refresh -->
             <button mat-raised-button 
                     class="button-refresh" (click)="refresh()"
@@ -35,7 +48,7 @@
     <!-- filters -->
     <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Category of statistics -->
-        <div *ngIf="isAdmin">  <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+        <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
             <mat-form-field>
                 <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
                             [placeholder]="'statistics.category_label' | translate">
@@ -46,7 +59,7 @@
         </div>
 
         <!-- transaction year -->
-        <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+        <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
             <mat-form-field>    
                 <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">

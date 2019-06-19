@@ -1,9 +1,9 @@
-import {Observable} from 'rxjs';
-import {FormControl, FormGroup} from '@angular/forms';
-import {CentralServerService} from '../services/central-server.service';
-import {MessageService} from '../services/message.service';
-import {Router} from '@angular/router';
-import {BAD_REQUEST, CONFLICT, UNAUTHORIZED, FORBIDDEN} from 'http-status-codes';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import { Observable } from 'rxjs';
+import { CentralServerService } from '../services/central-server.service';
+import { MessageService } from '../services/message.service';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {

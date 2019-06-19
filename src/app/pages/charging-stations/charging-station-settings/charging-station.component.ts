@@ -1,14 +1,14 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from '../../../services/locale.service';
+import { Charger } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
+import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
-import { Charger } from '../../../common.types';
-import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';
+import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 
 const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
@@ -23,8 +23,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   public userLocales;
   public isAdmin;
 
-  private activePane: string = CHARGERS_PANE_NAME; // Default active pane is charging station pane
-
   @ViewChild('ocppParameters', { static: false }) ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
   @ViewChild('chargerParameters', { static: true }) chargerParametersComponent: ChargingStationParametersComponent;
 
@@ -34,6 +32,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
   public isOCPPParametersPaneDisabled = false;
+
+  private activePane: string = CHARGERS_PANE_NAME; // Default active pane is charging station pane
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -141,7 +141,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   }
 
   public saveChangesMessage() {
-    this.messageService.showErrorMessage(this.translateService.instant('chargers.unsaved_changes'))
+    this.messageService.showErrorMessage(this.translateService.instant('chargers.unsaved_changes'));
   }
 
   public onClose() {

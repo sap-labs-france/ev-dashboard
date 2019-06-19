@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CentralServerService } from './central-server.service';
-import { Company, Address } from 'app/common.types';
-import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { Address, Company } from 'app/common.types';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
-import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { CentralServerService } from './central-server.service';
 
 import * as moment from 'moment';
 
@@ -87,7 +87,7 @@ export class DashboardService {
         do {
           graphLabels.push(date.format('h:mm'));
           date.add(1, 'hour');
-        } while (date < moment())
+        } while (date < moment());
         graphSerie = this.generateDummyData(graphLabels.length, 450);
         while (graphLabels.length < 24) {
           graphLabels.push(date.format('h:mm'));
@@ -100,7 +100,7 @@ export class DashboardService {
         do {
           graphLabels.push(date.format('ddd'));
           date.add(1, 'day');
-        } while (date < moment())
+        } while (date < moment());
         graphSerie = this.generateDummyData(graphLabels.length, 450);
         while (graphLabels.length < 7) {
           graphLabels.push(date.format('ddd'));
@@ -113,7 +113,7 @@ export class DashboardService {
         do {
           graphLabels.push(date.format('Do'));
           date.add(1, 'day');
-        } while (date < moment())
+        } while (date < moment());
         graphSerie = this.generateDummyData(graphLabels.length, 450);
         while (graphLabels.length < moment().endOf('month').date()) {
           graphLabels.push(date.format('Do'));
@@ -139,7 +139,7 @@ export class DashboardService {
     currentData.dataDeliveredChart = {
       labels: graphLabels,
       series: [graphSerie]
-    }
+    };
     return currentData;
   }
 
@@ -158,7 +158,7 @@ export class DashboardService {
         do {
           graphLabels.push(date.format('h:mm'));
           date.add(5, 'minutes');
-        } while (date < moment())
+        } while (date < moment());
         graphSerie = this.generateDummyData(graphLabels.length, metrics.maximumPower / 1000, 10);
         break;
       case 'utilization':
@@ -167,7 +167,7 @@ export class DashboardService {
         do {
           graphLabels.push(date.format('h:mm'));
           date.add(5, 'minutes');
-        } while (date < moment())
+        } while (date < moment());
         graphSerie = this.generateDummyData(graphLabels.length, metrics.maximumNumberOfChargingPoint, 2);
         break;
       default:
@@ -176,7 +176,7 @@ export class DashboardService {
     currentData.dataConsumptionChart = {
       labels: graphLabels,
       series: [graphSerie]
-    }
+    };
     return currentData;
   }
 
@@ -186,9 +186,9 @@ export class DashboardService {
       if (maxVariation > 0 && index > 0) {
         let value = (Math.round(Math.random() * maxVariation));
         value = (Math.random() > 0.5 ? value : value * -1);
-        data.push(data[index - 1] + value > maxValue ? maxValue : ( data[index - 1] + value < 0 ? 0 : data[index - 1] + value))
+        data.push(data[index - 1] + value > maxValue ? maxValue : ( data[index - 1] + value < 0 ? 0 : data[index - 1] + value));
       } else {
-        data.push(Math.round(Math.random() * maxValue))
+        data.push(Math.round(Math.random() * maxValue));
       }
     }
     return data;

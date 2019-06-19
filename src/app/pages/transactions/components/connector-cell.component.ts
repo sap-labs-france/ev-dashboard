@@ -1,5 +1,5 @@
-import {Component, Injectable, Input, Pipe, PipeTransform} from '@angular/core';
-import {CellContentTemplateComponent} from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   selector: 'app-connector-id-cell',

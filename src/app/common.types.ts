@@ -1,6 +1,6 @@
-import {SortDirection} from '@angular/material/typings';
-import {ErrorMessage} from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { SortDirection } from '@angular/material/typings';
 import { ComponentEnum } from './services/component.service';
+import { ErrorMessage } from './shared/dialogs/error-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -51,7 +51,7 @@ export interface TableActionDef {
   color?: ButtonColor;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[],
+  dropdownItems?: DropdownItem[];
   tooltip: string;
 }
 
@@ -195,13 +195,13 @@ export interface ChargerInError extends Charger {
 }
 
 export interface ChargerResult {
-  count: number,
-  result: Charger[]
+  count: number;
+  result: Charger[];
 }
 
 export interface ChargerInErrorResult {
-  count: number,
-  result: ChargerInError[]
+  count: number;
+  result: ChargerInError[];
 }
 
 export interface Address {
@@ -241,20 +241,22 @@ export interface Log {
   id: string;
   level: string;
   source: string;
+  host?: string;
+  process?: string;
   module: string;
   method: string;
   timestamp: Date;
   action: string;
   type: string;
   message: string;
-  user: string,
-  actionOnUser: string,
+  user: string;
+  actionOnUser: string;
   detailedMessages: string[];
 }
 
 export interface LogResult {
-  count: number,
-  result: Log[]
+  count: number;
+  result: Log[];
 }
 
 export interface Tenant {
@@ -266,8 +268,8 @@ export interface Tenant {
 }
 
 export interface TenantResult {
-  count: number,
-  result: Tenant[]
+  count: number;
+  result: Tenant[];
 }
 
 export interface Setting {
@@ -278,8 +280,8 @@ export interface Setting {
 }
 
 export interface SettingResult {
-  count: number,
-  result: Setting[]
+  count: number;
+  result: Setting[];
 }
 
 export interface OcpiEndpoint {
@@ -306,13 +308,13 @@ export interface OcpiEndpointDetail {
 }
 
 export interface OcpiEndpointResult {
-  count: number,
-  result: OcpiEndpoint[]
+  count: number;
+  result: OcpiEndpoint[];
 }
 
 export interface TransactionResult {
-  count: number,
-  result: Transaction[]
+  count: number;
+  result: Transaction[];
 }
 
 export interface Logo {
@@ -371,17 +373,17 @@ export interface Site {
   lastChangedOn: Date;
 }
 export interface CompanyResult {
-  count: number,
-  result: Company[]
+  count: number;
+  result: Company[];
 }
 export interface SiteResult {
-  count: number,
-  result: Site[]
+  count: number;
+  result: Site[];
 }
 
 export interface SiteAreaResult {
-  count: number,
-  result: SiteArea[]
+  count: number;
+  result: SiteArea[];
 }
 
 export interface SubjectInfo {
@@ -397,23 +399,23 @@ export interface TableDef {
   rowSelection?: {
     enabled: boolean;
     multiple?: boolean;
-  },
+  };
   footer?: {
     enabled: boolean;
-  },
+  };
   search?: {
     enabled: boolean;
-  },
+  };
   design?: {
     flat: boolean;
-  },
+  };
   rowDetails?: {
     enabled: boolean;
     detailsField?: string;
     angularComponent?: any;
     showDetailsField?: string;
-  },
-  rowFieldNameIdentifier?: string,
+  };
+  rowFieldNameIdentifier?: string;
   isSimpleTable?: boolean;
   hasDynamicRowAction?: boolean;
 }
@@ -425,11 +427,11 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  formatter?: Function,
-  sortable?: boolean,
+  formatter?: Function;
+  sortable?: boolean;
   sorted?: boolean;
   direction?: SortDirection;
-  isAngularComponent?: boolean
+  isAngularComponent?: boolean;
   angularComponent?: any;
   defaultValue?: any;
 }
@@ -520,8 +522,8 @@ export interface User {
 }
 
 export interface UserResult {
-  count: number,
-  result: User[]
+  count: number;
+  result: User[];
 }
 
 export interface VehicleManufacturer {
@@ -581,13 +583,13 @@ export interface PricingSettings {
   simple: {
     price: number;
     currency: string;
-  }
+  };
   convergentCharging: {
     url: string;
     chargeableItemName: string;
     user: string;
     password: string;
-  }
+  };
 }
 
 export enum OcpiSettingsType {
@@ -608,7 +610,7 @@ export interface OcpiCommon {
       width: string;
       height: string;
     }
-  }
+  };
 }
 
 export interface OcpiSettings {
@@ -634,11 +636,11 @@ export interface AnalyticsSettings {
   id?: string;
   identifier: ComponentEnum.ANALYTICS;
   sensitiveData: string[];
-  type: AnalyticsSettingsType,
+  type: AnalyticsSettingsType;
   sac: {
     mainUrl: string;
     timezone: string;
-  }
+  };
   links: AnalyticsLink[];
 }
 

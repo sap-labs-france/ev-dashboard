@@ -336,7 +336,7 @@
     "delete_button": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer le site '{{siteName}}'?",
     "delete_success": "Le site '{{siteName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression de le site",
+    "delete_error": "Une erreur est survenue pendant la suppression du site",
     "remove_users_title": "Retirer Utilisateur(s)",
     "remove_users_confirm": "Voulez-vous vraiment retirer le(s) utilisateur(s) de ce site?",
     "remove_users_success": "Le(s) utilisateur(s) ont été retiré(s) avec succès",
@@ -347,7 +347,12 @@
     "update_error": "Une erreur est survenue pendant la mise à jour du site",
     "create_success": "Le site '{{siteName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du site",
-    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "role": "Rôle",
+    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "assign_admin_role": "Attribuer les droits Admin",
+    "unassign_admin_role": "Retirer les droits Admin",
+    "update_users_role_title": "Modification des droits d'accès au site.",
+    "update_users_role_confirm": "Voulez-vous vraiment modifier des droits d'accès du/des utilisateur(s) sélectionné(s) de ce site?"
   },
   "site_areas": {
     "no_site_areas": "Aucune zone n'a été trouvée",
@@ -452,6 +457,8 @@
     "verify_email_proceed_with_activation_button": "Procéder"
   },
   "statistics": {
+    "title": "Statistiques",
+    "description": "Statistiques incorporées",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
@@ -460,14 +467,14 @@
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
     "total_usage_year": "Utilisation Totale {{year}}",
-    "consumption_per_cs_month_title": "Consommation des bornes par mois",
-    "consumption_per_cs_year_title": "Consommation des bornes par an (en kW.h)",
-    "consumption_per_user_month_title": "Consommation des utilisateurs par mois",
-    "consumption_per_user_year_title": "Consommation des utilisateurs par an (en kW.h)",
-    "usage_per_cs_month_title": "Utilisation des bornes par mois",
-    "usage_per_cs_year_title": "Utilisation des bornes par an (en heures)",
-    "usage_per_user_month_title": "Utilisation des utilisateurs par mois",
-    "usage_per_user_year_title": "Utilisation des utilisateurs par an (en heures)",
+    "consumption_per_cs_month_title": "Consommation des bornes par mois (au total : {{total}} kW.h)",
+    "consumption_per_cs_year_title": "Consommation des bornes par an : {{total}} kW.h",
+    "consumption_per_user_month_title": "Consommation des utilisateurs par mois (au total : {{total}} kW.h)",
+    "consumption_per_user_year_title": "Consommation des utilisateurs par an : {{total}} kW.h",
+    "usage_per_cs_month_title": "Utilisation des bornes par mois (au total : {{total}} heures)",
+    "usage_per_cs_year_title": "Utilisation des bornes par an : {{total}} heures",
+    "usage_per_user_month_title": "Utilisation des utilisateurs par mois (au total : {{total}} heures)",
+    "usage_per_user_year_title": "Utilisation des utilisateurs par an : {{total}} heures",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -750,6 +757,8 @@
     "level": "Level",
     "date": "Date",
     "source": "Source",
+    "host": "Hôte",
+    "process": "Processus",
     "user": "Utilisateur",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
@@ -772,7 +781,7 @@
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
-        "title": "Exporter leg logs",
+        "title": "Exporter les logs",
         "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
       }
     }

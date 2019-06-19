@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {SubjectInfo} from '../common.types';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import io from 'socket.io-client';
-import {Constants} from '../utils/Constants';
+import { SubjectInfo } from '../common.types';
+import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class CentralServerNotificationService {

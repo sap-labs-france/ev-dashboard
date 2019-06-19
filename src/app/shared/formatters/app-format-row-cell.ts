@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { TableColumnDef } from 'app/common.types';
 import { Utils } from 'app/utils/Utils';
 

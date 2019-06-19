@@ -1,8 +1,8 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {SettingsComponent} from './settings.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {Constants} from '../../utils/Constants';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { SettingsComponent } from './settings.component';
 
 export const SettingsRoutes: Routes = [
   {

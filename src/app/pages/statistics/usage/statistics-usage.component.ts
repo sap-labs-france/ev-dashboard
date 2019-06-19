@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableFilterDef } from '../../../common.types';
-import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
-import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
+import { StatisticsBuildService } from '../shared/statistics-build.service';
+import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 
 @Component({
   selector: 'app-statistics-usage',
@@ -18,20 +19,28 @@ import { ChartData, SimpleChart } from '../shared/chart-utilities';
 })
 
 export class StatisticsUsageComponent implements OnInit {
-  public chartTitle: string;
   public totalUsage = 0;
+  public selectedChart: string;
   public selectedCategory: string;
   public selectedYear: number;
   public allFiltersDef: TableFilterDef[] = [];
   public isAdmin: boolean;
 
-  private filterParams = {};
+  public chartsInitialized = false;
 
-  private barChart: SimpleChart;
-  private pieChart: SimpleChart;
+  public chartSelectorButtons: StatisticsButtonGroup[] = [
+    { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
+    { name: 'year', title: 'statistics.transactions_years' },
+  ];
 
   @ViewChild('usageBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('usagePieChart', { static: true }) ctxPieChart: ElementRef;
+
+  private filterParams = {};
+  private barChart: SimpleChart;
+  private pieChart: SimpleChart;
+  private barChartData: ChartData;
+  private pieChartData: ChartData;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -64,13 +73,53 @@ export class StatisticsUsageComponent implements OnInit {
     this.initCharts();
   }
 
+  getChartLabel(): string {
+    let mainLabel: string;
+
+    if (!this.selectedChart || !this.selectedCategory) {
+      // selection not yet defined:
+      return ' ';
+    }
+
+    if (this.selectedChart === 'month') {
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title',
+          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+      } else {
+        mainLabel = this.translateService.instant('statistics.usage_per_user_month_title',
+          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+      }
+    } else {
+      if (this.selectedCategory === 'C') {
+        mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title',
+          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+      } else {
+        mainLabel = this.translateService.instant('statistics.usage_per_user_year_title',
+          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+      }
+    }
+
+    return mainLabel;
+  }
+
+  chartChanged(chartName) {
+    this.selectedChart = chartName;
+
+    if (this.selectedChart === 'month') {
+      this.barChartData = this.barChart.cloneChartData(this.barChartData);
+      this.barChart.updateChart(this.barChartData, this.getChartLabel());
+    } else {
+      this.pieChartData = this.pieChart.cloneChartData(this.pieChartData);
+      this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
+    }
+  }
+
   categoryChanged(category) {
     this.selectedCategory = category;
   }
 
   yearChanged(year) {
     this.selectedYear = year;
-    this.chartTitle = this.translateService.instant('statistics.total_usage_year', { 'year': this.selectedYear });
   }
 
   filtersChanged(filterParams) {
@@ -78,69 +127,56 @@ export class StatisticsUsageComponent implements OnInit {
   }
 
   initCharts() {
-    let mainLabel: string = this.translateService.instant('statistics.usage_per_cs_month_title');
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_usage_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar', mainLabel, labelXAxis, labelYAxis, toolTipUnit);
+    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+      this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie', mainLabel, undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+      this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
+
+    this.chartsInitialized = true;
   }
 
   buildCharts() {
-    let mainLabel: string;
-    let barChartData: ChartData;
-    let pieChartData: ChartData;
-    const maxLegendItems = 20;
-
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
-          pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
+          this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
-          this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
-
-          mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title');
-          this.barChart.updateChart(barChartData, mainLabel);
-          mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title');
-          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
-            this.pieChart.hideLegend();
+          if (this.selectedChart === 'month') {
+            this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
-            this.pieChart.showLegend();
+            this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
-          this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
-        })
+        });
     } else {
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
-          pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
+          this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
-          this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(barChartData);
-
-          mainLabel = this.translateService.instant('statistics.usage_per_user_month_title');
-          this.barChart.updateChart(barChartData, mainLabel);
-          mainLabel = this.translateService.instant('statistics.usage_per_user_year_title');
-          if (this.statisticsBuildService.countNumberOfChartItems(pieChartData) > maxLegendItems) {
-            this.pieChart.hideLegend();
+          if (this.selectedChart === 'month') {
+            this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
-            this.pieChart.showLegend();
+            this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
           }
-          this.pieChart.updateChart(pieChartData, mainLabel);
 
           this.spinnerService.hide();
-        })
+        });
     }
   }
 }

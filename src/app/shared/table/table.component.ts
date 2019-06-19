@@ -1,18 +1,19 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
-import {TranslateService} from '@ngx-translate/core';
-import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {DropdownItem, TableActionDef, TableFilterDef, TableColumnDef} from '../../common.types';
-import {ConfigService} from '../../services/config.service';
-import {TableDataSource} from './table-data-source';
-import {LocaleService} from '../../services/locale.service';
-import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
-import {SpinnerService} from 'app/services/spinner.service';
-import {fromEvent} from 'rxjs';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
-import { WindowService } from 'app/services/window.service';
+import * as moment from 'moment';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
+import { ConfigService } from '../../services/config.service';
+import { LocaleService } from '../../services/locale.service';
+import { TableDataSource } from './table-data-source';
 
 @Component({
   selector: 'app-table',
@@ -22,11 +23,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
   @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
   public searchPlaceholder = '';
-  private ongoingRefresh = false;
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
+  private ongoingRefresh = false;
 
   private autoRefeshTimer;
   private autoRefeshPollEnabled;
@@ -35,8 +36,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private configService: ConfigService,
     private translateService: TranslateService,
-    protected localService: LocaleService,
     public spinnerService: SpinnerService,
+    protected localService: LocaleService,
     public windowService: WindowService,
     private dialog: MatDialog) {
     // Set placeholder
@@ -172,9 +173,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
     // Date?
     if (filterDef.type === 'date') {
-      // Date is one way binding: update the value manually
-      // filterDef.currentValue = event.value;
-      filterDef.currentValue = new Date(<string>$(`#${filterDef.id}`).val());
+      filterDef.currentValue = event.value.toDate();
     }
     // Update filter
     this.filterChanged(filterDef);
@@ -182,7 +181,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     filterDef.currentValue = null;
-    this.filterChanged(filterDef)
+    this.filterChanged(filterDef);
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {

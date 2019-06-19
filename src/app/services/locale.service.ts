@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {ConfigService} from './config.service';
-import {TranslateService} from '@ngx-translate/core';
-import {CentralServerService} from './central-server.service';
-import {KeyValue, User} from '../common.types';
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { KeyValue, User } from '../common.types';
+import { CentralServerService } from './central-server.service';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class LocaleService {
@@ -16,7 +16,7 @@ export class LocaleService {
 
     this.centralServerService.getCurrentUserSubject().subscribe(user => {
       this.updateLanguage(user);
-    })
+    });
   }
 
   public updateLanguage(loggedUser: User) {
@@ -27,7 +27,7 @@ export class LocaleService {
     }
   }
 
-  public getCurrentFullLocale() {
+  public getCurrentLocale() {
     switch (this.language) {
       case 'en':
         return 'en_US';
@@ -36,7 +36,7 @@ export class LocaleService {
     }
   }
 
-  public getCurrentFullLocaleForJS() {
+  public getCurrentLocaleJS() {
     switch (this.language) {
       case 'en':
         return 'en-US';
@@ -53,19 +53,10 @@ export class LocaleService {
     configLocales.fullSupported.forEach(localeFull => {
       locales.push({
         key: localeFull,
-        value: this.getFullLocaleDescription(localeFull)
+        value: this.getLocaleDescription(localeFull)
       });
     });
     return locales;
-  }
-
-  public getFullLocaleDescription(localeFull) {
-    switch (localeFull) {
-      case 'en_US':
-        return this.translateService.instant('users.locale_desc_english');
-      case 'fr_FR':
-        return this.translateService.instant('users.locale_desc_french');
-    }
   }
 
   public getLocaleByKey(localeKey) {
@@ -159,5 +150,14 @@ export class LocaleService {
       'hourFormat': this.getHourFormat(),
       'firstDayOfWeek': this.getFirstDayOfWeek()
     };
+  }
+
+  private getLocaleDescription(localeFull) {
+    switch (localeFull) {
+      case 'en_US':
+        return this.translateService.instant('users.locale_desc_english');
+      case 'fr_FR':
+        return this.translateService.instant('users.locale_desc_french');
+    }
   }
 }

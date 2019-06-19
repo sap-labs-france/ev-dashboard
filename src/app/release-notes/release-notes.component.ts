@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {AuthorizationService} from 'app/services/authorization-service';
+import { Component } from '@angular/core';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 interface ReleaseNotes {
   version: string;
@@ -9,7 +9,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: String []
+  changes: String [];
 }
 
 @Component({
@@ -28,20 +28,23 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.28',
-        date: new Date('2019-06-10'),
+        date: new Date('2019-06-14'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
-              `Migrated the application to Angular version 8`,
+              `Switch on/off Statistics in Tenant's configuration`,
               `Limited the Statistics to the Top 20 Consumptions/Usages`,
+              `Split Statistics chart to Year/Month`,
+              `Migrated the application to Angular version 8`,
               `Displayed Statistic chart's legends `
             ]
           },
           {
             name: 'Backend',
             changes: [
-              `Migrated the backend to the Typescript language (Typed JavaScript)`
+              `Migrated the backend to the Typescript language (Typed JavaScript)`,
+              `Encrypt sensitive data (password, secret key)`
             ]
           }
         ]

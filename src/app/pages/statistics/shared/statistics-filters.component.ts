@@ -1,10 +1,16 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { CentralServerService } from '../../../services/central-server.service';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
+
+export interface StatisticsButtonGroup {
+  name: string;
+  title: string;
+  refresh?: boolean;
+}
 
 @Component({
   selector: 'app-statistics-filters',
@@ -16,14 +22,17 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedYear: number;
   public transactionYears: number[];
 
-  private selectedCategory = 'C';
-  private filterParams = {};
-
-  @Input() tableFiltersDef: TableFilterDef[] = [];
+  @Input() tableFiltersDef?: TableFilterDef[] = [];
+  @Input() buttonsOfGroup1?: StatisticsButtonGroup[];
   @Output() category = new EventEmitter;
   @Output() year = new EventEmitter;
+  @Output() buttonOfGroup1 = new EventEmitter;
   @Output() filters = new EventEmitter;
   @Output() refreshAll = new EventEmitter;
+
+  private selectedCategory = 'C';
+  private filterParams = {};
+  private activeButtonOfGroup1: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -33,6 +42,7 @@ export class StatisticsFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin();
     this.category.emit(this.selectedCategory);
+
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
@@ -42,6 +52,13 @@ export class StatisticsFiltersComponent implements OnInit {
         this.transactionYears.push(this.selectedYear);
       }
     });
+
+    // Button groups:
+    if (this.buttonsOfGroup1) {
+      this.activeButtonOfGroup1 = this.buttonsOfGroup1[0];
+      this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+    }
+
     // Provided filters
     if (this.tableFiltersDef) {
       // Site filter
@@ -161,7 +178,7 @@ export class StatisticsFiltersComponent implements OnInit {
         if (!filterDef.currentValue || filterDef.currentValue !== data) {
           filterWasChanged = true;
           filterDef.currentValue = data;
-        };
+        }
         this.filterChanged(filterDef);
         if (filterWasChanged) {
           this.filterParams = this.buildFilterValues();
@@ -222,4 +239,20 @@ export class StatisticsFiltersComponent implements OnInit {
   refresh(): void {
     this.refreshAll.emit();
   }
+
+  buttonOfGroup1Changed(buttonName: string): void {
+    let index = 0;
+    if (buttonName && this.buttonsOfGroup1) {
+      index = this.buttonsOfGroup1.findIndex((element) => element.name === buttonName);
+      if (index >= 0 &&
+        this.activeButtonOfGroup1.name !== buttonName) {
+        this.activeButtonOfGroup1 = this.buttonsOfGroup1[index];
+        this.buttonOfGroup1.emit(this.activeButtonOfGroup1.name);
+        if (this.activeButtonOfGroup1.refresh === true) {
+          this.refreshAll.emit();
+        }
+      }
+    }
+  }
+
 }

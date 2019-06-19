@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {CentralServerService} from '../../../services/central-server.service';
-import {Constants} from '../../../utils/Constants';
-import {Utils} from '../../../utils/Utils';
-import {SpinnerService} from '../../../services/spinner.service';
-import {MessageService} from '../../../services/message.service';
-import {Router} from '@angular/router';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RefundSettings } from 'app/common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-refund',

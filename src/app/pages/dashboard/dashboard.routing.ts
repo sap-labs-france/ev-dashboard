@@ -1,8 +1,8 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {DashboardComponent} from './dashboard.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {Constants} from '../../utils/Constants';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { DashboardComponent } from './dashboard.component';
 
 export const DashboardRoutes: Routes = [
   {

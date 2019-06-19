@@ -1,5 +1,5 @@
-import {TableAction} from './table-action';
-import {TableActionDef, ButtonColor} from '../../../common.types';
+import { ButtonColor, TableActionDef } from '../../../common.types';
+import { TableAction } from './table-action';
 
 export class TableRegisterAction implements TableAction {
   private action: TableActionDef = {
@@ -9,7 +9,7 @@ export class TableRegisterAction implements TableAction {
     color: ButtonColor.primary,
     name: 'general.register',
     tooltip: 'general.tooltips.register'
-  }
+  };
 
 
   // Return an action

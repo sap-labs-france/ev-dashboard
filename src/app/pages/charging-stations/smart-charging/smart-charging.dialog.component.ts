@@ -1,17 +1,17 @@
-import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { Charger } from 'app/common.types';
-import { SmartChargingMasterLimitComponent } from './master-limit/smart-charging-master-limit.component';
-import { SmartChargingLimitPlanningComponent } from './limit-planning/smart-charging-limit-planning.component';
-import { SmartChargingLimitPlannerComponent } from './limit-planner/smart-charging-limit-planner.component';
-import { DialogService } from 'app/services/dialog.service';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Charger } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { Router } from '@angular/router';
+import { SmartChargingLimitPlannerComponent } from './limit-planner/smart-charging-limit-planner.component';
+import { SmartChargingLimitPlanningComponent } from './limit-planning/smart-charging-limit-planning.component';
+import { SmartChargingMasterLimitComponent } from './master-limit/smart-charging-master-limit.component';
 
 @Component({
   selector: 'app-smart-charging-dialog-cmp',

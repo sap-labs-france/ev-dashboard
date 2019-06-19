@@ -1,5 +1,6 @@
-import {AfterViewInit, Directive, ElementRef, OnDestroy} from '@angular/core';
-import {Placement} from 'bootstrap';
+import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
+import { Placement } from 'bootstrap';
+import * as jQuery from 'jquery';
 
 @Directive({
   selector: '[appTooltip]'

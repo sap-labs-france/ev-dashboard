@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { Charger } from '../../../../common.types';
-import { LocaleService } from '../../../../services/locale.service';
-import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, ElementRef, Injectable, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { AuthorizationService } from '../../../../services/authorization-service';
-import { MessageService } from '../../../../services/message.service';
-import { Utils } from '../../../../utils/Utils';
-import { Constants } from '../../../../utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
+import { Charger } from '../../../../common.types';
+import { AuthorizationService } from '../../../../services/authorization-service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { Constants } from '../../../../utils/Constants';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charger-ocpp-configuration',
@@ -22,12 +22,12 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
   @Input() charger: Charger;
   public chargerConfiguration;
   public loadedChargerConfiguration;
-  private messages;
   public userLocales;
   public isAdmin;
   public formGroup: FormGroup;
   isGetConfigurationActive = true;
   @ViewChildren('parameter') parameterInput: QueryList<ElementRef>;
+  private messages;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -64,7 +64,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
    * refresh
    */
   public refresh() {
-    this.loadConfiguration()
+    this.loadConfiguration();
   }
 
   /**

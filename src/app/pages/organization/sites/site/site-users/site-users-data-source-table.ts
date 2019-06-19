@@ -14,21 +14,24 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { TableAddSiteAdminAction } from '../../../../../shared/table/actions/table-add-site-admin-action';
+import { TableRemoveSiteAdminAction } from '../../../../../shared/table/actions/table-remove-site-admin-action';
+import { UserRolePipe } from '../../../../users/formatters/user-role.pipe';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
   private _site: Site;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private userRolePipe: UserRolePipe,
+    private centralServerService: CentralServerService) {
     super(spinnerService);
-    // Init
     this.initDataSource();
   }
 
@@ -37,7 +40,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Site provided?
       if (this._site) {
         // Yes: Get data
-        this.centralServerService.getUsers(this.buildFilterValues(),
+        this.centralServerService.getUsersBySite(this._site.id,
           this.getPaging(), this.getSorting()).subscribe((users) => {
           // Ok
           observer.next(users);
@@ -73,7 +76,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       {
         id: 'name',
         name: 'users.name',
-        class: 'text-left col-30p',
+        class: 'text-left col-25p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -87,16 +90,17 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         id: 'email',
         name: 'users.email',
         class: 'text-left col-40p'
+      },
+      {
+        id: 'role',
+        formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, null)),
+        name: 'sites.role',
+        class: 'text-left col-10p'
       }
     ];
   }
 
   public setSite(site: Site) {
-    // Set static filter
-    this.setStaticFilters([
-      {'SiteID': site.id}
-    ]);
-    // Set site
     this._site = site;
   }
 
@@ -105,6 +109,8 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     return [
       new TableAddAction().getActionDef(),
       new TableRemoveAction().getActionDef(),
+      new TableAddSiteAdminAction().getActionDef(),
+      new TableRemoveSiteAdminAction().getActionDef(),
       ...tableActionsDef
     ];
   }
@@ -115,6 +121,42 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Add
       case 'add':
         this._showAddUsersDialog();
+        break;
+
+      case 'add-site-admin':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          // Confirm
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('sites.update_users_role_title'),
+            this.translateService.instant('sites.update_users_role_confirm')
+          ).subscribe((response) => {
+            // Check
+            if (response === Constants.BUTTON_TYPE_YES) {
+              // Remove
+              this._setSiteUsersRole(this.getSelectedRows().map((row) => row.id), Constants.USER_ROLE_ADMIN);
+            }
+          });
+        }
+        break;
+
+      case 'remove-site-admin':
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          // Confirm
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('sites.update_users_role_title'),
+            this.translateService.instant('sites.update_users_role_confirm')
+          ).subscribe((response) => {
+            // Check
+            if (response === Constants.BUTTON_TYPE_YES) {
+              // Remove
+              this._setSiteUsersRole(this.getSelectedRows().map((row) => row.id), Constants.USER_ROLE_BASIC);
+            }
+          });
+        }
         break;
 
       // Remove
@@ -186,6 +228,27 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     }, (error) => {
       // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
+    });
+  }
+
+  private _setSiteUsersRole(userIDs, role: string) {
+    // Yes: Update
+    this.centralServerService.updateSiteUsersRole(this._site.id, userIDs, role).subscribe(response => {
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage(this.translateService.instant('sites.update_site_users_role_success'));
+        // Refresh
+        this.refreshData().subscribe();
+        // Clear selection
+        this.clearSelectedRows();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.translateService.instant('sites.update_site_users_role_error'));
+      }
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_site_users_role_error');
     });
   }
 

@@ -49,6 +49,7 @@
     "use-isnan": true,
     "no-construct": true,
     "no-debugger": true,
+    "no-duplicate-imports": true,
     "no-duplicate-super": true,
     "no-duplicate-switch-case": true,
     "no-duplicate-variable": true,
@@ -59,11 +60,19 @@
       true,
       "ignore-params"
     ],
+    "new-parens": true,
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
+    "array-type": [
+      true,
+      "array"
+    ],
+    "no-unsafe-any": true,
+    "no-unsafe-finally": true,
+    "static-this": true,
     "no-switch-case-fall-through": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
@@ -141,6 +150,10 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "await-promise": true,
-    "no-tautology-expression": true
+    "no-tautology-expression": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ]
   }
 }

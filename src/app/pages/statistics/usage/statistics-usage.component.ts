@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
@@ -11,7 +12,6 @@ import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
-import { StatisticsButtonGroup } from '../shared/statistics-filters.component';
 
 @Component({
   selector: 'app-statistics-usage',
@@ -23,19 +23,15 @@ export class StatisticsUsageComponent implements OnInit {
   public selectedChart: string;
   public selectedCategory: string;
   public selectedYear: number;
+  public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public isAdmin: boolean;
-
   public chartsInitialized = false;
-
-  public chartSelectorButtons: StatisticsButtonGroup[] = [
-    { name: 'month', title: 'statistics.graphic_title_month_x_axis' },
-    { name: 'year', title: 'statistics.transactions_years' },
-  ];
 
   @ViewChild('usageBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('usagePieChart', { static: true }) ctxPieChart: ElementRef;
 
+  private isOrganizationActive: boolean;
   private filterParams = {};
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
@@ -48,18 +44,21 @@ export class StatisticsUsageComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
+    private componentService: ComponentService,
     private statisticsBuildService: StatisticsBuildService) {
-    // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isOrganizationActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
   }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
-    filterDef = new SitesTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
+    if (this.isOrganizationActive) {
+      filterDef = new SitesTableFilter().getFilterDef();
+      this.allFiltersDef.push(filterDef);
 
-    filterDef = new SiteAreasTableFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
+      filterDef = new SiteAreasTableFilter().getFilterDef();
+      this.allFiltersDef.push(filterDef);
+    }
 
     filterDef = new ChargerTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
@@ -71,6 +70,22 @@ export class StatisticsUsageComponent implements OnInit {
     }
 
     this.initCharts();
+  }
+
+  scopeChanged(chartName): void {
+    this.selectedChart = chartName;
+  }
+
+  categoryChanged(category): void {
+    this.selectedCategory = category;
+  }
+
+  yearChanged(year): void {
+    this.selectedYear = year;
+  }
+
+  filtersChanged(filterParams): void {
+    this.filterParams = filterParams;
   }
 
   getChartLabel(): string {
@@ -91,42 +106,28 @@ export class StatisticsUsageComponent implements OnInit {
       }
     } else {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title',
-          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        if (this.selectedYear > 0) {
+          mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title',
+            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        } else {
+          mainLabel = this.translateService.instant('statistics.usage_per_cs_total_title',
+            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        }
       } else {
-        mainLabel = this.translateService.instant('statistics.usage_per_user_year_title',
-          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        if (this.selectedYear > 0) {
+          mainLabel = this.translateService.instant('statistics.usage_per_user_year_title',
+            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        } else {
+          mainLabel = this.translateService.instant('statistics.usage_per_user_total_title',
+            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+        }
       }
     }
 
     return mainLabel;
   }
 
-  chartChanged(chartName) {
-    this.selectedChart = chartName;
-
-    if (this.selectedChart === 'month') {
-      this.barChartData = this.barChart.cloneChartData(this.barChartData);
-      this.barChart.updateChart(this.barChartData, this.getChartLabel());
-    } else {
-      this.pieChartData = this.pieChart.cloneChartData(this.pieChartData);
-      this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
-    }
-  }
-
-  categoryChanged(category) {
-    this.selectedCategory = category;
-  }
-
-  yearChanged(year) {
-    this.selectedYear = year;
-  }
-
-  filtersChanged(filterParams) {
-    this.filterParams = filterParams;
-  }
-
-  initCharts() {
+  initCharts(): void {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_usage_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
@@ -142,7 +143,29 @@ export class StatisticsUsageComponent implements OnInit {
     this.chartsInitialized = true;
   }
 
-  buildCharts() {
+  updateCharts(refresh: boolean): void {
+    if (refresh) {
+      if (this.selectedChart === 'month') {
+        this.barChartData = this.barChart.cloneChartData(this.barChartData, true);
+        this.barChart.updateChart(this.barChartData, this.getChartLabel());
+      } else {
+        this.pieChartData = this.pieChart.cloneChartData(this.pieChartData, true);
+        this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
+      }
+
+      this.buildCharts();
+    } else {
+      if (this.selectedChart === 'month') {
+        this.barChartData = this.barChart.cloneChartData(this.barChartData);
+        this.barChart.updateChart(this.barChartData, this.getChartLabel());
+      } else {
+        this.pieChartData = this.pieChart.cloneChartData(this.pieChartData);
+        this.pieChart.updateChart(this.pieChartData, this.getChartLabel());
+      }
+    }
+  }
+
+  buildCharts(): void {
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {

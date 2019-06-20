@@ -44,6 +44,21 @@
   margin: 0 0 20px 0;
 }
 
+.chart-container-statistics {
+  position: relative;
+  margin: auto;
+  width: 75vw;
+  height: 70vh;
+  @media (max-width: 1280px) {
+    width: 90vw;
+    height: 50vh;
+  }
+  @media (max-width: 991px) {
+    width: 100vw;
+    height: 30vh;
+  }
+}
+
 .chart {
   position: relative;
   width: 100%;

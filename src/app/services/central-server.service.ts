@@ -116,6 +116,20 @@ export class CentralServerService {
       );
   }
 
+  public updateSiteUsersRole(siteID, userIDs, role) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUsersRoleUpdate`,
+      {'siteID': siteID, 'userIDs': userIDs, 'role': role},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public removeSitesFromUser(userID, siteIDs) {
     // Verify init
     this._checkInit();
@@ -453,6 +467,25 @@ export class CentralServerService {
     this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUsersBySite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    const params = {SiteID: siteID};
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/SiteUsers`,
       {
         headers: this._buildHttpHeaders(),
         params

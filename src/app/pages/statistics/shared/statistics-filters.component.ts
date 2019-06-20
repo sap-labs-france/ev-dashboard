@@ -22,17 +22,17 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedYear: number;
   public transactionYears: number[];
 
-  @Output() category = new EventEmitter;
-  @Output() year = new EventEmitter;
+  @Output() category = new EventEmitter();
+  @Output() year = new EventEmitter();
   @Input() allYears?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
   ];
-  @Output() buttonOfScopeGroup = new EventEmitter;
+  @Output() buttonOfScopeGroup = new EventEmitter();
   @Input() tableFiltersDef?: TableFilterDef[] = [];
-  @Output() filters = new EventEmitter;
-  @Output() update = new EventEmitter;
+  @Output() filters = new EventEmitter();
+  @Output() update = new EventEmitter();
 
   private selectedCategory = 'C';
   private filterParams = {};

@@ -6,8 +6,9 @@ import { SiteUsersDataSource } from './site-users-data-source-table';
 
 @Component({
   selector: 'app-site-users-dialog-cmp',
-  templateUrl: 'site-users.dialog.component.html',
+  templateUrl: 'site-users.dialog.component.html'
 })
+
 export class SiteUsersDialogComponent {
   public dialogTitle: String;
 
@@ -16,12 +17,12 @@ export class SiteUsersDialogComponent {
     private dialogRef: MatDialogRef<SiteUsersDialogComponent>,
     private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) data) {
-    // default title
-    this.dialogTitle = this.translateService.instant('sites.users');
 
     if (data) {
       this.siteUsersDataSource.setSite(data);
-      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', { 'siteName': data.name });
+      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {'siteName': data.name});
+    } else {
+      this.dialogTitle = this.translateService.instant('sites.users');
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

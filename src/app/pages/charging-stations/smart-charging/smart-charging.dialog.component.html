@@ -25,8 +25,9 @@
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-button (click)="clearProfiles()"
-            [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0">
+          <!-- [disabled]="limitPlanning && limitPlanning.internalFormatCurrentLimit == 0" 
+            Alway enable clear profiles for test purposes-->
+          <button mat-button (click)="clearProfiles()">
             <mat-icon>delete_sweep</mat-icon>
             <span>{{'chargers.smart_charging.clear_profiles_button' | translate}}</span>
           </button>

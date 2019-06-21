@@ -433,6 +433,7 @@ export interface TableColumnDef {
   direction?: SortDirection;
   isAngularComponent?: boolean;
   angularComponent?: any;
+  additionalData?: any;
   defaultValue?: any;
 }
 

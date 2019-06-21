@@ -14,9 +14,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { TableAddSiteAdminAction } from '../../../../../shared/table/actions/table-add-site-admin-action';
-import { TableRemoveSiteAdminAction } from '../../../../../shared/table/actions/table-remove-site-admin-action';
-import { UserRolePipe } from '../../../../users/formatters/user-role.pipe';
+import { SiteAdminCheckboxComponent } from './site-admin-checkbox.component';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
@@ -29,7 +27,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private userRolePipe: UserRolePipe,
     private centralServerService: CentralServerService) {
     super(spinnerService);
     this.initDataSource();
@@ -93,9 +90,11 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       },
       {
         id: 'role',
-        formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, null)),
-        name: 'sites.role',
-        class: 'text-left col-10p'
+        isAngularComponent: true,
+        angularComponent: SiteAdminCheckboxComponent,
+        additionalData: () => this._site,
+        name: 'sites.admin_role',
+        class: 'col-10p'
       }
     ];
   }
@@ -109,8 +108,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     return [
       new TableAddAction().getActionDef(),
       new TableRemoveAction().getActionDef(),
-      new TableAddSiteAdminAction().getActionDef(),
-      new TableRemoveSiteAdminAction().getActionDef(),
       ...tableActionsDef
     ];
   }
@@ -121,42 +118,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Add
       case 'add':
         this._showAddUsersDialog();
-        break;
-
-      case 'add-site-admin':
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          // Confirm
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('sites.update_users_role_title'),
-            this.translateService.instant('sites.update_users_role_confirm')
-          ).subscribe((response) => {
-            // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
-              // Remove
-              this._setSiteUsersRole(this.getSelectedRows().map((row) => row.id), Constants.USER_ROLE_ADMIN);
-            }
-          });
-        }
-        break;
-
-      case 'remove-site-admin':
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          // Confirm
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('sites.update_users_role_title'),
-            this.translateService.instant('sites.update_users_role_confirm')
-          ).subscribe((response) => {
-            // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
-              // Remove
-              this._setSiteUsersRole(this.getSelectedRows().map((row) => row.id), Constants.USER_ROLE_BASIC);
-            }
-          });
-        }
         break;
 
       // Remove
@@ -233,7 +194,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
 
   private _setSiteUsersRole(userIDs, role: string) {
     // Yes: Update
-    this.centralServerService.updateSiteUsersRole(this._site.id, userIDs, role).subscribe(response => {
+    this.centralServerService.updateSiteUserRole(this._site.id, userIDs, role).subscribe(response => {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok

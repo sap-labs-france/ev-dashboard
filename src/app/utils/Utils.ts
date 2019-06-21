@@ -22,13 +22,13 @@ export class Utils {
     return {notEqual: true};
   }
 
-  public static handleError(error, messageService, errorMessage?): Observable<any> {
+  public static handleError(error, messageService, errorMessage?, params?): Observable<any> {
     console.log(`Error: ${errorMessage}: ${error}`);
-    return messageService.showErrorMessage(errorMessage);
+    return messageService.showErrorMessage(errorMessage, params);
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,
-      centralServerService: CentralServerService, errorMessage: string) {
+      centralServerService: CentralServerService, errorMessage: string, params?) {
     // Check error
     switch (error.status) {
       // Server connection error`
@@ -71,7 +71,7 @@ export class Utils {
       // Backend issue
       default:
         console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
-        messageService.showErrorMessage(errorMessage);
+        messageService.showErrorMessage(errorMessage, params);
         break;
     }
   }

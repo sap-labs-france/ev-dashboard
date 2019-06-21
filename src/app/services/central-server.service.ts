@@ -116,12 +116,10 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteUsersRole(siteID, userIDs, role) {
-    // Verify init
+  public updateSiteUserRole(siteID, userID, role) {
     this._checkInit();
-    // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUsersRoleUpdate`,
-      {'siteID': siteID, 'userIDs': userIDs, 'role': role},
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserRoleUpdate`,
+      {'siteID': siteID, 'userID': userID, 'role': role},
       {
         headers: this._buildHttpHeaders()
       })

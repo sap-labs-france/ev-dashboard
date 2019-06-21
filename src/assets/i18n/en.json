@@ -347,12 +347,11 @@
     "update_error": "Error occurred while updating the site",
     "create_success": "The site '{{siteName}}' has been created successfully",
     "create_error": "Error occurred while creating the site",
-    "role": "Site Role",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "assign_admin_role": "Assign Admin role",
-    "unassign_admin_role": "Remove Admin role",
-    "update_users_role_title": "Update Site User Role",
-    "update_users_role_confirm": "Are you sure to update the role of the selected user(s) from this site?"
+    "admin_role": "Site Admin",
+    "update_set_site_admin_success": "The user '{{userName}}' is now administrator on site '{{site}}'",
+    "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on site '{{site}}'",
+    "update_site_users_role_error": "Error occurred while updating the site role of the user '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",

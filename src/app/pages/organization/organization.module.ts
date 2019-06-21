@@ -29,6 +29,7 @@ import { OrganizationSiteAreasDataSource } from './site-areas/organization-site-
 import { SiteAreaChargersDataSource } from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
 import { OrganizationSitesDataSource } from './sites/organization-sites-source-table';
 import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
+import { SiteAdminCheckboxComponent } from './sites/site/site-users/site-admin-checkbox.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-sou
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent
+    SiteAreaChargersDialogComponent,
+    SiteAdminCheckboxComponent
   ],
   entryComponents: [
     OrganizationComponent,
@@ -68,15 +70,15 @@ import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-sou
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent
+    SiteAreaChargersDialogComponent,
+    SiteAdminCheckboxComponent
   ],
   providers: [
     OrganizationCompaniesDataSource,
     OrganizationSiteAreasDataSource,
     SiteAreaChargersDataSource,
     OrganizationSitesDataSource,
-    SiteUsersDataSource,
-    UserRolePipe
+    SiteUsersDataSource
   ]
 })
 

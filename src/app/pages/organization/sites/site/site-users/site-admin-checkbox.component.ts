@@ -37,17 +37,19 @@ export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
   }
 
   private changeSiteAdminRole(user: User, admin: boolean) {
+    const previousRole = user.role;
     const role = admin ? Constants.USER_ROLE_ADMIN : Constants.USER_ROLE_BASIC;
     const site = this.getSite();
+    user.role = role;
     this.centralServerService.updateSiteUserRole(site.id, user.id, role).subscribe(response => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-          user.role = role;
           if (admin) {
             this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {'site': site.name, 'userName': user.name});
           } else {
             this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {'site': site.name, 'userName': user.name});
           }
         } else {
+          user.role = previousRole;
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'sites.update_site_users_role_error', {
               'userName': user.name
@@ -56,6 +58,7 @@ export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
       }
       ,
       (error) => {
+        user.role = previousRole;
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           'sites.update_site_users_role_error', {'userName': user.name});
       }

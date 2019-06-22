@@ -33,9 +33,6 @@ export class CentralServerNotificationService {
   private subjectAnalyticsLinks = new Subject<SubjectInfo>();
   private socket;
 
-  constructor() {
-  }
-
   public setcentralRestServerServiceURL(url) {
     this.centralRestServerServiceURL = url;
   }

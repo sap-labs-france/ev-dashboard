@@ -96,9 +96,6 @@ export class CardKeyfigureComponent implements OnChanges {
    */
   trendingRotation = `scale(0.6,0.6) rotate(${this.trendingRotationValue}deg)`;
 
-  constructor() {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (this.withTrend && (changes.trendValue || changes.currentValue)) {
       // Calculate new trend value

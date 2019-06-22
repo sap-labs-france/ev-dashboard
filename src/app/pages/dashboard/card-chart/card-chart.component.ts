@@ -277,9 +277,6 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   animationOngoing = false;
 
-  constructor() {
-  }
-
   ngOnInit(): void {
     this.chartActiveButton = this.chartButtons[0];
     // Initialization is done only in case data exist linked to a button

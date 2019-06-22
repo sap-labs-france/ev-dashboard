@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './auth-layout.component.html'
 })
 export class AuthLayoutComponent implements OnInit {
-  mobile_menu_visible: any = 0;
+  mobileMenuVisible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
   private _router: Subscription;

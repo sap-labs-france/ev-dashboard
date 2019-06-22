@@ -360,7 +360,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return actionTable;
   }
 
-  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
+  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, successMessage, errorMessage) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -377,15 +377,15 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
-              this.messageService.showSuccessMessage(success_message);
+              this.messageService.showSuccessMessage(successMessage);
               this.refreshData().subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
-                this.messageService, error_message);
+                this.messageService, errorMessage);
             }
           }, (error) => {
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              error_message);
+              errorMessage);
           });
         }
       });

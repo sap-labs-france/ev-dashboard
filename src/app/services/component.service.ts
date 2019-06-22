@@ -88,7 +88,7 @@ export class ComponentService {
       'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
-    if(settings.type === PricingSettingsType.convergentCharging) {
+    if (settings.type === PricingSettingsType.convergentCharging) {
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -117,7 +117,7 @@ export class ComponentService {
       'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
-    if(settings.type === RefundSettingsType.concur) {
+    if (settings.type === RefundSettingsType.concur) {
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS

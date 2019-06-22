@@ -113,4 +113,9 @@ export class Utils {
     }
     return changedID;
   }
+
+  public static isNull(obj) {
+    // tslint:disable-next-line: triple-equals
+    return obj == null;
+  }
 }

@@ -5,7 +5,7 @@ import { Constants } from 'app/utils/Constants';
 export class LogHostTableFilter extends TableFilter {
   constructor() {
     super();
-    let host: string;
+    const host = '';
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'host',

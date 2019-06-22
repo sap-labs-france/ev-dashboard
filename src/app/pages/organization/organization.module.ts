@@ -28,8 +28,8 @@ import { OrganizationRoutes } from './organization.routing';
 import { OrganizationSiteAreasDataSource } from './site-areas/organization-site-areas-source-table';
 import { SiteAreaChargersDataSource } from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
 import { OrganizationSitesDataSource } from './sites/organization-sites-source-table';
-import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
 import { SiteAdminCheckboxComponent } from './sites/site/site-users/site-admin-checkbox.component';
+import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
 
 @NgModule({
   imports: [

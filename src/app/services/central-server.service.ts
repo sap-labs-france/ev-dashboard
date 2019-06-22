@@ -949,7 +949,7 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    return this.getLoggedUserToken() != null && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
+    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
   public logout(): Observable<any> {

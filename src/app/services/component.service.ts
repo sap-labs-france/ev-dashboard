@@ -96,13 +96,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
@@ -125,13 +119,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveOcpiSettings(settings: OcpiSettings): Observable<ActionResponse> {
@@ -147,13 +135,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
@@ -169,13 +151,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public getOcpiSettings(): Observable<OcpiSettings> {

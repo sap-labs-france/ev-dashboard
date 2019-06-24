@@ -1160,19 +1160,6 @@ export class CentralServerService {
       );
   }
 
-  public createSetting(setting): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingCreate`, setting,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
   public updateSetting(setting): Observable<ActionResponse> {
     // Verify init
     this._checkInit();

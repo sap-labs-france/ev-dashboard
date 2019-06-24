@@ -11,7 +11,9 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto" [checked]="row.role ? row.siteAdmin : false" (change)="changeSiteAdmin($event)"></mat-checkbox>
+      <mat-checkbox class="mx-auto"
+        [disabled]="row.role !== 'B'"
+        [checked]="(row.role ? row.siteAdmin : false) || row.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
 export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {

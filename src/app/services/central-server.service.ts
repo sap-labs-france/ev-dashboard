@@ -474,7 +474,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsersBySite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+  public getUsersFromSite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
     // Verify init
     this._checkInit();
     const params = {SiteID: siteID};

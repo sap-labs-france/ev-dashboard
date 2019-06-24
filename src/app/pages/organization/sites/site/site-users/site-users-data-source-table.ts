@@ -37,7 +37,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Site provided?
       if (this._site) {
         // Yes: Get data
-        this.centralServerService.getUsersBySite(this._site.id,
+        this.centralServerService.getUsersFromSite(this._site.id,
           this.getPaging(), this.getSorting()).subscribe((users) => {
           // Ok
           observer.next(users);

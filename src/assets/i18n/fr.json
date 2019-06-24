@@ -351,7 +351,7 @@
     "admin_role": "Admin du Site",
     "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site '{{site}}'",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{site}}'",
-    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de 'utilisateur '{{userName}}'"
+    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "Aucune zone n'a été trouvée",

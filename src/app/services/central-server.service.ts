@@ -116,10 +116,10 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteUserRole(siteID, userID, role) {
+  public updateSiteUserAdmin(siteID, userID, siteAdmin) {
     this._checkInit();
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserRoleUpdate`,
-      {'siteID': siteID, 'userID': userID, 'role': role},
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
+      {'siteID': siteID, 'userID': userID, 'siteAdmin': siteAdmin},
       {
         headers: this._buildHttpHeaders()
       })

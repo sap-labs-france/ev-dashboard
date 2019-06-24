@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { Site, User } from '../../../../../common.types';
+import { Site, User, UserSite } from '../../../../../common.types';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';
@@ -11,11 +11,11 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto" [checked]="row.role === 'A'" (change)="changeSiteUserRole($event)"></mat-checkbox>
+      <mat-checkbox class="mx-auto" [checked]="row.role ? row.siteAdmin : false" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
 export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
-  @Input() row: User;
+  @Input() row: UserSite;
 
   constructor(
     private messageService: MessageService,
@@ -24,9 +24,9 @@ export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
     super();
   }
 
-  public changeSiteUserRole(matCheckboxChange: MatCheckboxChange) {
+  public changeSiteAdmin(matCheckboxChange: MatCheckboxChange) {
     if (matCheckboxChange) {
-      this.changeSiteAdminRole(this.row, matCheckboxChange.checked);
+      this.setUserSiteAdmin(this.row, matCheckboxChange.checked);
     }
   }
 
@@ -36,20 +36,18 @@ export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
     }
   }
 
-  private changeSiteAdminRole(user: User, admin: boolean) {
-    const previousRole = user.role;
-    const role = admin ? Constants.USER_ROLE_ADMIN : Constants.USER_ROLE_BASIC;
+  private setUserSiteAdmin(user: UserSite, siteAdmin: boolean) {
     const site = this.getSite();
-    user.role = role;
-    this.centralServerService.updateSiteUserRole(site.id, user.id, role).subscribe(response => {
+    user.siteAdmin = siteAdmin;
+    this.centralServerService.updateSiteUserAdmin(site.id, user.id, siteAdmin).subscribe(response => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-          if (admin) {
+          if (siteAdmin) {
             this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {'site': site.name, 'userName': user.name});
           } else {
             this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {'site': site.name, 'userName': user.name});
           }
         } else {
-          user.role = previousRole;
+          user.siteAdmin = !siteAdmin;
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'sites.update_site_users_role_error', {
               'userName': user.name
@@ -58,7 +56,7 @@ export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
       }
       ,
       (error) => {
-        user.role = previousRole;
+        user.siteAdmin = !siteAdmin;
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
           'sites.update_site_users_role_error', {'userName': user.name});
       }

@@ -522,6 +522,15 @@ export interface User {
   tenantHashID: number;
 }
 
+export interface UserSite extends User {
+  siteID: string;
+  siteAdmin: boolean;
+}
+export interface SiteUser extends Site {
+  userID: string;
+  siteAdmin: boolean;
+}
+
 export interface UserResult {
   count: number;
   result: User[];

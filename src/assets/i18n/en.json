@@ -351,7 +351,7 @@
     "admin_role": "Site Admin",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on site '{{site}}'",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on site '{{site}}'",
-    "update_site_users_role_error": "Error occurred while updating the site role of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access rigth of the user '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",

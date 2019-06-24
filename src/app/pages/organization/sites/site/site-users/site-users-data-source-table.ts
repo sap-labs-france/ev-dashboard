@@ -89,7 +89,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         class: 'text-left col-40p'
       },
       {
-        id: 'role',
+        id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: SiteAdminCheckboxComponent,
         additionalData: () => this._site,
@@ -189,27 +189,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     }, (error) => {
       // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
-    });
-  }
-
-  private _setSiteUsersRole(userIDs, role: string) {
-    // Yes: Update
-    this.centralServerService.updateSiteUserRole(this._site.id, userIDs, role).subscribe(response => {
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('sites.update_site_users_role_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('sites.update_site_users_role_error'));
-      }
-    }, (error) => {
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_site_users_role_error');
     });
   }
 

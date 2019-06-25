@@ -12,6 +12,7 @@ import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-filter';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
+import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -32,7 +33,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   @ViewChild('consumptionPieChart', { static: true }) ctxPieChart: ElementRef;
 
   private isOrganizationActive: boolean;
-  private filterParams = {};
+  private filterParams: Object;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
@@ -45,7 +46,8 @@ export class StatisticsConsumptionComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private componentService: ComponentService,
-    private statisticsBuildService: StatisticsBuildService) {
+    private statisticsBuildService: StatisticsBuildService,
+    private statisticsExportService: StatisticsExportService) {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
   }
@@ -86,6 +88,14 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   filtersChanged(filterParams): void {
     this.filterParams = filterParams;
+  }
+
+  exportData(): void {
+    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Consumption',
+      this.selectedCategory, this.selectedYear, this.selectedChart);
+    this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
+      this.translateService.instant('statistics.dialog.consumption.export.title'),
+      this.translateService.instant('statistics.dialog.consumption.export.confirm'));
   }
 
   getChartLabel(): string {

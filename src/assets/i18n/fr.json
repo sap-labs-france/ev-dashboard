@@ -481,7 +481,21 @@
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
-    "category_label": "Catégorie"
+    "category_label": "Catégorie",
+    "dialog": {
+      "consumption": {
+        "export": {
+          "title": "Exporter les données de consommation",
+          "confirm": "Voulez-vous vraiment exporter les données de consommation correspondant aux filtres ?"
+        }
+      },
+      "usage": {
+        "export": {
+          "title": "Exporter les données d'utilisation",
+          "confirm": "Voulez-vous vraiment exporter les données d'utilisation correspondant aux filtres ?"
+        }
+      }
+    }
   },
   "chargers": {
     "chargers": "Bornes",

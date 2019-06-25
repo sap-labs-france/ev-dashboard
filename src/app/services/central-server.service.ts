@@ -629,6 +629,21 @@ export class CentralServerService {
       );
   }
 
+  public exportStatistics(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
+    this._checkInit();
+    this._getPaging(paging, params);
+    this._getSorting(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/StatisticsExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public exportChargingStations(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<any> {
     this._checkInit();
     this._getPaging(paging, params);

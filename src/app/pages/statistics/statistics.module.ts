@@ -13,6 +13,7 @@ import { StatisticsConsumptionComponent } from '../statistics/consumption/statis
 import { StatisticsFiltersComponent } from '../statistics/shared/statistics-filters.component';
 import { StatisticsUsageComponent } from '../statistics/usage/statistics-usage.component';
 import { StatisticsBuildService } from './shared/statistics-build.service';
+import { StatisticsExportService } from './shared/statistics-export.service';
 import { StatisticsComponent } from './statistics.component';
 import { StatisticsRoutes } from './statistics.routing';
 
@@ -40,7 +41,8 @@ import { StatisticsRoutes } from './statistics.routing';
   entryComponents: [
   ],
   providers: [
-    StatisticsBuildService
+    StatisticsBuildService,
+    StatisticsExportService
   ]
 })
 

@@ -33,6 +33,7 @@ export class StatisticsFiltersComponent implements OnInit {
   @Input() tableFiltersDef?: TableFilterDef[] = [];
   @Output() filters = new EventEmitter;
   @Output() update = new EventEmitter;
+  @Output() export = new EventEmitter;
 
   private selectedCategory = 'C';
   private filterParams = {};
@@ -278,6 +279,10 @@ export class StatisticsFiltersComponent implements OnInit {
       this.buttonOfScopeGroup.emit(this.activeButtonOfScopeGroup.name);
       this.update.emit(false);
     }
+  }
+
+  exportData(): void {
+    this.export.emit();
   }
 
 }

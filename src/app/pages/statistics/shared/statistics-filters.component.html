@@ -4,6 +4,13 @@
     <!-- Actions  -->
     <div class="left-actions d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
+        <!-- Export data -->
+        <button mat-raised-button (click)="exportData()"
+            [color]="'primary'" appTooltip="" data-placement="bottom"
+            data-toggle="tooltip" [title]="'general.export' | translate">
+            <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
+        </button>
+
         <!-- Reset Filters -->
         <button mat-raised-button (click)="resetFilters()"
             [color]="'primary'" appTooltip="" data-placement="bottom"
@@ -17,7 +24,7 @@
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
 
-        <!-- First button group -->
+        <!-- Button group for scope (months, etc.) -->
             <div class="btn-group mat-button-group mr-2">
                 <button mat-raised-button *ngFor="let button of buttonsOfScopeGroup"
                         (click)="buttonOfScopeGroupChanged(button.name)"

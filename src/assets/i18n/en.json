@@ -477,7 +477,21 @@
     "hours": "hours",
     "total": "Total",
     "others": "Others",
-    "category_label": "Category"
+    "category_label": "Category",
+    "dialog": {
+      "consumption": {
+        "export": {
+          "title": "Export Consumption Data",
+          "confirm": "Do you really want to export all the consumption data matching the filters?"
+        }
+      },
+      "usage": {
+        "export": {
+          "title": "Export Usage Data",
+          "confirm": "Do you really want to export all the usage data matching the filters?"
+        }
+      }
+    }
   },
   "chargers": {
     "chargers": "Charging Stations",

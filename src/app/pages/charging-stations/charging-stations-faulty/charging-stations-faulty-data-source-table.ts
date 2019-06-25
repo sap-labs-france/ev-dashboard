@@ -94,7 +94,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
           // Update details status
           chargers.result.forEach(charger => {
             // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter(connector => connector != null);
+            charger.connectors = charger.connectors.filter(connector => !Utils.isNull(connector));
             charger.connectors.forEach(connector => {
               connector.hasDetails = connector.activeTransactionID > 0;
             });
@@ -283,7 +283,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     });
   }
 
-  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, success_message, error_message) {
+  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, successMessage, errorMessage) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -300,15 +300,15 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe(response => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
-              this.messageService.showSuccessMessage(success_message);
+              this.messageService.showSuccessMessage(successMessage);
               this.refreshData().subscribe();
             } else {
               Utils.handleError(JSON.stringify(response),
-                this.messageService, error_message);
+                this.messageService, errorMessage);
             }
           }, (error) => {
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              error_message);
+              errorMessage);
           });
         }
       });

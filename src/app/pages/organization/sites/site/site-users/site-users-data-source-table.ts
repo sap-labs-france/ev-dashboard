@@ -14,21 +14,21 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { SiteAdminCheckboxComponent } from './site-admin-checkbox.component';
 
 @Injectable()
 export class SiteUsersDataSource extends TableDataSource<User> {
   private _site: Site;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private centralServerService: CentralServerService) {
     super(spinnerService);
-    // Init
     this.initDataSource();
   }
 
@@ -37,7 +37,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Site provided?
       if (this._site) {
         // Yes: Get data
-        this.centralServerService.getUsers(this.buildFilterValues(),
+        this.centralServerService.getUsersFromSite(this._site.id,
           this.getPaging(), this.getSorting()).subscribe((users) => {
           // Ok
           observer.next(users);
@@ -73,7 +73,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       {
         id: 'name',
         name: 'users.name',
-        class: 'text-left col-30p',
+        class: 'text-left col-25p',
         sorted: true,
         direction: 'asc',
         sortable: true
@@ -87,16 +87,19 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         id: 'email',
         name: 'users.email',
         class: 'text-left col-40p'
+      },
+      {
+        id: 'siteAdmin',
+        isAngularComponent: true,
+        angularComponent: SiteAdminCheckboxComponent,
+        additionalData: () => this._site,
+        name: 'sites.admin_role',
+        class: 'col-10p'
       }
     ];
   }
 
   public setSite(site: Site) {
-    // Set static filter
-    this.setStaticFilters([
-      {'SiteID': site.id}
-    ]);
-    // Set site
     this._site = site;
   }
 

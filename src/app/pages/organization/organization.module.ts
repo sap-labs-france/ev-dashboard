@@ -21,25 +21,27 @@ import { SiteDialogComponent } from './sites/site/site.dialog.component';
 
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
+import { UserRolePipe } from '../users/formatters/user-role.pipe';
 import { OrganizationCompaniesDataSource } from './companies/organization-companies-source-table';
 import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';
 import { OrganizationSiteAreasDataSource } from './site-areas/organization-site-areas-source-table';
 import { SiteAreaChargersDataSource } from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
 import { OrganizationSitesDataSource } from './sites/organization-sites-source-table';
+import { SiteAdminCheckboxComponent } from './sites/site/site-users/site-admin-checkbox.component';
 import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(OrganizationRoutes),
     FormsModule,
     AddressModule,
     ReactiveFormsModule,
     TranslateModule,
     MaterialModule,
     TableModule,
-    DialogsModule
+    DialogsModule,
+    RouterModule.forChild(OrganizationRoutes),
   ],
   declarations: [
     OrganizationComponent,
@@ -54,7 +56,8 @@ import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-sou
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent
+    SiteAreaChargersDialogComponent,
+    SiteAdminCheckboxComponent
   ],
   entryComponents: [
     OrganizationComponent,
@@ -67,7 +70,8 @@ import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-sou
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent
+    SiteAreaChargersDialogComponent,
+    SiteAdminCheckboxComponent
   ],
   providers: [
     OrganizationCompaniesDataSource,

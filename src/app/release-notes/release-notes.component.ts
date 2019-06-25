@@ -28,13 +28,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.28',
-        date: new Date('2019-06-14'),
+        date: new Date('2019-06-20'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
+              `Set Site Admin role to a User assigned to a Site`,
               `Switch on/off Statistics in Tenant's configuration`,
+              `Split charts and fit them in the visible area`,
               `Limited the Statistics to the Top 20 Consumptions/Usages`,
+              `Filter on all years`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
               `Displayed Statistic chart's legends `
@@ -44,7 +47,8 @@ export class ReleaseNotesComponent {
             name: 'Backend',
             changes: [
               `Migrated the backend to the Typescript language (Typed JavaScript)`,
-              `Encrypt sensitive data (password, secret key)`
+              `Encrypt sensitive data (password, secret key...)`,
+              `Added Site Admin role for Basic users`
             ]
           }
         ]

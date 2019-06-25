@@ -116,6 +116,18 @@ export class CentralServerService {
       );
   }
 
+  public updateSiteUserAdmin(siteID, userID, siteAdmin) {
+    this._checkInit();
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
+      {'siteID': siteID, 'userID': userID, 'siteAdmin': siteAdmin},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public removeSitesFromUser(userID, siteIDs) {
     // Verify init
     this._checkInit();
@@ -453,6 +465,25 @@ export class CentralServerService {
     this._getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUsersFromSite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+    // Verify init
+    this._checkInit();
+    const params = {SiteID: siteID};
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/SiteUsers`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -933,7 +964,7 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    return this.getLoggedUserToken() != null && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
+    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
   public logout(): Observable<any> {
@@ -1136,19 +1167,6 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
-  public createSetting(setting): Observable<ActionResponse> {
-    // Verify init
-    this._checkInit();
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingCreate`, setting,
       {
         headers: this._buildHttpHeaders()
       })

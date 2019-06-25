@@ -433,6 +433,7 @@ export interface TableColumnDef {
   direction?: SortDirection;
   isAngularComponent?: boolean;
   angularComponent?: any;
+  additionalData?: any;
   defaultValue?: any;
 }
 
@@ -519,6 +520,15 @@ export interface User {
   scopes: Array<string>;
   userHashID: number;
   tenantHashID: number;
+}
+
+export interface UserSite extends User {
+  siteID: string;
+  siteAdmin: boolean;
+}
+export interface SiteUser extends Site {
+  userID: string;
+  siteAdmin: boolean;
 }
 
 export interface UserResult {

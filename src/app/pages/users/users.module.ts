@@ -12,8 +12,7 @@ import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { ConnectionComponent } from './connections/connection.component';
 import { UserRolePipe } from './formatters/user-role.pipe';
-import { AppFormatUserStatusPipe } from './formatters/user-status.component';
-import { UserStatusComponent } from './formatters/user-status.component';
+import { AppFormatUserStatusPipe, UserStatusComponent } from './formatters/user-status.component';
 import { UserStatusPipe } from './formatters/user-status.pipe';
 import { UserSitesDataSource } from './user/user-sites-data-source-table';
 import { UserSitesDialogComponent } from './user/user-sites.dialog.component';
@@ -54,12 +53,13 @@ import { UserRoutes } from './users.routing';
     UserSitesDialogComponent
   ],
   exports: [
+    UserRolePipe,
+    UserStatusPipe,
     UserDialogComponent
   ],
   providers: [
     UserRolePipe,
     UserStatusPipe,
-    UserComponent,
     UserSitesDataSource,
     UsersDataSource,
     UsersInErrorDataSource

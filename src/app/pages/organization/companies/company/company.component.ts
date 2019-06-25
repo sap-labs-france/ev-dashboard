@@ -354,7 +354,7 @@ export class CompanyComponent implements OnInit {
           break;
         default:
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'company.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.update_error');
       }
     });
   }

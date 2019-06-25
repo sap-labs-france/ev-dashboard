@@ -150,8 +150,8 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
     // Extract data from JSON result
     const nbResultTotal = this.compositeSchedule.length;
     // ignore rejected status
-    const compositeScheduleAccepted = this.compositeSchedule.map((element) => {
-      if (element.status === Constants.OCPP_RESPONSE_ACCEPTED) { return element; }
+    const compositeScheduleAccepted = this.compositeSchedule.filter((element) => {
+      return element.status === Constants.OCPP_RESPONSE_ACCEPTED;
     });
     // Check number of result
     const nbAcceptedResult = compositeScheduleAccepted.length;

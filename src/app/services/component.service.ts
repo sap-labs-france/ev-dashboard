@@ -88,7 +88,7 @@ export class ComponentService {
       'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
-    if(settings.type === PricingSettingsType.convergentCharging) {
+    if (settings.type === PricingSettingsType.convergentCharging) {
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -96,13 +96,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
@@ -117,7 +111,7 @@ export class ComponentService {
       'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
-    if(settings.type === RefundSettingsType.concur) {
+    if (settings.type === RefundSettingsType.concur) {
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS
@@ -125,13 +119,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveOcpiSettings(settings: OcpiSettings): Observable<ActionResponse> {
@@ -147,13 +135,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
@@ -169,13 +151,7 @@ export class ComponentService {
     delete settingsToSave.content.identifier;
     delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public getOcpiSettings(): Observable<OcpiSettings> {

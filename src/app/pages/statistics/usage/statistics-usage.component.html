@@ -5,7 +5,7 @@
                           (year)="yearChanged($event)" [allYears]="allYears"
                           (filters)="filtersChanged($event)"
                           (update)="updateCharts($event)"
-                          (export)="exportData($event)"></app-statistics-filters>
+                          (export)="exportData()"></app-statistics-filters>
   <h3>
     <div class="chart">
       <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">

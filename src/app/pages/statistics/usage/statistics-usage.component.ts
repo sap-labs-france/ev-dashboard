@@ -182,7 +182,7 @@ export class StatisticsUsageComponent implements OnInit {
       this.centralServerService.getChargingStationUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
@@ -198,7 +198,7 @@ export class StatisticsUsageComponent implements OnInit {
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 1);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 

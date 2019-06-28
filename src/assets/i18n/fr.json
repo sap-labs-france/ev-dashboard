@@ -121,6 +121,7 @@
       "statistics": "Statistiques",
       "consumption": "Consommation",
       "usage": "Utilisation",
+      "inactivity": "Inactivité",
       "organisations": "Organisations",
       "companies": "Entreprises",
       "sites": "Sites",
@@ -462,6 +463,7 @@
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
     "graphic_title_usage_y_axis": "Utilisation (heures)",
+    "graphic_title_inactivity_y_axis": "Inactivité (heures)",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
@@ -478,6 +480,12 @@
     "usage_per_user_month_title": "Utilisation des utilisateurs par mois (au total : {{total}} heures)",
     "usage_per_user_year_title": "Utilisation des utilisateurs par an : {{total}} heures",
     "usage_per_user_total_title": "Utilisation totale des utilisateurs : {{total}} hours",
+    "inactivity_per_cs_month_title": "Inactivité des bornes par mois (au total : {{total}} heures)",
+    "inactivity_per_cs_year_title": "Inactivité des bornes par an : {{total}} heures",
+    "inactivity_per_cs_total_title": "Inactivité totale des bornes : {{total}} hours",
+    "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
+    "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
+    "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -493,6 +501,12 @@
         "export": {
           "title": "Exporter les données d'utilisation",
           "confirm": "Voulez-vous vraiment exporter les données d'utilisation correspondant aux filtres ?"
+        }
+      },
+      "inactivity": {
+        "export": {
+          "title": "Exporter les données d'inactivité",
+          "confirm": "Voulez-vous vraiment exporter les données d'inactivité correspondant aux filtres ?"
         }
       }
     }

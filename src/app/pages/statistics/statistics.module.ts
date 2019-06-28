@@ -10,6 +10,7 @@ import { CommonDirectivesModule } from '../../shared/directives/common-directive
 import { TableModule } from '../../shared/table/table.module';
 
 import { StatisticsConsumptionComponent } from '../statistics/consumption/statistics-consumption.component';
+import { StatisticsInactivityComponent } from '../statistics/inactivity/statistics-inactivity.component';
 import { StatisticsFiltersComponent } from '../statistics/shared/statistics-filters.component';
 import { StatisticsUsageComponent } from '../statistics/usage/statistics-usage.component';
 import { StatisticsBuildService } from './shared/statistics-build.service';
@@ -34,6 +35,7 @@ import { StatisticsRoutes } from './statistics.routing';
     StatisticsComponent,
     StatisticsConsumptionComponent,
     StatisticsUsageComponent,
+    StatisticsInactivityComponent,
     StatisticsFiltersComponent
   ],
   exports: [

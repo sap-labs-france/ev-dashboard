@@ -18,6 +18,15 @@
       <ng-template matTabContent>
         <app-statistics-usage></app-statistics-usage>
       </ng-template>
-    </mat-tab> 
-  </mat-tab-group> 
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>timer_off</mat-icon><span>{{'general.menu.inactivity' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-statistics-inactivity></app-statistics-inactivity>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </div>

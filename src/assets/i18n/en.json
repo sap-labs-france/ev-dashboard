@@ -121,6 +121,7 @@
       "statistics": "Statistics",
       "consumption": "Consumption",
       "usage": "Usage",
+      "inactivity": "Inactivity",
       "organisations": "Organisations",
       "companies": "Companies",
       "sites": "Sites",
@@ -462,6 +463,7 @@
     "legend_select_unselect_all": "Unselect/Select All",
     "graphic_title_consumption_y_axis": "Consumption (kW.h)",
     "graphic_title_usage_y_axis": "Usage (hours)",
+    "graphic_title_inactivity_y_axis": "Inactivity (hours)",
     "graphic_title_month_x_axis": "Months",
     "transactions_years": "Year",
     "total_consumption_year": "Total Consumption {{year}}",
@@ -478,6 +480,12 @@
     "usage_per_user_month_title": "Users' Usage per Month (Overall: {{total}} hours)",
     "usage_per_user_year_title": "Users' Usage per Year: {{total}} hours",
     "usage_per_user_total_title": "Users' Total Usage: {{total}} hours",
+    "inactivity_per_cs_month_title": "Charging Stations' Inactivity per Month (Overall: {{total}} hours)",
+    "inactivity_per_cs_year_title": "Charging Stations' Inactivity per Year: {{total}} hours",
+    "inactivity_per_cs_total_title": "Charging Stations' Total Inactivity: {{total}} hours",
+    "inactivity_per_user_month_title": "Users' Inactivity per Month (Overall: {{total}} hours)",
+    "inactivity_per_user_year_title": "Users' Inactivity per Year: {{total}} hours",
+    "inactivity_per_user_total_title": "Users' Total Inactivity: {{total}} hours",
     "hours": "hours",
     "total": "Total",
     "others": "Others",
@@ -493,6 +501,12 @@
         "export": {
           "title": "Export Usage Data",
           "confirm": "Do you really want to export all the usage data matching the filters?"
+        }
+      },
+      "inactivity": {
+        "export": {
+          "title": "Export Inactivity Data",
+          "confirm": "Do you really want to export all the inactivity data matching the filters?"
         }
       }
     }

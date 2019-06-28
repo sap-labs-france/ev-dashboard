@@ -33,10 +33,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              `Set Site Admin role to a User assigned to a Site`,
+              `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,
               `Split charts and fit them in the visible area`,
-              `Limited the Statistics to the Top 20 Consumptions/Usages`,
+              `Limited the Statistics to the Top 20 Consumptions/Usages for better readability`,
               `Filter on all years`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
@@ -46,8 +46,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
-              `Migrated the backend to the Typescript language (Typed JavaScript)`,
-              `Encrypt sensitive data (password, secret key...)`,
+              `Typescript migration`,
+              `Encrypt sensitive data stored in database (password, secret key...)`,
               `Added Site Admin role for Basic users`
             ]
           }

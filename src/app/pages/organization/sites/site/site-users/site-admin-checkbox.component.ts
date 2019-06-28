@@ -12,18 +12,20 @@ import { Utils } from '../../../../../utils/Utils';
   template: `
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
-        [disabled]="row.role !== 'B'"
+        [disabled]="row.role !== 'B' || loggedUser.id === row.id"
         [checked]="(row.role ? row.siteAdmin : false) || row.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
 export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
   @Input() row: UserSite;
+  private loggedUser: User;
 
   constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private router: Router) {
     super();
+    this.loggedUser = centralServerService.getLoggedUser();
   }
 
   public changeSiteAdmin(matCheckboxChange: MatCheckboxChange) {

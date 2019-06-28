@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TableFilterDef } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
@@ -26,13 +24,11 @@ export class StatisticsUsageComponent implements OnInit {
   public selectedYear: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
-  public isAdmin: boolean;
   public chartsInitialized = false;
 
   @ViewChild('usageBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('usagePieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private isOrganizationActive: boolean;
   private filterParams = {};
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
@@ -40,36 +36,26 @@ export class StatisticsUsageComponent implements OnInit {
   private pieChartData: ChartData;
 
   constructor(
-    private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
-    private componentService: ComponentService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    this.isOrganizationActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
-  }
+    private statisticsExportService: StatisticsExportService) {}
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
-    if (this.isOrganizationActive) {
-      filterDef = new SitesTableFilter().getFilterDef();
-      this.allFiltersDef.push(filterDef);
+    filterDef = new SitesTableFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
 
-      filterDef = new SiteAreasTableFilter().getFilterDef();
-      this.allFiltersDef.push(filterDef);
-    }
+    filterDef = new SiteAreasTableFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
 
     filterDef = new ChargerTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    // User filter is only for admin user
-    if (this.isAdmin) {
-      filterDef = new UserTableFilter().getFilterDef();
-      this.allFiltersDef.push(filterDef);
-    }
+    filterDef = new UserTableFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
 
     this.initCharts();
   }

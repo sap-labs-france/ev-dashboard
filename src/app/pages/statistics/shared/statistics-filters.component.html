@@ -80,7 +80,8 @@
         </div>
 
         <!-- dynamically defined filters, like for Site ID -->
-        <div *ngFor="let filterDef of tableFiltersDef; let i=index"
+        <div *ngFor="let filterDef of statFiltersDef; let i=index"
+              [hidden]="filterDef.hidden"
               [class]="(filterDef.class ? filterDef.class : '')">
             <!-- Dropdown Filter -->
             <mat-form-field *ngIf="filterDef.type === 'dropdown'">

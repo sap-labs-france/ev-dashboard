@@ -28,11 +28,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.28',
-        date: new Date('2019-06-20'),
+        date: new Date('2019-06-28'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
+              `Added inactivity in Statistics`,
               `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,
               `Split charts and fit them in the visible area`,

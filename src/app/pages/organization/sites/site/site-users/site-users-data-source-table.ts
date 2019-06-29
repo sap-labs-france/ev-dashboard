@@ -37,10 +37,10 @@ export class SiteUsersDataSource extends TableDataSource<User> {
       // Site provided?
       if (this._site) {
         // Yes: Get data
-        this.centralServerService.getUsersFromSite(this._site.id,
-          this.getPaging(), this.getSorting()).subscribe((users) => {
+        this.centralServerService.getSiteUsers(this._site.id,
+          this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
           // Ok
-          observer.next(users);
+          observer.next(siteUsers);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -58,6 +58,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
+      rowFieldNameIdentifier: 'user.email',
       rowSelection: {
         enabled: true,
         multiple: true
@@ -71,7 +72,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'name',
+        id: 'user.name',
         name: 'users.name',
         class: 'text-left col-25p',
         sorted: true,
@@ -79,12 +80,12 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         sortable: true
       },
       {
-        id: 'firstName',
+        id: 'user.firstName',
         name: 'users.first_name',
         class: 'text-left col-25p'
       },
       {
-        id: 'email',
+        id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p'
       },
@@ -92,7 +93,6 @@ export class SiteUsersDataSource extends TableDataSource<User> {
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: SiteAdminCheckboxComponent,
-        additionalData: () => this._site,
         name: 'sites.admin_role',
         class: 'col-10p'
       }

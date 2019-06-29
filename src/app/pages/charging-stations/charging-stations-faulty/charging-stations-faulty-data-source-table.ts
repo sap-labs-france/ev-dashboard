@@ -251,7 +251,7 @@ export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInE
     const errorTypes = Object.keys(en.chargers.errors).map(key => ({ key: key, value: `chargers.errors.${key}.title` }));
 
     return [
-      //      new ChargerTableFilter().getFilterDef(),
+      // new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];

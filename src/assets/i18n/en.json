@@ -350,8 +350,8 @@
     "create_error": "Error occurred while creating the site",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "admin_role": "Site Admin",
-    "update_set_site_admin_success": "The user '{{userName}}' is now administrator on site '{{site}}'",
-    "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on site '{{site}}'",
+    "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
+    "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
     "update_site_users_role_error": "Error occurred while trying to update the access rigth of the user '{{userName}}'"
   },
   "site_areas": {

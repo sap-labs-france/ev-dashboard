@@ -350,8 +350,8 @@
     "create_error": "Une erreur est survenue pendant la création du site",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "admin_role": "Admin du Site",
-    "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site '{{site}}'",
-    "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{site}}'",
+    "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site",
+    "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site",
     "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'"
   },
   "site_areas": {

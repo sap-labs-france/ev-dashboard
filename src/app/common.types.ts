@@ -433,7 +433,6 @@ export interface TableColumnDef {
   direction?: SortDirection;
   isAngularComponent?: boolean;
   angularComponent?: any;
-  additionalData?: any;
   defaultValue?: any;
 }
 
@@ -522,11 +521,23 @@ export interface User {
   tenantHashID: number;
 }
 
-export interface UserSite extends User {
+export interface UserSiteResult {
+  count: number;
+  result: UserSite[];
+}
+
+export interface UserSite {
+  user: User,
   siteID: string;
   siteAdmin: boolean;
 }
-export interface SiteUser extends Site {
+export interface SiteUserResult {
+  count: number;
+  result: SiteUser[];
+}
+
+export interface SiteUser {
+  site: Site,
   userID: string;
   siteAdmin: boolean;
 }

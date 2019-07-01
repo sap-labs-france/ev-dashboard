@@ -30,7 +30,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears? = false;
+  @Input() allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },

@@ -29,7 +29,8 @@ import {
   Transaction,
   TransactionResult,
   User,
-  UserResult
+  UserResult,
+  UserSiteResult
 } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -504,7 +505,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsersFromSite(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+  public getSiteUsers(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteResult> {
     // Verify init
     this._checkInit();
     const params = {SiteID: siteID};

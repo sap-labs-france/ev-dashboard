@@ -1,10 +1,10 @@
-import { MatSort } from '@angular/material/sort';
-import { SpinnerService } from 'app/services/spinner.service';
+import {MatSort} from '@angular/material/sort';
+import {SpinnerService} from 'app/services/spinner.service';
 import * as _ from 'lodash';
-import { of, Observable } from 'rxjs';
-import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
-import { Constants } from '../../utils/Constants';
-import { TableResetFiltersAction } from './actions/table-reset-filters-action';
+import {Observable, of} from 'rxjs';
+import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
+import {Constants} from '../../utils/Constants';
+import {TableResetFiltersAction} from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T> {
   public tableDef: TableDef;
@@ -211,8 +211,8 @@ export abstract class TableDataSource<T> {
     }
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    if (!this.tableActionsDef) {
+  public getTableActionsDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsDef || force) {
       this.tableActionsDef = this.buildTableActionsDef();
     }
     return this.tableActionsDef;
@@ -223,8 +223,8 @@ export abstract class TableDataSource<T> {
     return [];
   }
 
-  public getTableActionsRightDef(): TableActionDef[] {
-    if (!this.tableActionsRightDef) {
+  public getTableActionsRightDef(force): TableActionDef[] {
+    if (!this.tableActionsRightDef || force) {
       this.tableActionsRightDef = this.buildTableActionsRightDef();
     }
     return this.tableActionsRightDef;
@@ -235,8 +235,8 @@ export abstract class TableDataSource<T> {
     return [];
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    if (!this.tableRowActionsDef) {
+  public getTableRowActions(force: boolean): TableActionDef[] {
+    if (!this.tableRowActionsDef || force) {
       this.tableRowActionsDef = this.buildTableRowActions();
     }
     return this.tableRowActionsDef;
@@ -246,8 +246,8 @@ export abstract class TableDataSource<T> {
     return [];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
-    if (!this.tableFiltersDef) {
+  public getTableFiltersDef(force: boolean): TableFilterDef[] {
+    if (!this.tableFiltersDef || force) {
       this.tableFiltersDef = this.buildTableFiltersDef();
     }
     return this.tableFiltersDef;
@@ -255,8 +255,8 @@ export abstract class TableDataSource<T> {
 
   abstract buildTableDef(): TableDef;
 
-  public getTableDef(): TableDef {
-    if (!this.tableDef) {
+  public getTableDef(force: boolean): TableDef {
+    if (!this.tableDef || force) {
       this.tableDef = this.buildTableDef();
     }
     return this.tableDef;
@@ -320,7 +320,7 @@ export abstract class TableDataSource<T> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Table
+            // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -336,7 +336,7 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
-          // Others
+            // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -376,8 +376,8 @@ export abstract class TableDataSource<T> {
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public getTableColumnDefs(): TableColumnDef[] {
-    if (!this.tableColumnDefs) {
+  public getTableColumnDefs(force: boolean): TableColumnDef[] {
+    if (!this.tableColumnDefs || force) {
       this.tableColumnDefs = this.buildTableColumnDefs();
     }
     return this.tableColumnDefs;
@@ -421,11 +421,11 @@ export abstract class TableDataSource<T> {
           if (!this.loadingNumberOfRecords) {
             // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-               (this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
+              (this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
                 this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
-              ) {
-                // Load records
-                this.requestNumberOfRecords();
+            ) {
+              // Load records
+              this.requestNumberOfRecords();
             }
           }
         }, 1);
@@ -455,7 +455,7 @@ export abstract class TableDataSource<T> {
     // Add only record count
     const staticFilters = [
       ...this.getStaticFilters(),
-      { 'OnlyRecordCount': true}
+      {'OnlyRecordCount': true}
     ];
     // Set
     this.setStaticFilters(staticFilters);
@@ -486,14 +486,14 @@ export abstract class TableDataSource<T> {
     return true;
   }
 
-  protected initDataSource(): any {
+  protected initDataSource(force: boolean = false): any {
     // Init data from sub-classes
-    this.getTableColumnDefs();
-    this.getTableDef();
-    this.getTableFiltersDef();
-    this.getTableActionsDef();
-    this.getTableActionsRightDef();
-    this.getTableRowActions();
+    this.getTableColumnDefs(force);
+    this.getTableDef(force);
+    this.getTableFiltersDef(force);
+    this.getTableActionsDef(force);
+    this.getTableActionsRightDef(force);
+    this.getTableRowActions(force);
 
     // Init vars
     // tslint:disable-next-line:max-line-length
@@ -520,8 +520,8 @@ export abstract class TableDataSource<T> {
     }
     // Update Selection variables
     if (this.tableDef.rowSelection &&
-        this.tableDef.rowSelection.enabled &&
-        this.tableDef.rowSelection.multiple) {
+      this.tableDef.rowSelection.enabled &&
+      this.tableDef.rowSelection.multiple) {
       // Init
       this.maxSelectableRows = 0;
       this.selectedRows = 0;

@@ -13,7 +13,7 @@ import { Utils } from '../../../../../utils/Utils';
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
         [disabled]="row.user.role !== 'B' || loggedUser.id === row.user.id"
-        [checked]="(row.user.role ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
+        [checked]="(row.siteAdmin ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
 export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {

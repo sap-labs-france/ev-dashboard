@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { mergeMap } from 'rxjs/operators';
+import {Component, Input, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {mergeMap} from 'rxjs/operators';
 
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { Constants } from 'app/utils/Constants';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
-import { Utils } from 'app/utils/Utils';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthorizationService} from 'app/services/authorization-service';
+import {CentralServerService} from 'app/services/central-server.service';
+import {DialogService} from 'app/services/dialog.service';
+import {MessageService} from 'app/services/message.service';
+import {SpinnerService} from 'app/services/spinner.service';
+import {Constants} from 'app/utils/Constants';
+import {ParentErrorStateMatcher} from 'app/utils/ParentStateMatcher';
+import {Utils} from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-cmp',
@@ -24,7 +24,6 @@ export class SiteComponent implements OnInit {
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
 
-  public isAdmin = false;
   public image: any = Constants.SITE_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -59,13 +58,10 @@ export class SiteComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSite({ 'id': this.activatedRoute.snapshot.params['id'] })) {
+      !authorizationService.canUpdateSite({'id': this.activatedRoute.snapshot.params['id']})) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
-    // get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     // refresh comapnies
     this.refreshAvailableCompanies();
@@ -124,11 +120,6 @@ export class SiteComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-    // if not admin switch in readonly mode
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
-
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -171,7 +162,7 @@ export class SiteComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableCompanies.count; i++) {
-        this.companies.push({ 'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name });
+        this.companies.push({'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name});
       }
     });
   }
@@ -182,6 +173,11 @@ export class SiteComponent implements OnInit {
 
     if (!this.currentSiteID) {
       return;
+    }
+
+    // if not admin switch in readonly mode
+    if (!this.authorizationService.isSiteAdmin(this.currentSiteID)) {
+      this.formGroup.disable();
     }
     // Show spinner
     this.spinnerService.show();
@@ -342,7 +338,7 @@ export class SiteComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.create_success',
-          { 'siteName': site.name });
+          {'siteName': site.name});
         // close
         this.currentSiteID = site.id;
         this.closeDialog(true);
@@ -379,7 +375,7 @@ export class SiteComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('sites.update_success', { 'siteName': site.name });
+        this.messageService.showSuccessMessage('sites.update_success', {'siteName': site.name});
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

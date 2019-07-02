@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime } from 'rxjs/operators';
-import { AuthorizationService } from '../services/authorization-service';
-import { CentralServerNotificationService } from '../services/central-server-notification.service';
-import { CentralServerService } from '../services/central-server.service';
-import { ConfigService } from '../services/config.service';
-import { RouteGuardService } from '../services/route-guard.service';
-import { Constants } from '../utils/Constants';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {debounceTime} from 'rxjs/operators';
+import {AuthorizationService} from '../services/authorization-service';
+import {CentralServerNotificationService} from '../services/central-server-notification.service';
+import {CentralServerService} from '../services/central-server.service';
+import {ConfigService} from '../services/config.service';
+import {RouteGuardService} from '../services/route-guard.service';
+import {Constants} from '../utils/Constants';
 
 
 declare const $: any;

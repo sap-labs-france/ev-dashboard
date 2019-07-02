@@ -1,40 +1,35 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Charger, SiteArea, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {Charger, SiteArea, TableActionDef, TableColumnDef, TableDef} from 'app/common.types';
+import {AuthorizationService} from 'app/services/authorization-service';
+import {CentralServerService} from 'app/services/central-server.service';
+import {DialogService} from 'app/services/dialog.service';
+import {MessageService} from 'app/services/message.service';
+import {SpinnerService} from 'app/services/spinner.service';
+import {ChargersDialogComponent} from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import {TableAddAction} from 'app/shared/table/actions/table-add-action';
+import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
+import {TableDataSource} from 'app/shared/table/table-data-source';
+import {Constants} from 'app/utils/Constants';
+import {Utils} from 'app/utils/Utils';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
-  public isAdmin = false;
   private siteArea: SiteArea;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService);
-    // Set
-    this.isAdmin = this.authorizationService.isAdmin();
-    // Init
-    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<any> {
@@ -44,15 +39,15 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Yes: Get data
         this.centralServerService.getChargers(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
-            // Ok
-            observer.next(chargers);
-            observer.complete();
-          }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
+          // Ok
+          observer.next(chargers);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       } else {
         // Ok
         observer.next([]);
@@ -62,7 +57,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.isAdmin) {
+    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -73,18 +68,17 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           enabled: true
         }
       };
-    } else {
-      return {
-        class: 'table-dialog-list',
-        rowSelection: {
-          enabled: false,
-          multiple: false
-        },
-        search: {
-          enabled: false
-        }
-      };
     }
+    return {
+      class: 'table-dialog-list',
+      rowSelection: {
+        enabled: false,
+        multiple: false
+      },
+      search: {
+        enabled: false
+      }
+    };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -113,23 +107,23 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      { 'SiteAreaID': siteArea.id }
+      {'SiteAreaID': siteArea.id}
     ]);
     // Set user
     this.siteArea = siteArea;
+    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
+    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return [
         new TableAddAction().getActionDef(),
         new TableRemoveAction().getActionDef(),
         ...tableActionsDef
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

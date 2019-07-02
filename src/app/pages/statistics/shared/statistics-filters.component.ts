@@ -30,7 +30,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears ?= false;
+  @Input() allYears?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
@@ -93,35 +93,35 @@ export class StatisticsFiltersComponent implements OnInit {
         }
       }
     }
-    if (this.statFiltersDef) {
-      // Site filter
-      const foundSitesFilter = this.statFiltersDef.find((filterDef: StatisticsFilterDef) => {
-        return (filterDef.id === 'sites' && filterDef.hidden === false);
-      });
-      // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
-      if (foundSitesFilter && this.isAdmin) {
-        // Get the sites
-        this.centralServerService.getSites([]).subscribe((sites) => {
-          if (sites && sites.result.length > 0) {
-            const firstSite = sites.result[0];
-            const tableFilterDef = new SitesTableFilter().getFilterDef();
-            tableFilterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
-            this.filterChanged({ ...tableFilterDef, hidden: false });
-          }
-          this.filterParams = this.buildFilterValues();
-          this.filters.emit(this.filterParams);
-          this.update.emit(true);
-        });
-      } else {
-        this.filterParams = this.buildFilterValues();
-        this.filters.emit(this.filterParams);
-        this.update.emit(true);
-      }
-    } else {
-      this.filterParams = this.buildFilterValues();
-      this.filters.emit(this.filterParams);
-      this.update.emit(true);
-    }
+    // if (this.statFiltersDef) {
+    //   // Site filter
+    //   const foundSitesFilter = this.statFiltersDef.find((filterDef: StatisticsFilterDef) => {
+    //     return (filterDef.id === 'sites' && filterDef.hidden === false);
+    //   });
+    //   // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
+    //   if (foundSitesFilter && this.isAdmin) {
+    //     // Get the sites
+    //     this.centralServerService.getSites([]).subscribe((sites) => {
+    //       if (sites && sites.result.length > 0) {
+    //         const firstSite = sites.result[0];
+    //         const tableFilterDef = new SitesTableFilter().getFilterDef();
+    //         tableFilterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
+    //         this.filterChanged({ ...tableFilterDef, hidden: false });
+    //       }
+    //       this.filterParams = this.buildFilterValues();
+    //       this.filters.emit(this.filterParams);
+    //       this.update.emit(true);
+    //     });
+    //   } else {
+    //     this.filterParams = this.buildFilterValues();
+    //     this.filters.emit(this.filterParams);
+    //     this.update.emit(true);
+    //   }
+    // } else {
+    this.filterParams = this.buildFilterValues();
+    this.filters.emit(this.filterParams);
+    this.update.emit(true);
+    //    }
   }
 
   public filterChanged(filter: StatisticsFilterDef): void {

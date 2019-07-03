@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Charger } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
-import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
+import { Constants } from '../../../utils/Constants';
 import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';
 import { ChargingStationOCPPConfigurationComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 
@@ -18,13 +17,12 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
   templateUrl: 'charging-station.component.html'
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentCharger: Charger;
   public userLocales;
   public isAdmin;
 
-  @ViewChild('ocppParameters', { static: false }) ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
-  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters', {static: false}) ocppParametersComponent: ChargingStationOCPPConfigurationComponent;
+  @ViewChild('chargerParameters', {static: true}) chargerParametersComponent: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden: boolean; // by default deactivate
@@ -41,25 +39,18 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<ChargingStationComponent>,
-    private router: Router) {
+    public dialogRef: MatDialogRef<ChargingStationComponent>) {
 
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.isSaveButtonHidden = !this.isAdmin;
   }
 
   ngOnInit() {
-      // Check auth
-    if (!this.authorizationService.canUpdateChargingStation({
-      'id': 'currentCharger.id'
-    }) && !this.authorizationService.isDemo()) {
+    // Check auth
+    if (!this.authorizationService.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE) && !this.authorizationService.isDemo()) {
       // Not authorized
       this.messageService.showErrorMessage(this.translateService.instant('chargers.action_error.not_authorize'));
       this.dialog.closeAll();
-      setTimeout(() => this.router.navigate(['/']), 1000);
     }
 
     // listen to escape key
@@ -72,6 +63,9 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // Admin?
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : null);
+    this.isSaveButtonHidden = !this.isAdmin;
 
     // check changes to activate or not save button
     this.chargerParametersComponent.formGroup.statusChanges.subscribe(() => {
@@ -124,10 +118,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
    * save
    */
   public save() {
-    switch (this.activePane) {
-      case CHARGERS_PANE_NAME:
-        this.chargerParametersComponent.saveChargeBox();
-        break;
+    if (this.activePane === CHARGERS_PANE_NAME) {
+      this.chargerParametersComponent.saveChargeBox();
     }
   }
 

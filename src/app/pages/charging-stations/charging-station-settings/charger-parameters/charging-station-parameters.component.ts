@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injectable, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -19,15 +19,15 @@ import { Utils } from '../../../../utils/Utils';
 
 export const CONNECTED_PHASE_MAP =
   [
-    { key: 1, description: 'chargers.single_phase' },
-    { key: 3, description: 'chargers.tri_phases' },
-    { key: 0, description: 'chargers.direct_current' }
+    {key: 1, description: 'chargers.single_phase'},
+    {key: 3, description: 'chargers.tri_phases'},
+    {key: 0, description: 'chargers.direct_current'}
   ];
 
 export const POWER_UNIT_MAP =
   [
-    { key: 'W', description: 'chargers.watt' },
-    { key: 'A', description: 'chargers.amper' }
+    {key: 'W', description: 'chargers.watt'},
+    {key: 'A', description: 'chargers.amper'}
   ];
 
 @Component({
@@ -80,14 +80,15 @@ export class ChargingStationParametersComponent implements OnInit {
     });
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.formGroup = new FormGroup({});
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);
   }
 
   ngOnInit(): void {
+    // Admin?
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : null);
+
     // Init the form
     this.formGroup = new FormGroup({
       'chargingStationURL': new FormControl('',
@@ -166,10 +167,10 @@ export class ChargingStationParametersComponent implements OnInit {
       const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
       const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
       this.formGroup.addControl(connectorTypeId, new FormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.pattern('^[^U]*$')
-      ])));
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[^U]*$')
+        ])));
       this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
         Validators.compose([
           Validators.required,
@@ -216,15 +217,15 @@ export class ChargingStationParametersComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getChargers({ ChargeBoxID: this.charger.id, 'WithSite': true }).subscribe((chargerResult) => {
-      this.charger = chargerResult.result[0];
+    this.centralServerService.getCharger(this.charger.id).subscribe((chargerResult) => {
+      this.charger = chargerResult;
 
       // Init form
       if (this.charger.chargingStationURL) {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
         // this.formGroup.controls.chargingStationURL.updateValueAndValidity();
       }
-      if (this.charger.numberOfConnectedPhase >= 0 ) {
+      if (this.charger.numberOfConnectedPhase >= 0) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
       }
       if (this.charger.cannotChargeInParallel) {
@@ -321,13 +322,13 @@ export class ChargingStationParametersComponent implements OnInit {
     // Open
     this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result && result.length > 0 && result[0] && result[0].objectRef) {
-          this.charger.siteArea = <SiteArea>(result[0].objectRef);
-          this.formGroup.markAsDirty();
-          this.formGroup.controls.siteArea.setValue(
-            `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
-        }
-      });
+      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+        this.charger.siteArea = <SiteArea>(result[0].objectRef);
+        this.formGroup.markAsDirty();
+        this.formGroup.controls.siteArea.setValue(
+          `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
+      }
+    });
   }
 
   public assignGeoMap() {
@@ -362,7 +363,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
     // Set data
     dialogConfig.data = {
-      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', { chargeBoxID: this.charger.id }),
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', {chargeBoxID: this.charger.id}),
       latitude: latitude,
       longitude: longitude,
       label: this.charger.id ? this.charger.id : ''
@@ -372,21 +373,21 @@ export class ChargingStationParametersComponent implements OnInit {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-        if (result) {
-          if (result.latitude) {
-            this.formGroup.controls.latitude.setValue(result.latitude);
-            this.formGroup.markAsDirty();
-          }
-          if (result.longitude) {
-            this.formGroup.controls.longitude.setValue(result.longitude);
-            this.formGroup.markAsDirty();
-          }
+      if (result) {
+        if (result.latitude) {
+          this.formGroup.controls.latitude.setValue(result.latitude);
+          this.formGroup.markAsDirty();
         }
-      });
+        if (result.longitude) {
+          this.formGroup.controls.longitude.setValue(result.longitude);
+          this.formGroup.markAsDirty();
+        }
+      }
+    });
   }
 
   public closeDialog(saved: boolean = false) {
-    if ( this.dialogRef) {
+    if (this.dialogRef) {
       this.dialogRef.close(saved);
     }
   }
@@ -428,7 +429,7 @@ export class ChargingStationParametersComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         // tslint:disable-next-line:max-line-length
-        this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
+        this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

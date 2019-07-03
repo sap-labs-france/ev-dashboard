@@ -180,7 +180,6 @@ export interface Charger {
   numberOfConnectedPhase: number;
   connectors: Connector[];
   siteArea: SiteArea;
-  site: Site;
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
@@ -517,6 +516,9 @@ export interface User {
   numberOfSites: number;
   activeComponents?: Array<string>;
   scopes: Array<string>;
+  companies: Array<string>;
+  sites: Array<string>;
+  sitesAdmin: Array<string>;
   userHashID: number;
   tenantHashID: number;
 }

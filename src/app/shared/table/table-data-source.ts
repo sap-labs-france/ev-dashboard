@@ -1,10 +1,10 @@
-import {MatSort} from '@angular/material/sort';
-import {SpinnerService} from 'app/services/spinner.service';
+import { MatSort } from '@angular/material/sort';
+import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
-import {Observable, of} from 'rxjs';
-import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
-import {Constants} from '../../utils/Constants';
-import {TableResetFiltersAction} from './actions/table-reset-filters-action';
+import { of, Observable } from 'rxjs';
+import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
+import { Constants } from '../../utils/Constants';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T> {
   public tableDef: TableDef;
@@ -573,7 +573,7 @@ export abstract class TableDataSource<T> {
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
-        const rowID = this.getTableDef().rowFieldNameIdentifier;
+        const rowID = this.getTableDef(false).rowFieldNameIdentifier;
         // Trigger exception
         if (!rowID) {
           throw new Error('Table Def has no row ID defined!');

@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {User} from '../common.types';
-import {Constants} from '../utils/Constants';
-import {CentralServerService} from './central-server.service';
+import { Injectable } from '@angular/core';
+import { User } from '../common.types';
+import { Constants } from '../utils/Constants';
+import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class AuthorizationService {

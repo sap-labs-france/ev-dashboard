@@ -1,20 +1,20 @@
-import {Injectable} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
-import {Charger, SiteArea, TableActionDef, TableColumnDef, TableDef} from 'app/common.types';
-import {AuthorizationService} from 'app/services/authorization-service';
-import {CentralServerService} from 'app/services/central-server.service';
-import {DialogService} from 'app/services/dialog.service';
-import {MessageService} from 'app/services/message.service';
-import {SpinnerService} from 'app/services/spinner.service';
-import {ChargersDialogComponent} from 'app/shared/dialogs/chargers/chargers-dialog-component';
-import {TableAddAction} from 'app/shared/table/actions/table-add-action';
-import {TableRemoveAction} from 'app/shared/table/actions/table-remove-action';
-import {TableDataSource} from 'app/shared/table/table-data-source';
-import {Constants} from 'app/utils/Constants';
-import {Utils} from 'app/utils/Utils';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Charger, SiteArea, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import { AuthorizationService } from 'app/services/authorization-service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {

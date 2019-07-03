@@ -10,7 +10,6 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
 
@@ -19,7 +18,6 @@ import { mergeMap } from 'rxjs/operators';
   templateUrl: 'site-area.component.html'
 })
 export class SiteAreaComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
@@ -43,6 +41,7 @@ export class SiteAreaComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
+  public isAdmin: boolean;
 
   public sites: any;
 
@@ -183,8 +182,10 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
       this.formGroup.markAsPristine();
 
+      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+
       // if not admin switch in readonly mode
-      if (!this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      if (!this.isAdmin) {
         this.formGroup.disable();
       }
       // Init form

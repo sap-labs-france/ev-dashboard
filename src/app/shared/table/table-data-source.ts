@@ -211,23 +211,9 @@ export abstract class TableDataSource<T> {
     }
   }
 
-  public getTableActionsDef(force: boolean): TableActionDef[] {
-    if (!this.tableActionsDef || force) {
-      this.tableActionsDef = this.buildTableActionsDef();
-    }
-    return this.tableActionsDef;
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     // Return default
     return [];
-  }
-
-  public getTableActionsRightDef(force): TableActionDef[] {
-    if (!this.tableActionsRightDef || force) {
-      this.tableActionsRightDef = this.buildTableActionsRightDef();
-    }
-    return this.tableActionsRightDef;
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -235,32 +221,11 @@ export abstract class TableDataSource<T> {
     return [];
   }
 
-  public getTableRowActions(force: boolean): TableActionDef[] {
-    if (!this.tableRowActionsDef || force) {
-      this.tableRowActionsDef = this.buildTableRowActions();
-    }
-    return this.tableRowActionsDef;
-  }
-
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
-  public getTableFiltersDef(force: boolean): TableFilterDef[] {
-    if (!this.tableFiltersDef || force) {
-      this.tableFiltersDef = this.buildTableFiltersDef();
-    }
-    return this.tableFiltersDef;
-  }
-
   abstract buildTableDef(): TableDef;
-
-  public getTableDef(force: boolean): TableDef {
-    if (!this.tableDef || force) {
-      this.tableDef = this.buildTableDef();
-    }
-    return this.tableDef;
-  }
 
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
@@ -376,13 +341,6 @@ export abstract class TableDataSource<T> {
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public getTableColumnDefs(force: boolean): TableColumnDef[] {
-    if (!this.tableColumnDefs || force) {
-      this.tableColumnDefs = this.buildTableColumnDefs();
-    }
-    return this.tableColumnDefs;
-  }
-
   public refreshData(showSpinner = true): Observable<T> {
     // Init paging
     const currentPaging = this.getPaging();
@@ -488,12 +446,12 @@ export abstract class TableDataSource<T> {
 
   protected initDataSource(force: boolean = false): any {
     // Init data from sub-classes
-    this.getTableColumnDefs(force);
-    this.getTableDef(force);
-    this.getTableFiltersDef(force);
-    this.getTableActionsDef(force);
-    this.getTableActionsRightDef(force);
-    this.getTableRowActions(force);
+    this.initTableColumnDefs(force);
+    this.initTableDef(force);
+    this.initTableFiltersDef(force);
+    this.initTableActionsDef(force);
+    this.initTableActionsRightDef(force);
+    this.initTableRowActions(force);
 
     // Init vars
     // tslint:disable-next-line:max-line-length
@@ -504,6 +462,48 @@ export abstract class TableDataSource<T> {
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
       this.tableDef.hasDynamicRowAction;
+  }
+
+  private initTableRowActions(force: boolean): TableActionDef[] {
+    if (!this.tableRowActionsDef || force) {
+      this.tableRowActionsDef = this.buildTableRowActions();
+    }
+    return this.tableRowActionsDef;
+  }
+
+  private initTableColumnDefs(force: boolean): TableColumnDef[] {
+    if (!this.tableColumnDefs || force) {
+      this.tableColumnDefs = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDefs;
+  }
+
+  private initTableActionsDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsDef || force) {
+      this.tableActionsDef = this.buildTableActionsDef();
+    }
+    return this.tableActionsDef;
+  }
+
+  private initTableActionsRightDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsRightDef || force) {
+      this.tableActionsRightDef = this.buildTableActionsRightDef();
+    }
+    return this.tableActionsRightDef;
+  }
+
+  private initTableFiltersDef(force: boolean): TableFilterDef[] {
+    if (!this.tableFiltersDef || force) {
+      this.tableFiltersDef = this.buildTableFiltersDef();
+    }
+    return this.tableFiltersDef;
+  }
+
+  private initTableDef(force: boolean): TableDef {
+    if (!this.tableDef || force) {
+      this.tableDef = this.buildTableDef();
+    }
+    return this.tableDef;
   }
 
   private setData(data: T[]) {
@@ -573,7 +573,7 @@ export abstract class TableDataSource<T> {
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
-        const rowID = this.getTableDef(false).rowFieldNameIdentifier;
+        const rowID = this.initTableDef(false).rowFieldNameIdentifier;
         // Trigger exception
         if (!rowID) {
           throw new Error('Table Def has no row ID defined!');

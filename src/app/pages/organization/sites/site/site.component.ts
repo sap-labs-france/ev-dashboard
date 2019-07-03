@@ -10,7 +10,6 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
 
@@ -19,7 +18,6 @@ import { mergeMap } from 'rxjs/operators';
   templateUrl: 'site.component.html'
 })
 export class SiteComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
@@ -44,6 +42,7 @@ export class SiteComponent implements OnInit {
   public latitude: AbstractControl;
   public longitude: AbstractControl;
   public companies: any;
+  public isAdmin: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -175,8 +174,10 @@ export class SiteComponent implements OnInit {
       return;
     }
 
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID);
+
     // if not admin switch in readonly mode
-    if (!this.authorizationService.isSiteAdmin(this.currentSiteID)) {
+    if (!this.isAdmin) {
       this.formGroup.disable();
     }
     // Show spinner

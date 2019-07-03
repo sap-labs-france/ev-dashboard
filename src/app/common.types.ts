@@ -180,7 +180,6 @@ export interface Charger {
   numberOfConnectedPhase: number;
   connectors: Connector[];
   siteArea: SiteArea;
-  site: Site;
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;

@@ -1,5 +1,4 @@
 import { Charger, KeyValue } from 'app/common.types';
-import * as moment from 'moment';
 
 export class ChargingStations {
   public static convertAmpToW(numberOfConnectedPhase, maxIntensityInAmper) {

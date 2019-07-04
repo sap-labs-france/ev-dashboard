@@ -4,9 +4,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { NavItem, NavItemType } from '../../common.types';
-
-import PerfectScrollbar from 'perfect-scrollbar';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 declare const $: any;

@@ -529,7 +529,7 @@ export interface UserSiteResult {
 }
 
 export interface UserSite {
-  user: User,
+  user: User;
   siteID: string;
   siteAdmin: boolean;
 }
@@ -539,7 +539,7 @@ export interface SiteUserResult {
 }
 
 export interface SiteUser {
-  site: Site,
+  site: Site;
   userID: string;
   siteAdmin: boolean;
 }

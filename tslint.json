@@ -156,11 +156,14 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
+    "promise-function-async": true,
+    "no-floating-promises": true,
     "await-promise": true,
     "unnecessary-constructor": true,
     "function-constructor": true,
     "no-tautology-expression": true,
     "no-async-without-await": true,
+    "no-return-await": true,
     "linebreak-style": [
       true,
       "LF"

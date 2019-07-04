@@ -8,7 +8,6 @@ import { ConfigService } from '../services/config.service';
 import { RouteGuardService } from '../services/route-guard.service';
 import { Constants } from '../utils/Constants';
 
-
 declare const $: any;
 
 const misc: any = {

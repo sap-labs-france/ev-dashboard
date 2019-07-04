@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarComponent } from './sidebar.component';
 
-
 @NgModule({
   imports: [
     RouterModule,

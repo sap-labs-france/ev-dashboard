@@ -12,7 +12,6 @@ import { AppFormatRowCellPipe } from './app-format-row-cell';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
 
-
 @NgModule({
   imports: [],
   declarations: [

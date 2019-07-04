@@ -7,7 +7,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';

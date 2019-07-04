@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { Address, Company } from 'app/common.types';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { CentralServerService } from './central-server.service';
-
-import * as moment from 'moment';
 
 const DATA_LOAD_INTERVAL = 10000;
 

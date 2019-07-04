@@ -62,6 +62,8 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     this.checkConcurConnection();
     // Init
     this.initDataSource();
+    // Add statistics to query
+    this.setStaticFilters([ {Statistics: 'refund'} ]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -100,6 +102,29 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         angularComponent: ConsumptionChartDetailComponent
       }
     };
+  }
+
+  public buildTableFooterStats(data) {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      // Stats?
+      if (data.stats) {
+        // Total Consumption
+        // tslint:disable-next-line:max-line-length
+        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        // Refund transactions
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, null, '1.2-2')})`;
+        // Pending transactions
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.pending_transactions')}: ${data.stats.countPendingTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPricePending, null, '1.2-2')})`;
+        // Number of reimbursed reports submitted
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.count_refunded_reports')}: ${data.stats.countRefundedReports}`;
+        return stats;
+      }
+    }
+    this.tableFooterStats = '';
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

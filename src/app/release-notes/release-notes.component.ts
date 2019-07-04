@@ -28,6 +28,30 @@ export class ReleaseNotesComponent {
     // Admin Release Notes
     this.releaseNotes = [
       {
+        version: '2.0.28',
+        date: new Date('2019-07-04'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Fixed when there is only one connector in charger's details`,
+              `Added capability to search in detailed logs`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Fixed BootNotification for DBT charger with registration URL in uppercase in OCPP 1.5 (Soap)`,
+              `Fixed BootNotification for Hager charger with wrong parsed Soap Headers`,
+              `Handle getting the charging stations with not all the connectors registered`,
+              `Check that the chargeBoxIdentity is always provided in OCPP`,
+              `Enhanced OCPP SOAP logging by adding SOAP Headers`,
+              `Fixed new registered Users are not auto-assigned to Sites`,
+            ]
+          }
+        ]
+      },
+      {
         version: '2.0.27',
         date: new Date('2019-06-08'),
         componentChanges: [

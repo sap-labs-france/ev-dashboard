@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
+              `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
               `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,

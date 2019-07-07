@@ -378,10 +378,8 @@ export abstract class TableDataSource<T> {
           // Loading on going?
           if (!this.loadingNumberOfRecords) {
             // No: Check
-            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-              (this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
-                this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
-            ) {
+            if (this.data.length <= this.totalNumberOfRecords &&  // Already have all the records?
+              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
               // Load records
               this.requestNumberOfRecords();
             }

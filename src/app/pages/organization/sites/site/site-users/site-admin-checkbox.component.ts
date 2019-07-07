@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { Site, User, UserSite } from '../../../../../common.types';
+import { User, UserSite } from '../../../../../common.types';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';

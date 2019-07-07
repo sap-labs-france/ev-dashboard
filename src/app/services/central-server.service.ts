@@ -505,10 +505,9 @@ export class CentralServerService {
       );
   }
 
-  public getSiteUsers(siteID: string, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteResult> {
+  public getSiteUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteResult> {
     // Verify init
     this._checkInit();
-    const params = {SiteID: siteID};
     // Build Paging
     this._getPaging(paging, params);
     // Build Ordering

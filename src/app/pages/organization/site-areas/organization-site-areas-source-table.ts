@@ -100,14 +100,14 @@ export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
         sortable: true
       },
       {
-        id: 'site.address.city',
+        id: 'address.city',
         name: 'general.city',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true
       },
       {
-        id: 'site.address.country',
+        id: 'address.country',
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'col-20p',

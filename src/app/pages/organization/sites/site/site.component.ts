@@ -119,6 +119,8 @@ export class SiteComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
+    this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE);
+
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {

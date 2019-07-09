@@ -211,23 +211,9 @@ export abstract class TableDataSource<T> {
     }
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    if (!this.tableActionsDef) {
-      this.tableActionsDef = this.buildTableActionsDef();
-    }
-    return this.tableActionsDef;
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
     // Return default
     return [];
-  }
-
-  public getTableActionsRightDef(): TableActionDef[] {
-    if (!this.tableActionsRightDef) {
-      this.tableActionsRightDef = this.buildTableActionsRightDef();
-    }
-    return this.tableActionsRightDef;
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -235,32 +221,11 @@ export abstract class TableDataSource<T> {
     return [];
   }
 
-  public getTableRowActions(): TableActionDef[] {
-    if (!this.tableRowActionsDef) {
-      this.tableRowActionsDef = this.buildTableRowActions();
-    }
-    return this.tableRowActionsDef;
-  }
-
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
-    if (!this.tableFiltersDef) {
-      this.tableFiltersDef = this.buildTableFiltersDef();
-    }
-    return this.tableFiltersDef;
-  }
-
   abstract buildTableDef(): TableDef;
-
-  public getTableDef(): TableDef {
-    if (!this.tableDef) {
-      this.tableDef = this.buildTableDef();
-    }
-    return this.tableDef;
-  }
 
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
@@ -320,7 +285,7 @@ export abstract class TableDataSource<T> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Table
+            // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -336,7 +301,7 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
-          // Others
+            // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -376,13 +341,6 @@ export abstract class TableDataSource<T> {
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public getTableColumnDefs(): TableColumnDef[] {
-    if (!this.tableColumnDefs) {
-      this.tableColumnDefs = this.buildTableColumnDefs();
-    }
-    return this.tableColumnDefs;
-  }
-
   public refreshData(showSpinner = true): Observable<T> {
     // Init paging
     const currentPaging = this.getPaging();
@@ -420,12 +378,10 @@ export abstract class TableDataSource<T> {
           // Loading on going?
           if (!this.loadingNumberOfRecords) {
             // No: Check
-            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-               (this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
-                this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
-              ) {
-                // Load records
-                this.requestNumberOfRecords();
+            if (this.data.length <= this.totalNumberOfRecords &&  // Already have all the records?
+              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+              // Load records
+              this.requestNumberOfRecords();
             }
           }
         }, 1);
@@ -455,7 +411,7 @@ export abstract class TableDataSource<T> {
     // Add only record count
     const staticFilters = [
       ...this.getStaticFilters(),
-      { 'OnlyRecordCount': true}
+      {'OnlyRecordCount': true}
     ];
     // Set
     this.setStaticFilters(staticFilters);
@@ -486,14 +442,14 @@ export abstract class TableDataSource<T> {
     return true;
   }
 
-  protected initDataSource(): any {
+  protected initDataSource(force: boolean = false): any {
     // Init data from sub-classes
-    this.getTableColumnDefs();
-    this.getTableDef();
-    this.getTableFiltersDef();
-    this.getTableActionsDef();
-    this.getTableActionsRightDef();
-    this.getTableRowActions();
+    this.initTableColumnDefs(force);
+    this.initTableDef(force);
+    this.initTableFiltersDef(force);
+    this.initTableActionsDef(force);
+    this.initTableActionsRightDef(force);
+    this.initTableRowActions(force);
 
     // Init vars
     // tslint:disable-next-line:max-line-length
@@ -504,6 +460,48 @@ export abstract class TableDataSource<T> {
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
       this.tableDef.hasDynamicRowAction;
+  }
+
+  private initTableRowActions(force: boolean): TableActionDef[] {
+    if (!this.tableRowActionsDef || force) {
+      this.tableRowActionsDef = this.buildTableRowActions();
+    }
+    return this.tableRowActionsDef;
+  }
+
+  private initTableColumnDefs(force: boolean): TableColumnDef[] {
+    if (!this.tableColumnDefs || force) {
+      this.tableColumnDefs = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDefs;
+  }
+
+  private initTableActionsDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsDef || force) {
+      this.tableActionsDef = this.buildTableActionsDef();
+    }
+    return this.tableActionsDef;
+  }
+
+  private initTableActionsRightDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsRightDef || force) {
+      this.tableActionsRightDef = this.buildTableActionsRightDef();
+    }
+    return this.tableActionsRightDef;
+  }
+
+  private initTableFiltersDef(force: boolean): TableFilterDef[] {
+    if (!this.tableFiltersDef || force) {
+      this.tableFiltersDef = this.buildTableFiltersDef();
+    }
+    return this.tableFiltersDef;
+  }
+
+  private initTableDef(force: boolean): TableDef {
+    if (!this.tableDef || force) {
+      this.tableDef = this.buildTableDef();
+    }
+    return this.tableDef;
   }
 
   private setData(data: T[]) {
@@ -520,8 +518,8 @@ export abstract class TableDataSource<T> {
     }
     // Update Selection variables
     if (this.tableDef.rowSelection &&
-        this.tableDef.rowSelection.enabled &&
-        this.tableDef.rowSelection.multiple) {
+      this.tableDef.rowSelection.enabled &&
+      this.tableDef.rowSelection.multiple) {
       // Init
       this.maxSelectableRows = 0;
       this.selectedRows = 0;
@@ -573,7 +571,7 @@ export abstract class TableDataSource<T> {
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
-        const rowID = this.getTableDef().rowFieldNameIdentifier;
+        const rowID = this.initTableDef(false).rowFieldNameIdentifier;
         // Trigger exception
         if (!rowID) {
           throw new Error('Table Def has no row ID defined!');

@@ -7,7 +7,6 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ComponentEnum } from './services/component.service';
 import { Constants } from './utils/Constants';
 
-
 export const AppRoutes: Routes = [
   {
     path: 'auth', component: AuthLayoutComponent,

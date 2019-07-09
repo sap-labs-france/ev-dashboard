@@ -21,7 +21,6 @@ import { SiteDialogComponent } from './sites/site/site.dialog.component';
 
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { UserRolePipe } from '../users/formatters/user-role.pipe';
 import { OrganizationCompaniesDataSource } from './companies/organization-companies-source-table';
 import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';

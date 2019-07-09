@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Site, TableActionDef, TableColumnDef, TableDef, User } from 'app/common.types';
+import { Site, TableActionDef, TableColumnDef, TableDef, UserSite } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { SiteAdminCheckboxComponent } from './site-admin-checkbox.component';
 
 @Injectable()
-export class SiteUsersDataSource extends TableDataSource<User> {
+export class SiteUsersDataSource extends TableDataSource<UserSite> {
   private _site: Site;
 
   constructor(
@@ -36,8 +36,10 @@ export class SiteUsersDataSource extends TableDataSource<User> {
     return new Observable((observer) => {
       // Site provided?
       if (this._site) {
+        console.log(new Error());
         // Yes: Get data
-        this.centralServerService.getSiteUsers(this._site.id,
+        this.centralServerService.getSiteUsers(
+          {...this.buildFilterValues(), SiteID: this._site.id},
           this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
           // Ok
           observer.next(siteUsers);
@@ -134,7 +136,7 @@ export class SiteUsersDataSource extends TableDataSource<User> {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
               // Remove
-              this._removeUsers(this.getSelectedRows().map((row) => row.id));
+              this._removeUsers(this.getSelectedRows().map((row) => row.user.id));
             }
           });
         }

@@ -1,17 +1,12 @@
-<!-- <div class="main-content"> -->
-  <div class="table-responsive-md flex-grow-1">
-    <mat-dialog-content class="charger-properties-component">
-      <table class="mat-table" role="grid">
-        <tbody role="rowgroup">
-          <ng-container *ngFor="let item of displayedProperties" >
-            <tr *ngIf="item.value" class="mat-row" role="row">
-              <td  class="py-2" align="left" ><strong>{{item.title | translate}}</strong></td>
-              <td class="py-2" align="left">{{item.value}}</td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </mat-dialog-content>
-  </div>
-  
-<!-- </div> -->
+<div class="table-responsive-md d-flex justify-content-center">
+  <table class="mat-table">
+    <tbody role="rowgroup">
+    <ng-container *ngFor="let item of displayedProperties">
+      <tr *ngIf="item.value" class="mat-row" role="row">
+        <th class="px-5 py-2 text-left">{{item.title | translate}}</th>
+        <td class="px-5 py-2 text-left">{{item.value}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

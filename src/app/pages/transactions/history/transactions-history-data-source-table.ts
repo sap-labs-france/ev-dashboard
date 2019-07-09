@@ -65,6 +65,8 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     this.isAdmin = this.authorizationService.isAdmin();
     // Init
     this.initDataSource();
+    // Add statistics to query
+    this.setStaticFilters([ {Statistics: 'history'} ]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -186,7 +188,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
       // Stats?
       if (data.stats) {
         // Build
-        const percentInactivity = Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100);
+        const percentInactivity = (data.stats.totalDurationSecs > 0 ? (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
         // tslint:disable-next-line:max-line-length
         let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;

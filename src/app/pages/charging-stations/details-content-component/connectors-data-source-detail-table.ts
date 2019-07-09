@@ -172,11 +172,7 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     return `${_errorCode}${_info}${_vendorErrorCode}`;
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    return super.getTableActionsDef();
-  }
-
-  public getTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef()

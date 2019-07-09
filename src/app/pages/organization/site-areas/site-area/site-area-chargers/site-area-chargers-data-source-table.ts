@@ -18,23 +18,18 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
-  public isAdmin = false;
   private siteArea: SiteArea;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private router: Router,
-      private dialog: MatDialog,
-      private dialogService: DialogService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService);
-    // Set
-    this.isAdmin = this.authorizationService.isAdmin();
-    // Init
-    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<any> {
@@ -44,15 +39,15 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Yes: Get data
         this.centralServerService.getChargers(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
-            // Ok
-            observer.next(chargers);
-            observer.complete();
-          }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
+          // Ok
+          observer.next(chargers);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       } else {
         // Ok
         observer.next([]);
@@ -62,7 +57,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.isAdmin) {
+    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -73,18 +68,17 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           enabled: true
         }
       };
-    } else {
-      return {
-        class: 'table-dialog-list',
-        rowSelection: {
-          enabled: false,
-          multiple: false
-        },
-        search: {
-          enabled: false
-        }
-      };
     }
+    return {
+      class: 'table-dialog-list',
+      rowSelection: {
+        enabled: false,
+        multiple: false
+      },
+      search: {
+        enabled: false
+      }
+    };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -113,23 +107,23 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      { 'SiteAreaID': siteArea.id }
+      {'SiteAreaID': siteArea.id}
     ]);
     // Set user
     this.siteArea = siteArea;
+    this.initDataSource(true);
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
+    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return [
         new TableAddAction().getActionDef(),
         new TableRemoveAction().getActionDef(),
         ...tableActionsDef
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

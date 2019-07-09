@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Charger,
+  ChargerResult,
+  DropdownItem,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -12,7 +21,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
@@ -41,14 +49,10 @@ import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/s
 
 @Injectable()
 export class ChargingStationsListDataSource extends TableDataSource<Charger> {
-  private isAdmin: boolean;
-  private isBasic: boolean;
-  private isDemo: boolean;
-  private isOrganizationComponentActive: boolean;
+  private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private rebootAction = new TableChargerRebootAction().getActionDef();
   private moreAction = new TableChargerMoreAction().getActionDef();
-  private noAction = new TableNoAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -65,9 +69,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     super(spinnerService);
     // Init
     this.setStaticFilters([{'WithSite': true}]);
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.isDemo = this.authorizationService.isDemo();
-    this.isBasic = this.authorizationService.isBasic();
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     this.initDataSource();
   }
@@ -76,11 +77,11 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<ChargerResult> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((chargers) => {
+        this.getPaging(), this.getSorting()).subscribe((chargers) => {
         // Update details status
         chargers.result.forEach(charger => {
           // At first filter out the connectors that are null
@@ -99,15 +100,6 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         observer.error(error);
       });
     });
-  }
-
-  public getConnectors(id): Observable<Connector> {
-    this.getData().forEach(charger => {
-      if (charger.id === id) {
-        return charger;
-      }
-    });
-    return null;
   }
 
   public buildTableDef(): TableDef {
@@ -186,7 +178,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         ]
       );
     }
-    if (this.isAdmin) {
+    if (this.authorizationService.isAdmin()) {
       tableColumns = tableColumns.concat(
         [
           {
@@ -218,14 +210,13 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
+    if (this.authorizationService.isAdmin()) {
       return [
         new TableExportAction().getActionDef(),
         ...tableActionsDef
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -310,9 +301,8 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
         //      new ChargerTableFilter().getFilterDef(),
         new SitesTableFilter().getFilterDef()
       ];
-    } else {
-      return [];
     }
+    return [];
   }
 
   public showChargingStationDialog(chargingStation?: Charger) {
@@ -336,28 +326,22 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     });
   }
 
-  buildTableDynamicRowActions(charger: Charger) {
-    let actionTable: any[];
+  buildTableDynamicRowActions(charger: Charger): TableActionDef[] {
+    if (!charger) {
+      return [];
+    }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (charger && charger.latitude && charger.longitude) ? false : true;
-    if (this.isAdmin) {
-      actionTable = [
+    openInMaps.disabled = !(charger && charger.latitude && charger.longitude);
+    if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : null)) {
+      return [
         this.editAction,
         openInMaps,
         this.rebootAction,
         this.moreAction,
       ];
-    } else if (this.isDemo) {
-      actionTable = [openInMaps];
-    } else if (this.isBasic) {
-      actionTable = [openInMaps];
-    } else {
-      return [
-        this.noAction
-      ];
     }
-    return actionTable;
+    return [openInMaps];
   }
 
   private simpleActionChargingStation(action: string, charger: Charger, args, title, message, successMessage, errorMessage) {
@@ -533,7 +517,7 @@ export class ChargingStationsListDataSource extends TableDataSource<Charger> {
     let latitude = 0;
     let longitude = 0;
     if (charger) {
-      // get latitud/longitude from form
+      // get latitude/longitude from form
       latitude = charger.latitude;
       longitude = charger.longitude;
 

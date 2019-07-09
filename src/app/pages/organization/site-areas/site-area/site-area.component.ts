@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { mergeMap } from 'rxjs/operators';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization-service';
@@ -11,20 +10,18 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site-area-cmp',
   templateUrl: 'site-area.component.html'
 })
 export class SiteAreaComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
 
-  public isAdmin = false;
   public image: any = Constants.SITE_AREA_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -44,6 +41,7 @@ export class SiteAreaComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
+  public isAdmin: boolean;
 
   public sites: any;
 
@@ -60,13 +58,10 @@ export class SiteAreaComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSiteArea({ 'id': this.activatedRoute.snapshot.params['id'] })) {
+      !authorizationService.canUpdateSiteArea({'id': this.activatedRoute.snapshot.params['id']})) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
-    // get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     // refresh available sites
     this.refreshAvailableSites();
@@ -128,11 +123,6 @@ export class SiteAreaComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-    // if not admin switch in readonly mode
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
-
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -171,7 +161,7 @@ export class SiteAreaComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableSites.count; i++) {
-        this.sites.push({ 'id': availableSites.result[i].id, 'name': availableSites.result[i].name });
+        this.sites.push({'id': availableSites.result[i].id, 'name': availableSites.result[i].name});
       }
     });
   }
@@ -185,11 +175,19 @@ export class SiteAreaComponent implements OnInit {
     if (!this.currentSiteAreaID) {
       return;
     }
+
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
       this.formGroup.markAsPristine();
+
+      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+
+      // if not admin switch in readonly mode
+      if (!this.isAdmin) {
+        this.formGroup.disable();
+      }
       // Init form
       if (siteArea.id) {
         this.formGroup.controls.id.setValue(siteArea.id);
@@ -342,7 +340,7 @@ export class SiteAreaComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
-          { 'siteAreaName': siteArea.name });
+          {'siteAreaName': siteArea.name});
         // Close
         this.currentSiteAreaID = siteArea.id;
         this.closeDialog(true);
@@ -379,7 +377,7 @@ export class SiteAreaComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('site_areas.update_success', { 'siteAreaName': siteArea.name });
+        this.messageService.showSuccessMessage('site_areas.update_success', {'siteAreaName': siteArea.name});
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

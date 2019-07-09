@@ -27,12 +27,13 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
-        version: '2.0.28',
-        date: new Date('2019-06-28'),
+        version: '2.0.29',
+        date: new Date('2019-07-07'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
+              `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
               `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,
@@ -50,6 +51,30 @@ export class ReleaseNotesComponent {
               `Typescript migration`,
               `Encrypt sensitive data stored in database (password, secret key...)`,
               `Added Site Admin role for Basic users`
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.0.28',
+        date: new Date('2019-07-04'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Fixed when there is only one connector in charger's details`,
+              `Added capability to search in detailed logs`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Fixed BootNotification for DBT charger with registration URL in uppercase in OCPP 1.5 (Soap)`,
+              `Fixed BootNotification for Hager charger with wrong parsed Soap Headers`,
+              `Handle getting the charging stations with not all the connectors registered`,
+              `Check that the chargeBoxIdentity is always provided in OCPP`,
+              `Enhanced OCPP SOAP logging by adding SOAP Headers`,
+              `Fixed new registered Users are not auto-assigned to Sites`,
             ]
           }
         ]

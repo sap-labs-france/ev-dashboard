@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { Site, User, UserSite } from '../../../../../common.types';
+import { User, UserSite } from '../../../../../common.types';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../../shared/table/cell-content-template/cell-content-template.component';
@@ -13,7 +13,7 @@ import { Utils } from '../../../../../utils/Utils';
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
         [disabled]="row.user.role !== 'B' || loggedUser.id === row.user.id"
-        [checked]="(row.user.role ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
+        [checked]="(row.siteAdmin ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
 export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {

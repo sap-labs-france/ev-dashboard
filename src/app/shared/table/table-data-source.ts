@@ -41,22 +41,18 @@ export abstract class TableDataSource<T> {
   }
 
   public isRowSelectionEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
@@ -69,7 +65,7 @@ export abstract class TableDataSource<T> {
   }
 
   public clearSelectedRows() {
-    // Clear
+    // Clear all
     this.selectedRows = 0;
     this.data.forEach((row) => {
       if (row.isSelectable) {
@@ -82,7 +78,6 @@ export abstract class TableDataSource<T> {
     // Select All
     this.selectedRows = 0;
     this.data.forEach((row) => {
-      // Check
       if (row.isSelectable) {
         row.isSelected = true;
         this.selectedRows++;
@@ -92,16 +87,14 @@ export abstract class TableDataSource<T> {
 
   public toggleMasterSelect() {
     if (this.isAllSelected()) {
-      // Unselect All
       this.clearSelectedRows();
     } else {
-      // Select All
       this.selectAllRows();
     }
   }
 
   public toggleRowSelection(row) {
-    // Invert
+    // Invert selection
     row.isSelected = !row.isSelected;
     // Adjust number of selected rows
     if (row.isSelected) {
@@ -128,7 +121,6 @@ export abstract class TableDataSource<T> {
       skip: 0,
       limit: this.getPageSize()
     });
-    // Set value
     this.searchValue = searchValue;
   }
 
@@ -170,9 +162,8 @@ export abstract class TableDataSource<T> {
     } else {
       // Find Sorted columns
       const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
-      // Found?
+      // Set Sorting
       if (columnDef) {
-        // Yes: Set Sorting
         return [
           {field: columnDef.id, direction: columnDef.direction}
         ];
@@ -183,7 +174,6 @@ export abstract class TableDataSource<T> {
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
     // Set only when all records have been retrieved
     if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
-      // Set
       this.totalNumberOfRecords = totalNumberOfRecords;
     }
   }
@@ -201,7 +191,7 @@ export abstract class TableDataSource<T> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    // Return default
+    // Default
     if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
         new TableResetFiltersAction().getActionDef()
@@ -212,12 +202,10 @@ export abstract class TableDataSource<T> {
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    // Return default
     return [];
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    // Return default
     return [];
   }
 
@@ -271,7 +259,6 @@ export abstract class TableDataSource<T> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    // Return
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
@@ -303,7 +290,6 @@ export abstract class TableDataSource<T> {
             }
             // Others
           } else {
-            // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
@@ -316,7 +302,6 @@ export abstract class TableDataSource<T> {
     }
     // Static filters
     if (this.staticFilters && this.staticFilters.length > 0) {
-      // Update
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
     return filterJson;
@@ -327,12 +312,10 @@ export abstract class TableDataSource<T> {
   }
 
   public setStaticFilters(staticFilters) {
-    // Keep it
     this.staticFilters = staticFilters;
   }
 
   public getStaticFilters() {
-    // Keep it
     return this.staticFilters;
   }
 
@@ -378,13 +361,13 @@ export abstract class TableDataSource<T> {
           // Loading on going?
           if (!this.loadingNumberOfRecords) {
             // No: Check
-            if (this.data.length <= this.totalNumberOfRecords &&  // Already have all the records?
+            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
               this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
               // Load records
               this.requestNumberOfRecords();
             }
           }
-        }, 1);
+        }, 100);
         // Notify
         observer.next(data);
         observer.complete();
@@ -393,6 +376,7 @@ export abstract class TableDataSource<T> {
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        observer.error(error);
       });
     });
   }
@@ -403,12 +387,29 @@ export abstract class TableDataSource<T> {
     return this.data;
   }
 
-  requestNumberOfRecords() {
-    // Reset
+  public destroyDatasource() {
+    this.clearData();
     this.resetTotalNumberOfRecords();
-    // Set flag
+    this.clearPaging();
+  }
+
+  public clearData() {
+    this.data.length = 0;
+  }
+
+  public clearPaging() {
+    this.paging = {
+      limit: this.getPageSize(),
+      skip: 0
+    }
+  }
+
+  public requestNumberOfRecords() {
+    // Reset current
+    this.resetTotalNumberOfRecords();
+    // Loading on going
     this.loadingNumberOfRecords = true;
-    // Add only record count
+    // Set static filter
     const staticFilters = [
       ...this.getStaticFilters(),
       {'OnlyRecordCount': true}
@@ -417,16 +418,13 @@ export abstract class TableDataSource<T> {
     this.setStaticFilters(staticFilters);
     // Load data
     this.loadDataImpl().subscribe((data) => {
-      // Unset flag
+      // Loading ended
       this.loadingNumberOfRecords = false;
-      // Set nbr of records
       this.setTotalNumberOfRecords(data.count);
-      // Build stats
       this.tableFooterStats = this.buildTableFooterStats(data);
     });
-    // Remove OnlyRecordCount
-    staticFilters.splice(staticFilters.length - 1, 1);
     // Reset static filter
+    staticFilters.splice(staticFilters.length - 1, 1);
     this.setStaticFilters(staticFilters);
   }
 
@@ -451,7 +449,6 @@ export abstract class TableDataSource<T> {
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
 
-    // Init vars
     // tslint:disable-next-line:max-line-length
     this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
       (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);

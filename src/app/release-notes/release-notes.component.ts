@@ -28,7 +28,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.0.29',
-        date: new Date('2019-07-07'),
+        date: new Date('2019-07-10'),
         componentChanges: [
           {
             name: 'Front-end',
@@ -42,7 +42,7 @@ export class ReleaseNotesComponent {
               `Filter on all years`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
-              `Displayed Statistic chart's legends `
+              `Displayed Statistic chart's legends`
             ]
           },
           {
@@ -50,7 +50,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Typescript migration`,
               `Encrypt sensitive data stored in database (password, secret key...)`,
-              `Added Site Admin role for Basic users`
+              `Added Site Admin role for Basic users`,
+              `Use of backup email server in case the main server is blocked`
             ]
           }
         ]

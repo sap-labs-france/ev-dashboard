@@ -27,15 +27,14 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
-        version: '2.0.29',
-        date: new Date('2019-07-10'),
+        version: '2.1.0',
+        date: new Date('2019-07-13'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
               `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
-              `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,
               `Split charts and fit them in the visible area`,
               `Limited the Statistics to the Top 20 Consumptions/Usages for better readability`,

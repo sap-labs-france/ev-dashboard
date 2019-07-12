@@ -27,22 +27,21 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
-        version: '2.0.29',
-        date: new Date('2019-07-07'),
+        version: '2.1.0',
+        date: new Date('2019-07-13'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
               `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
-              `Set a User as 'Site Admin' on a given a Site and Basic Users`,
               `Switch on/off Statistics in Tenant's configuration`,
               `Split charts and fit them in the visible area`,
               `Limited the Statistics to the Top 20 Consumptions/Usages for better readability`,
               `Filter on all years`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
-              `Displayed Statistic chart's legends `
+              `Displayed Statistic chart's legends`
             ]
           },
           {
@@ -50,7 +49,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Typescript migration`,
               `Encrypt sensitive data stored in database (password, secret key...)`,
-              `Added Site Admin role for Basic users`
+              `Added Site Admin role for Basic users`,
+              `Use of backup email server in case the main server is blocked`
             ]
           }
         ]

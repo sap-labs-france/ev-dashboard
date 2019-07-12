@@ -36,7 +36,6 @@ export class SiteUsersDataSource extends TableDataSource<UserSite> {
     return new Observable((observer) => {
       // Site provided?
       if (this._site) {
-        console.log(new Error());
         // Yes: Get data
         this.centralServerService.getSiteUsers(
           {...this.buildFilterValues(), SiteID: this._site.id},
@@ -90,13 +89,13 @@ export class SiteUsersDataSource extends TableDataSource<UserSite> {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p'
-      },
-      {
-        id: 'siteAdmin',
-        isAngularComponent: true,
-        angularComponent: SiteAdminCheckboxComponent,
-        name: 'sites.admin_role',
-        class: 'col-10p'
+      // },
+      // {
+      //   id: 'siteAdmin',
+      //   isAngularComponent: true,
+      //   angularComponent: SiteAdminCheckboxComponent,
+      //   name: 'sites.admin_role',
+      //   class: 'col-10p'
       }
     ];
   }

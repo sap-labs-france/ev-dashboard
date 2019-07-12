@@ -123,6 +123,8 @@ export class SiteAreaComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
+    this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_CREATE);
+
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
     } else if (this.activatedRoute && this.activatedRoute.params) {

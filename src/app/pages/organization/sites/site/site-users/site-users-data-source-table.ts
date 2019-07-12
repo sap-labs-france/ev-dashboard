@@ -36,7 +36,6 @@ export class SiteUsersDataSource extends TableDataSource<UserSite> {
     return new Observable((observer) => {
       // Site provided?
       if (this._site) {
-        console.log(new Error());
         // Yes: Get data
         this.centralServerService.getSiteUsers(
           {...this.buildFilterValues(), SiteID: this._site.id},

@@ -39,7 +39,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     });
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'email': new FormControl('',

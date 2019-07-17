@@ -3,7 +3,8 @@ import { TenantsDataSource } from './tenants-data-source-table';
 
 @Component({
   selector: 'app-tenants-cmp',
-  templateUrl: 'tenants.component.html'
+  templateUrl: 'tenants.component.html',
+  providers: [TenantsDataSource]
 })
 export class TenantsComponent {
   constructor(

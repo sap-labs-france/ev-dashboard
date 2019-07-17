@@ -32,6 +32,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter.js';
 
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
@@ -161,6 +162,7 @@ export class TransactionsInErrorDataSource extends TableDataSource<Transaction> 
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      filters.push(new SitesTableFilter().getFilterDef());
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 

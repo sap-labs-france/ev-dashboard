@@ -11,6 +11,7 @@ import { UsersInErrorDataSource } from './users-in-error-data-source-table';
 @Component({
   selector: 'app-users-cmp',
   templateUrl: 'users.component.html',
+  providers: [UsersInErrorDataSource, UsersDataSource]
 })
 export class UsersComponent extends AbstractTabComponent implements OnInit {
   public isAdmin: boolean;

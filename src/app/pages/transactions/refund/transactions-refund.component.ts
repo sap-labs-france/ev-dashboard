@@ -3,7 +3,8 @@ import { TransactionsRefundDataSource } from './transactions-refund-data-source-
 
 @Component({
   selector: 'app-transactions-refund',
-  templateUrl: 'transactions-refund.component.html'
+  templateUrl: 'transactions-refund.component.html',
+  providers: [TransactionsRefundDataSource]
 })
 export class TransactionsRefundComponent {
   constructor(

@@ -19,7 +19,7 @@ import { TableRefreshAction } from '../../shared/table/actions/table-refresh-act
 import { TableDataSource } from '../../shared/table/table-data-source';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
-import { TenantDialogComponent } from './dialog/tenant.dialog.component';
+import { TenantComponent } from './tenant/tenant.component';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
@@ -170,7 +170,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       dialogConfig.data = tenant;
     }
     // Open
-    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TenantComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

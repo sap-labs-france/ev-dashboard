@@ -24,9 +24,9 @@ import { TableStartAction } from '../../../shared/table/actions/table-start-acti
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { ConnectorCellComponent } from '../cell-content-components/connector-cell.component';
-import { ConnectorStatusComponent } from '../cell-content-components/connector-status.component';
-import { InstantPowerConnectorProgressBarComponent } from '../cell-content-components/instant-power-connector-progress-bar.component';
+import { ConnectorCellComponent } from '../cell-components/connector-cell.component';
+import { ConnectorStatusComponent } from '../cell-components/connector-status.component';
+import { InstantPowerConnectorProgressBarComponent } from '../cell-components/instant-power-connector-progress-bar.component';
 import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent } from './start-transaction-dialog-component';
 
 @Injectable()

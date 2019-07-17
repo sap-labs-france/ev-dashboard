@@ -14,12 +14,12 @@ import { ConnectionComponent } from './connections/connection.component';
 import { UserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusComponent } from './formatters/user-status.component';
 import { UserStatusPipe } from './formatters/user-status.pipe';
-import { UserSitesDataSource } from './user/user-sites-data-source-table';
-import { UserSitesDialogComponent } from './user/user-sites.dialog.component';
+import { UserSitesDataSource } from './user/user-sites/user-sites-data-source-table';
+import { UserSitesDialogComponent } from './user/user-sites/user-sites.dialog.component';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
-import { UsersDataSource } from './users-data-source-table';
-import { UsersInErrorDataSource } from './users-in-error-data-source-table';
+import { UsersDataSource } from './list/users-data-source-table';
+import { UsersInErrorDataSource } from './in-error/users-in-error-data-source-table';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
 

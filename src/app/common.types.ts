@@ -463,6 +463,7 @@ export interface Transaction {
   refundData: {
     refundId: string;
     refundedAt: Date;
+    status: string;
   };
   stop: {
     user: User;

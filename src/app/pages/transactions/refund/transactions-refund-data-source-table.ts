@@ -150,6 +150,11 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : ''
       },
       {
+        id: 'refundData.status',
+        name: 'transactions.state',
+        formatter: (value) => this.translateService.instant(`transactions.refund_${value}`)
+      },
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -271,7 +276,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundData;
+    return !row.refundData || row.refundData.status === 'cancelled';
   }
 
   protected refundTransactions(transactions: Transaction[]) {

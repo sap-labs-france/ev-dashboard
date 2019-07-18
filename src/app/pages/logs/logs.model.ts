@@ -88,7 +88,8 @@ export const logActions: KeyValue[] = [
   {key: 'StrongSoapDebug', value: 'StrongSoapDebug'},
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},
-  {key: 'SettingUpdate', value: 'SettingUpdate'}
+  {key: 'SettingUpdate', value: 'SettingUpdate'},
+  {key: 'SynchronizeRefundTransactions', value: 'SynchronizeRefundTransactions'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

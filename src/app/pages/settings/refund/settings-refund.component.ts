@@ -86,6 +86,23 @@ export class SettingsRefundComponent implements OnInit {
     });
   }
 
+  public synchronize() {
+    this.spinnerService.show();
+    this.centralServerService.synchronizeRefundedTransactions().subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        this.messageService.showSuccessMessage('settings.refund.synchronize_success');
+        this.refresh();
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.refund.synchronize_error');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'settings.refund.synchronize_error');
+    });
+  }
+
   public refresh() {
     this.loadConfiguration();
   }

@@ -75,6 +75,7 @@ export const logActions: KeyValue[] = [
   {key: 'GenericOCPPCommand', value: 'GenericOCPPCommand'},
   {key: 'GetAccessToken', value: 'GetAccessToken'},
   {key: 'Refund', value: 'Refund'},
+  {key: 'RefundSynchronize', value: 'RefundSynchronize'},
   {key: 'HttpRequestLog', value: 'HttpRequestLog'},
   {key: 'WSVerifyClient', value: 'WSVerifyClient'},
   {key: 'WSRestServerConnectionOpened', value: 'WSRestServerConnectionOpened'},
@@ -89,7 +90,7 @@ export const logActions: KeyValue[] = [
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},
   {key: 'SettingUpdate', value: 'SettingUpdate'},
-  {key: 'SynchronizeRefundTransactions', value: 'SynchronizeRefundTransactions'}
+  {key: 'Scheduler', value: 'Scheduler'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

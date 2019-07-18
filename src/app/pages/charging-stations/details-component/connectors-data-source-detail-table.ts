@@ -56,6 +56,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.noAction.getActionDef().disabled = true;
   }
 
+  loadData(showSpinner: boolean = false): Observable<Connector> {
+    return super.loadData(showSpinner);
+  }
+
   public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Return connector

@@ -65,33 +65,9 @@ export class StatisticsFiltersComponent implements OnInit {
     this.setActiveButtonOfScopeGroup();
 
     // Provided filters
-    if (this.tableFiltersDef) {
-      // Site filter
-      const foundSitesFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === 'sites');
-      // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
-      if (foundSitesFilter && this.isAdmin) {
-        // Get the sites
-        this.centralServerService.getSites([]).subscribe((sites) => {
-          if (sites && sites.result.length > 0) {
-            const firstSite = sites.result[0];
-            const filterDef = new SitesTableFilter().getFilterDef();
-            filterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
-            this.filterChanged(filterDef);
-          }
-          this.filterParams = this.buildFilterValues();
-          this.filters.emit(this.filterParams);
-          this.update.emit(true);
-        });
-      } else {
-        this.filterParams = this.buildFilterValues();
-        this.filters.emit(this.filterParams);
-        this.update.emit(true);
-      }
-    } else {
-      this.filterParams = this.buildFilterValues();
-      this.filters.emit(this.filterParams);
-      this.update.emit(true);
-    }
+    this.filterParams = this.buildFilterValues();
+    this.filters.emit(this.filterParams);
+    this.update.emit(true);
   }
 
   public filterChanged(filter: TableFilterDef): void {

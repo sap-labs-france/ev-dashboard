@@ -31,15 +31,15 @@ import { LogLevelComponent } from './formatters/log-level.component';
 @Injectable()
 export class LogsDataSource extends TableDataSource<Log> {
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private authorizationService: AuthorizationService,
-      private router: Router,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private authorizationService: AuthorizationService,
+    private router: Router,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -54,32 +54,32 @@ export class LogsDataSource extends TableDataSource<Log> {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
-        // Add the users in the message
-        logs.result.map((log) => {
-          let user;
-          // Set User
-          if (log.user) {
-            user = log.user;
-          }
-          // Set Action On User
-          if (log.actionOnUser) {
-            user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
-          }
-          // Set
-          if (user) {
-            log.message = `${user} > ${log.message}`;
-          }
-          return log;
+          // Add the users in the message
+          logs.result.map((log) => {
+            let user;
+            // Set User
+            if (log.user) {
+              user = log.user;
+            }
+            // Set Action On User
+            if (log.actionOnUser) {
+              user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
+            }
+            // Set
+            if (user) {
+              log.message = `${user} > ${log.message}`;
+            }
+            return log;
+          });
+          // Ok
+          observer.next(logs);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
         });
-        // Ok
-        observer.next(logs);
-        observer.complete();
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
     });
   }
 
@@ -173,9 +173,8 @@ export class LogsDataSource extends TableDataSource<Log> {
         new TableExportAction().getActionDef(),
         ...tableActionsDef
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   actionTriggered(actionDef: TableActionDef) {
@@ -210,19 +209,19 @@ export class LogsDataSource extends TableDataSource<Log> {
         new LogActionTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
-    } else if (this.authorizationService.isAdmin()) {
+    }
+    if (this.authorizationService.isAdmin()) {
       return [
         new LogDateFromTableFilter().getFilterDef(),
         new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
-        // new LogHostTableFilter().getFilterDef(),
+        new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
-    } else {
-      return [];
     }
+    return [];
   }
 
   private exportLogs() {

@@ -19,18 +19,18 @@ import { HeartbeatCellComponent } from './cell-components/heartbeat-cell.compone
 import { AppFormatPowerChargerPipe, InstantPowerChargerProgressBarComponent } from './cell-components/instant-power-charger-progress-bar.component';
 import { AppFormatPowerConnectorPipe, InstantPowerConnectorProgressBarComponent } from './cell-components/instant-power-connector-progress-bar.component';
 import { SessionDetailComponent } from './cell-components/session-detail.component';
-import { ChargingStationsSettingsModule } from './settings/charging-stations-settings.module';
-import { ChargingStationsFaultyDataSource } from './faulty/charging-stations-faulty-data-source-table';
-import { ChargingStationsFaultyComponent } from './faulty/charging-stations-faulty.component';
-import { ChargingStationsListDataSource } from './list/charging-stations-list-data-source-table';
-import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ConnectorsDataSource } from './details-component/connectors-data-source-detail-table';
 import { ConnectorsDetailComponent } from './details-component/connectors-detail-component.component';
 import { StartTransactionDialogComponent } from './details-component/start-transaction-dialog-component';
+import { ChargingStationsFaultyDataSource } from './faulty/charging-stations-faulty-data-source-table';
+import { ChargingStationsFaultyComponent } from './faulty/charging-stations-faulty.component';
+import { ChargingStationsListDataSource } from './list/charging-stations-list-data-source-table';
+import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
+import { ChargingStationsSettingsModule } from './settings/charging-stations-settings.module';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
 
 @NgModule({

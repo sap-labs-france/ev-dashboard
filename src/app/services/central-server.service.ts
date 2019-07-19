@@ -1382,6 +1382,18 @@ export class CentralServerService {
       );
   }
 
+  synchronizeRefundedTransactions() {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeRefundedTransactions`, {},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   softStopTransaction(id: number) {
     this._checkInit();
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,

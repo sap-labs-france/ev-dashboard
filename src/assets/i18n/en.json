@@ -852,6 +852,7 @@
     "picture": "Picture",
     "show_image": "Show Pictures",
     "sites": "Sites",
+    "assigned_sites_to_user": "Sites assigned to {{userName}}",
     "status_invalid": "Invalid status",
     "status_active": "Active",
     "status_blocked": "Blocked",

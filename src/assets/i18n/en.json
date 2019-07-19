@@ -961,6 +961,9 @@
       "create_error": "Error occurred while creating the Refunding settings",
       "update_success": "Refunding settings have been updated successfully",
       "update_error": "Error occurred while updating the Refunding settings",
+      "synchronize_dialog_refund_title": "Synchronize Refunded Transactions",
+      "synchronize_dialog_refund_confirm": "Do you really want to synchronize the refunded transactions ?",
+      "synchronize_started": "Refunded transactions synchronization has been started",
       "synchronize_success": "Refunded transactions have been synchronized successfully",
       "synchronize_error": "Error occurred while synchronizing the refunded transactions",
       "concur": {

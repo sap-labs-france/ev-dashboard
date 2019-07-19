@@ -961,6 +961,9 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
+      "synchronize_dialog_refund_title": "Synchronizer Les Transactions Remboursées",
+      "synchronize_dialog_refund_confirm": "Voulez-vous vraiment synchronizer les transactions remboursées ?",
+      "synchronize_started": "La synchronization des transactions remboursées a été démarrée",
       "synchronize_success": "Les transactions remboursées ont été mises à jour avec succès",
       "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées",
       "concur": {

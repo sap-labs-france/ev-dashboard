@@ -1183,7 +1183,7 @@
     "refund_transaction_confirm": "Voulez-vous vraiment rembourser la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
     "refund_transaction_success": "La session a été remboursée avec succès",
     "refund_transaction_error": "Error occurred while refunding the session",
-    "refund_undefined": "Non Definie",
+    "refund_undefined": "Non Soumise",
     "refund_approved": "Approuvée",
     "refund_cancelled": "Annulée",
     "refund_submitted": "Soumise",

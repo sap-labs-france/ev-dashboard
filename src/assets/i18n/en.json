@@ -1183,7 +1183,7 @@
     "refund_transaction_confirm": "Do you really want to refund the session of '{{userFullName}}' on '{{chargeBoxID}}'?",
     "refund_transaction_success": "The session has been refunded successfully",
     "refund_transaction_error": "Error occurred while refunding the session",
-    "refund_undefined": "Undefined",
+    "refund_undefined": "Not Submitted",
     "refund_approved": "Approved",
     "refund_cancelled": "Cancelled",
     "refund_submitted": "Submitted",

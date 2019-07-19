@@ -31,12 +31,6 @@ import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import { ConnectorsCellComponent } from '../cell-components/connectors-cell.component';
-import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.component';
-import { InstantPowerChargerProgressBarComponent } from '../cell-components/instant-power-charger-progress-bar.component';
-import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
-import { ConnectorsDetailComponent } from '../details-component/connectors-detail-component.component';
-import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
 import {
   ACTION_CLEAR_CACHE,
   ACTION_MORE_ACTIONS,
@@ -45,6 +39,12 @@ import {
   TableChargerMoreAction
 } from '../actions/table-charger-more-action';
 import { TableChargerRebootAction } from '../actions/table-charger-reboot-action';
+import { ConnectorsCellComponent } from '../cell-components/connectors-cell.component';
+import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.component';
+import { InstantPowerChargerProgressBarComponent } from '../cell-components/instant-power-charger-progress-bar.component';
+import { ConnectorsDetailComponent } from '../details-component/connectors-detail-component.component';
+import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
+import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
 
 @Injectable()

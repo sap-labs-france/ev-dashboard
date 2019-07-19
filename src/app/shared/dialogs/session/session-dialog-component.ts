@@ -1,6 +1,6 @@
 import { PercentPipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Image, Transaction } from '../../../common.types';

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import en from '../../../../assets/i18n/en.json';
@@ -32,7 +33,6 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter.js';
 
 @Injectable()
 export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {

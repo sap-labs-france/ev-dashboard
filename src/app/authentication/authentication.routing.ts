@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { EulaComponent } from './eula/eula.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';

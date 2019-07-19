@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -35,7 +36,6 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 
 @Injectable()
 export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {

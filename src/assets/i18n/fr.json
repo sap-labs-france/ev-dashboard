@@ -347,6 +347,7 @@
     "changed_by_other_user": "Le site '{{siteName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_success": "Le site '{{siteName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du site",
+    "update_users_error": "Une erreur est survenue pendant l'ajout d'un utilisateur au site",
     "create_success": "Le site '{{siteName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du site",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",

@@ -347,6 +347,7 @@
     "changed_by_other_user": "The site '{{siteName}}' has been changed by another user and will be reloaded",
     "update_success": "The site '{{siteName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site",
+    "update_users_error": "Error occurred while assigning an user to the site",
     "create_success": "The site '{{siteName}}' has been created successfully",
     "create_error": "Error occurred while creating the site",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",

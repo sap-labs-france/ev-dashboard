@@ -28,11 +28,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.0',
-        date: new Date('2019-07-13'),
+        date: new Date('2019-07-19'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
+              `Refunded sessions status are now synchronized with Concur and displayed (submitted, cancelled...)`,
+              `Possibility to resubmit a Cancelled expense to Concur`,
               `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
               `Switch on/off Statistics in Tenant's configuration`,

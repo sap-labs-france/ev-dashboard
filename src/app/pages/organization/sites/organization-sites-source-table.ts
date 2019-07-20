@@ -1,53 +1,50 @@
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Site } from 'app/common.types';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Site, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { CentralServerService } from 'app/services/central-server.service';
 
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { Constants } from 'app/utils/Constants';
-import { DialogService } from 'app/services/dialog.service';
-import { SiteDialogComponent } from './site/site.dialog.component';
-import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
 import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
-import { SpinnerService } from 'app/services/spinner.service';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
+import { SiteDialogComponent } from './site/site.dialog.component';
 
 @Injectable()
 export class OrganizationSitesDataSource extends TableDataSource<Site> {
-  private isAdmin = false;
   private editAction = new TableEditAction().getActionDef();
   private editUsersAction = new TableEditUsersAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService);
-    // Init
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ 'WithCompany': true }]);
+    this.setStaticFilters([{'WithCompany': true}]);
     this.initDataSource();
   }
 
@@ -60,15 +57,15 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-          // Ok
-          observer.next(sites);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        // Ok
+        observer.next(sites);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -114,7 +111,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
         sortable: true
       }
     ];
-    if (this.isAdmin) {
+    if (this.authorizationService.isAdmin()) {
       tableColumnDef.unshift({
         id: 'id',
         name: 'general.id',
@@ -127,33 +124,31 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.isAdmin) {
+    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
       return [
         new TableCreateAction().getActionDef(),
         ...tableActionsDef
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   buildTableDynamicRowActions(site: Site) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude ) ? false : true;
-    if (this.isAdmin) {
+    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude) ? false : true;
+    if (this.authorizationService.isSiteAdmin(site.id)) {
       return [
         this.editAction,
         this.editUsersAction,
         openInMaps,
         this.deleteAction
       ];
-    } else {
-      return [
-        this.viewAction,
-        openInMaps
-      ];
     }
+    return [
+      this.viewAction,
+      openInMaps
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -207,7 +202,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  private _showSiteDialog(site?: any) {
+  private _showSiteDialog(site?: Site) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '70vw';
@@ -243,12 +238,12 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   private _deleteSite(site) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sites.delete_title'),
-      this.translateService.instant('sites.delete_confirm', { 'siteName': site.name })
+      this.translateService.instant('sites.delete_confirm', {'siteName': site.name})
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteSite(site.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('sites.delete_success', { 'siteName': site.name });
+            this.messageService.showSuccessMessage('sites.delete_success', {'siteName': site.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

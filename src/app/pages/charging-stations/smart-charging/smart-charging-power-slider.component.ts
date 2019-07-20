@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, Injectable, EventEmitter, ViewChild, Output, AfterViewInit } from '@angular/core';
-import { LocaleService } from 'app/services/locale.service';
+import { AfterViewInit, Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatSlider } from '@angular/material/slider';
 import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
-import { MatSlider } from '@angular/material/slider';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
 import { SmartChargingUtils } from './smart-charging-utils';
 
 const MIN_POWER = 4000; // Minimum power in W under which we can't go
@@ -41,7 +41,7 @@ export class SmartChargingPowerSliderComponent implements OnInit, AfterViewInit 
   public powerDigitPrecision = 1;
   public powerFloatingPrecision = 0;
 
-  @ViewChild('powerSlider') powerSliderComponent: MatSlider;
+  @ViewChild('powerSlider', { static: true }) powerSliderComponent: MatSlider;
 
   constructor(
     private translateService: TranslateService,

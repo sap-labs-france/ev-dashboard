@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
 import { ActivatedRoute } from '@angular/router';
-import { WindowService } from '../../services/window.service';
 import { AuthorizationService } from '../../services/authorization-service';
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
 
 @Component({
   selector: 'app-statistics',
@@ -16,7 +16,7 @@ export class StatisticsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
-    super(activatedRoute, windowService, ['consumption', 'usage']);
+    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity']);
     this.isAdmin = this.authorizationService.isAdmin();
   }
 }

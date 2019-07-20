@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {SubjectInfo} from '../common.types';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import io from 'socket.io-client';
-import {Constants} from '../utils/Constants';
+import { SubjectInfo } from '../common.types';
+import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class CentralServerNotificationService {
@@ -32,9 +32,6 @@ export class CentralServerNotificationService {
   private subjectOcpiEndpoint = new Subject<SubjectInfo>();
   private subjectAnalyticsLinks = new Subject<SubjectInfo>();
   private socket;
-
-  constructor() {
-  }
 
   public setcentralRestServerServiceURL(url) {
     this.centralRestServerServiceURL = url;

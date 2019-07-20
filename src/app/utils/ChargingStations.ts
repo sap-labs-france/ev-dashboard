@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { Charger, KeyValue } from 'app/common.types';
 
 export class ChargingStations {

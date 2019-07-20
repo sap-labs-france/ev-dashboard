@@ -1,16 +1,16 @@
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CentralServerService} from '../../services/central-server.service';
-import {MessageService} from '../../services/message.service';
-import {Users} from '../../utils/Users';
-import {Utils} from '../../utils/Utils';
-import {Constants} from '../../utils/Constants';
-import {DialogService} from '../../services/dialog.service';
-import {MatDialog} from '@angular/material';
-import {SpinnerService} from '../../services/spinner.service';
-import {AuthorizationService} from '../../services/authorization-service';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from '../../services/authorization-service';
+import { CentralServerService } from '../../services/central-server.service';
+import { DialogService } from '../../services/dialog.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { Constants } from '../../utils/Constants';
+import { Users } from '../../utils/Users';
+import { Utils } from '../../utils/Utils';
 
 declare var $: any;
 

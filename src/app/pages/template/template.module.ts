@@ -1,20 +1,20 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TranslateModule} from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'app/app.module';
-import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
-import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { TableModule } from 'app/shared/table/table.module';
 import { ComponentModule } from 'app/shared/component/component.module';
+import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
+import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
-import { TemplateComponent } from './template.component';
-import {TemplateRoutes} from './template.routing';
-import {ButtonsTemplateComponent} from './buttons/buttons.component';
-import {ColorsTemplateComponent} from './colors/colors.component';
-import { FormsTemplateComponent } from './forms/forms.component';
+import { TableModule } from 'app/shared/table/table.module';
+import { ButtonsTemplateComponent } from './buttons/buttons.component';
+import { ColorsTemplateComponent } from './colors/colors.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs.component';
+import { FormsTemplateComponent } from './forms/forms.component';
+import { TemplateComponent } from './template.component';
+import { TemplateRoutes } from './template.routing';
 
 @NgModule({
   imports: [

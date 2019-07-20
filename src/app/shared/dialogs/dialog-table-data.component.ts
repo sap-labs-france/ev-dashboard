@@ -1,7 +1,7 @@
-import {Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DialogTableDataSource} from './dialog-table-data-source';
-import {KeyValue} from '../../common.types';
+import { Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { KeyValue } from '../../common.types';
+import { DialogTableDataSource } from './dialog-table-data-source';
 
 export abstract class DialogTableDataComponent<T> {
   public dialogDataSource: DialogTableDataSource<T>;

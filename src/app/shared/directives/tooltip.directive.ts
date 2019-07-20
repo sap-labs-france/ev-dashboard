@@ -1,5 +1,7 @@
-import {AfterViewInit, Directive, ElementRef, OnDestroy} from '@angular/core';
-import {Placement} from 'bootstrap';
+import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
+import { Placement } from 'bootstrap';
+import * as jQuery from 'jquery';
+
 @Directive({
   selector: '[appTooltip]'
 })
@@ -12,7 +14,9 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
     if (this.elementRef.nativeElement.attributes && this.elementRef.nativeElement.attributes['data-placement']) {
       place = this.elementRef.nativeElement.attributes['data-placement'].value;
     }
-    jQuery(this.elementRef.nativeElement).tooltip({placement: place, trigger: 'hover'});
+    jQuery(this.elementRef.nativeElement).tooltip({
+      placement: place, trigger: 'hover', sanitize: false, sanitizeFn: content => content
+    });
   }
 
   ngOnDestroy() {

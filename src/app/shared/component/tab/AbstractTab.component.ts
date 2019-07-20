@@ -1,6 +1,6 @@
-import {ActivatedRoute} from '@angular/router';
-import {WindowService} from '../../../services/window.service';
-import {OnDestroy} from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WindowService } from '../../../services/window.service';
 
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;

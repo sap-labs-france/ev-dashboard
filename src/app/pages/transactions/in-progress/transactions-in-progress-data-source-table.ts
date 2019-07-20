@@ -1,35 +1,36 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
-import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Utils} from '../../../utils/Utils';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {UserTableFilter} from '../../../shared/table/filters/user-filter';
-import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {PercentPipe} from '@angular/common';
-import {Constants} from '../../../utils/Constants';
-import {DialogService} from '../../../services/dialog.service';
-import {TableStopAction} from '../../../shared/table/actions/table-stop-action';
-import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
-import {Injectable} from '@angular/core';
-import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {ConnectorCellComponent} from '../components/connector-cell.component';
-import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
-import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
-import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {SessionDialogComponent} from '../../../shared/dialogs/session/session-dialog-component';
-import {TableOpenAction} from '../../../shared/table/actions/table-open-action';
-import {AppBatteryPercentagePipe} from '../../../shared/formatters/app-battery-percentage.pipe';
-import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
+import { PercentPipe } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { Observable } from 'rxjs';
+import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
+import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog-component';
+import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
+import { ConnectorCellComponent } from '../components/connector-cell.component';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
@@ -127,7 +128,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
         formatter: (currentTotalInactivitySecs, row) => {
           const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
           return this.appDurationPipe.transform(currentTotalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '1.0-0')})`
+            ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
         }
       },
       {
@@ -177,7 +178,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       });
     }
     return columns as TableColumnDef[];
-    ;
+
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -208,6 +209,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      filters.push(new SitesTableFilter().getFilterDef());
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 
@@ -237,6 +239,22 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef()
     ];
+  }
+
+  public openSession(transaction: Transaction) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
+    dialogConfig.height = '80vh';
+    dialogConfig.width = '80vw';
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      transactionId: transaction.id,
+    };
+    // disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 
   protected _chargingStationStopTransaction(transaction: Transaction) {
@@ -281,21 +299,5 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
     } else {
       this._chargingStationStopTransaction(transaction);
     }
-  }
-
-  public openSession(transaction: Transaction) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '80vh';
-    dialogConfig.width = '80vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      transactionId: transaction.id,
-    };
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(SessionDialogComponent, dialogConfig);
   }
 }

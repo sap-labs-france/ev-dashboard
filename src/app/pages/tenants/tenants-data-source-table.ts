@@ -1,25 +1,25 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {TableDataSource} from '../../shared/table/table-data-source';
-import {SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant} from '../../common.types';
-import {CentralServerNotificationService} from '../../services/central-server-notification.service';
-import {TableAutoRefreshAction} from '../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../shared/table/actions/table-refresh-action';
-import {CentralServerService} from '../../services/central-server.service';
-import {MessageService} from '../../services/message.service';
-import {Utils} from '../../utils/Utils';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TenantDialogComponent} from './dialog/tenant.dialog.component';
-import {TableCreateAction} from 'app/shared/table/actions/table-create-action';
-import {TableEditAction} from '../../shared/table/actions/table-edit-action';
-import {TableDeleteAction} from '../../shared/table/actions/table-delete-action';
-import {Constants} from '../../utils/Constants';
-import {DialogService} from '../../services/dialog.service';
-import {Injectable} from '@angular/core';
-import {TableOpenAction} from '../../shared/table/actions/table-open-action';
-import {WindowService} from '../../services/window.service';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { Observable } from 'rxjs';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant } from '../../common.types';
+import { CentralServerNotificationService } from '../../services/central-server-notification.service';
+import { CentralServerService } from '../../services/central-server.service';
+import { DialogService } from '../../services/dialog.service';
+import { MessageService } from '../../services/message.service';
+import { WindowService } from '../../services/window.service';
+import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
+import { TableDeleteAction } from '../../shared/table/actions/table-delete-action';
+import { TableEditAction } from '../../shared/table/actions/table-edit-action';
+import { TableOpenAction } from '../../shared/table/actions/table-open-action';
+import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../shared/table/table-data-source';
+import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
+import { TenantComponent } from './tenant/tenant.component';
 
 @Injectable()
 export class TenantsDataSource extends TableDataSource<Tenant> {
@@ -170,7 +170,7 @@ export class TenantsDataSource extends TableDataSource<Tenant> {
       dialogConfig.data = tenant;
     }
     // Open
-    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TenantComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

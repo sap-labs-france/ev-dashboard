@@ -1,13 +1,12 @@
-import {debounceTime} from 'rxjs/operators';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CentralServerService} from '../services/central-server.service';
-import {CentralServerNotificationService} from '../services/central-server-notification.service';
-import {AuthorizationService} from '../services/authorization-service';
-import {ConfigService} from '../services/config.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Constants} from '../utils/Constants';
-import {RouteGuardService} from '../services/route-guard.service';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
+import { AuthorizationService } from '../services/authorization-service';
+import { CentralServerNotificationService } from '../services/central-server-notification.service';
+import { CentralServerService } from '../services/central-server.service';
+import { ConfigService } from '../services/config.service';
+import { RouteGuardService } from '../services/route-guard.service';
+import { Constants } from '../utils/Constants';
 
 declare const $: any;
 
@@ -23,14 +22,14 @@ const misc: any = {
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   mobile_menu_visible: any = 0;
-  private toggleButton: any;
-  private sidebarVisible: boolean;
   public menuItems: any[];
   public loggedUser;
   public loggedUserImage = Constants.USER_NO_PICTURE;
-  private userSubscription;
   public isAdmin = false;
   public canEditProfile = false;
+  private toggleButton: any;
+  private sidebarVisible: boolean;
+  private userSubscription;
 
   constructor(
     private configService: ConfigService,
@@ -96,7 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // }
     // return true;
     return false;
-  };
+  }
 
   updatePS(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {

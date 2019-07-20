@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 const connectorIdMap = {
   0: '0',
@@ -14,7 +14,7 @@ const connectorIdMap = {
   10: 'J',
   11: 'K',
   12: 'L'
-}
+};
 
 @Pipe({name: 'appConnectorId'})
 export class AppConnectorIdPipe implements PipeTransform {

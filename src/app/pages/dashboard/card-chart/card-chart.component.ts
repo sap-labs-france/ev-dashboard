@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
-import { animate, style, transition, trigger, AnimationEvent, query, group, sequence } from '@angular/animations';
+import { animate, group, query, sequence, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 const DEFAULT_CHART_INTERVAL = 5000;
 
@@ -30,7 +30,7 @@ export interface ChartButton {
    * @type {ChartDefinition}
    * @memberof ChartButton
    */
-  chart?: ChartDefinition
+  chart?: ChartDefinition;
 }
 
 /**
@@ -40,8 +40,8 @@ export interface ChartButton {
  * @interface ChartData
  */
 export interface ChartData {
-  datasets: [],
-  labels: []
+  datasets: [];
+  labels: [];
 }
 
 /**
@@ -52,13 +52,13 @@ export interface ChartData {
  * @interface ChartDefinition
  */
 export interface ChartDefinition {
-  options: any,
-  data: ChartData,
+  options: any;
+  data: ChartData;
 }
 
 interface ChartDataLocal {
-  chartData: ChartDefinition,
-  isDisplayed: boolean
+  chartData: ChartDefinition;
+  isDisplayed: boolean;
 }
 
 /**
@@ -250,7 +250,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
   firstChart: ChartDataLocal = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
     isDisplayed: true
-  }
+  };
   /**
    * Chart data used in the second DOM chart element
    *
@@ -259,7 +259,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
   secondChart = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
     isDisplayed: false
-  }
+  };
 
   /**
    * Indicate in which direction the change occur
@@ -276,9 +276,6 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @memberof CardChartComponent
    */
   animationOngoing = false;
-
-  constructor() {
-  }
 
   ngOnInit(): void {
     this.chartActiveButton = this.chartButtons[0];
@@ -379,6 +376,25 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Animation done event for ChartFade
+   *
+   * @param {AnimationEvent} [event]
+   * @memberof CardChartComponent
+   */
+  chartFadeOutComplete(event?: AnimationEvent) {
+    if (this.animationOngoing) {
+      this.animationOngoing = false;
+      if (this.changeFromFirstToSecond) {
+        this.firstChart.isDisplayed = false;
+        this.secondChart.isDisplayed = true;
+      } else {
+        this.secondChart.isDisplayed = false;
+        this.firstChart.isDisplayed = true;
+      }
+    }
+  }
+
   private chartChangeTo(button: ChartButton, manualChange = false) {
     this.chartActiveButton = button;
     this.activeButtonChanged.emit(button);
@@ -404,25 +420,6 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.firstChart.chartData = chartDefinition;
         }
-      }
-    }
-  }
-
-  /**
-   * Animation done event for ChartFade
-   *
-   * @param {AnimationEvent} [event]
-   * @memberof CardChartComponent
-   */
-  chartFadeOutComplete(event?: AnimationEvent) {
-    if (this.animationOngoing) {
-      this.animationOngoing = false;
-      if (this.changeFromFirstToSecond) {
-        this.firstChart.isDisplayed = false;
-        this.secondChart.isDisplayed = true;
-      } else {
-        this.secondChart.isDisplayed = false;
-        this.firstChart.isDisplayed = true;
       }
     }
   }

@@ -1,36 +1,36 @@
-import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction} from '../../../common.types';
-import {CentralServerNotificationService} from '../../../services/central-server-notification.service';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {SpinnerService} from '../../../services/spinner.service';
-import {Utils} from '../../../utils/Utils';
-import {TransactionsDateFromFilter} from '../filters/transactions-date-from-filter';
-import {TransactionsDateUntilFilter} from '../filters/transactions-date-until-filter';
-import {AppUnitPipe} from '../../../shared/formatters/app-unit.pipe';
-import {PercentPipe} from '@angular/common';
-import {DialogService} from '../../../services/dialog.service';
-import {AppDatePipe} from '../../../shared/formatters/app-date.pipe';
-import {Injectable} from '@angular/core';
-import {AppConnectorIdPipe} from '../../../shared/formatters/app-connector-id.pipe';
-import {AppUserNamePipe} from '../../../shared/formatters/app-user-name.pipe';
-import {AppDurationPipe} from '../../../shared/formatters/app-duration.pipe';
-import {Constants} from '../../../utils/Constants';
-import {TableAutoRefreshAction} from '../../../shared/table/actions/table-auto-refresh-action';
-import {TableRefreshAction} from '../../../shared/table/actions/table-refresh-action';
-import {TableDataSource} from '../../../shared/table/table-data-source';
-import {ConsumptionChartDetailComponent} from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
-import * as moment from 'moment';
-import {TableRefundAction} from '../../../shared/table/actions/table-refund-action';
-import {TransactionsTypeFilter} from './transactions-type-filter';
-import {SiteAreasTableFilter} from '../../../shared/table/filters/site-area-filter';
-import {AuthorizationService} from '../../../services/authorization-service';
-import {ChargerTableFilter} from '../../../shared/table/filters/charger-filter';
-import {ComponentEnum, ComponentService} from '../../../services/component.service';
-import {TableOpenInConcurAction} from '../../../shared/table/actions/table-open-in-concur-action';
+import { PercentPipe } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/transaction-chart/consumption-chart-detail.component';
+import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableOpenInConcurAction } from '../../../shared/table/actions/table-open-in-concur-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
+import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
+import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { TransactionsTypeFilter } from './transactions-type-filter';
 
 @Injectable()
 export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
@@ -62,6 +62,8 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     this.checkConcurConnection();
     // Init
     this.initDataSource();
+    // Add statistics to query
+    this.setStaticFilters([ {Statistics: 'refund'} ]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -102,6 +104,29 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
     };
   }
 
+  public buildTableFooterStats(data) {
+    // All records has been retrieved
+    if (data.count !== Constants.INFINITE_RECORDS) {
+      // Stats?
+      if (data.stats) {
+        // Total Consumption
+        // tslint:disable-next-line:max-line-length
+        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        // Refund transactions
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, null, '1.2-2')})`;
+        // Pending transactions
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.pending_transactions')}: ${data.stats.countPendingTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPricePending, null, '1.2-2')})`;
+        // Number of reimbursed reports submitted
+        // tslint:disable-next-line:max-line-length
+        stats += ` | ${this.translateService.instant('transactions.count_refunded_reports')}: ${data.stats.countRefundedReports}`;
+        return stats;
+      }
+    }
+    this.tableFooterStats = '';
+  }
+
   public buildTableColumnDefs(): TableColumnDef[] {
     const columns = [];
     if (this.isAdmin) {
@@ -123,6 +148,11 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
         name: 'transactions.refundDate',
         sortable: true,
         formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : ''
+      },
+      {
+        id: 'refundData.status',
+        name: 'transactions.state',
+        formatter: (value) => this.translateService.instant(`transactions.refund_${value}`)
       },
       {
         id: 'timestamp',
@@ -168,7 +198,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
       return '';
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '2.0-0')})`
+      ` (${this.percentPipe.transform(percentage, '2.0-0')})`;
   }
 
   formatChargingStation(chargingStation, row) {
@@ -246,7 +276,7 @@ export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundData;
+    return !row.refundData || row.refundData.status === 'cancelled';
   }
 
   protected refundTransactions(transactions: Transaction[]) {

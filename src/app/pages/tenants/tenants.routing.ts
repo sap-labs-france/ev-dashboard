@@ -1,8 +1,8 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {TenantsComponent} from './tenants.component';
-import {RouteGuardService} from '../../services/route-guard.service';
-import {Constants} from '../../utils/Constants';
+import { RouteGuardService } from '../../services/route-guard.service';
+import { Constants } from '../../utils/Constants';
+import { TenantsComponent } from './tenants.component';
 
 export const TenantsRoutes: Routes = [
   {

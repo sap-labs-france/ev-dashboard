@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { SiteAreaChargersDataSource } from './site-area-chargers-data-source-table';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { SiteAreaChargersDataSource } from './site-area-chargers-data-source-table';
 
 
 @Component({

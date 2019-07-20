@@ -1,32 +1,20 @@
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary">
-        <div class="card-icon" *ngIf=isAdmin>
-            <div *ngIf="(selectedCategory === 'C'); else otherIcon">
-                <mat-icon>ev_station</mat-icon>
-            </div>
-            <ng-template #otherIcon>
-                <mat-icon>people</mat-icon>
-            </ng-template>
-        </div>
-
-        <h3 class="card-title" *ngIf=!selectedYear>{{'general.menu.consumption' | translate}}</h3>
-        <h3 class="card-title" *ngIf=!!selectedYear>{{chartTitle}} : {{totalConsumption | number: '1.0-0': localeService.language}} {{'statistics.charger_kw_h' | translate}}</h3>
-    
-    </div>
-     
-    <div class="card-body">
-        <app-statistics-filters [tableFiltersDef]="allFiltersDef"
-                                (category)="categoryChanged($event)" (year)="yearChanged($event)" 
-                                (filters)="filtersChanged($event)" (refreshAll)="buildCharts()"></app-statistics-filters>
-
-        <canvas #consumptionBarChart></canvas>
-    </div>
-</div>    
-    
-<div class="card">
-    <div class="card-header card-header-icon card-header-primary"></div>
-    <div class="card-body">
+<div class="h-100 d-flex flex-column">
+  <app-statistics-filters [tableFiltersDef]="allFiltersDef"
+                          (buttonOfScopeGroup)="scopeChanged($event)"
+                          (category)="categoryChanged($event)"
+                          (year)="yearChanged($event)" [allYears]="allYears"
+                          (filters)="filtersChanged($event)"
+                          (update)="updateCharts($event)"
+                          (export)="exportData()"></app-statistics-filters>
+  <h3>
+    <div class="chart">
+      <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
         <canvas #consumptionPieChart></canvas>
+      </div>
+
+      <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
+        <canvas #consumptionBarChart></canvas>
+      </div>
     </div>
+  </h3>
 </div>
-    

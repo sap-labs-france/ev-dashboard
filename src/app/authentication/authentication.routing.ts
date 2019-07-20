@@ -1,10 +1,9 @@
-import {Routes} from '@angular/router';
-
-import {RegisterComponent} from './register/register.component';
-import {RetrievePasswordComponent} from './retrieve-password/retrieve-password.component';
-import {LoginComponent} from './login/login.component';
-import {EulaComponent} from './eula/eula.component';
-import {VerifyEmailComponent} from './verify-email/verify-email.component';
+import { Routes } from '@angular/router';
+import { EulaComponent } from './eula/eula.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 export const AuthenticationRoutes: Routes = [
   {

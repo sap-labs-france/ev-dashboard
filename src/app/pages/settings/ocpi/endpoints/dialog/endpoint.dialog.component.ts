@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
-import { Router } from '@angular/router';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SpinnerService } from '../../../../../services/spinner.service';
-import { Utils } from '../../../../../utils/Utils';
 import { Constants } from '../../../../../utils/Constants';
-import { DialogService } from 'app/services/dialog.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   templateUrl: './endpoint.dialog.component.html'
@@ -49,7 +49,7 @@ export class EndpointDialogComponent implements OnInit {
         'localToken': '',
         'token': '',
         'backgroundPatchJob': false
-      }
+      };
     }
   }
 
@@ -165,7 +165,7 @@ export class EndpointDialogComponent implements OnInit {
             messageId = 'ocpiendpoints.error_ping_412';
             break;
           default:
-            messageId = 'ocpiendpoints.error_ping'
+            messageId = 'ocpiendpoints.error_ping';
         }
         Utils.handleError(JSON.stringify(response),
           this.messageService, messageId);
@@ -174,6 +174,36 @@ export class EndpointDialogComponent implements OnInit {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.error_ping');
     });
+  }
+
+  public closeDialog(saved: boolean = false) {
+    this.dialogRef.close(saved);
+  }
+
+  public onClose() {
+    if (this.formGroup.invalid && this.formGroup.dirty) {
+      this.dialogService.createAndShowInvalidChangeCloseDialog(
+        this.translateService.instant('general.change_invalid_pending_title'),
+        this.translateService.instant('general.change_invalid_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else if (this.formGroup.dirty) {
+      this.dialogService.createAndShowDirtyChangeCloseDialog(
+        this.translateService.instant('general.change_pending_title'),
+        this.translateService.instant('general.change_pending_text')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+          this.save(this.formGroup.value);
+        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+          this.closeDialog();
+        }
+      });
+    } else {
+      this.closeDialog();
+    }
   }
 
   private createOcpiEndpoint(ocpiendpoint) {
@@ -208,35 +238,5 @@ export class EndpointDialogComponent implements OnInit {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'ocpiendpoints.update_error');
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    this.dialogRef.close(saved);
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
-      ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
-          this.save(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
   }
 }

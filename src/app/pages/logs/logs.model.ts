@@ -1,4 +1,4 @@
-import {KeyValue} from '../../common.types';
+import { KeyValue } from '../../common.types';
 
 export const logLevels: KeyValue[] = [
   {key: 'E', value: 'logs.error'},
@@ -75,6 +75,7 @@ export const logActions: KeyValue[] = [
   {key: 'GenericOCPPCommand', value: 'GenericOCPPCommand'},
   {key: 'GetAccessToken', value: 'GetAccessToken'},
   {key: 'Refund', value: 'Refund'},
+  {key: 'RefundSynchronize', value: 'RefundSynchronize'},
   {key: 'HttpRequestLog', value: 'HttpRequestLog'},
   {key: 'WSVerifyClient', value: 'WSVerifyClient'},
   {key: 'WSRestServerConnectionOpened', value: 'WSRestServerConnectionOpened'},
@@ -88,7 +89,8 @@ export const logActions: KeyValue[] = [
   {key: 'StrongSoapDebug', value: 'StrongSoapDebug'},
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},
-  {key: 'SettingUpdate', value: 'SettingUpdate'}
+  {key: 'SettingUpdate', value: 'SettingUpdate'},
+  {key: 'Scheduler', value: 'Scheduler'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

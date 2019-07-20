@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {animate, AnimationEvent, group, query, style, transition, trigger} from '@angular/animations';
-import {DashboardService, SiteCurrentMetrics} from '../../services/dashboard.service';
-import {SpinnerService} from 'app/services/spinner.service';
+import { animate, group, query, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { DecimalPipe } from '@angular/common';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
-import {DecimalPipe} from '@angular/common';
-import {LocaleService} from 'app/services/locale.service';
-import {CardChartComponent, ChartButton, ChartData} from './card-chart/card-chart.component';
+import { DashboardService, SiteCurrentMetrics } from '../../services/dashboard.service';
+import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;
 const REALTIME_INTERVAL = 10000;
@@ -97,12 +97,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     {name: 'month', title: 'dashboard.statistics.button.month'},
     {name: 'year', title: 'dashboard.statistics.button.year'},
   ];
-  @ViewChild('statisticsChart') statisticsChartComponent: CardChartComponent;
+  @ViewChild('statisticsChart', { static: false }) statisticsChartComponent: CardChartComponent;
   buttonsRealtimeChart = [
     {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
     {name: 'utilization', title: 'dashboard.realtime.button.utilization'}
   ];
-  @ViewChild('realtimeChart') realtimeChartComponent: CardChartComponent;
+  @ViewChild('realtimeChart', { static: false }) realtimeChartComponent: CardChartComponent;
 
   dynamicFadeInOutClass = FADE_IN_CLASS;
 
@@ -148,12 +148,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     // Handle data update
     this.dashboardService.refreshData.subscribe(metrics => {
       this.update();
-    })
+    });
     // Start carousel
     this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
     this.todayDay = {
       todayDay: moment().format('dddd')
-    }
+    };
   }
 
   ngOnDestroy(): void {
@@ -182,7 +182,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.statisticsChartComponent.nextChart(this.buttonsStatisticsChart[0].name);
       this.beforeChange = false;
       this.afterChange = true;
-      ;
+
     }
   }
 
@@ -300,7 +300,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.todayDay = {
       todayDay: moment().format('dddd')
-    }
+    };
   }
 
   createRealtimeGraphData(chartData) {
@@ -364,7 +364,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             return {
               borderColor: 'rgba(0,0,0,0)',
               backgroundColor: this.rgba([38, 198, 218], 1)
-            }
+            };
           },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -398,7 +398,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     event.chart = {
       data: <ChartData>dataDefinition.data,
       options: dataDefinition.options
-    }
+    };
   }
 
   createStatisticsGraphData(chartData) {
@@ -462,7 +462,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             return {
               borderColor: 'rgba(0,0,0,0)',
               backgroundColor: this.rgba([38, 198, 218], 1)
-            }
+            };
           },
           label: (tooltipItem, values) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -496,7 +496,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     event.chart = {
       data: <ChartData>dataDefinition.data,
       options: dataDefinition.options
-    }
+    };
   }
 
   formatLineColor(colors: Array<number>): any {

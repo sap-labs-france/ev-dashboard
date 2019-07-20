@@ -3,6 +3,8 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "encoding": true,
+    "cyclomatic-complexity": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
@@ -31,9 +33,11 @@
     "member-access": false,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": "fields-first"
+      }
     ],
+    "no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -44,28 +48,35 @@
       "timeEnd",
       "trace"
     ],
+    "use-isnan": true,
     "no-construct": true,
     "no-debugger": true,
+    "no-duplicate-imports": true,
     "no-duplicate-super": true,
-    "no-empty": false,
+    "no-duplicate-switch-case": true,
+    "no-duplicate-variable": true,
+    "no-empty": true,
     "no-empty-interface": true,
     "no-eval": true,
     "no-inferrable-types": [
       true,
       "ignore-params"
     ],
+    "new-parens": true,
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
+    "no-unsafe-any": true,
+    "no-unsafe-finally": true,
+    "static-this": true,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
+    "unnecessary-else": true,
     "one-line": [
       true,
       "check-open-brace",
@@ -80,12 +91,11 @@
     ],
     "radix": true,
     "semicolon": [
+      true,
       "always"
     ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "triple-equals": true,
+    "typedef": true,
     "typedef-whitespace": [
       true,
       {
@@ -97,15 +107,26 @@
       }
     ],
     "unified-signatures": true,
-    "variable-name": false,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore",
+        "allow-pascal-case"
+      ]
+    },
     "whitespace": [
       true,
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-rest-spread"
     ],
+    "no-irregular-whitespace": true,
+    "no-trailing-whitespace": true,
     "directive-selector": [
       true,
       "attribute",
@@ -118,7 +139,15 @@
       "app",
       "kebab-case"
     ],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-first",
+        "named-imports-order": "lowercase-first"
+      }
+    ],
     "no-inputs-metadata-property": true,
+    "no-unnecessary-callback-wrapper": true,
     "no-outputs-metadata-property": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,
@@ -126,6 +155,18 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "promise-function-async": true,
+    "no-floating-promises": true,
+    "await-promise": true,
+    "unnecessary-constructor": true,
+    "function-constructor": true,
+    "no-tautology-expression": true,
+    "no-async-without-await": true,
+    "no-return-await": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ]
   }
 }

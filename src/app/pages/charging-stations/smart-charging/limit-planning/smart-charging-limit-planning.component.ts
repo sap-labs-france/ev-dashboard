@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, Injectable, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
-import { LocaleService } from 'app/services/locale.service';
+import { AfterViewInit, Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
-import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
-import { Constants } from 'app/utils/Constants';
+import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
+import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 import { SmartChargingUtils } from '../smart-charging-utils';
 import { SmartChargingLimitChartComponent } from './smart-charging-limit-chart.component';
 
@@ -29,7 +29,6 @@ interface LocalConnectorSchedule extends ConnectorSchedule {
 export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewInit {
   @Input() charger: Charger;
   @Output() onLimitChange: EventEmitter<number> = new EventEmitter<number>();
-  private messages;
   public userLocales;
   public isAdmin;
 
@@ -45,7 +44,8 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
   public limitPlanning: LocalConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
-  @ViewChild('limitChart') limitChartPlanningComponnent: SmartChargingLimitChartComponent;
+  @ViewChild('limitChart', { static: false }) limitChartPlanningComponnent: SmartChargingLimitChartComponent;
+  private messages;
 
   private powerDigitPrecision = 2;
   private powerFloatingPrecision = 0;
@@ -80,7 +80,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
     // For small charger increase display precision
     if (this.charger.maximumPower < 10000) {
       this.powerDigitPrecision = 1;
@@ -139,6 +139,11 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public showHideConnectorPlanning(connectorPlanning: ConnectorSchedule) {
+    const connectorPlanningDisplay = this.limitPlanning.find((value) => value.connectorId === connectorPlanning.connectorId);
+    connectorPlanningDisplay.isExpanded = !connectorPlanningDisplay.isExpanded;
   }
 
   private _parseCompositeSchedule() {
@@ -206,7 +211,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
           // Calculate end of period
           slot.end = undefined;
           if (index < compositeSchedule.chargingSchedule.chargingSchedulePeriod.length - 1) {
-            const nextChargingPeriod = compositeSchedule.chargingSchedule.chargingSchedulePeriod[index + 1]
+            const nextChargingPeriod = compositeSchedule.chargingSchedule.chargingSchedulePeriod[index + 1];
             slot.end = new Date(this.startScheduleDate.getTime() + nextChargingPeriod.startPeriod * 1000);
           }
           slot.limit = SmartChargingUtils.getDisplayedFormatValue(chargingPeriod.limit,
@@ -216,7 +221,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
             this.powerFloatingPrecision,
             this.charger.numberOfConnectedPhase,
             this.appUnitFormatter,
-            false)
+            false);
           if (!connectorSchedule.hasOwnProperty('slots')) {
             // Initialize
             connectorSchedule.slots = [];
@@ -251,7 +256,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
             this.powerFloatingPrecision,
             this.charger.numberOfConnectedPhase,
             this.appUnitFormatter,
-            true)
+            true);
           this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower,
             'W',
             this.charger.numberOfConnectedPhase);
@@ -269,17 +274,12 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
           this.powerFloatingPrecision,
           this.charger.numberOfConnectedPhase,
           this.appUnitFormatter,
-          true)
+          true);
         this.internalFormatCurrentLimit = SmartChargingUtils.getInternalFormatValue(this.charger.maximumPower,
           'W',
           this.charger.numberOfConnectedPhase);
         this.limitPlanning = undefined;
       }
     }
-  }
-
-  public showHideConnectorPlanning(connectorPlanning: ConnectorSchedule) {
-    const connectorPlanningDisplay = this.limitPlanning.find((value) => value.connectorId === connectorPlanning.connectorId);
-    connectorPlanningDisplay.isExpanded = !connectorPlanningDisplay.isExpanded;
   }
 }

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -9,13 +9,13 @@ import {
   RouterStateSnapshot,
   UrlSegment
 } from '@angular/router';
-import {CentralServerService} from './central-server.service';
-import {AuthorizationService} from './authorization-service';
-import {MessageService} from './message.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ComponentService} from './component.service';
-import {environment} from 'environments/environment';
-import {Constants} from '../utils/Constants';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'environments/environment';
+import { Constants } from '../utils/Constants';
+import { AuthorizationService } from './authorization-service';
+import { CentralServerService } from './central-server.service';
+import { ComponentService } from './component.service';
+import { MessageService } from './message.service';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {

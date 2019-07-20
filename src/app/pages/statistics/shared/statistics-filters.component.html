@@ -4,20 +4,41 @@
     <!-- Actions  -->
     <div class="left-actions d-flex flex-row mat-toolbar-row ">
         <!-- Create Left Actions -->
+        <!-- Export data -->
+        <button mat-raised-button (click)="exportData()"
+            [color]="'primary'" appTooltip="" data-placement="bottom"
+            data-toggle="tooltip" [title]="'general.export' | translate">
+            <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
+        </button>
+
         <!-- Reset Filters -->
         <button mat-raised-button (click)="resetFilters()"
             [color]="'primary'" appTooltip="" data-placement="bottom"
             data-toggle="tooltip" [title]="'general.reset_filters' | translate">
             <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
         </button>
-  
+
         <!-- Spacer -->
         <span class="toolbar-spacer"></span>
- 
+
         <!-- Create Right Actions -->
         <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+
+        <!-- Button group for scope (months, etc.) -->
+            <div class="btn-group mat-button-group mr-2">
+                <button mat-raised-button *ngFor="let button of buttonsOfScopeGroup"
+                        (click)="buttonOfScopeGroupChanged(button.name)"
+                        [color]="'primary'"
+                        appTooltip="" data-placement="bottom"
+                        [class.selected-button]="activeButtonOfScopeGroup && (activeButtonOfScopeGroup.name === button.name)"
+                        [class.inactive-button]="button.inactive"
+                        [title]="button.title | translate">
+                    <span>{{button.title | translate}}</span>
+                </button>
+            </div>
+
         <!-- Refresh -->
-            <button mat-raised-button 
+            <button mat-raised-button
                     class="button-refresh" (click)="refresh()"
                     [color]="'primary'"
                     appTooltip="" data-toggle="tooltip" data-placement="bottom" [title]="'general.refresh' | translate">
@@ -35,26 +56,28 @@
     <!-- filters -->
     <div class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Category of statistics -->
-        <div *ngIf="isAdmin">  <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
+        <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
             <mat-form-field>
                 <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
                             [placeholder]="'statistics.category_label' | translate">
                     <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
                      <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
                 </mat-select>
-            </mat-form-field>    
+            </mat-form-field>
         </div>
 
         <!-- transaction year -->
-        <div> <!-- class="col-sm-4 col-md-4 col-lg-3 col-xl-2"> -->
-            <mat-form-field>    
+        <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
+            <mat-form-field>
                 <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
                             [placeholder]="'statistics.transactions_years' | translate">
-                    <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}
-                    </mat-option>
+                  <ng-template ngFor let-year [ngForOf]="transactionYears">
+                    <mat-option *ngIf="(year > 0); else allYears" [value]="year">{{year}}</mat-option>
+                    <ng-template #allYears><mat-option [value]=0>{{'general.all' | translate}}</mat-option></ng-template>
+                  </ng-template>
                 </mat-select>
             </mat-form-field>
-        </div> 
+        </div>
 
         <!-- dynamically defined filters, like for Site ID -->
         <div *ngFor="let filterDef of tableFiltersDef; let i=index"

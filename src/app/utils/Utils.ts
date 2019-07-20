@@ -1,9 +1,9 @@
-import {Observable} from 'rxjs';
-import {FormControl, FormGroup} from '@angular/forms';
-import {CentralServerService} from '../services/central-server.service';
-import {MessageService} from '../services/message.service';
-import {Router} from '@angular/router';
-import {BAD_REQUEST, CONFLICT, UNAUTHORIZED, FORBIDDEN} from 'http-status-codes';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import { Observable } from 'rxjs';
+import { CentralServerService } from '../services/central-server.service';
+import { MessageService } from '../services/message.service';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
@@ -22,13 +22,13 @@ export class Utils {
     return {notEqual: true};
   }
 
-  public static handleError(error, messageService, errorMessage?): Observable<any> {
+  public static handleError(error, messageService, errorMessage?, params?): Observable<any> {
     console.log(`Error: ${errorMessage}: ${error}`);
-    return messageService.showErrorMessage(errorMessage);
+    return messageService.showErrorMessage(errorMessage, params);
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,
-      centralServerService: CentralServerService, errorMessage: string) {
+      centralServerService: CentralServerService, errorMessage: string, params?) {
     // Check error
     switch (error.status) {
       // Server connection error`
@@ -71,7 +71,7 @@ export class Utils {
       // Backend issue
       default:
         console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
-        messageService.showErrorMessage(errorMessage);
+        messageService.showErrorMessage(errorMessage, params);
         break;
     }
   }
@@ -112,5 +112,10 @@ export class Utils {
       changedID = parseFloat(id);
     }
     return changedID;
+  }
+
+  public static isNull(obj) {
+    // tslint:disable-next-line: triple-equals
+    return obj == null;
   }
 }

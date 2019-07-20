@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CentralServerService} from '../../services/central-server.service';
-import {ConfigService} from '../../services/config.service';
-import {MessageService} from '../../services/message.service';
-import {Utils} from '../../utils/Utils';
-import {Constants} from '../../utils/Constants';
-import {SpinnerService} from '../../services/spinner.service';
-import {ReCaptchaV3Service} from 'ngx-captcha';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ReCaptchaV3Service } from 'ngx-captcha';
+import { CentralServerService } from '../../services/central-server.service';
+import { ConfigService } from '../../services/config.service';
+import { MessageService } from '../../services/message.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-verify-email-cmp',
@@ -18,9 +18,9 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
   public verifyEmailAction: boolean;
-  private messages: Object;
   public verificationToken: string;
   public verificationEmail: string;
+  private messages: Object;
 
   private siteKey: string;
 
@@ -39,7 +39,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     });
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    console.log(this.siteKey);
     // Init Form
     this.formGroup = new FormGroup({
       'email': new FormControl('',

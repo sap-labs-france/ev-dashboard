@@ -1,10 +1,16 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { CentralServerService } from '../../../services/central-server.service';
-import { AuthorizationService } from '../../../services/authorization-service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization-service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
+
+export interface StatisticsButtonGroup {
+  name: string;
+  title: string;
+  inactive: boolean;
+}
 
 @Component({
   selector: 'app-statistics-filters',
@@ -16,14 +22,22 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedYear: number;
   public transactionYears: number[];
 
+  @Output() category = new EventEmitter();
+  @Output() year = new EventEmitter();
+  @Input() allYears ?= false;
+  public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
+    { name: 'total', title: 'statistics.total', inactive: false },
+    { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
+  ];
+  @Output() buttonOfScopeGroup = new EventEmitter();
+  @Input() tableFiltersDef?: TableFilterDef[] = [];
+  @Output() filters = new EventEmitter();
+  @Output() update = new EventEmitter();
+  @Output() export = new EventEmitter();
+
   private selectedCategory = 'C';
   private filterParams = {};
-
-  @Input() tableFiltersDef: TableFilterDef[] = [];
-  @Output() category = new EventEmitter;
-  @Output() year = new EventEmitter;
-  @Output() filters = new EventEmitter;
-  @Output() refreshAll = new EventEmitter;
+  private activeButtonOfScopeGroup: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -33,46 +47,30 @@ export class StatisticsFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin();
     this.category.emit(this.selectedCategory);
+
     this.selectedYear = new Date().getFullYear();
     this.year.emit(this.selectedYear);
     // Get the years from the existing transactions
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
+      // to be safe always add the current year:
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
-    });
-    // Provided filters
-    if (this.tableFiltersDef) {
-      // Site filter
-      const foundSitesFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === 'sites');
-      // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
-      if (foundSitesFilter && this.isAdmin) {
-        // Get the sites
-        this.centralServerService.getSites([]).subscribe((sites) => {
-          if (sites && sites.result.length > 0) {
-            const firstSite = sites.result[0];
-            const filterDef = new SitesTableFilter().getFilterDef();
-            filterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
-            this.filterChanged(filterDef);
-          }
-          this.filterParams = this.buildFilterValues();
-          this.filters.emit(this.filterParams);
-          this.refreshAll.emit();
-        });
-      } else {
-        this.filterParams = this.buildFilterValues();
-        this.filters.emit(this.filterParams);
-        this.refreshAll.emit();
+      if (this.allYears) {
+        this.transactionYears.push(0); // 'all years' corresponds to year = 0
       }
-    } else {
-      this.filterParams = this.buildFilterValues();
-      this.filters.emit(this.filterParams);
-      this.refreshAll.emit();
-    }
+    });
+
+    this.setActiveButtonOfScopeGroup();
+
+    // Provided filters
+    this.filterParams = this.buildFilterValues();
+    this.filters.emit(this.filterParams);
+    this.update.emit(true);
   }
 
-  public filterChanged(filter: TableFilterDef) {
+  public filterChanged(filter: TableFilterDef): void {
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
@@ -88,7 +86,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.selectedYear = new Date().getFullYear();
     if (oldYear !== this.selectedYear) {
       filterWasChanged = true;
-      this.year.emit(this.selectedYear);
+      this.yearChanged(false);
     }
     // Handle filters
     if (this.tableFiltersDef) {
@@ -119,7 +117,7 @@ export class StatisticsFiltersComponent implements OnInit {
       // Set & Reload all
       this.filterParams = this.buildFilterValues();
       this.filters.emit(this.filterParams);
-      this.refreshAll.emit();
+      this.update.emit(true);
     }
   }
 
@@ -138,7 +136,7 @@ export class StatisticsFiltersComponent implements OnInit {
     if (filterWasChanged) {
       this.filterParams = this.buildFilterValues();
       this.filters.emit(this.filterParams);
-      this.refreshAll.emit();
+      this.update.emit(true);
     }
   }
 
@@ -161,12 +159,12 @@ export class StatisticsFiltersComponent implements OnInit {
         if (!filterDef.currentValue || filterDef.currentValue !== data) {
           filterWasChanged = true;
           filterDef.currentValue = data;
-        };
+        }
         this.filterChanged(filterDef);
         if (filterWasChanged) {
           this.filterParams = this.buildFilterValues();
           this.filters.emit(this.filterParams);
-          this.refreshAll.emit();
+          this.update.emit(true);
         }
       }
     });
@@ -211,15 +209,56 @@ export class StatisticsFiltersComponent implements OnInit {
 
   categoryChanged(): void {
     this.category.emit(this.selectedCategory);
-    this.refreshAll.emit();
+    this.update.emit(true);
   }
 
-  yearChanged(): void {
+  yearChanged(refresh = true): void {
+    if (this.allYears) {
+      if (this.selectedYear > 0) {
+        this.buttonsOfScopeGroup[1].inactive = false;
+      } else {
+        this.buttonsOfScopeGroup[1].inactive = true;
+      }
+      const index = this.buttonsOfScopeGroup.findIndex((button) => button.name === this.activeButtonOfScopeGroup.name);
+      if (index >= 0 && this.buttonsOfScopeGroup[index].inactive) {
+        this.setActiveButtonOfScopeGroup();
+      }
+    }
+
     this.year.emit(this.selectedYear);
-    this.refreshAll.emit();
+
+    if (refresh) {
+      this.update.emit(true);
+    }
   }
 
   refresh(): void {
-    this.refreshAll.emit();
+    this.update.emit(true);
   }
+
+  setActiveButtonOfScopeGroup(): void {
+    // Button group for Scope: always active
+    // set to first active button:
+    const firstActiveButton = this.buttonsOfScopeGroup.find((button) => button.inactive === false);
+    if (firstActiveButton && (firstActiveButton !== this.activeButtonOfScopeGroup)) {
+      this.activeButtonOfScopeGroup = firstActiveButton;
+      this.buttonOfScopeGroup.emit(this.activeButtonOfScopeGroup.name);
+    }
+  }
+
+  buttonOfScopeGroupChanged(buttonName: string): void {
+    const index = this.buttonsOfScopeGroup.findIndex((element) => element.name === buttonName);
+    if (index >= 0 &&
+      this.activeButtonOfScopeGroup.name !== buttonName &&
+      this.buttonsOfScopeGroup[index].inactive === false) {
+      this.activeButtonOfScopeGroup = this.buttonsOfScopeGroup[index];
+      this.buttonOfScopeGroup.emit(this.activeButtonOfScopeGroup.name);
+      this.update.emit(false);
+    }
+  }
+
+  exportData(): void {
+    this.export.emit();
+  }
+
 }

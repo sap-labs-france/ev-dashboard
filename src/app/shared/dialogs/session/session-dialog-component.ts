@@ -1,13 +1,13 @@
-
-import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { CentralServerService } from '../../../services/central-server.service';
-import { Constants } from '../../../utils/Constants';
-import { Image, Transaction } from '../../../common.types';
-import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 import { PercentPipe } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Image, Transaction } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { LocaleService } from '../../../services/locale.service';
+import { Constants } from '../../../utils/Constants';
+import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
   templateUrl: './session.dialog.component.html'
@@ -19,25 +19,28 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   public endStateOfCharge: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public totalConsumption: number;
-  private transactionId: number;
   public totalInactivitySecs: number;
   public totalDurationSecs: number;
   public percentOfInactivity: string;
+  public locale: string;
+
+  @ViewChild('chartConsumption', {static: false}) chartComponent: ConsumptionChartComponent;
+  private transactionId: number;
 
 
   private autoRefeshTimer;
   private autoRefeshPollEnabled;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
 
-  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
-
   constructor(
-      private spinnerService: SpinnerService,
-      private percentPipe: PercentPipe,
-      private centralServerService: CentralServerService,
-      private configService: ConfigService,
-      protected dialogRef: MatDialogRef<SessionDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) data) {
+    private spinnerService: SpinnerService,
+    private percentPipe: PercentPipe,
+    private centralServerService: CentralServerService,
+    private configService: ConfigService,
+    private localeService: LocaleService,
+    protected dialogRef: MatDialogRef<SessionDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data) {
+    this.locale = this.localeService.getCurrentLocaleJS();
     if (data) {
       this.transactionId = data.transactionId;
     }

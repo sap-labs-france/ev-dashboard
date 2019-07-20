@@ -1,13 +1,12 @@
+import {} from '@agm/core';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import {} from '@agm/core'
 
 @Component({
   templateUrl: './geomap.dialog.component.html'
 })
 export class GeoMapDialogComponent {
-  private map: any;
   public mapLatitude: number;
   public mapLongitude: number;
   public markerLatitude: number;
@@ -21,6 +20,7 @@ export class GeoMapDialogComponent {
   };
   public displayOnly = false;
   public dialogTitle: string;
+  private map: any;
 
   constructor(
     protected dialogRef: MatDialogRef<GeoMapDialogComponent>,

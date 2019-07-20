@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {TransactionsHistoryDataSource} from './transactions-history-data-source-table';
-import {MessageService} from '../../../services/message.service';
+import { Component, OnInit } from '@angular/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
+import { TransactionsHistoryDataSource } from './transactions-history-data-source-table';
 
 @Component({
   selector: 'app-transactions-history',
-  templateUrl: 'transactions-history.component.html'
+  templateUrl: 'transactions-history.component.html',
+  providers: [TransactionsHistoryDataSource]
 })
 export class TransactionsHistoryComponent implements OnInit {
   constructor(

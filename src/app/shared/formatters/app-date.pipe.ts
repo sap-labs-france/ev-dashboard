@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
 import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDate'})
@@ -7,7 +7,7 @@ export class AppDatePipe implements PipeTransform {
   private locale: string;
   constructor(
     private localeService: LocaleService) {
-      this.locale = this.localeService.getCurrentFullLocaleForJS();
+      this.locale = this.localeService.getCurrentLocaleJS();
   }
 
   transform(value: any): string {

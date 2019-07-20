@@ -1,22 +1,22 @@
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Injectable, EventEmitter, Output } from '@angular/core';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, DropdownItem, AnalyticsLink } from 'app/common.types';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AnalyticsLink, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 
+import { DialogService } from 'app/services/dialog.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { DialogService } from 'app/services/dialog.service';
 import { AnalyticsLinkDialogComponent } from './analytics-link.dialog.component';
-import { SpinnerService } from 'app/services/spinner.service';
 
 @Injectable()
 export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
@@ -203,7 +203,7 @@ export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
       this.translateService.instant('analytics.delete_confirm', { 'linkName': analyticsLink.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.analyticsLinks, function (o: AnalyticsLink) { return (o.id === analyticsLink.id) });
+        _.remove(this.analyticsLinks, function (o: AnalyticsLink) { return (o.id === analyticsLink.id); });
         this.refreshData().subscribe();
         this.changed.emit(true);
       }

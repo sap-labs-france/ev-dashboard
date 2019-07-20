@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SpinnerService {
-  private spinner: HTMLElement;
   public visible: boolean;
+  private spinner: HTMLElement;
 
   constructor() {
     this.spinner = document.getElementById('spinner');

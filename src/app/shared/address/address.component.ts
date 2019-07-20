@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormGroup} from '@angular/forms';
-import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import { tick } from '@angular/core/src/render3';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 
 @Component({

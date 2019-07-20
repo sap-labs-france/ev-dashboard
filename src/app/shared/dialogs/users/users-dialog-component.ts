@@ -1,8 +1,8 @@
 import { Component, Inject, Self } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { UsersDataSource } from './users-data-source-table';
-import { DialogTableDataComponent } from '../dialog-table-data.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KeyValue, User } from '../../../common.types';
+import { DialogTableDataComponent } from '../dialog-table-data.component';
+import { UsersDataSource } from './users-data-source-table';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
@@ -16,7 +16,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     super(data, dialogRef, usersDataSource);
     // Default title
     if (this.title === '') {
-      this.title = 'users.select_users'
+      this.title = 'users.select_users';
     }
     // Set static filter
     if (data && data.excludeUsersOfSiteID) {

@@ -1,6 +1,7 @@
 # config
 config
-src/assets/config.json
+src/assets/config*.json
+!src/assets/config-template.json
 manifest.yml
 
 # compiled output
@@ -49,3 +50,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+yarn-error.log
+/yarn.lock

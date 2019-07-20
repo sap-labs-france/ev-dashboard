@@ -1,11 +1,10 @@
-import {filter} from 'rxjs/operators';
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {SpinnerService} from './services/spinner.service';
-import 'moment-duration-format';
-import { MatIconRegistry } from '@angular/material';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { SpinnerService } from './services/spinner.service';
 import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe';
 
 @Component({
@@ -21,11 +20,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private router: Router,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer) {
-      for (const connector_map of CONNECTOR_TYPE_MAP) {
-        if (connector_map.svgIconName) {
+      for (const connectorMap of CONNECTOR_TYPE_MAP) {
+        if (connectorMap.svgIconName) {
           iconRegistry.addSvgIcon(
-            connector_map.svgIconName,
-            sanitizer.bypassSecurityTrustResourceUrl(connector_map.svgIconFile));
+            connectorMap.svgIconName,
+            sanitizer.bypassSecurityTrustResourceUrl(connectorMap.svgIconFile));
         }
       }
   }

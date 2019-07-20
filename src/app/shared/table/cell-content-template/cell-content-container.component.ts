@@ -1,10 +1,11 @@
-import {Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef, SimpleChanges, OnChanges} from '@angular/core';
-import {CellContentTemplateComponent} from './cell-content-template.component';
-import {TableColumnDef, TableDef} from '../../../common.types';
+import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { TableColumnDef, TableDef } from '../../../common.types';
+import { CellContentTemplateComponent } from './cell-content-template.component';
 
 @Component({
   selector: 'app-cell-component-container',
-  template: `<ng-template></ng-template>`
+  template: `
+    <ng-template></ng-template>`
 })
 
 // tslint:disable-next-line:component-class-suffix
@@ -49,6 +50,7 @@ export class CellContentComponentContainer implements OnInit, OnChanges {
       this.cellComponent = <CellContentTemplateComponent>this.cellComponentRef.instance;
       // Pass the data
       this.cellComponent.row = this.row;
+      this.cellComponent.columnDef = this.columnDef;
     }
   }
 }

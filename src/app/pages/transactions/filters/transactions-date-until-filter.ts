@@ -1,4 +1,4 @@
-import {DateTableFilter} from '../../../shared/table/filters/date-filter';
+import { DateTableFilter } from '../../../shared/table/filters/date-filter';
 
 export class TransactionsDateUntilFilter extends DateTableFilter {
   constructor(currentValue = null) {
@@ -8,6 +8,6 @@ export class TransactionsDateUntilFilter extends DateTableFilter {
     filter.httpId = 'EndDateTime';
     filter.name = 'general.search_date_until';
     filter.currentValue = currentValue;
-    filter.reset = () => filter.currentValue = currentValue
+    filter.reset = () => filter.currentValue = currentValue;
   }
 }

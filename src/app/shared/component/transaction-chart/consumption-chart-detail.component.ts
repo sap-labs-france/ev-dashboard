@@ -1,6 +1,6 @@
-import { Component, ViewChild, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
+import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
 
 @Component({
   template:
@@ -9,7 +9,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/transaction-char
 
 export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
   @Input() row: any;
-  @ViewChild('chartConsumption') chartComponent: ConsumptionChartComponent;
+  @ViewChild('chartConsumption', { static: false }) chartComponent: ConsumptionChartComponent;
   public transactionId;
 
   ngOnInit(): void {

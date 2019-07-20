@@ -1,10 +1,10 @@
-import {Observable, of} from 'rxjs';
-import {MatSort} from '@angular/material';
-import {DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef} from '../../common.types';
-import {TableResetFiltersAction} from './actions/table-reset-filters-action';
-import {Constants} from '../../utils/Constants';
+import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
+import { of, Observable } from 'rxjs';
+import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
+import { Constants } from '../../utils/Constants';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T> {
   public tableDef: TableDef;
@@ -41,22 +41,18 @@ export abstract class TableDataSource<T> {
   }
 
   public isRowSelectionEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    // Return
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
@@ -65,47 +61,44 @@ export abstract class TableDataSource<T> {
   }
 
   public hasSelectedRows(): boolean {
-    return (this.selectedRows > 0)
+    return (this.selectedRows > 0);
   }
 
   public clearSelectedRows() {
-    // Clear
+    // Clear all
     this.selectedRows = 0;
     this.data.forEach((row) => {
       if (row.isSelectable) {
         row.isSelected = false;
       }
-    })
+    });
   }
 
   public selectAllRows() {
     // Select All
     this.selectedRows = 0;
     this.data.forEach((row) => {
-      // Check
       if (row.isSelectable) {
         row.isSelected = true;
         this.selectedRows++;
       }
-    })
+    });
   }
 
   public toggleMasterSelect() {
     if (this.isAllSelected()) {
-      // Unselect All
       this.clearSelectedRows();
     } else {
-      // Select All
       this.selectAllRows();
     }
   }
 
   public toggleRowSelection(row) {
-    // Invert
+    // Invert selection
     row.isSelected = !row.isSelected;
     // Adjust number of selected rows
     if (row.isSelected) {
-      this.selectedRows++
+      this.selectedRows++;
       // Single Select?
       if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
         // Unselect last row
@@ -113,7 +106,7 @@ export abstract class TableDataSource<T> {
       }
       this.lastSelectedRow = row;
     } else {
-      this.selectedRows--
+      this.selectedRows--;
       this.lastSelectedRow = null;
     }
   }
@@ -128,7 +121,6 @@ export abstract class TableDataSource<T> {
       skip: 0,
       limit: this.getPageSize()
     });
-    // Set value
     this.searchValue = searchValue;
   }
 
@@ -149,7 +141,7 @@ export abstract class TableDataSource<T> {
       this.paging = {
         skip: 0,
         limit: this.getPageSize()
-      }
+      };
     }
     return this.paging;
   }
@@ -166,16 +158,15 @@ export abstract class TableDataSource<T> {
     if (this.getSort()) {
       return [
         {field: this.getSort().active, direction: this.getSort().direction}
-      ]
+      ];
     } else {
       // Find Sorted columns
       const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
-      // Found?
+      // Set Sorting
       if (columnDef) {
-        // Yes: Set Sorting
         return [
           {field: columnDef.id, direction: columnDef.direction}
-        ]
+        ];
       }
     }
   }
@@ -183,7 +174,6 @@ export abstract class TableDataSource<T> {
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
     // Set only when all records have been retrieved
     if (totalNumberOfRecords !== Constants.INFINITE_RECORDS) {
-      // Set
       this.totalNumberOfRecords = totalNumberOfRecords;
     }
   }
@@ -201,7 +191,7 @@ export abstract class TableDataSource<T> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    // Return default
+    // Default
     if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
         new TableResetFiltersAction().getActionDef()
@@ -211,56 +201,19 @@ export abstract class TableDataSource<T> {
     }
   }
 
-  public getTableActionsDef(): TableActionDef[] {
-    if (!this.tableActionsDef) {
-      this.tableActionsDef = this.buildTableActionsDef();
-    }
-    return this.tableActionsDef;
-  }
-
   public buildTableActionsRightDef(): TableActionDef[] {
-    // Return default
     return [];
-  }
-
-  public getTableActionsRightDef(): TableActionDef[] {
-    if (!this.tableActionsRightDef) {
-      this.tableActionsRightDef = this.buildTableActionsRightDef();
-    }
-    return this.tableActionsRightDef;
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    // Return default
     return [];
-  }
-
-  public getTableRowActions(): TableActionDef[] {
-    if (!this.tableRowActionsDef) {
-      this.tableRowActionsDef = this.buildTableRowActions();
-    }
-    return this.tableRowActionsDef;
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
   }
 
-  public getTableFiltersDef(): TableFilterDef[] {
-    if (!this.tableFiltersDef) {
-      this.tableFiltersDef = this.buildTableFiltersDef();
-    }
-    return this.tableFiltersDef;
-  }
-
   abstract buildTableDef(): TableDef;
-
-  public getTableDef(): TableDef {
-    if (!this.tableDef) {
-      this.tableDef = this.buildTableDef();
-    }
-    return this.tableDef;
-  }
 
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
@@ -306,7 +259,6 @@ export abstract class TableDataSource<T> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    // Return
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
@@ -320,7 +272,7 @@ export abstract class TableDataSource<T> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Table
+            // Table
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -336,9 +288,8 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
-          // Others
+            // Others
           } else {
-            // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
@@ -351,7 +302,6 @@ export abstract class TableDataSource<T> {
     }
     // Static filters
     if (this.staticFilters && this.staticFilters.length > 0) {
-      // Update
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
     return filterJson;
@@ -362,12 +312,10 @@ export abstract class TableDataSource<T> {
   }
 
   public setStaticFilters(staticFilters) {
-    // Keep it
     this.staticFilters = staticFilters;
   }
 
   public getStaticFilters() {
-    // Keep it
     return this.staticFilters;
   }
 
@@ -375,13 +323,6 @@ export abstract class TableDataSource<T> {
   }
 
   abstract buildTableColumnDefs(): TableColumnDef[];
-
-  public getTableColumnDefs(): TableColumnDef[] {
-    if (!this.tableColumnDefs) {
-      this.tableColumnDefs = this.buildTableColumnDefs();
-    }
-    return this.tableColumnDefs;
-  }
 
   public refreshData(showSpinner = true): Observable<T> {
     // Init paging
@@ -392,16 +333,16 @@ export abstract class TableDataSource<T> {
       limit: currentPaging.limit + currentPaging.skip
     });
     // Load data
-    return this.loadData(showSpinner, true);
+    return this.loadData(showSpinner);
   }
 
-  public loadData(showSpinner = true, forceRefreshRecords = false): Observable<T> {
+  public loadData(showSpinner = true): Observable<T> {
     return new Observable((observer) => {
       // Show Spinner
       if (showSpinner) {
         this.spinnerService.show();
       }
-        // Load data source
+      // Load data source
       this.loadDataImpl().subscribe((data) => {
         // Set nbr of records
         this.setTotalNumberOfRecords(data.count);
@@ -421,15 +362,12 @@ export abstract class TableDataSource<T> {
           if (!this.loadingNumberOfRecords) {
             // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-               (forceRefreshRecords || // Force refresh records
-                this.totalNumberOfRecords === Constants.INFINITE_RECORDS || // Never loaded
-                this.data.length + this.getPageSize() >= this.totalNumberOfRecords) // Approaching the end of the max
-              ) {
-                // Load records
-                this.requestNumberOfRecords();
+              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+              // Load records
+              this.requestNumberOfRecords();
             }
           }
-        }, 1);
+        }, 100);
         // Notify
         observer.next(data);
         observer.complete();
@@ -438,11 +376,130 @@ export abstract class TableDataSource<T> {
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        observer.error(error);
       });
     });
   }
 
   abstract loadDataImpl(): Observable<any>;
+
+  public getData(): any[] {
+    return this.data;
+  }
+
+  public destroyDatasource() {
+    this.clearData();
+    this.resetTotalNumberOfRecords();
+    this.clearPaging();
+  }
+
+  public clearData() {
+    this.data.length = 0;
+  }
+
+  public clearPaging() {
+    this.paging = {
+      limit: this.getPageSize(),
+      skip: 0
+    };
+  }
+
+  public requestNumberOfRecords() {
+    // Reset current
+    this.resetTotalNumberOfRecords();
+    // Loading on going
+    this.loadingNumberOfRecords = true;
+    // Set static filter
+    const staticFilters = [
+      ...this.getStaticFilters(),
+      {'OnlyRecordCount': true}
+    ];
+    // Set
+    this.setStaticFilters(staticFilters);
+    // Load data
+    this.loadDataImpl().subscribe((data) => {
+      // Loading ended
+      this.loadingNumberOfRecords = false;
+      this.setTotalNumberOfRecords(data.count);
+      this.tableFooterStats = this.buildTableFooterStats(data);
+    });
+    // Reset static filter
+    staticFilters.splice(staticFilters.length - 1, 1);
+    this.setStaticFilters(staticFilters);
+  }
+
+  buildTableDynamicRowActions(row: T): TableActionDef[] {
+    return [];
+  }
+
+  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+    return true;
+  }
+
+  isSelectable(row: T) {
+    return true;
+  }
+
+  protected initDataSource(force: boolean = false): any {
+    // Init data from sub-classes
+    this.initTableColumnDefs(force);
+    this.initTableDef(force);
+    this.initTableFiltersDef(force);
+    this.initTableActionsDef(force);
+    this.initTableActionsRightDef(force);
+    this.initTableRowActions(force);
+
+    // tslint:disable-next-line:max-line-length
+    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
+      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
+    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
+    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+      this.tableDef.hasDynamicRowAction;
+  }
+
+  private initTableRowActions(force: boolean): TableActionDef[] {
+    if (!this.tableRowActionsDef || force) {
+      this.tableRowActionsDef = this.buildTableRowActions();
+    }
+    return this.tableRowActionsDef;
+  }
+
+  private initTableColumnDefs(force: boolean): TableColumnDef[] {
+    if (!this.tableColumnDefs || force) {
+      this.tableColumnDefs = this.buildTableColumnDefs();
+    }
+    return this.tableColumnDefs;
+  }
+
+  private initTableActionsDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsDef || force) {
+      this.tableActionsDef = this.buildTableActionsDef();
+    }
+    return this.tableActionsDef;
+  }
+
+  private initTableActionsRightDef(force: boolean): TableActionDef[] {
+    if (!this.tableActionsRightDef || force) {
+      this.tableActionsRightDef = this.buildTableActionsRightDef();
+    }
+    return this.tableActionsRightDef;
+  }
+
+  private initTableFiltersDef(force: boolean): TableFilterDef[] {
+    if (!this.tableFiltersDef || force) {
+      this.tableFiltersDef = this.buildTableFiltersDef();
+    }
+    return this.tableFiltersDef;
+  }
+
+  private initTableDef(force: boolean): TableDef {
+    if (!this.tableDef || force) {
+      this.tableDef = this.buildTableDef();
+    }
+    return this.tableDef;
+  }
 
   private setData(data: T[]) {
     // Format the data
@@ -458,8 +515,8 @@ export abstract class TableDataSource<T> {
     }
     // Update Selection variables
     if (this.tableDef.rowSelection &&
-        this.tableDef.rowSelection.enabled &&
-        this.tableDef.rowSelection.multiple) {
+      this.tableDef.rowSelection.enabled &&
+      this.tableDef.rowSelection.multiple) {
       // Init
       this.maxSelectableRows = 0;
       this.selectedRows = 0;
@@ -474,37 +531,6 @@ export abstract class TableDataSource<T> {
         }
       }
     }
-  }
-
-  public getData(): any[] {
-    return this.data;
-  }
-
-  requestNumberOfRecords() {
-    // Reset
-    this.resetTotalNumberOfRecords();
-    // Set flag
-    this.loadingNumberOfRecords = true;
-    // Add only record count
-    const staticFilters = [
-      ...this.getStaticFilters(),
-      { 'OnlyRecordCount': true}
-    ];
-    // Set
-    this.setStaticFilters(staticFilters);
-    // Load data
-    this.loadDataImpl().subscribe((data) => {
-      // Unset flag
-      this.loadingNumberOfRecords = false;
-      // Set nbr of records
-      this.setTotalNumberOfRecords(data.count);
-      // Build stats
-      this.tableFooterStats = this.buildTableFooterStats(data);
-    });
-    // Remove OnlyRecordCount
-    staticFilters.splice(staticFilters.length - 1, 1)
-    // Reset static filter
-    this.setStaticFilters(staticFilters);
   }
 
   private enrichData(freshData: any[]) {
@@ -542,7 +568,7 @@ export abstract class TableDataSource<T> {
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
-        const rowID = this.getTableDef().rowFieldNameIdentifier;
+        const rowID = this.initTableDef(false).rowFieldNameIdentifier;
         // Trigger exception
         if (!rowID) {
           throw new Error('Table Def has no row ID defined!');
@@ -577,37 +603,5 @@ export abstract class TableDataSource<T> {
         freshRow.isSelected = true;
       }
     }
-  }
-
-  buildTableDynamicRowActions(row: T): TableActionDef[] {
-    return [];
-  }
-
-  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
-    return true;
-  }
-
-  protected initDataSource(): any {
-    // Init data from sub-classes
-    this.getTableColumnDefs();
-    this.getTableDef();
-    this.getTableFiltersDef();
-    this.getTableActionsDef();
-    this.getTableActionsRightDef();
-    this.getTableRowActions();
-
-    // Init vars
-    // tslint:disable-next-line:max-line-length
-    this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
-      (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
-    this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
-    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
-      this.tableDef.hasDynamicRowAction;
-  }
-
-  isSelectable(row: T) {
-    return true;
   }
 }

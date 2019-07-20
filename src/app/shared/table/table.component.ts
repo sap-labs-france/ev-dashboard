@@ -1,17 +1,18 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {MatDialog, MatSort, MatDialogConfig} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
-import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {DropdownItem, TableActionDef, TableFilterDef, TableColumnDef} from '../../common.types';
-import {ConfigService} from '../../services/config.service';
-import {TableDataSource} from './table-data-source';
-import {LocaleService} from '../../services/locale.service';
-import {MatDatetimepickerInputEvent} from '@mat-datetimepicker/core';
-import {SpinnerService} from 'app/services/spinner.service';
-import {fromEvent} from 'rxjs';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
-import { WindowService } from 'app/services/window.service';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
+import { ConfigService } from '../../services/config.service';
+import { LocaleService } from '../../services/locale.service';
+import { TableDataSource } from './table-data-source';
 
 @Component({
   selector: 'app-table',
@@ -19,24 +20,25 @@ import { WindowService } from 'app/services/window.service';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
   public searchPlaceholder = '';
-  public ongoingRefresh = false;
+  public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
+  private ongoingRefresh = false;
 
   private autoRefeshTimer;
   private autoRefeshPollEnabled;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
 
   constructor(
-    private configService: ConfigService,
-    private translateService: TranslateService,
-    protected localService: LocaleService,
-    public spinnerService: SpinnerService,
-    public windowService: WindowService,
-    private dialog: MatDialog) {
+      private configService: ConfigService,
+      private translateService: TranslateService,
+      public spinnerService: SpinnerService,
+      protected localService: LocaleService,
+      public windowService: WindowService,
+      private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
@@ -46,15 +48,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
     this.autoRefeshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     // Init Sort
-    // Find Sorted columns
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
-    // Found?
     if (columnDef) {
       // Yes: Set Sorting
       this.sort.active = columnDef.id;
       this.sort.direction = columnDef.direction;
     }
-    // Set Sort
     this.dataSource.setSort(this.sort);
     // Compute number of columns
     this.numberOfColumns = this.dataSource.tableColumnDefs.length +
@@ -64,40 +63,38 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // Search?
+    // Init Search
     if (this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
+      // Init initial value
+      this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
         map((e: KeyboardEvent) => e.target['value']),
-        // Fucked up in dev env, takes a lot of time to process!!!!!
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged()
       ).subscribe((text: string) => {
-          // Set
           this.dataSource.setSearchValue(text);
-          // Load data
           this.refresh();
       });
     }
     if (this.dataSource.tableActionsRightDef) {
-      // Check Auto-Refresh
+      // Init Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
         if (tableActionRightDef.id === 'auto-refresh') {
           // Active by default?
           if (tableActionRightDef.currentValue) {
-            // Create
             this.createAutoRefreshTimer();
           }
           break;
         }
       }
     }
-    // Load the data
+    // Initial Load
     this.loadData();
   }
 
   ngOnDestroy() {
-    // Destroy
+    this.dataSource.destroyDatasource();
     this.destroyAutoRefreshTimer();
   }
 
@@ -112,11 +109,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public filterChanged(filterDef: TableFilterDef) {
-    // Get Actions def
     this.dataSource.filterChanged(filterDef);
-    // Update URL with filter
     this.updateUrlWithFilters(filterDef);
-    // Reload data
     this.refresh();
   }
 
@@ -124,7 +118,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Update URL with filter value
     if (filter.httpId && filter.httpId !== 'null') {
       // Capitalize first letter of search id
-      // const filterIdInCap = filter.id.charAt(0).toUpperCase() + filter.id.slice(1);
       const filterIdInCap = filter.httpId;
       if (filter.currentValue === 'null' || !filter.currentValue ) {
         this.windowService.deleteSearch(filterIdInCap);
@@ -151,18 +144,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public sortChanged(tableColumnDef: TableColumnDef) {
-    // Check
     if (tableColumnDef.sortable) {
-      // Check
       if (this.sort.active === tableColumnDef.id) {
-        // Reverse
+        // Reverse Sort
         this.sort.direction = (this.sort.direction === 'asc' ? 'desc' : 'asc');
       } else {
-        // New Sort
+        // Initial Sort
         this.sort.active = tableColumnDef.id;
         this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
       }
-      // Load data
       this.refresh();
     }
   }
@@ -178,14 +168,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     filterDef.currentValue = null;
-    this.filterChanged(filterDef)
+    this.filterChanged(filterDef);
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    // Set Validate button title to 'Set Filter'
+    // Init button title
     dialogConfig.data = {
       validateButtonTitle : 'general.set_filter'
     };
@@ -203,18 +193,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   createAutoRefreshTimer() {
-    // Create timer only if socketio is not active
+    // Create timer only if socketIO is not active
     if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
       // Create timer
       this.autoRefeshTimer = setInterval(() => {
-        // Reload
-        this.refresh(true);
+        // Reload not ongoing
+        if (!this.ongoingRefresh) {
+          this.refresh(true);
+        }
       }, this.autoRefeshPollingIntervalMillis);
     }
   }
 
   destroyAutoRefreshTimer() {
-    // Clean up
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
       this.autoRefeshTimer = null;
@@ -223,28 +214,28 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public toggleAutoRefresh({checked}) {
     if (checked) {
-      // Create
       this.createAutoRefreshTimer();
     } else {
-      // Destroy
       this.destroyAutoRefreshTimer();
     }
   }
 
   public refresh(autoRefresh = false) {
-    // Enable animation in button
-    if (autoRefresh) {
+    if (!this.ongoingRefresh) {
       this.ongoingRefresh = true;
-      this.destroyAutoRefreshTimer();
-    }
-    // Load Data
-    this.dataSource.refreshData(!this.ongoingRefresh).subscribe(() => {
-      // Enable animation in button
       if (autoRefresh) {
-        this.ongoingRefresh = false;
-        this.createAutoRefreshTimer();
+        this.ongoingAutoRefresh = true;
+        this.destroyAutoRefreshTimer();
       }
-    });
+      // Refresh Data
+      this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
+        this.ongoingRefresh = false;
+        if (autoRefresh) {
+          this.ongoingAutoRefresh = false;
+          this.createAutoRefreshTimer();
+        }
+      });
+    }
   }
 
   public resetFilters() {
@@ -255,7 +246,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public actionTriggered(actionDef: TableActionDef, event?) {
-    // Slide?
+    // Slide
     if (actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
@@ -265,7 +256,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
-    // Get Actions def
     this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
@@ -286,16 +276,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
-    // Load data source
     this.dataSource.loadData().subscribe();
   }
 
   public showHideDetailsClicked(row) {
     // Already Expanded
     if (!row.isExpanded) {
-      // Already loaded?
+      // Already Loaded
       if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
-        // Component?
+        // Component
         if (!this.dataSource.tableDef.rowDetails.angularComponent) {
           // No: Load details from data source
           this.dataSource.getRowDetails(row).subscribe((details) => {

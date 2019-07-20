@@ -1,19 +1,19 @@
 // tslint:disable-next-line:max-line-length
-import { Component, Input, OnInit, Injectable, ViewChildren, QueryList, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
-import { LocaleService } from 'app/services/locale.service';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { Utils } from 'app/utils/Utils';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
-import { DialogService } from 'app/services/dialog.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe'
+import { Utils } from 'app/utils/Utils';
 import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
 
 @Component({
@@ -39,7 +39,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
   public limitPlanning: ConnectorSchedule[] = [];
   displayedColumns: string[] = ['from', 'to', 'limit'];
 
-  @ViewChild('powerSlider') powerSliderComponent: SmartChargingPowerSliderComponent;
+  @ViewChild('powerSlider', { static: true }) powerSliderComponent: SmartChargingPowerSliderComponent;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -65,7 +65,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
 
   ngOnInit(): void {
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
   }
 
   ngAfterViewInit(): void {

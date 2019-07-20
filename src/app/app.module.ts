@@ -1,79 +1,73 @@
-import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule} from '@angular/forms';
-import {CommonModule, registerLocaleData} from '@angular/common';
-import {CentralServerService} from './services/central-server.service';
-import {CentralServerNotificationService} from './services/central-server-notification.service';
-import {SpinnerService} from './services/spinner.service';
-import {LocaleService} from './services/locale.service';
-import {AuthorizationService} from './services/authorization-service';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
-import {LocalStorageService} from './services/local-storage.service';
-import {ConfigService} from './services/config.service'
-import {MessageService} from './services/message.service';
-import {ReleaseNotesComponent} from './release-notes/release-notes.component';
-import {RouteGuardService} from './services/route-guard.service';
-import {ReactiveFormsModule} from '@angular/forms';
-import {NgxCaptchaModule} from 'ngx-captcha';
-
+import { AgmCoreModule } from '@agm/core';
+import { registerLocaleData, CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeFr from '@angular/common/locales/fr';
-import 'moment/locale/fr';
-import 'hammerjs';
-import 'chartjs-plugin-zoom';
-import {
-  MAT_DATE_LOCALE,
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDialogModule,
-  MatExpansionModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-} from '@angular/material';
-
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {AppComponent} from './app.component';
-import {SidebarModule} from './sidebar/sidebar.module';
-import {FooterModule} from './shared/footer/footer.module';
-import {NavbarModule} from './shared/navbar/navbar.module';
-import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
-import {AuthLayoutComponent} from './layouts/auth/auth-layout.component';
-
-import {AppRouting} from './app.routing';
-import {WINDOW_PROVIDERS} from './providers/window.provider';
-import {WindowService} from './services/window.service';
-import {DevEnvGuard} from './guard/development.guard';
-import {ChartModule} from 'angular2-chartjs';
-import {AgmCoreModule} from '@agm/core';
-import {DashboardService} from './services/dashboard.service';
-import {DatetimeAdapter, MatDatetimepickerModule} from '@mat-datetimepicker/core';
-import {ComponentService} from './services/component.service';
-import 'popper.js';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
+import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ChartModule } from 'angular2-chartjs';
 import 'bootstrap';
-import {MatMomentDatetimeModule, MomentDatetimeAdapter} from '@mat-datetimepicker/moment';
+import 'chartjs-plugin-zoom';
+import 'hammerjs';
+import 'moment/locale/fr';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import 'popper.js';
+import { AppComponent } from './app.component';
+import { AppRouting } from './app.routing';
+import { DevEnvGuard } from './guard/development.guard';
+import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
+import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { WINDOW_PROVIDERS } from './providers/window.provider';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
+import { AuthorizationService } from './services/authorization-service';
+import { CentralServerNotificationService } from './services/central-server-notification.service';
+import { CentralServerService } from './services/central-server.service';
+import { ComponentService } from './services/component.service';
+import { ConfigService } from './services/config.service';
+import { DashboardService } from './services/dashboard.service';
+import { LocalStorageService } from './services/local-storage.service';
+import { LocaleService } from './services/locale.service';
+import { MessageService } from './services/message.service';
+import { RouteGuardService } from './services/route-guard.service';
+import { SpinnerService } from './services/spinner.service';
+import { WindowService } from './services/window.service';
+import { FooterModule } from './shared/footer/footer.module';
+import { NavbarModule } from './shared/navbar/navbar.module';
+import { SidebarModule } from './sidebar/sidebar.module';
+
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -135,7 +129,7 @@ export function localeFactory(
   // Default
   let language = translateService.getBrowserLang();
   // Get current user
-  const loggedUser = centralServerService.getLoggedUserFromToken()
+  const loggedUser = centralServerService.getLoggedUserFromToken();
   if (loggedUser) {
     language = loggedUser['language'];
   }
@@ -204,7 +198,7 @@ export class AppModule {
     // Default
     let language = this.translateService.getBrowserLang();
     // Get current user
-    const loggedUser = this.centralServerService.getLoggedUserFromToken()
+    const loggedUser = this.centralServerService.getLoggedUserFromToken();
     if (loggedUser) {
       language = loggedUser['language'];
     }
@@ -212,7 +206,7 @@ export class AppModule {
     translateService.addLangs(['en', 'fr']);
     // Default EN
     translateService.setDefaultLang('en');
-    // Use the browser's langage or default to EN
+    // Use the browser's language or default to EN
     translateService.use(language.match(/en|fr/) ? language : 'en');
   }
 }

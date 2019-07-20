@@ -1,30 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { mergeMap } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization-service';
-import { MessageService } from 'app/services/message.service';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site-area-cmp',
   templateUrl: 'site-area.component.html'
 })
 export class SiteAreaComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() currentSiteAreaID: string;
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
 
-  public isAdmin = false;
   public image: any = Constants.SITE_AREA_NO_IMAGE;
 
   public formGroup: FormGroup;
@@ -44,6 +41,7 @@ export class SiteAreaComponent implements OnInit {
   public country: AbstractControl;
   public latitude: AbstractControl;
   public longitude: AbstractControl;
+  public isAdmin: boolean;
 
   public sites: any;
 
@@ -60,13 +58,10 @@ export class SiteAreaComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSiteArea({ 'id': this.activatedRoute.snapshot.params['id'] })) {
+      !authorizationService.canUpdateSiteArea({'id': this.activatedRoute.snapshot.params['id']})) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
-    // get admin flag
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
 
     // refresh available sites
     this.refreshAvailableSites();
@@ -115,7 +110,7 @@ export class SiteAreaComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.siteID = this.formGroup.controls['siteID'];
-    this.maximumPower = this.formGroup.controls['maximumPower']
+    this.maximumPower = this.formGroup.controls['maximumPower'];
     this.accessControl = this.formGroup.controls['accessControl'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];
@@ -128,10 +123,7 @@ export class SiteAreaComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
 
-    // if not admin switch in readonly mode
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
+    this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_CREATE);
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
@@ -171,7 +163,7 @@ export class SiteAreaComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableSites.count; i++) {
-        this.sites.push({ 'id': availableSites.result[i].id, 'name': availableSites.result[i].name })
+        this.sites.push({'id': availableSites.result[i].id, 'name': availableSites.result[i].name});
       }
     });
   }
@@ -185,11 +177,19 @@ export class SiteAreaComponent implements OnInit {
     if (!this.currentSiteAreaID) {
       return;
     }
+
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
       this.formGroup.markAsPristine();
+
+      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+
+      // if not admin switch in readonly mode
+      if (!this.isAdmin) {
+        this.formGroup.disable();
+      }
       // Init form
       if (siteArea.id) {
         this.formGroup.controls.id.setValue(siteArea.id);
@@ -279,79 +279,6 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
-  private _createSiteArea(siteArea) {
-    // Show
-    this.spinnerService.show();
-    // Set the image
-    this.updateSiteAreaImage(siteArea);
-    // Yes: Update
-    this.centralServerService.createSiteArea(siteArea).subscribe(response => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('site_areas.create_success',
-          { 'siteAreaName': siteArea.name });
-        // Close
-        this.currentSiteAreaID = siteArea.id;
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'site_areas.create_error');
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Site Area deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
-          break;
-        default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.create_error');
-      }
-    });
-  }
-
-  private _updateSiteArea(siteArea) {
-    // Show
-    this.spinnerService.show();
-    // Set the image
-    this.updateSiteAreaImage(siteArea);
-    // Yes: Update
-    this.centralServerService.updateSiteArea(siteArea).subscribe(response => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('site_areas.update_success', { 'siteAreaName': siteArea.name });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'site_areas.update_error');
-      }
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        // Site Area deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
-          break;
-        default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
-      }
-    });
-  }
-
   public imageChanged(event) {
     // load picture
     let reader = new FileReader(); // tslint:disable-line
@@ -400,5 +327,78 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this.closeDialog();
     }
+  }
+
+  private _createSiteArea(siteArea) {
+    // Show
+    this.spinnerService.show();
+    // Set the image
+    this.updateSiteAreaImage(siteArea);
+    // Yes: Update
+    this.centralServerService.createSiteArea(siteArea).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('site_areas.create_success',
+          {'siteAreaName': siteArea.name});
+        // Close
+        this.currentSiteAreaID = siteArea.id;
+        this.closeDialog(true);
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'site_areas.create_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Site Area deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.create_error');
+      }
+    });
+  }
+
+  private _updateSiteArea(siteArea) {
+    // Show
+    this.spinnerService.show();
+    // Set the image
+    this.updateSiteAreaImage(siteArea);
+    // Yes: Update
+    this.centralServerService.updateSiteArea(siteArea).subscribe(response => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('site_areas.update_success', {'siteAreaName': siteArea.name});
+        this.closeDialog(true);
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, 'site_areas.update_error');
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Check status
+      switch (error.status) {
+        // Site Area deleted
+        case 550:
+          // Show error
+          this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
+          break;
+        default:
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+      }
+    });
   }
 }

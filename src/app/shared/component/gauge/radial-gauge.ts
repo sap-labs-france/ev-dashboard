@@ -1,7 +1,7 @@
 
-import {Component, NgZone, ElementRef, OnInit, Input} from '@angular/core';
-import {BaseGauge} from './base-gauge';
+import { Component, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
+import { BaseGauge } from './base-gauge';
 
 /**
  * Implements Radial Gauge from the original library

@@ -1,6 +1,6 @@
-import {Inject, Injectable} from '@angular/core';
-import {WINDOW} from '../providers/window.provider';
-import {ConfigService} from './config.service';
+import { Inject, Injectable } from '@angular/core';
+import { WINDOW } from '../providers/window.provider';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class WindowService {

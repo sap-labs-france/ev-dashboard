@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PricingSettings} from 'app/common.types';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PricingSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-convergent-charging',
@@ -10,6 +10,7 @@ export class SettingsConvergentChargingComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() pricingSettings: PricingSettings;
 
+  public convergentCharging: FormGroup;
   public convergentChargingUrl: AbstractControl;
   public convergentChargingChargeableItemName: AbstractControl;
   public convergentChargingUser: AbstractControl;
@@ -17,7 +18,7 @@ export class SettingsConvergentChargingComponent implements OnInit {
 
   ngOnInit(): void {
     // Convergent Charging pricing
-    const convergentCharging = new FormGroup({
+    this.convergentCharging = new FormGroup({
       'url': new FormControl('',
         Validators.compose([
           Validators.required,
@@ -44,16 +45,27 @@ export class SettingsConvergentChargingComponent implements OnInit {
       )
     });
     // Add
-    this.formGroup.addControl('convergentCharging', convergentCharging);
+    this.formGroup.addControl('convergentCharging', this.convergentCharging);
     // Keep
-    this.convergentChargingUrl = convergentCharging.controls['url'];
-    this.convergentChargingChargeableItemName = convergentCharging.controls['chargeableItemName'];
-    this.convergentChargingUser = convergentCharging.controls['user'];
-    this.convergentChargingPassword = convergentCharging.controls['password'];
+    this.convergentChargingUrl = this.convergentCharging.controls['url'];
+    this.convergentChargingChargeableItemName = this.convergentCharging.controls['chargeableItemName'];
+    this.convergentChargingUser = this.convergentCharging.controls['user'];
+    this.convergentChargingPassword = this.convergentCharging.controls['password'];
     // Set
-    this.convergentChargingUrl.setValue(this.pricingSettings.convergentCharging.url);
-    this.convergentChargingChargeableItemName.setValue(this.pricingSettings.convergentCharging.chargeableItemName);
-    this.convergentChargingUser.setValue(this.pricingSettings.convergentCharging.user);
-    this.convergentChargingPassword.setValue(this.pricingSettings.convergentCharging.password);
+    this.updateFormData();
+  }
+
+  ngOnChanges() {
+    this.updateFormData();
+  }
+
+  updateFormData() {
+    // Set data
+    if (this.convergentCharging) {
+      this.convergentChargingUrl.setValue(this.pricingSettings.convergentCharging.url);
+      this.convergentChargingChargeableItemName.setValue(this.pricingSettings.convergentCharging.chargeableItemName);
+      this.convergentChargingUser.setValue(this.pricingSettings.convergentCharging.user);
+      this.convergentChargingPassword.setValue(this.pricingSettings.convergentCharging.password);
+    }
   }
 }

@@ -5,11 +5,11 @@ export class Formatters {
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {
         // Format
-        value[i] = this._formatTextToHTML(value[i]);
+        value[i] = Formatters._formatTextToHTML(value[i]);
       }
     } else {
       // Format
-      value = this._formatTextToHTML(value);
+      value = Formatters._formatTextToHTML(value);
     }
     // Hack: Replace <anonymous> tag which is part of some Stack Trace to avoi hiding of the end of the detailed message!!!
     return value.replace('<anonymous>', 'anonymous');
@@ -19,7 +19,7 @@ export class Formatters {
     // JSON?
     if (typeof value === 'object') {
       // Check that every values is parsed
-      return this._formatTextToHTML(JSON.stringify(value));
+      return Formatters._formatTextToHTML(JSON.stringify(value));
       // String?
     } else if (typeof value === 'string') {
       let parsedValue;

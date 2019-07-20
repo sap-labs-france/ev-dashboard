@@ -1,10 +1,11 @@
-# Electric Vehicule Charging Station (EVSE) - Dashboard
+# Electric Vehicle Charging Station (EVSE) - Dashboard
 
 ## Summary
 
 The Angular dashboard connects to the [EVSE Server](https://github.com/LucasBrazi06/ev-server) to display the charging stations in real time.
 
 The application:
+
 * Displays of the charging stations, their status and their delivered power in real time.
 * User management (create, update, delete, authorize, change role...)
 * Charging station charging curve real time

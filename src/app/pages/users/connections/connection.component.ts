@@ -1,13 +1,13 @@
-import {Component, Inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CentralServerService} from '../../../services/central-server.service';
-import {MessageService} from '../../../services/message.service';
-import {Constants} from '../../../utils/Constants';
-import {Utils} from '../../../utils/Utils';
-import {DOCUMENT} from '@angular/common';
-import {ActionResponse} from '../../../common.types';
-import {WindowService} from '../../../services/window.service';
-import {AbstractTabComponent} from '../../../shared/component/tab/AbstractTab.component';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionResponse } from '../../../common.types';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { WindowService } from '../../../services/window.service';
+import { AbstractTabComponent } from '../../../shared/component/tab/AbstractTab.component';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-connection-cmp',

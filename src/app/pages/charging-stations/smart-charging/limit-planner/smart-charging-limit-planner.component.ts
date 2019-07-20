@@ -1,29 +1,29 @@
-import { Component, OnInit, Input, ViewChildren, QueryList, Output, DoCheck, EventEmitter, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from '../../../../services/authorization-service';
-import { Charger, ScheduleSlot, ConnectorSchedule } from 'app/common.types';
-import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
-import { MatDialog } from '@angular/material';
+import { Component, DoCheck, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DialogService } from 'app/services/dialog.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Charger, ConnectorSchedule, ScheduleSlot } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+import { AuthorizationService } from '../../../../services/authorization-service';
+import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
 import { SmartChargingLimitPlannerChartComponent } from './smart-charging-limit-planner-chart.component';
-import { ChargingStations } from 'app/utils/ChargingStations';
-import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
 
 interface DisplayedSlot extends ScheduleSlot {
-  displayedLimitInkW: number,
+  displayedLimitInkW: number;
 }
 export interface DisplayedScheduleSlot {
-  slot: DisplayedSlot,
-  id: number,
-  displayedStartValue: string,
-  displayedEndValue: string,
-  duration: number
+  slot: DisplayedSlot;
+  id: number;
+  displayedStartValue: string;
+  displayedEndValue: string;
+  duration: number;
 }
 
 export const PROFILE_TYPE_MAP =
@@ -32,7 +32,7 @@ export const PROFILE_TYPE_MAP =
     { key: 'Absolute', description: 'chargers.smart_charging.profile_types.absolute', stackLevel: 3, id: 3 },
     { key: 'Daily', description: 'chargers.smart_charging.profile_types.recurring_daily', stackLevel: 2, id: 2 },
     { key: 'Weekly', description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, id: 1 }
-  ]
+  ];
 
 @Component({
   selector: 'app-smart-charging-limit-planner',
@@ -43,7 +43,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   @Output() onApplyPlanning = new EventEmitter<any>();
 
   @ViewChildren('powerSliders') powerSliders: QueryList<SmartChargingPowerSliderComponent>;
-  @ViewChild('limitChart') limitChartPlannerComponent: SmartChargingLimitPlannerChartComponent;
+  @ViewChild('limitChart', { static: true }) limitChartPlannerComponent: SmartChargingLimitPlannerChartComponent;
 
   public profileTypeMap = PROFILE_TYPE_MAP;
   public powerUnit: string;
@@ -75,7 +75,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
   ngOnInit(): void {
     this.slotsSchedule = [];
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER)
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
     // Calculate default slider value which is macimum Power of the charger
     if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
       this._defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
@@ -129,7 +129,7 @@ export class SmartChargingLimitPlannerComponent implements OnInit {
         const start = new Date(previousSlot.slot.start.getTime() + previousSlot.duration * 1000);
         slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
       } else {
-        const start = new Date(this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 60000)
+        const start = new Date(this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 60000);
         slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
         previousSlot.slot.end = start;
         previousSlot.duration = ((previousSlot.slot.end.getTime() - previousSlot.slot.start.getTime()) / 1000);

@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {User} from '../../common.types';
+import { Pipe, PipeTransform } from '@angular/core';
+import { User } from '../../common.types';
 
 @Pipe({name: 'appUserName'})
 export class AppUserNamePipe implements PipeTransform {

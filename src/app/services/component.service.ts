@@ -1,14 +1,15 @@
-import {Injectable} from '@angular/core';
-import {CentralServerService} from './central-server.service';
+import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { PricingSettings, PricingSettingsType, OcpiSettings, AnalyticsSettings, RefundSettings, ActionResponse, RefundSettingsType } from 'app/common.types';
+import { ActionResponse, AnalyticsSettings, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
+import { CentralServerService } from './central-server.service';
 
 export enum ComponentEnum {
   OCPI = 'ocpi',
   ORGANIZATION = 'organization',
   PRICING = 'pricing',
   REFUND = 'refund',
+  STATISTICS = 'statistics',
   ANALYTICS = 'analytics'
 }
 
@@ -51,13 +52,14 @@ export class ComponentService {
           const config = settings.result[0].content;
           // ID
           pricingSettings.id = settings.result[0].id;
+          pricingSettings.sensitiveData = settings.result[0].sensitiveData;
           // Simple price
           if (config.simple) {
             pricingSettings.type = PricingSettingsType.simple;
             pricingSettings.simple = {
               price: config.simple.price ? parseFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : ''
-            }
+            };
           }
           // Convergeant Charging
           if (config.convergentCharging) {
@@ -67,7 +69,7 @@ export class ComponentService {
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
               user: config.convergentCharging.user ? config.convergentCharging.user : '',
               password: config.convergentCharging.password ? config.convergentCharging.password : ''
-            }
+            };
           }
         }
         observer.next(pricingSettings);
@@ -83,19 +85,18 @@ export class ComponentService {
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.PRICING,
+      'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
+    if (settings.type === PricingSettingsType.convergentCharging) {
+      settingsToSave.sensitiveData = ['content.convergentCharging.password'];
+    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
@@ -107,19 +108,18 @@ export class ComponentService {
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.REFUND,
+      'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
+    if (settings.type === RefundSettingsType.concur) {
+      settingsToSave.sensitiveData = ['content.concur.clientSecret'];
+    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveOcpiSettings(settings: OcpiSettings): Observable<ActionResponse> {
@@ -127,19 +127,15 @@ export class ComponentService {
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.OCPI,
+      'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
@@ -147,19 +143,15 @@ export class ComponentService {
     const settingsToSave = {
       'id': settings.id,
       'identifier': ComponentEnum.ANALYTICS,
+      'sensitiveData': [],
       'content': JSON.parse(JSON.stringify(settings))
     };
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
     // Save
-    if (!settings.id) {
-      // Create
-      return this.centralServerService.createSetting(settingsToSave);
-    } else {
-      // Update
-      return this.centralServerService.updateSetting(settingsToSave);
-    }
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 
   public getOcpiSettings(): Observable<OcpiSettings> {
@@ -174,6 +166,7 @@ export class ComponentService {
           const config = settings.result[0].content;
           // Set
           ocpiSettings.id = settings.result[0].id;
+          ocpiSettings.sensitiveData = settings.result[0].sensitiveData;
           ocpiSettings.ocpi = config.ocpi;
         }
         observer.next(ocpiSettings);
@@ -196,6 +189,7 @@ export class ComponentService {
           const config = settings.result[0].content;
           // Set
           analyticsSettings.id = settings.result[0].id;
+          analyticsSettings.sensitiveData = settings.result[0].sensitiveData;
           analyticsSettings.sac = config.sac;
           analyticsSettings.links = config.links;
         }
@@ -219,6 +213,8 @@ export class ComponentService {
           const config = settings.result[0].content;
           // ID
           refundSettings.id = settings.result[0].id;
+          // Sensitive data
+          refundSettings.sensitiveData = settings.result[0].sensitiveData;
           // Set
           refundSettings.concur = config.concur;
         }

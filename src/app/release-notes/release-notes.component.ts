@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {AuthorizationService} from 'app/services/authorization-service';
+import { Component } from '@angular/core';
+import { AuthorizationService } from 'app/services/authorization-service';
 
 interface ReleaseNotes {
   version: string;
@@ -9,7 +9,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: String []
+  changes: String [];
 }
 
 @Component({
@@ -25,8 +25,38 @@ export class ReleaseNotesComponent {
   }
 
   buidlReleaseNotes(): any {
-    // Admin Release Notes
     this.releaseNotes = [
+      {
+        version: '2.1.0',
+        date: new Date('2019-07-19'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Refunded sessions status are now synchronized with Concur and displayed (submitted, cancelled...)`,
+              `Possibility to resubmit a Cancelled expense to Concur`,
+              `Added in Refund list's footer statistics on refunded/pending sessions`,
+              `Added inactivity in Statistics`,
+              `Switch on/off Statistics in Tenant's configuration`,
+              `Split charts and fit them in the visible area`,
+              `Limited the Statistics to the Top 20 Consumptions/Usages for better readability`,
+              `Filter on all years`,
+              `Split Statistics chart to Year/Month`,
+              `Migrated the application to Angular version 8`,
+              `Displayed Statistic chart's legends`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Typescript migration`,
+              `Encrypt sensitive data stored in database (password, secret key...)`,
+              `Added Site Admin role for Basic users`,
+              `Use of backup email server in case the main server is blocked`
+            ]
+          }
+        ]
+      },
       {
         version: '2.0.28',
         date: new Date('2019-07-04'),

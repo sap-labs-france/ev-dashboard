@@ -19,7 +19,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.0.28",
+    "last_update": "Version 2.1.0",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -61,6 +61,7 @@
     "save": "Sauvegarder",
     "delete": "Effacer",
     "export": "Export",
+    "synchronize": "Synchronizer",
     "change": "Changer",
     "reload": "Recharger",
     "stop": "Stop",
@@ -121,6 +122,7 @@
       "statistics": "Statistiques",
       "consumption": "Consommation",
       "usage": "Utilisation",
+      "inactivity": "Inactivité",
       "organisations": "Organisations",
       "companies": "Entreprises",
       "sites": "Sites",
@@ -336,7 +338,7 @@
     "delete_button": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer le site '{{siteName}}'?",
     "delete_success": "Le site '{{siteName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression de le site",
+    "delete_error": "Une erreur est survenue pendant la suppression du site",
     "remove_users_title": "Retirer Utilisateur(s)",
     "remove_users_confirm": "Voulez-vous vraiment retirer le(s) utilisateur(s) de ce site?",
     "remove_users_success": "Le(s) utilisateur(s) ont été retiré(s) avec succès",
@@ -345,9 +347,14 @@
     "changed_by_other_user": "Le site '{{siteName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_success": "Le site '{{siteName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du site",
+    "update_users_error": "Une erreur est survenue pendant l'ajout d'un utilisateur au site",
     "create_success": "Le site '{{siteName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du site",
-    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko"
+    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "admin_role": "Admin du Site",
+    "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site",
+    "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site",
+    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "Aucune zone n'a été trouvée",
@@ -452,26 +459,59 @@
     "verify_email_proceed_with_activation_button": "Procéder"
   },
   "statistics": {
+    "title": "Statistiques",
+    "description": "Statistiques incorporées",
     "charger_kw_h": "kW.h",
     "legend_select_unselect_all": "Select./Deselect. Tout",
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
     "graphic_title_usage_y_axis": "Utilisation (heures)",
+    "graphic_title_inactivity_y_axis": "Inactivité (heures)",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
     "total_usage_year": "Utilisation Totale {{year}}",
-    "consumption_per_cs_month_title": "Consommation des bornes par mois",
-    "consumption_per_cs_year_title": "Consommation des bornes par an (en kW.h)",
-    "consumption_per_user_month_title": "Consommation des utilisateurs par mois",
-    "consumption_per_user_year_title": "Consommation des utilisateurs par an (en kW.h)",
-    "usage_per_cs_month_title": "Utilisation des bornes par mois",
-    "usage_per_cs_year_title": "Utilisation des bornes par an (en heures)",
-    "usage_per_user_month_title": "Utilisation des utilisateurs par mois",
-    "usage_per_user_year_title": "Utilisation des utilisateurs par an (en heures)",
+    "consumption_per_cs_month_title": "Consommation des bornes par mois (au total : {{total}} kW.h)",
+    "consumption_per_cs_year_title": "Consommation des bornes par an : {{total}} kW.h",
+    "consumption_per_cs_total_title": "Consommation totale des bornes : {{total}} kW.h",
+    "consumption_per_user_month_title": "Consommation des utilisateurs par mois (au total : {{total}} kW.h)",
+    "consumption_per_user_year_title": "Consommation des utilisateurs par an : {{total}} kW.h",
+    "consumption_per_user_total_title": "Consommation totale des utilisateurs : {{total}} kW.h",
+    "usage_per_cs_month_title": "Utilisation des bornes par mois (au total : {{total}} heures)",
+    "usage_per_cs_year_title": "Utilisation des bornes par an : {{total}} heures",
+    "usage_per_cs_total_title": "Utilisation totale des bornes : {{total}} hours",
+    "usage_per_user_month_title": "Utilisation des utilisateurs par mois (au total : {{total}} heures)",
+    "usage_per_user_year_title": "Utilisation des utilisateurs par an : {{total}} heures",
+    "usage_per_user_total_title": "Utilisation totale des utilisateurs : {{total}} hours",
+    "inactivity_per_cs_month_title": "Inactivité des bornes par mois (au total : {{total}} heures)",
+    "inactivity_per_cs_year_title": "Inactivité des bornes par an : {{total}} heures",
+    "inactivity_per_cs_total_title": "Inactivité totale des bornes : {{total}} hours",
+    "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
+    "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
+    "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
-    "category_label": "Catégorie"
+    "category_label": "Catégorie",
+    "dialog": {
+      "consumption": {
+        "export": {
+          "title": "Exporter les données de consommation",
+          "confirm": "Voulez-vous vraiment exporter les données de consommation correspondant aux filtres ?"
+        }
+      },
+      "usage": {
+        "export": {
+          "title": "Exporter les données d'utilisation",
+          "confirm": "Voulez-vous vraiment exporter les données d'utilisation correspondant aux filtres ?"
+        }
+      },
+      "inactivity": {
+        "export": {
+          "title": "Exporter les données d'inactivité",
+          "confirm": "Voulez-vous vraiment exporter les données d'inactivité correspondant aux filtres ?"
+        }
+      }
+    }
   },
   "chargers": {
     "chargers": "Bornes",
@@ -750,6 +790,8 @@
     "level": "Level",
     "date": "Date",
     "source": "Source",
+    "host": "Hôte",
+    "process": "Processus",
     "user": "Utilisateur",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
@@ -772,7 +814,7 @@
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
-        "title": "Exporter leg logs",
+        "title": "Exporter les logs",
         "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
       }
     }
@@ -811,12 +853,13 @@
     "picture": "Photo",
     "show_image": "Afficher Photos",
     "sites": "Sites",
+    "assigned_sites_to_user": "Sites assignés à {{userName}}",
     "status_invalid": "Statut invalide",
     "status_active": "Actif",
     "status_blocked": "Bloqué",
     "status_inactive": "Inactif",
     "status_locked": "Vérouillé",
-    "status_pending": "Suspendu",
+    "status_pending": "En Attente",
     "status_unknown": "Inconnu",
     "email": "Email",
     "name": "Nom",
@@ -920,6 +963,11 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
+      "synchronize_dialog_refund_title": "Synchronizer Les Transactions Remboursées",
+      "synchronize_dialog_refund_confirm": "Voulez-vous vraiment synchronizer les transactions remboursées ?",
+      "synchronize_started": "La synchronization des transactions remboursées a été démarrée",
+      "synchronize_success": "Les transactions remboursées ont été mises à jour avec succès",
+      "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Url d'authentification",
@@ -1140,12 +1188,19 @@
     "refund_transaction_confirm": "Voulez-vous vraiment rembourser la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
     "refund_transaction_success": "La session a été remboursée avec succès",
     "refund_transaction_error": "Error occurred while refunding the session",
+    "refund_undefined": "Non Soumise",
+    "refund_approved": "Approuvée",
+    "refund_cancelled": "Annulée",
+    "refund_submitted": "Soumise",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Conso. Totale",
     "transaction_not_found": "Session inconnue",
     "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
     "load_transactions_error": "Une erreur est survenue pendant le remboursement de la session",
     "total_duration": "Durée Totale",
+    "refund_transactions": "Remboursées",
+    "pending_transactions": "En attente",
+    "count_refunded_reports": "Remboursements",
     "hours": "heure(s)",
     "mins": "min(s)",
     "hour_short": "h",

@@ -52,6 +52,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Encrypt sensitive data stored in database (password, secret key...)`,
               `Added Site Admin role for Basic users`,
+              `All Tenant' settings were reset when activating a component in a Tenant`,
               `Use of backup email server in case the main server is blocked`,
               `Migrated the backend in Typescript (first phase)`
             ]

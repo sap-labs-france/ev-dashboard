@@ -108,6 +108,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
+  toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
+  }
+
   register(user) {
     this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
       user['captcha'] = token;

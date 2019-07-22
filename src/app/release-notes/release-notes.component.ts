@@ -28,7 +28,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.0',
-        date: new Date('2019-07-19'),
+        date: new Date('2019-07-21'),
         componentChanges: [
           {
             name: 'Front-end',
@@ -37,10 +37,11 @@ export class ReleaseNotesComponent {
               `Possibility to resubmit a Cancelled expense to Concur`,
               `Added in Refund list's footer statistics on refunded/pending sessions`,
               `Added inactivity in Statistics`,
+              `Fixed Session History footer statistics for Basic users`,
               `Switch on/off Statistics in Tenant's configuration`,
               `Split charts and fit them in the visible area`,
               `Limited the Statistics to the Top 20 Consumptions/Usages for better readability`,
-              `Filter on all years`,
+              `Added filter on all years in Statistics`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
               `Displayed Statistic chart's legends`
@@ -49,10 +50,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Backend',
             changes: [
-              `Typescript migration`,
               `Encrypt sensitive data stored in database (password, secret key...)`,
               `Added Site Admin role for Basic users`,
-              `Use of backup email server in case the main server is blocked`
+              `Use of backup email server in case the main server is blocked`,
+              `Migrated the backend in Typescript (first phase)`
             ]
           }
         ]

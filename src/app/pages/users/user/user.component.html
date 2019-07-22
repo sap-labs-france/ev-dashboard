@@ -223,7 +223,7 @@
                     </a>
                   </div>
                   <div class="card-footer">
-                    <div *ngIf="alreadyLinkedToConcur()"
+                    <div *ngIf="isConcurConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
                         <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
@@ -234,7 +234,7 @@
                         <span>{{'users.connectors.revoke' | translate}}</span>
                       </button>
                     </div>
-                    <div *ngIf="!alreadyLinkedToConcur()"
+                    <div *ngIf="!isConcurConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <span>{{'users.connectors.not_connected' | translate}} </span>
                       <button mat-raised-button color="primary" (click)="linkConcurAccount()">

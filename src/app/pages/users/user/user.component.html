@@ -280,7 +280,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="canSeeInvoice">
               <div class="col-md-1">
                 <button mat-raised-button color="primary" (click)="getInvoice()">
                   <mat-icon>receipt</mat-icon>
@@ -288,7 +288,6 @@
                 </button>
               </div>
             </div>
-
           </div>
         </mat-tab>
         <mat-tab disabled>

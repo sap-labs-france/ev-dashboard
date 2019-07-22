@@ -6,10 +6,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, User } from '../../../common.types';
+import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum } from '../../../services/component.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -77,10 +77,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public repeatPassword: AbstractControl;
   public notificationsActive: AbstractControl;
   private isConcurConnectionValid: boolean;
+  private canSeeInvoice: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
@@ -111,6 +113,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+
+    this.canSeeInvoice = false;
+    this.componentService.getPricingSettings().subscribe((settings) => {
+      if (settings && settings.type === PricingSettingsType.convergentCharging) {
+        this.canSeeInvoice = true;
+      }
+    });
   }
 
   updateRoute(event: number) {

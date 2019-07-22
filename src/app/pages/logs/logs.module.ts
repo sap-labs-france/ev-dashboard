@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
@@ -13,7 +12,6 @@ import { AppFormatLogLevelPipe, LogLevelComponent } from './formatters/log-level
 import { LogsDataSource } from './logs-data-source-table';
 import { LogsComponent } from './logs.component';
 import { LogsRoutes } from './logs.routing';
-
 
 @NgModule({
   imports: [

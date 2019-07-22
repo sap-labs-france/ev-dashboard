@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { RefundSettings } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
@@ -22,8 +24,10 @@ export class SettingsRefundComponent implements OnInit {
   constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
     private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private translateService: TranslateService,
     private router: Router
   ) {
     this.isActive = this.componentService.isActive(ComponentEnum.REFUND);
@@ -87,19 +91,24 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public synchronize() {
-    this.spinnerService.show();
-    this.centralServerService.synchronizeRefundedTransactions().subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('settings.refund.synchronize_success');
-        this.refresh();
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'settings.refund.synchronize_error');
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.refund.synchronize_dialog_refund_title'),
+      this.translateService.instant('settings.refund.synchronize_dialog_refund_confirm')
+    ).subscribe((response) => {
+      if (response === Constants.BUTTON_TYPE_YES) {
+        this.messageService.showInfoMessage('settings.refund.synchronize_started');
+        this.centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
+          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('settings.refund.synchronize_success');
+            this.refresh();
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.refund.synchronize_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'settings.refund.synchronize_error');
+        });
       }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'settings.refund.synchronize_error');
     });
   }
 

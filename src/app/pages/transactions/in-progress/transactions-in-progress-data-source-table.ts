@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { Observable } from 'rxjs';
 import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
@@ -30,7 +31,6 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { ConnectorCellComponent } from '../components/connector-cell.component';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 
 @Injectable()
 export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {

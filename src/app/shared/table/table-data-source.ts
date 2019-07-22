@@ -401,7 +401,7 @@ export abstract class TableDataSource<T> {
     this.paging = {
       limit: this.getPageSize(),
       skip: 0
-    }
+    };
   }
 
   public requestNumberOfRecords() {

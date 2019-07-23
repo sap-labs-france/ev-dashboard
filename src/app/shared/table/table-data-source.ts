@@ -249,6 +249,8 @@ export abstract class TableDataSource<T> {
             break;
         }
       });
+      // Init
+      this.resetTotalNumberOfRecords();
     }
   }
 
@@ -360,9 +362,8 @@ export abstract class TableDataSource<T> {
         setTimeout(() => {
           // Loading on going?
           if (!this.loadingNumberOfRecords) {
-            // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+                this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
               // Load records
               this.requestNumberOfRecords();
             }

@@ -8,8 +8,8 @@ export const SettingsRoutes: Routes = [
   {
     path: '', component: SettingsComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Constants.ENTITY_SETTINGS,
-        action: Constants.ACTION_LIST
+        entity: Constants.ENTITY_SETTING,
+        action: Constants.ACTION_UPDATE
       }
     }
   }

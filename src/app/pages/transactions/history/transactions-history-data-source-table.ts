@@ -86,8 +86,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           // Error
           observer.error(error);
         });
-      });
-    }
+      }
+    );
+  }
 
   public buildTableDef(): TableDef {
     return {
@@ -188,7 +189,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
       if (data.stats) {
-        // Build
         const percentInactivity = (data.stats.totalDurationSecs > 0 ? (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
         // tslint:disable-next-line:max-line-length

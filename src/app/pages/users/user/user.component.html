@@ -223,7 +223,7 @@
                     </a>
                   </div>
                   <div class="card-footer">
-                    <div *ngIf="alreadyLinkedToConcur()"
+                    <div *ngIf="isConcurConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
                         <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
@@ -234,7 +234,7 @@
                         <span>{{'users.connectors.revoke' | translate}}</span>
                       </button>
                     </div>
-                    <div *ngIf="!alreadyLinkedToConcur()"
+                    <div *ngIf="!isConcurConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <span>{{'users.connectors.not_connected' | translate}} </span>
                       <button mat-raised-button color="primary" (click)="linkConcurAccount()">
@@ -246,7 +246,7 @@
                 </div>
               </div>
               <div *ngIf="!refundSetting" class="mx-auto my-3">
-                <p class="font-weight-bold">{{'general.no_connector_available' | translate}}</p>
+                <p class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
           </div>
@@ -280,7 +280,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="canSeeInvoice">
               <div class="col-md-1">
                 <button mat-raised-button color="primary" (click)="getInvoice()">
                   <mat-icon>receipt</mat-icon>
@@ -288,7 +288,6 @@
                 </button>
               </div>
             </div>
-
           </div>
         </mat-tab>
         <mat-tab disabled>

@@ -36,7 +36,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="countryCode"
-                placeholder="{{'ocpi.cpo_country_code' | translate}}" required>
+                placeholder="{{'ocpi.cpo_country_code' | translate}}" (input)="toUpperCase(countryCode)" required>
               <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field"
                 | translate}}</mat-error>
               <mat-error *ngIf="countryCode.errors?.maxlength">
@@ -50,7 +50,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <input appSetAutoFocus matInput type="text" [formControl]="partyID"
-                placeholder="{{'ocpi.cpo_party_id' | translate}}" required>
+                placeholder="{{'ocpi.cpo_party_id' | translate}}" (input)="toUpperCase(partyID)" required>
               <mat-error *ngIf="partyID.errors?.required">{{"general.mandatory_field"
                 | translate}}</mat-error>
               <mat-error *ngIf="partyID.errors?.maxlength">
@@ -62,7 +62,7 @@
             </mat-form-field>
           </div>
         </div>
-  
+
         <!-- CPO identifier business details -->
         <legend>{{'ocpi.cpo_business_details' | translate}}</legend>
         <div class="row">
@@ -90,7 +90,7 @@
             </mat-form-field>
           </div>
         </div>
-  
+
         <!-- CPO identifier business logo -->
         <legend>{{'ocpi.cpo_logo' | translate}}</legend>
         <div class="row">

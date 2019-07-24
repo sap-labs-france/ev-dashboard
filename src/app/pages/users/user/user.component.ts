@@ -1,16 +1,15 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { mergeMap } from 'rxjs/operators';
-
-import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { ActionResponse, User } from '../../../common.types';
+import { mergeMap } from 'rxjs/operators';
+import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum } from '../../../services/component.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -22,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { UserRoles, userStatuses } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -77,10 +76,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public notificationsActive: AbstractControl;
+  public isConcurConnectionValid: boolean;
+  public canSeeInvoice: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
@@ -111,6 +113,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+
+    this.canSeeInvoice = false;
+    this.componentService.getPricingSettings().subscribe((settings) => {
+      if (settings && settings.type === PricingSettingsType.convergentCharging) {
+        this.canSeeInvoice = true;
+      }
+    });
   }
 
   updateRoute(event: number) {
@@ -498,12 +507,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  alreadyLinkedToConcur() {
-    return this.concurConnection &&
-      this.concurConnection.validUntil &&
-      new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
-  }
-
   getInvoice() {
     this.spinnerService.show();
     this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
@@ -531,25 +534,29 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
-        if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.refundSetting = settingResult.result[0];
+    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
+      if (settingResult && settingResult.result && settingResult.result.length > 0) {
+        this.refundSetting = settingResult.result[0];
+      }
+    });
+    if (this.currentUserID) {
+      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+        this.integrationConnections = undefined;
+        this.concurConnection = undefined;
+        this.isConcurConnectionValid = false;
+        if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+          for (const connection of connectionResult.result) {
+            if (connection.connectorId === 'concur') {
+              this.concurConnection = connection;
+              this.isConcurConnectionValid = this.concurConnection &&
+                this.concurConnection.validUntil &&
+                new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
+            }
+          }
+          this.integrationConnections = connectionResult.result;
         }
       });
-      if (this.currentUserID) {
-        this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
-          this.integrationConnections = undefined;
-          this.concurConnection = undefined;
-          if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
-            for (const connection of connectionResult.result) {
-              if (connection.connectorId === 'concur') {
-                this.concurConnection = connection;
-              }
-            }
-            this.integrationConnections = connectionResult.result;
-          }
-        });
-      }
+    }
     // }
   }
 

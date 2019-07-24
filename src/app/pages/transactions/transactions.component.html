@@ -19,7 +19,7 @@
         <app-transactions-in-progress></app-transactions-in-progress>
       </ng-template>
     </mat-tab>
-    <ng-container *ngIf="canAccessInErrorTab()">
+    <ng-container *ngIf="showTransactionInError">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>warning</mat-icon><span>{{'transactions.tabs.in_error' | translate}}</span>
@@ -29,7 +29,7 @@
         </ng-template>
       </mat-tab>
     </ng-container>
-    <ng-container *ngIf="canAccessRefund()">
+    <ng-container *ngIf="showTransactionRefundTab">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>money</mat-icon><span>{{'transactions.tabs.refund' | translate}}</span>

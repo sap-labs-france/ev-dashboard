@@ -225,6 +225,8 @@ export abstract class TableDataSource<T> {
       skip: 0,
       limit: this.getPageSize()
     });
+    // Init
+    this.resetTotalNumberOfRecords();
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
@@ -249,6 +251,8 @@ export abstract class TableDataSource<T> {
             break;
         }
       });
+      // Init
+      this.resetTotalNumberOfRecords();
     }
   }
 
@@ -360,9 +364,8 @@ export abstract class TableDataSource<T> {
         setTimeout(() => {
           // Loading on going?
           if (!this.loadingNumberOfRecords) {
-            // No: Check
             if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+                this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
               // Load records
               this.requestNumberOfRecords();
             }

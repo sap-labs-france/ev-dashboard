@@ -11,6 +11,7 @@ import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-register-cmp',
@@ -30,6 +31,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public hidePassword = true;
   public hideRepeatPassword = true;
   private messages: Object;
+  private subDomain: string;
 
   private siteKey: string;
 
@@ -40,6 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private reCaptchaV3Service: ReCaptchaV3Service,
+    private windowService: WindowService,
     private configService: ConfigService) {
     // Load the tranlated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
@@ -47,6 +50,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
+    // Kep the sub-domain
+    this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({
       'name': new FormControl('',
@@ -125,7 +130,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
           // Ok?
           if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
             // Show success
-            this.messageService.showSuccessMessage(this.messages['register_user_success']);
+            if (this.subDomain === '') {
+              // Super User in Master Tenant
+              this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
+            } else {
+              // User in Tenant
+              this.messageService.showSuccessMessage(this.messages['register_user_success']);
+            }
             // login successful so redirect to return url
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
           } else {

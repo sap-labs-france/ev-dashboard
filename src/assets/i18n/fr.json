@@ -444,6 +444,7 @@
     "password_one_number": "0",
     "password_one_length": ">= 8",
     "register_user_success": "Votre compte a été créé avec succès ! Vérifiez vos emails",
+    "register_super_user_success": "Votre compte a été créé avec succès ! Un administrateur va vérifier votre compte et l'activer",
     "register_user_error": "Une erreur est survenue lors de la création de votre compte",
     "verify_email_title": "Activation de votre Compte",
     "verify_email_already_active": "Votre compte est déjà actif !",

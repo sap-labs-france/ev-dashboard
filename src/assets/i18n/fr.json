@@ -424,6 +424,7 @@
     "wrong_email_or_password": "Mauvais email ou mot de passe",
     "account_suspended": "Votre compte est suspendu",
     "account_pending": "Votre compte n'est pas actif ! Vérifier vos emails",
+    "super_user_account_pending": "Votre compte n'est pas actif",
     "account_locked": "Votre compte est bloqué",
     "reset_password_title": "Réinitialiser",
     "reset_password_button": "Réinitialiser",

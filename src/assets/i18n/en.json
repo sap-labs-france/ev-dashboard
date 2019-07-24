@@ -424,6 +424,7 @@
     "wrong_email_or_password": "Wrong email or password",
     "account_suspended": "Your account is suspended",
     "account_pending": "Your account is not active! Check your email",
+    "super_user_account_pending": "Your account is not active",
     "account_locked": "Your account is locked",
     "reset_password_title": "Reset your Password",
     "reset_password_button": "Reset",

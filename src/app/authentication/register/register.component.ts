@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    // Kep the sub-domain
+    // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({

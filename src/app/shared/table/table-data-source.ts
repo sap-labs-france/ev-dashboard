@@ -225,6 +225,8 @@ export abstract class TableDataSource<T> {
       skip: 0,
       limit: this.getPageSize()
     });
+    // Init
+    this.resetTotalNumberOfRecords();
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;

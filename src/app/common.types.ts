@@ -20,11 +20,12 @@ export interface TableFilterDef {
   type: FilterType;
   name: string;
   currentValue?: any;
-  defaultValue?: string;
+  defaultValue?: any;
   class?: string;
   items?: KeyValue[];
   dialogComponent?: any;
   reset?: Function;
+  multiple?: boolean;
 }
 
 export interface DropdownItem {

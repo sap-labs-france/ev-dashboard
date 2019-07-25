@@ -110,7 +110,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
-    this.updateUrlWithFilters(filterDef);
+    //this.updateUrlWithFilters(filterDef);
     this.refresh();
   }
 
@@ -167,7 +167,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    filterDef.currentValue = null;
+    if(filterDef.type === 'dropdown' && filterDef.multiple) {
+      filterDef.currentValue = [];
+    } else {
+      filterDef.currentValue = null;
+    }
     this.filterChanged(filterDef);
   }
 

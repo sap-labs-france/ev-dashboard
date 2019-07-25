@@ -240,7 +240,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
+                this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
               this.refresh();
             } else {
               this.refresh();

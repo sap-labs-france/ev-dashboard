@@ -186,6 +186,7 @@ export interface Charger {
   powerLimitUnit: string;
   latitude: number;
   longitude: number;
+  currentIPAddress: string;
 }
 
 export interface ChargerInError extends Charger {

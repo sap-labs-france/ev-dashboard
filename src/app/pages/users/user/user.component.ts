@@ -76,8 +76,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public notificationsActive: AbstractControl;
-  private isConcurConnectionValid: boolean;
-  private canSeeInvoice: boolean;
+  public isConcurConnectionValid: boolean;
+  public canSeeInvoice: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,

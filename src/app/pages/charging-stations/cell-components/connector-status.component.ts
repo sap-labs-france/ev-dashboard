@@ -37,7 +37,7 @@ export class AppFormatConnectorStatus implements PipeTransform {
   }
 
   buildConnectorStatusClasses(status: string): string {
-    let classNames = 'chip-width-8em ';
+    let classNames = 'chip-width-10em ';
     switch (status) {
       case Constants.CONN_STATUS_AVAILABLE: {
         classNames += TYPE_SUCCESS;

@@ -187,9 +187,10 @@
           </td>
           <!-- Detail Cell -->
           <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
-              (click)="showHideDetailsClicked(row)" class="col-3em details-column-row">
+              class="col-3em details-column-row">
             <mat-icon
-              *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true">
+              *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
+              (click)="showHideDetailsClicked(row)">
               {{row.isExpanded ? "expand_more" : "chevron_right"}}
             </mat-icon>
           </td>

@@ -13,8 +13,8 @@ import { Constants } from '../../utils/Constants';
   styles: ['.transactions app-detail-component-container{width: 100%}']
 })
 export class TransactionsComponent extends AbstractTabComponent {
-  private showTransactionRefundTab: boolean;
-  private showTransactionInError: boolean;
+  public showTransactionRefundTab: boolean;
+  public showTransactionInError: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,

@@ -11,6 +11,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 declare var $: any;
 
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private sidebarVisible: boolean;
   private nativeElement: Node;
   private messages: Object;
+  private subDomain: string;
 
   constructor(
     private element: ElementRef,
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private messageService: MessageService,
+    private windowService: WindowService,
     private translateService: TranslateService,
     private authorizationService: AuthorizationService) {
 
@@ -49,6 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
+    // Keep the sub-domain
+    this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({
       'email': new FormControl('',
@@ -162,19 +167,23 @@ export class LoginComponent implements OnInit, OnDestroy {
           break;
         // Account Pending
         case 590:
-          // Report the error
-          this.messageService.showWarningMessage(this.messages['account_pending']);
-          // Create and show dialog data
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('authentication.verify_email_title'),
-            this.translateService.instant('authentication.verify_email_resend_confirm')
-          ).subscribe((response) => {
-            // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
-              // Navigate
-              this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});
-            }
-          });
+          // Pending Users from the Super Tenant should not be able to request an activation email
+          if (this.subDomain !== '') {
+            // Usual Users
+            this.messageService.showWarningMessage(this.messages['account_pending']);
+            // No Create and show dialog data
+            this.dialogService.createAndShowYesNoDialog(
+              this.translateService.instant('authentication.verify_email_title'),
+              this.translateService.instant('authentication.verify_email_resend_confirm')
+            ).subscribe((response) => {
+              if (response === Constants.BUTTON_TYPE_YES) {
+                this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});
+              }
+            });
+          } else {
+            // Super Admin Users
+            this.messageService.showWarningMessage(this.messages['super_user_account_pending']);
+          }
           break;
         default:
           // Unexpected error`

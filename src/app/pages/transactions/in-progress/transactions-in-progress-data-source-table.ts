@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { Observable } from 'rxjs';
 import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
@@ -208,6 +209,7 @@ export class TransactionsInProgressDataSource extends TableDataSource<Transactio
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      filters.push(new SitesTableFilter().getFilterDef());
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 

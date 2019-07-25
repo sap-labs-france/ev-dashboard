@@ -8,7 +8,7 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
 import { TableModule } from '../../shared/table/table.module';
-import { TenantDialogComponent } from './dialog/tenant.dialog.component';
+import { TenantComponent } from './tenant/tenant.component';
 import { TenantsDataSource } from './tenants-data-source-table';
 import { TenantsComponent } from './tenants.component';
 import { TenantsRoutes } from './tenants.routing';
@@ -27,15 +27,15 @@ import { TenantsRoutes } from './tenants.routing';
   ],
   declarations: [
     TenantsComponent,
-    TenantDialogComponent
+    TenantComponent
   ],
   entryComponents: [
     TenantsComponent,
-    TenantDialogComponent
+    TenantComponent
   ],
   exports: [
     TenantsComponent,
-    TenantDialogComponent
+    TenantComponent
   ],
   providers: [
     TenantsDataSource

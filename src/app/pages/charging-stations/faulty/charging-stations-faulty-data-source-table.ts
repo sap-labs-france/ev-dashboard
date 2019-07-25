@@ -33,12 +33,12 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-detai
 import { ErrorMessage } from '../../../shared/dialogs/error-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
-import { ConnectorsCellComponent } from '../cell-content-components/connectors-cell.component';
-import { HeartbeatCellComponent } from '../cell-content-components/heartbeat-cell.component';
-import { ChargingStationSettingsComponent } from '../charging-station-settings/charging-station-settings.component';
-import { ACTION_SMART_CHARGING, TableChargerMoreAction } from '../other-actions-button/table-charger-more-action';
-import { TableChargerRebootAction } from '../other-actions-button/table-charger-reboot-action';
-import { TableChargerResetAction } from '../other-actions-button/table-charger-reset-action';
+import { ACTION_SMART_CHARGING } from '../actions/table-charger-more-action';
+import { TableChargerRebootAction } from '../actions/table-charger-reboot-action';
+import { TableChargerResetAction } from '../actions/table-charger-reset-action';
+import { ConnectorsCellComponent } from '../cell-components/connectors-cell.component';
+import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.component';
+import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
 
 @Injectable()
 export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {

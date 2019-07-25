@@ -11,9 +11,9 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './tenant.dialog.component.html'
+  templateUrl: './tenant.component.html'
 })
-export class TenantDialogComponent implements OnInit {
+export class TenantComponent implements OnInit {
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
@@ -59,7 +59,7 @@ export class TenantDialogComponent implements OnInit {
       private messageService: MessageService,
       private spinnerService: SpinnerService,
       private router: Router,
-      protected dialogRef: MatDialogRef<TenantDialogComponent>,
+      protected dialogRef: MatDialogRef<TenantComponent>,
       @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
     if (data) {

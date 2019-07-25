@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -85,8 +86,9 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
           // Error
           observer.error(error);
         });
-      });
-    }
+      }
+    );
+  }
 
   public buildTableDef(): TableDef {
     return {
@@ -187,7 +189,6 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
       if (data.stats) {
-        // Build
         const percentInactivity = (data.stats.totalDurationSecs > 0 ? (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
         // tslint:disable-next-line:max-line-length
@@ -216,6 +217,7 @@ export class TransactionsHistoryDataSource extends TableDataSource<Transaction> 
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      filters.push(new SitesTableFilter().getFilterDef());
       filters.push(new SiteAreasTableFilter().getFilterDef());
     }
 

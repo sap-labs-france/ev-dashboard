@@ -6,7 +6,8 @@ import { SiteUsersDataSource } from './site-users-data-source-table';
 
 @Component({
   selector: 'app-site-users-dialog-cmp',
-  templateUrl: 'site-users.dialog.component.html'
+  templateUrl: 'site-users.dialog.component.html',
+  providers: [SiteUsersDataSource]
 })
 
 export class SiteUsersDialogComponent {

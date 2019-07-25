@@ -34,29 +34,29 @@ export class SettingsOcpiComponent implements OnInit {
   public ocpiSettings: OcpiSettings;
 
   public logoTypes: any = [
-    {key: '', description: ''},
-    {key: 'jpg', description: 'JPG'},
-    {key: 'png', description: 'PNG'},
-    {key: 'svg', description: 'SVG'},
-    {key: 'gif', description: 'GIF'}
+    { key: '', description: '' },
+    { key: 'jpg', description: 'JPG' },
+    { key: 'png', description: 'PNG' },
+    { key: 'svg', description: 'SVG' },
+    { key: 'gif', description: 'GIF' }
   ];
 
   public logoCategories: any = [
-    {key: 'CHARGER', description: 'Charger'},
-    {key: 'ENTRANCE', description: 'Entrance'},
-    {key: 'LOCATION', description: 'Location'},
-    {key: 'NETWORK', description: 'Network'},
-    {key: 'OPERATOR', description: 'Operator'},
-    {key: 'OWNER', description: 'Owner'},
-    {key: 'OTHER', description: 'Other'}
+    { key: 'CHARGER', description: 'Charger' },
+    { key: 'ENTRANCE', description: 'Entrance' },
+    { key: 'LOCATION', description: 'Location' },
+    { key: 'NETWORK', description: 'Network' },
+    { key: 'OPERATOR', description: 'Operator' },
+    { key: 'OWNER', description: 'Owner' },
+    { key: 'OTHER', description: 'Other' }
   ];
 
   constructor(
-      private messageService: MessageService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private spinnerService: SpinnerService,
-      private router: Router) {
+    private messageService: MessageService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private spinnerService: SpinnerService,
+    private router: Router) {
     this.isActive = this.componentService.isActive(ComponentEnum.OCPI);
   }
 
@@ -132,11 +132,11 @@ export class SettingsOcpiComponent implements OnInit {
           this.logoType.setValue(logo.type);
           this.logoWidth.setValue(logo.width);
           this.logoHeight.setValue(logo.height);
-       }
-     }
+        }
+      }
       // Init form
       this.formGroup.markAsPristine();
-   }, (error) => {
+    }, (error) => {
       // Hide
       this.spinnerService.hide();
       // Handle error
@@ -148,9 +148,9 @@ export class SettingsOcpiComponent implements OnInit {
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'general.unexpected_error_backend');
-     }
-   });
- }
+      }
+    });
+  }
 
   public save(content) {
     this.ocpiSettings.ocpi = content;
@@ -162,11 +162,11 @@ export class SettingsOcpiComponent implements OnInit {
         this.messageService.showSuccessMessage(
           (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
         this.refresh();
-     } else {
+      } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
-     }
-   }, (error) => {
+      }
+    }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
@@ -175,12 +175,16 @@ export class SettingsOcpiComponent implements OnInit {
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
-     }
-   });
- }
+      }
+    });
+  }
 
   public refresh() {
     // Load Setting
     this.loadConfiguration();
- }
+  }
+
+  toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
+  }
 }

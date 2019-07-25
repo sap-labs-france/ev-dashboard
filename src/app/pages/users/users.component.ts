@@ -5,12 +5,13 @@ import { MessageService } from 'app/services/message.service';
 import { AuthorizationService } from '../../services/authorization-service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
-import { UsersDataSource } from './users-data-source-table';
-import { UsersInErrorDataSource } from './users-in-error-data-source-table';
+import { UsersInErrorDataSource } from './in-error/users-in-error-data-source-table';
+import { UsersDataSource } from './list/users-data-source-table';
 
 @Component({
   selector: 'app-users-cmp',
   templateUrl: 'users.component.html',
+  providers: [UsersInErrorDataSource, UsersDataSource]
 })
 export class UsersComponent extends AbstractTabComponent implements OnInit {
   public isAdmin: boolean;

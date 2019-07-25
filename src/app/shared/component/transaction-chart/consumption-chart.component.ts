@@ -19,11 +19,11 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() consumptions: ConsumptionValue[];
   @Input() ratio: number;
 
-  @ViewChild('primary', { static: true }) primaryElement: ElementRef;
-  @ViewChild('accent', { static: true }) accentElement: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement: ElementRef;
-  @ViewChild('success', { static: true }) successElement: ElementRef;
-  @ViewChild('chart', { static: true }) chartElement: ElementRef;
+  @ViewChild('primary', {static: true}) primaryElement: ElementRef;
+  @ViewChild('accent', {static: true}) accentElement: ElementRef;
+  @ViewChild('danger', {static: true}) dangerElement: ElementRef;
+  @ViewChild('success', {static: true}) successElement: ElementRef;
+  @ViewChild('chart', {static: true}) chartElement: ElementRef;
 
   private graphCreated = false;
   private currencyCode: string;
@@ -109,9 +109,6 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
       .subscribe(transaction => {
         this.consumptions = transaction.values;
-        if (transaction.priceUnit) {
-          this.currencyCode = transaction.priceUnit;
-        }
         this.prepareOrUpdateGraph();
       });
   }
@@ -169,6 +166,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
           id: 'percentage',
           type: 'linear',
           position: 'right',
+          display: 'auto',
           gridLines: {
             display: true,
             color: 'rgba(0,0,0,0.2)'
@@ -205,6 +203,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
           id: 'amount',
           type: 'linear',
           position: 'right',
+          display: 'auto',
           gridLines: {
             display: true,
             color: 'rgba(0,0,0,0.2)'
@@ -219,7 +218,8 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   getDataSet(name) {
-    return this.data.datasets.find(d => (d as any).name === name);
+    const dataSet = this.data.datasets.find(d => (d as any).name === name);
+    return dataSet ? dataSet.data : null;
   }
 
   canDisplayGraph() {
@@ -231,25 +231,31 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
       this.data.datasets[key].data = [];
     }
     this.data.labels = [];
+    const instantPowerDataSet = this.getDataSet('instantPower');
+    const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
+    const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
+    const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
     for (let i = 0; i < this.consumptions.length; i += 1) {
       const consumption = this.consumptions[i];
       this.data.labels.push(new Date(consumption.date).getTime());
-      this.getDataSet('instantPower').data.push(consumption.value);
-      this.getDataSet('cumulatedConsumption').data.push(consumption.cumulated);
-      if (this.getDataSet('cumulatedAmount')) {
-        const dataSet = this.getDataSet('cumulatedAmount').data;
+      instantPowerDataSet.push(consumption.value);
+      cumulatedConsumptionDataSet.push(consumption.cumulated);
+      if (cumulatedAmountDataSet) {
         if (consumption.cumulatedAmount !== undefined) {
-          dataSet.push(consumption.cumulatedAmount);
+          cumulatedAmountDataSet.push(consumption.cumulatedAmount);
         } else {
-          dataSet.push(dataSet.length > 0 ? dataSet[dataSet.length - 1] : 0);
+          cumulatedAmountDataSet.push(cumulatedAmountDataSet.length > 0 ? cumulatedAmountDataSet[cumulatedAmountDataSet.length - 1] : 0);
+        }
+
+        if (consumption.currencyCode) {
+          this.currencyCode = consumption.currencyCode;
         }
       }
-      if (this.getDataSet('stateOfCharge')) {
-        const dataSet = this.getDataSet('stateOfCharge').data;
+      if (stateOfChargeDataSet) {
         if (consumption.stateOfCharge !== undefined) {
-          dataSet.push(consumption.stateOfCharge);
+          stateOfChargeDataSet.push(consumption.stateOfCharge);
         } else {
-          dataSet.push(dataSet.length > 0 ? dataSet[dataSet.length - 1] : 0);
+          stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ? stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : 0);
         }
       }
     }

@@ -24,9 +24,9 @@ import { TableStartAction } from '../../../shared/table/actions/table-start-acti
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { ConnectorCellComponent } from '../cell-content-components/connector-cell.component';
-import { ConnectorStatusComponent } from '../cell-content-components/connector-status.component';
-import { InstantPowerConnectorProgressBarComponent } from '../cell-content-components/instant-power-connector-progress-bar.component';
+import { ConnectorCellComponent } from '../cell-components/connector-cell.component';
+import { ConnectorStatusComponent } from '../cell-components/connector-status.component';
+import { InstantPowerConnectorProgressBarComponent } from '../cell-components/instant-power-connector-progress-bar.component';
 import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent } from './start-transaction-dialog-component';
 
 @Injectable()
@@ -56,6 +56,10 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
     this.noAction.getActionDef().disabled = true;
   }
 
+  loadData(showSpinner: boolean = false): Observable<Connector> {
+    return super.loadData(showSpinner);
+  }
+
   public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Return connector
@@ -64,20 +68,13 @@ export class ConnectorsDataSource extends TableDataSource<Connector> {
         this.centralServerService.getIsAuthorized('ConnectorsAction', this.charger.id).subscribe((result) => {
           // Update authorization on individual connectors
           for (let index = 0; index < result.length; index++) {
-            this.charger.connectors[index].isStopAuthorized = result[index].isStopAuthorized;
-            this.charger.connectors[index].isStartAuthorized = result[index].isStartAuthorized;
-            this.charger.connectors[index].isTransactionDisplayAuthorized =
-            result[index].isTransactionDisplayAuthorized;
+            const connector = this.charger.connectors[index];
+            connector.isStopAuthorized = result[index].isStopAuthorized;
+            connector.isStartAuthorized = result[index].isStartAuthorized;
+            connector.isTransactionDisplayAuthorized = result[index].isTransactionDisplayAuthorized;
+            connector.hasDetails = connector.activeTransactionID > 0 &&
+              (connector.isTransactionDisplayAuthorized || this.authorizationService.isDemo());
           }
-          // Check connectors details status
-          this.charger.connectors.forEach((connector: Connector) => {
-            if (connector) {
-              connector.hasDetails = false;
-              // If user can stop transaction he can also see details except user demo that can also see details
-              connector.hasDetails = connector.activeTransactionID > 0 &&
-                (this.charger.connectors[connector.connectorId - 1].isStopAuthorized || this.authorizationService.isDemo());
-            }
-          });
           observer.next({
             count: this.charger.connectors.length,
             result: this.charger.connectors

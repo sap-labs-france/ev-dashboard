@@ -1290,6 +1290,11 @@
         "title": "Consumption Too High",
         "description": "The average registered charging power is greater than the capacity of the connector.",
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
+      },
+      "negative_inactivity": {
+        "title": "Negative inactivity",
+        "description": "The inactivity value of the session is negative",
+        "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       }
     }
   },

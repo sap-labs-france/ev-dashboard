@@ -17,8 +17,6 @@ export class LogLevelTableFilter extends TableFilter {
       items: Object.assign([], logLevels),
       multiple: true
     };
-    // Add <All>
-    //filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     // Set
     this.setFilterDef(filterDef);
   }

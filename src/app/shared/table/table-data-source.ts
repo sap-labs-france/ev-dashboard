@@ -313,7 +313,6 @@ export abstract class TableDataSource<T> {
     if (this.staticFilters && this.staticFilters.length > 0) {
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
-    console.log(`>>> filterJSON:${JSON.stringify(filterJson)}`);
     return filterJson;
   }
 

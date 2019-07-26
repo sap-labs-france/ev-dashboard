@@ -276,7 +276,7 @@ export abstract class TableDataSource<T> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-            // Table
+          // Dialog
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -292,7 +292,12 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
-            // Others
+          // Dropdown with multiple selections
+          } else if(filterDef.type === 'dropdown' && filterDef.multiple){
+            if(filterDef.currentValue.length > 0 ) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+            }
+          // Others
           } else {
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
@@ -308,6 +313,7 @@ export abstract class TableDataSource<T> {
     if (this.staticFilters && this.staticFilters.length > 0) {
       filterJson = Object.assign(filterJson, ...this.staticFilters);
     }
+    console.log(`>>> filterJSON:${JSON.stringify(filterJson)}`);
     return filterJson;
   }
 

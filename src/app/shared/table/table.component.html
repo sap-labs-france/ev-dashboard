@@ -88,10 +88,21 @@
         <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
              [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
-          <mat-form-field *ngIf="filterDef.type === 'dropdown'">
+          <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
                         [placeholder]="filterDef.name | translate">
               <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- Dropdown Filter with multiple selections-->
+          <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate" multiple>
+              <mat-select-trigger>{{(filterDef.currentValue && filterDef.currentValue.length > 0 ? filterDef.currentValue[0].value : '') | translate}}
+                <span *ngIf="filterDef.currentValue && filterDef.currentValue.length > 1">(+{{filterDef.currentValue.length - 1}})</span>                
+              </mat-select-trigger>
+              <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}
               </mat-option>
             </mat-select>
           </mat-form-field>

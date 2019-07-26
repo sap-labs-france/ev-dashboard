@@ -32,6 +32,7 @@ import { SettingsConcurComponent } from './refund/concur/settings-concur.compone
 import { SettingsRefundComponent } from './refund/settings-refund.component';
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutes } from './settings.routing';
+import { FormattersModule } from '../../shared/formatters/formatters.module';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { SettingsRoutes } from './settings.routing';
     TranslateModule,
     MaterialModule,
     TableModule,
-    DialogsModule
+    DialogsModule,
+    FormattersModule
   ],
   declarations: [
     SettingsComponent,

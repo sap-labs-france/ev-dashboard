@@ -840,6 +840,8 @@
     "role_basic": "Basic",
     "role_demo": "Demo",
     "role_invalid": "Invalid role",
+    "role_mult_all": "All Roles",
+    "role_mult_admin_demo": "Admin or Demo",
     "user_not_found": "User not found",
     "user_id_not_found": "User '{{userId}}' not found",
     "invalid_phone_number": "Invalid phone number",
@@ -1128,6 +1130,7 @@
     "link": {
       "name": "Name",
       "description": "Description",
+      "role": "User Roles",
       "url": "URL"
     }
   },

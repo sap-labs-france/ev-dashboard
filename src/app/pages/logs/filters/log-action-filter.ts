@@ -11,13 +11,14 @@ export class LogActionTableFilter extends TableFilter {
       id: 'action',
       httpId: 'Action',
       type: Constants.FILTER_TYPE_DROPDOWN,
-      name: 'logs.action',
+      name: 'logs.actions',
       class: 'col-md-6 col-lg-4 col-xl-2',
-      currentValue: Constants.FILTER_ALL_KEY,
-      items: Object.assign([], logActions)
+      currentValue: [],
+      items: Object.assign([], logActions),
+      multiple: true
     };
     // Add <All>
-    filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
+    //filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     // Set
     this.setFilterDef(filterDef);
   }

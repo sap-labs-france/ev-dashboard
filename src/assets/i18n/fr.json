@@ -1293,6 +1293,11 @@
         "title": "Consommation trop Importante",
         "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
         "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
+      },
+      "negative_inactivity": {
+        "title": "Inactivité négative",
+        "description": "La periode d'inactivité enregistrée est négative",
+        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises dans le bon ordre."
       }
     }
   },

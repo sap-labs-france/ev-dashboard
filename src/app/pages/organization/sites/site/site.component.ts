@@ -57,7 +57,7 @@ export class SiteComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSite({'id': this.activatedRoute.snapshot.params['id']})) {
+      !authorizationService.canUpdateSite()) {
       // Not authorized
       this.router.navigate(['/']);
     }

@@ -53,7 +53,7 @@ export class SmartChargingMasterLimitComponent implements OnInit, AfterViewInit 
     private dialogService: DialogService) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
+    if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
       this.router.navigate(['/']);
     }

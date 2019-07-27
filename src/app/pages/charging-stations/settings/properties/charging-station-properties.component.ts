@@ -26,6 +26,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
     { key: 'firmwareVersion', title: 'chargers.firmware_version' },
     { key: 'endpoint', title: 'chargers.private_url' },
     { key: 'chargingStationURL', title: 'chargers.public_url' },
+    { key: 'currentIPAddress', title: 'chargers.current_ip'},
     { key: 'ocppVersion', title: 'chargers.ocpp_version' },
     {
       key: 'lastReboot', title: 'chargers.last_reboot', formatter: (value) => {

@@ -1,8 +1,19 @@
+import { OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
 import { of, Observable } from 'rxjs';
-import { DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
+import { first } from 'rxjs/operators';
+import {
+  DropdownItem,
+  Ordering,
+  Paging,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
@@ -276,7 +287,7 @@ export abstract class TableDataSource<T> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-            // Table
+          // Dialog
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -292,7 +303,12 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
-            // Others
+          // Dropdown with multiple selections
+          } else if(filterDef.type === 'dropdown' && filterDef.multiple){
+            if(filterDef.currentValue.length > 0 ) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+            }
+          // Others
           } else {
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
@@ -342,43 +358,40 @@ export abstract class TableDataSource<T> {
 
   public loadData(showSpinner = true): Observable<T> {
     return new Observable((observer) => {
-      // Show Spinner
-      if (showSpinner) {
-        this.spinnerService.show();
+    // Show Spinner
+    if (showSpinner) {
+      this.spinnerService.show();
+    }
+    // Load data source
+    this.loadDataImpl().pipe(first()).subscribe((data) => {
+      // Set nbr of records
+      this.setTotalNumberOfRecords(data.count);
+      // Build stats
+      this.tableFooterStats = this.buildTableFooterStats(data);
+      // Set array
+      data = data.result;
+      // Ok
+      this.setData(data);
+      // Loading on going?
+      if (!this.loadingNumberOfRecords) {
+        if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
+          this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+          // Load records
+          this.requestNumberOfRecords();
+        }
       }
-      // Load data source
-      this.loadDataImpl().subscribe((data) => {
-        // Set nbr of records
-        this.setTotalNumberOfRecords(data.count);
-        // Build stats
-        this.tableFooterStats = this.buildTableFooterStats(data);
-        // Set array
-        data = data.result;
-        // Hide Spinner
-        if (showSpinner) {
-          this.spinnerService.hide();
-        }
-        // Ok
-        this.setData(data);
-        // Load number of records
-        setTimeout(() => {
-          // Loading on going?
-          if (!this.loadingNumberOfRecords) {
-            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-                this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
-              // Load records
-              this.requestNumberOfRecords();
-            }
-          }
-        }, 100);
-        // Notify
-        observer.next(data);
-        observer.complete();
-      }, (error) => {
-        // Hide Spinner
-        if (showSpinner) {
-          this.spinnerService.hide();
-        }
+      // Hide Spinner
+      if (showSpinner) {
+        this.spinnerService.hide();
+      }
+      // Notify
+      observer.next(data);
+      observer.complete();
+    }, (error) => {
+      // Hide Spinner
+      if (showSpinner) {
+        this.spinnerService.hide();
+      }
         observer.error(error);
       });
     });
@@ -408,10 +421,10 @@ export abstract class TableDataSource<T> {
   }
 
   public requestNumberOfRecords() {
-    // Reset current
-    this.resetTotalNumberOfRecords();
     // Loading on going
     this.loadingNumberOfRecords = true;
+    // Reset current
+    this.resetTotalNumberOfRecords();
     // Set static filter
     const staticFilters = [
       ...this.getStaticFilters(),
@@ -420,11 +433,11 @@ export abstract class TableDataSource<T> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().subscribe((data) => {
-      // Loading ended
-      this.loadingNumberOfRecords = false;
+    this.loadDataImpl().pipe(first()).subscribe((data) => {
       this.setTotalNumberOfRecords(data.count);
       this.tableFooterStats = this.buildTableFooterStats(data);
+      // Loading ended
+      this.loadingNumberOfRecords = false;
     });
     // Reset static filter
     staticFilters.splice(staticFilters.length - 1, 1);

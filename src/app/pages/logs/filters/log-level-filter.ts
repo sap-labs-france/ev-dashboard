@@ -11,13 +11,12 @@ export class LogLevelTableFilter extends TableFilter {
       id: 'level',
       httpId: 'Level',
       type: Constants.FILTER_TYPE_DROPDOWN,
-      name: 'logs.level',
+      name: 'logs.levels',
       class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
-      currentValue: Constants.FILTER_ALL_KEY,
-      items: Object.assign([], logLevels)
+      currentValue: [],
+      items: Object.assign([], logLevels),
+      multiple: true
     };
-    // Add <All>
-    filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     // Set
     this.setFilterDef(filterDef);
   }

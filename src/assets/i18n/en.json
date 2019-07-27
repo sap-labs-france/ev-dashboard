@@ -19,7 +19,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.0",
+    "last_update": "Version 2.1.1",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -535,6 +535,7 @@
     "nb_connected_phase": "Number of Connected Phase",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
     "public_url": "Public URL",
+    "current_ip": "Current IP Address",
     "select_chargers": "Select Charging Station",
     "serial_number": "Serial Number",
     "last_reboot": "Last Reboot",
@@ -691,7 +692,8 @@
     "clear_cache_confirm": "Do you really want to clear the cache of the charging station '{{chargeBoxID}}'?",
     "clear_cache_success": "The cache of the charging station '{{chargeBoxID}}' has been cleared successfully",
     "clear_cache_error": "Error occurred while clearing the cache of the charging station",
-    "change_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
+    "retrieve_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
+    "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",
     "change_params_success": "The change parameters command has been sent successfully to the charging station '{{chargeBoxID}}'",
     "change_params_error": "Error occurred while trying to send the change parameter command to the charging station",
@@ -790,6 +792,7 @@
     "error": "Error",
     "status": "Status",
     "level": "Level",
+    "levels": "Levels",
     "date": "Date",
     "source": "Source",
     "host": "Host",
@@ -797,6 +800,7 @@
     "user": "User",
     "on_user": "Action on User",
     "action": "Action",
+    "actions": "Actions",
     "type": "Type",
     "type_security": "Security",
     "type_regular": "Regular",
@@ -1289,6 +1293,11 @@
         "title": "Consumption Too High",
         "description": "The average registered charging power is greater than the capacity of the connector.",
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
+      },
+      "negative_inactivity": {
+        "title": "Negative inactivity",
+        "description": "The inactivity value of the session is negative",
+        "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       }
     }
   },

@@ -19,7 +19,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.0",
+    "last_update": "Version 2.1.1",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -535,6 +535,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
     "public_url": "URL Publique",
+    "current_ip": "Adresse IP Actuelle",
     "select_chargers": "Selection Borne",
     "serial_number": "No Série",
     "last_reboot": "Dernier Redémarrage",
@@ -691,8 +692,9 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne",
-    "change_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
+    "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
     "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
+    "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_params_success": "La commande pour changer les paramètres de la borne '{{chargeBoxID}}' a été evoyée avec succès",
     "change_params_error": "Une erreur est survenue pendant l'envoi de la commande de changement des paramètres",
     "delete_title": "Supprimer",
@@ -790,6 +792,7 @@
     "error": "Erreur",
     "status": "Statut",
     "level": "Level",
+    "levels": "Levels",
     "date": "Date",
     "source": "Source",
     "host": "Hôte",
@@ -797,6 +800,7 @@
     "user": "Utilisateur",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
+    "actions": "Actions",
     "type": "Type",
     "type_security": "Sécurité",
     "type_regular": "Régulier",
@@ -1289,6 +1293,11 @@
         "title": "Consommation trop Importante",
         "description": "La puissance de charge demandée est supérieure à la capacité du connecteur.",
         "action": "Vérifiez la configuration de la borne. Assurez vous que la configuration du connecteur est correcte."
+      },
+      "negative_inactivity": {
+        "title": "Inactivité négative",
+        "description": "La periode d'inactivité enregistrée est négative",
+        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises dans le bon ordre."
       }
     }
   },

@@ -37,6 +37,7 @@ export class AbstractTabComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.synchronizeRouting = false;
   }
 
   enableRoutingSynchronization() {

@@ -28,6 +28,8 @@ export class Formatters {
         parsedValue = JSON.stringify(JSON.parse(value), null, 6);
         // Ok: Format
         parsedValue = parsedValue
+          .replace(/</g, '&lt')
+          .replace(/>/g, '&gt')
           .replace(/\n/g, '<br/>')
           .replace(/\\n\s/g, '<br/>')
           .replace(/\s/g, '&nbsp;');

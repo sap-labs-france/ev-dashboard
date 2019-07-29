@@ -39,7 +39,7 @@ export class ChargingStationGetDiagnosticsComponent implements OnInit, AfterView
     private dialogService: DialogService) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
+    if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
       this.router.navigate(['/']);
     }

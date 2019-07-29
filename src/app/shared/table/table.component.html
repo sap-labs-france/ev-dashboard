@@ -257,7 +257,8 @@
             <td class="col-3em details-column-row"></td>
             <td [attr.colspan]="numberOfColumns-1">
               <div
-                [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')">
+                [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
+                class="row-detail">
               </div>
             </td>
           </ng-container>

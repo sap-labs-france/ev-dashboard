@@ -58,7 +58,7 @@ export class SiteAreaComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateSiteArea({'id': this.activatedRoute.snapshot.params['id']})) {
+      !authorizationService.canUpdateSiteArea()) {
       // Not authorized
       this.router.navigate(['/']);
     }

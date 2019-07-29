@@ -55,7 +55,7 @@ export class CompanyComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateCompany({ 'id': this.activatedRoute.snapshot.params['id'] })) {
+      !authorizationService.canUpdateCompany()) {
       // Not authorized
       this.router.navigate(['/']);
     }

@@ -52,7 +52,7 @@ export class WindowService {
 
   setHash(hash: string): void {
     if (this.getHash() !== hash) {
-      this.window.location.hash = hash;
+      this.window.history.replaceState({}, '', `${this.getPath()}#${hash}`);
     }
   }
 

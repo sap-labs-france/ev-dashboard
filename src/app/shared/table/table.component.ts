@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
@@ -7,8 +17,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent, interval, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
@@ -20,7 +30,7 @@ import { TableDataSource } from './table-data-source';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<any>;
-  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
+  @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
@@ -28,25 +38,26 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public numberOfColumns = 0;
   private ongoingRefresh = false;
 
-  private autoRefeshTimer;
-  private autoRefeshPollEnabled;
-  private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
+  private autoRefreshSubscription: Subscription;
+  private autoRefreshPollEnabled;
+  private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
+  private alive: boolean;
 
   constructor(
-      private configService: ConfigService,
-      private translateService: TranslateService,
-      public spinnerService: SpinnerService,
-      protected localService: LocaleService,
-      public windowService: WindowService,
-      private dialog: MatDialog) {
+    private configService: ConfigService,
+    private translateService: TranslateService,
+    public spinnerService: SpinnerService,
+    protected localService: LocaleService,
+    public windowService: WindowService,
+    private dialog: MatDialog) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
 
   ngOnInit() {
     // Handle Poll (config service available only in component not possible in data-source)
-    this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
-    this.autoRefeshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
+    this.autoRefreshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
+    this.autoRefreshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     // Init Sort
     const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
     if (columnDef) {
@@ -63,18 +74,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.alive = true;
     // Init Search
     if (this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
       // Init initial value
       this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
+        takeWhile(() => this.alive),
         map((e: KeyboardEvent) => e.target['value']),
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged()
       ).subscribe((text: string) => {
-          this.dataSource.setSearchValue(text);
-          this.refresh();
+        this.dataSource.setSearchValue(text);
+        this.refresh();
       });
     }
     if (this.dataSource.tableActionsRightDef) {
@@ -94,8 +107,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dataSource.destroyDatasource();
+    this.alive = false;
     this.destroyAutoRefreshTimer();
+    this.dataSource.destroyDatasource();
   }
 
   displayMoreRecords() {
@@ -110,7 +124,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
-    //this.updateUrlWithFilters(filterDef);
+    // this.updateUrlWithFilters(filterDef);
     this.refresh();
   }
 
@@ -119,7 +133,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (filter.httpId && filter.httpId !== 'null') {
       // Capitalize first letter of search id
       const filterIdInCap = filter.httpId;
-      if (filter.currentValue === 'null' || !filter.currentValue ) {
+      if (filter.currentValue === 'null' || !filter.currentValue) {
         this.windowService.deleteSearch(filterIdInCap);
       } else {
         switch (filter.type) {
@@ -167,7 +181,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if(filterDef.type === 'dropdown' && filterDef.multiple) {
+    if (filterDef.type === 'dropdown' && filterDef.multiple) {
       filterDef.currentValue = [];
     } else {
       filterDef.currentValue = null;
@@ -181,14 +195,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.disableClose = true;
     // Init button title
     dialogConfig.data = {
-      validateButtonTitle : 'general.set_filter'
+      validateButtonTitle: 'general.set_filter'
     };
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
-    dialogRef.afterClosed().subscribe(data => {
+    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
       if (data) {
         filterDef.currentValue = data;
         this.filterChanged(filterDef);
@@ -198,22 +212,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createAutoRefreshTimer() {
     // Create timer only if socketIO is not active
-    if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
+    if (this.autoRefreshPollEnabled && !this.autoRefreshSubscription) {
       // Create timer
-      this.autoRefeshTimer = setInterval(() => {
-        // Reload not ongoing
+      this.autoRefreshSubscription = interval(this.autoRefreshPollingIntervalMillis).pipe(
+        takeWhile(() => this.alive)
+      ).subscribe(() => {
         if (!this.ongoingRefresh) {
           this.refresh(true);
         }
-      }, this.autoRefeshPollingIntervalMillis);
+      });
     }
   }
 
   destroyAutoRefreshTimer() {
-    if (this.autoRefeshTimer) {
-      clearInterval(this.autoRefeshTimer);
-      this.autoRefeshTimer = null;
+    if (this.autoRefreshSubscription) {
+      this.autoRefreshSubscription.unsubscribe();
     }
+    this.autoRefreshSubscription = null;
   }
 
   public toggleAutoRefresh({checked}) {
@@ -229,15 +244,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ongoingRefresh = true;
       if (autoRefresh) {
         this.ongoingAutoRefresh = true;
-        this.destroyAutoRefreshTimer();
       }
       // Refresh Data
       this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
-        this.ongoingRefresh = false;
-        if (autoRefresh) {
-          this.ongoingAutoRefresh = false;
-          this.createAutoRefreshTimer();
-        }
+      this.ongoingRefresh = false;
+      if (autoRefresh) {
+        this.ongoingAutoRefresh = false;
+      }
       });
     }
   }
@@ -291,7 +304,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // Component
         if (!this.dataSource.tableDef.rowDetails.angularComponent) {
           // No: Load details from data source
-          this.dataSource.getRowDetails(row).subscribe((details) => {
+          this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
             // Set details
             row[this.dataSource.tableDef.rowDetails.detailsField] = details;
             // No: Expand it!

@@ -157,7 +157,10 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public refreshAvailableSites() {
-    this.centralServerService.getSites({}).subscribe((availableSites) => {
+    const params = {
+      'SiteID': this.authorizationService.getSitesAdmin().join('|')
+    };
+    this.centralServerService.getSites(params).subscribe((availableSites) => {
       // clear current entries
       this.sites = [];
 

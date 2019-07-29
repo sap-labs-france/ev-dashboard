@@ -9,6 +9,7 @@ import { SiteAreasFilterDataSourceTable } from './site-areas-filter-data-source-
   providers: [SiteAreasFilterDataSourceTable]
 })
 export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<SiteArea> {
+  private siteAdminOnly: any;
   constructor(
     @Self() public dialogDataSource: SiteAreasFilterDataSourceTable,
     protected dialogRef: MatDialogRef<SiteAreasFilterDialogComponent>,
@@ -19,6 +20,7 @@ export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<Sit
     if (this.title === '') {
       this.title = 'site_areas.select_site_areas';
     }
+    dialogDataSource.setSitesAdminOnly(data && data.sitesAdminOnly);
   }
 
   getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {

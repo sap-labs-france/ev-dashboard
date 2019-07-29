@@ -317,7 +317,8 @@ export class ChargingStationParametersComponent implements OnInit {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
-      validateButtonTitle: 'general.select'
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true
     };
     // Open
     this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)

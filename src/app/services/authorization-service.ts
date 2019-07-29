@@ -65,6 +65,10 @@ export class AuthorizationService {
     return false;
   }
 
+  public getSitesAdmin(): ReadonlyArray<string> {
+    return this.loggedUser.sitesAdmin;
+  }
+
   public isSuperAdmin(): boolean {
     if (this.loggedUser) {
       return this.loggedUser.role === Constants.ROLE_SUPER_ADMIN;

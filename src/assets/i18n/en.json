@@ -904,6 +904,7 @@
     "changed_by_other_user": "The user '{{userFullName}}' has been changed by another user and will be reloaded",
     "update_error": "Error occurred while updating the user",
     "user_do_not_exist": "User does not exist anymore",
+    "user_tag_id_already_used": "One of the badge is already assigned to another user",
     "title": "User",
     "picture_size_error": "The picture size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "create_success": "The user {{userFullName}} has been created successfully",

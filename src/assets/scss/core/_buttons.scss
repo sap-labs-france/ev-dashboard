@@ -81,3 +81,8 @@
     }
   }
 }
+
+.dropdown-button.mat-menu-panel {
+  @extend .mat-menu-panel;
+  max-width: 100%;
+}

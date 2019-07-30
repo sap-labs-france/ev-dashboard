@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
@@ -6,6 +6,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
+import { AnalyticsLink } from 'app/common.types';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -27,6 +28,8 @@ export class StatisticsFiltersComponent implements OnInit {
   public isOrganizationActive: boolean;
   public selectedYear: number;
   public transactionYears: number[];
+  public sacLinks: AnalyticsLink[];
+  public sacLinksActive = false;
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
@@ -68,6 +71,16 @@ export class StatisticsFiltersComponent implements OnInit {
       }
       if (this.allYears) {
         this.transactionYears.push(0); // 'all years' corresponds to year = 0
+      }
+    });
+
+    // Get SAC links
+    this.componentService.getSacSettings().subscribe((sacSettings) => {
+      this.sacLinks = sacSettings.links;
+      if (Array.isArray(this.sacLinks) && this.sacLinks.length > 0) {
+        this.sacLinksActive = true;
+      } else {
+        this.sacLinksActive = false;
       }
     });
 

@@ -27,6 +27,38 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.1',
+        date: new Date('2019-07-28'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `New registered Super Admin can only be activated by another Super Admin`,
+              `Added Sessions with wrong inactivity in Faulty Sessions`,
+              `Activated multi-selection on Log Levels and Actions at first`,
+              `EBEE XML Signed Data is no longer interpreted as HTML tags in Log details`,
+              `Latest IP of Charging Station is displayed in Charging Station's details`,
+              `View filters, state is not kept between navigation`,
+              `Fixed user is delogged when his profile has changed`,
+              `Fixed wrong messages when Charging Station is saved`,
+              `Fixed Session's stats in list footer disappear when filters are reset`,
+              `Fixed Max Record in paginator is not recalculated after applying a filter`,
+              `Invoice button is removed for Basic Users (used only for SAP CC testing)`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Stored the Sessions Signed Certificate of the EBEE Charging Station in DB`,
+              `Added multi-selection capabilities in DB requests`,
+              `Fixed setting were lost when Tenant's component changed`,
+              `IP of Charging Stations is stored when Boot Notification and Heartbeat is received (Soap and JSon)`,
+              `Removed useless logs (save DB space)`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.0',
         date: new Date('2019-07-24'),
         componentChanges: [

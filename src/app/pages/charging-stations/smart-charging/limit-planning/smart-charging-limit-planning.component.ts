@@ -63,7 +63,7 @@ export class SmartChargingLimitPlanningComponent implements OnInit, AfterViewIni
     private appUnitFormatter: AppUnitPipe) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({ 'id': 'charger.id' })) {
+    if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
       this.router.navigate(['/']);
     }

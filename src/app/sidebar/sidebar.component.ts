@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Get the logged user
     this.loggedUser = this.centralServerService.getLoggedUser();
 
-    if (authorizationService.canUpdateUser({'id': this.loggedUser.id})) {
+    if (authorizationService.canUpdateUser()) {
       this.canEditProfile = true;
     }
     // Read user

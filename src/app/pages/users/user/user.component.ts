@@ -100,7 +100,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateUser({'id': this.activatedRoute.snapshot.params['id']})) {
+      !authorizationService.canUpdateUser()) {
       // Not authorized
       this.router.navigate(['/']);
     }

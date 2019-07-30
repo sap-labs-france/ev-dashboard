@@ -41,7 +41,7 @@ export class ChargingStationOCPPConfigurationComponent implements OnInit {
     private dialogService: DialogService) {
 
     // Check auth
-    if (!authorizationService.canUpdateChargingStation({ 'id': 'currentCharger.id' })) {
+    if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
       this.router.navigate(['/']);
     }

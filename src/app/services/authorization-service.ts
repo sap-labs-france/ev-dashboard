@@ -19,34 +19,28 @@ export class AuthorizationService {
     this.loggedUser = null;
   }
 
-  public canUpdateChargingStation(chargingStation): boolean {
-    // Check
+  public canUpdateChargingStation(): boolean {
     return this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE);
   }
 
-  public canUpdateCompany(company): boolean {
-    // Check
+  public canUpdateCompany(): boolean {
     return this.canAccess(Constants.ENTITY_COMPANY, Constants.ACTION_UPDATE);
   }
 
-  public canUpdateSite(site): boolean {
-    // Check
+  public canUpdateSite(): boolean {
     return this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE);
   }
 
-  public canUpdateSiteArea(siteArea): boolean {
-    // Check
+  public canUpdateSiteArea(): boolean {
     return this.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_UPDATE);
   }
 
   public canListSettings(): boolean {
-    // Check
     return this.canAccess(Constants.ENTITY_SETTINGS,
       Constants.ACTION_LIST);
   }
 
-  public canUpdateUser(user): boolean {
-    // Check
+  public canUpdateUser(): boolean {
     return this.canAccess(Constants.ENTITY_USER, Constants.ACTION_UPDATE);
   }
 
@@ -69,6 +63,10 @@ export class AuthorizationService {
       return this.loggedUser.role === Constants.ROLE_ADMIN;
     }
     return false;
+  }
+
+  public getSitesAdmin(): ReadonlyArray<string> {
+    return this.loggedUser.sitesAdmin;
   }
 
   public isSuperAdmin(): boolean {

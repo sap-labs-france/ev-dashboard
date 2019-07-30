@@ -885,11 +885,11 @@ export class CentralServerService {
       );
   }
 
-  public getSettings(identifier: string): Observable<SettingResult> {
+  public getSettings(identifier: string, contentFilter = false): Observable<SettingResult> {
     // verify init
     this._checkInit();
     // Execute the REST Service
-    return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}`,
+    return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
       {
         headers: this._buildHttpHeaders()
       })

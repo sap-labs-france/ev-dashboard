@@ -652,7 +652,7 @@ export enum AnalyticsSettingsType {
 }
 
 export interface AnalyticsLink {
-  id: string; //'number' is wrong! See table-data-source.enrichData() which does not digest 'id' field of type 'number'
+  id: string; // 'number' is wrong! See table-data-source.enrichData() which does not digest 'id' field of type 'number'
   name: string;
   description: string;
   role: string;

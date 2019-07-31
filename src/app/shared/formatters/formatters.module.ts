@@ -10,8 +10,8 @@ import { AppDatePipe } from './app-date.pipe';
 import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell';
 import { AppUnitPipe } from './app-unit.pipe';
-import { AppUserNamePipe } from './app-user-name.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
+import { AppUserNamePipe } from './app-user-name.pipe';
 
 @NgModule({
   imports: [],

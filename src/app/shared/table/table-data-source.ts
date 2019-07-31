@@ -304,9 +304,9 @@ export abstract class TableDataSource<T> {
               }
             }
           // Dropdown with multiple selections
-          } else if(filterDef.type === 'dropdown' && filterDef.multiple){
-            if(filterDef.currentValue.length > 0 ) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+          } else if (filterDef.type === 'dropdown' && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0 ) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
           // Others
           } else {

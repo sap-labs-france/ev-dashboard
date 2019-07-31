@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserSitesDataSource } from './user-sites-data-source-table';
 import { TranslateService } from '@ngx-translate/core';
 import { Users } from 'app/utils/Users';
+import { UserSitesDataSource } from './user-sites-data-source-table';
 
 
 @Component({

@@ -35,6 +35,16 @@
                     </mat-form-field>
                   </div>
                 </div>
+                <!-- Link - User role -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <mat-select [formControl]="role" placeholder="{{'analytics.link.role' | translate}}">
+                        <mat-option *ngFor="let role of roleList" value="{{role.key}}">{{role.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
                 <!-- Link - Url -->
                 <div class="col-md-12">
                   <div class="form-group">

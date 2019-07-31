@@ -1,15 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
+import { AnalyticsLink } from 'app/common.types';
 
 export interface StatisticsButtonGroup {
   name: string;
   title: string;
   inactive: boolean;
+}
+
+interface StatisticsFilterDef extends TableFilterDef {
+  hidden: boolean;
 }
 
 @Component({
@@ -19,18 +25,22 @@ export interface StatisticsButtonGroup {
 export class StatisticsFiltersComponent implements OnInit {
   public ongoingRefresh = false;
   public isAdmin: boolean;
+  public isOrganizationActive: boolean;
   public selectedYear: number;
   public transactionYears: number[];
+  public sacLinks: AnalyticsLink[];
+  public sacLinksActive = false;
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears ?= false;
+  @Input() allYears?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
   ];
   @Output() buttonOfScopeGroup = new EventEmitter();
   @Input() tableFiltersDef?: TableFilterDef[] = [];
+  public statFiltersDef: StatisticsFilterDef[] = [];
   @Output() filters = new EventEmitter();
   @Output() update = new EventEmitter();
   @Output() export = new EventEmitter();
@@ -41,11 +51,13 @@ export class StatisticsFiltersComponent implements OnInit {
 
   constructor(
     private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isOrganizationActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     this.category.emit(this.selectedCategory);
 
     this.selectedYear = new Date().getFullYear();
@@ -62,17 +74,72 @@ export class StatisticsFiltersComponent implements OnInit {
       }
     });
 
+    // Get SAC links
+    this.componentService.getSacSettings(true).subscribe((sacSettings) => {
+      this.sacLinks = sacSettings.links;
+      if (Array.isArray(this.sacLinks) && this.sacLinks.length > 0) {
+        this.sacLinksActive = true;
+      } else {
+        this.sacLinksActive = false;
+      }
+    });
+
     this.setActiveButtonOfScopeGroup();
 
     // Provided filters
+    if (this.tableFiltersDef) {
+      for (const tableFilterDef of this.tableFiltersDef) {
+        switch (tableFilterDef.id) {
+          case 'sites':
+          case 'siteAreas':
+            if (this.isOrganizationActive) {
+              this.statFiltersDef.push({ ...tableFilterDef, hidden: false });
+            }
+            break;
+          case 'user':
+            if (this.isAdmin) {
+              this.statFiltersDef.push({ ...tableFilterDef, hidden: false });
+            }
+            break;
+          default:
+            this.statFiltersDef.push({ ...tableFilterDef, hidden: false });
+        }
+      }
+    }
+    // if (this.statFiltersDef) {
+    //   // Site filter
+    //   const foundSitesFilter = this.statFiltersDef.find((filterDef: StatisticsFilterDef) => {
+    //     return (filterDef.id === 'sites' && filterDef.hidden === false);
+    //   });
+    //   // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
+    //   if (foundSitesFilter && this.isAdmin) {
+    //     // Get the sites
+    //     this.centralServerService.getSites([]).subscribe((sites) => {
+    //       if (sites && sites.result.length > 0) {
+    //         const firstSite = sites.result[0];
+    //         const tableFilterDef = new SitesTableFilter().getFilterDef();
+    //         tableFilterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
+    //         this.filterChanged({ ...tableFilterDef, hidden: false });
+    //       }
+    //       this.filterParams = this.buildFilterValues();
+    //       this.filters.emit(this.filterParams);
+    //       this.update.emit(true);
+    //     });
+    //   } else {
+    //     this.filterParams = this.buildFilterValues();
+    //     this.filters.emit(this.filterParams);
+    //     this.update.emit(true);
+    //   }
+    // } else {
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
+    //    }
   }
 
-  public filterChanged(filter: TableFilterDef): void {
+  public filterChanged(filter: StatisticsFilterDef): void {
     // Update Filter
-    const foundFilter = this.tableFiltersDef.find((filterDef) => {
+    const foundFilter = this.statFiltersDef.find((filterDef) => {
       return filterDef.id === filter.id;
     });
     // Update value (if needed!)
@@ -89,9 +156,9 @@ export class StatisticsFiltersComponent implements OnInit {
       this.yearChanged(false);
     }
     // Handle filters
-    if (this.tableFiltersDef) {
+    if (this.statFiltersDef) {
       // Reset all filter fields
-      this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
+      this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         switch (filterDef.type) {
           case 'dropdown':
             if (filterDef.currentValue && filterDef.currentValue !== null) {
@@ -121,7 +188,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public resetDialogTableFilter(filterDef: TableFilterDef): void {
+  public resetDialogTableFilter(filterDef: StatisticsFilterDef): void {
     let filterWasChanged = false;
     if (filterDef.type === 'date') {
       filterWasChanged = true;
@@ -140,7 +207,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  public showDialogTableFilter(filterDef: TableFilterDef): void {
+  public showDialogTableFilter(filterDef: StatisticsFilterDef): void {
     // Disable outside click close
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -173,8 +240,8 @@ export class StatisticsFiltersComponent implements OnInit {
   public buildFilterValues(): Object {
     const filterJson = {};
     // Parse filters
-    if (this.tableFiltersDef) {
-      this.tableFiltersDef.forEach((filterDef) => {
+    if (this.statFiltersDef) {
+      this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
           // Date

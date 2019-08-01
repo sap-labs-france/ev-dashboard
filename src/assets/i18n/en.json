@@ -5,6 +5,7 @@
     "captcha_text_3": " and ",
     "captcha_text_4": "Terms of Service",
     "captcha_text_5": " apply",
+    "invalid_captcha_token": "Invalid captcha token",
     "days": "days",
     "hours": "hours",
     "minutes": "mins",

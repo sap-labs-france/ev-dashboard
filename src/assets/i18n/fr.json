@@ -5,6 +5,7 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’Utilisation",
     "captcha_text_5": "",
+    "invalid_captcha_token": "Jeton captcha invalide",
     "days": "jours",
     "hours": "heures",
     "minutes": "mins",

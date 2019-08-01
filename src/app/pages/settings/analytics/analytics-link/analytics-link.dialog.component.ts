@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Constants } from 'app/utils/Constants';
 import { TranslateService } from '@ngx-translate/core';
+import { Constants } from 'app/utils/Constants';
 import { KeyValue } from '../../../../common.types';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 

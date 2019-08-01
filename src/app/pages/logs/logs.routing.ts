@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { RouteGuardService } from '../../services/route-guard.service';
 import { Constants } from '../../utils/Constants';
 import { LogsComponent } from './logs.component';

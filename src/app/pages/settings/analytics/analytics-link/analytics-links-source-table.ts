@@ -16,8 +16,8 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { AnalyticsLinkDialogComponent } from './analytics-link.dialog.component';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import { AnalyticsLinkDialogComponent } from './analytics-link.dialog.component';
 
 @Injectable()
 export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {

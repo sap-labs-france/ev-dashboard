@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link.dialog.component';
 import { AnalyticsLinksDataSource } from './analytics/analytics-link/analytics-links-source-table';
@@ -32,7 +33,6 @@ import { SettingsConcurComponent } from './refund/concur/settings-concur.compone
 import { SettingsRefundComponent } from './refund/settings-refund.component';
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutes } from './settings.routing';
-import { FormattersModule } from '../../shared/formatters/formatters.module';
 
 @NgModule({
   imports: [

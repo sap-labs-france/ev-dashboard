@@ -18,6 +18,20 @@
             <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
         </button>
 
+        <!-- SAC links -->
+        <div *ngIf="sacLinksActive">
+            <button mat-raised-button [matMenuTriggerFor]="sacLinksButton"
+                    [color]="'primary'" appTooltip="" data-placement="bottom"
+                    data-toggle="tooltip" [title]="'analytics.links' | translate">
+                    <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+            </button>
+            <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+                <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
+                    <a mat-menu-item href="{{sacLink.url}}" target= "_blank">{{sacLink.description}}</a>
+                </ng-template>
+            </mat-menu>
+        </div>
+
         <!-- Spacer -->
         <span class="toolbar-spacer"></span>
 
@@ -80,7 +94,8 @@
         </div>
 
         <!-- dynamically defined filters, like for Site ID -->
-        <div *ngFor="let filterDef of tableFiltersDef; let i=index"
+        <div *ngFor="let filterDef of statFiltersDef; let i=index"
+              [hidden]="filterDef.hidden"
               [class]="(filterDef.class ? filterDef.class : '')">
             <!-- Dropdown Filter -->
             <mat-form-field *ngIf="filterDef.type === 'dropdown'">

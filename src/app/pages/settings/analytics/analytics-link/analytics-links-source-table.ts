@@ -17,6 +17,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { AnalyticsLinkDialogComponent } from './analytics-link.dialog.component';
+import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
 @Injectable()
 export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
@@ -29,6 +30,7 @@ export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
   constructor(
       public spinnerService: SpinnerService,
       private translateService: TranslateService,
+      private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
       private dialogService: DialogService,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService) {
@@ -57,7 +59,7 @@ export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
         const links = [];
         for (let index = 0; index < this.analyticsLinks.length; index++) {
           const _link = this.analyticsLinks[index];
-          _link.id = index;
+          _link.id = index.toString();
           links.push(_link);
         }
         observer.next({
@@ -106,6 +108,14 @@ export class AnalyticsLinksDataSource extends TableDataSource<AnalyticsLink> {
         name: 'analytics.link.description',
         headerClass: 'col-30p',
         class: 'col-30p',
+        sortable: false
+      },
+      {
+        id: 'role',
+        name: 'analytics.link.role',
+        formatter: (role) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sortable: false
       },
       {

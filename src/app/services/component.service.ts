@@ -18,7 +18,7 @@ export class ComponentService {
   private activeComponents?: Array<string>;
 
   constructor(
-      private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe(user => {
       if (user) {
         this.activeComponents = user.activeComponents;
@@ -177,13 +177,13 @@ export class ComponentService {
     });
   }
 
-  public getSacSettings(): Observable<AnalyticsSettings> {
+  public getSacSettings(contentFilter = false): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
       const analyticsSettings = {
         identifier: ComponentEnum.ANALYTICS
       } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.ANALYTICS).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentEnum.ANALYTICS, contentFilter).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;

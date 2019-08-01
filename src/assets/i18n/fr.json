@@ -843,7 +843,9 @@
     "role_super_admin": "Super Admin",
     "role_basic": "Basique",
     "role_demo": "Démo",
-    "role_invalid": "Role invalide",
+    "role_invalid": "Rôle invalide",
+    "role_mult_all": "Tous les rôles",
+    "role_mult_admin_demo": "Admin ou démo",
     "user_not_found": "Utilisateur inconnu",
     "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
@@ -904,6 +906,7 @@
     "changed_by_other_user": "L'utilisateur '{{userFullName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_error": "Une erreur est survenue pendant la mise à jour de l'utilisateur",
     "user_do_not_exist": "L'utilisateur n'existe plus",
+    "user_tag_id_already_used": "Un des badges est déjà assigné à un autre utilisateur",
     "title": "Utilisateur",
     "picture_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "create_success": "L'utilisateur {{userFullName}} a été créé avec succès",
@@ -1132,6 +1135,7 @@
     "link": {
       "name": "Nom",
       "description": "Description",
+      "role": "Rôles d'utilisateur",
       "url": "URL"
     }
   },

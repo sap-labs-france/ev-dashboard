@@ -591,16 +591,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       switch (error.status) {
         // Email already exists
         case 510:
-          // Show error
           this.messageService.showErrorMessage('authentication.email_already_exists');
+          break;
+        // User Tag ID is already used
+        case 540:
+          this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
         case 550:
-          // Show error
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
+        // No longer exists!
         default:
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
       }
     });
@@ -634,16 +636,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       switch (error.status) {
         // Email already exists
         case 510:
-          // Show error
           this.messageService.showErrorMessage('authentication.email_already_exists');
+          break;
+        // User Tag ID is already used
+        case 540:
+          this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
         case 550:
-          // Show error
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
+        // No longer exists!
         default:
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });

@@ -139,25 +139,9 @@ export class ChargingStationParametersComponent implements OnInit {
     this.latitude = this.formGroup.controls['latitude'];
     this.longitude = this.formGroup.controls['longitude'];
 
-    this.cannotChargeInParallel.updateValueAndValidity();
-    this.chargingStationURL.updateValueAndValidity();
-    this.numberOfConnectedPhase.updateValueAndValidity();
-    this.maximumPower.updateValueAndValidity();
-    this.powerLimitUnit.updateValueAndValidity();
-    this.latitude.updateValueAndValidity();
-    this.longitude.updateValueAndValidity();
-    this.siteArea.updateValueAndValidity();
-    this.siteAreaID.updateValueAndValidity();
+    this.formGroup.updateValueAndValidity();
 
-    this.cannotChargeInParallel.markAsTouched();
-    this.chargingStationURL.markAsTouched();
-    this.numberOfConnectedPhase.markAsTouched();
-    this.maximumPower.markAsTouched();
-    this.powerLimitUnit.markAsTouched();
-    this.longitude.markAsTouched();
-    this.latitude.markAsTouched();
-    this.siteArea.markAsTouched();
-    this.siteAreaID.markAsTouched();
+    this.formGroup.markAsTouched();
 
     // Deactivate for non admin users
     if (!this.isAdmin) {

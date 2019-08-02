@@ -16,7 +16,7 @@
     "build:dev": "ng build --configuration=development",
     "test": "npm run e2e",
     "lint": "ng lint",
-    "lint-fix": "ng lint --fix=true",
+    "lint:fix": "ng lint --fix=true",
     "e2e": "codeceptjs run --steps --reporter mochawesome",
     "clean-install-win": "rmdir node_modules /S /Q && del package-lock.json && npm cache clear --force && npm install",
     "clean-install-lin": "rm -rf ./node_modules && rm -f ./package-lock.json && npm cache clear --force && npm install",

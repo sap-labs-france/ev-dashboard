@@ -26,6 +26,8 @@ import { OcpiEndpointDetailDataSource } from './ocpi/endpoints/ocpi-details/ocpi
 import { EndpointsDataSource } from './ocpi/endpoints/settings-ocpi-source-table';
 import { SettingsOcpiEndpointsComponent } from './ocpi/endpoints/settings-ocpi.component';
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
+import { RegistrationTokensDataSourceTable } from './ocpp/registration-tokens/registration-tokens-data-source-table';
+import { SettingsOcppComponent } from './ocpp/settings-ocpp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
@@ -49,6 +51,7 @@ import { SettingsRoutes } from './settings.routing';
   declarations: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOcppComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -79,6 +82,7 @@ import { SettingsRoutes } from './settings.routing';
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOcppComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,

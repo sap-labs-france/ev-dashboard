@@ -18,7 +18,7 @@ import {
   LogResult,
   OcpiEndpointResult,
   Ordering,
-  Paging,
+  Paging, RegistrationToken,
   SettingResult,
   Site,
   SiteArea,
@@ -890,6 +890,35 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST Service
     return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getRegistrationTokens(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<RegistrationToken> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/RegistrationTokens`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createRegistrationToken(registrationToken: Partial<RegistrationToken> = {}): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenCreate`, registrationToken,
       {
         headers: this._buildHttpHeaders()
       })

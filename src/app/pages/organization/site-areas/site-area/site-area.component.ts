@@ -12,10 +12,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
+import { RegistrationTokensDataSourceTable } from '../../../settings/ocpp/registration-tokens/registration-tokens-data-source-table';
 
 @Component({
   selector: 'app-site-area-cmp',
-  templateUrl: 'site-area.component.html'
+  templateUrl: 'site-area.component.html',
+  providers: [RegistrationTokensDataSourceTable]
 })
 export class SiteAreaComponent implements OnInit {
   @Input() currentSiteAreaID: string;
@@ -46,6 +48,7 @@ export class SiteAreaComponent implements OnInit {
   public sites: any;
 
   constructor(
+    public registrationTokenDataSource: RegistrationTokensDataSourceTable,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -127,6 +130,7 @@ export class SiteAreaComponent implements OnInit {
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
+      this.registrationTokenDataSource.setSiteArea(this.currentSiteAreaID);
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];

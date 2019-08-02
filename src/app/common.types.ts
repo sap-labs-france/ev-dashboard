@@ -280,6 +280,13 @@ export interface Setting {
   content: any;
 }
 
+export interface RegistrationToken {
+  id: string;
+  createdOn: Date;
+  expirationDate: Date;
+  siteAreaID: string;
+}
+
 export interface SettingResult {
   count: number;
   result: Setting[];

@@ -601,9 +601,9 @@
     },
     "more_actions_items": {
       "reboot_item": "Reboot",
-      "soft_reset_item": "Soft reset",
+      "soft_reset_item": "Soft Reset",
       "clear_cache_item": "Clear cache",
-      "smart_charging_item": "Smart Charging",
+      "smart_charging_item": "Charge Limitation",
       "more_actions_item": "More"
     },
     "assign_sitearea_action": "Assign",

@@ -601,9 +601,9 @@
     },
     "more_actions_items": {
       "reboot_item": "Redémarrer",
-      "soft_reset_item": "Soft reset",
+      "soft_reset_item": "Réinitialiser (Soft)",
       "clear_cache_item": "Effacer le cache",
-      "smart_charging_item": "Smart Charging",
+      "smart_charging_item": "Limitation Charge",
       "more_actions_item": "Autres"
     },
     "assign_sitearea_action": "Assigner",

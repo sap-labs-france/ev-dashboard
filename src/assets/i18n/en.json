@@ -536,7 +536,7 @@
     "nb_connected_phase": "Number of Connected Phase",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
     "public_url": "Public URL",
-    "current_ip": "Current IP Address",
+    "current_ip": "Current IP Route (EVSE First)",
     "select_chargers": "Select Charging Station",
     "serial_number": "Serial Number",
     "last_reboot": "Last Reboot",

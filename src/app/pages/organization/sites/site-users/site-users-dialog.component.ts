@@ -1,26 +1,26 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { SiteUsersDataSource } from './site-users-data-source-table';
+import { SiteUsersTableDataSource } from './site-users-table-data-source';
 
 
 @Component({
-  selector: 'app-site-users-dialog-cmp',
-  templateUrl: 'site-users.dialog.component.html',
-  providers: [SiteUsersDataSource]
+  selector: 'app-site-users-dialog',
+  templateUrl: 'site-users-dialog.component.html',
+  providers: [SiteUsersTableDataSource]
 })
 
 export class SiteUsersDialogComponent {
   public dialogTitle: String;
 
   constructor(
-    public siteUsersDataSource: SiteUsersDataSource,
+    public siteUsersTableDataSource: SiteUsersTableDataSource,
     private dialogRef: MatDialogRef<SiteUsersDialogComponent>,
     private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
-      this.siteUsersDataSource.setSite(data);
+      this.siteUsersTableDataSource.setSite(data);
       this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {'siteName': data.name});
     } else {
       this.dialogTitle = this.translateService.instant('sites.users');

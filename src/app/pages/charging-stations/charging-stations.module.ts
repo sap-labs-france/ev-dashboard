@@ -26,7 +26,7 @@ import { ConnectorsDetailComponent } from './details-component/connectors-detail
 import { StartTransactionDialogComponent } from './details-component/start-transaction-dialog-component';
 import { ChargingStationsFaultyTableDataSource } from './faulty/charging-stations-faulty-table-data-source';
 import { ChargingStationsFaultyComponent } from './faulty/charging-stations-faulty.component';
-import { ChargingStationsListDataSource } from './list/charging-stations-list-data-source-table';
+import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
 import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
@@ -93,7 +93,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
   ],
   providers: [
     ChargingStationsFaultyTableDataSource,
-    ChargingStationsListDataSource,
+    ChargingStationsListTableDataSource,
     ConnectorsDetailTableDataSource
   ]
 })

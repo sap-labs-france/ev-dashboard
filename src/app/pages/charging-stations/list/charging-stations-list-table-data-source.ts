@@ -48,7 +48,7 @@ import { ChargingStationSettingsComponent } from '../settings/charging-station-s
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
 
 @Injectable()
-export class ChargingStationsListDataSource extends TableDataSource<Charger> {
+export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private rebootAction = new TableChargerRebootAction().getActionDef();

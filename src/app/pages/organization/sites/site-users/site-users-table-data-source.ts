@@ -14,10 +14,9 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SiteAdminCheckboxComponent } from './site-admin-checkbox.component';
 
 @Injectable()
-export class SiteUsersDataSource extends TableDataSource<UserSite> {
+export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   private _site: Site;
 
   constructor(

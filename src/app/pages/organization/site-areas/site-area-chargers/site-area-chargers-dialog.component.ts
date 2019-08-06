@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { SiteAreaChargersDataSource } from './site-area-chargers-data-source-table';
+import { SiteAreaChargersDataSource } from './site-area-chargers-table-data-source';
 
 
 @Component({
-  selector: 'app-site-area-chargers-dialog-cmp',
-  templateUrl: 'site-area-chargers.dialog.component.html',
+  selector: 'app-site-area-chargers-dialog',
+  templateUrl: 'site-area-chargers-dialog.component.html',
 })
 export class SiteAreaChargersDialogComponent {
   public dialogTitle: String;

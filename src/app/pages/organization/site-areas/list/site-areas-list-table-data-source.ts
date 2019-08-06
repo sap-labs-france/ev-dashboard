@@ -24,11 +24,11 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SiteAreaChargersDialogComponent } from './site-area/site-area-chargers/site-area-chargers.dialog.component';
-import { SiteAreaDialogComponent } from './site-area/site-area.dialog.component';
+import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
+import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 
 @Injectable()
-export class OrganizationSiteAreasDataSource extends TableDataSource<SiteArea> {
+export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private editAction = new TableEditAction().getActionDef();
   private editChargersAction = new TableEditChargersAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();

@@ -1,73 +1,78 @@
 import { Injectable } from '@angular/core';
-
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Site, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import { Observable } from 'rxjs';
+
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Company, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization-service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Utils } from 'app/utils/Utils';
 
 import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
-import { SiteUsersDialogComponent } from './site/site-users/site-users.dialog.component';
-import { SiteDialogComponent } from './site/site.dialog.component';
+import { CompanyLogoComponent } from '../../formatters/company-logo.component';
+import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
-export class OrganizationSitesDataSource extends TableDataSource<Site> {
+export class CompaniesListTableDataSource extends TableDataSource<Company> {
+  private isAdmin = false;
   private editAction = new TableEditAction().getActionDef();
-  private editUsersAction = new TableEditUsersAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
 
   constructor(
-    public spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService) {
     super(spinnerService);
-    this.setStaticFilters([{'WithCompany': true}]);
+    // Init
+    this.isAdmin = this.authorizationService.isAdmin();
+    this.setStaticFilters([{'WithLogo': true}]);
     this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectSite();
+    return this.centralServerNotificationService.getSubjectCompany();
   }
 
   public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
-      // Get Sites
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((sites) => {
-        // Ok
-        observer.next(sites);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
+      // get companies
+      this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
+          // lookup for logo otherwise assign default
+          for (let i = 0; i < companies.result.length; i++) {
+            if (!companies.result[i].logo) {
+              companies.result[i].logo = Constants.COMPANY_NO_LOGO;
+            }
+          }
+          // Ok
+          observer.next(companies);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
       });
-    });
-  }
+    }
 
   public buildTableDef(): TableDef {
     return {
@@ -81,19 +86,19 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
-        id: 'name',
-        name: 'sites.name',
-        headerClass: 'col-30p',
-        class: 'text-left col-30p',
-        sorted: true,
-        direction: 'asc',
-        sortable: true
+        id: 'logo',
+        name: 'companies.logo',
+        headerClass: 'text-center col-8p',
+        class: 'col-8p',
+        isAngularComponent: true,
+        angularComponent: CompanyLogoComponent
       },
       {
-        id: 'company.name',
-        name: 'companies.title',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        id: 'name',
+        name: 'companies.name',
+        class: 'text-left',
+        sorted: true,
+        direction: 'asc',
         sortable: true
       },
       {
@@ -111,8 +116,8 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
         sortable: true
       }
     ];
-    if (this.authorizationService.isAdmin()) {
-      tableColumnDef.unshift({
+    if (this.isAdmin) {
+      tableColumnDef.splice(1, 0, {
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
@@ -124,31 +129,32 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
+    if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef(),
         ...tableActionsDef
       ];
+    } else {
+      return tableActionsDef;
     }
-    return tableActionsDef;
   }
 
-  buildTableDynamicRowActions(site: Site) {
+  buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude) ? false : true;
-    if (this.authorizationService.isSiteAdmin(site.id)) {
+    openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
+    if (this.isAdmin) {
       return [
         this.editAction,
-        this.editUsersAction,
         openInMaps,
         this.deleteAction
       ];
+    } else {
+      return [
+        this.viewAction,
+        openInMaps
+      ];
     }
-    return [
-      this.viewAction,
-      openInMaps
-    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -156,7 +162,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showSiteDialog();
+        this._showCompanyDialog();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -167,13 +173,10 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case 'edit':
       case 'view':
-        this._showSiteDialog(rowItem);
-        break;
-      case 'edit_users':
-        this._showUsersDialog(rowItem);
+        this._showCompanyDialog(rowItem);
         break;
       case 'delete':
-        this._deleteSite(rowItem);
+        this._deleteCompany(rowItem);
         break;
       case 'open_in_maps':
         this._showPlace(rowItem);
@@ -191,9 +194,7 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
-      new CompaniesTableFilter().getFilterDef()
-    ];
+    return [];
   }
 
   private _showPlace(rowItem) {
@@ -202,56 +203,43 @@ export class OrganizationSitesDataSource extends TableDataSource<Site> {
     }
   }
 
-  private _showSiteDialog(site?: Site) {
+  private _showCompanyDialog(company?: any) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '70vw';
-    dialogConfig.minHeight = '70vh';
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (site) {
-      dialogConfig.data = site.id;
+    if (company) {
+      dialogConfig.data = company.id;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
+    const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(saved => {
       if (saved) {
         this.refreshData().subscribe();
       }
     });
   }
 
-  private _showUsersDialog(site?: Site) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (site) {
-      dialogConfig.data = site;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(SiteUsersDialogComponent, dialogConfig);
-  }
-
-  private _deleteSite(site) {
+  private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('sites.delete_title'),
-      this.translateService.instant('sites.delete_confirm', {'siteName': site.name})
+      this.translateService.instant('companies.delete_title'),
+      this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteSite(site.id).subscribe(response => {
+        this.centralServerService.deleteCompany(company.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('sites.delete_success', {'siteName': site.name});
+            this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'sites.delete_error');
+              this.messageService, 'companies.delete_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'sites.delete_error');
+            'companies.delete_error');
         });
       }
     });

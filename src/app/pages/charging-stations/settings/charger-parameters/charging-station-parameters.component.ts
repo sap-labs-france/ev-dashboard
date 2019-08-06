@@ -139,6 +139,10 @@ export class ChargingStationParametersComponent implements OnInit {
     this.latitude = this.formGroup.controls['latitude'];
     this.longitude = this.formGroup.controls['longitude'];
 
+    this.formGroup.updateValueAndValidity();
+
+    this.formGroup.markAsTouched();
+
     // Deactivate for non admin users
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();

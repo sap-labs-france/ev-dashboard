@@ -110,6 +110,8 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
       .subscribe(transaction => {
         this.consumptions = transaction.values;
         this.prepareOrUpdateGraph();
+      }, error => {
+        this.consumptions = [];
       });
   }
 

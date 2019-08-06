@@ -16,7 +16,7 @@ export class StatisticsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
-    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity']);
+    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'sessions']);
     this.isAdmin = this.authorizationService.isAdmin();
   }
 }

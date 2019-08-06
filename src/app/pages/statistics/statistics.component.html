@@ -28,5 +28,14 @@
         <app-statistics-inactivity></app-statistics-inactivity>
       </ng-template>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>restore</mat-icon><span>{{'general.menu.sessions' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-statistics-sessions></app-statistics-sessions>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

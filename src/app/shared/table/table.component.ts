@@ -24,6 +24,7 @@ import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
 
+
 @Component({
   selector: 'app-table',
   templateUrl: 'table.component.html'
@@ -125,7 +126,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
     // this.updateUrlWithFilters(filterDef);
+    if(filterDef.multiple) {
+      this.updateFilterLabel(filterDef);    
+    }
     this.refresh();
+  }
+
+  public updateFilterLabel(filter: TableFilterDef) {
+    if(Array.isArray(filter.currentValue)) {
+      if(filter.currentValue.length > 0) {
+        filter.label  = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})`:'');
+      } else {
+        filter.label = '';
+      }
+    }
   }
 
   public updateUrlWithFilters(filter: TableFilterDef) {
@@ -137,11 +151,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.windowService.deleteSearch(filterIdInCap);
       } else {
         switch (filter.type) {
-          case 'dialog-table': {
+          case Constants.FILTER_TYPE_DIALOG_TABLE: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
             break;
           }
-          case 'dropdown': {
+          case Constants.FILTER_TYPE_DROPDOWN: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue);
             break;
           }
@@ -181,7 +195,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if (filterDef.type === 'dropdown' && filterDef.multiple) {
+    if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
     } else {
       filterDef.currentValue = null;

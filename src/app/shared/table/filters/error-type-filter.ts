@@ -13,10 +13,11 @@ export class ErrorTypeTableFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'errors.title',
       class: 'col-sm-4 col-md-4 col-lg-3 col-xl-2 ',
-      currentValue: Constants.FILTER_ALL_KEY,
-      items: Object.assign([], types)
+      label: '',
+      currentValue: [],
+      items: Object.assign([], types),
+      multiple: true
     };
-    filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     // Set
     this.setFilterDef(filterDef);
   }

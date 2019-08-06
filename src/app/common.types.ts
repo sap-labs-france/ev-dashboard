@@ -19,6 +19,7 @@ export interface TableFilterDef {
   httpId: string;
   type: FilterType;
   name: string;
+  label?: string;
   currentValue?: any;
   defaultValue?: any;
   class?: string;

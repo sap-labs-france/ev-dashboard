@@ -11,8 +11,10 @@ export class CompaniesTableFilter extends TableFilter {
       id: 'companies',
       httpId: 'CompanyID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
-      defaultValue: 'general.all',
-      name: 'companies.title',
+      defaultValue: '',
+      label:'',
+      multiple: true,
+      name: 'companies.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: CompaniesFilterDialogComponent
     };

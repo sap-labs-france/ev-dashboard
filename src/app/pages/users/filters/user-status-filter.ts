@@ -13,11 +13,11 @@ export class UserStatusFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'users.status',
       class: 'col-md-6 col-lg-4 col-xl-2',
-      currentValue: Constants.FILTER_ALL_KEY,
-      items: Object.assign([], userStatuses)
+      label:'',
+      currentValue: [],
+      items: Object.assign([], userStatuses),
+      multiple: true
     };
-    // Add <All>
-    filterDef.items.unshift({key: Constants.FILTER_ALL_KEY, value: 'general.all'});
     this.setFilterDef(filterDef);
   }
 }

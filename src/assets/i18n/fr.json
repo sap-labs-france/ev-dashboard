@@ -124,6 +124,7 @@
       "consumption": "Consommation",
       "usage": "Utilisation",
       "inactivity": "Inactivité",
+      "sessions": "Sessions",
       "organisations": "Organisations",
       "companies": "Entreprises",
       "sites": "Sites",
@@ -292,6 +293,7 @@
     "name": "Nom",
     "company": "Entreprise",
     "title": "Entreprise",
+    "titles": "Entreprises",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -329,6 +331,7 @@
     "image": "Image",
     "name": "Nom",
     "title": "Site",
+    "titles": "Sites",
     "company_invalid": "Site invalide",
     "created_on": "Créé le",
     "created_by": "Créé par",
@@ -374,6 +377,7 @@
     "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
     "name": "Nom",
     "title": "Zone",
+    "titles": "Zones",
     "site_invalid": "Zone invalide",
     "site_area_do_not_exist": "Site Area n'existe plus",
     "created_on": "Créée le",
@@ -469,6 +473,7 @@
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
     "graphic_title_usage_y_axis": "Utilisation (heures)",
     "graphic_title_inactivity_y_axis": "Inactivité (heures)",
+    "graphic_title_sessions_y_axis": "Nombre de sessions",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
@@ -491,6 +496,12 @@
     "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
     "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
     "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
+    "sessions_per_cs_month_title": "Sessions des bornes par mois (au total : {{total}})",
+    "sessions_per_cs_year_title": "Sessions des bornes par an : {{total}}",
+    "sessions_per_cs_total_title": "Sessions totales des bornes : {{total}}",
+    "sessions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
+    "sessions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
+    "sessions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -512,6 +523,12 @@
         "export": {
           "title": "Exporter les données d'inactivité",
           "confirm": "Voulez-vous vraiment exporter les données d'inactivité correspondant aux filtres ?"
+        }
+      },
+      "sessions": {
+        "export": {
+          "title": "Exporter les données de sessions",
+          "confirm": "Voulez-vous vraiment exporter les données de sessions correspondant aux filtres ?"
         }
       }
     }
@@ -554,6 +571,7 @@
     "charger_param_key": "Clé",
     "charger_param_value": "Valeur",
     "title": "Borne",
+    "titles": "Bornes",
     "status_occupied": "Occupé",
     "status_available": "Disponible",
     "status_preparing": "En Préparation",
@@ -799,6 +817,7 @@
     "host": "Hôte",
     "process": "Processus",
     "user": "Utilisateur",
+    "users": "Utilisateurs",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
     "actions": "Actions",
@@ -840,6 +859,7 @@
     "edit_profile": "Editer Profil",
     "user_number": "Utilisateur(s)",
     "role": "Rôle",
+    "roles": "Rôles",
     "role_admin": "Admin",
     "role_super_admin": "Super Admin",
     "role_basic": "Basique",
@@ -1207,7 +1227,8 @@
     "total_consumption_kw": "Conso. Totale",
     "transaction_not_found": "Session inconnue",
     "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
-    "load_transactions_error": "Une erreur est survenue pendant le remboursement de la session",
+    "load_transactions_error": "Une erreur est survenue pendant le chargement des sessions",
+    "load_transaction_error": "Une erreur est survenue pendant le chargement de la session",
     "total_duration": "Durée Totale",
     "refund_transactions": "Remboursées",
     "pending_transactions": "En attente",

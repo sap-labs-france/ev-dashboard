@@ -1,12 +1,15 @@
 import { PercentPipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Image, Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
+import { MessageService } from '../../../services/message.service';
 import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
 
 @Component({
@@ -34,6 +37,8 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private router: Router,
     private percentPipe: PercentPipe,
     private centralServerService: CentralServerService,
     private configService: ConfigService,
@@ -138,6 +143,10 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
           this.loggedUserImage = userImage.image.toString();
         }
       });
+    }, (error) => {
+      this.spinnerService.hide();
+      this.dialogRef.close();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
     });
   }
 }

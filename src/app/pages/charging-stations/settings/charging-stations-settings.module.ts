@@ -8,7 +8,7 @@ import { MaterialModule } from 'app/app.module';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
 import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog.component';
-import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
+import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { ChargingStationParametersComponent } from './charger-parameters/charging-station-parameters.component';

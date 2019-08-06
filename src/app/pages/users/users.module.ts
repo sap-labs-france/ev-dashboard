@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { UserConnectionComponent } from './connections/user-connection.component';

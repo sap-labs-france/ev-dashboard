@@ -1675,36 +1675,6 @@ export class CentralServerService {
       );
   }
 
-  /**
-   * getIsAuthorized
-   */
-  public getIsAuthorized(action, arg1, arg2?) {
-    // Verify init
-    this._checkInit();
-    // Build parameters
-    const filters = [];
-    let queryString;
-    // Set Action
-    filters.push(`Action=${action}`);
-    // Set Args
-    if (arg1) {
-      filters.push(`Arg1=${arg1}`);
-    }
-    if (arg2) {
-      filters.push(`Arg2=${arg2}`);
-    }
-    // Build the query string
-    queryString = filters.join('&');
-    // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IsAuthorized?${queryString}`,
-      {
-        headers: this._buildHttpHeaders()
-      })
-      .pipe(
-        catchError(this._handleHttpError)
-      );
-  }
-
   public getIntegrationConnections(userId: string) {
     this._checkInit();
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnections?userId=${userId}`,

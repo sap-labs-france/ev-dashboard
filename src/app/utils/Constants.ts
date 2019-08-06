@@ -52,8 +52,8 @@ export class Constants {
   public static ACTION_LIST = 'List';
   public static ACTION_RESET = 'Reset';
   public static ACTION_CLEAR_CACHE = 'ClearCache';
-  public static ACTION_REMOTE_START_TRANSACTION = 'StartTransaction';
-  public static ACTION_REMOTE_STOP_TRANSACTION = 'StopTransaction';
+  public static ACTION_REMOTE_START_TRANSACTION = 'RemoteStartTransaction';
+  public static ACTION_REMOTE_STOP_TRANSACTION = 'RemoteStopTransaction';
   public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';

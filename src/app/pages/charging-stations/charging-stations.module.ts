@@ -21,7 +21,7 @@ import { AppFormatPowerConnectorPipe, InstantPowerConnectorProgressBarComponent 
 import { SessionDetailComponent } from './cell-components/session-detail.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
-import { ConnectorsDataSource } from './details-component/connectors-data-source-detail-table';
+import { ConnectorsDetailTableDataSource } from './details-component/connectors-detail-table-data-source';
 import { ConnectorsDetailComponent } from './details-component/connectors-detail-component.component';
 import { StartTransactionDialogComponent } from './details-component/start-transaction-dialog-component';
 import { ChargingStationsFaultyDataSource } from './faulty/charging-stations-faulty-data-source-table';
@@ -94,7 +94,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
   providers: [
     ChargingStationsFaultyDataSource,
     ChargingStationsListDataSource,
-    ConnectorsDataSource
+    ConnectorsDetailTableDataSource
   ]
 })
 export class ChargingStationsModule {

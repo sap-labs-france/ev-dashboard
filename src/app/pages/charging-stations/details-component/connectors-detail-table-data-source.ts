@@ -30,7 +30,7 @@ import { InstantPowerConnectorProgressBarComponent } from '../cell-components/in
 import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, StartTransactionDialogComponent } from './start-transaction-dialog-component';
 
 @Injectable()
-export class ConnectorsDataSource extends TableDataSource<Connector> {
+export class ConnectorsDetailTableDataSource extends TableDataSource<Connector> {
   public stopAction = new TableStopAction();
   public startAction = new TableStartAction();
   public openAction = new TableOpenAction();

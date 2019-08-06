@@ -15,7 +15,7 @@ export class UserRoleFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'users.roles',
       class: 'col-md-6 col-lg-4 col-xl-2',
-      label:'',
+      label: '',
       currentValue: [],
       items: UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role),
       multiple: true

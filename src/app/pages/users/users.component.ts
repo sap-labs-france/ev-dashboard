@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/AbstractTab.component';
 
 @Component({
   selector: 'app-users',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-details/error-code-details-dialog.component';
+import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-details/error-code-details-dialog.component';
 
 @Component({
   template: `

@@ -10,10 +10,10 @@ import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { ConsumptionChartComponent } from '../../component/transaction-chart/consumption-chart.component';
+import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
 
 @Component({
-  templateUrl: './session.dialog.component.html'
+  templateUrl: './session-dialog.component.html'
 })
 export class SessionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;

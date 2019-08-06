@@ -12,7 +12,7 @@ export class TransactionsTypeFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'transactions.filter.type.name',
       class: 'col-md-6 col-lg-4 col-xl-2',
-      label:'',
+      label: '',
       currentValue: [],
       items: Object.assign([], transactionTypes),
       multiple: true

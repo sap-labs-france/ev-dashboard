@@ -9,7 +9,7 @@ import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class CompaniesFilterDataSource extends DialogTableDataSource<Company> {
+export class CompaniesDialogTableDataSource extends DialogTableDataSource<Company> {
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,

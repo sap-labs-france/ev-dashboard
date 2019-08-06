@@ -237,7 +237,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (user) {
-      dialogConfig.data = user.id;
+      dialogConfig.data = user;
     }
     // disable outside click close
     dialogConfig.disableClose = true;

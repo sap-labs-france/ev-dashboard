@@ -2,27 +2,21 @@ import { Component, Inject, Self } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KeyValue, User } from '../../../common.types';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { UsersListTableDataSource } from './users-data-source-table';
+import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [UsersListTableDataSource]
+  templateUrl: '../dialog-table-data.component.html',
+  providers: [UsersDialogTableDataSource]
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
-    @Self() private usersListTableDataSource: UsersListTableDataSource,
+    @Self() private usersListTableDataSource: UsersDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
     super(data, dialogRef, usersListTableDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'users.select_users';
-    }
-    // Set static filter
-    if (data && data.excludeUsersOfSiteID) {
-      this.dialogDataSource.setStaticFilters([
-        { 'ExcludeSiteID': data.excludeUsersOfSiteID }
-      ]);
     }
   }
 

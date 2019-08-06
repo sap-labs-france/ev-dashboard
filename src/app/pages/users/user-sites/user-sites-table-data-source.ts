@@ -8,7 +8,7 @@ import { Site, TableActionDef, TableColumnDef, TableDef, User } from '../../../c
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog-component';
+import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog.component';
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -149,7 +149,9 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
-      userID: this.user.id
+      staticFilter: {
+        'ExcludeSitesOfUserID': this.user.id
+      }
     };
     // Show
     const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);

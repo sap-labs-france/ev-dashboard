@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization.service';
 import { ComponentEnum, ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/AbstractTab.component';
 import { Constants } from '../../utils/Constants';
 
 @Component({

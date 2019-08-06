@@ -2,15 +2,15 @@ import { Component, Inject, Self } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Charger, KeyValue } from '../../../common.types';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { ChargersDataSource } from './chargers-data-source-table';
+import { ChargersDialogTableDataSource } from './chargers-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [ChargersDataSource]
+  templateUrl: '../dialog-table-data.component.html',
+  providers: [ChargersDialogTableDataSource]
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   constructor(
-    @Self() private chargersDataSource: ChargersDataSource,
+    @Self() private chargersDataSource: ChargersDialogTableDataSource,
     dialogRef: MatDialogRef<ChargersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
@@ -18,12 +18,6 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
     // Default title
     if (this.title === '') {
       this.title = 'chargers.select_chargers';
-    }
-    // Set static filter
-    if (data && data.hasOwnProperty('withNoSiteArea')) {
-      this.dialogDataSource.setStaticFilters([
-        { 'WithNoSiteArea': data.withNoSiteArea }
-      ]);
     }
   }
 

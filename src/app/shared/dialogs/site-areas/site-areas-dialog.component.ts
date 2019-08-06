@@ -2,20 +2,19 @@ import { Component, Inject, Self } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KeyValue,  SiteArea } from '../../../common.types';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { SiteAreasFilterDataSourceTable } from './site-areas-filter-data-source-table';
+import { SiteAreasDialogTableDataSource } from './site-areas-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data-component.html',
-  providers: [SiteAreasFilterDataSourceTable]
+  templateUrl: '../dialog-table-data.component.html',
+  providers: [SiteAreasDialogTableDataSource]
 })
-export class SiteAreasFilterDialogComponent extends DialogTableDataComponent<SiteArea> {
-  private siteAdminOnly: any;
+export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea> {
   constructor(
-    @Self() public dialogDataSource: SiteAreasFilterDataSourceTable,
-    protected dialogRef: MatDialogRef<SiteAreasFilterDialogComponent>,
+    @Self() public dialogDataSource: SiteAreasDialogTableDataSource,
+    protected dialogRef: MatDialogRef<SiteAreasDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class
-    super(data, dialogRef);
+    super(data, dialogRef, dialogDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'site_areas.select_site_areas';

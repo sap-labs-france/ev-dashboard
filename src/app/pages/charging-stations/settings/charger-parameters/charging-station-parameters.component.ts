@@ -4,8 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
-import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-filter-dialog.component';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { Charger, SiteArea } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -16,6 +15,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -322,10 +322,11 @@ export class ChargingStationParametersComponent implements OnInit {
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
       validateButtonTitle: 'general.select',
-      sitesAdminOnly: true
+      sitesAdminOnly: true,
+      rowMultipleSelection: false
     };
     // Open
-    this.dialog.open(SiteAreasFilterDialogComponent, dialogConfig)
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
         this.charger.siteArea = <SiteArea>(result[0].objectRef);

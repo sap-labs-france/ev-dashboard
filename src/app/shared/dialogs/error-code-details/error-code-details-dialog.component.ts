@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  templateUrl: './error-code-details.dialog.component.html',
+  templateUrl: './error-code-details-dialog.component.html',
 })
 export class ErrorCodeDetailsDialogComponent implements OnInit {
   error: ErrorMessage;

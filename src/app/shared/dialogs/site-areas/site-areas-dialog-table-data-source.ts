@@ -10,7 +10,7 @@ import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteArea> {
+export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteArea> {
   private siteIDs: string;
   constructor(
       public spinnerService: SpinnerService,
@@ -59,7 +59,7 @@ export class SiteAreasFilterDataSourceTable extends DialogTableDataSource<SiteAr
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: false
+        multiple: true
       },
       search: {
         enabled: true

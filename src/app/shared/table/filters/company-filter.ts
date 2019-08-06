@@ -1,6 +1,6 @@
 import { TableFilterDef } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
-import { CompaniesFilterDialogComponent } from '../../dialogs/companies/companies-filter-dialog-component';
+import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
 import { TableFilter } from './table-filter';
 
 export class CompaniesTableFilter extends TableFilter {
@@ -12,11 +12,11 @@ export class CompaniesTableFilter extends TableFilter {
       httpId: 'CompanyID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
       defaultValue: '',
-      label:'',
+      label: '',
       multiple: true,
       name: 'companies.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: CompaniesFilterDialogComponent
+      dialogComponent: CompaniesDialogComponent
     };
     // Set
     this.setFilterDef(filterDef);

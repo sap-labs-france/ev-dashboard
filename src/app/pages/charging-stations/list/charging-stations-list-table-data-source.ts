@@ -18,7 +18,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';

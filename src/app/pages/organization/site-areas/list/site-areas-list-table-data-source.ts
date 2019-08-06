@@ -215,7 +215,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     dialogConfig.minHeight = '40vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (siteArea) {
-      dialogConfig.data = siteArea.id;
+      dialogConfig.data = siteArea;
     }
     // disable outside click close
     dialogConfig.disableClose = true;

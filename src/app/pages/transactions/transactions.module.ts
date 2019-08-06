@@ -6,8 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-details/error-code-details.component';
-import { ConsumptionChartComponent } from '../../shared/component/transaction-chart/consumption-chart.component';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
+import { ConsumptionChartComponent } from '../../shared/component/consumption-chart/consumption-chart.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';

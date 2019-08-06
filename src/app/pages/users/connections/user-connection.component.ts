@@ -5,7 +5,7 @@ import { ActionResponse } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import { AbstractTabComponent } from '../../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../../shared/component/abstract-tab/AbstractTab.component';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 

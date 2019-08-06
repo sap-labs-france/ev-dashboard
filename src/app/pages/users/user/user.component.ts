@@ -16,7 +16,7 @@ import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
-import { AbstractTabComponent } from '../../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../../shared/component/abstract-tab/AbstractTab.component';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';

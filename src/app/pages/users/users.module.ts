@@ -18,7 +18,6 @@ import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UserRoutes } from './users.routing';
 import { UsersListComponent } from './list/users-list.component';
-import { UsersListTableDataSource } from 'app/shared/dialogs/users/users-data-source-table';
 import { UsersComponent } from './users.component';
 import { UsersInErrorComponent } from './in-error/users-in-error.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
@@ -64,7 +63,6 @@ import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-sou
     UserRolePipe,
     UserStatusPipe,
     UserSitesTableDataSource,
-    UsersListTableDataSource,
     UsersInErrorTableDataSource
   ]
 })

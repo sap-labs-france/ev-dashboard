@@ -8,7 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog-component';
+import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog.component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -161,16 +161,8 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
-      withNoSiteArea: true,
-      tableDef: {
-        class: 'table-dialog-list',
-        rowSelection: {
-          enabled: true,
-          multiple: true
-        },
-        search: {
-          enabled: true
-        }
+      staticFilter: {
+        WithNoSiteArea: true
       }
     };
     // Show

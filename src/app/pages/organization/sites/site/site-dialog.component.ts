@@ -14,7 +14,7 @@ export class SiteDialogComponent {
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
-      this.siteID = data;
+      this.siteID = data.id;
     }
   }
 }

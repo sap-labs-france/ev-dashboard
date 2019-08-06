@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { Site, TableColumnDef, TableDef } from '../../../common.types';
+import { User, TableColumnDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class SitesFilterDataSource extends DialogTableDataSource<Site> {
+export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
   constructor(
-      private messageService: MessageService,
       public spinnerService: SpinnerService,
+      private messageService: MessageService,
       private router: Router,
       private centralServerService: CentralServerService) {
     super(spinnerService);
@@ -23,10 +23,10 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
  public loadDataImpl(): Observable<any> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getSites(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((sites) => {
+      this.centralServerService.getUsers(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((users) => {
           // Ok
-          observer.next(sites);
+          observer.next(users);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -37,38 +37,25 @@ export class SitesFilterDataSource extends DialogTableDataSource<Site> {
     });
   }
 
-  buildTableDef(): TableDef {
-    return {
-      class: 'table-dialog-list',
-      rowSelection: {
-        enabled: true,
-        multiple: false
-      },
-      search: {
-        enabled: true
-      }
-    };
-  }
-
   buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',
-        name: 'sites.name',
-        class: 'text-left col-600px',
+        name: 'users.name',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true
       },
       {
-        id: 'address.city',
-        name: 'general.city',
-        class: 'text-left col-350px'
+        id: 'firstName',
+        name: 'users.first_name',
+        class: 'text-left col-25p'
       },
       {
-        id: 'address.country',
-        name: 'general.country',
-        class: 'text-left col-300px'
+        id: 'email',
+        name: 'users.email',
+        class: 'text-left col-40p'
       }
     ];
   }

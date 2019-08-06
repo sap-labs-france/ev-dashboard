@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ConsumptionChartComponent } from 'app/shared/component/transaction-chart/consumption-chart.component';
+import { ConsumptionChartComponent } from 'app/shared/component/consumption-chart/consumption-chart.component';
 import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
 
 @Component({

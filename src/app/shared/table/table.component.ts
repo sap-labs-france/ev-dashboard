@@ -1,14 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
@@ -127,7 +117,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filterChanged(filterDef);
     // this.updateUrlWithFilters(filterDef);
     if(filterDef.multiple) {
-      this.updateFilterLabel(filterDef);    
+      this.updateFilterLabel(filterDef);
     }
     this.refresh();
   }

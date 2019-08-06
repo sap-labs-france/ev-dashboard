@@ -209,7 +209,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     dialogConfig.minHeight = '70vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (site) {
-      dialogConfig.data = site.id;
+      dialogConfig.data = site;
     }
     // disable outside click close
     dialogConfig.disableClose = true;

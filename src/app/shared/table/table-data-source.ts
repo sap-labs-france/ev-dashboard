@@ -42,6 +42,7 @@ export abstract class TableDataSource<T> {
   public lastSelectedRow;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
+  public multipleRowSelection;
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -65,6 +66,10 @@ export abstract class TableDataSource<T> {
 
   public isMultiSelectionEnabled(): boolean {
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
+  }
+
+  public setMutlipleRowSelection(multipleRowSelection: boolean) {
+    this.multipleRowSelection = multipleRowSelection;
   }
 
   public getSelectedRows(): T[] {
@@ -528,6 +533,10 @@ export abstract class TableDataSource<T> {
   private initTableDef(force: boolean): TableDef {
     if (!this.tableDef || force) {
       this.tableDef = this.buildTableDef();
+    }
+    // Override multi-selection (let the undef check for boolean not yet assigned!)
+    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+      this.tableDef.rowSelection.multiple = this.multipleRowSelection;
     }
     return this.tableDef;
   }

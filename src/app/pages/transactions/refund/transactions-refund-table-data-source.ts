@@ -30,10 +30,10 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { TransactionsTypeFilter } from './transactions-type-filter';
+import { TransactionsTypeFilter } from '../filters/transactions-type-filter';
 
 @Injectable()
-export class TransactionsRefundDataSource extends TableDataSource<Transaction> {
+export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
 
   private isAdmin = false;
   private refundSetting = undefined;

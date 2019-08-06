@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
-import { transactionTypes } from './transactions-types.model';
+import { transactionTypes } from '../model/transactions-types.model';
 
 export class TransactionsTypeFilter extends TableFilter {
   constructor() {

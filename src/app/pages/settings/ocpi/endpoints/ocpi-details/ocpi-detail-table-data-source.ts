@@ -22,7 +22,7 @@ import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail
 import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-total-evses-status.component';
 
 @Injectable()
-export class OcpiEndpointDetailDataSource extends TableDataSource<OcpiEndpointDetail> {
+export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetail> {
   private ocpiEndpoint: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();

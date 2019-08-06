@@ -11,7 +11,7 @@ import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
 @Component({
-  templateUrl: './endpoint.dialog.component.html'
+  templateUrl: './endpoint-dialog.component.html'
 })
 export class EndpointDialogComponent implements OnInit {
   public formGroup: FormGroup;

@@ -9,9 +9,9 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
 import { TableModule } from '../../shared/table/table.module';
 import { TenantComponent } from './tenant/tenant.component';
-import { TenantsDataSource } from './tenants-data-source-table';
-import { TenantsComponent } from './tenants.component';
 import { TenantsRoutes } from './tenants.routing';
+import { TenantsComponent } from './list/tenants-list.component';
+import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 
 @NgModule({
   imports: [
@@ -38,7 +38,7 @@ import { TenantsRoutes } from './tenants.routing';
     TenantComponent
   ],
   providers: [
-    TenantsDataSource
+    TenantsListTableDataSource
   ]
 })
 

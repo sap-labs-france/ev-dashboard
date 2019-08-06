@@ -20,15 +20,15 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
-import { EndpointDialogComponent } from './dialog/endpoint.dialog.component';
+import { EndpointDialogComponent } from './dialog/endpoint-dialog.component';
 import { OcpiPatchJobResultComponent } from './formatters/ocpi-patch-job-result.component';
 import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.component';
 import { OcpiEndpointStatusComponent } from './formatters/ocpi-status.component';
-import { OcpiEndpointDetailComponent } from './ocpi-details/ocpi-detail-component.component';
+import { OcpiDetailComponent } from './ocpi-details/ocpi-detail.component';
 
 
 @Injectable()
-export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
+export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -78,7 +78,7 @@ export class EndpointsDataSource extends TableDataSource<OcpiEndpoint> {
       },
       rowDetails: {
         enabled: true,
-        angularComponent: OcpiEndpointDetailComponent
+        angularComponent: OcpiDetailComponent
       }
     };
   }

@@ -33,7 +33,7 @@ import { Utils } from '../../../utils/Utils';
 import { ConnectorCellComponent } from '../components/connector-cell.component';
 
 @Injectable()
-export class TransactionsInProgressDataSource extends TableDataSource<Transaction> {
+export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
   private openAction = new TableOpenAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
   private isAdmin = false;

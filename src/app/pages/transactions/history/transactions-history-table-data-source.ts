@@ -38,7 +38,7 @@ import { TransactionsDateFromFilter } from '../filters/transactions-date-from-fi
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 
 @Injectable()
-export class TransactionsHistoryDataSource extends TableDataSource<Transaction> {
+export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();

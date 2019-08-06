@@ -35,7 +35,7 @@ import { TransactionsDateFromFilter } from '../filters/transactions-date-from-fi
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 
 @Injectable()
-export class TransactionsInErrorDataSource extends TableDataSource<Transaction> {
+export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private dialogRefSession;
   private openAction = new TableOpenAction().getActionDef();

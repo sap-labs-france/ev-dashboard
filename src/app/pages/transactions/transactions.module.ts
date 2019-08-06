@@ -13,13 +13,13 @@ import { CommonDirectivesModule } from '../../shared/directives/common-directive
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AppFormatConnector, ConnectorCellComponent } from './components/connector-cell.component';
-import { TransactionsHistoryDataSource } from './history/transactions-history-data-source-table';
+import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
-import { TransactionsInErrorDataSource } from './in-error/transactions-in-error-data-source-table';
+import { TransactionsInErrorTableDataSource } from './in-error/transactions-in-error-table-data-source';
 import { TransactionsInErrorComponent } from './in-error/transactions-in-error.component';
-import { TransactionsInProgressDataSource } from './in-progress/transactions-in-progress-data-source-table';
+import { TransactionsInProgressTableDataSource } from './in-progress/transactions-in-progress-table-data-source';
 import { TransactionsInProgressComponent } from './in-progress/transactions-in-progress.component';
-import { TransactionsRefundDataSource } from './refund/transactions-refund-data-source-table';
+import { TransactionsRefundTableDataSource } from './refund/transactions-refund-table-data-source';
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
@@ -64,10 +64,10 @@ import { TransactionsRoutes } from './transactions.routing';
     CurrencyPipe,
     PercentPipe,
     DecimalPipe,
-    TransactionsHistoryDataSource,
-    TransactionsInErrorDataSource,
-    TransactionsInProgressDataSource,
-    TransactionsRefundDataSource
+    TransactionsHistoryTableDataSource,
+    TransactionsInErrorTableDataSource,
+    TransactionsInProgressTableDataSource,
+    TransactionsRefundTableDataSource
   ]
 })
 

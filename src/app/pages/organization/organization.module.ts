@@ -27,7 +27,7 @@ import { OrganizationRoutes } from './organization.routing';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
 import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
-import { SiteAdminCheckboxComponent } from './sites/site-users/site-admin-checkbox.component';
+import { SiteAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
 
 @NgModule({

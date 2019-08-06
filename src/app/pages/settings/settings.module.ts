@@ -8,11 +8,11 @@ import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link.dialog.component';
-import { AnalyticsLinksDataSource } from './analytics/analytics-link/analytics-links-source-table';
+import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
+import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
-import { EndpointDialogComponent } from './ocpi/endpoints/dialog/endpoint.dialog.component';
+import { EndpointDialogComponent } from './ocpi/endpoints/dialog/endpoint-dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status.component';
 import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status.component';
 import { OcpiDetailSuccessEvsesStatusComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-evses-status.component';
@@ -21,9 +21,9 @@ import { AppFormatOcpiJobResultPipe, OcpiJobResultComponent } from './ocpi/endpo
 import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusComponent } from './ocpi/endpoints/formatters/ocpi-status.component';
-import { OcpiEndpointDetailComponent } from './ocpi/endpoints/ocpi-details/ocpi-detail-component.component';
-import { OcpiEndpointDetailDataSource } from './ocpi/endpoints/ocpi-details/ocpi-detail-data-source-table';
-import { EndpointsDataSource } from './ocpi/endpoints/settings-ocpi-source-table';
+import { OcpiDetailComponent } from './ocpi/endpoints/ocpi-details/ocpi-detail.component';
+import { OcpiDetailTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-detail-table-data-source';
+import { SettingsOcpiTableDataSource } from './ocpi/endpoints/settings-ocpi-table-data-source';
 import { SettingsOcpiEndpointsComponent } from './ocpi/endpoints/settings-ocpi.component';
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
@@ -74,7 +74,7 @@ import { SettingsRoutes } from './settings.routing';
     AppFormatOcpiEvsesFailurePipe,
     OcpiPatchJobStatusComponent,
     AppFormatOcpiPatchJobStatusPipe,
-    OcpiEndpointDetailComponent
+    OcpiDetailComponent
   ],
   entryComponents: [
     SettingsComponent,
@@ -95,12 +95,12 @@ import { SettingsRoutes } from './settings.routing';
     OcpiDetailSuccessEvsesStatusComponent,
     OcpiDetailFailureEvsesStatusComponent,
     OcpiPatchJobStatusComponent,
-    OcpiEndpointDetailComponent
+    OcpiDetailComponent
   ],
   providers: [
-    OcpiEndpointDetailDataSource,
-    EndpointsDataSource,
-    AnalyticsLinksDataSource
+    OcpiDetailTableDataSource,
+    SettingsOcpiTableDataSource,
+    AnalyticsLinksTableDataSource
   ]
 })
 

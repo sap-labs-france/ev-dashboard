@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { TransactionsInErrorDataSource } from './transactions-in-error-data-source-table';
+import { TransactionsInErrorTableDataSource } from './transactions-in-error-table-data-source';
 
 @Component({
   selector: 'app-transactions-in-error',
   templateUrl: 'transactions-in-error.component.html',
-  providers: [TransactionsInErrorDataSource]
+  providers: [TransactionsInErrorTableDataSource]
 })
 export class TransactionsInErrorComponent {
   constructor(
-    public transactionsInErrorDataSource: TransactionsInErrorDataSource) {
+    public transactionsInErrorDataSource: TransactionsInErrorTableDataSource) {
   }
 }

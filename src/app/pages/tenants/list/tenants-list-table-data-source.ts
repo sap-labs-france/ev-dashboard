@@ -5,24 +5,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant } from '../../common.types';
-import { CentralServerNotificationService } from '../../services/central-server-notification.service';
-import { CentralServerService } from '../../services/central-server.service';
-import { DialogService } from '../../services/dialog.service';
-import { MessageService } from '../../services/message.service';
-import { WindowService } from '../../services/window.service';
-import { TableAutoRefreshAction } from '../../shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAction } from '../../shared/table/actions/table-delete-action';
-import { TableEditAction } from '../../shared/table/actions/table-edit-action';
-import { TableOpenAction } from '../../shared/table/actions/table-open-action';
-import { TableRefreshAction } from '../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../shared/table/table-data-source';
-import { Constants } from '../../utils/Constants';
-import { Utils } from '../../utils/Utils';
-import { TenantComponent } from './tenant/tenant.component';
+import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant } from '../../../common.types';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { WindowService } from '../../../services/window.service';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
+import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
+import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
+import { TenantComponent } from '../tenant/tenant.component';
 
 @Injectable()
-export class TenantsDataSource extends TableDataSource<Tenant> {
+export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private editAction = new TableEditAction().getActionDef();
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();

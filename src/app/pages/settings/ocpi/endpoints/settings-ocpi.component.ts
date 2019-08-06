@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { EndpointsDataSource } from './settings-ocpi-source-table';
+import { SettingsOcpiTableDataSource } from './settings-ocpi-table-data-source';
 
 @Component({
   selector: 'app-settings-ocpi-endpoints',
@@ -14,6 +14,6 @@ export class SettingsOcpiEndpointsComponent {
   public partyID: AbstractControl;
 
   constructor(
-    public endpointsDataSource: EndpointsDataSource) {
+    public settingsOcpiTableDataSource: SettingsOcpiTableDataSource) {
   }
 }

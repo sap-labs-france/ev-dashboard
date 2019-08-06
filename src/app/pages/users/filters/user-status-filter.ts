@@ -13,6 +13,7 @@ export class UserStatusFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'users.status',
       class: 'col-md-6 col-lg-4 col-xl-2',
+      label:'',
       currentValue: [],
       items: Object.assign([], userStatuses),
       multiple: true

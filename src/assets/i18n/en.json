@@ -124,7 +124,6 @@
       "consumption": "Consumption",
       "usage": "Usage",
       "inactivity": "Inactivity",
-      "sessions": "Sessions",
       "organisations": "Organisations",
       "companies": "Companies",
       "sites": "Sites",
@@ -473,7 +472,7 @@
     "graphic_title_consumption_y_axis": "Consumption (kW.h)",
     "graphic_title_usage_y_axis": "Usage (hours)",
     "graphic_title_inactivity_y_axis": "Inactivity (hours)",
-    "graphic_title_sessions_y_axis": "Number of Sessions",
+    "graphic_title_transactions_y_axis": "Number of Sessions",
     "graphic_title_month_x_axis": "Months",
     "transactions_years": "Year",
     "total_consumption_year": "Total Consumption {{year}}",
@@ -496,12 +495,12 @@
     "inactivity_per_user_month_title": "Users' Inactivity per Month (Overall: {{total}} hours)",
     "inactivity_per_user_year_title": "Users' Inactivity per Year: {{total}} hours",
     "inactivity_per_user_total_title": "Users' Total Inactivity: {{total}} hours",
-    "sessions_per_cs_month_title": "Charging Stations' Sessions per Month (Overall: {{total}})",
-    "sessions_per_cs_year_title": "Charging Stations' Sessions per Year: {{total}}",
-    "sessions_per_cs_total_title": "Charging Stations' Total Sessions: {{total}}",
-    "sessions_per_user_month_title": "Users' Sessions per Month (Overall: {{total}})",
-    "sessions_per_user_year_title": "Users' Sessions per Year: {{total}}",
-    "sessions_per_user_total_title": "Users' Total Sessions: {{total}}",
+    "transactions_per_cs_month_title": "Charging Stations' Sessions per Month (Overall: {{total}})",
+    "transactions_per_cs_year_title": "Charging Stations' Sessions per Year: {{total}}",
+    "transactions_per_cs_total_title": "Charging Stations' Total Sessions: {{total}}",
+    "transactions_per_user_month_title": "Users' Sessions per Month (Overall: {{total}})",
+    "transactions_per_user_year_title": "Users' Sessions per Year: {{total}}",
+    "transactions_per_user_total_title": "Users' Total Sessions: {{total}}",
     "hours": "hours",
     "total": "Total",
     "others": "Others",
@@ -525,7 +524,7 @@
           "confirm": "Do you really want to export all the inactivity data matching the filters?"
         }
       },
-      "sessions": {
+      "transactions": {
         "export": {
           "title": "Export Sessions Data",
           "confirm": "Do you really want to export all the sessions data matching the filters?"

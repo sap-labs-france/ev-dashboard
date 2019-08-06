@@ -9,11 +9,11 @@
   <h3>
     <div class="chart">
       <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
-        <canvas #sessionsPieChart></canvas>
+        <canvas #transactionsPieChart></canvas>
       </div>
 
       <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
-        <canvas #sessionsBarChart></canvas>
+        <canvas #transactionsBarChart></canvas>
       </div>
     </div>
   </h3>

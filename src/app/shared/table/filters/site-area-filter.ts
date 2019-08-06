@@ -11,8 +11,10 @@ export class SiteAreasTableFilter extends TableFilter {
       id: 'siteAreas',
       httpId: 'SiteAreaID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
-      defaultValue: 'general.all',
-      name: 'site_areas.title',
+      defaultValue: '',
+      label:'',
+      multiple: true,
+      name: 'site_areas.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: SiteAreasFilterDialogComponent
     };

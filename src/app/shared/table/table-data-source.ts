@@ -251,11 +251,21 @@ export abstract class TableDataSource<T> {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
-          case 'dropdown':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DROPDOWN:
+            if(filterDef.multiple){
+              filterDef.currentValue =[];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
-          case 'dialog-table':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
+            if(filterDef.multiple){
+              filterDef.currentValue =[];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
           case 'date':
             filterDef.reset();
@@ -288,7 +298,7 @@ export abstract class TableDataSource<T> {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           // Dialog
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
@@ -303,8 +313,13 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
+          // Dialog with multiple selections
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+            }
           // Dropdown with multiple selections
-          } else if(filterDef.type === 'dropdown' && filterDef.multiple){
+          } else if(filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple){
             if(filterDef.currentValue.length > 0 ) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
             }

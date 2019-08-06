@@ -165,7 +165,7 @@ export class StatisticsSessionsComponent implements OnInit {
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {
-      this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService.getChargingStationSessionsStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
@@ -181,7 +181,7 @@ export class StatisticsSessionsComponent implements OnInit {
           this.spinnerService.hide();
         });
     } else {
-      this.centralServerService.getUserConsumptionStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService.getUserSessionsStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);

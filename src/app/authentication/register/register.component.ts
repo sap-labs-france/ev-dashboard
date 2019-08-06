@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -11,7 +12,6 @@ import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
-import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-register-cmp',
@@ -102,7 +102,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
     setTimeout(function () {
-      // after 1000 ms we add the class animated to the login/register card
+      // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
   }
@@ -119,7 +119,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   register(user) {
     this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
-      user['captcha'] = token;
+      if (token) {
+        user['captcha'] = token;
+      } else {
+        this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
+        return;
+      }
       if (this.formGroup.valid) {
         // Show
         this.spinnerService.show();
@@ -137,7 +142,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
               // User in Tenant
               this.messageService.showSuccessMessage(this.messages['register_user_success']);
             }
-            // login successful so redirect to return url
+            // Login successful so redirect to return url
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
           } else {
             // Unexpected Error

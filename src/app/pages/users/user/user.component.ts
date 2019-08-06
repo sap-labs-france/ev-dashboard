@@ -21,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../users.model';
+import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({

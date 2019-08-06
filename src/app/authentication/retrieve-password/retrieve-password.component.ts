@@ -82,7 +82,12 @@ export class RetrievePasswordComponent implements OnInit, OnDestroy {
 
   resetPassword(data) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
-      data['captcha'] = token;
+      if (token) {
+        data['captcha'] = token;
+      } else {
+        this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
+        return;
+      }
       // Show
       this.spinnerService.show();
       // Yes: Update

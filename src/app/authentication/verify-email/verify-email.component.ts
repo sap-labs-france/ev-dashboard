@@ -141,7 +141,12 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
 
   resendVerificationEmail(data) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ActivateAccount', (token) => {
-      data['captcha'] = token;
+      if (token) {
+        data['captcha'] = token;
+      } else {
+        this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
+        return;
+      }
       // Show
       this.spinnerService.show();
       // Resend

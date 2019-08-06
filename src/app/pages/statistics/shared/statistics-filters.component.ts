@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AnalyticsLink } from 'app/common.types';
 import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization-service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
 import { Constants } from '../../../utils/Constants';
-import { AnalyticsLink } from 'app/common.types';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -33,7 +33,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears?= false;
+  @Input() allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },

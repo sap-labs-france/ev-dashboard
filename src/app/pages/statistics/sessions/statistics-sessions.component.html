@@ -1,0 +1,20 @@
+<div class="h-100 d-flex flex-column">
+  <app-statistics-filters [tableFiltersDef]="allFiltersDef"
+                          (buttonOfScopeGroup)="scopeChanged($event)"
+                          (category)="categoryChanged($event)"
+                          (year)="yearChanged($event)" [allYears]="allYears"
+                          (filters)="filtersChanged($event)"
+                          (update)="updateCharts($event)"
+                          (export)="exportData()"></app-statistics-filters>
+  <h3>
+    <div class="chart">
+      <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
+        <canvas #sessionsPieChart></canvas>
+      </div>
+
+      <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
+        <canvas #sessionsBarChart></canvas>
+      </div>
+    </div>
+  </h3>
+</div>

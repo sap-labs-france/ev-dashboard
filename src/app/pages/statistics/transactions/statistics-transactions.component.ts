@@ -13,12 +13,12 @@ import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
-  selector: 'app-statistics-sessions',
-  templateUrl: './statistics-sessions.component.html'
+  selector: 'app-statistics-transactions',
+  templateUrl: './statistics-transactions.component.html'
 })
 
-export class StatisticsSessionsComponent implements OnInit {
-  public totalSessions = 0;
+export class StatisticsTransactionsComponent implements OnInit {
+  public totalTransactions = 0;
   public selectedChart: string;
   public selectedCategory: string;
   public selectedYear: number;
@@ -26,8 +26,8 @@ export class StatisticsSessionsComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('sessionsBarChart', { static: true }) ctxBarChart: ElementRef;
-  @ViewChild('sessionsPieChart', { static: true }) ctxPieChart: ElementRef;
+  @ViewChild('transactionsBarChart', { static: true }) ctxBarChart: ElementRef;
+  @ViewChild('transactionsPieChart', { static: true }) ctxPieChart: ElementRef;
 
   private filterParams: Object;
   private barChart: SimpleChart;
@@ -77,11 +77,11 @@ export class StatisticsSessionsComponent implements OnInit {
   }
 
   exportData(): void {
-    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Sessions',
+    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Transactions',
       this.selectedCategory, this.selectedYear, this.selectedChart);
     this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
-      this.translateService.instant('statistics.dialog.sessions.export.title'),
-      this.translateService.instant('statistics.dialog.sessions.export.confirm'));
+      this.translateService.instant('statistics.dialog.transactions.export.title'),
+      this.translateService.instant('statistics.dialog.transactions.export.confirm'));
   }
 
   getChartLabel(): string {
@@ -94,28 +94,28 @@ export class StatisticsSessionsComponent implements OnInit {
 
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.sessions_per_cs_month_title',
-          { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+        mainLabel = this.translateService.instant('statistics.transactions_per_cs_month_title',
+          { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
       } else {
-        mainLabel = this.translateService.instant('statistics.sessions_per_user_month_title',
-          { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+        mainLabel = this.translateService.instant('statistics.transactions_per_user_month_title',
+          { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.sessions_per_cs_year_title',
-            { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_cs_year_title',
+            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         } else {
-          mainLabel = this.translateService.instant('statistics.sessions_per_cs_total_title',
-            { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_cs_total_title',
+            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         }
       } else {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.sessions_per_user_year_title',
-            { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_user_year_title',
+            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         } else {
-          mainLabel = this.translateService.instant('statistics.sessions_per_user_total_title',
-            { 'total': Math.round(this.totalSessions).toLocaleString(this.localeService.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_user_total_title',
+            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         }
       }
     }
@@ -125,7 +125,7 @@ export class StatisticsSessionsComponent implements OnInit {
 
   initCharts(): void {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
-    const labelYAxis: string = this.translateService.instant('statistics.graphic_title_sessions_y_axis');
+    const labelYAxis: string = this.translateService.instant('statistics.graphic_title_transactions_y_axis');
     const toolTipUnit = '';
 
     this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
@@ -165,12 +165,12 @@ export class StatisticsSessionsComponent implements OnInit {
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {
-      this.centralServerService.getChargingStationSessionsStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService.getChargingStationTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalSessions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
@@ -181,12 +181,12 @@ export class StatisticsSessionsComponent implements OnInit {
           this.spinnerService.hide();
         });
     } else {
-      this.centralServerService.getUserSessionsStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService.getUserTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe(statisticsData => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalSessions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());

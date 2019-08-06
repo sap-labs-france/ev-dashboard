@@ -124,7 +124,6 @@
       "consumption": "Consommation",
       "usage": "Utilisation",
       "inactivity": "Inactivité",
-      "sessions": "Sessions",
       "organisations": "Organisations",
       "companies": "Entreprises",
       "sites": "Sites",
@@ -470,7 +469,7 @@
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
     "graphic_title_usage_y_axis": "Utilisation (heures)",
     "graphic_title_inactivity_y_axis": "Inactivité (heures)",
-    "graphic_title_sessions_y_axis": "Nombre de sessions",
+    "graphic_title_transactions_y_axis": "Nombre de sessions",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
@@ -493,12 +492,12 @@
     "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
     "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
     "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
-    "sessions_per_cs_month_title": "Sessions des bornes par mois (au total : {{total}})",
-    "sessions_per_cs_year_title": "Sessions des bornes par an : {{total}}",
-    "sessions_per_cs_total_title": "Sessions totales des bornes : {{total}}",
-    "sessions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
-    "sessions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
-    "sessions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
+    "transactions_per_cs_month_title": "Sessions des bornes par mois (au total : {{total}})",
+    "transactions_per_cs_year_title": "Sessions des bornes par an : {{total}}",
+    "transactions_per_cs_total_title": "Sessions totales des bornes : {{total}}",
+    "transactions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
+    "transactions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
+    "transactions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -522,7 +521,7 @@
           "confirm": "Voulez-vous vraiment exporter les données d'inactivité correspondant aux filtres ?"
         }
       },
-      "sessions": {
+      "transactions": {
         "export": {
           "title": "Exporter les données de sessions",
           "confirm": "Voulez-vous vraiment exporter les données de sessions correspondant aux filtres ?"

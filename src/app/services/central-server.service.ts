@@ -437,12 +437,12 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationSessionsStatistics(year, params?: any): Observable<any> {
+  public getChargingStationTransactionsStatistics(year, params?: any): Observable<any> {
     params['Year'] = year;
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSessionsStatistics`,
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactionsStatistics`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -452,12 +452,12 @@ export class CentralServerService {
       );
   }
 
-  public getUserSessionsStatistics(year, params?: any): Observable<any> {
+  public getUserTransactionsStatistics(year, params?: any): Observable<any> {
     params['Year'] = year;
     // Verify init
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserSessionsStatistics`,
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserTransactionsStatistics`,
       {
         headers: this._buildHttpHeaders(),
         params

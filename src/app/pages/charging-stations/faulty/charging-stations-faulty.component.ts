@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { ChargingStationsFaultyDataSource } from './charging-stations-faulty-data-source-table';
+import { ChargingStationsFaultyTableDataSource } from './charging-stations-faulty-table-data-source';
 
 @Component({
   selector: 'app-charging-stations-faulty',
   templateUrl: 'charging-stations-faulty.component.html',
-  providers: [ChargingStationsFaultyDataSource]
+  providers: [ChargingStationsFaultyTableDataSource]
 })
 export class ChargingStationsFaultyComponent {
 
   constructor(
-    public chargingStationsFaultyDataSource: ChargingStationsFaultyDataSource
+    public chargingStationsFaultyTableDataSource: ChargingStationsFaultyTableDataSource
   ) {
   }
 }

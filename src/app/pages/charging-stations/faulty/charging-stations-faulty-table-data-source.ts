@@ -41,7 +41,7 @@ import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.compon
 import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
 
 @Injectable()
-export class ChargingStationsFaultyDataSource extends TableDataSource<ChargerInError> {
+export class ChargingStationsFaultyTableDataSource extends TableDataSource<ChargerInError> {
   private isAdmin: boolean;
   private actions = {
     missingSettings: [

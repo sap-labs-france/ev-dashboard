@@ -43,7 +43,6 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.roleList = [
       { key: 'A', value: '' },
       { key: 'D', value: '' },
-      { key: 'B', value: '' },
       { key: '', value: '' } ];
     this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
     this.formGroup = new FormGroup({

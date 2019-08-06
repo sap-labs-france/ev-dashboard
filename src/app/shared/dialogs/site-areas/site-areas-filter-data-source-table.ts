@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
 import { SiteArea, TableColumnDef, TableDef } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';

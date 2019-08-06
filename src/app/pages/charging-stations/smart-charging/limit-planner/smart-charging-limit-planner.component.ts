@@ -11,7 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { AuthorizationService } from '../../../../services/authorization-service';
+import { AuthorizationService } from '../../../../services/authorization.service';
 import { SmartChargingPowerSliderComponent } from '../smart-charging-power-slider.component';
 import { SmartChargingLimitPlannerChartComponent } from './smart-charging-limit-planner-chart.component';
 

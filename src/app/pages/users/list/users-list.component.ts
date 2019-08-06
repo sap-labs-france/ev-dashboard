@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { WindowService } from '../../../services/window.service';
 import { UsersListTableDataSource } from './users-list-table-data-source';
 

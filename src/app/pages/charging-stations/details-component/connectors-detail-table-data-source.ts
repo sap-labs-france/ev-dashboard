@@ -9,7 +9,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Observable } from 'rxjs';
 import { ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';

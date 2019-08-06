@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Company, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
-import { AuthorizationService } from 'app/services/authorization-service';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';

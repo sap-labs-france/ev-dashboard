@@ -7,7 +7,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog-component';
 import { SiteAreasFilterDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-filter-dialog.component';
 import { Charger, SiteArea } from '../../../../common.types';
-import { AuthorizationService } from '../../../../services/authorization-service';
+import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';

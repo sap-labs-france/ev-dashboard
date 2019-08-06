@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';

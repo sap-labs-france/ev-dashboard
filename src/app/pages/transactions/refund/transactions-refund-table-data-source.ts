@@ -6,7 +6,7 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';

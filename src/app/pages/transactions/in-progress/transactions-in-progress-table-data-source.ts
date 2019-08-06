@@ -7,7 +7,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
 import { Observable } from 'rxjs';
 import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';

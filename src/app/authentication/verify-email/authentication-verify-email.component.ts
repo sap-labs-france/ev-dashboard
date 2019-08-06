@@ -11,10 +11,10 @@ import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 @Component({
-  selector: 'app-verify-email-cmp',
-  templateUrl: './verify-email.component.html'
+  selector: 'app-authentication-verify-email',
+  templateUrl: './authentication-verify-email.component.html'
 })
-export class VerifyEmailComponent implements OnInit, OnDestroy {
+export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
   public verifyEmailAction: boolean;

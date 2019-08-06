@@ -16,10 +16,10 @@ import { Utils } from '../../utils/Utils';
 declare var $: any;
 
 @Component({
-  selector: 'app-login-cmp',
-  templateUrl: './login.component.html'
+  selector: 'app-authentication-login',
+  templateUrl: './authentication-login.component.html'
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   public returnUrl: String;
   public formGroup: FormGroup;
   public email: AbstractControl;

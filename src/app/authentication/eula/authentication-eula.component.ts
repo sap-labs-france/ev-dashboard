@@ -3,9 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from '../../services/central-server.service';
 
 @Component({
-  templateUrl: './eula.html'
+  templateUrl: './authentication-eula.component.html'
 })
-export class EulaComponent implements OnInit {
+export class AuthenticationEulaComponent implements OnInit {
   public eulaText: string;
 
   constructor(

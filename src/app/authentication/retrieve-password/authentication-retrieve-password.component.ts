@@ -11,11 +11,11 @@ import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 @Component({
-  selector: 'app-retrieve-password-cmp',
-  templateUrl: './retrieve-password.component.html'
+  selector: 'app-authentication-retrieve-password',
+  templateUrl: './authentication-retrieve-password.component.html'
 })
 
-export class RetrievePasswordComponent implements OnInit, OnDestroy {
+export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
   public resetPasswordHash: string;

@@ -14,11 +14,11 @@ import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 
 @Component({
-  selector: 'app-register-cmp',
-  templateUrl: './register.component.html'
+  selector: 'app-authentication-register',
+  templateUrl: './authentication-register.component.html'
 })
 
-export class RegisterComponent implements OnInit, OnDestroy {
+export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public formGroup: FormGroup;
   public name: AbstractControl;

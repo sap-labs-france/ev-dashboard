@@ -1,29 +1,29 @@
 import { Routes } from '@angular/router';
-import { EulaComponent } from './eula/eula.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
+import { AuthenticationLoginComponent } from './login/authentication-login.component';
+import { AuthenticationRegisterComponent } from './register/authentication-register.component';
+import { AuthenticationRetrievePasswordComponent } from './retrieve-password/authentication-retrieve-password.component';
+import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
 export const AuthenticationRoutes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: AuthenticationLoginComponent
   }, {
     path: 'retrieve-password',
-    component: RetrievePasswordComponent
+    component: AuthenticationRetrievePasswordComponent
   }, {
     path: 'reset-password',
-    component: RetrievePasswordComponent
+    component: AuthenticationRetrievePasswordComponent
   }, {
     path: 'register',
-    component: RegisterComponent
+    component: AuthenticationRegisterComponent
   }, {
     path: 'eula',
-    component: EulaComponent
+    component: AuthenticationEulaComponent
   }, {
     path: 'verify-email',
-    component: VerifyEmailComponent
+    component: AuthenticationVerifyEmailComponent
   }, {
     path: '**',
     redirectTo: 'login'

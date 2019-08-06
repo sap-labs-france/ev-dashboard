@@ -6,8 +6,7 @@ import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.com
 
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent extends AbstractTabComponent {
   isAdmin: boolean;

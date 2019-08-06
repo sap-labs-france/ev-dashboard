@@ -23,11 +23,11 @@ import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusComponent } from '../formatters/user-status.component';
-import { UserSitesDialogComponent } from '../user/user-sites/user-sites.dialog.component';
+import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
 
 @Injectable()
-export class UsersInErrorDataSource extends TableDataSource<User> {
+export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSiteAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();

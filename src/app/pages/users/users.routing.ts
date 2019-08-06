@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 
 import { RouteGuardService } from '../../services/route-guard.service';
 import { Constants } from '../../utils/Constants';
-import { ConnectionComponent } from './connections/connection.component';
+import { UserConnectionComponent } from './connections/user-connection.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users.component';
 
 export const UserRoutes: Routes = [
   {
-    path: 'connections', component: ConnectionComponent, canActivate: [RouteGuardService], data: {
+    path: 'connections', component: UserConnectionComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_USER,
         action: Constants.ACTION_UPDATE

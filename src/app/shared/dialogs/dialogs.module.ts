@@ -27,7 +27,7 @@ import { SitesDataSource } from './sites/sites-data-source-table';
 import { SitesDialogComponent } from './sites/sites-dialog-component';
 import { SitesFilterDataSource } from './sites/sites-filter-data-source-table';
 import { SitesFilterDialogComponent } from './sites/sites-filter-dialog-component';
-import { UsersDataSource } from './users/users-data-source-table';
+import { UsersListTableDataSource } from './users/users-data-source-table';
 import { UsersDialogComponent } from './users/users-dialog-component';
 
 export class FooterModule {
@@ -99,7 +99,7 @@ export class FooterModule {
     SiteAreasFilterDataSourceTable,
     SitesDataSource,
     SitesFilterDataSource,
-    UsersDataSource
+    UsersListTableDataSource
   ]
 })
 export class DialogsModule {

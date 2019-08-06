@@ -1,7 +1,6 @@
 <div class="transactions main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                 animationDuration="0ms" class="h-100 mat-tab-info"
-                 disableRipple="true">
+                 animationDuration="0ms" class="h-100 mat-tab-info" disableRipple="true">
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>history</mat-icon><span>{{'transactions.tabs.history' | translate}}</span>
@@ -10,7 +9,6 @@
         <app-transactions-history></app-transactions-history>
       </ng-template>
     </mat-tab>
-
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>flash_on</mat-icon><span>{{'transactions.tabs.in_progress' | translate}}</span>

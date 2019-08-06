@@ -2,18 +2,18 @@ import { Component, Inject, Self } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KeyValue, User } from '../../../common.types';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { UsersDataSource } from './users-data-source-table';
+import { UsersListTableDataSource } from './users-data-source-table';
 
 @Component({
   templateUrl: '../dialog-table-data-component.html',
-  providers: [UsersDataSource]
+  providers: [UsersListTableDataSource]
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
-    @Self() private usersDataSource: UsersDataSource,
+    @Self() private usersListTableDataSource: UsersListTableDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
-    super(data, dialogRef, usersDataSource);
+    super(data, dialogRef, usersListTableDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'users.select_users';

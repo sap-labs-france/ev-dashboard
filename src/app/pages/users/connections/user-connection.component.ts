@@ -11,9 +11,9 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-connection-cmp',
-  templateUrl: 'connection.component.html'
+  templateUrl: 'user-connection.component.html'
 })
-export class ConnectionComponent extends AbstractTabComponent {
+export class UserConnectionComponent extends AbstractTabComponent {
   public isAdmin;
 
   constructor(

@@ -8,8 +8,7 @@ declare const $: any;
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './settings.component.html'
 })
 export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;

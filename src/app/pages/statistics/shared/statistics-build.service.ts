@@ -23,7 +23,7 @@ export class StatisticsBuildService {
   }
 
   public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
-    multipleUnits = true,
+    multipleUnits = false,
     sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
     maxNumberOfItems = 20
   ): ChartData {

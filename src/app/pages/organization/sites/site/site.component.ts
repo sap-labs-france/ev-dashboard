@@ -77,7 +77,6 @@ export class SiteComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'allowAllUsersToStopTransactions': new FormControl(false),
       'autoUserSiteAssignment': new FormControl(false),
       'address': new FormGroup({
         'address1': new FormControl(''),
@@ -194,11 +193,6 @@ export class SiteComponent implements OnInit {
       }
       if (site.companyID) {
         this.formGroup.controls.companyID.setValue(site.companyID);
-      }
-      if (site.allowAllUsersToStopTransactions) {
-        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(site.allowAllUsersToStopTransactions);
-      } else {
-        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(false);
       }
       if (site.autoUserSiteAssignment) {
         this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);

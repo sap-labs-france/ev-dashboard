@@ -312,7 +312,6 @@
     "select_companies": "Select Company"
   },
   "sites": {
-    "allow_all_users": "Allow users to stop the sessions of any users on this site",
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",

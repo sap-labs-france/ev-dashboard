@@ -28,7 +28,6 @@ export class SiteComponent implements OnInit {
   public id: AbstractControl;
   public name: AbstractControl;
   public companyID: AbstractControl;
-  public allowAllUsersToStopTransactions: AbstractControl;
   public autoUserSiteAssignment: AbstractControl;
 
   public address: FormGroup;
@@ -106,7 +105,6 @@ export class SiteComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
-    this.allowAllUsersToStopTransactions = this.formGroup.controls['allowAllUsersToStopTransactions'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];

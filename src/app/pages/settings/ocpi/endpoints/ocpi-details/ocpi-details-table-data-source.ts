@@ -16,13 +16,13 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { OcpiDetailFailureEvsesStatusComponent } from '../formatters/ocpi-detail-failure-evses-status.component';
-import { OcpiDetailJobStatusComponent } from '../formatters/ocpi-detail-job-status.component';
-import { OcpiDetailSuccessEvsesStatusComponent } from '../formatters/ocpi-detail-success-evses-status.component';
-import { OcpiDetailTotalEvsesStatusComponent } from '../formatters/ocpi-detail-total-evses-status.component';
+import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
+import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
+import { OcpiDetailTotalEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-total-evses-status-formatter.component';
+import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
 
 @Injectable()
-export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetail> {
+export class OcpiDetaislTableDataSource extends TableDataSource<OcpiEndpointDetail> {
   private ocpiEndpoint: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
@@ -94,7 +94,7 @@ export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetai
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponent: OcpiDetailJobStatusComponent,
+        angularComponent: OcpiDetailJobStatusFomatterComponent,
         headerClass: 'text-center',
         class: '',
         sortable: false
@@ -115,7 +115,7 @@ export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetai
         type: 'integer',
         name: 'ocpiendpoints.totalChargePoints',
         isAngularComponent: true,
-        angularComponent: OcpiDetailTotalEvsesStatusComponent,
+        angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false
@@ -125,7 +125,7 @@ export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetai
         type: 'integer',
         name: 'ocpiendpoints.succeeded',
         isAngularComponent: true,
-        angularComponent: OcpiDetailSuccessEvsesStatusComponent,
+        angularComponent: OcpiDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false
@@ -135,7 +135,7 @@ export class OcpiDetailTableDataSource extends TableDataSource<OcpiEndpointDetai
         type: 'integer',
         name: 'ocpiendpoints.failed',
         isAngularComponent: true,
-        angularComponent: OcpiDetailFailureEvsesStatusComponent,
+        angularComponent: OcpiDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sorted: false

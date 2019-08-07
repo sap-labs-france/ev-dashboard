@@ -3,10 +3,10 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { SettingsOcpiTableDataSource } from './settings-ocpi-table-data-source';
 
 @Component({
-  selector: 'app-settings-ocpi-endpoints',
+  selector: 'app-settings-ocpi',
   templateUrl: 'settings-ocpi.component.html'
 })
-export class SettingsOcpiEndpointsComponent {
+export class SettingsOcpiComponent {
   public isAdmin;
   public formGroup: FormGroup;
   public name: AbstractControl;

@@ -4,7 +4,6 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
 import { Constants } from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-ocpi-path-job-result-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row.lastPatchJobResult | appFormatOcpiPatchJobResult:'class'" [disabled]="true">
@@ -13,7 +12,7 @@ import { Constants } from 'app/utils/Constants';
     </mat-chip-list>
   `
 })
-export class OcpiPatchJobResultComponent extends CellContentTemplateComponent {
+export class OcpiPatchJobResultFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;
 }
 

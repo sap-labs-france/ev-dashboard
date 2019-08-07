@@ -1,24 +1,23 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { OcpiEndpointDetail } from 'app/common.types';
+import { OcpiEndpoint } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
-  selector: 'app-ocpi-detail-job-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.ocpiendpoint.backgroundPatchJob | appFormatOcpiDetailJobStatus:'class'" [disabled]="true">
-        {{row.ocpiendpoint.backgroundPatchJob | appFormatOcpiDetailJobStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.backgroundPatchJob | appFormatOcpiPatchJobStatus:'class'" [disabled]="true">
+        {{row.backgroundPatchJob | appFormatOcpiPatchJobStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
   `
 })
-export class OcpiDetailJobStatusComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+export class OcpiPatchJobStatusFormatterComponent extends CellContentTemplateComponent {
+  @Input() row: OcpiEndpoint;
 }
 
-@Pipe({name: 'appFormatOcpiDetailJobStatus'})
-export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
+@Pipe({name: 'appFormatOcpiPatchJobStatus'})
+export class AppFormatOcpiPatchJobStatusPipe implements PipeTransform {
   transform(backgroundPatchJob: number, type: string): string {
     // Class
     if (type === 'class') {

@@ -10,7 +10,6 @@ export const ocpiStatuses: KeyValue[] = [
 ];
 
 @Component({
-  selector: 'app-ocpi-job-status-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row.status | appFormatOcpiStatus:'class'" [disabled]="true">
@@ -19,7 +18,7 @@ export const ocpiStatuses: KeyValue[] = [
     </mat-chip-list>
   `
 })
-export class OcpiEndpointStatusComponent extends CellContentTemplateComponent {
+export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;
 }
 

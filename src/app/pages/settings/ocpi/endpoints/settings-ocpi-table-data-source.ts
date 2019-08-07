@@ -21,10 +21,10 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { EndpointDialogComponent } from './dialog/endpoint-dialog.component';
-import { OcpiPatchJobResultComponent } from './formatters/ocpi-patch-job-result.component';
-import { OcpiPatchJobStatusComponent } from './formatters/ocpi-patch-job-status.component';
-import { OcpiEndpointStatusComponent } from './formatters/ocpi-status.component';
-import { OcpiDetailComponent } from './ocpi-details/ocpi-detail.component';
+import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
+import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
+import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
+import { OcpiDetailsComponent } from './ocpi-details/ocpi-details.component';
 
 
 @Injectable()
@@ -78,7 +78,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
       },
       rowDetails: {
         enabled: true,
-        angularComponent: OcpiDetailComponent
+        angularComponent: OcpiDetailsComponent
       }
     };
   }
@@ -126,7 +126,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'status',
         name: 'ocpiendpoints.status',
         isAngularComponent: true,
-        angularComponent: OcpiEndpointStatusComponent,
+        angularComponent: OcpiEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false
@@ -135,7 +135,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'patchJobStatus',
         name: 'ocpiendpoints.patchJobStatus',
         isAngularComponent: true,
-        angularComponent: OcpiPatchJobStatusComponent,
+        angularComponent: OcpiPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false
@@ -144,7 +144,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
         id: 'patchJobResult',
         name: 'ocpiendpoints.patchJobLastStatus',
         isAngularComponent: true,
-        angularComponent: OcpiPatchJobResultComponent,
+        angularComponent: OcpiPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
         sortable: false

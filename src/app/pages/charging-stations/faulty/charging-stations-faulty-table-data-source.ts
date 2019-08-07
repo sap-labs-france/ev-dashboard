@@ -33,12 +33,12 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
-import { ACTION_SMART_CHARGING } from '../actions/table-charger-more-action';
-import { TableChargerRebootAction } from '../actions/table-charger-reboot-action';
-import { TableChargerResetAction } from '../actions/table-charger-reset-action';
-import { ConnectorsCellComponent } from '../cell-components/connectors-cell.component';
-import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.component';
-import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
+import { ACTION_SMART_CHARGING } from '../actions/charging-stations-more-action';
+import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
+import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
+import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
+import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
+import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component.js';
 
 @Injectable()
 export class ChargingStationsFaultyTableDataSource extends TableDataSource<ChargerInError> {
@@ -57,8 +57,8 @@ export class ChargingStationsFaultyTableDataSource extends TableDataSource<Charg
       new TableDeleteAction().getActionDef()
     ],
     connectorError: [
-      new TableChargerResetAction().getActionDef(),
-      new TableChargerRebootAction().getActionDef(),
+      new ChargingStationsResetAction().getActionDef(),
+      new ChargingStationsRebootAction().getActionDef(),
       new TableEditAction().getActionDef(),
       new TableDeleteAction().getActionDef()
     ]
@@ -150,7 +150,7 @@ export class ChargingStationsFaultyTableDataSource extends TableDataSource<Charg
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponent: HeartbeatCellComponent,
+        angularComponent: ChargingStationsHeartbeatCellComponent,
         sortable: false
       },
       {
@@ -160,7 +160,7 @@ export class ChargingStationsFaultyTableDataSource extends TableDataSource<Charg
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: ConnectorsCellComponent
+        angularComponent: ChargingStationsConnectorsCellComponent
       },
       {
         id: 'errorCodeDetails',

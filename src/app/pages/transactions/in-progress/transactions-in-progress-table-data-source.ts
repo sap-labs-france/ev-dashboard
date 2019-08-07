@@ -30,7 +30,7 @@ import { UserTableFilter } from '../../../shared/table/filters/user-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { ConnectorCellComponent } from '../components/connector-cell.component';
+import { ChargingStationsConnectorCellComponent } from '../components/connector-cell.component';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -141,7 +141,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.connector',
         headerClass: 'text-center',
         isAngularComponent: true,
-        angularComponent: ConnectorCellComponent,
+        angularComponent: ChargingStationsConnectorCellComponent,
       },
       {
         id: 'tagID',

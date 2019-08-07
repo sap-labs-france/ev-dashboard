@@ -36,23 +36,23 @@ import {
   ACTION_MORE_ACTIONS,
   ACTION_SMART_CHARGING,
   ACTION_SOFT_RESET,
-  TableChargerMoreAction
-} from '../actions/table-charger-more-action';
-import { TableChargerRebootAction } from '../actions/table-charger-reboot-action';
-import { ConnectorsCellComponent } from '../cell-components/connectors-cell.component';
-import { HeartbeatCellComponent } from '../cell-components/heartbeat-cell.component';
-import { InstantPowerChargerProgressBarComponent } from '../cell-components/instant-power-charger-progress-bar.component';
-import { ConnectorsDetailComponent } from '../details-component/connectors-detail-component.component';
-import { ChargingStationMoreActionsDialogComponent } from '../more-actions/charging-station-more-actions.dialog.component';
-import { ChargingStationSettingsComponent } from '../settings/charging-station-settings.component';
-import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/smart-charging.dialog.component';
+  ChargingStationsMoreAction
+} from '../actions/charging-stations-more-action';
+import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
+import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
+import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
+import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
+import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
+import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
-  private rebootAction = new TableChargerRebootAction().getActionDef();
-  private moreAction = new TableChargerMoreAction().getActionDef();
+  private rebootAction = new ChargingStationsRebootAction().getActionDef();
+  private moreAction = new ChargingStationsMoreAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -113,7 +113,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ConnectorsDetailComponent
+        angularComponent: ChargingStationsConnectorsDetailComponent
       },
       hasDynamicRowAction: true
     };
@@ -136,7 +136,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponent: HeartbeatCellComponent,
+        angularComponent: ChargingStationsHeartbeatCellComponent,
         sortable: false
       },
       {
@@ -146,7 +146,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: ConnectorsCellComponent
+        angularComponent: ChargingStationsConnectorsCellComponent
       },
       {
         id: 'connectorsConsumption',
@@ -155,7 +155,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         isAngularComponent: true,
         headerClass: 'text-center',
         class: 'power-progress-bar',
-        angularComponent: InstantPowerChargerProgressBarComponent
+        angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent
       }
     ];
     if (this.isOrganizationComponentActive) {
@@ -456,7 +456,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      this.dialog.open(ChargingStationMoreActionsDialogComponent, dialogConfig);
+      this.dialog.open(ChargingStationsMoreActionsDialogComponent, dialogConfig);
     }
   }
 

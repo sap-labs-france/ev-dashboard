@@ -2,7 +2,7 @@ import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  selector: 'app-connector-id-cell',
+  selector: 'app-charging-stations-connector-cell',
   template: `
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
@@ -19,7 +19,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `
 })
 @Injectable()
-export class ConnectorCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
   @Input() row: any;
 }
 

@@ -1311,7 +1311,7 @@
     "errors": {
       "no_consumption": {
         "title": "Pas de consommations",
-        "description": "La session ne contient pas de données",
+        "description": "La session ne contient pas de données.",
         "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -1321,8 +1321,13 @@
       },
       "negative_inactivity": {
         "title": "Inactivité négative",
-        "description": "La periode d'inactivité enregistrée est négative",
-        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises dans le bon ordre."
+        "description": "La periode d'inactivité enregistrée est négative.",
+        "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
+      },
+      "incorrect_starting_date": {
+        "title": "Date de début de Transaction Incorrecte",
+        "description": "La date de début de la transaction est incorrecte ou impossible.",
+        "action" : "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
       }
     }
   },

@@ -10,9 +10,9 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { UserConnectionComponent } from './connections/user-connection.component';
-import { UserRolePipe } from './formatters/user-role.pipe';
-import { AppFormatUserStatusPipe, UserStatusComponent } from './formatters/user-status.component';
-import { UserStatusPipe } from './formatters/user-status.pipe';
+import { AppUserRolePipe } from './formatters/user-role.pipe';
+import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
+import { AppUserStatusPipe } from './formatters/user-status.pipe';
 import { UsersInErrorTableDataSource } from './in-error/users-in-error-table-data-source';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
@@ -37,7 +37,7 @@ import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-sou
     FormattersModule
   ],
   declarations: [
-    UserStatusComponent,
+    UserStatusFormatterComponent,
     AppFormatUserStatusPipe,
     UsersListComponent,
     UsersInErrorComponent,
@@ -46,22 +46,22 @@ import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-sou
     UserDialogComponent,
     UserSitesDialogComponent,
     UserConnectionComponent,
-    UserRolePipe,
-    UserStatusPipe
+    AppUserRolePipe,
+    AppUserStatusPipe
   ],
   entryComponents: [
-    UserStatusComponent,
+    UserStatusFormatterComponent,
     UserDialogComponent,
     UserSitesDialogComponent
   ],
   exports: [
-    UserRolePipe,
-    UserStatusPipe,
+    AppUserRolePipe,
+    AppUserStatusPipe,
     UserDialogComponent
   ],
   providers: [
-    UserRolePipe,
-    UserStatusPipe,
+    AppUserRolePipe,
+    AppUserStatusPipe,
     UserSitesTableDataSource,
     UsersInErrorTableDataSource
   ]

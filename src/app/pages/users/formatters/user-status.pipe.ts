@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { userStatuses } from '../users.model';
 
-@Pipe({name: 'userStatus'})
-export class UserStatusPipe implements PipeTransform {
+@Pipe({name: 'appUserStatus'})
+export class AppUserStatusPipe implements PipeTransform {
 
   transform(status: string): string {
     for (const userStatus of userStatuses) {

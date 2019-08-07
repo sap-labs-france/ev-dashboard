@@ -21,8 +21,8 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
-import { UserRolePipe } from '../formatters/user-role.pipe';
-import { UserStatusComponent } from '../formatters/user-status.component';
+import { AppUserRolePipe } from '../formatters/user-role.pipe';
+import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
 
@@ -41,7 +41,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
-      private userRolePipe: UserRolePipe,
+      private userRolePipe: AppUserRolePipe,
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
@@ -87,7 +87,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       id: 'status',
       name: 'users.status',
       isAngularComponent: true,
-      angularComponent: UserStatusComponent,
+      angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
       class: 'col-10p',
       sortable: true

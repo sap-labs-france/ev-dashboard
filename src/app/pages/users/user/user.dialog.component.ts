@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
-  selector: 'app-user-dialog-cmp',
   templateUrl: 'user.dialog.component.html'
 })
 export class UserDialogComponent {

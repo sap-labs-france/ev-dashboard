@@ -10,7 +10,6 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  selector: 'app-connection-cmp',
   templateUrl: 'user-connection.component.html'
 })
 export class UserConnectionComponent extends AbstractTabComponent {

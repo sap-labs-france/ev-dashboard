@@ -9,6 +9,7 @@ import * as moment from 'moment';
 export class StatisticsBuildService {
   private totalLabel: string;
   private monthLabel: string;
+  private unitLabel: string;
 
   constructor(
     private translateService: TranslateService,
@@ -18,9 +19,11 @@ export class StatisticsBuildService {
       this.totalLabel = 'Total'; // should never happen
     }
     this.monthLabel = 'month';
+    this.unitLabel = 'unit';
   }
 
   public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
+    multipleUnits = true,
     sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
     maxNumberOfItems = 20
   ): ChartData {
@@ -31,6 +34,7 @@ export class StatisticsBuildService {
     let dataSetIndex = 0;
     let monthIndex = 0;
     let countMonths = 0;
+    let newKey = '';
     let numberArray = [];
     let sum = 0;
 
@@ -53,26 +57,32 @@ export class StatisticsBuildService {
       transactionValues.forEach((transactionValue: { [x: string]: number; }) => {
         // for each month (sorted from 0 to 11):
         let totalValuePerMonth = 0;
-        countMonths++;
 
         monthIndex = transactionValue[this.monthLabel];
-
         monthString = moment().locale(this.localeService.language).month(monthIndex).format('MMMM');
 
         if (stackedChartData.labels.indexOf(monthString) < 0) {
+          countMonths++;
           stackedChartData.labels.push(monthString);
         }
 
         // now for all items:
         for (const key in transactionValue) {
-          if (key !== this.monthLabel) {
+          if ((key !== this.monthLabel)
+            && (key !== this.unitLabel)) {
 
             // Round
             transactionValue[key] *= roundingFactor;
             transactionValue[key] = Math.round(transactionValue[key]);
             transactionValue[key] /= roundingFactor;
 
-            dataSetIndex = stackedChartData.datasets.findIndex((dataset) => dataset['label'] === key);
+            if (multipleUnits && (this.unitLabel in transactionValue)) {
+              newKey = key + ` [${transactionValue[this.unitLabel]}]`;
+            } else {
+              newKey = key;
+            }
+
+            dataSetIndex = stackedChartData.datasets.findIndex((dataset) => dataset['label'] === newKey);
 
             if (dataSetIndex < 0) {
               numberArray = [];
@@ -83,7 +93,7 @@ export class StatisticsBuildService {
               }
 
               numberArray.push(transactionValue[key]);
-              stackedChartData.datasets.push({ 'label': key, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
+              stackedChartData.datasets.push({ 'label': newKey, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
             } else {
               numberArray = stackedChartData.datasets[dataSetIndex].data;
               numberArray.push(transactionValue[key]);

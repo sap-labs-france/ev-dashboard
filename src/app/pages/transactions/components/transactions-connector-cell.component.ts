@@ -2,15 +2,14 @@ import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  selector: 'app-charging-stations-connector-cell',
   template: `
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
       <div class="row mx-0 px-0 align-items-center">
         <div appTooltip data-toogle="tooltip" data-offset="0px, 8px" data-placement="bottom"
-            [title]="row.currentConsumption | appFormatConnector:'text' | translate"
+            [title]="row.currentConsumption | appTransactionsFormatConnector:'text' | translate"
             class="charger-connector-container">
-          <div [class]="row.currentConsumption | appFormatConnector:'class'">
+          <div [class]="row.currentConsumption | appTransactionsFormatConnector:'class'">
             {{row.connectorId | appConnectorId}}
           </div>
         </div>
@@ -19,12 +18,12 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `
 })
 @Injectable()
-export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
+export class TransactionsConnectorCellComponent extends CellContentTemplateComponent {
   @Input() row: any;
 }
 
-@Pipe({name: 'appFormatConnector'})
-export class AppFormatConnector implements PipeTransform {
+@Pipe({name: 'appTransactionsFormatConnector'})
+export class AppTransactionsFormatConnector implements PipeTransform {
   transform(currentConsumption: number, type: string): string {
     if (type === 'class') {
       return this.buildConnectorClasses(currentConsumption);

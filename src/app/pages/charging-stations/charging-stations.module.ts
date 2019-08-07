@@ -12,11 +12,11 @@ import { CommonDirectivesModule } from 'app/shared/directives/directives.module'
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MaterialModule } from '../../app.module';
-import { AppFormatConnector, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
-import { AppFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
-import { AppFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
@@ -28,7 +28,7 @@ import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charg
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
 import { ChargingStationsSessionDetailComponentCellComponent } from './cell-components/charging-stations-session-detail-cell.component';
-import { AppFormatConnectorStatus, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
+import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
 import { ChargingStationSettingsComponent } from './charging-station/settings/charging-station-settings.component';
@@ -82,10 +82,10 @@ import { ChargingStationsConnectorsDetailComponent } from './details-component/c
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
-    AppFormatPowerChargerPipe,
-    AppFormatPowerConnectorPipe,
-    AppFormatConnector,
-    AppFormatConnectorStatus,
+    AppChargingStationsFormatPowerChargerPipe,
+    AppChargingStationsFormatPowerConnectorPipe,
+    AppChargingStationsFormatConnectorPipe,
+    AppChargingStationsFormatConnectorStatusPipe,
     ChargingStationsHeartbeatCellComponent,
     ChargingStationsSessionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,

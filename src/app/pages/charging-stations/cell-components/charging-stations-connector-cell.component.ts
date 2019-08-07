@@ -10,9 +10,9 @@ import { Constants } from 'app/utils/Constants';
     <div class="d-flex justify-content-center">
       <div class="row mx-0 px-0 align-items-center detail-connector">
         <div appTooltip data-toogle="tooltip" data-offset="0px, 8px" data-placement="bottom"
-            [title]="row | appFormatConnector:'text' | translate"
+            [title]="row | appChargingStationsFormatConnector:'text' | translate"
             class="charger-connector-container">
-          <div [class]="row | appFormatConnector:'class'">
+          <div [class]="row | appChargingStationsFormatConnector:'class'">
             {{row.connectorId | appConnectorId}}
           </div>
         </div>
@@ -34,8 +34,8 @@ export class ChargingStationsConnectorCellComponent extends CellContentTemplateC
   @Input() row: any;
 }
 
-@Pipe({name: 'appFormatConnector'})
-export class AppFormatConnector implements PipeTransform {
+@Pipe({name: 'appChargingStationsFormatConnector'})
+export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
   transform(connector: Connector, type: string): string {
     if (type === 'class') {
       return this.buildConnectorClasses(connector);

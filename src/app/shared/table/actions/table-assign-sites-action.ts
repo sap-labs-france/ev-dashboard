@@ -1,7 +1,7 @@
 import { ButtonColor, TableActionDef } from '../../../common.types';
 import { TableAction } from './table-action';
 
-export class TableAssignSiteAction implements TableAction {
+export class TableAssignSitesAction implements TableAction {
   private action: TableActionDef = {
     id: 'assign_site',
     type: 'button',

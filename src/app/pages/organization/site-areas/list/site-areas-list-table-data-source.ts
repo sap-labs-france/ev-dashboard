@@ -19,7 +19,7 @@ import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-cha
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';

@@ -15,7 +15,7 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';

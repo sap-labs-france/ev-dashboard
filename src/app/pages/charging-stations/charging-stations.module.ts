@@ -20,8 +20,8 @@ import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPow
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
-import { ChargingStationsFaultyTableDataSource } from './faulty/charging-stations-faulty-table-data-source';
-import { ChargingStationsFaultyComponent } from './faulty/charging-stations-faulty.component';
+import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
+import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
@@ -74,7 +74,7 @@ import { ChargingStationsConnectorsDetailComponent } from './details-component/c
     ChargingStationsMoreActionsDialogComponent,
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsInErrorComponent
   ],
   declarations: [
     ChargingStationComponent,
@@ -99,14 +99,14 @@ import { ChargingStationsConnectorsDetailComponent } from './details-component/c
     ChargingStationsMoreActionsDialogComponent,
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsInErrorComponent
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,
     ChargingStationsMoreActionsDialogComponent
   ],
   providers: [
-    ChargingStationsFaultyTableDataSource,
+    ChargingStationsInErrorTableDataSource,
     ChargingStationsListTableDataSource,
     ChargingStationsConnectorsDetailTableDataSource
   ]

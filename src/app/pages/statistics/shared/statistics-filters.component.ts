@@ -5,7 +5,7 @@ import { TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
-import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
+import { SitesTableFilter } from '../../../shared/table/filters/sites-table-filter';
 import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {

@@ -3,7 +3,7 @@ import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 
-export class SiteAreasTableFilter extends TableFilter {
+export class SiteAreaTableFilter extends TableFilter {
   constructor() {
     super();
     // Define filter

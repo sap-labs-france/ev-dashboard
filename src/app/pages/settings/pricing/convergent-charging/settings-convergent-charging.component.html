@@ -10,7 +10,7 @@
     <div class="row" style="margin-top: 1em">
       <div class="col-md-6">
         <mat-form-field>
-          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUrl"
+          <input appAutofocus matInput type="text" [formControl]="convergentChargingUrl"
             placeholder="{{'settings.pricing.convergentcharging.url' | translate}}" required>
           <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
@@ -24,7 +24,7 @@
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
+          <input appAutofocus matInput type="text" [formControl]="convergentChargingChargeableItemName"
             placeholder="{{'settings.pricing.convergentcharging.chargeable_item_name' | translate}}" required>
           <mat-error *ngIf="convergentChargingUrl.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input appSetAutoFocus matInput type="text" [formControl]="convergentChargingUser"
+          <input appAutofocus matInput type="text" [formControl]="convergentChargingUser"
             placeholder="{{'settings.pricing.convergentcharging.user' | translate}}" required>
           <mat-error *ngIf="convergentChargingUser.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
@@ -51,7 +51,7 @@
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input appSetAutoFocus matInput type="password" [formControl]="convergentChargingPassword"
+          <input appAutofocus matInput type="password" [formControl]="convergentChargingPassword"
             placeholder="{{'settings.pricing.convergentcharging.password' | translate}}" required>
           <mat-error *ngIf="convergentChargingPassword.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>

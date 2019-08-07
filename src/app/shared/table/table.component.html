@@ -210,7 +210,7 @@
             <!-- Angular Component Cell -->
             <td *ngIf="tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-template>
           <!-- Action Cell -->
@@ -272,7 +272,7 @@
           <!-- Angular Component Details -->
           <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
             <td [attr.colspan]="numberOfColumns">
-              <app-cell-component-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-container>
         </tr>

@@ -3,13 +3,13 @@ import { TableColumnDef, TableDef } from '../../../common.types';
 import { CellContentTemplateComponent } from './cell-content-template.component';
 
 @Component({
-  selector: 'app-cell-component-container',
+  selector: 'app-cell-content-template-container',
   template: `
     <ng-template></ng-template>`
 })
 
 // tslint:disable-next-line:component-class-suffix
-export class CellContentTemplateComponentContainer implements OnInit, OnChanges {
+export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
   @Input() tableDef: TableDef;

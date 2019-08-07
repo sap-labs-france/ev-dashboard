@@ -23,7 +23,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -31,7 +31,7 @@ import { Observable } from 'rxjs';
 import en from '../../../../assets/i18n/en.json';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
 import { ACTION_SMART_CHARGING } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
@@ -41,7 +41,7 @@ import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charg
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component.js';
 
 @Injectable()
-export class ChargingStationsFaultyTableDataSource extends TableDataSource<ChargerInError> {
+export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {
   private isAdmin: boolean;
   private actions = {
     missingSettings: [

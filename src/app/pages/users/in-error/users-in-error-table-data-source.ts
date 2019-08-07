@@ -15,7 +15,7 @@ import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
-import { TableAssignSiteAction } from '../../../shared/table/actions/table-edit-location';
+import { TableAssignSitesAction } from '../../../shared/table/actions/table-assign-sites-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
@@ -29,7 +29,7 @@ import { UserDialogComponent } from '../user/user.dialog.component';
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
-  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(

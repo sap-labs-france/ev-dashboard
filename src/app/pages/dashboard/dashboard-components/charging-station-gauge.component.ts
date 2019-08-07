@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
-    selector: 'app-chargers-gauge',
+    selector: 'app-charging-station-gauge',
     template: '<canvas #gauge></canvas>'
 })
 export class ChargingStationGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {

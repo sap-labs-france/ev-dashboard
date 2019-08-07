@@ -25,7 +25,7 @@ import { LogDateFromTableFilter } from '../filters/log-date-from-filter';
 import { LogDateUntilTableFilter } from '../filters/log-date-until-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
-import { LogLevelComponent } from '../formatters/log-level.component';
+import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -111,7 +111,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         id: 'level',
         name: 'logs.level',
         isAngularComponent: true,
-        angularComponent: LogLevelComponent,
+        angularComponent: LogLevelFormatterComponent,
         headerClass: 'col-7p',
         class: 'col-7p',
         sortable: true

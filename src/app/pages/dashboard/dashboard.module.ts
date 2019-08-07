@@ -11,8 +11,8 @@ import { GaugesModule } from 'app/shared/component/gauge/gauge.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { CardChartComponent } from './card-chart/card-chart.component';
 import { CardKeyfigureComponent } from './card-keyfigure/card-keyfigure.component';
-import { ChargingStationGaugeComponent } from './dashboard-components/chargers-gauge.component';
-import { ConsumptionGaugeComponent } from './dashboard-components/consumption-gauge.component';
+import { ChargingStationGaugeComponent } from './dashboard-components/charging-station-gauge.component';
+import { ChargingStationConsumptionGaugeComponent } from './dashboard-components/charging-station-consumption-gauge.component';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
 
@@ -30,13 +30,13 @@ import { DashboardRoutes } from './dashboard.routing';
   ],
   declarations: [
     DashboardComponent,
-    ConsumptionGaugeComponent,
+    ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
     CardKeyfigureComponent
   ],
   exports: [
-    ConsumptionGaugeComponent,
+    ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
     CardKeyfigureComponent

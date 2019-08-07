@@ -16,7 +16,7 @@ import { Utils } from '../../../../utils/Utils';
         [checked]="(row.siteAdmin ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
     </div>`
 })
-export class SiteAdminCheckboxComponent extends CellContentTemplateComponent {
+export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponent {
   @Input() row: UserSite;
   public loggedUser: User;
 

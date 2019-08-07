@@ -3,7 +3,6 @@ import { Company } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
-  selector: 'app-company-logo',
   template: `
     <div class="logo-container">
       <img *ngIf="row.logo" class="app-companies-logo" [src]='row.logo'>
@@ -11,7 +10,7 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
   `
 })
 
-export class CompanyLogoComponent extends CellContentTemplateComponent {
+export class CompanyLogoFormatterComponent extends CellContentTemplateComponent {
   @Input() row: Company;
 
 }

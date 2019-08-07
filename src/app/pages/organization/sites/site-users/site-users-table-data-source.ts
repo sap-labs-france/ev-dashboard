@@ -92,7 +92,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       // {
       //   id: 'siteAdmin',
       //   isAngularComponent: true,
-      //   angularComponent: SiteAdminCheckboxComponent,
+      //   angularComponent: SiteUsersAdminCheckboxComponent,
       //   name: 'sites.admin_role',
       //   class: 'col-10p'
       }

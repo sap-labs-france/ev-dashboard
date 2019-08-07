@@ -5,7 +5,6 @@ import { SiteUsersTableDataSource } from './site-users-table-data-source';
 
 
 @Component({
-  selector: 'app-site-users-dialog',
   templateUrl: 'site-users-dialog.component.html',
   providers: [SiteUsersTableDataSource]
 })

@@ -14,7 +14,7 @@ import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-site-area-cmp',
+  selector: 'app-site-area',
   templateUrl: 'site-area.component.html'
 })
 export class SiteAreaComponent implements OnInit {

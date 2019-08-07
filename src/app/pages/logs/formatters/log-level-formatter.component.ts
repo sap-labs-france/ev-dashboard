@@ -5,7 +5,6 @@ import { Log } from '../../../common.types';
 import { logLevels } from '../logs.model';
 
 @Component({
-  selector: 'app-log-level-chip',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row.level | appFormatLogLevel:'class'" [disabled]="true">
@@ -14,7 +13,7 @@ import { logLevels } from '../logs.model';
     </mat-chip-list>
   `
 })
-export class LogLevelComponent extends CellContentTemplateComponent {
+export class LogLevelFormatterComponent extends CellContentTemplateComponent {
   @Input() row: Log;
 }
 

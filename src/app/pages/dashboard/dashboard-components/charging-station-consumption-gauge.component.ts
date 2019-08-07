@@ -3,10 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
-    selector: 'app-consumption-gauge',
+    selector: 'app-charging-station-consumption-gauge',
     template: '<canvas #gauge></canvas>'
 })
-export class ConsumptionGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChargingStationConsumptionGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input() consumption = 0;
     @Input() maxConsumption = 0;

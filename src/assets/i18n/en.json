@@ -1310,7 +1310,7 @@
     "errors": {
       "no_consumption": {
         "title": "No Consumptions",
-        "description": "The session does not contains meter values",
+        "description": "The session does not contains meter values.",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -1320,8 +1320,13 @@
       },
       "negative_inactivity": {
         "title": "Negative inactivity",
-        "description": "The inactivity value of the session is negative",
+        "description": "The inactivity value of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "incorrect_starting_date": {
+        "title": "Incorrect Starting Date",
+        "description": "The starting date value is incorrect or impossible.",
+        "action" : "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
       }
     }
   },

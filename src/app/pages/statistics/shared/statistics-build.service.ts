@@ -55,14 +55,18 @@ export class StatisticsBuildService {
 
     if (transactionValues && transactionValues.length > 0) {
       transactionValues.forEach((transactionValue: { [x: string]: number; }) => {
-        // for each month (sorted from 0 to 11):
+        // for each month (sorted from 0 to 11, but attention, multiple month values due to multiple units!):
         let totalValuePerMonth = 0;
+        let newMonth = false;
 
         monthIndex = transactionValue[this.monthLabel];
         monthString = moment().locale(this.localeService.language).month(monthIndex).format('MMMM');
 
-        if (stackedChartData.labels.indexOf(monthString) < 0) {
+        const currentIndex = stackedChartData.labels.indexOf(monthString);
+
+        if (currentIndex < 0) {
           countMonths++;
+          newMonth = true;
           stackedChartData.labels.push(monthString);
         }
 
@@ -117,8 +121,17 @@ export class StatisticsBuildService {
           }
         });
 
+
         // Deferred update for totals:
-        totalDataArray.push(totalValuePerMonth);
+        if (newMonth) {
+          totalDataArray.push(totalValuePerMonth);
+        } else {
+          let totalNumber = totalDataArray[currentIndex];
+          if (typeof (totalNumber) === 'number') {
+            totalNumber += totalValuePerMonth;
+            totalDataArray[currentIndex] = totalNumber;
+          }
+        }
       });
 
       // sort datasets:

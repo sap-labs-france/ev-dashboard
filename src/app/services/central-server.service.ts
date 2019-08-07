@@ -466,6 +466,35 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
+  public getChargingStationPricingStatistics(year, params?: any): Observable<any> {
+    params['Year'] = year;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationPricingStatistics`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUserPricingStatistics(year, params?: any): Observable<any> {
+    params['Year'] = year;
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserPricingStatistics`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
 
   public getCurrentMetrics(): Observable<any> {
     const params: any = [];

@@ -52,7 +52,7 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { AuthorizationService } from './services/authorization-service';
+import { AuthorizationService } from './services/authorization.service';
 import { CentralServerNotificationService } from './services/central-server-notification.service';
 import { CentralServerService } from './services/central-server.service';
 import { ComponentService } from './services/component.service';

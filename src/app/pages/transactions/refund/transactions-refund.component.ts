@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { TransactionsRefundDataSource } from './transactions-refund-data-source-table';
+import { TransactionsRefundTableDataSource } from './transactions-refund-table-data-source';
 
 @Component({
   selector: 'app-transactions-refund',
   templateUrl: 'transactions-refund.component.html',
-  providers: [TransactionsRefundDataSource]
+  providers: [TransactionsRefundTableDataSource]
 })
 export class TransactionsRefundComponent {
   constructor(
-    public transactionsRefundDataSource: TransactionsRefundDataSource) {
+    public transactionsRefundTableDataSource: TransactionsRefundTableDataSource) {
   }
 }

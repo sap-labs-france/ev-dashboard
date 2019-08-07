@@ -1,13 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization-service';
+import { AuthorizationService } from '../../services/authorization.service';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent extends AbstractTabComponent {
   isAdmin: boolean;
@@ -16,7 +15,7 @@ export class StatisticsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService
   ) {
-    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity']);
+    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'transactions']);
     this.isAdmin = this.authorizationService.isAdmin();
   }
 }

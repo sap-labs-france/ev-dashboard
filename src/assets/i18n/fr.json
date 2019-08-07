@@ -25,7 +25,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.1",
+    "last_update": "Version 2.1.2",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -297,6 +297,7 @@
     "name": "Nom",
     "company": "Entreprise",
     "title": "Entreprise",
+    "titles": "Entreprises",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -316,7 +317,6 @@
     "select_companies": "Selection Entreprise"
   },
   "sites": {
-    "allow_all_users": "Autoriser les utilisateurs à arrêter les sessions des autres utilisateurs sur ce site",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
@@ -334,6 +334,7 @@
     "image": "Image",
     "name": "Nom",
     "title": "Site",
+    "titles": "Sites",
     "company_invalid": "Site invalide",
     "created_on": "Créé le",
     "created_by": "Créé par",
@@ -379,6 +380,7 @@
     "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
     "name": "Nom",
     "title": "Zone",
+    "titles": "Zones",
     "site_invalid": "Zone invalide",
     "site_area_do_not_exist": "Site Area n'existe plus",
     "created_on": "Créée le",
@@ -474,6 +476,7 @@
     "graphic_title_consumption_y_axis": "Consommation (kW.h)",
     "graphic_title_usage_y_axis": "Utilisation (heures)",
     "graphic_title_inactivity_y_axis": "Inactivité (heures)",
+    "graphic_title_transactions_y_axis": "Nombre de sessions",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
@@ -496,6 +499,12 @@
     "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
     "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
     "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
+    "transactions_per_cs_month_title": "Sessions des bornes par mois (au total : {{total}})",
+    "transactions_per_cs_year_title": "Sessions des bornes par an : {{total}}",
+    "transactions_per_cs_total_title": "Sessions totales des bornes : {{total}}",
+    "transactions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
+    "transactions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
+    "transactions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -517,6 +526,12 @@
         "export": {
           "title": "Exporter les données d'inactivité",
           "confirm": "Voulez-vous vraiment exporter les données d'inactivité correspondant aux filtres ?"
+        }
+      },
+      "transactions": {
+        "export": {
+          "title": "Exporter les données de sessions",
+          "confirm": "Voulez-vous vraiment exporter les données de sessions correspondant aux filtres ?"
         }
       }
     }
@@ -541,7 +556,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
     "public_url": "URL Publique",
-    "current_ip": "Adresse IP Actuelle",
+    "current_ip": "Route IP Actuelle (EVSE en premier)",
     "select_chargers": "Selection Borne",
     "serial_number": "No Série",
     "last_reboot": "Dernier Redémarrage",
@@ -559,6 +574,7 @@
     "charger_param_key": "Clé",
     "charger_param_value": "Valeur",
     "title": "Borne",
+    "titles": "Bornes",
     "status_occupied": "Occupé",
     "status_available": "Disponible",
     "status_preparing": "En Préparation",
@@ -606,9 +622,9 @@
     },
     "more_actions_items": {
       "reboot_item": "Redémarrer",
-      "soft_reset_item": "Soft reset",
+      "soft_reset_item": "Réinitialiser (Soft)",
       "clear_cache_item": "Effacer le cache",
-      "smart_charging_item": "Smart Charging",
+      "smart_charging_item": "Limitation Charge",
       "more_actions_item": "Autres"
     },
     "assign_sitearea_action": "Assigner",
@@ -804,6 +820,7 @@
     "host": "Hôte",
     "process": "Processus",
     "user": "Utilisateur",
+    "users": "Utilisateurs",
     "on_user": "Action sur Utilisateur",
     "action": "Action",
     "actions": "Actions",
@@ -845,6 +862,7 @@
     "edit_profile": "Editer Profil",
     "user_number": "Utilisateur(s)",
     "role": "Rôle",
+    "roles": "Rôles",
     "role_admin": "Admin",
     "role_super_admin": "Super Admin",
     "role_basic": "Basique",
@@ -1221,7 +1239,8 @@
     "total_consumption_kw": "Conso. Totale",
     "transaction_not_found": "Session inconnue",
     "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
-    "load_transactions_error": "Une erreur est survenue pendant le remboursement de la session",
+    "load_transactions_error": "Une erreur est survenue pendant le chargement des sessions",
+    "load_transaction_error": "Une erreur est survenue pendant le chargement de la session",
     "total_duration": "Durée Totale",
     "refund_transactions": "Remboursées",
     "pending_transactions": "En attente",
@@ -1305,7 +1324,7 @@
     "errors": {
       "no_consumption": {
         "title": "Pas de consommations",
-        "description": "La session ne contient pas de données",
+        "description": "La session ne contient pas de données.",
         "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises par la borne."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -1315,8 +1334,13 @@
       },
       "negative_inactivity": {
         "title": "Inactivité négative",
-        "description": "La periode d'inactivité enregistrée est négative",
-        "action": "Verifiez la configuration de la borne. Assurez vous que des données de charge sont transmises dans le bon ordre."
+        "description": "La periode d'inactivité enregistrée est négative.",
+        "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
+      },
+      "incorrect_starting_date": {
+        "title": "Date de début de Transaction Incorrecte",
+        "description": "La date de début de la transaction est incorrecte ou impossible.",
+        "action" : "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
       }
     }
   },

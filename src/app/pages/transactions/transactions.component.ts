@@ -1,16 +1,14 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizationService } from '../../services/authorization-service';
+import { AuthorizationService } from '../../services/authorization.service';
 import { ComponentEnum, ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-transactions',
-  templateUrl: './transactions.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: ['.transactions app-detail-component-container{width: 100%}']
+  templateUrl: './transactions.component.html'
 })
 export class TransactionsComponent extends AbstractTabComponent {
   public showTransactionRefundTab: boolean;

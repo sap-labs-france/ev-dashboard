@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
-import { SiteAreasFilterDialogComponent } from '../../dialogs/site-areas/site-areas-filter-dialog.component';
 import { TableFilter } from './table-filter';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 
 export class SiteAreasTableFilter extends TableFilter {
   constructor() {
@@ -11,10 +11,12 @@ export class SiteAreasTableFilter extends TableFilter {
       id: 'siteAreas',
       httpId: 'SiteAreaID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
-      defaultValue: 'general.all',
-      name: 'site_areas.title',
+      defaultValue: '',
+      label: '',
+      multiple: true,
+      name: 'site_areas.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: SiteAreasFilterDialogComponent
+      dialogComponent: SiteAreasDialogComponent
     };
     // Set
     this.setFilterDef(filterDef);

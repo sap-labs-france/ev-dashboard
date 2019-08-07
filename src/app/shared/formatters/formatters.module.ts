@@ -8,7 +8,7 @@ import { AppConnectorTypePipe } from './app-connector-type.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { AppDatePipe } from './app-date.pipe';
 import { AppDurationPipe } from './app-duration.pipe';
-import { AppFormatRowCellPipe } from './app-format-row-cell';
+import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';

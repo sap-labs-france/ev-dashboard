@@ -14,7 +14,7 @@ export class UserDialogComponent {
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
-      this.userID = data;
+      this.userID = data.id;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

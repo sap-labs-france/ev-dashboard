@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AppFormatLogLevelPipe, LogLevelComponent } from './formatters/log-level.component';
-import { LogsDataSource } from './logs-data-source-table';
-import { LogsComponent } from './logs.component';
+import { LogsListTableDataSource } from './list/logs-list-table-data-source';
+import { LogsListComponent } from './list/logs-list.component';
 import { LogsRoutes } from './logs.routing';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { LogsRoutes } from './logs.routing';
     DialogsModule
   ],
   declarations: [
-    LogsComponent,
+    LogsListComponent,
     LogLevelComponent,
     AppFormatLogLevelPipe
   ],
@@ -35,7 +35,7 @@ import { LogsRoutes } from './logs.routing';
     LogLevelComponent
   ],
   providers: [
-    LogsDataSource
+    LogsListTableDataSource
   ]
 })
 

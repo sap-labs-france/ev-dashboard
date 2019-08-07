@@ -20,4 +20,7 @@ clean: clean-containers clean-images
 dist-clean-images:
 	docker image prune -a -f
 
-dist-clean: clean-containers dist-clean-images
+dist-clean-volumes:
+	docker volume prune -f
+
+dist-clean: clean-containers dist-clean-volumes dist-clean-images

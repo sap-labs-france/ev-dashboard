@@ -11,9 +11,9 @@ import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
 @Component({
-  templateUrl: './endpoint-dialog.component.html'
+  templateUrl: './settings-ocpi-endpoint-dialog.component.html'
 })
-export class EndpointDialogComponent implements OnInit {
+export class settingsOcpiEnpointDialogComponent implements OnInit {
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
@@ -34,7 +34,7 @@ export class EndpointDialogComponent implements OnInit {
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router,
-    protected dialogRef: MatDialogRef<EndpointDialogComponent>,
+    protected dialogRef: MatDialogRef<settingsOcpiEnpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
     if (data) {

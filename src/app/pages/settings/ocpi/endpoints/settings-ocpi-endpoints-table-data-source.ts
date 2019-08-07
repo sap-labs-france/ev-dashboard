@@ -20,15 +20,15 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
-import { EndpointDialogComponent } from './dialog/endpoint-dialog.component';
+import { settingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
-import { OcpiDetailsComponent } from './ocpi-details/ocpi-details.component';
+import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
 
 
 @Injectable()
-export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
+export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -78,7 +78,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
       },
       rowDetails: {
         enabled: true,
-        angularComponent: OcpiDetailsComponent
+        angularComponent: SettingsOcpiEnpointsDetailsComponent
       }
     };
   }
@@ -213,7 +213,7 @@ export class SettingsOcpiTableDataSource extends TableDataSource<OcpiEndpoint> {
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(EndpointDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(settingsOcpiEnpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

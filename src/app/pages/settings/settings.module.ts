@@ -12,14 +12,14 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
-import { EndpointDialogComponent } from './ocpi/endpoints/dialog/endpoint-dialog.component';
+import { settingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFomatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
 import { AppFormatOcpiEvsesTotalPipe, OcpiDetailTotalEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-total-evses-status-formatter.component';
 import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-job-result-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
-import { SettingsOcpiTableDataSource } from './ocpi/endpoints/settings-ocpi-table-data-source';
+import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
@@ -30,8 +30,9 @@ import { SettingsRoutes } from './settings.routing';
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
 import { OcpiPatchJobResultFormatterComponent, AppFormatOcpiPatchJobResultPipe } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-evses-status-formatter.component';
-import { OcpiDetailsComponent } from './ocpi/endpoints/ocpi-details/ocpi-details.component';
-import { OcpiDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-details-table-data-source';
+import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details.component';
+import { SettingsOcpiEnpointsDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
+import { SettingsOcpiEnpointsComponent } from './ocpi/endpoints/settings-ocpi-endpoints.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { OcpiDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-d
     OcpiJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
-    EndpointDialogComponent,
+    SettingsOcpiEnpointsComponent,
+    settingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
@@ -73,11 +75,12 @@ import { OcpiDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-d
     AppFormatOcpiEvsesFailurePipe,
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
-    OcpiDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent
   ],
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOcpiEnpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -86,7 +89,7 @@ import { OcpiDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-d
     SettingsSimplePricingComponent,
     SettingsSacComponent,
     AnalyticsLinkDialogComponent,
-    EndpointDialogComponent,
+    settingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
     OcpiDetailJobStatusFomatterComponent,
     OcpiPatchJobResultFormatterComponent,
@@ -94,11 +97,11 @@ import { OcpiDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/ocpi-d
     OcpiDetailSuccessEvsesStatusFormatterComponent,
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
-    OcpiDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent
   ],
   providers: [
-    OcpiDetaislTableDataSource,
-    SettingsOcpiTableDataSource,
+    SettingsOcpiEnpointsDetaislTableDataSource,
+    SettingsOcpiEndpointsTableDataSource,
     AnalyticsLinksTableDataSource
   ]
 })

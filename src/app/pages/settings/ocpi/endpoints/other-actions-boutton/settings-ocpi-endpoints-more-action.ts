@@ -4,7 +4,7 @@ import { TableAction } from 'app/shared/table/actions/table-action';
 export const ACTION_SEND = 'send';
 export const ACTION_STOP_START_JOB = 'stop_start_job';
 
-export class EndpointMoreAction implements TableAction {
+export class SettingsOcpiEnpointsMoreAction implements TableAction {
   private action: TableActionDef = {
     id: 'more',
     type: 'button',

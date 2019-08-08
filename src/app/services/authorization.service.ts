@@ -82,9 +82,9 @@ export class AuthorizationService {
         return true;
       }
       if (this.componentService.isActive(ComponentEnum.ORGANIZATION) && siteArea) {
-        return this.isSiteAdmin(siteArea.siteID);
+        return this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
       }
-      return this.isAdmin();
+      return this.isAdmin() || this.isDemo();
     }
     return false;
   }
@@ -95,6 +95,16 @@ export class AuthorizationService {
     }
     if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
       return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+    }
+    return false;
+  }
+
+  public isSiteUser(siteID: string): boolean {
+    if (this.isAdmin()) {
+      return true;
+    }
+    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_READ)) {
+      return this.loggedUser.sites && this.loggedUser.sites.includes(siteID);
     }
     return false;
   }

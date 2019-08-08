@@ -87,8 +87,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           count: this.charger.connectors.length,
           result: this.charger.connectors
         });
-        observer.complete();
       }
+      observer.complete();
     });
   }
 
@@ -191,14 +191,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
               this.openAction.getActionDef(),
               this.stopAction.getActionDef()
             ];
-            // tslint:disable-next-line:unnecessary-else
-          } else {
-            return [
-              this.openAction.getActionDef(),
-            ];
           }
-          // Display only?
-        } else if (connector.isTransactionDisplayAuthorized) {
+          return [
+            this.openAction.getActionDef(),
+          ];
+        }
+        // Display only?
+        if (connector.isTransactionDisplayAuthorized) {
           return [
             this.openAction.getActionDef(),
           ];

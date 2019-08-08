@@ -973,7 +973,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "ocpp": "OCPP",
+      "ocpp": "Charging Station",
       "refund": "Refunding",
       "pricing": "Pricing",
       "analytics": "Analytics"

@@ -973,7 +973,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Itinérance",
-      "ocpp": "OCPP",
+      "ocpp": "Borne",
       "refund": "Remboursement",
       "pricing": "Pricing",
       "analytics": "Analytics"

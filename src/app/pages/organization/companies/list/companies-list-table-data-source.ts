@@ -21,8 +21,8 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
-import { CompanyDialogComponent } from '../company/company.dialog.component';
 import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
+import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {

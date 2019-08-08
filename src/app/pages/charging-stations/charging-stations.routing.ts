@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { RouteGuardService } from '../../services/route-guard.service';
 import { Constants } from '../../utils/Constants';
-import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
+import { ChargingStationsComponent } from './charging-stations.component';
 
 export const ChargingStationsRoutes: Routes = [
   {

@@ -42,10 +42,10 @@ import { ChargingStationsRebootAction } from '../actions/charging-stations-reboo
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
+import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
-import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
-import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {

@@ -23,8 +23,8 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SiteDialogComponent } from '../site/site-dialog.component';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
+import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {

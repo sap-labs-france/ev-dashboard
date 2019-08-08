@@ -1,4 +1,4 @@
-import { DateTableFilter } from '../../../shared/table/filters/date-filter';
+import { DateTableFilter } from '../../../shared/table/filters/date-table-filter';
 
 export class LogDateFromTableFilter extends DateTableFilter {
   constructor(currentValue = null) {

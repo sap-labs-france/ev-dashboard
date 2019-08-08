@@ -7,28 +7,25 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
 import { ComponentModule } from '../component/component.module';
-import { ErrorCodeDetailsComponent } from '../component/error-details/error-code-details.component';
-import { ConsumptionChartComponent } from '../component/transaction-chart/consumption-chart.component';
+import { ConsumptionChartComponent } from '../component/consumption-chart/consumption-chart.component';
+import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
-import { ChargersDataSource } from './chargers/chargers-data-source-table';
-import { ChargersDialogComponent } from './chargers/chargers-dialog-component';
-import { CompaniesFilterDataSource } from './companies/companies-filter-data-source-table';
-import { CompaniesFilterDialogComponent } from './companies/companies-filter-dialog-component';
-import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog-component';
-import { ErrorCodeDetailsDialogComponent } from './error-details/error-code-details-dialog.component';
-import { GeoMapDialogComponent } from './geomap/geomap-dialog-component';
-import { SessionDialogComponent } from './session/session-dialog-component';
-import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog-component';
-import { SiteAreasFilterDataSourceTable } from './site-areas/site-areas-filter-data-source-table';
-import { SiteAreasFilterDialogComponent } from './site-areas/site-areas-filter-dialog.component';
-import { SitesDataSource } from './sites/sites-data-source-table';
-import { SitesDialogComponent } from './sites/sites-dialog-component';
-import { SitesFilterDataSource } from './sites/sites-filter-data-source-table';
-import { SitesFilterDialogComponent } from './sites/sites-filter-dialog-component';
-import { UsersDataSource } from './users/users-data-source-table';
-import { UsersDialogComponent } from './users/users-dialog-component';
+import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
+import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
+import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
+import { CompaniesDialogComponent } from './companies/companies-dialog.component';
+import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
+import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
+import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
+import { SessionDialogComponent } from './session/session-dialog.component';
+import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
+import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
+import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
+import { SitesDialogComponent } from './sites/sites-dialog.component';
+import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
+import { UsersDialogComponent } from './users/users-dialog.component';
 
 export class FooterModule {
 }
@@ -48,13 +45,11 @@ export class FooterModule {
   ],
   declarations: [
     SitesDialogComponent,
-    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent,
-    SiteAreasFilterDialogComponent,
-    CompaniesFilterDialogComponent,
+    SiteAreasDialogComponent,
+    CompaniesDialogComponent,
     SessionDialogComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
@@ -62,13 +57,11 @@ export class FooterModule {
   ],
   entryComponents: [
     SitesDialogComponent,
-    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent,
-    SiteAreasFilterDialogComponent,
-    CompaniesFilterDialogComponent,
+    SiteAreasDialogComponent,
+    CompaniesDialogComponent,
     SessionDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
@@ -77,13 +70,11 @@ export class FooterModule {
   ],
   exports: [
     SitesDialogComponent,
-    SiteAreasDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
     ChargersDialogComponent,
-    SitesFilterDialogComponent,
-    SiteAreasFilterDialogComponent,
-    CompaniesFilterDialogComponent,
+    SiteAreasDialogComponent,
+    CompaniesDialogComponent,
     SessionDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent
@@ -94,12 +85,11 @@ export class FooterModule {
     DecimalPipe,
     AppConnectorIdPipe,
     DialogService,
-    ChargersDataSource,
-    CompaniesFilterDataSource,
-    SiteAreasFilterDataSourceTable,
-    SitesDataSource,
-    SitesFilterDataSource,
-    UsersDataSource
+    ChargersDialogTableDataSource,
+    CompaniesDialogTableDataSource,
+    SiteAreasDialogTableDataSource,
+    SitesDialogTableDataSource,
+    UsersDialogTableDataSource
   ]
 })
 export class DialogsModule {

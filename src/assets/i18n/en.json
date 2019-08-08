@@ -292,6 +292,7 @@
     "name": "Name",
     "company": "Company",
     "title": "Company",
+    "titles": "Companies",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -311,7 +312,6 @@
     "select_companies": "Select Company"
   },
   "sites": {
-    "allow_all_users": "Allow users to stop the sessions of any users on this site",
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
@@ -329,6 +329,7 @@
     "image": "Image",
     "name": "Name",
     "title": "Site",
+    "titles": "Sites",
     "company_invalid": "Company invalid",
     "created_on": "Created On",
     "created_by": "Created By",
@@ -374,6 +375,7 @@
     "assigned_chargers_to_site_area": "Charging Stations assigned to {{siteAreaName}}",
     "name": "Name",
     "title": "Site Area",
+    "titles": "Site Areas",
     "site_invalid": "Site Area invalid",
     "site_area_do_not_exist": "Site Area does not exist anymore",
     "created_on": "Created On",
@@ -469,6 +471,7 @@
     "graphic_title_consumption_y_axis": "Consumption (kW.h)",
     "graphic_title_usage_y_axis": "Usage (hours)",
     "graphic_title_inactivity_y_axis": "Inactivity (hours)",
+    "graphic_title_transactions_y_axis": "Number of Sessions",
     "graphic_title_month_x_axis": "Months",
     "transactions_years": "Year",
     "total_consumption_year": "Total Consumption {{year}}",
@@ -491,6 +494,12 @@
     "inactivity_per_user_month_title": "Users' Inactivity per Month (Overall: {{total}} hours)",
     "inactivity_per_user_year_title": "Users' Inactivity per Year: {{total}} hours",
     "inactivity_per_user_total_title": "Users' Total Inactivity: {{total}} hours",
+    "transactions_per_cs_month_title": "Charging Stations' Sessions per Month (Overall: {{total}})",
+    "transactions_per_cs_year_title": "Charging Stations' Sessions per Year: {{total}}",
+    "transactions_per_cs_total_title": "Charging Stations' Total Sessions: {{total}}",
+    "transactions_per_user_month_title": "Users' Sessions per Month (Overall: {{total}})",
+    "transactions_per_user_year_title": "Users' Sessions per Year: {{total}}",
+    "transactions_per_user_total_title": "Users' Total Sessions: {{total}}",
     "hours": "hours",
     "total": "Total",
     "others": "Others",
@@ -512,6 +521,12 @@
         "export": {
           "title": "Export Inactivity Data",
           "confirm": "Do you really want to export all the inactivity data matching the filters?"
+        }
+      },
+      "transactions": {
+        "export": {
+          "title": "Export Sessions Data",
+          "confirm": "Do you really want to export all the sessions data matching the filters?"
         }
       }
     }
@@ -554,6 +569,7 @@
     "charger_param_key": "Key",
     "charger_param_value": "Value",
     "title": "Charging Station",
+    "titles": "Charging Stations",
     "status_occupied": "Occupied",
     "status_available": "Available",
     "status_preparing": "Preparing",
@@ -799,6 +815,7 @@
     "host": "Host",
     "process": "Process",
     "user": "User",
+    "users": "Users",
     "on_user": "Action on User",
     "action": "Action",
     "actions": "Actions",
@@ -840,6 +857,7 @@
     "edit_profile": "Edit Profile",
     "user_number": "User(s)",
     "role": "Role",
+    "roles": "Roles",
     "role_admin": "Admin",
     "role_super_admin": "Super Admin",
     "role_basic": "Basic",
@@ -1292,7 +1310,7 @@
     "errors": {
       "no_consumption": {
         "title": "No Consumptions",
-        "description": "The session does not contains meter values",
+        "description": "The session does not contains meter values.",
         "action": "Check the charging station settings. Ensure that meter values are sent by the charging station."
       },
       "average_consumption_greater_than_connector_capacity": {
@@ -1302,8 +1320,13 @@
       },
       "negative_inactivity": {
         "title": "Negative inactivity",
-        "description": "The inactivity value of the session is negative",
+        "description": "The inactivity value of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "incorrect_starting_date": {
+        "title": "Incorrect Starting Date",
+        "description": "The starting date value is incorrect or impossible.",
+        "action" : "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
       }
     }
   },

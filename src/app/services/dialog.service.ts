@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ButtonType, DialogType } from '../common.types';
-import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog-component';
+import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog.component';
 import { Constants } from '../utils/Constants';
 
 @Injectable()

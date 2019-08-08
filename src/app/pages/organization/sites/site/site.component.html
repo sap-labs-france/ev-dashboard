@@ -44,7 +44,7 @@
                 <div class="col-md-7">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'sites.name' | translate}}"
+                      <input appAutofocus matInput placeholder="{{'sites.name' | translate}}"
                         class="app-organization-name-bold" type="text" [formControl]="name" required>
                       <mat-error *ngIf="name.errors?.required">
                         {{"general.mandatory_field" | translate}}
@@ -61,11 +61,6 @@
                   </div>
                   <div class="form-group">
                     <div style="text-align: left">
-                      <mat-checkbox [formControl]="allowAllUsersToStopTransactions">
-                        {{'sites.allow_all_users' | translate}}
-                      </mat-checkbox>
-                    </div>
-                    <div style="text-align: left">
                       <mat-checkbox [formControl]="autoUserSiteAssignment">
                         {{'sites.auto_user_site_assignment' | translate}}
                       </mat-checkbox>
@@ -75,13 +70,13 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
+                  <app-address [formGroup]="formGroup"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>
             </div>
             <div class="tab-pane" id="address">
-              <app-address-cmp [formGroup]="formGroup"></app-address-cmp>
+              <app-address [formGroup]="formGroup"></app-address>
             </div>
           </div>
         </div>

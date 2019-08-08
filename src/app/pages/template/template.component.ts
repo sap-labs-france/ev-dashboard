@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AuthorizationService } from 'app/services/authorization-service';
-import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AuthorizationService } from 'app/services/authorization.service';
 
 @Component({
   templateUrl: 'template.component.html'

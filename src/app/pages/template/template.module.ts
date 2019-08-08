@@ -6,13 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'app/app.module';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
+import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
-import { ButtonsTemplateComponent } from './buttons/buttons.component';
-import { ColorsTemplateComponent } from './colors/colors.component';
-import { DialogsTemplateComponent } from './dialogs/dialogs.component';
-import { FormsTemplateComponent } from './forms/forms.component';
+import { ButtonsTemplateComponent } from './buttons/buttons-template.component';
+import { ColorsTemplateComponent } from './colors/colors-template.component';
+import { DialogsTemplateComponent } from './dialogs/dialogs-template.component';
+import { FormsTemplateComponent } from './forms/forms-template.component';
 import { TemplateComponent } from './template.component';
 import { TemplateRoutes } from './template.routing';
 

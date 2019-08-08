@@ -41,7 +41,7 @@
               <div class="col-md-10">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="name" appSetAutoFocus matInput placeholder="{{'users.name' | translate}}"
+                    <input [formControl]="name" appAutofocus matInput placeholder="{{'users.name' | translate}}"
                            required (input)="toUpperCase(name)" type="text">
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
@@ -160,7 +160,7 @@
             <span>{{'general.address' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-address-cmp [formGroup]="formGroup" [hideGeoLocation]="true"></app-address-cmp>
+            <app-address [formGroup]="formGroup" [hideGeoLocation]="true"></app-address>
           </div>
         </mat-tab>
         <mat-tab>

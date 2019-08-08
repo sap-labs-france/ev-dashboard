@@ -13,7 +13,7 @@ const misc: any = {
 };
 
 @Component({
-  selector: 'app-navbar-cmp',
+  selector: 'app-navbar',
   templateUrl: 'navbar.component.html'
 })
 
@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   location: Location;
   mobile_menu_visible: any = 0;
 
-  @ViewChild('app-navbar-cmp', { static: false }) button: any;
+  @ViewChild('app-navbar', { static: false }) button: any;
   private listTitles: any[];
   private nativeElement: Node;
   private toggleButton: any;

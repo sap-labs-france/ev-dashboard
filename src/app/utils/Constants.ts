@@ -17,6 +17,16 @@ export class Constants {
   public static CHIP_TYPE_WARNING = 'chip-warning';
   public static CHIP_TYPE_GREY = 'chip-grey';
 
+  public static TRANSACTION_IN_ERROR_NO_CONSUMPTION = 'no_consumption';
+  public static TRANSACTION_IN_ERROR_OVER_CONSUMPTION = 'average_consumption_greater_than_connector_capacity';
+  public static TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY = 'negative_inactivity';
+  public static TRANSACTION_IN_ERROR_INVALID_START_DATE = 'incorrect_starting_date';
+
+  public static CHARGER_IN_ERROR_MISSING_SETTINGS = 'missingSettings';
+  public static CHARGER_IN_ERROR_CONNECTION_BROKEN = 'connectionBroken';
+  public static CHARGER_IN_ERROR_MISSING_SITE_AREA = 'missingSiteArea';
+  public static CHARGER_IN_ERROR_CONNECTOR_ERROR = 'connectorError';
+
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';

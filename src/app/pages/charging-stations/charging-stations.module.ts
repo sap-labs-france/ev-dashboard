@@ -7,30 +7,34 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
-import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
+import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog.component';
+import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MaterialModule } from '../../app.module';
-import { AppFormatConnector, ConnectorCellComponent } from './cell-components/connector-cell.component';
-import { AppFormatConnectorStatus, ConnectorStatusComponent } from './cell-components/connector-status.component';
-import { ConnectorsCellComponent } from './cell-components/connectors-cell.component';
-import { HeartbeatCellComponent } from './cell-components/heartbeat-cell.component';
-import { AppFormatPowerChargerPipe, InstantPowerChargerProgressBarComponent } from './cell-components/instant-power-charger-progress-bar.component';
-import { AppFormatPowerConnectorPipe, InstantPowerConnectorProgressBarComponent } from './cell-components/instant-power-connector-progress-bar.component';
-import { SessionDetailComponent } from './cell-components/session-detail.component';
+import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
+import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
+import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
+import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import { ChargingStationsSessionDetailComponentCellComponent } from './cell-components/charging-stations-session-detail-cell.component';
+import { ChargingStationComponent } from './charging-station/charging-station.component';
+import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
+import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
+import { ChargingStationSettingsComponent } from './charging-station/settings/charging-station-settings.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
-import { ConnectorsDataSource } from './details-component/connectors-data-source-detail-table';
-import { ConnectorsDetailComponent } from './details-component/connectors-detail-component.component';
-import { StartTransactionDialogComponent } from './details-component/start-transaction-dialog-component';
-import { ChargingStationsFaultyDataSource } from './faulty/charging-stations-faulty-data-source-table';
-import { ChargingStationsFaultyComponent } from './faulty/charging-stations-faulty.component';
-import { ChargingStationsListDataSource } from './list/charging-stations-list-data-source-table';
+import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
+import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
+import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
+import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
+import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
+import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
-import { ChargingStationMoreActionsDialogComponent } from './more-actions/charging-station-more-actions.dialog.component';
-import { ChargingStationGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/get-diagnostics.component';
-import { ChargingStationsSettingsModule } from './settings/charging-stations-settings.module';
+import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
+import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
 
 @NgModule({
@@ -48,53 +52,63 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationsSettingsModule,
     ChargingStationSmartChargingModule
   ],
   entryComponents: [
-    ConnectorsDetailComponent,
-    StartTransactionDialogComponent,
+    ChargingStationComponent,
+    ChargingStationSettingsComponent,
+    ChargingStationPropertiesComponent,
+    ChargingStationOcppParametersComponent,
+    ChargingStationParametersComponent,
     SessionDialogComponent,
-    HeartbeatCellComponent,
-    SessionDetailComponent,
-    InstantPowerChargerProgressBarComponent,
-    InstantPowerConnectorProgressBarComponent,
-    ConnectorStatusComponent,
-    ConnectorsCellComponent,
-    ConnectorCellComponent,
-    ChargingStationMoreActionsDialogComponent,
-    ChargingStationGetDiagnosticsComponent,
+    ChargingStationsConnectorsDetailComponent,
+    ChargingStationsStartTransactionDialogComponent,
+    SessionDialogComponent,
+    ChargingStationsHeartbeatCellComponent,
+    ChargingStationsSessionDetailComponentCellComponent,
+    ChargingStationsInstantPowerChargerProgressBarCellComponent,
+    ChargingStationsInstantPowerConnectorProgressBarCellComponent,
+    ChargingStationsConnectorStatusCellComponent,
+    ChargingStationsConnectorsCellComponent,
+    ChargingStationsConnectorCellComponent,
+    ChargingStationsMoreActionsDialogComponent,
+    ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsInErrorComponent
   ],
   declarations: [
-    AppFormatPowerChargerPipe,
-    AppFormatPowerConnectorPipe,
-    AppFormatConnectorStatus,
-    AppFormatConnector,
-    HeartbeatCellComponent,
-    SessionDetailComponent,
-    InstantPowerChargerProgressBarComponent,
-    InstantPowerConnectorProgressBarComponent,
-    ConnectorStatusComponent,
-    ConnectorsCellComponent,
-    ConnectorCellComponent,
+    ChargingStationComponent,
+    ChargingStationSettingsComponent,
+    ChargingStationPropertiesComponent,
+    ChargingStationOcppParametersComponent,
+    ChargingStationParametersComponent,
+    AppChargingStationsFormatPowerChargerPipe,
+    AppChargingStationsFormatPowerConnectorPipe,
+    AppChargingStationsFormatConnectorPipe,
+    AppChargingStationsFormatConnectorStatusPipe,
+    ChargingStationsHeartbeatCellComponent,
+    ChargingStationsSessionDetailComponentCellComponent,
+    ChargingStationsInstantPowerChargerProgressBarCellComponent,
+    ChargingStationsInstantPowerConnectorProgressBarCellComponent,
+    ChargingStationsConnectorStatusCellComponent,
+    ChargingStationsConnectorsCellComponent,
+    ChargingStationsConnectorCellComponent,
     ChargingStationsComponent,
-    ConnectorsDetailComponent,
-    StartTransactionDialogComponent,
-    ChargingStationMoreActionsDialogComponent,
-    ChargingStationGetDiagnosticsComponent,
+    ChargingStationsConnectorsDetailComponent,
+    ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsMoreActionsDialogComponent,
+    ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsFaultyComponent
+    ChargingStationsInErrorComponent
   ],
   exports: [
-    StartTransactionDialogComponent,
-    ChargingStationMoreActionsDialogComponent
+    ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsMoreActionsDialogComponent
   ],
   providers: [
-    ChargingStationsFaultyDataSource,
-    ChargingStationsListDataSource,
-    ConnectorsDataSource
+    ChargingStationsInErrorTableDataSource,
+    ChargingStationsListTableDataSource,
+    ChargingStationsConnectorsDetailTableDataSource
   ]
 })
 export class ChargingStationsModule {

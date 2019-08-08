@@ -1,6 +1,6 @@
 import { SortDirection } from '@angular/material/typings';
 import { ComponentEnum } from './services/component.service';
-import { ErrorMessage } from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -19,6 +19,7 @@ export interface TableFilterDef {
   httpId: string;
   type: FilterType;
   name: string;
+  label?: string;
   currentValue?: any;
   defaultValue?: any;
   class?: string;
@@ -357,7 +358,6 @@ export interface Site {
   name: string;
   companyID: string;
   company: Company;
-  allowAllUsersToStopTransactions: boolean;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;

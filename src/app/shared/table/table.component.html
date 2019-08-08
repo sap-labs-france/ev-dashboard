@@ -99,16 +99,23 @@
           <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
                 [placeholder]="filterDef.name | translate" multiple disableRipple>
-              <mat-select-trigger>{{(filterDef.currentValue && filterDef.currentValue.length > 0 ? filterDef.currentValue[0].value : '') | translate}}
-                <span *ngIf="filterDef.currentValue && filterDef.currentValue.length > 1">(+{{filterDef.currentValue.length - 1}})</span>                
-              </mat-select-trigger>
+              <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
               <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
           <!-- Dialog Table Filter -->
-          <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
+          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && !filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
                    [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                   class="form-field-popup" matInput readonly=true type="text"/>
+            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- Dialog Table Filter with multiple selections-->
+          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                   [value]="filterDef.label"
                    class="form-field-popup" matInput readonly=true type="text"/>
             <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
               <mat-icon>clear</mat-icon>
@@ -203,7 +210,7 @@
             <!-- Angular Component Cell -->
             <td *ngIf="tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-template>
           <!-- Action Cell -->
@@ -265,7 +272,7 @@
           <!-- Angular Component Details -->
           <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
             <td [attr.colspan]="numberOfColumns">
-              <app-cell-component-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-container>
         </tr>

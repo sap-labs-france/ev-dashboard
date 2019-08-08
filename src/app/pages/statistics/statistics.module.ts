@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
-import { CommonDirectivesModule } from '../../shared/directives/common-directives.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
 
 import { StatisticsConsumptionComponent } from '../statistics/consumption/statistics-consumption.component';
@@ -17,6 +17,7 @@ import { StatisticsBuildService } from './shared/statistics-build.service';
 import { StatisticsExportService } from './shared/statistics-export.service';
 import { StatisticsComponent } from './statistics.component';
 import { StatisticsRoutes } from './statistics.routing';
+import { StatisticsTransactionsComponent } from './transactions/statistics-transactions.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { StatisticsRoutes } from './statistics.routing';
     StatisticsConsumptionComponent,
     StatisticsUsageComponent,
     StatisticsInactivityComponent,
+    StatisticsTransactionsComponent,
     StatisticsFiltersComponent
   ],
   exports: [

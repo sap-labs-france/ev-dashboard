@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { AnalyticsSettings } from 'app/common.types';
 import { Constants } from 'app/utils/Constants';
 import * as moment from 'moment-timezone';
-import { AnalyticsLinksDataSource } from '../analytics-link/analytics-links-source-table';
+import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
 
 @Component({
   selector: 'app-settings-sac',
@@ -18,7 +18,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public timezoneList: any = [];
 
   constructor(
-      public analyticsLinksDataSource: AnalyticsLinksDataSource) {
+      public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
     // initialize timezone list from moment-timezone
     this.timezoneList = moment.tz.names();
   }
@@ -53,8 +53,8 @@ export class SettingsSacComponent implements OnInit, OnChanges {
     // Set data
     if (this.mainUrl) {
       this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);
-      this.analyticsLinksDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);
-      this.analyticsLinksDataSource.loadData().subscribe();
+      this.analyticsLinksTableDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);
+      this.analyticsLinksTableDataSource.loadData().subscribe();
       if (this.analyticsSettings.sac.timezone && this.analyticsSettings.sac.timezone.length > 0) {
         this.timezone.setValue(this.analyticsSettings.sac.timezone);
       }

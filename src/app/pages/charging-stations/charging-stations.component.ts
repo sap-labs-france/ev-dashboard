@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizationService } from 'app/services/authorization-service';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
   templateUrl: 'charging-stations.component.html'

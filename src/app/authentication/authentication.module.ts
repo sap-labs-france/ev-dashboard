@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../app.module';
 import { DialogsModule } from '../shared/dialogs/dialogs.module';
 import { AuthenticationRoutes } from './authentication.routing';
-import { EulaComponent } from './eula/eula.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { RetrievePasswordComponent } from './retrieve-password/retrieve-password.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
+import { AuthenticationLoginComponent } from './login/authentication-login.component';
+import { AuthenticationRegisterComponent } from './register/authentication-register.component';
+import { AuthenticationRetrievePasswordComponent } from './retrieve-password/authentication-retrieve-password.component';
+import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
 @NgModule({
   imports: [
@@ -23,11 +23,11 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     DialogsModule
   ],
   declarations: [
-    LoginComponent,
-    EulaComponent,
-    RegisterComponent,
-    RetrievePasswordComponent,
-    VerifyEmailComponent
+    AuthenticationLoginComponent,
+    AuthenticationEulaComponent,
+    AuthenticationRegisterComponent,
+    AuthenticationRetrievePasswordComponent,
+    AuthenticationVerifyEmailComponent
   ]
 })
 

@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
-import { AuthorizationService } from '../../../services/authorization-service';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
@@ -16,7 +16,7 @@ import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
-import { AbstractTabComponent } from '../../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
@@ -25,7 +25,7 @@ import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
-  selector: 'app-user-cmp',
+  selector: 'app-user',
   templateUrl: 'user.component.html'
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {

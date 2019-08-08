@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
-  selector: 'app-user-dialog-cmp',
   templateUrl: 'user.dialog.component.html'
 })
 export class UserDialogComponent {
@@ -14,7 +13,7 @@ export class UserDialogComponent {
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {
-      this.userID = data;
+      this.userID = data.id;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

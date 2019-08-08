@@ -42,6 +42,7 @@ export abstract class TableDataSource<T> {
   public lastSelectedRow;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
+  public multipleRowSelection;
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -65,6 +66,10 @@ export abstract class TableDataSource<T> {
 
   public isMultiSelectionEnabled(): boolean {
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
+  }
+
+  public setMutlipleRowSelection(multipleRowSelection: boolean) {
+    this.multipleRowSelection = multipleRowSelection;
   }
 
   public getSelectedRows(): T[] {
@@ -251,11 +256,21 @@ export abstract class TableDataSource<T> {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
-          case 'dropdown':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DROPDOWN:
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
-          case 'dialog-table':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
           case 'date':
             filterDef.reset();
@@ -288,7 +303,7 @@ export abstract class TableDataSource<T> {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           // Dialog
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
@@ -303,8 +318,13 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
+          // Dialog with multiple selections
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+            }
           // Dropdown with multiple selections
-          } else if (filterDef.type === 'dropdown' && filterDef.multiple) {
+          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0 ) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
@@ -513,6 +533,10 @@ export abstract class TableDataSource<T> {
   private initTableDef(force: boolean): TableDef {
     if (!this.tableDef || force) {
       this.tableDef = this.buildTableDef();
+    }
+    // Override multi-selection (let the undef check for boolean not yet assigned!)
+    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+      this.tableDef.rowSelection.multiple = this.multipleRowSelection;
     }
     return this.tableDef;
   }

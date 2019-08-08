@@ -116,16 +116,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
     // this.updateUrlWithFilters(filterDef);
-    if(filterDef.multiple) {
+    if (filterDef.multiple) {
       this.updateFilterLabel(filterDef);
     }
     this.refresh();
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
-    if(Array.isArray(filter.currentValue)) {
-      if(filter.currentValue.length > 0) {
-        filter.label  = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})`:'');
+    if (Array.isArray(filter.currentValue)) {
+      if (filter.currentValue.length > 0) {
+        filter.label  = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
       } else {
         filter.label = '';
       }

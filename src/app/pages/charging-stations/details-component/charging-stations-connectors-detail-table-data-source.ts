@@ -25,9 +25,9 @@ import { TableStopAction } from '../../../shared/table/actions/table-stop-action
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
-import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {

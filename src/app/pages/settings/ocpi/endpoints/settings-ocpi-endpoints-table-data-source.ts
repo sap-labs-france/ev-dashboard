@@ -21,9 +21,9 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
 import { settingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
+import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
-import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
 
 

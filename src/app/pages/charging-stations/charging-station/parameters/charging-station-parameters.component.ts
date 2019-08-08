@@ -141,8 +141,6 @@ export class ChargingStationParametersComponent implements OnInit {
 
     this.formGroup.updateValueAndValidity();
 
-    this.formGroup.markAllAsTouched();
-
     // Deactivate for non admin users
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();
@@ -203,7 +201,7 @@ export class ChargingStationParametersComponent implements OnInit {
       }
     }
     if (this.charger.id) {
-      this.loadChargeBoxID();
+      this.loadChargingStation();
     }
   }
 
@@ -211,10 +209,10 @@ export class ChargingStationParametersComponent implements OnInit {
    * refresh
    */
   public refresh() {
-    this.loadChargeBoxID();
+    this.loadChargingStation();
   }
 
-  public loadChargeBoxID() {
+  public loadChargingStation() {
     if (!this.charger.id) {
       return;
     }
@@ -222,8 +220,8 @@ export class ChargingStationParametersComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getCharger(this.charger.id).subscribe((chargerResult) => {
+      this.spinnerService.hide();
       this.charger = chargerResult;
-
       // Init form
       if (this.charger.chargingStationURL) {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
@@ -276,7 +274,7 @@ export class ChargingStationParametersComponent implements OnInit {
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
-      this.spinnerService.hide();
+      this.formGroup.markAllAsTouched();
     }, (error) => {
       // Hide
       this.spinnerService.hide();

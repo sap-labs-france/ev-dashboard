@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AnalyticsLink } from 'app/common.types';
-import { TableFilterDef } from '../../../common.types';
+import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsLink, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
-import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
-import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {
@@ -67,7 +65,7 @@ export class StatisticsFiltersComponent implements OnInit {
     // Get the years from the existing transactions
     this.centralServerService.getTransactionYears().subscribe((transactionYears) => {
       this.transactionYears = transactionYears;
-      // to be safe always add the current year:
+      // To be safe always add the current year:
       if (this.transactionYears.indexOf(this.selectedYear) < 0) {
         this.transactionYears.push(this.selectedYear);
       }
@@ -90,7 +88,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
     // Provided filters
     if (this.tableFiltersDef) {
-      for (let tableFilterDef of this.tableFiltersDef) {
+      for (const tableFilterDef of this.tableFiltersDef) {
         tableFilterDef.multiple = true;
         switch (tableFilterDef.id) {
           case 'sites':
@@ -109,35 +107,9 @@ export class StatisticsFiltersComponent implements OnInit {
         }
       }
     }
-    // if (this.statFiltersDef) {
-    //   // Site filter
-    //   const foundSitesFilter = this.statFiltersDef.find((filterDef: StatisticsFilterDef) => {
-    //     return (filterDef.id === 'sites' && filterDef.hidden === false);
-    //   });
-    //   // If Site ID filter is used and user has admin rights, restrict the selection to the first Site ID
-    //   if (foundSitesFilter && this.isAdmin) {
-    //     // Get the sites
-    //     this.centralServerService.getSites([]).subscribe((sites) => {
-    //       if (sites && sites.result.length > 0) {
-    //         const firstSite = sites.result[0];
-    //         const tableFilterDef = new SitesTableFilter().getFilterDef();
-    //         tableFilterDef.currentValue = [{ key: firstSite.id, value: firstSite.name, objectRef: firstSite }];
-    //         this.filterChanged({ ...tableFilterDef, hidden: false });
-    //       }
-    //       this.filterParams = this.buildFilterValues();
-    //       this.filters.emit(this.filterParams);
-    //       this.update.emit(true);
-    //     });
-    //   } else {
-    //     this.filterParams = this.buildFilterValues();
-    //     this.filters.emit(this.filterParams);
-    //     this.update.emit(true);
-    //   }
-    // } else {
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
-    //    }
   }
 
   public filterChanged(filter: StatisticsFilterDef): void {
@@ -155,7 +127,8 @@ export class StatisticsFiltersComponent implements OnInit {
   public updateFilterLabel(filter: StatisticsFilterDef) {
     if (Array.isArray(filter.currentValue)) {
       if (filter.currentValue.length > 0) {
-        filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+        filter.label = this.translateService.instant(filter.currentValue[0].value) +
+          (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
       } else {
         filter.label = '';
       }
@@ -177,18 +150,9 @@ export class StatisticsFiltersComponent implements OnInit {
       this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         switch (filterDef.type) {
           case Constants.FILTER_TYPE_DROPDOWN:
-            if (filterDef.currentValue && filterDef.currentValue !== null) {
-              filterWasChanged = true;
-            }
-            if (filterDef.multiple) {
-              filterDef.currentValue = [];
-              filterDef.label = '';
-            } else {
-              filterDef.currentValue = null;
-            }
-            break;
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            if (filterDef.currentValue && filterDef.currentValue !== null) {
+            const localFilterWasChanged = this._checkFilterWasChanged(filterDef);
+            if (localFilterWasChanged) {
               filterWasChanged = true;
             }
             if (filterDef.multiple) {
@@ -198,7 +162,7 @@ export class StatisticsFiltersComponent implements OnInit {
               filterDef.currentValue = null;
             }
             break;
-          case 'date':
+          case Constants.FILTER_TYPE_DATE:
             filterWasChanged = true;
             filterDef.reset();
             break;
@@ -216,15 +180,15 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public resetDialogTableFilter(filterDef: StatisticsFilterDef): void {
     let filterWasChanged = false;
-    if (filterDef.type === 'date') {
+    if (filterDef.type === Constants.FILTER_TYPE_DATE) {
       filterWasChanged = true;
       filterDef.reset();
-    } else {
-      if (filterDef.currentValue && filterDef.currentValue !== null) {
-        filterWasChanged = true;
-      }
+    } else if ((filterDef.type === Constants.FILTER_TYPE_DROPDOWN)
+      || (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE)) {
+      filterWasChanged = this._checkFilterWasChanged(filterDef);
       if (filterDef.multiple) {
         filterDef.currentValue = [];
+        filterDef.label = '';
       } else {
         filterDef.currentValue = null;
       }
@@ -251,14 +215,16 @@ export class StatisticsFiltersComponent implements OnInit {
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Update value
     dialogRef.afterClosed().subscribe(data => {
-      let filterWasChanged = false;
+      // dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
       if (data) {
-        if (!filterDef.currentValue || filterDef.currentValue !== data) {
-          filterWasChanged = true;
-          filterDef.currentValue = data;
+        let dataWasChanged = false;
+        if (!this._checkFilterWasChanged(filterDef)
+          || filterDef.currentValue !== data) {
+          dataWasChanged = true;
         }
+        filterDef.currentValue = data;
         this.filterChanged(filterDef);
-        if (filterWasChanged) {
+        if (dataWasChanged) {
           this.filterParams = this.buildFilterValues();
           this.filters.emit(this.filterParams);
           this.update.emit(true);
@@ -275,9 +241,9 @@ export class StatisticsFiltersComponent implements OnInit {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
           // Date
-          if (filterDef.type === 'date') {
+          if (filterDef.type === Constants.FILTER_TYPE_DATE) {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-            // Table
+            // Dialog without multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -345,7 +311,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   setActiveButtonOfScopeGroup(): void {
     // Button group for Scope: always active
-    // set to first active button:
+    // Set first active button
     const firstActiveButton = this.buttonsOfScopeGroup.find((button) => button.inactive === false);
     if (firstActiveButton && (firstActiveButton !== this.activeButtonOfScopeGroup)) {
       this.activeButtonOfScopeGroup = firstActiveButton;
@@ -366,6 +332,22 @@ export class StatisticsFiltersComponent implements OnInit {
 
   exportData(): void {
     this.export.emit();
+  }
+
+  private _checkFilterWasChanged(filterDef: StatisticsFilterDef): boolean {
+    let filterWasChanged = false;
+    if (filterDef.multiple) {
+      if ((filterDef.currentValue && Array.isArray(filterDef.currentValue)
+        && filterDef.currentValue.length > 0)
+        || (filterDef.label && filterDef.label !== '')) {
+        filterWasChanged = true;
+      }
+    } else {
+      if (filterDef.currentValue && filterDef.currentValue !== null) {
+        filterWasChanged = true;
+      }
+    }
+    return filterWasChanged;
   }
 
 }

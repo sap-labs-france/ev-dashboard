@@ -136,12 +136,12 @@ export class StatisticsFiltersComponent implements OnInit {
   }
 
   public resetFilters(): void {
-    let filterWasChanged = false;
+    let filterIsChanged = false;
     // Handle year
     const oldYear = this.selectedYear;
     this.selectedYear = new Date().getFullYear();
     if (oldYear !== this.selectedYear) {
-      filterWasChanged = true;
+      filterIsChanged = true;
       this.yearChanged(false);
     }
     // Handle filters
@@ -151,9 +151,9 @@ export class StatisticsFiltersComponent implements OnInit {
         switch (filterDef.type) {
           case Constants.FILTER_TYPE_DROPDOWN:
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            const localFilterWasChanged = this._checkFilterWasChanged(filterDef);
-            if (localFilterWasChanged) {
-              filterWasChanged = true;
+            const filterIsInitial = this._testIfFilterIsInitial(filterDef);
+            if (!filterIsInitial) {
+              filterIsChanged = true;
             }
             if (filterDef.multiple) {
               filterDef.currentValue = [];
@@ -163,14 +163,14 @@ export class StatisticsFiltersComponent implements OnInit {
             }
             break;
           case Constants.FILTER_TYPE_DATE:
-            filterWasChanged = true;
+            filterIsChanged = true;
             filterDef.reset();
             break;
         }
       });
     }
     // Changed?
-    if (filterWasChanged) {
+    if (filterIsChanged) {
       // Set & Reload all
       this.filterParams = this.buildFilterValues();
       this.filters.emit(this.filterParams);
@@ -179,13 +179,13 @@ export class StatisticsFiltersComponent implements OnInit {
   }
 
   public resetDialogTableFilter(filterDef: StatisticsFilterDef): void {
-    let filterWasChanged = false;
+    let filterIsChanged = false;
     if (filterDef.type === Constants.FILTER_TYPE_DATE) {
-      filterWasChanged = true;
+      filterIsChanged = true;
       filterDef.reset();
     } else if ((filterDef.type === Constants.FILTER_TYPE_DROPDOWN)
       || (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE)) {
-      filterWasChanged = this._checkFilterWasChanged(filterDef);
+      filterIsChanged = !this._testIfFilterIsInitial(filterDef);
       if (filterDef.multiple) {
         filterDef.currentValue = [];
         filterDef.label = '';
@@ -194,7 +194,7 @@ export class StatisticsFiltersComponent implements OnInit {
       }
     }
     this.filterChanged(filterDef);
-    if (filterWasChanged) {
+    if (filterIsChanged) {
       this.filterParams = this.buildFilterValues();
       this.filters.emit(this.filterParams);
       this.update.emit(true);
@@ -217,14 +217,14 @@ export class StatisticsFiltersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       // dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
       if (data) {
-        let dataWasChanged = false;
-        if (!this._checkFilterWasChanged(filterDef)
+        let dataIsChanged = false;
+        if (this._testIfFilterIsInitial(filterDef)
           || filterDef.currentValue !== data) {
-          dataWasChanged = true;
+          dataIsChanged = true;
         }
         filterDef.currentValue = data;
         this.filterChanged(filterDef);
-        if (dataWasChanged) {
+        if (dataIsChanged) {
           this.filterParams = this.buildFilterValues();
           this.filters.emit(this.filterParams);
           this.update.emit(true);
@@ -334,20 +334,20 @@ export class StatisticsFiltersComponent implements OnInit {
     this.export.emit();
   }
 
-  private _checkFilterWasChanged(filterDef: StatisticsFilterDef): boolean {
-    let filterWasChanged = false;
+  private _testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {
+    let filterIsInitial = true;
     if (filterDef.multiple) {
       if ((filterDef.currentValue && Array.isArray(filterDef.currentValue)
         && filterDef.currentValue.length > 0)
         || (filterDef.label && filterDef.label !== '')) {
-        filterWasChanged = true;
+        filterIsInitial = false;
       }
     } else {
       if (filterDef.currentValue && filterDef.currentValue !== null) {
-        filterWasChanged = true;
+        filterIsInitial = false;
       }
     }
-    return filterWasChanged;
+    return filterIsInitial;
   }
 
 }

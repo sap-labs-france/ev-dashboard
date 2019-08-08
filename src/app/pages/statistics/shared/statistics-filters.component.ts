@@ -6,6 +6,7 @@ import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
+import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {
@@ -33,7 +34,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears ?= false;
+  @Input() allYears?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
@@ -51,6 +52,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   constructor(
     private authorizationService: AuthorizationService,
+    private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog) { }
@@ -88,7 +90,8 @@ export class StatisticsFiltersComponent implements OnInit {
 
     // Provided filters
     if (this.tableFiltersDef) {
-      for (const tableFilterDef of this.tableFiltersDef) {
+      for (let tableFilterDef of this.tableFiltersDef) {
+        tableFilterDef.multiple = true;
         switch (tableFilterDef.id) {
           case 'sites':
           case 'siteAreas':
@@ -144,6 +147,19 @@ export class StatisticsFiltersComponent implements OnInit {
     });
     // Update value (if needed!)
     foundFilter.currentValue = filter.currentValue;
+    if (filter.multiple) {
+      this.updateFilterLabel(filter);
+    }
+  }
+
+  public updateFilterLabel(filter: StatisticsFilterDef) {
+    if (Array.isArray(filter.currentValue)) {
+      if (filter.currentValue.length > 0) {
+        filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+      } else {
+        filter.label = '';
+      }
+    }
   }
 
   public resetFilters(): void {
@@ -160,17 +176,27 @@ export class StatisticsFiltersComponent implements OnInit {
       // Reset all filter fields
       this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         switch (filterDef.type) {
-          case 'dropdown':
+          case Constants.FILTER_TYPE_DROPDOWN:
             if (filterDef.currentValue && filterDef.currentValue !== null) {
               filterWasChanged = true;
             }
-            filterDef.currentValue = null;
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
-          case 'dialog-table':
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
             if (filterDef.currentValue && filterDef.currentValue !== null) {
               filterWasChanged = true;
             }
-            filterDef.currentValue = null;
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
           case 'date':
             filterWasChanged = true;
@@ -197,7 +223,11 @@ export class StatisticsFiltersComponent implements OnInit {
       if (filterDef.currentValue && filterDef.currentValue !== null) {
         filterWasChanged = true;
       }
-      filterDef.currentValue = null;
+      if (filterDef.multiple) {
+        filterDef.currentValue = [];
+      } else {
+        filterDef.currentValue = null;
+      }
     }
     this.filterChanged(filterDef);
     if (filterWasChanged) {
@@ -248,7 +278,7 @@ export class StatisticsFiltersComponent implements OnInit {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Table
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
@@ -262,6 +292,16 @@ export class StatisticsFiltersComponent implements OnInit {
                   filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
+            }
+            // Dialog with multiple selections
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => { return obj.key; }).join('|');
+            }
+            // Dropdown with multiple selections
+          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => { return obj.key; }).join('|');
             }
             // Others
           } else {

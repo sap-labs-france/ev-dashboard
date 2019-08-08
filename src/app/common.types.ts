@@ -152,7 +152,7 @@ export interface Connector {
   voltage: number;
   amperage: number;
   status: string;
-  activeForUser: boolean;
+  activeBadgeID: string;
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;

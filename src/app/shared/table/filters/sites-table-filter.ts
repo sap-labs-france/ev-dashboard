@@ -1,7 +1,7 @@
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 import { TableFilterDef } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 
 export class SitesTableFilter extends TableFilter {
   constructor() {

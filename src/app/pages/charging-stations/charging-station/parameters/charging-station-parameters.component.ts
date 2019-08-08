@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { Charger, SiteArea } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -15,7 +16,6 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [

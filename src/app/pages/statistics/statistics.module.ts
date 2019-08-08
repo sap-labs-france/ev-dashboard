@@ -12,12 +12,12 @@ import { TableModule } from '../../shared/table/table.module';
 import { StatisticsConsumptionComponent } from '../statistics/consumption/statistics-consumption.component';
 import { StatisticsInactivityComponent } from '../statistics/inactivity/statistics-inactivity.component';
 import { StatisticsFiltersComponent } from '../statistics/shared/statistics-filters.component';
-import { StatisticsTransactionsComponent } from './transactions/statistics-transactions.component';
 import { StatisticsUsageComponent } from '../statistics/usage/statistics-usage.component';
 import { StatisticsBuildService } from './shared/statistics-build.service';
 import { StatisticsExportService } from './shared/statistics-export.service';
 import { StatisticsComponent } from './statistics.component';
 import { StatisticsRoutes } from './statistics.routing';
+import { StatisticsTransactionsComponent } from './transactions/statistics-transactions.component';
 
 @NgModule({
   imports: [

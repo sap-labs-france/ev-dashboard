@@ -13,12 +13,21 @@ import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MaterialModule } from '../../app.module';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import { ChargingStationsSessionDetailComponentCellComponent } from './cell-components/charging-stations-session-detail-cell.component';
+import { ChargingStationComponent } from './charging-station/charging-station.component';
+import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
+import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
+import { ChargingStationSettingsComponent } from './charging-station/settings/charging-station-settings.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
+import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
+import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
 import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
@@ -27,15 +36,6 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
-import { ChargingStationsSessionDetailComponentCellComponent } from './cell-components/charging-stations-session-detail-cell.component';
-import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
-import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
-import { ChargingStationComponent } from './charging-station/charging-station.component';
-import { ChargingStationSettingsComponent } from './charging-station/settings/charging-station-settings.component';
-import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
-import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
-import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
-import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
 
 @NgModule({
   imports: [

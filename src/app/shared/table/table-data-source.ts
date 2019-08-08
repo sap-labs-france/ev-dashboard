@@ -257,16 +257,16 @@ export abstract class TableDataSource<T> {
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case Constants.FILTER_TYPE_DROPDOWN:
-            if(filterDef.multiple){
-              filterDef.currentValue =[];
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
               filterDef.label = '';
             } else {
               filterDef.currentValue = null;
             }
             break;
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            if(filterDef.multiple){
-              filterDef.currentValue =[];
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
               filterDef.label = '';
             } else {
               filterDef.currentValue = null;
@@ -321,12 +321,12 @@ export abstract class TableDataSource<T> {
           // Dialog with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
           // Dropdown with multiple selections
-          } else if(filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple){
-            if(filterDef.currentValue.length > 0 ) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0 ) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
           // Others
           } else {

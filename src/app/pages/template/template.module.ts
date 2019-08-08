@@ -9,12 +9,12 @@ import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
-import { TemplateComponent } from './template.component';
-import { TemplateRoutes } from './template.routing';
 import { ButtonsTemplateComponent } from './buttons/buttons-template.component';
 import { ColorsTemplateComponent } from './colors/colors-template.component';
-import { FormsTemplateComponent } from './forms/forms-template.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs-template.component';
+import { FormsTemplateComponent } from './forms/forms-template.component';
+import { TemplateComponent } from './template.component';
+import { TemplateRoutes } from './template.routing';
 
 @NgModule({
   imports: [

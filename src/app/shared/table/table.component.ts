@@ -100,7 +100,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefreshTimer();
-    this.dataSource.destroyDatasource();
+    // this.dataSource.destroyDatasource();
   }
 
   displayMoreRecords() {

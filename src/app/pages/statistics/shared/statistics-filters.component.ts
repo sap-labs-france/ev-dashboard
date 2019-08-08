@@ -32,7 +32,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
-  @Input() allYears?= false;
+  @Input() allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
@@ -262,12 +262,12 @@ export class StatisticsFiltersComponent implements OnInit {
             // Dialog with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => { return obj.key; }).join('|');
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => { return obj.key; }).join('|');
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
           } else {

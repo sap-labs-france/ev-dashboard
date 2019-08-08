@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
+              `Add the number of Sessions in Statistics`,
               `Cannot assign a Badge ID which is already used by another user`,
               `Force mandatory fields to be highlighted in Charging Station Settings`,
               `Added Sessions with a wrong inactivity in Faulty Sessions`,

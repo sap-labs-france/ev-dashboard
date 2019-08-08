@@ -27,7 +27,7 @@ import { ChargingStationsRebootAction } from '../actions/charging-stations-reboo
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
-import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component.js';
+import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {

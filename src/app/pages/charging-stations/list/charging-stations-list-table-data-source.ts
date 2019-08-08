@@ -2,16 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  ChargerResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef
-} from 'app/common.types';
+import { Charger, ChargerResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -31,13 +22,7 @@ import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import {
-  ACTION_CLEAR_CACHE,
-  ACTION_MORE_ACTIONS,
-  ACTION_SMART_CHARGING,
-  ACTION_SOFT_RESET,
-  ChargingStationsMoreAction
-} from '../actions/charging-stations-more-action';
+import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';

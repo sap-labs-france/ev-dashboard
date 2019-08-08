@@ -141,7 +141,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
     this.formGroup.updateValueAndValidity();
 
-    this.formGroup.markAsTouched();
+    this.formGroup.markAllAsTouched();
 
     // Deactivate for non admin users
     if (!this.isAdmin) {

@@ -15,7 +15,7 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';
@@ -25,7 +25,7 @@ import { LogDateFromTableFilter } from '../filters/log-date-from-filter';
 import { LogDateUntilTableFilter } from '../filters/log-date-until-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
-import { LogLevelComponent } from '../formatters/log-level.component';
+import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -111,7 +111,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         id: 'level',
         name: 'logs.level',
         isAngularComponent: true,
-        angularComponent: LogLevelComponent,
+        angularComponent: LogLevelFormatterComponent,
         headerClass: 'col-7p',
         class: 'col-7p',
         sortable: true

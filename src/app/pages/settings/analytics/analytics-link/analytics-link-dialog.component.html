@@ -28,7 +28,7 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.description' | translate}}"
+                      <input appAutofocus matInput placeholder="{{'analytics.link.description' | translate}}"
                         type="text" [formControl]="description" required>
                       <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
@@ -49,7 +49,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appSetAutoFocus matInput placeholder="{{'analytics.link.url' | translate}}" type="text"
+                      <input appAutofocus matInput placeholder="{{'analytics.link.url' | translate}}" type="text"
                         [formControl]="url" required>
                       <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>

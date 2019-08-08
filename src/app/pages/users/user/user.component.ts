@@ -25,7 +25,7 @@ import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
-  selector: 'app-user-cmp',
+  selector: 'app-user',
   templateUrl: 'user.component.html'
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {

@@ -16,7 +16,7 @@ import { Utils } from 'app/utils/Utils';
 
 
 @Component({
-  selector: 'app-company-cmp',
+  selector: 'app-company',
   templateUrl: 'company.component.html'
 })
 export class CompanyComponent implements OnInit {

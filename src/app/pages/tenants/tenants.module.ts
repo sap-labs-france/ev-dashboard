@@ -10,7 +10,7 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { TableModule } from '../../shared/table/table.module';
 import { TenantComponent } from './tenant/tenant.component';
 import { TenantsRoutes } from './tenants.routing';
-import { TenantsComponent } from './list/tenants-list.component';
+import { TenantsListComponent } from './list/tenants-list.component';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 
 @NgModule({
@@ -26,15 +26,15 @@ import { TenantsListTableDataSource } from './list/tenants-list-table-data-sourc
     DialogsModule
   ],
   declarations: [
-    TenantsComponent,
+    TenantsListComponent,
     TenantComponent
   ],
   entryComponents: [
-    TenantsComponent,
+    TenantsListComponent,
     TenantComponent
   ],
   exports: [
-    TenantsComponent,
+    TenantsListComponent,
     TenantComponent
   ],
   providers: [

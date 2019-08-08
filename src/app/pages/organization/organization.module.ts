@@ -9,7 +9,6 @@ import { AddressModule } from '../../shared/address/address.module';
 import { CompanyComponent } from './companies/company/company.component';
 import { CompanyDialogComponent } from './companies/company/company.dialog.component';
 import { CompaniesListComponent } from './companies/list/companies-list.component';
-import { CompanyLogoComponent } from './formatters/company-logo.component';
 import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
 import { SiteAreaChargersDialogComponent } from './site-areas/site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
@@ -27,8 +26,9 @@ import { OrganizationRoutes } from './organization.routing';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
 import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
-import { SiteAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
+import { SiteUsersAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
+import { CompanyLogoFormatterComponent } from './formatters/company-logo-formatter.component';
 
 @NgModule({
   imports: [
@@ -49,14 +49,14 @@ import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-da
     SiteAreasListComponent,
     CompanyComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent,
+    CompanyLogoFormatterComponent,
     SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent
   ],
   entryComponents: [
     OrganizationComponent,
@@ -64,13 +64,13 @@ import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-da
     SitesListComponent,
     SiteAreasListComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent,
+    CompanyLogoFormatterComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent
   ],
   providers: [
     CompaniesListTableDataSource,

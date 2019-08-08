@@ -358,7 +358,6 @@ export interface Site {
   name: string;
   companyID: string;
   company: Company;
-  allowAllUsersToStopTransactions: boolean;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;

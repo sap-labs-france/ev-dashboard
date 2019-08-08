@@ -21,8 +21,8 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
-import { CompanyLogoComponent } from '../../formatters/company-logo.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
+import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -91,7 +91,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CompanyLogoComponent
+        angularComponent: CompanyLogoFormatterComponent
       },
       {
         id: 'name',

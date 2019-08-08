@@ -28,13 +28,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.2',
-        date: new Date('2019-08-05'),
+        date: new Date('2019-08-08'),
         componentChanges: [
           {
             name: 'Front-end',
             changes: [
               `Cannot assign a Badge ID which is already used by another user`,
+              `Force mandatory fields to be highlighted in Charging Station Settings`,
               `Added Sessions with a wrong inactivity in Faulty Sessions`,
+              `Generalized multi-selection in all drop-down filters`,
               `Fixed navigation issues`
             ]
           },
@@ -42,7 +44,8 @@ export class ReleaseNotesComponent {
             name: 'Backend',
             changes: [
               `Fixed search with an ID in Site, Site Area, Company and User list`,
-              `Send a new notification for signed and certified Sessions to the User`
+              `Send a new notification email for signed and certified Sessions to the User`,
+              `Added several tens of Unit Tests`
             ]
           }
         ]

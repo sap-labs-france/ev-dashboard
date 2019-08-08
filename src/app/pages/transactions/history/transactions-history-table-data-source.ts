@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -28,9 +28,9 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -218,7 +218,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SitesTableFilter().getFilterDef());
-      filters.push(new SiteAreasTableFilter().getFilterDef());
+      filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
     switch (this.centralServerService.getLoggedUser().role) {

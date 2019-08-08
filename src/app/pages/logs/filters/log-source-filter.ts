@@ -1,4 +1,4 @@
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 
 export class LogSourceTableFilter extends ChargerTableFilter {
   constructor() {

@@ -2,17 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  ChargerInError,
-  Connector,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef
-} from 'app/common.types';
+import { Charger, ChargerInError, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -28,7 +18,6 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import en from '../../../../assets/i18n/en.json';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -248,8 +237,12 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    const errorTypes = Object.keys(en.chargers.errors).map(key => ({ key: key, value: `chargers.errors.${key}.title` }));
-
+    // Create error type
+    const errorTypes = [];
+    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_MISSING_SETTINGS, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SETTINGS}.title` });
+    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title` });
+    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title` });
+    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title` });
     return [
       // new ChargerTableFilter().getFilterDef(),
       new SitesTableFilter().getFilterDef(),
@@ -320,6 +313,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
+    dialogConfig.height = '90vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (chargingStation) {
       dialogConfig.data = chargingStation;

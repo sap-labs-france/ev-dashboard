@@ -7,30 +7,18 @@ import { throwError, BehaviorSubject, EMPTY, Observable, ObservableInput } from 
 import { catchError } from 'rxjs/operators';
 import {
   ActionResponse,
-  Charger,
-  ChargerInErrorResult,
-  ChargerResult,
-  Company,
-  CompanyResult,
+  Charger, ChargerInError,
+  Company, DataResult,
   Image,
   Log,
-  Logo,
-  LogResult,
-  OcpiEndpointResult,
+  Logo, OcpiEndpoint,
   Ordering,
-  Paging,
-  SettingResult,
+  Paging, Setting,
   Site,
   SiteArea,
-  SiteAreaResult,
-  SiteResult,
   Tenant,
-  TenantResult,
   Transaction,
-  TransactionResult,
-  User,
-  UserResult,
-  UserSiteResult
+  User, UserSite
 } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -157,7 +145,7 @@ export class CentralServerService {
       );
   }
 
-  public getCompanies(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<CompanyResult> {
+  public getCompanies(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -165,7 +153,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<CompanyResult>(
+    return this.httpClient.get<DataResult<Company>>(
       `${this.centralRestServerServiceSecuredURL}/Companies`,
       {
         headers: this._buildHttpHeaders(),
@@ -225,7 +213,7 @@ export class CentralServerService {
       );
   }
 
-  public getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteResult> {
+  public getSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -233,7 +221,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteResult>(
+    return this.httpClient.get<DataResult<Site>>(
       `${this.centralRestServerServiceSecuredURL}/Sites`,
       {
         headers: this._buildHttpHeaders(),
@@ -279,7 +267,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreas(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<SiteAreaResult> {
+  public getSiteAreas(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -287,7 +275,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<SiteResult>(
+    return this.httpClient.get<DataResult<SiteArea>>(
       `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
       {
         headers: this._buildHttpHeaders(),
@@ -466,6 +454,7 @@ export class CentralServerService {
         catchError(this._handleHttpError)
       );
   }
+
   public getChargingStationPricingStatistics(year, params?: any): Observable<any> {
     params['Year'] = year;
     // Verify init
@@ -510,7 +499,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerResult> {
+  public getChargers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -546,7 +535,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getChargersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargerInErrorResult> {
+  public getChargersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -564,7 +553,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserSiteResult> {
+  public getSiteUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -582,7 +571,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+  public getUsers(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -600,7 +589,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<UserResult> {
+  public getUsersInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -618,7 +607,7 @@ export class CentralServerService {
       );
   }
 
-  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TenantResult> {
+  public getTenants(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -626,7 +615,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TenantResult>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
+    return this.httpClient.get<DataResult<Tenant>>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -653,7 +642,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<TransactionResult> {
+  public getTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -661,7 +650,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -749,7 +738,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
-    : Observable<TransactionResult> {
+    : Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -757,7 +746,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -768,7 +757,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
-    : Observable<TransactionResult> {
+    : Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -776,7 +765,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<TransactionResult>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -787,7 +776,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiEndpointResult> {
+  public getOcpiEndpoints(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -860,7 +849,7 @@ export class CentralServerService {
       );
   }
 
-  public getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<LogResult> {
+  public getLogs(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -869,7 +858,7 @@ export class CentralServerService {
     this._getSorting(ordering, params);
     // Execute the REST service
     // Execute
-    return this.httpClient.get<LogResult>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
+    return this.httpClient.get<DataResult<Log>>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
       {
         headers: this._buildHttpHeaders(),
         params
@@ -944,11 +933,11 @@ export class CentralServerService {
       );
   }
 
-  public getSettings(identifier: string, contentFilter = false): Observable<SettingResult> {
+  public getSettings(identifier: string, contentFilter = false): Observable<DataResult<Setting>> {
     // verify init
     this._checkInit();
     // Execute the REST Service
-    return this.httpClient.get<SettingResult>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
+    return this.httpClient.get<DataResult<Setting>>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
       {
         headers: this._buildHttpHeaders()
       })

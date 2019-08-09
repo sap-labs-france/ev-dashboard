@@ -4,7 +4,14 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { Site, TableActionDef, TableColumnDef, TableDef, User } from '../../../common.types';
+import {
+  DataResult,
+  Site,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  User
+} from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -34,7 +41,7 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
@@ -51,7 +58,10 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
           observer.error(error);
         });
       } else {
-        observer.next([]);
+        observer.next({
+          count: 0,
+          result: []
+        });
         observer.complete();
       }
     });

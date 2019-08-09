@@ -1,24 +1,28 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { SettingsOcpiEnpointsDetaislTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
+import { OcpiEndpoint } from '../../../../../common.types';
+import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 
 @Component({
   template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEnpointsDetaislTableDataSource"></app-table>'
 })
 
 export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row: any;
+  @Input() row: OcpiEndpoint;
 
-  constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEnpointsDetaislTableDataSource) {
+  constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
     super();
   }
 
   ngOnInit(): void {
-    // Set
-    this.settingsOcpiEnpointsDetaislTableDataSource.setEndpoint(this.row);
+    this.refreshData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.refreshData();
+  }
+
+  private refreshData(): void {
     // Set
     this.settingsOcpiEnpointsDetaislTableDataSource.setEndpoint(this.row);
     // Reload data

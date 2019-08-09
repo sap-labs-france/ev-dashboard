@@ -5,6 +5,11 @@ import { ChartConstants, ChartData } from './chart-utilities';
 
 import * as moment from 'moment';
 
+export interface StatisticsBuildValueWithUnit {
+  value: number;
+  unit: string;
+}
+
 @Injectable()
 export class StatisticsBuildService {
   private totalLabel: string;
@@ -23,10 +28,10 @@ export class StatisticsBuildService {
   }
 
   public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
-    multipleUnits = false,
+    addUnitToLabel = false,
     sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
-    maxNumberOfItems = 20
-  ): ChartData {
+    maxNumberOfItems = 20): ChartData {
+
     const stackedChartData: ChartData = { labels: [], datasets: [] };
 
     let roundingFactor = 1;
@@ -55,7 +60,7 @@ export class StatisticsBuildService {
 
     if (transactionValues && transactionValues.length > 0) {
       transactionValues.forEach((transactionValue: { [x: string]: number; }) => {
-        // for each month (sorted from 0 to 11, but attention, multiple month values due to multiple units!):
+        // for each month (sorted from 0 to 11, but attention, multiple month values are possible if multiple units!):
         let totalValuePerMonth = 0;
         let newMonth = false;
 
@@ -80,31 +85,41 @@ export class StatisticsBuildService {
             transactionValue[key] = Math.round(transactionValue[key]);
             transactionValue[key] /= roundingFactor;
 
-            if (multipleUnits && (this.unitLabel in transactionValue)) {
-              newKey = key + ` [${transactionValue[this.unitLabel]}]`;
-            } else {
-              newKey = key;
-            }
-
-            dataSetIndex = stackedChartData.datasets.findIndex((dataset) => dataset['label'] === newKey);
-
-            if (dataSetIndex < 0) {
-              numberArray = [];
-
-              for (let i = 1; i < countMonths; i++) {
-                // add leading zeros for previous months without activity
-                numberArray.push(0);
+            if (transactionValue[key] && transactionValue[key] !== 0) {
+              if (addUnitToLabel && (this.unitLabel in transactionValue)) {
+                newKey = key + ` [${transactionValue[this.unitLabel]}]`;
+              } else {
+                newKey = key;
               }
 
-              numberArray.push(transactionValue[key]);
-              stackedChartData.datasets.push({ 'label': newKey, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
-            } else {
-              numberArray = stackedChartData.datasets[dataSetIndex].data;
-              numberArray.push(transactionValue[key]);
-              stackedChartData.datasets[dataSetIndex].data = numberArray;
-            }
+              dataSetIndex = stackedChartData.datasets.findIndex((dataset) => dataset['label'] === newKey);
 
-            totalValuePerMonth += transactionValue[key];
+              if (dataSetIndex < 0) {
+                numberArray = [];
+
+                for (let i = 1; i < countMonths; i++) {
+                  // add leading zeros for previous months without activity
+                  numberArray.push(0);
+                }
+
+                numberArray.push(transactionValue[key]);
+                stackedChartData.datasets.push({ 'label': newKey, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
+              } else {
+                numberArray = stackedChartData.datasets[dataSetIndex].data;
+                if (newMonth) {
+                  numberArray.push(transactionValue[key]);
+                } else {
+                  let monthlyNumber = numberArray[countMonths - 1];
+                  if (typeof (monthlyNumber) === 'number') {
+                    monthlyNumber += transactionValue[key];
+                    numberArray[countMonths - 1] = monthlyNumber;
+                  }
+                }
+                stackedChartData.datasets[dataSetIndex].data = numberArray;
+              }
+
+              totalValuePerMonth += transactionValue[key];
+            }
           }
         }
 
@@ -309,4 +324,104 @@ export class StatisticsBuildService {
 
     return count;
   }
+
+  public calculateTotalsWithUnits(statisticsData: any,
+    roundingDecimals: number = 0,
+    ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+
+    let roundingFactor = 1;
+    let index = 0;
+    let localString: any;
+    let localNumber: any;
+    let unitFound = false;
+    let lastUnit: string;
+    let totalOfLastUnit = 0;
+    let totalWithUnit: StatisticsBuildValueWithUnit;
+    let totalsWithUnit: StatisticsBuildValueWithUnit[] = [];
+
+    const transactionValues = statisticsData;
+
+    if (roundingDecimals !== 0) {
+      if (roundingDecimals > 0) {
+        for (let i = 0; i < roundingDecimals; i++) {
+          roundingFactor *= 10;
+        }
+      } else {
+        for (let i = roundingDecimals; i < 0; i++) {
+          roundingFactor /= 10;
+        }
+      }
+    }
+
+    if (transactionValues && transactionValues.length > 0) {
+      transactionValues.forEach((transactionValue: { [x: string]: number | string; }) => {
+
+        totalWithUnit = { value: 0, unit: '' };
+        unitFound = false;
+        for (const key in transactionValue) {
+          if (key === this.unitLabel) {
+            localString = transactionValue[key];
+            if (typeof (localString) === 'string') {
+              unitFound = true;
+              totalWithUnit.unit = localString;
+              if (totalWithUnit.unit === lastUnit) {
+                totalWithUnit.value += totalOfLastUnit;
+              } else if (totalOfLastUnit && totalOfLastUnit !== 0) {
+                index = totalsWithUnit.findIndex((record) => record.unit === lastUnit);
+                if (index < 0) {
+                  totalsWithUnit.push({ value: totalOfLastUnit, unit: lastUnit });
+                } else {
+                  totalsWithUnit[index].value += totalOfLastUnit;
+                }
+                totalOfLastUnit = 0;
+              }
+            }
+          } else if (key !== this.monthLabel) {
+            localNumber = transactionValue[key];
+            if (typeof (localNumber) === 'number') {
+              // Round
+              localNumber *= roundingFactor;
+              localNumber = Math.round(localNumber);
+              localNumber /= roundingFactor;
+              totalWithUnit.value += localNumber;
+            }
+          }
+        }
+        if (!unitFound) {
+          if (totalWithUnit.unit === lastUnit) {
+            totalWithUnit.value += totalOfLastUnit;
+          } else if (totalOfLastUnit && totalOfLastUnit !== 0) {
+            index = totalsWithUnit.findIndex((record) => record.unit === lastUnit);
+            if (index < 0) {
+              totalsWithUnit.push({ value: totalOfLastUnit, unit: lastUnit });
+            } else {
+              totalsWithUnit[index].value += totalOfLastUnit;
+            }
+            totalOfLastUnit = 0;
+          }
+        }
+        lastUnit = totalWithUnit.unit;
+        totalOfLastUnit = totalWithUnit.value;
+      });
+      // Save the last unit
+      index = totalsWithUnit.findIndex((record) => record.unit === lastUnit);
+      if (index < 0) {
+        totalsWithUnit.push({ value: totalOfLastUnit, unit: lastUnit });
+      } else {
+        totalsWithUnit[index].value += totalOfLastUnit;
+      }
+    }
+
+    if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
+      index = totalsWithUnit.findIndex((record) => record.unit === '')
+      if (index > -1) {
+        totalOfLastUnit = totalsWithUnit[index].value;
+        totalsWithUnit.splice(index, 1);
+        totalsWithUnit[0].value += totalOfLastUnit;
+      }
+    }
+
+    return totalsWithUnit;
+  }
+
 }

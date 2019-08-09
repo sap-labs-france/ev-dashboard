@@ -473,6 +473,7 @@
     "graphic_title_inactivity_y_axis": "Inactivité (heures)",
     "graphic_title_transactions_y_axis": "Nombre de sessions",
     "graphic_title_pricing_y_axis": "Prix des sessions en {{currency}}",
+    "multiple_currencies": "(devises multiples)",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",

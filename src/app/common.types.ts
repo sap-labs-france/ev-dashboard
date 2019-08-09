@@ -27,6 +27,7 @@ export interface TableFilterDef {
   dialogComponent?: any;
   reset?: Function;
   multiple?: boolean;
+  cleared?: boolean;
 }
 
 export interface DropdownItem {

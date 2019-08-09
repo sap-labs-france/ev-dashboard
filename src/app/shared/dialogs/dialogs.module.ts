@@ -7,8 +7,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
 import { ComponentModule } from '../component/component.module';
-import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { ConsumptionChartComponent } from '../component/consumption-chart/consumption-chart.component';
+import { ErrorCodeDetailsComponent } from '../component/error-code-details/error-code-details.component';
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
@@ -21,11 +21,11 @@ import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { SessionDialogComponent } from './session/session-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
+import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
+import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
+import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
-import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
-import { SitesDialogComponent } from './sites/sites-dialog.component';
-import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
 
 export class FooterModule {
 }

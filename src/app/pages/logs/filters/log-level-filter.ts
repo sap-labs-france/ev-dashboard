@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
-import { logLevels } from '../logs.model';
+import { logLevels } from '../model/logs.model';
 
 export class LogLevelTableFilter extends TableFilter {
   constructor() {

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { Charger, SiteArea } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -15,7 +16,6 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 
 export const CONNECTED_PHASE_MAP =
   [
@@ -141,8 +141,6 @@ export class ChargingStationParametersComponent implements OnInit {
 
     this.formGroup.updateValueAndValidity();
 
-    this.formGroup.markAllAsTouched();
-
     // Deactivate for non admin users
     if (!this.isAdmin) {
       this.cannotChargeInParallel.disable();
@@ -203,7 +201,7 @@ export class ChargingStationParametersComponent implements OnInit {
       }
     }
     if (this.charger.id) {
-      this.loadChargeBoxID();
+      this.loadChargingStation();
     }
   }
 
@@ -211,10 +209,10 @@ export class ChargingStationParametersComponent implements OnInit {
    * refresh
    */
   public refresh() {
-    this.loadChargeBoxID();
+    this.loadChargingStation();
   }
 
-  public loadChargeBoxID() {
+  public loadChargingStation() {
     if (!this.charger.id) {
       return;
     }
@@ -222,8 +220,8 @@ export class ChargingStationParametersComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     this.centralServerService.getCharger(this.charger.id).subscribe((chargerResult) => {
+      this.spinnerService.hide();
       this.charger = chargerResult;
-
       // Init form
       if (this.charger.chargingStationURL) {
         this.formGroup.controls.chargingStationURL.setValue(this.charger.chargingStationURL);
@@ -276,7 +274,7 @@ export class ChargingStationParametersComponent implements OnInit {
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
-      this.spinnerService.hide();
+      this.formGroup.markAllAsTouched();
     }, (error) => {
       // Hide
       this.spinnerService.hide();

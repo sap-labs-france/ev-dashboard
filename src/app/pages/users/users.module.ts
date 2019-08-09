@@ -14,14 +14,14 @@ import { AppUserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
 import { AppUserStatusPipe } from './formatters/user-status.pipe';
 import { UsersInErrorTableDataSource } from './in-error/users-in-error-table-data-source';
-import { UserComponent } from './user/user.component';
-import { UserDialogComponent } from './user/user.dialog.component';
-import { UserRoutes } from './users.routing';
-import { UsersListComponent } from './list/users-list.component';
-import { UsersComponent } from './users.component';
 import { UsersInErrorComponent } from './in-error/users-in-error.component';
+import { UsersListComponent } from './list/users-list.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
+import { UserComponent } from './user/user.component';
+import { UserDialogComponent } from './user/user.dialog.component';
+import { UsersComponent } from './users.component';
+import { UserRoutes } from './users.routing';
 
 @NgModule({
   imports: [

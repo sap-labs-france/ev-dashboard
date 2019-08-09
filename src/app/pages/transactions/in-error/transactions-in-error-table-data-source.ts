@@ -7,7 +7,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import en from '../../../../assets/i18n/en.json';
 import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -151,7 +150,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
-    const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
+    // Create error type
+    const errorTypes = [];
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title` });
 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),

@@ -11,14 +11,14 @@ import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialo
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+import { ChargingStationSmartChargingDialogComponent } from './charging-station-smart-charging.dialog.component';
+import { ChargingStationSmartChargingPowerSliderComponent } from './component/charging-station-smart-charging-power-slider.component';
 // tslint:disable-next-line:max-line-length
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './limit-planner/charging-station-smart-charging-limit-planner-chart.component';
 import { ChargingStationSmartChargingLimitPlannerComponent } from './limit-planner/charging-station-smart-charging-limit-planner.component';
 import { ChargingStationSmartChargingLimitChartComponent } from './limit-planning/charging-station-smart-charging-limit-chart.component';
 import { ChargingStationSmartChargingLimitPlanningComponent } from './limit-planning/charging-station-smart-charging-limit-planning.component';
 import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit/charging-station-smart-charging-master-limit.component';
-import { ChargingStationSmartChargingPowerSliderComponent } from './component/charging-station-smart-charging-power-slider.component';
-import { ChargingStationSmartChargingDialogComponent } from './charging-station-smart-charging.dialog.component';
 @NgModule({
   imports: [
     CommonModule,

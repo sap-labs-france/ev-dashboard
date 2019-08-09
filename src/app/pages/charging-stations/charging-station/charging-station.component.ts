@@ -13,7 +13,7 @@ const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
-  selector: 'app-charging-station-cmp',
+  selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html'
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {

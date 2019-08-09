@@ -17,6 +17,16 @@ export class Constants {
   public static CHIP_TYPE_WARNING = 'chip-warning';
   public static CHIP_TYPE_GREY = 'chip-grey';
 
+  public static TRANSACTION_IN_ERROR_NO_CONSUMPTION = 'no_consumption';
+  public static TRANSACTION_IN_ERROR_OVER_CONSUMPTION = 'average_consumption_greater_than_connector_capacity';
+  public static TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY = 'negative_inactivity';
+  public static TRANSACTION_IN_ERROR_INVALID_START_DATE = 'incorrect_starting_date';
+
+  public static CHARGER_IN_ERROR_MISSING_SETTINGS = 'missingSettings';
+  public static CHARGER_IN_ERROR_CONNECTION_BROKEN = 'connectionBroken';
+  public static CHARGER_IN_ERROR_MISSING_SITE_AREA = 'missingSiteArea';
+  public static CHARGER_IN_ERROR_CONNECTOR_ERROR = 'connectorError';
+
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';
@@ -52,8 +62,8 @@ export class Constants {
   public static ACTION_LIST = 'List';
   public static ACTION_RESET = 'Reset';
   public static ACTION_CLEAR_CACHE = 'ClearCache';
-  public static ACTION_REMOTE_START_TRANSACTION = 'StartTransaction';
-  public static ACTION_REMOTE_STOP_TRANSACTION = 'StopTransaction';
+  public static ACTION_REMOTE_START_TRANSACTION = 'RemoteStartTransaction';
+  public static ACTION_REMOTE_STOP_TRANSACTION = 'RemoteStopTransaction';
   public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';

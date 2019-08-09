@@ -1,0 +1,17 @@
+applications:
+- name: sap-ev-front-end-new
+  memory: 512M
+  disk_quota: 4G
+  instances: 1
+  buildpacks:
+  - https://github.com/cloudfoundry/staticfile-buildpack
+  routes:
+  - route: sap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
+  - route: slfsap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
+  - route: slfcahsap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
+  path: dist
+  gzip: on
+  env:
+    DT_NGINX_ALL_WHITELISTED: true
+  # services:
+  # - dynatrace-service

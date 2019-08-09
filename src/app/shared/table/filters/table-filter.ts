@@ -11,7 +11,11 @@ export abstract class TableFilter {
   // Return set filter
   public setFilterDef(filterDef: TableFilterDef) {
     if (!filterDef.reset) {
-      filterDef.reset = () => filterDef.currentValue = '';
+      if (filterDef.multiple) {
+        filterDef.reset = () => filterDef.currentValue = [];
+      } else {
+        filterDef.reset = () => filterDef.currentValue = '';
+      }
     }
     this.filterDef = filterDef;
   }

@@ -14,6 +14,10 @@ export abstract class DialogTableDataComponent<T> {
       public dialogTableDataSource: DialogTableDataSource<T>) {
     // Assign dialog table data source if provided
     this.dialogDataSource = dialogTableDataSource;
+    // Reset the provider if the filter has been reseted 
+    if (data.cleared) {
+      this.dialogDataSource.destroyDatasource();
+    }
     // assign parameters
     this.title = (data && data.title ? data.title : '');
     this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.select');

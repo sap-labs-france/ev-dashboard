@@ -187,6 +187,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
+      filterDef.cleared = true;
     } else {
       filterDef.currentValue = null;
     }
@@ -199,8 +200,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.disableClose = true;
     // Init button title
     dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter'
+      validateButtonTitle: 'general.set_filter',
     };
+    if (filterDef.cleared) {
+      dialogConfig.data.cleared = true;
+      filterDef.cleared = false;
+    }
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Show

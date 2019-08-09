@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, ChargerResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Charger,
+  DataResult,
+  DropdownItem,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -62,7 +71,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<ChargerResult> {
+  public loadDataImpl(): Observable<DataResult<Charger>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),

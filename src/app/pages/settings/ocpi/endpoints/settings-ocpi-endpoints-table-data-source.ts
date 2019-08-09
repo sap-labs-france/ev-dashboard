@@ -4,7 +4,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DropdownItem, OcpiEndpoint, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  DataResult,
+  DropdownItem,
+  OcpiEndpoint,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
@@ -51,7 +60,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     return this.centralServerNotificationService.getSubjectOcpiEndpoints();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<OcpiEndpoint>> {
     return new Observable((observer) => {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
@@ -202,7 +211,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     ];
   }
 
-  private showOcpiEndpointDialog(endpoint?: any) {
+  private showOcpiEndpointDialog(endpoint?: OcpiEndpoint) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';

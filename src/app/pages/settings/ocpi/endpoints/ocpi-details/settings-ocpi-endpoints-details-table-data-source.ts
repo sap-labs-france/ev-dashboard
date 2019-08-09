@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
-import { OcpiEndpoint, OcpiEndpointDetail, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import {
+  DataResult,
+  OcpiEndpoint,
+  OcpiEndpointDetail,
+  TableActionDef,
+  TableColumnDef,
+  TableDef
+} from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -22,7 +29,7 @@ import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/oc
 import { OcpiDetailTotalEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-total-evses-status-formatter.component';
 
 @Injectable()
-export class SettingsOcpiEnpointsDetaislTableDataSource extends TableDataSource<OcpiEndpointDetail> {
+export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource<OcpiEndpointDetail> {
   private ocpiEndpoint: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
@@ -41,7 +48,7 @@ export class SettingsOcpiEnpointsDetaislTableDataSource extends TableDataSource<
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<OcpiEndpointDetail>> {
     return new Observable((observer) => {
       // Return connector
       let ocpiEndpointDetail;

@@ -2,7 +2,18 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, ChargerInError, Connector, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Charger,
+  ChargerInError,
+  Connector,
+  DataResult,
+  DropdownItem,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -74,7 +85,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<ChargerInError>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargersInError(this.buildFilterValues(),

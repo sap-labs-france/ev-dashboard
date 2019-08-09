@@ -9,7 +9,16 @@ import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -74,7 +83,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl() {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {

@@ -4,7 +4,16 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AnalyticsLink, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  AnalyticsLink,
+  DataResult,
+  DropdownItem,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -51,7 +60,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return this.analyticsLinks;
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<AnalyticsLink>> {
     return new Observable((observer) => {
       // Check
       if (this.analyticsLinks) {
@@ -180,7 +189,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return [];
   }
 
-  private showLinksDialog(analyticsLink?: any) {
+  private showLinksDialog(analyticsLink?: AnalyticsLink) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';

@@ -6,7 +6,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import { Observable } from 'rxjs';
-import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -66,7 +75,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {

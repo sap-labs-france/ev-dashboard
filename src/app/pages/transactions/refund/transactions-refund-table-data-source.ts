@@ -5,7 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionsResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -70,7 +79,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;

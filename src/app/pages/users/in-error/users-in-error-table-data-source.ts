@@ -4,7 +4,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
+import {
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  User
+} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -54,7 +62,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),

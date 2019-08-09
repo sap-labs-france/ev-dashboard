@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, SiteArea, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
+import {
+  Charger,
+  DataResult,
+  SiteArea,
+  TableActionDef,
+  TableColumnDef,
+  TableDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -32,7 +39,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     super(spinnerService);
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Charger>> {
     return new Observable((observer) => {
       // siteArea provided?
       if (this.siteArea) {
@@ -50,7 +57,10 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         });
       } else {
         // Ok
-        observer.next([]);
+        observer.next({
+          count: 0,
+          result: []
+        });
         observer.complete();
       }
     });

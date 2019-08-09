@@ -5,7 +5,15 @@ import { SpinnerService } from 'app/services/spinner.service';
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../common.types';
+import {
+  DataResult,
+  Log,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -48,7 +56,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Log>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getLogs(this.buildFilterValues(),

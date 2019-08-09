@@ -7,7 +7,16 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -65,7 +74,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl() {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {

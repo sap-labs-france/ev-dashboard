@@ -21,7 +21,7 @@ import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './o
 import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
-import { SettingsOcpiEnpointsDetaislTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
+import { SettingsOcpiEndpointsDetailsTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details.component';
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
 import { SettingsOcpiEnpointsComponent } from './ocpi/endpoints/settings-ocpi-endpoints.component';
@@ -100,7 +100,7 @@ import { SettingsRoutes } from './settings.routing';
     SettingsOcpiEnpointsDetailsComponent
   ],
   providers: [
-    SettingsOcpiEnpointsDetaislTableDataSource,
+    SettingsOcpiEndpointsDetailsTableDataSource,
     SettingsOcpiEndpointsTableDataSource,
     AnalyticsLinksTableDataSource
   ]

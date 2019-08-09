@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import {
   ActionResponse,
   Charger,
-  Connector,
+  Connector, DataResult,
   TableActionDef,
   TableColumnDef,
   TableDef,
@@ -68,11 +68,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     this.noAction.getActionDef().disabled = true;
   }
 
-  loadData(showSpinner: boolean = false): Observable<Connector> {
+  loadData(showSpinner: boolean = false): Observable<void> {
     return super.loadData(showSpinner);
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Connector>> {
     return new Observable((observer) => {
       // Return connector
       if (this.charger) {

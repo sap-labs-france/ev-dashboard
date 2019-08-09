@@ -9,7 +9,13 @@ import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
+import {
+  Data,
+  DropdownItem,
+  TableActionDef,
+  TableColumnDef,
+  TableFilterDef
+} from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
@@ -20,7 +26,7 @@ import { TableDataSource } from './table-data-source';
   templateUrl: 'table.component.html'
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() dataSource: TableDataSource<any>;
+  @Input() dataSource: TableDataSource<Data>;
   @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
@@ -292,8 +298,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  public trackByObjectId(index: number, item: any): any {
-    return item.id;
+  public trackByObjectId(index: number, item: Data): string {
+    return item.id as string;
   }
 
   public loadData() {

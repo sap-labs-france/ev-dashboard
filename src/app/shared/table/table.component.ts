@@ -310,20 +310,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Already Expanded
     if (!row.isExpanded) {
       // Already Loaded
-      if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
-        // Component
-        if (!this.dataSource.tableDef.rowDetails.angularComponent) {
-          // No: Load details from data source
-          this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
-            // Set details
-            row[this.dataSource.tableDef.rowDetails.detailsField] = details;
-            // No: Expand it!
-            row.isExpanded = true;
-          });
-        } else {
-          // Yes: Find the container related to the row
+      if (this.dataSource.tableDef.rowDetails.enabled && this.dataSource.tableDef.rowDetails.detailsField && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        // No: Load details from data source
+        this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
+          // Set details
+          row[this.dataSource.tableDef.rowDetails.detailsField] = details;
+          // No: Expand it!
           row.isExpanded = true;
-        }
+        });
       } else {
         // Yes: Expand it!
         row.isExpanded = true;

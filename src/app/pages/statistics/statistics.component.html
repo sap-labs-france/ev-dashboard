@@ -37,5 +37,14 @@
         <app-statistics-transactions></app-statistics-transactions>
       </ng-template>
     </mat-tab>
+
+    <mat-tab *ngIf="isPricingActive">
+      <ng-template mat-tab-label>
+        <mat-icon>money</mat-icon><span>{{'general.menu.pricing' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-statistics-pricing></app-statistics-pricing>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

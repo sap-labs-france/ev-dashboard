@@ -472,6 +472,8 @@
     "graphic_title_usage_y_axis": "Usage (hours)",
     "graphic_title_inactivity_y_axis": "Inactivity (hours)",
     "graphic_title_transactions_y_axis": "Number of Sessions",
+    "graphic_title_pricing_y_axis": "Price of Sessions in {{currency}}",
+    "multiple_currencies": "(Multiple Currencies)",
     "graphic_title_month_x_axis": "Months",
     "transactions_years": "Year",
     "total_consumption_year": "Total Consumption {{year}}",
@@ -500,6 +502,12 @@
     "transactions_per_user_month_title": "Users' Sessions per Month (Overall: {{total}})",
     "transactions_per_user_year_title": "Users' Sessions per Year: {{total}}",
     "transactions_per_user_total_title": "Users' Total Sessions: {{total}}",
+    "pricing_per_cs_month_title": "Charging Stations' Prices per Month (Overall: {{total}})",
+    "pricing_per_cs_year_title": "Charging Stations' Prices per Year: {{total}}",
+    "pricing_per_cs_total_title": "Charging Stations' Total Prices: {{total}}",
+    "pricing_per_user_month_title": "Users' Prices per Month (Overall: {{total}})",
+    "pricing_per_user_year_title": "Users' Prices per Year: {{total}}",
+    "pricing_per_user_total_title": "Users' Total Prices: {{total}}",
     "hours": "hours",
     "total": "Total",
     "others": "Others",
@@ -527,6 +535,12 @@
         "export": {
           "title": "Export Sessions Data",
           "confirm": "Do you really want to export all the sessions data matching the filters?"
+        }
+      },
+      "pricing": {
+        "export": {
+          "title": "Export Prices Data",
+          "confirm": "Do you really want to export all the prices data matching the filters?"
         }
       }
     }

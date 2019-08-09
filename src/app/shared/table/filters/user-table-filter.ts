@@ -12,7 +12,7 @@ export class UserTableFilter extends TableFilter {
       httpId: 'UserID',
       type: Constants.FILTER_TYPE_DIALOG_TABLE,
       defaultValue: '',
-      label:'',
+      label: '',
       name: 'logs.users',
       class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: UsersDialogComponent,

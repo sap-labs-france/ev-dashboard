@@ -221,7 +221,7 @@ export interface Address {
   longitude: number;
 }
 
-export interface Company extends Data{
+export interface Company extends Data {
   id: string;
   name: string;
   address: Address;
@@ -242,7 +242,7 @@ export interface Images {
   images: string[];
 }
 
-export interface Log extends Data{
+export interface Log extends Data {
   id: string;
   level: string;
   source: string;

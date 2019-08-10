@@ -39,7 +39,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <mat-form-field>
-                          <input [formControl]="name" appSetAutoFocus matInput
+                          <input [formControl]="name" appAutofocus matInput
                             placeholder="{{'tenants.name' | translate}}" required type="text">
                           <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                           <mat-error *ngIf="name.errors?.maxlength">

@@ -18,6 +18,20 @@
             <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
         </button>
 
+        <!-- SAC links -->
+        <div *ngIf="sacLinksActive">
+            <button mat-raised-button [matMenuTriggerFor]="sacLinksButton"
+                    [color]="'primary'" appTooltip="" data-placement="bottom"
+                    data-toggle="tooltip" [title]="'analytics.links' | translate">
+                    <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+            </button>
+            <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+                <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
+                    <a mat-menu-item href="{{sacLink.url}}" target= "_blank">{{sacLink.description}}</a>
+                </ng-template>
+            </mat-menu>
+        </div>
+
         <!-- Spacer -->
         <span class="toolbar-spacer"></span>
 
@@ -80,25 +94,43 @@
         </div>
 
         <!-- dynamically defined filters, like for Site ID -->
-        <div *ngFor="let filterDef of tableFiltersDef; let i=index"
+        <div *ngFor="let filterDef of statFiltersDef; let i=index"
+              [hidden]="filterDef.hidden"
               [class]="(filterDef.class ? filterDef.class : '')">
-            <!-- Dropdown Filter -->
-            <mat-form-field *ngIf="filterDef.type === 'dropdown'">
-                <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
-                            [placeholder]="filterDef.name | translate">
-                    <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- Dialog Table Filter -->
-            <mat-form-field *ngIf="filterDef.type === 'dialog-table'">
-                <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-                        [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
-                        class="form-field-popup" matInput readonly=true type="text" />
-                <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
-                    <mat-icon>clear</mat-icon>
-                </button>
-            </mat-form-field>
+          <!-- Dropdown Filter -->
+          <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+                        [placeholder]="filterDef.name | translate">
+              <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- Dropdown Filter with multiple selections-->
+          <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate" multiple disableRipple>
+              <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
+              <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- Dialog Table Filter -->
+          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && !filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                   [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+                   class="form-field-popup" matInput readonly=true type="text"/>
+            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- Dialog Table Filter with multiple selections-->
+          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+                   [value]="filterDef.label"
+                   class="form-field-popup" matInput readonly=true type="text"/>
+            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
             <!-- Date Filter -->
             <mat-form-field *ngIf="filterDef.type === 'date'">
                 <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">

@@ -8,7 +8,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
-import { AnalyticsLinksDataSource } from './analytics-link/analytics-links-source-table';
+import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
 
 @Component({
   selector: 'app-settings-analytics',
@@ -25,9 +25,9 @@ export class SettingsAnalyticsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
-    public analyticsLinksDataSource: AnalyticsLinksDataSource
+    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource
   ) {
-    this.analyticsLinksDataSource.changed.subscribe(_ => {
+    this.analyticsLinksTableDataSource.changed.subscribe(_ => {
       this.formGroup.markAsDirty();
     });
     this.isActive = componentService.isActive(ComponentEnum.ANALYTICS);
@@ -46,8 +46,8 @@ export class SettingsAnalyticsComponent implements OnInit {
       // Keep
       this.analyticsSettings = settings;
       // Set Links
-      this.analyticsLinksDataSource.setLinks(settings.links);
-      this.analyticsLinksDataSource.loadData().subscribe();
+      this.analyticsLinksTableDataSource.setLinks(settings.links);
+      this.analyticsLinksTableDataSource.loadData().subscribe();
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -68,7 +68,7 @@ export class SettingsAnalyticsComponent implements OnInit {
   public save(content) {
     // Set data
     this.analyticsSettings.sac = content;
-    this.analyticsSettings.links = this.analyticsLinksDataSource.getLinks();
+    this.analyticsSettings.links = this.analyticsLinksTableDataSource.getLinks();
     this.analyticsSettings.type = AnalyticsSettingsType.sac;
     // Save
     this.spinnerService.show();

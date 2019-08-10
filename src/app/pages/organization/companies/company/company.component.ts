@@ -5,8 +5,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
 
-import { AuthorizationService } from 'app/services/authorization-service';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -16,7 +17,7 @@ import { Utils } from 'app/utils/Utils';
 
 
 @Component({
-  selector: 'app-company-cmp',
+  selector: 'app-company',
   templateUrl: 'company.component.html'
 })
 export class CompanyComponent implements OnInit {
@@ -27,6 +28,7 @@ export class CompanyComponent implements OnInit {
 
   public isAdmin = false;
   public logo: any = Constants.COMPANY_NO_LOGO;
+  public maxSize;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -47,11 +49,14 @@ export class CompanyComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private configService: ConfigService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router) {
+
+    this.maxSize = this.configService.getCompany().maxLogoKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -238,13 +243,19 @@ export class CompanyComponent implements OnInit {
 
   public logoChanged(event) {
     // load picture
-    let reader = new FileReader(); // tslint:disable-line
-    const file = event.target.files[0];
-    reader.onload = () => {
-      this.logo = reader.result;
-    };
-    reader.readAsDataURL(file);
-    this.formGroup.markAsDirty();
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('companies.logo_size_error', {'maxPictureKb': this.maxSize});
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.logo = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
   public clearLogo() {

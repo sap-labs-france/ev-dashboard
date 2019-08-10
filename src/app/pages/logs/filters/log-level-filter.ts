@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
-import { logLevels } from '../logs.model';
+import { logLevels } from '../model/logs.model';
 
 export class LogLevelTableFilter extends TableFilter {
   constructor() {
@@ -13,6 +13,7 @@ export class LogLevelTableFilter extends TableFilter {
       type: Constants.FILTER_TYPE_DROPDOWN,
       name: 'logs.levels',
       class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
+      label: '',
       currentValue: [],
       items: Object.assign([], logLevels),
       multiple: true

@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CellContentComponentContainer } from './cell-content-container.component';
+import { CellContentTemplateContainerComponent } from './cell-content-template-container.component';
+
 
 @NgModule({
   declarations: [
-    CellContentComponentContainer
+    CellContentTemplateContainerComponent
   ],
   exports: [
-    CellContentComponentContainer
+    CellContentTemplateContainerComponent
   ]
 })
 export class CellContentTemplateModule {

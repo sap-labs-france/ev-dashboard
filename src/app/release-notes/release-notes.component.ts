@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthorizationService } from 'app/services/authorization-service';
+import { AuthorizationService } from 'app/services/authorization.service';
 
 interface ReleaseNotes {
   version: string;
@@ -26,6 +26,31 @@ export class ReleaseNotesComponent {
 
   buidlReleaseNotes(): any {
     this.releaseNotes = [
+      {
+        version: '2.1.2',
+        date: new Date('2019-08-08'),
+        componentChanges: [
+          {
+            name: 'Front-end',
+            changes: [
+              `Add the number of Sessions in Statistics`,
+              `Cannot assign a Badge ID which is already used by another user`,
+              `Force mandatory fields to be highlighted in Charging Station Settings`,
+              `Added Sessions with a wrong inactivity in Faulty Sessions`,
+              `Generalized multi-selection in all drop-down filters`,
+              `Fixed navigation issues`
+            ]
+          },
+          {
+            name: 'Backend',
+            changes: [
+              `Fixed search with an ID in Site, Site Area, Company and User list`,
+              `Send a new notification email for signed and certified Sessions to the User`,
+              `Added several tens of Unit Tests`
+            ]
+          }
+        ]
+      },
       {
         version: '2.1.1',
         date: new Date('2019-07-28'),

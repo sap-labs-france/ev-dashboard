@@ -4,8 +4,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization-service';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -14,7 +15,7 @@ import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-site-cmp',
+  selector: 'app-site',
   templateUrl: 'site.component.html'
 })
 export class SiteComponent implements OnInit {
@@ -23,12 +24,12 @@ export class SiteComponent implements OnInit {
   @Input() dialogRef: MatDialogRef<any>;
 
   public image: any = Constants.SITE_NO_IMAGE;
+  public maxSize;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
   public companyID: AbstractControl;
-  public allowAllUsersToStopTransactions: AbstractControl;
   public autoUserSiteAssignment: AbstractControl;
 
   public address: FormGroup;
@@ -50,10 +51,13 @@ export class SiteComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
+    private configService: ConfigService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
+
+    this.maxSize = this.configService.getSite().maxPictureKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -78,7 +82,6 @@ export class SiteComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])),
-      'allowAllUsersToStopTransactions': new FormControl(false),
       'autoUserSiteAssignment': new FormControl(false),
       'address': new FormGroup({
         'address1': new FormControl(''),
@@ -106,7 +109,6 @@ export class SiteComponent implements OnInit {
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
-    this.allowAllUsersToStopTransactions = this.formGroup.controls['allowAllUsersToStopTransactions'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
     this.address = <FormGroup>this.formGroup.controls['address'];
     this.address1 = this.address.controls['address1'];
@@ -197,11 +199,6 @@ export class SiteComponent implements OnInit {
       if (site.companyID) {
         this.formGroup.controls.companyID.setValue(site.companyID);
       }
-      if (site.allowAllUsersToStopTransactions) {
-        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(site.allowAllUsersToStopTransactions);
-      } else {
-        this.formGroup.controls.allowAllUsersToStopTransactions.setValue(false);
-      }
       if (site.autoUserSiteAssignment) {
         this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
       } else {
@@ -280,13 +277,19 @@ export class SiteComponent implements OnInit {
 
   public imageChanged(event) {
     // load picture
-    let reader = new FileReader(); // tslint:disable-line
-    const file = event.target.files[0];
-    reader.onload = () => {
-      this.image = reader.result;
-    };
-    reader.readAsDataURL(file);
-    this.formGroup.markAsDirty();
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('sites.image_size_error', {'maxPictureKb': this.maxSize});
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.image = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
   public clearImage() {

@@ -8,8 +8,9 @@ import { AppConnectorTypePipe } from './app-connector-type.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { AppDatePipe } from './app-date.pipe';
 import { AppDurationPipe } from './app-duration.pipe';
-import { AppFormatRowCellPipe } from './app-format-row-cell';
+import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
+import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppBatteryPercentagePipe,
     AppFormatRowCellPipe,
     AppUnitPipe,
-    AppCurrencyPipe
+    AppCurrencyPipe,
+    AppUserMultipleRolesPipe
   ],
   exports: [
     AppArrayToStringPipe,
@@ -38,7 +40,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppUnitPipe,
-    AppCurrencyPipe
+    AppCurrencyPipe,
+    AppUserMultipleRolesPipe
   ],
   providers: [
     LocaleService,
@@ -51,7 +54,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
     AppUnitPipe,
-    AppCurrencyPipe
+    AppCurrencyPipe,
+    AppUserMultipleRolesPipe
   ]
 })
 export class FormattersModule {

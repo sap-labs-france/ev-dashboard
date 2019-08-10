@@ -2,24 +2,23 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MaterialModule } from 'app/app.module';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog-component';
-import { CommonDirectivesModule } from 'app/shared/directives/common-directives.module';
+import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog.component';
+import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+import { ChargingStationSmartChargingDialogComponent } from './charging-station-smart-charging.dialog.component';
+import { ChargingStationSmartChargingPowerSliderComponent } from './component/charging-station-smart-charging-power-slider.component';
 // tslint:disable-next-line:max-line-length
-import { SmartChargingLimitPlannerChartComponent } from './limit-planner/smart-charging-limit-planner-chart.component';
-import { SmartChargingLimitPlannerComponent } from './limit-planner/smart-charging-limit-planner.component';
-import { SmartChargingLimitChartComponent } from './limit-planning/smart-charging-limit-chart.component';
-import { SmartChargingLimitPlanningComponent } from './limit-planning/smart-charging-limit-planning.component';
-import { SmartChargingMasterLimitComponent } from './master-limit/smart-charging-master-limit.component';
-import { SmartChargingPowerSliderComponent } from './smart-charging-power-slider.component';
-import { ChargingStationSmartChargingDialogComponent } from './smart-charging.dialog.component';
+import { ChargingStationSmartChargingLimitPlannerChartComponent } from './limit-planner/charging-station-smart-charging-limit-planner-chart.component';
+import { ChargingStationSmartChargingLimitPlannerComponent } from './limit-planner/charging-station-smart-charging-limit-planner.component';
+import { ChargingStationSmartChargingLimitChartComponent } from './limit-planning/charging-station-smart-charging-limit-chart.component';
+import { ChargingStationSmartChargingLimitPlanningComponent } from './limit-planning/charging-station-smart-charging-limit-planning.component';
+import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit/charging-station-smart-charging-master-limit.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,22 +36,22 @@ import { ChargingStationSmartChargingDialogComponent } from './smart-charging.di
   ],
   entryComponents: [
     ChargingStationSmartChargingDialogComponent,
-    SmartChargingMasterLimitComponent,
-    SmartChargingPowerSliderComponent,
-    SmartChargingLimitPlanningComponent,
-    SmartChargingLimitPlannerComponent,
+    ChargingStationSmartChargingMasterLimitComponent,
+    ChargingStationSmartChargingPowerSliderComponent,
+    ChargingStationSmartChargingLimitPlanningComponent,
+    ChargingStationSmartChargingLimitPlannerComponent,
     SessionDialogComponent,
-    SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent,
+    ChargingStationSmartChargingLimitChartComponent,
+    ChargingStationSmartChargingLimitPlannerChartComponent,
   ],
   declarations: [
     ChargingStationSmartChargingDialogComponent,
-    SmartChargingMasterLimitComponent,
-    SmartChargingPowerSliderComponent,
-    SmartChargingLimitPlanningComponent,
-    SmartChargingLimitPlannerComponent,
-    SmartChargingLimitChartComponent,
-    SmartChargingLimitPlannerChartComponent
+    ChargingStationSmartChargingMasterLimitComponent,
+    ChargingStationSmartChargingPowerSliderComponent,
+    ChargingStationSmartChargingLimitPlanningComponent,
+    ChargingStationSmartChargingLimitPlannerComponent,
+    ChargingStationSmartChargingLimitChartComponent,
+    ChargingStationSmartChargingLimitPlannerChartComponent
   ],
   exports: [
     ChargingStationSmartChargingDialogComponent

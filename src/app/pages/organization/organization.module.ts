@@ -4,31 +4,29 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
-
 import { AddressModule } from '../../shared/address/address.module';
-import { CompanyComponent } from './companies/company/company.component';
-import { CompanyDialogComponent } from './companies/company/company.dialog.component';
-import { OrganizationCompaniesComponent } from './companies/organization-companies.component';
-import { CompanyLogoComponent } from './formatters/company-logo.component';
-import { OrganizationSiteAreasComponent } from './site-areas/organization-site-areas.component';
-import { SiteAreaChargersDialogComponent } from './site-areas/site-area/site-area-chargers/site-area-chargers.dialog.component';
-import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
-import { SiteAreaDialogComponent } from './site-areas/site-area/site-area.dialog.component';
-import { OrganizationSitesComponent } from './sites/organization-sites.component';
-import { SiteUsersDialogComponent } from './sites/site/site-users/site-users.dialog.component';
-import { SiteComponent } from './sites/site/site.component';
-import { SiteDialogComponent } from './sites/site/site.dialog.component';
-
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { OrganizationCompaniesDataSource } from './companies/organization-companies-source-table';
+import { CompanyComponent } from './companies/company/company.component';
+import { CompanyDialogComponent } from './companies/company/company.dialog.component';
+import { CompaniesListTableDataSource } from './companies/list/companies-list-table-data-source';
+import { CompaniesListComponent } from './companies/list/companies-list.component';
+import { CompanyLogoFormatterComponent } from './formatters/company-logo-formatter.component';
 import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';
-import { OrganizationSiteAreasDataSource } from './site-areas/organization-site-areas-source-table';
-import { SiteAreaChargersDataSource } from './site-areas/site-area/site-area-chargers/site-area-chargers-data-source-table';
-import { OrganizationSitesDataSource } from './sites/organization-sites-source-table';
-import { SiteAdminCheckboxComponent } from './sites/site/site-users/site-admin-checkbox.component';
-import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-source-table';
+import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
+import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
+import { SiteAreaChargersDialogComponent } from './site-areas/site-area-chargers/site-area-chargers-dialog.component';
+import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
+import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
+import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
+import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
+import { SitesListComponent } from './sites/list/sites-list.component';
+import { SiteUsersAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
+import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.component';
+import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
+import { SiteDialogComponent } from './sites/site/site-dialog.component';
+import { SiteComponent } from './sites/site/site.component';
 
 @NgModule({
   imports: [
@@ -44,40 +42,40 @@ import { SiteUsersDataSource } from './sites/site/site-users/site-users-data-sou
   ],
   declarations: [
     OrganizationComponent,
-    OrganizationCompaniesComponent,
-    OrganizationSitesComponent,
-    OrganizationSiteAreasComponent,
+    CompaniesListComponent,
+    SitesListComponent,
+    SiteAreasListComponent,
     CompanyComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent,
+    CompanyLogoFormatterComponent,
     SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent
   ],
   entryComponents: [
     OrganizationComponent,
-    OrganizationCompaniesComponent,
-    OrganizationSitesComponent,
-    OrganizationSiteAreasComponent,
+    CompaniesListComponent,
+    SitesListComponent,
+    SiteAreasListComponent,
     CompanyDialogComponent,
-    CompanyLogoComponent,
+    CompanyLogoFormatterComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent
   ],
   providers: [
-    OrganizationCompaniesDataSource,
-    OrganizationSiteAreasDataSource,
+    CompaniesListTableDataSource,
+    SiteAreasListTableDataSource,
     SiteAreaChargersDataSource,
-    OrganizationSitesDataSource,
-    SiteUsersDataSource
+    SitesListTableDataSource,
+    SiteUsersTableDataSource
   ]
 })
 

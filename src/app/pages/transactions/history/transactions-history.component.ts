@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import { TransactionsHistoryDataSource } from './transactions-history-data-source-table';
+import { TransactionsHistoryTableDataSource } from './transactions-history-table-data-source';
 
 @Component({
   selector: 'app-transactions-history',
   templateUrl: 'transactions-history.component.html',
-  providers: [TransactionsHistoryDataSource]
+  providers: [TransactionsHistoryTableDataSource]
 })
 export class TransactionsHistoryComponent implements OnInit {
   constructor(
-    public transactionsHistoryDataSource: TransactionsHistoryDataSource,
+    public transactionsHistoryTableDataSource: TransactionsHistoryTableDataSource,
     private windowService: WindowService,
     private centralServerService: CentralServerService,
     private messageService: MessageService
@@ -24,7 +24,7 @@ export class TransactionsHistoryComponent implements OnInit {
     if (transactionID) {
       this.centralServerService.getTransaction(transactionID).subscribe(transaction => {
         // Found
-        this.transactionsHistoryDataSource.openSession(transaction);
+        this.transactionsHistoryTableDataSource.openSession(transaction);
       }, (error) => {
         // Not Found
         this.messageService.showErrorMessage('transactions.transaction_id_not_found', {'sessionID': transactionID});

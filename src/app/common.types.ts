@@ -1,6 +1,6 @@
 import { SortDirection } from '@angular/material/typings';
 import { ComponentEnum } from './services/component.service';
-import { ErrorMessage } from './shared/dialogs/error-details/error-code-details-dialog.component';
+import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'slide' | '';
@@ -19,6 +19,7 @@ export interface TableFilterDef {
   httpId: string;
   type: FilterType;
   name: string;
+  label?: string;
   currentValue?: any;
   defaultValue?: any;
   class?: string;
@@ -26,6 +27,7 @@ export interface TableFilterDef {
   dialogComponent?: any;
   reset?: Function;
   multiple?: boolean;
+  cleared?: boolean;
 }
 
 export interface DropdownItem {
@@ -54,6 +56,18 @@ export interface TableActionDef {
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[];
   tooltip: string;
+}
+
+export interface Data {
+  id: string|number;
+  isSelected: boolean;
+  isSelectable: boolean;
+  isExpanded: boolean;
+}
+
+export interface DataResult<T extends Data> {
+  count: number;
+  result: T[];
 }
 
 export interface RouteInfo {
@@ -142,7 +156,7 @@ export interface ChargerConsumption {
   values: ConsumptionValue[];
 }
 
-export interface Connector {
+export interface Connector extends Data {
   connectorId: number;
   errorCode: string;
   currentConsumption: number;
@@ -151,7 +165,7 @@ export interface Connector {
   voltage: number;
   amperage: number;
   status: string;
-  activeForUser: boolean;
+  activeBadgeID: string;
   activeTransactionID: number;
   type: string;
   hasDetails: boolean;
@@ -160,7 +174,7 @@ export interface Connector {
   isTransactionDisplayAuthorized: boolean;
 }
 
-export interface Charger {
+export interface Charger extends Data {
   id: string;
   chargePointVendor: string;
   chargePointModel: string;
@@ -195,16 +209,6 @@ export interface ChargerInError extends Charger {
   uniqueId: string;
 }
 
-export interface ChargerResult {
-  count: number;
-  result: Charger[];
-}
-
-export interface ChargerInErrorResult {
-  count: number;
-  result: ChargerInError[];
-}
-
 export interface Address {
   address1: string;
   address2: string;
@@ -217,7 +221,7 @@ export interface Address {
   longitude: number;
 }
 
-export interface Company {
+export interface Company extends Data {
   id: string;
   name: string;
   address: Address;
@@ -238,7 +242,7 @@ export interface Images {
   images: string[];
 }
 
-export interface Log {
+export interface Log extends Data {
   id: string;
   level: string;
   source: string;
@@ -255,12 +259,7 @@ export interface Log {
   detailedMessages: string[];
 }
 
-export interface LogResult {
-  count: number;
-  result: Log[];
-}
-
-export interface Tenant {
+export interface Tenant extends Data {
   id: string;
   name: string;
   email: string;
@@ -268,24 +267,14 @@ export interface Tenant {
   components?: any;
 }
 
-export interface TenantResult {
-  count: number;
-  result: Tenant[];
-}
-
-export interface Setting {
+export interface Setting extends Data {
   id: string;
   identifier: string;
   sensitiveData: string[];
   content: any;
 }
 
-export interface SettingResult {
-  count: number;
-  result: Setting[];
-}
-
-export interface OcpiEndpoint {
+export interface OcpiEndpoint extends Data {
   id: string;
   name: string;
   countryCode: string;
@@ -297,7 +286,7 @@ export interface OcpiEndpoint {
   lastPatchJobResult: any;
 }
 
-export interface OcpiEndpointDetail {
+export interface OcpiEndpointDetail extends Data {
   id: string;
   ocpiendpoint: OcpiEndpoint;
   status: string;
@@ -306,16 +295,6 @@ export interface OcpiEndpointDetail {
   successNbr: number;
   failureNbr: number;
   totalNbr: number;
-}
-
-export interface OcpiEndpointResult {
-  count: number;
-  result: OcpiEndpoint[];
-}
-
-export interface TransactionResult {
-  count: number;
-  result: Transaction[];
 }
 
 export interface Logo {
@@ -340,7 +319,7 @@ export interface Pricing {
   priceUnit: string;
 }
 
-export interface SiteArea {
+export interface SiteArea extends Data {
   id: string;
   name: string;
   image: string;
@@ -352,12 +331,11 @@ export interface SiteArea {
   chargeBoxes: Charger[];
 }
 
-export interface Site {
+export interface Site extends Data {
   id: string;
   name: string;
   companyID: string;
   company: Company;
-  allowAllUsersToStopTransactions: boolean;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
@@ -372,19 +350,6 @@ export interface Site {
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
-}
-export interface CompanyResult {
-  count: number;
-  result: Company[];
-}
-export interface SiteResult {
-  count: number;
-  result: Site[];
-}
-
-export interface SiteAreaResult {
-  count: number;
-  result: SiteArea[];
 }
 
 export interface SubjectInfo {
@@ -441,7 +406,7 @@ export interface TableSearch {
   search: string;
 }
 
-export interface Transaction {
+export interface Transaction extends Data {
   id: number;
   timestamp: Date;
   chargeBox: Charger;
@@ -483,7 +448,7 @@ export interface Transaction {
   values: ConsumptionValue[];
 }
 
-export interface User {
+export interface User extends Data {
   id: string;
   name: string;
   firstName: string;
@@ -526,30 +491,16 @@ export interface User {
   tenantHashID: number;
 }
 
-export interface UserSiteResult {
-  count: number;
-  result: UserSite[];
-}
-
-export interface UserSite {
+export interface UserSite extends Data {
   user: User;
   siteID: string;
   siteAdmin: boolean;
-}
-export interface SiteUserResult {
-  count: number;
-  result: SiteUser[];
 }
 
 export interface SiteUser {
   site: Site;
   userID: string;
   siteAdmin: boolean;
-}
-
-export interface UserResult {
-  count: number;
-  result: User[];
 }
 
 export interface VehicleManufacturer {
@@ -651,10 +602,11 @@ export enum AnalyticsSettingsType {
   sac = 'sac'
 }
 
-export interface AnalyticsLink {
-  id: number;
+export interface AnalyticsLink extends Data {
+  id: string; // 'number' is wrong! See table-data-source.enrichData() which does not digest 'id' field of type 'number'
   name: string;
   description: string;
+  role: string;
   url: string;
 }
 

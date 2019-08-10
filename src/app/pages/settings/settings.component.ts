@@ -2,14 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComponentEnum, ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
-import { AbstractTabComponent } from '../../shared/component/tab/AbstractTab.component';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 declare const $: any;
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './settings.component.html'
 })
 export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;

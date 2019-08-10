@@ -1,10 +1,11 @@
-import { OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
 import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import {
+  Data,
+  DataResult,
   DropdownItem,
   Ordering,
   Paging,
@@ -17,7 +18,7 @@ import {
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
-export abstract class TableDataSource<T> {
+export abstract class TableDataSource<T extends Data> {
   public tableDef: TableDef;
   public tableColumnDefs: TableColumnDef[];
   public tableFiltersDef: TableFilterDef[];
@@ -25,7 +26,7 @@ export abstract class TableDataSource<T> {
   public tableActionsRightDef: TableActionDef[];
   public tableRowActionsDef: TableActionDef[];
 
-  public data: any[] = [];
+  public data: T[] = [];
   public paging: Paging = {
     limit: this.getPageSize(),
     skip: 0
@@ -42,6 +43,7 @@ export abstract class TableDataSource<T> {
   public lastSelectedRow;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
+  public multipleRowSelection;
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
@@ -65,6 +67,10 @@ export abstract class TableDataSource<T> {
 
   public isMultiSelectionEnabled(): boolean {
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
+  }
+
+  public setMutlipleRowSelection(multipleRowSelection: boolean) {
+    this.multipleRowSelection = multipleRowSelection;
   }
 
   public getSelectedRows(): T[] {
@@ -207,9 +213,8 @@ export abstract class TableDataSource<T> {
       return [
         new TableResetFiltersAction().getActionDef()
       ];
-    } else {
-      return [];
     }
+    return [];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -251,11 +256,21 @@ export abstract class TableDataSource<T> {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
-          case 'dropdown':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DROPDOWN:
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
-          case 'dialog-table':
-            filterDef.currentValue = null;
+          case Constants.FILTER_TYPE_DIALOG_TABLE:
+            if (filterDef.multiple) {
+              filterDef.currentValue = [];
+              filterDef.label = '';
+            } else {
+              filterDef.currentValue = null;
+            }
             break;
           case 'date':
             filterDef.reset();
@@ -288,7 +303,7 @@ export abstract class TableDataSource<T> {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           // Dialog
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE) {
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
@@ -303,10 +318,15 @@ export abstract class TableDataSource<T> {
                 }
               }
             }
+          // Dialog with multiple selections
+          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+            }
           // Dropdown with multiple selections
-          } else if(filterDef.type === 'dropdown' && filterDef.multiple){
-            if(filterDef.currentValue.length > 0 ) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => {return obj.key;}).join('|');
+          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
+            if (filterDef.currentValue.length > 0 ) {
+              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
           // Others
           } else {
@@ -344,7 +364,7 @@ export abstract class TableDataSource<T> {
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public refreshData(showSpinner = true): Observable<T> {
+  public refreshData(showSpinner = true): Observable<void> {
     // Init paging
     const currentPaging = this.getPaging();
     // Reload all loaded records
@@ -356,7 +376,7 @@ export abstract class TableDataSource<T> {
     return this.loadData(showSpinner);
   }
 
-  public loadData(showSpinner = true): Observable<T> {
+  public loadData(showSpinner = true): Observable<void> {
     return new Observable((observer) => {
     // Show Spinner
     if (showSpinner) {
@@ -368,10 +388,8 @@ export abstract class TableDataSource<T> {
       this.setTotalNumberOfRecords(data.count);
       // Build stats
       this.tableFooterStats = this.buildTableFooterStats(data);
-      // Set array
-      data = data.result;
       // Ok
-      this.setData(data);
+      this.setData(data.result);
       // Loading on going?
       if (!this.loadingNumberOfRecords) {
         if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
@@ -385,7 +403,7 @@ export abstract class TableDataSource<T> {
         this.spinnerService.hide();
       }
       // Notify
-      observer.next(data);
+      observer.next();
       observer.complete();
     }, (error) => {
       // Hide Spinner
@@ -397,9 +415,9 @@ export abstract class TableDataSource<T> {
     });
   }
 
-  abstract loadDataImpl(): Observable<any>;
+  abstract loadDataImpl(): Observable<DataResult<T>>;
 
-  public getData(): any[] {
+  public getData(): T[] {
     return this.data;
   }
 
@@ -456,7 +474,7 @@ export abstract class TableDataSource<T> {
     return true;
   }
 
-  protected initDataSource(force: boolean = false): any {
+  protected initDataSource(force: boolean = false): void {
     // Init data from sub-classes
     this.initTableColumnDefs(force);
     this.initTableDef(force);
@@ -514,6 +532,10 @@ export abstract class TableDataSource<T> {
     if (!this.tableDef || force) {
       this.tableDef = this.buildTableDef();
     }
+    // Override multi-selection (let the undef check for boolean not yet assigned!)
+    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+      this.tableDef.rowSelection.multiple = this.multipleRowSelection;
+    }
     return this.tableDef;
   }
 
@@ -549,7 +571,7 @@ export abstract class TableDataSource<T> {
     }
   }
 
-  private enrichData(freshData: any[]) {
+  private enrichData(freshData: T[]): void {
     const isRowSelectionEnabled = this.isRowSelectionEnabled();
     const expandedRowIDs = this.data.filter((row) => row.isExpanded);
     const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);

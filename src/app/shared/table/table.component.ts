@@ -1,14 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
@@ -19,17 +9,24 @@ import { Constants } from 'app/utils/Constants';
 import * as _ from 'lodash';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-import { DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
+import {
+  Data,
+  DropdownItem,
+  TableActionDef,
+  TableColumnDef,
+  TableFilterDef
+} from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
+
 
 @Component({
   selector: 'app-table',
   templateUrl: 'table.component.html'
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() dataSource: TableDataSource<any>;
+  @Input() dataSource: TableDataSource<Data>;
   @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
@@ -109,7 +106,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefreshTimer();
-    this.dataSource.destroyDatasource();
+    // this.dataSource.destroyDatasource();
   }
 
   displayMoreRecords() {
@@ -125,7 +122,20 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public filterChanged(filterDef: TableFilterDef) {
     this.dataSource.filterChanged(filterDef);
     // this.updateUrlWithFilters(filterDef);
+    if (filterDef.multiple) {
+      this.updateFilterLabel(filterDef);
+    }
     this.refresh();
+  }
+
+  public updateFilterLabel(filter: TableFilterDef) {
+    if (Array.isArray(filter.currentValue)) {
+      if (filter.currentValue.length > 0) {
+        filter.label  = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+      } else {
+        filter.label = '';
+      }
+    }
   }
 
   public updateUrlWithFilters(filter: TableFilterDef) {
@@ -137,11 +147,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.windowService.deleteSearch(filterIdInCap);
       } else {
         switch (filter.type) {
-          case 'dialog-table': {
+          case Constants.FILTER_TYPE_DIALOG_TABLE: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
             break;
           }
-          case 'dropdown': {
+          case Constants.FILTER_TYPE_DROPDOWN: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue);
             break;
           }
@@ -181,8 +191,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if (filterDef.type === 'dropdown' && filterDef.multiple) {
+    if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
+      filterDef.cleared = true;
     } else {
       filterDef.currentValue = null;
     }
@@ -195,8 +206,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.disableClose = true;
     // Init button title
     dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter'
+      validateButtonTitle: 'general.set_filter',
     };
+    if (filterDef.cleared) {
+      dialogConfig.data.cleared = true;
+      filterDef.cleared = false;
+    }
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
@@ -288,8 +303,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
-  public trackByObjectId(index: number, item: any): any {
-    return item.id;
+  public trackByObjectId(index: number, item: Data): string {
+    return item.id as string;
   }
 
   public loadData() {
@@ -300,20 +315,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Already Expanded
     if (!row.isExpanded) {
       // Already Loaded
-      if (this.dataSource.tableDef.rowDetails.enabled && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
-        // Component
-        if (!this.dataSource.tableDef.rowDetails.angularComponent) {
-          // No: Load details from data source
-          this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
-            // Set details
-            row[this.dataSource.tableDef.rowDetails.detailsField] = details;
-            // No: Expand it!
-            row.isExpanded = true;
-          });
-        } else {
-          // Yes: Find the container related to the row
+      if (this.dataSource.tableDef.rowDetails.enabled && this.dataSource.tableDef.rowDetails.detailsField && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        // No: Load details from data source
+        this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
+          // Set details
+          row[this.dataSource.tableDef.rowDetails.detailsField] = details;
+          // No: Expand it!
           row.isExpanded = true;
-        }
+        });
       } else {
         // Yes: Expand it!
         row.isExpanded = true;

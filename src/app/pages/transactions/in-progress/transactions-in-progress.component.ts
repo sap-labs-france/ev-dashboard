@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import { TransactionsInProgressDataSource } from './transactions-in-progress-data-source-table';
+import { TransactionsInProgressTableDataSource } from './transactions-in-progress-table-data-source';
 
 @Component({
   selector: 'app-transactions-in-progress',
   templateUrl: 'transactions-in-progress.component.html',
-  providers: [TransactionsInProgressDataSource]
+  providers: [TransactionsInProgressTableDataSource]
 })
 export class TransactionsInProgressComponent implements OnInit {
 
   constructor(
-    public transactionsInProgressDataSource: TransactionsInProgressDataSource,
+    public transactionsInProgressTableDataSource: TransactionsInProgressTableDataSource,
     private windowService: WindowService,
     private centralServerService: CentralServerService,
     private messageService: MessageService) {
@@ -24,7 +24,7 @@ export class TransactionsInProgressComponent implements OnInit {
     if (transactionID) {
       this.centralServerService.getTransaction(transactionID).subscribe(transaction => {
         // Found
-        this.transactionsInProgressDataSource.openSession(transaction);
+        this.transactionsInProgressTableDataSource.openSession(transaction);
       }, (error) => {
         // Not Found
         this.messageService.showErrorMessage('transactions.transaction_id_not_found', {'sessionID': transactionID});

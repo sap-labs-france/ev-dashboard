@@ -16,8 +16,11 @@ export class ChargerTableFilter extends TableFilter {
       name: 'chargers.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ChargersDialogComponent,
-      multiple: true
+      multiple: true,
+      cleared: true
     };
+    // 
+    console.log(`>>> call charger filter instance`);
     // Set
     this.setFilterDef(filterDef);
   }

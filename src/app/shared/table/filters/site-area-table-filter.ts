@@ -16,7 +16,8 @@ export class SiteAreaTableFilter extends TableFilter {
       multiple: true,
       name: 'site_areas.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: SiteAreasDialogComponent
+      dialogComponent: SiteAreasDialogComponent,
+      cleared: true
     };
     // Set
     this.setFilterDef(filterDef);

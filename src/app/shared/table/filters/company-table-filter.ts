@@ -16,7 +16,8 @@ export class CompaniesTableFilter extends TableFilter {
       multiple: true,
       name: 'companies.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: CompaniesDialogComponent
+      dialogComponent: CompaniesDialogComponent,
+      cleared: true
     };
     // Set
     this.setFilterDef(filterDef);

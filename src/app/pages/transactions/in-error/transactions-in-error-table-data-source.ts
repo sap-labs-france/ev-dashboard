@@ -167,7 +167,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title` });
 
     const filters: TableFilterDef[] = [
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new TransactionsDateFromFilter().getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
       new ChargerTableFilter().getFilterDef()

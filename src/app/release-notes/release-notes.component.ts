@@ -27,8 +27,29 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.3',
+        date: new Date('2019-08-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed save user's profile with multiple same Badge IDs`,
+              `Email validation should be the same as in the backend`,
+              `Fixed Basic User cannot change his picture`,
+              `Fixed filter Type in Session Refund not working`,
+              `Date From/To filters now accept empty value`,
+              `Added Price in Statistics`,
+              `Limit the size of uploaded pictures in User, Company, Site and Site Area`,
+              `Basic User should not see the Session details pane of another User (front-end only)`,
+              `Enabled mutli-selection in Statistics`,
+              `Fixed sorting on Charging Station`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.2',
-        date: new Date('2019-08-08'),
+        date: new Date('2019-08-10'),
         componentChanges: [
           {
             name: 'Front-end',

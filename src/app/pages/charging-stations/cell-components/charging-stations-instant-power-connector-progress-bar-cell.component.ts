@@ -6,12 +6,12 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.power === 0">
-        {{row | appFormatPowerConnector:'instantPowerKW':row | number}}
+        {{row | appChargingStationsFormatPowerConnector:'instantPowerKW':row | number}}
         &nbsp;/&nbsp;
-        {{row | appFormatPowerConnector:'maxPowerKW':row | number}} kW
+        {{row | appChargingStationsFormatPowerConnector:'maxPowerKW':row | number}} kW
       </div>
       <mat-progress-bar color="accent" class="d-flex" [hidden]="row.power === 0"
-        [value]="row | appFormatPowerConnector:'instantPowerKWPercent':row" mode="determinate">
+        [value]="row | appChargingStationsFormatPowerConnector:'instantPowerKWPercent':row" mode="determinate">
       </mat-progress-bar>
     </div>
   `
@@ -20,8 +20,8 @@ export class ChargingStationsInstantPowerConnectorProgressBarCellComponent exten
   @Input() row: Connector;
 }
 
-@Pipe({name: 'appFormatPowerConnector'})
-export class AppFormatPowerConnectorPipe implements PipeTransform {
+@Pipe({name: 'appChargingStationsFormatPowerConnector'})
+export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransform {
   transform(connector: Connector, type: string): number {
     // Check
     switch (type) {

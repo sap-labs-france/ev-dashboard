@@ -31,9 +31,8 @@ export class ComponentService {
   public isActive(componentName: ComponentEnum): boolean {
     if (this.activeComponents) {
       return this.activeComponents.includes(componentName);
-    } else {
-      return false;
     }
+    return false;
   }
 
   public getActiveComponents(): string[] {

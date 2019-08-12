@@ -41,7 +41,7 @@
                     <div class="card-nooverflow">
                       <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
                         [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
-                        <app-chargers-gauge [activeChargers]="currentMetrics.occupiedChargingPoint" [maxChargers]="currentMetrics.maximumNumberOfChargingPoint"></app-chargers-gauge>
+                        <app-charging-station-gauge [activeChargers]="currentMetrics.occupiedChargingPoint" [maxChargers]="currentMetrics.maximumNumberOfChargingPoint"></app-charging-station-gauge>
                       </div>
                     </div>
                     <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
@@ -81,8 +81,8 @@
                     <div class="card-nooverflow">
                       <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
                         [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
-                        <app-consumption-gauge #consumptionGauge [consumption]="currentMetrics.currentConsumption"
-                          [maxConsumption]="currentMetrics.maximumPower"></app-consumption-gauge>
+                        <app-charging-station-consumption-gauge #consumptionGauge [consumption]="currentMetrics.currentConsumption"
+                          [maxConsumption]="currentMetrics.maximumPower"></app-charging-station-consumption-gauge>
                       </div>
                     </div>
                     <div class="fade-out-text card-footer p-0 footer-position-with-gauge">
@@ -109,7 +109,7 @@
                 <div class="d-flex col-md-4 mx-1">
                     <app-card-keyfigure class="col d-flex px-0" [withTrend]=true cardIcon="flash_on" iconClass="fade-out-text"
                     cardCategory="dashboard.today_energy_delivered" [cardTitle]="(currentMetrics.totalConsumption / 1000 | number:'1.0-0') + ' kW.h'"
-                    [trendClass]="dynamicFadeInOutClass" [cardFooter]="'dashboard.today_energy_delivered_footer' | translate" 
+                    [trendClass]="dynamicFadeInOutClass" [cardFooter]="'dashboard.today_energy_delivered_footer' | translate"
                     [trendTitle]="(currentMetrics.trends.totalConsumption.avg | number:'1.0-0') + ' kW.h'"
                     [trendValue]="this.currentMetrics.trends.totalConsumption.avg" [currentValue]="currentMetrics.totalConsumption"></app-card-keyfigure>
                 </div>
@@ -132,21 +132,21 @@
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="directions" iconClass="fade-out-text"
                   headerClass="card-header-primary"
-                  cardCategory="dashboard.km_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 100 | number:'1.0-0') + ' km'" 
+                  cardCategory="dashboard.km_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 100 | number:'1.0-0') + ' km'"
                   [titleClass]="dynamicFadeInOutClass"
                   cardFooter="dashboard.km_footer"></app-card-keyfigure>
                 </div>
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="cloud_off" iconClass="fade-out-text"
                     headerClass="card-header-primary"
-                    cardCategory="dashboard.co2_title" [cardTitle]="((currentMetrics.totalConsumption / 1000 / 18 * 120) / 1000 | number:'1.0-0') + ' kg'" 
+                    cardCategory="dashboard.co2_title" [cardTitle]="((currentMetrics.totalConsumption / 1000 / 18 * 120) / 1000 | number:'1.0-0') + ' kg'"
                     [titleClass]="dynamicFadeInOutClass"
                     cardFooter="dashboard.co2_footer"></app-card-keyfigure>
                 </div>
                 <div class="d-flex col-md-4 mx-1">
                   <app-card-keyfigure class="col d-flex px-0" [withTrend]=false cardIcon="opacity" iconClass="fade-out-text"
                   headerClass="card-header-primary"
-                  cardCategory="dashboard.gas_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 8 | number:'1.0-0') + ' Liters'" 
+                  cardCategory="dashboard.gas_title" [cardTitle]="(currentMetrics.totalConsumption / 1000 / 18 * 8 | number:'1.0-0') + ' Liters'"
                   [titleClass]="dynamicFadeInOutClass"
                   cardFooter="dashboard.gas_footer"></app-card-keyfigure>
                 </div>

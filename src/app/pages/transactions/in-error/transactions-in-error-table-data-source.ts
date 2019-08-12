@@ -4,11 +4,19 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter.js';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import en from '../../../../assets/i18n/en.json';
-import { ActionResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -24,10 +32,10 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -66,7 +74,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl() {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
           .subscribe((transactions) => {
@@ -151,10 +159,15 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
-    const errorTypes = Object.keys(en.transactions.errors).map(key => ({key: key, value: `transactions.errors.${key}.title`}));
+    // Create error type
+    const errorTypes = [];
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title` });
+    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title` });
 
     const filters: TableFilterDef[] = [
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new TransactionsDateFromFilter().getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
       new ChargerTableFilter().getFilterDef()
@@ -163,7 +176,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new SitesTableFilter().getFilterDef());
-      filters.push(new SiteAreasTableFilter().getFilterDef());
+      filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
     switch (this.centralServerService.getLoggedUser().role) {

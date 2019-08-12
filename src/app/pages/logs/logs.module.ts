@@ -8,7 +8,7 @@ import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppFormatLogLevelPipe, LogLevelComponent } from './formatters/log-level.component';
+import { AppFormatLogLevelPipe, LogLevelFormatterComponent } from './formatters/log-level-formatter.component';
 import { LogsListTableDataSource } from './list/logs-list-table-data-source';
 import { LogsListComponent } from './list/logs-list.component';
 import { LogsRoutes } from './logs.routing';
@@ -28,11 +28,11 @@ import { LogsRoutes } from './logs.routing';
   ],
   declarations: [
     LogsListComponent,
-    LogLevelComponent,
+    LogLevelFormatterComponent,
     AppFormatLogLevelPipe
   ],
   entryComponents: [
-    LogLevelComponent
+    LogLevelFormatterComponent
   ],
   providers: [
     LogsListTableDataSource

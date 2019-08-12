@@ -8,8 +8,8 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   template: `
     <button *ngIf="row.activeTransactionID > 0 && displaySessionAuthorized"
-            mat-icon-button color="primary"
-            (click)="showSessionDialog()"><mat-icon>open_in_new</mat-icon></button>
+      mat-icon-button color="primary"
+      (click)="showSessionDialog()"><mat-icon>open_in_new</mat-icon></button>
   `,
   styles: [`.no-margin {
       margin: 0

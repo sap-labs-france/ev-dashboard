@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { Site, TableColumnDef, TableDef } from '../../../common.types';
+import { DataResult, Site, TableColumnDef, TableDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -20,7 +20,7 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
     this.initDataSource();
   }
 
- public loadDataImpl(): Observable<any> {
+ public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getSites(this.buildFilterValues(),

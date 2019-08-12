@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
   Charger,
-  ChargerResult,
+  DataResult,
   DropdownItem,
   SubjectInfo,
   TableActionDef,
@@ -23,7 +23,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -31,21 +31,15 @@ import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import {
-  ACTION_CLEAR_CACHE,
-  ACTION_MORE_ACTIONS,
-  ACTION_SMART_CHARGING,
-  ACTION_SOFT_RESET,
-  ChargingStationsMoreAction
-} from '../actions/charging-stations-more-action';
+import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
+import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
-import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
-import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
@@ -77,7 +71,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<ChargerResult> {
+  public loadDataImpl(): Observable<DataResult<Charger>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),

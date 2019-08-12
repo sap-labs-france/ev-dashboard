@@ -5,13 +5,12 @@ import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data.component.html',
-  providers: [UsersDialogTableDataSource]
+  templateUrl: '../dialog-table-data.component.html'
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
-    @Self() private usersListTableDataSource: UsersDialogTableDataSource,
+    private usersListTableDataSource: UsersDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data) {
     super(data, dialogRef, usersListTableDataSource);
     // Default title
@@ -24,7 +23,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach(row => {
-        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}`, objectRef: row });
+        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}` });
       });
     }
     return items;

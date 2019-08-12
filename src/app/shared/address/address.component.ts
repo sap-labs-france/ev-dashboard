@@ -4,7 +4,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 
 @Component({
-  selector: 'app-address-cmp',
+  selector: 'app-address',
   templateUrl: 'address.component.html'
 })
 export class AddressComponent implements OnInit {

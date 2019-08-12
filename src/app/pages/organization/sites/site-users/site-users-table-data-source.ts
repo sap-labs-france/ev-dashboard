@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Site, TableActionDef, TableColumnDef, TableDef, UserSite } from 'app/common.types';
+import {
+  DataResult,
+  Site,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  UserSite
+} from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -31,7 +38,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
       // Site provided?
       if (this._site) {
@@ -49,7 +56,10 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
           observer.error(error);
         });
       } else {
-        observer.next([]);
+        observer.next({
+          count: 0,
+          result: []
+        });
         observer.complete();
       }
     });
@@ -92,7 +102,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       // {
       //   id: 'siteAdmin',
       //   isAngularComponent: true,
-      //   angularComponent: SiteAdminCheckboxComponent,
+      //   angularComponent: SiteUsersAdminCheckboxComponent,
       //   name: 'sites.admin_role',
       //   class: 'col-10p'
       }

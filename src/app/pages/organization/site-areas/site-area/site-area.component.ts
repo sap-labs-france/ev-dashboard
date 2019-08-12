@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -15,7 +16,7 @@ import { mergeMap } from 'rxjs/operators';
 import { RegistrationTokensDataSourceTable } from '../../../settings/ocpp/registration-tokens/registration-tokens-data-source-table';
 
 @Component({
-  selector: 'app-site-area-cmp',
+  selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
   providers: [RegistrationTokensDataSourceTable]
 })
@@ -25,6 +26,7 @@ export class SiteAreaComponent implements OnInit {
   @Input() dialogRef: MatDialogRef<any>;
 
   public image: any = Constants.SITE_AREA_NO_IMAGE;
+  public maxSize;
 
   public formGroup: FormGroup;
   public id: AbstractControl;
@@ -54,10 +56,13 @@ export class SiteAreaComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
+    private configService: ConfigService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
+
+    this.maxSize = this.configService.getSiteArea().maxPictureKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -288,13 +293,19 @@ export class SiteAreaComponent implements OnInit {
 
   public imageChanged(event) {
     // load picture
-    let reader = new FileReader(); // tslint:disable-line
-    const file = event.target.files[0];
-    reader.onload = () => {
-      this.image = reader.result;
-    };
-    reader.readAsDataURL(file);
-    this.formGroup.markAsDirty();
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('site_areas.image_size_error', {'maxPictureKb': this.maxSize});
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.image = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
   public clearImage() {

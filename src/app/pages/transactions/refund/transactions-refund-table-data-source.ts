@@ -5,7 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionsResponse, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import {
+  ActionsResponse,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Transaction
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -23,8 +32,8 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableOpenInConcurAction } from '../../../shared/table/actions/table-open-in-concur-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -70,7 +79,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['UserID'] = this.centralServerService.getLoggedUser().id;
@@ -220,7 +229,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       case  Constants.ROLE_ADMIN:
         // Show Site Area Filter If Organization component is active
         if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-          filters.push(new SiteAreasTableFilter().getFilterDef());
+          filters.push(new SiteAreaTableFilter().getFilterDef());
         }
     }
     return filters;

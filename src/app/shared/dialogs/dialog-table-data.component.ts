@@ -1,9 +1,9 @@
 import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { KeyValue } from '../../common.types';
+import { Data, KeyValue } from '../../common.types';
 import { DialogTableDataSource } from './dialog-table-data-source';
 
-export abstract class DialogTableDataComponent<T> {
+export abstract class DialogTableDataComponent<T extends Data> {
   public dialogDataSource: DialogTableDataSource<T>;
   public title: string;
   public buttonTitle: string;
@@ -14,6 +14,10 @@ export abstract class DialogTableDataComponent<T> {
       public dialogTableDataSource: DialogTableDataSource<T>) {
     // Assign dialog table data source if provided
     this.dialogDataSource = dialogTableDataSource;
+    // Reset the provider if the filter has been reseted
+    if (data.cleared) {
+      this.dialogDataSource.destroyDatasource();
+    }
     // assign parameters
     this.title = (data && data.title ? data.title : '');
     this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.select');

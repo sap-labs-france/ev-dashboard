@@ -3,7 +3,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, SiteArea, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Charger,
+  DataResult,
+  SiteArea,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -19,7 +28,7 @@ import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-cha
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { SitesTableFilter } from 'app/shared/table/filters/site-filter';
+import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -55,7 +64,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<SiteArea>> {
     return new Observable((observer) => {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),

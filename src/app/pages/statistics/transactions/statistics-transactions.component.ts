@@ -4,10 +4,10 @@ import { TableFilterDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-filter';
-import { SiteAreasTableFilter } from '../../../shared/table/filters/site-area-filter';
-import { SitesTableFilter } from '../../../shared/table/filters/site-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-filter';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SitesTableFilter } from '../../../shared/table/filters/sites-table-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
@@ -48,7 +48,7 @@ export class StatisticsTransactionsComponent implements OnInit {
     filterDef = new SitesTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    filterDef = new SiteAreasTableFilter().getFilterDef();
+    filterDef = new SiteAreaTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new ChargerTableFilter().getFilterDef();

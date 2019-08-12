@@ -6,13 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { ConsumptionChartComponent } from '../../shared/component/consumption-chart/consumption-chart.component';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppFormatConnector, ChargingStationsConnectorCellComponent } from './components/connector-cell.component';
+import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './components/transactions-connector-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
 import { TransactionsInErrorTableDataSource } from './in-error/transactions-in-error-table-data-source';
@@ -44,8 +44,8 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsInErrorComponent,
     TransactionsInProgressComponent,
     TransactionsRefundComponent,
-    AppFormatConnector,
-    ChargingStationsConnectorCellComponent,
+    AppTransactionsFormatConnector,
+    TransactionsConnectorCellComponent,
   ],
   entryComponents: [
     TransactionsComponent,
@@ -53,7 +53,7 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsInProgressComponent,
     TransactionsInErrorComponent,
     TransactionsRefundComponent,
-    ChargingStationsConnectorCellComponent,
+    TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent
   ],

@@ -8,7 +8,15 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Observable } from 'rxjs';
-import { ActionResponse, Charger, Connector, TableActionDef, TableColumnDef, TableDef, User } from '../../../common.types';
+import {
+  ActionResponse,
+  Charger,
+  Connector, DataResult,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  User
+} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -25,9 +33,13 @@ import { TableStopAction } from '../../../shared/table/actions/table-stop-action
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
-import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
+import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import {
+  BUTTON_FOR_MYSELF,
+  BUTTON_SELECT_USER,
+  ChargingStationsStartTransactionDialogComponent
+} from './charging-stations-start-transaction-dialog-component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -40,53 +52,43 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   private dialogRefSession: MatDialogRef<SessionDialogComponent>;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService,
-      private appUnitPipe: AppUnitPipe,
-      private appDurationPipe: AppDurationPipe,
-      private dialog: MatDialog,
-      private authorizationService: AuthorizationService,
-      private messageService: MessageService,
-      private router: Router,
-      private dialogService: DialogService) {
+    public spinnerService: SpinnerService,
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private appUnitPipe: AppUnitPipe,
+    private appDurationPipe: AppDurationPipe,
+    private dialog: MatDialog,
+    private authorizationService: AuthorizationService,
+    private messageService: MessageService,
+    private router: Router,
+    private dialogService: DialogService) {
     super(spinnerService);
     // Init
     this.initDataSource();
     this.noAction.getActionDef().disabled = true;
   }
 
-  loadData(showSpinner: boolean = false): Observable<Connector> {
+  loadData(showSpinner: boolean = false): Observable<void> {
     return super.loadData(showSpinner);
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Connector>> {
     return new Observable((observer) => {
       // Return connector
       if (this.charger) {
-        // Check authorizations
-        this.centralServerService.getIsAuthorized('ConnectorsAction', this.charger.id).subscribe((result) => {
-          // Update authorization on individual connectors
-          for (let index = 0; index < result.length; index++) {
-            const connector = this.charger.connectors[index];
-            connector.isStopAuthorized = result[index].isStopAuthorized;
-            connector.isStartAuthorized = result[index].isStartAuthorized;
-            connector.isTransactionDisplayAuthorized = result[index].isTransactionDisplayAuthorized;
-            connector.hasDetails = connector.activeTransactionID > 0 &&
-              (connector.isTransactionDisplayAuthorized || this.authorizationService.isDemo());
-          }
-          observer.next({
-            count: this.charger.connectors.length,
-            result: this.charger.connectors
-          });
-          observer.complete();
-        }, (error) => {
-          // Authorization issue!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
+        this.charger.connectors.forEach(connector => {
+          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
+          connector.isTransactionDisplayAuthorized = connector.activeTransactionID && this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.hasDetails = connector.isTransactionDisplayAuthorized;
+        });
+
+        observer.next({
+          count: this.charger.connectors.length,
+          result: this.charger.connectors
         });
       }
+      observer.complete();
     });
   }
 
@@ -189,18 +191,18 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
               this.openAction.getActionDef(),
               this.stopAction.getActionDef()
             ];
-          } else {
-            return [
-              this.openAction.getActionDef(),
-            ];
           }
-        // Display only?
-        } else if (connector.isTransactionDisplayAuthorized) {
           return [
             this.openAction.getActionDef(),
           ];
         }
-      // No Active Transaction
+        // Display only?
+        if (connector.isTransactionDisplayAuthorized) {
+          return [
+            this.openAction.getActionDef(),
+          ];
+        }
+        // No Active Transaction
       } else {
         // Authorized to start?
         if (connector.isStartAuthorized && !this.charger.inactive) {
@@ -248,7 +250,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
             this.translateService.instant('chargers.action_error.transaction_in_progress'));
-            return;
+          return;
         }
         // Check
         if (this.authorizationService.isAdmin()) {
@@ -306,7 +308,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this.centralServerService.chargingStationStopTransaction(
-                this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
+              this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
               // Ok?
               if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
                 this.messageService.showSuccessMessage(
@@ -332,12 +334,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public startTransaction(connector: Connector, user: User): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
-      this.translateService.instant('chargers.start_transaction_confirm', {'chargeBoxID': this.charger.id, 'userName': user.name})
+      this.translateService.instant('chargers.start_transaction_confirm', {
+        'chargeBoxID': this.charger.id,
+        'userName': user.name
+      })
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
         this.centralServerService.chargingStationStartTransaction(
-            this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
+          this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
           // Ok?
           if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // Ok

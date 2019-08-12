@@ -477,6 +477,8 @@
     "graphic_title_usage_y_axis": "Utilisation (heures)",
     "graphic_title_inactivity_y_axis": "Inactivité (heures)",
     "graphic_title_transactions_y_axis": "Nombre de sessions",
+    "graphic_title_pricing_y_axis": "Prix des sessions en {{currency}}",
+    "multiple_currencies": "(devises multiples)",
     "graphic_title_month_x_axis": "Mois",
     "transactions_years": "Année",
     "total_consumption_year": "Consommation Totale {{year}}",
@@ -505,6 +507,12 @@
     "transactions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
     "transactions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
     "transactions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
+    "pricing_per_cs_month_title": "Prix des bornes par mois (au total : {{total}})",
+    "pricing_per_cs_year_title": "Prix des bornes par an : {{total}}",
+    "pricing_per_cs_total_title": "Prix totaux des bornes : {{total}}",
+    "pricing_per_user_month_title": "Prix des utilisateurs par mois (au total : {{total}})",
+    "pricing_per_user_year_title": "Prix des utilisateurs par an : {{total}}",
+    "pricing_per_user_total_title": "Prix totaux des utilisateurs : {{total}}",
     "hours": "heures",
     "total": "Total",
     "others": "Autres",
@@ -530,8 +538,14 @@
       },
       "transactions": {
         "export": {
-          "title": "Exporter les données de sessions",
-          "confirm": "Voulez-vous vraiment exporter les données de sessions correspondant aux filtres ?"
+          "title": "Exporter les données des sessions",
+          "confirm": "Voulez-vous vraiment exporter les données des sessions correspondant aux filtres ?"
+        }
+      },
+      "pricing": {
+        "export": {
+          "title": "Exporter les données des prix",
+          "confirm": "Voulez-vous vraiment exporter les données des prix correspondant aux filtres ?"
         }
       }
     }

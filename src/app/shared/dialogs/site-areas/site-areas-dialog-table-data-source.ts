@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { SiteArea, TableColumnDef, TableDef } from '../../../common.types';
+import { DataResult, SiteArea, TableColumnDef, TableDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
@@ -32,7 +32,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
     this.initDataSource(true);
   }
 
- public loadDataImpl(): Observable<any> {
+ public loadDataImpl(): Observable<DataResult<SiteArea>> {
     return new Observable((observer) => {
       const filterValues = this.buildFilterValues();
       filterValues['WithSite'] = true;

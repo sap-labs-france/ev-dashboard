@@ -14,8 +14,8 @@ const TYPE_GREY = 'chip-grey';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatConnectorStatus:'class'" [disabled]="true">
-        {{row.status | appFormatConnectorStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appChargingStationsFormatConnectorStatus:'class'" [disabled]="true">
+        {{row.status | appChargingStationsFormatConnectorStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
   `
@@ -24,8 +24,8 @@ export class ChargingStationsConnectorStatusCellComponent extends CellContentTem
   @Input() row: Connector;
 }
 
-@Pipe({name: 'appFormatConnectorStatus'})
-export class AppFormatConnectorStatus implements PipeTransform {
+@Pipe({name: 'appChargingStationsFormatConnectorStatus'})
+export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransform {
   transform(status: string, type: string): string {
     if (type === 'class') {
       return this.buildConnectorStatusClasses(status);

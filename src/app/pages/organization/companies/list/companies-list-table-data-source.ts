@@ -4,7 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Company, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Company,
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -21,7 +29,7 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { Constants } from 'app/utils/Constants';
-import { CompanyLogoComponent } from '../../formatters/company-logo.component';
+import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
@@ -52,7 +60,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return this.centralServerNotificationService.getSubjectCompany();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Company>> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
@@ -91,7 +99,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CompanyLogoComponent
+        angularComponent: CompanyLogoFormatterComponent
       },
       {
         id: 'name',
@@ -203,7 +211,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  private _showCompanyDialog(company?: any) {
+  private _showCompanyDialog(company?: Company) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';

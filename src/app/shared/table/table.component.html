@@ -89,7 +89,7 @@
              [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
                         [placeholder]="filterDef.name | translate">
               <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
               </mat-option>
@@ -97,7 +97,7 @@
           </mat-form-field>
           <!-- Dropdown Filter with multiple selections-->
           <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
                 [placeholder]="filterDef.name | translate" multiple disableRipple>
               <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
               <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
@@ -210,7 +210,7 @@
             <!-- Angular Component Cell -->
             <td *ngIf="tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-component-container [columnDef]="tableColumnDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-template>
           <!-- Action Cell -->
@@ -272,7 +272,7 @@
           <!-- Angular Component Details -->
           <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
             <td [attr.colspan]="numberOfColumns">
-              <app-cell-component-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-component-container>
+              <app-cell-content-template-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-content-template-container>
             </td>
           </ng-container>
         </tr>

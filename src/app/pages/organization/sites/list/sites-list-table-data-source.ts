@@ -3,7 +3,15 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Site, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  DataResult,
+  Site,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -18,13 +26,13 @@ import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { CompaniesTableFilter } from 'app/shared/table/filters/company-filter';
+import { CompaniesTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { SiteDialogComponent } from '../site/site-dialog.component';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
+import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -52,7 +60,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     return this.centralServerNotificationService.getSubjectSite();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),

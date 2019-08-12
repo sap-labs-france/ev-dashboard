@@ -20,6 +20,9 @@ export class SimpleChart {
   private roundedChartLabels: boolean;
   private constMinDivisorBar = 40;
   private constMinDivisorPie = 40;
+  private labelXAxis: string;
+  private labelYAxis: string;
+  private toolTipUnit: string;
   private withLegend = false;
   private itemsHidden = false;
 
@@ -99,8 +102,20 @@ export class SimpleChart {
     });
   }
 
-  public updateChart(chartData: ChartData, mainLabel?: string): void {
+  public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
     let anyChart: any;
+    if (this.chartType === 'pie') {
+      if (toolTipUnit) {
+        this.createPieChartOptions(mainLabel, toolTipUnit, this.withLegend, this.roundedChartLabels);
+      }
+    } else {
+      if (labelYAxis || toolTipUnit) {
+        this.labelYAxis = labelYAxis;
+        this.toolTipUnit = toolTipUnit;
+        this.createBarChartOptions(this.stackedChart, mainLabel, this.labelXAxis, this.labelYAxis,
+          this.toolTipUnit, this.withLegend, this.roundedChartLabels);
+      }
+    }
 
     this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
     if (!this.fontColor || this.fontColor === '') {
@@ -221,6 +236,9 @@ export class SimpleChart {
     toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
+    this.labelXAxis = labelXAxis;
+    this.labelYAxis = labelYAxis;
+    this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
 
@@ -307,6 +325,7 @@ export class SimpleChart {
 
   private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'pie';
+    this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
 
@@ -359,7 +378,7 @@ export class SimpleChart {
     };
   }
 
-  private updateChartOptions(chartData: ChartData, mainLabel: string): void {
+  private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
     let minValue = 0;
     let number: any;
     let minDivisor = number;

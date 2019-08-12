@@ -5,7 +5,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tenant } from '../../../common.types';
+import {
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  Tenant
+} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -46,7 +54,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<Tenant>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getTenants(this.buildFilterValues(),
@@ -161,7 +169,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     return [];
   }
 
-  private showTenantDialog(tenant?: any) {
+  private showTenantDialog(tenant?: Tenant) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '60vw';
@@ -178,7 +186,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     });
   }
 
-  private openTenant(tenant?: any) {
+  private openTenant(tenant?: Tenant) {
     if (tenant) {
       window.open(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
     }

@@ -4,7 +4,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
+import {
+  DataResult,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+  User
+} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -12,24 +20,24 @@ import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableAssignSitesAction } from '../../../shared/table/actions/table-assign-sites-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
-import { TableAssignSiteAction } from '../../../shared/table/actions/table-edit-location';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
-import { UserRolePipe } from '../formatters/user-role.pipe';
-import { UserStatusComponent } from '../formatters/user-status.component';
+import { AppUserRolePipe } from '../formatters/user-role.pipe';
+import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
-  private assignSiteAction = new TableAssignSiteAction().getActionDef();
+  private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
@@ -41,7 +49,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
-      private userRolePipe: UserRolePipe,
+      private userRolePipe: AppUserRolePipe,
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
@@ -54,7 +62,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
@@ -87,7 +95,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       id: 'status',
       name: 'users.status',
       isAngularComponent: true,
-      angularComponent: UserStatusComponent,
+      angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
       class: 'col-10p',
       sortable: true

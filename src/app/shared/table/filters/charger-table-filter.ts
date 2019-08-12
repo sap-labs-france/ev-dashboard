@@ -19,8 +19,6 @@ export class ChargerTableFilter extends TableFilter {
       multiple: true,
       cleared: true
     };
-    // 
-    console.log(`>>> call charger filter instance`);
     // Set
     this.setFilterDef(filterDef);
   }

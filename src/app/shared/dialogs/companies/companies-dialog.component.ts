@@ -5,12 +5,11 @@ import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data.component.html',
-  providers: [CompaniesDialogTableDataSource]
+  templateUrl: '../dialog-table-data.component.html'
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
-      @Self() public dialogDataSource: CompaniesDialogTableDataSource,
+      public dialogDataSource: CompaniesDialogTableDataSource,
       protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
       @Inject(MAT_DIALOG_DATA) data) {
     // Super class

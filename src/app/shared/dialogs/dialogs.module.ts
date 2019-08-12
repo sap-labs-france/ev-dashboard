@@ -89,7 +89,11 @@ export class FooterModule {
     CompaniesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     SitesDialogTableDataSource,
-    UsersDialogTableDataSource
+    UsersDialogTableDataSource,
+    ChargersDialogTableDataSource,
+    SitesDialogTableDataSource,
+    SiteAreasDialogTableDataSource,
+    CompaniesDialogTableDataSource
   ]
 })
 export class DialogsModule {

@@ -80,6 +80,21 @@
                     </mat-checkbox>
                   </div>
                 </div>
+                <div *ngIf="currentSiteAreaID">
+                  <div *ngIf="!registrationToken" class="d-flex justify-content-start">
+                    <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
+                      <mat-icon>link</mat-icon><span>{{'settings.ocpp.generate_connection_url' | translate}}</span>
+                    </button>
+                  </div>
+                  <div *ngIf="registrationToken" class="d-flex justify-content-start">
+                    <button mat-raised-button color="primary" (click)="copyUrl(registrationToken.ocpp15Url)">
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.ocpp.copy_ocpp_15_url' | translate}}</span>
+                    </button>
+                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16Url)">
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.ocpp.copy_ocpp_16_url' | translate}}</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -90,15 +105,6 @@
             <div class="clearfix"></div>
           </div>
         </div>
-      </div>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon>ev_station</mat-icon>
-        <span>{{'settings.tabs.ocpp' | translate}}</span>
-      </ng-template>
-      <div class="h-100">
-        <app-table [dataSource]="registrationTokenDataSource"></app-table>
       </div>
     </mat-tab>
     <mat-tab disabled>

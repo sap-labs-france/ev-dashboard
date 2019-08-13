@@ -6,13 +6,13 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
 import {
+  DataResult,
   RegistrationToken,
   SubjectInfo,
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef,
-  User
+  TableFilterDef
 } from '../../../../common.types';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -21,15 +21,20 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
+import { RegistrationTokenStatusComponent } from './registration-token-status.component';
+import { RegistrationTokenUrlComponent } from './registration-token-url.component';
+import { RegistrationTokenComponent } from './registration-token.component';
 
 @Injectable()
 export class RegistrationTokensDataSourceTable extends TableDataSource<RegistrationToken> {
-  private currentUser: User;
-  private siteAreaID: string;
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private revokeAction = new TableRevokeAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -45,29 +50,19 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
     super(spinnerService);
     // Init
     this.initDataSource();
-    // Store the current user
-    this.currentUser = this.centralServerService.getLoggedUser();
-  }
-
-  public setSiteArea(id: string) {
-    this.siteAreaID = id;
-    this.setStaticFilters([
-      {'siteAreaID': id}
-    ]);
-    this.refreshData().subscribe();
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadDataImpl(): Observable<any> {
+  public loadDataImpl(): Observable<DataResult<RegistrationToken>> {
     return new Observable((observer) => {
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
+        this.getPaging(), this.getSorting()).subscribe((tokens) => {
         // Ok
-        observer.next(users);
+        observer.next(tokens);
         observer.complete();
       }, (error) => {
         // Show error
@@ -83,7 +78,7 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
       search: {
         enabled: false
       },
-      hasDynamicRowAction: false
+      hasDynamicRowAction: true
     };
   }
 
@@ -96,12 +91,22 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
         class: 'd-none d-xl-table-cell col-25p',
       },
       {
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponent: RegistrationTokenStatusComponent,
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        sortable: true
+      },
+      {
         id: 'createdOn',
         name: 'general.created_on',
         formatter: (createdOn) => this.datePipe.transform(createdOn),
         headerClass: 'col-25p',
         class: 'text-left col-25p',
-        sortable: true
+        sortable: true,
+        sorted: true
       },
       {
         id: 'expirationDate',
@@ -109,7 +114,15 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
         formatter: (expirationDate) => this.datePipe.transform(expirationDate),
         headerClass: 'col-25p',
         class: 'text-left col-25p',
-        sorted: true,
+        direction: 'desc',
+        sortable: true
+      },
+      {
+        id: 'revocationDate',
+        name: 'general.revoked_on',
+        formatter: (revocationDate) => this.datePipe.transform(revocationDate),
+        headerClass: 'col-25p',
+        class: 'text-left col-25p',
         direction: 'desc',
         sortable: true
       },
@@ -124,6 +137,14 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true
+      },
+      {
+        id: 'ocpp15Url',
+        name: 'settings.ocpp.url',
+        headerClass: 'col-25p text-center',
+        class: 'col-25p',
+        isAngularComponent: true,
+        angularComponent: RegistrationTokenUrlComponent,
       }];
     return columns as TableColumnDef[];
   }
@@ -136,6 +157,13 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
     ];
   }
 
+  public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
+    return [
+      this.revokeAction,
+      this.deleteAction,
+    ];
+  }
+
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
@@ -144,6 +172,19 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
         break;
       default:
         super.actionTriggered(actionDef);
+    }
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+    switch (actionDef.id) {
+      case 'revoke':
+        this.revokeToken(rowItem);
+        break;
+      case 'delete':
+        this.deleteToken(rowItem);
+        break;
+      default:
+        super.rowActionTriggered(actionDef, rowItem);
     }
   }
 
@@ -159,28 +200,58 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
   }
 
   private createRegistrationToken() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.minWidth = '50vw';
+    // Open
+    const dialogRef = this.dialog.open(RegistrationTokenComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((saved) => {
+      if (saved) {
+        this.refreshData().subscribe();
+      }
+    });
+  }
+
+  private deleteToken(registrationToken: RegistrationToken) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.ocpp.registration_token_creation_title'),
-      this.translateService.instant('settings.ocpp.registration_token_creation_confirm')
+      this.translateService.instant('settings.ocpp.registration_token_delete_title'),
+      this.translateService.instant('settings.ocpp.registration_token_delete_confirm')
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-
-        this.centralServerService.createRegistrationToken({
-          siteAreaID: this.siteAreaID
-        }).subscribe(response => {
-          this.spinnerService.hide();
+        this.centralServerService.deleteRegistrationToken(registrationToken.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('settings.ocpp.registration_token_creation_success');
             this.refreshData().subscribe();
+            this.messageService.showSuccessMessage('settings.ocpp.registration_token_delete_success');
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.ocpp.registration_token_creation_error');
+              this.messageService, 'settings.ocpp.registration_token_delete_error');
           }
         }, (error) => {
-          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.ocpp.registration_token_creation_error');
+            'settings.ocpp.registration_token_delete_error');
+        });
+      }
+    });
+  }
+
+  private revokeToken(registrationToken: RegistrationToken) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.ocpp.registration_token_revoke_title'),
+      this.translateService.instant('settings.ocpp.registration_token_revoke_confirm')
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.centralServerService.revokeRegistrationToken(registrationToken.id).subscribe(response => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage('settings.ocpp.registration_token_revoke_success');
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'settings.ocpp.registration_token_revoke_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'settings.ocpp.registration_token_revoke_error');
         });
       }
     });

@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
@@ -26,7 +27,12 @@ import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-deta
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
 import { SettingsOcpiEnpointsComponent } from './ocpi/endpoints/settings-ocpi-endpoints.component';
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
-import { RegistrationTokensDataSourceTable } from './ocpp/registration-tokens/registration-tokens-data-source-table';
+import {
+  AppRegistrationTokenStatusPipe,
+  RegistrationTokenStatusComponent
+} from './ocpp/registration-tokens/registration-token-status.component';
+import { RegistrationTokenUrlComponent } from './ocpp/registration-tokens/registration-token-url.component';
+import { RegistrationTokenComponent } from './ocpp/registration-tokens/registration-token.component';
 import { SettingsOcppComponent } from './ocpp/settings-ocpp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
@@ -46,6 +52,7 @@ import { SettingsRoutes } from './settings.routing';
     MaterialModule,
     TableModule,
     DialogsModule,
+    CommonDirectivesModule,
     FormattersModule
   ],
   declarations: [
@@ -78,7 +85,11 @@ import { SettingsRoutes } from './settings.routing';
     AppFormatOcpiEvsesFailurePipe,
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
-    SettingsOcpiEnpointsDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent,
+    RegistrationTokenComponent,
+    RegistrationTokenStatusComponent,
+    RegistrationTokenUrlComponent,
+    AppRegistrationTokenStatusPipe
   ],
   entryComponents: [
     SettingsComponent,
@@ -101,7 +112,10 @@ import { SettingsRoutes } from './settings.routing';
     OcpiDetailSuccessEvsesStatusFormatterComponent,
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
-    SettingsOcpiEnpointsDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent,
+    RegistrationTokenComponent,
+    RegistrationTokenStatusComponent,
+    RegistrationTokenUrlComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

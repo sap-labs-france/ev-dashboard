@@ -13,6 +13,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
+import { RegistrationToken } from '../../../../common.types';
 import { RegistrationTokensDataSourceTable } from '../../../settings/ocpp/registration-tokens/registration-tokens-data-source-table';
 
 @Component({
@@ -48,9 +49,9 @@ export class SiteAreaComponent implements OnInit {
   public isAdmin: boolean;
 
   public sites: any;
+  public registrationToken: RegistrationToken;
 
   constructor(
-    public registrationTokenDataSource: RegistrationTokensDataSourceTable,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -135,7 +136,6 @@ export class SiteAreaComponent implements OnInit {
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
-      this.registrationTokenDataSource.setSiteArea(this.currentSiteAreaID);
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];
@@ -289,6 +289,41 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this._createSiteArea(siteArea);
     }
+  }
+
+  public generateRegistrationToken() {
+    if (this.currentSiteAreaID) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('settings.ocpp.registration_token_creation_title'),
+        this.translateService.instant('settings.ocpp.registration_token_creation_confirm')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.spinnerService.show();
+
+          this.centralServerService.createRegistrationToken({
+            siteAreaID: this.currentSiteAreaID
+          }).subscribe(token => {
+            this.spinnerService.hide();
+            if (token) {
+              this.registrationToken = token;
+              this.messageService.showSuccessMessage('settings.ocpp.registration_token_creation_success');
+            } else {
+              Utils.handleError(null,
+                this.messageService, 'settings.ocpp.registration_token_creation_error');
+            }
+          }, (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'settings.ocpp.registration_token_creation_error');
+          });
+        }
+      });
+    }
+  }
+
+  public copyUrl(url: string) {
+    Utils.copyToClipboard(url);
+    this.messageService.showInfoMessage('settings.ocpp.url_copied');
   }
 
   public imageChanged(event) {

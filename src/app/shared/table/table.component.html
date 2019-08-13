@@ -25,6 +25,29 @@
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
+
+          <div *ngIf="actionDef.type === 'dropdown-button'">
+            <mat-menu #dropDownMenu="matMenu" xPosition="before">
+              <ng-template matMenuContent>
+                <ng-container *ngFor="let dropdownItem of actionDef.dropdownItems">
+                  <button mat-menu-item
+                          (click)="actionTriggered(actionDef)"
+                          [disabled]="dropdownItem.disabled"
+                          appTooltip data-placement="bottom" data-toggle="tooltip"
+                          [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
+                    <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
+                    <span>{{dropdownItem.name | translate}}</span>
+                  </button>
+                </ng-container>
+              </ng-template>
+            </mat-menu>
+            <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
+                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
+                    data-toggle="tooltip" [title]="'analytics.links' | translate">
+              <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
+              <span>{{actionDef.name | translate}}</span>
+            </button>
+          </div>
         </ng-container>
 
         <!-- Spacer -->

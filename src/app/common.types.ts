@@ -3,7 +3,7 @@ import { ComponentEnum } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
-export declare type ActionType = 'button' | 'slide' | '';
+export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
 
 export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL' | 'DIRTY_CHANGE' | 'INVALID_CHANGE';
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
@@ -272,6 +272,16 @@ export interface Setting extends Data {
   identifier: string;
   sensitiveData: string[];
   content: any;
+}
+
+export interface RegistrationToken extends Data {
+  id: string;
+  createdOn: Date;
+  expirationDate: Date;
+  revocationDate?: Date;
+  siteAreaID: string;
+  ocpp15Url: string;
+  ocpp16Url: string;
 }
 
 export interface OcpiEndpoint extends Data {

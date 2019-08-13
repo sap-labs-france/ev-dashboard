@@ -118,4 +118,18 @@ export class Utils {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }
+
+  public static copyToClipboard(content) {
+    const element = document.createElement('textarea');
+    element.style.position = 'fixed';
+    element.style.left = '0';
+    element.style.top = '0';
+    element.style.opacity = '0';
+    element.value = content;
+    document.body.appendChild(element);
+    element.focus();
+    element.select();
+    document.execCommand('copy');
+    document.body.removeChild(element);
+  }
 }

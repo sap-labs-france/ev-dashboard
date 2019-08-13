@@ -220,8 +220,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private _showSiteAreaDialog(siteArea?: SiteArea) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '60vw';
-    dialogConfig.minHeight = '40vh';
+    dialogConfig.minWidth = '80vw';
+    dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (siteArea) {
       dialogConfig.data = siteArea;

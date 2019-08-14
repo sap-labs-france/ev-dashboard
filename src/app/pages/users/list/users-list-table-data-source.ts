@@ -14,6 +14,7 @@ import {
   TableFilterDef,
   User
 } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -53,6 +54,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private userRolePipe: AppUserRolePipe,
       private userNamePipe: AppUserNamePipe,
@@ -60,6 +62,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private datePipe: AppDatePipe) {
     super(spinnerService);
     // Init
+    if (this.authorizationService.hasSitesAdminRights()) {
+      this.setStaticFilters([{ 'SiteID': this.authorizationService.getSitesAdmin().join('|') }]);
+    }
     this.initDataSource();
     // Store the current user
     this.currentUser = this.centralServerService.getLoggedUser();
@@ -191,7 +196,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.editAction,
       ];
     }
-    if (this.currentUser.id !== user.id) {
+    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Constants.ENTITY_USER, Constants.ACTION_DELETE)) {
       actions.push(this.deleteAction);
     }
     return actions;

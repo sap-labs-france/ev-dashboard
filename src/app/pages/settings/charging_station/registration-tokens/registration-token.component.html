@@ -11,7 +11,7 @@
                     <li class="nav-item">
                       <a class="nav-link active" data-toggle="tab" href="#profile">
                         <mat-icon>link</mat-icon>
-                        <span>{{'settings.ocpp.registration_token_creation_title' | translate}}</span>
+                        <span>{{'settings.charging_station.registration_token_creation_title' | translate}}</span>
                         <div class="ripple-container"></div>
                       </a>
                     </li>
@@ -44,7 +44,7 @@
                                [matDatetimepicker]="picker" autocomplete="false">
                       </mat-form-field>
                       <mat-checkbox
-                        (change)="updateSiteAreaRestriction($event)">{{'settings.ocpp.token_restrict_site_area' | translate}}</mat-checkbox>
+                        (change)="updateSiteAreaRestriction($event)">{{'settings.charging_station.token_restrict_site_area' | translate}}</mat-checkbox>
                       <mat-form-field>
                         <mat-select [formControl]="siteAreaID" [disabled]="true"
                                     placeholder="{{'site_areas.select_site_areas' | translate}}">

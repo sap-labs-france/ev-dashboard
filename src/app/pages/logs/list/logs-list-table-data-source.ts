@@ -224,12 +224,17 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
-        new LogSourceTableFilter().getFilterDef(),
+        new LogSourceTableFilter(this.authorizationService).getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
     }
-    return [];
+    return [
+      new LogDateFromTableFilter().getFilterDef(),
+      new LogDateUntilTableFilter().getFilterDef(),
+      new LogLevelTableFilter().getFilterDef(),
+      new LogActionTableFilter().getFilterDef(),
+      new LogSourceTableFilter(this.authorizationService).getFilterDef()];
   }
 
   private exportLogs() {

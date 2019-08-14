@@ -25,6 +25,7 @@ export interface TableFilterDef {
   class?: string;
   items?: KeyValue[];
   dialogComponent?: any;
+  dialogComponentData?: any;
   reset?: Function;
   multiple?: boolean;
   cleared?: boolean;

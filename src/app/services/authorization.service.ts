@@ -116,6 +116,13 @@ export class AuthorizationService {
     return false;
   }
 
+  public hasSitesAdminRights(): boolean {
+    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
+      return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0;
+    }
+    return false;
+  }
+
   public getSitesAdmin(): ReadonlyArray<string> {
     return this.loggedUser.sitesAdmin;
   }

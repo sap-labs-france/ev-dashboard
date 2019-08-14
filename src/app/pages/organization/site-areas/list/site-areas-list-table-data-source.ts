@@ -149,10 +149,18 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
     openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude) ? false : true;
-    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+    if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,
         this.editChargersAction,
+        openInMaps,
+        this.deleteAction
+      ];
+    }
+    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      return [
+        this.editAction,
+        this.displayChargersAction,
         openInMaps,
         this.deleteAction
       ];

@@ -67,7 +67,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
+    if (this.siteArea && this.authorizationService.isAdmin()) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -126,7 +126,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
+    if (this.siteArea && this.authorizationService.isAdmin()) {
       return [
         new TableAddAction().getActionDef(),
         new TableRemoveAction().getActionDef(),

@@ -56,7 +56,6 @@
     "chartjs-plugin-datalabels": "^0.6.0",
     "chartjs-plugin-zoom": "^0.7.3",
     "file-saver": "^2.0.2",
-    "fsevents": "^2.0.7",
     "hammerjs": "^2.0.8",
     "http-status-codes": "^1.3.2",
     "jasny-bootstrap": "^4.0.0",

@@ -18,6 +18,6 @@ export class RegistrationTokenUrlComponent extends CellContentTemplateComponent 
   copyClipboard(content: string) {
     Utils.copyToClipboard(content);
 
-    this.messageService.showInfoMessage('settings.ocpp.url_copied');
+    this.messageService.showInfoMessage('settings.charging_station.url_copied');
   }
 }

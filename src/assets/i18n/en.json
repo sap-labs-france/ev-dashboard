@@ -989,7 +989,7 @@
   "settings": {
     "tabs": {
       "ocpi": "Roaming",
-      "ocpp": "Charging Station",
+      "charging_station": "Charging Station",
       "refund": "Refunding",
       "pricing": "Pricing",
       "analytics": "Analytics"
@@ -1006,10 +1006,10 @@
       "update_error": "Error occurred while updating the OCPI settings",
       "description": "E-Mobility provides standard and certified APIs to connect to an external E-Roaming Platform. This feature exposes real-time the charging station infrastructure and availability via the OCPI standard protocol (Open Charge Point Interface). E-Mobility is currently using the Gireve Inter-Operability Platform (IOP)."
     },
-    "ocpp": {
+    "charging_station": {
       "registration_tokens_title": "Charging Station Registration Tokens",
       "registration_token_creation_title": "Create Registration Token",
-      "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations ?",
+      "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
       "registration_token_creation_success": "Registration token has been created successfully",
       "registration_token_creation_error": "Error occurred while creating a registration token",
       "registration_token_revoke_title": "Revoke Registration Token",

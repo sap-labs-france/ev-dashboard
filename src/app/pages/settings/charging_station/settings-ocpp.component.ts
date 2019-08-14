@@ -11,13 +11,13 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import {
-  RegistrationTokensDataSourceTable
-} from './registration-tokens/registration-tokens-data-source-table';
+  RegistrationTokensTableDataSource
+} from './registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-settings-ocpp',
   templateUrl: 'settings-ocpp.component.html',
-  providers: [RegistrationTokensDataSourceTable]
+  providers: [RegistrationTokensTableDataSource]
 })
 export class SettingsOcppComponent implements OnInit {
   public isActive = false;
@@ -26,7 +26,7 @@ export class SettingsOcppComponent implements OnInit {
   public refundSettings: RefundSettings;
 
   constructor(
-    public registrationTokenDataSource: RegistrationTokensDataSourceTable,
+    public registrationTokenDataSource: RegistrationTokensTableDataSource,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private dialogService: DialogService,

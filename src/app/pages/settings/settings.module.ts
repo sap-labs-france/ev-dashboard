@@ -30,10 +30,10 @@ import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
 import {
   AppRegistrationTokenStatusPipe,
   RegistrationTokenStatusComponent
-} from './ocpp/registration-tokens/registration-token-status.component';
-import { RegistrationTokenUrlComponent } from './ocpp/registration-tokens/registration-token-url.component';
-import { RegistrationTokenComponent } from './ocpp/registration-tokens/registration-token.component';
-import { SettingsOcppComponent } from './ocpp/settings-ocpp.component';
+} from './charging_station/registration-tokens/registration-token-status.component';
+import { RegistrationTokenUrlComponent } from './charging_station/registration-tokens/registration-token-url.component';
+import { RegistrationTokenComponent } from './charging_station/registration-tokens/registration-token.component';
+import { SettingsOcppComponent } from './charging_station/settings-ocpp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';

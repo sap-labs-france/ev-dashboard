@@ -5,7 +5,6 @@ import { RegistrationToken } from '../../../../common.types';
 import { Constants } from '../../../../utils/Constants';
 
 @Component({
-  selector: 'app-registration-token-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip [ngClass]="row | appRegistrationTokenStatus:'class'" [disabled]="true">
@@ -43,12 +42,12 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
 
   buildStatusText(registrationToken: RegistrationToken): string {
     if (this.isExpired(registrationToken)) {
-      return 'settings.ocpp.registration_token_expired';
+      return 'settings.charging_station.registration_token_expired';
     }
     if (this.isRevoked(registrationToken)) {
-      return 'settings.ocpp.registration_token_revoked';
+      return 'settings.charging_station.registration_token_revoked';
     }
-    return 'settings.ocpp.registration_token_valid';
+    return 'settings.charging_station.registration_token_valid';
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {

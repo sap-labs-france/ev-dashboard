@@ -51,11 +51,11 @@ export class RegistrationTokenComponent implements OnInit {
     this.centralServerService.createRegistrationToken(token).subscribe(response => {
       this.spinnerService.hide();
       if (token) {
-        this.messageService.showSuccessMessage('settings.ocpp.registration_token_creation_success');
+        this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
         this.dialogRef.close(true);
       } else {
         Utils.handleError(null,
-          this.messageService, 'settings.ocpp.registration_token_creation_error');
+          this.messageService, 'settings.charging_station.registration_token_creation_error');
       }
     }, (error) => {
       this.spinnerService.hide();

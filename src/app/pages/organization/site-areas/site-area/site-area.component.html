@@ -83,15 +83,15 @@
                 <div *ngIf="currentSiteAreaID">
                   <div *ngIf="!registrationToken" class="d-flex justify-content-start">
                     <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
-                      <mat-icon>link</mat-icon><span>{{'settings.ocpp.generate_connection_url' | translate}}</span>
+                      <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
                     </button>
                   </div>
                   <div *ngIf="registrationToken" class="d-flex justify-content-start">
                     <button mat-raised-button color="primary" (click)="copyUrl(registrationToken.ocpp15Url)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.ocpp.copy_ocpp_15_url' | translate}}</span>
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_15_url' | translate}}</span>
                     </button>
                     <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16Url)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.ocpp.copy_ocpp_16_url' | translate}}</span>
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_url' | translate}}</span>
                     </button>
                   </div>
                 </div>

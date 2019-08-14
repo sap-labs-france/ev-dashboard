@@ -32,7 +32,7 @@ import { RegistrationTokenUrlComponent } from './registration-token-url.componen
 import { RegistrationTokenComponent } from './registration-token.component';
 
 @Injectable()
-export class RegistrationTokensDataSourceTable extends TableDataSource<RegistrationToken> {
+export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
   private deleteAction = new TableDeleteAction().getActionDef();
   private revokeAction = new TableRevokeAction().getActionDef();
 
@@ -140,7 +140,7 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
       },
       {
         id: 'ocpp15Url',
-        name: 'settings.ocpp.url',
+        name: 'settings.charging_station.url',
         headerClass: 'col-25p text-center',
         class: 'col-25p',
         isAngularComponent: true,
@@ -215,21 +215,21 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
 
   private deleteToken(registrationToken: RegistrationToken) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.ocpp.registration_token_delete_title'),
-      this.translateService.instant('settings.ocpp.registration_token_delete_confirm')
+      this.translateService.instant('settings.charging_station.registration_token_delete_title'),
+      this.translateService.instant('settings.charging_station.registration_token_delete_confirm')
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteRegistrationToken(registrationToken.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('settings.ocpp.registration_token_delete_success');
+            this.messageService.showSuccessMessage('settings.charging_station.registration_token_delete_success');
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.ocpp.registration_token_delete_error');
+              this.messageService, 'settings.charging_station.registration_token_delete_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.ocpp.registration_token_delete_error');
+            'settings.charging_station.registration_token_delete_error');
         });
       }
     });
@@ -237,21 +237,21 @@ export class RegistrationTokensDataSourceTable extends TableDataSource<Registrat
 
   private revokeToken(registrationToken: RegistrationToken) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.ocpp.registration_token_revoke_title'),
-      this.translateService.instant('settings.ocpp.registration_token_revoke_confirm')
+      this.translateService.instant('settings.charging_station.registration_token_revoke_title'),
+      this.translateService.instant('settings.charging_station.registration_token_revoke_confirm')
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.revokeRegistrationToken(registrationToken.id).subscribe(response => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('settings.ocpp.registration_token_revoke_success');
+            this.messageService.showSuccessMessage('settings.charging_station.registration_token_revoke_success');
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.ocpp.registration_token_revoke_error');
+              this.messageService, 'settings.charging_station.registration_token_revoke_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.ocpp.registration_token_revoke_error');
+            'settings.charging_station.registration_token_revoke_error');
         });
       }
     });

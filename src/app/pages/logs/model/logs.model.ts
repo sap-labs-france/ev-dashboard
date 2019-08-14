@@ -110,7 +110,7 @@ export const logHosts: KeyValue[] = [
   {key: 'sap-ev-front-end-new-qa', value: 'sap-ev-front-end-new-qa'},
   {key: 'sap-ev-ocpi-server', value: 'sap-ev-ocpi-server'},
   {key: 'sap-ev-odata-server', value: 'sap-ev-odata-server'},
-  {key: 'sap-ev-rest-server', value: 'ap-ev-rest-server'},
+  {key: 'sap-ev-rest-server', value: 'sap-ev-rest-server'},
   {key: 'sap-ev-rest-server-qa', value: 'sap-ev-rest-server-qa'},
   {key: 'sap-ev-simulator-qa', value: 'sap-ev-simulator-qa'}
 ].sort((host1, host2) => {

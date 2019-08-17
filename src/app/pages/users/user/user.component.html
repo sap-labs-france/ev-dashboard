@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="card card-profile card-testimonial user-card-min-height">
+  <div class="card card-profile card-testimonial card-min-height">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
                      animationDuration="0ms" disableRipple="true" class="mat-tab-info">
@@ -11,7 +11,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-2 my-auto">
-                <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
+                <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all'}">
                   <div class="card card-rotate card-background img-thumbnail m-0" style="height: 100px">
                     <div class="front front-background bg-transparent"
                          [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -103,7 +103,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
+              <div *ngIf="isAdmin || isSuperAdmin || isSiteAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
                     <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}">

@@ -6,11 +6,10 @@ import { ChargersDialogTableDataSource } from './chargers-dialog-table-data-sour
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  providers: [ChargersDialogTableDataSource]
 })
 export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   constructor(
-    @Self() private chargersDataSource: ChargersDialogTableDataSource,
+    private chargersDataSource: ChargersDialogTableDataSource,
     dialogRef: MatDialogRef<ChargersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Super class

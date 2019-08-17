@@ -337,7 +337,7 @@ export class StatisticsBuildService {
     let lastUnit: string;
     let totalOfLastUnit = 0;
     let totalWithUnit: StatisticsBuildValueWithUnit;
-    let totalsWithUnit: StatisticsBuildValueWithUnit[] = [];
+    const totalsWithUnit: StatisticsBuildValueWithUnit[] = [];
 
     const transactionValues = statisticsData;
 
@@ -413,7 +413,7 @@ export class StatisticsBuildService {
     }
 
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
-      index = totalsWithUnit.findIndex((record) => record.unit === '')
+      index = totalsWithUnit.findIndex((record) => record.unit === '');
       if (index > -1) {
         totalOfLastUnit = totalsWithUnit[index].value;
         totalsWithUnit.splice(index, 1);

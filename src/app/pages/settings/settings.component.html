@@ -4,6 +4,15 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
+        <mat-icon>ev_station</mat-icon><span>{{'settings.tabs.charging_station' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-ocpp></app-settings-ocpp>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
         <mat-icon>cloud</mat-icon><span>{{'settings.tabs.ocpi' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>

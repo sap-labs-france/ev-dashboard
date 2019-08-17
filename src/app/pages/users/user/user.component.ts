@@ -38,6 +38,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public userLocales;
   public isAdmin;
   public isSuperAdmin;
+  public isSiteAdmin;
   public originalEmail;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
@@ -113,6 +114,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
 
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
@@ -144,7 +146,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       'email': new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
         ])),
       'phone': new FormControl('',
         Validators.compose([

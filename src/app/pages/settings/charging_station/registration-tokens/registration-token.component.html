@@ -1,0 +1,66 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formGroup" class="form">
+          <div class="card card-profile card-testimonial">
+            <div class="card-header card-header-tabs card-header-primary">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#profile">
+                        <mat-icon>link</mat-icon>
+                        <span>{{'settings.charging_station.registration_token_creation_title' | translate}}</span>
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <span class="toolbar-spacer"></span>
+                    <button mat-button (click)="save(formGroup.value)"
+                            [disabled]="!formGroup.valid">
+                      <mat-icon>save</mat-icon>
+                      <span>{{'general.save' | translate}}</span>
+                    </button>
+                    <button mat-icon-button mat-dialog-close>
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="profile">
+                  <div class="row">
+                    <div class="col-md-12 text-left">
+                      <mat-form-field class="form-group">
+                        <mat-datetimepicker #picker type="datetime" openOnFocus="false"
+                                            mode="portrait" timeInterval="1">
+                        </mat-datetimepicker>
+                        <mat-datetimepicker-toggle [for]="picker"
+                                                   matSuffix></mat-datetimepicker-toggle>
+                        <input [formControl]="expirationDate" matInput
+                               placeholder="{{'general.expired_on' | translate}}"
+                               [matDatetimepicker]="picker" autocomplete="false">
+                      </mat-form-field>
+                      <mat-checkbox
+                        (change)="updateSiteAreaRestriction($event)">{{'settings.charging_station.token_restrict_site_area' | translate}}</mat-checkbox>
+                      <mat-form-field>
+                        <mat-select [formControl]="siteAreaID" [disabled]="true"
+                                    placeholder="{{'site_areas.select_site_areas' | translate}}">
+                          <mat-option *ngFor="let siteArea of siteAreas"
+                                      value="{{siteArea.id}}">{{siteArea.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

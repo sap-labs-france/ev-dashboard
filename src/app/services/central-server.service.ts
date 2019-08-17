@@ -13,7 +13,7 @@ import {
   Log,
   Logo, OcpiEndpoint,
   Ordering,
-  Paging, Setting,
+  Paging, RegistrationToken, Setting,
   Site,
   SiteArea,
   Tenant,
@@ -267,7 +267,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreas(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
+  public getSiteAreas(params: any = {}, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -938,6 +938,57 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST Service
     return this.httpClient.get<DataResult<Setting>>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getRegistrationTokens(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/RegistrationTokens`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public createRegistrationToken(registrationToken: Partial<RegistrationToken> = {}): Observable<RegistrationToken> {
+    this._checkInit();
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenCreate`, registrationToken,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public deleteRegistrationToken(id): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenDelete?ID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public revokeRegistrationToken(id): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenRevoke?ID=${id}`,
       {
         headers: this._buildHttpHeaders()
       })

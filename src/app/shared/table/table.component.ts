@@ -184,7 +184,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
     // Date?
     if (filterDef.type === 'date') {
-      filterDef.currentValue = event.value.toDate();
+      filterDef.currentValue = event.value ? event.value.toDate() : null;
     }
     // Update filter
     this.filterChanged(filterDef);
@@ -208,6 +208,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.data = {
       validateButtonTitle: 'general.set_filter',
     };
+    if (filterDef.dialogComponentData) {
+      Object.assign(dialogConfig.data, filterDef.dialogComponentData);
+    }
     if (filterDef.cleared) {
       dialogConfig.data.cleared = true;
       filterDef.cleared = false;

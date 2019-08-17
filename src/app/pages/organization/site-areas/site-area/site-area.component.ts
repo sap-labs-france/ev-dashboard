@@ -13,10 +13,13 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
+import { RegistrationToken } from '../../../../common.types';
+import { RegistrationTokensTableDataSource } from '../../../settings/charging_station/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',
-  templateUrl: 'site-area.component.html'
+  templateUrl: 'site-area.component.html',
+  providers: [RegistrationTokensTableDataSource]
 })
 export class SiteAreaComponent implements OnInit {
   @Input() currentSiteAreaID: string;
@@ -46,6 +49,7 @@ export class SiteAreaComponent implements OnInit {
   public isAdmin: boolean;
 
   public sites: any;
+  public registrationToken: RegistrationToken;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -285,6 +289,41 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this._createSiteArea(siteArea);
     }
+  }
+
+  public generateRegistrationToken() {
+    if (this.currentSiteAreaID) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('settings.charging_station.registration_token_creation_title'),
+        this.translateService.instant('settings.charging_station.registration_token_creation_confirm')
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          this.spinnerService.show();
+
+          this.centralServerService.createRegistrationToken({
+            siteAreaID: this.currentSiteAreaID
+          }).subscribe(token => {
+            this.spinnerService.hide();
+            if (token) {
+              this.registrationToken = token;
+              this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
+            } else {
+              Utils.handleError(null,
+                this.messageService, 'settings.charging_station.registration_token_creation_error');
+            }
+          }, (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              'settings.charging_station.registration_token_creation_error');
+          });
+        }
+      });
+    }
+  }
+
+  public copyUrl(url: string) {
+    Utils.copyToClipboard(url);
+    this.messageService.showInfoMessage('settings.charging_station.url_copied');
   }
 
   public imageChanged(event) {

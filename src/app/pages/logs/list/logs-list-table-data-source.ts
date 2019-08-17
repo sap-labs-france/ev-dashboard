@@ -31,6 +31,7 @@ import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
 import { LogDateFromTableFilter } from '../filters/log-date-from-filter';
 import { LogDateUntilTableFilter } from '../filters/log-date-until-filter';
+import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
@@ -223,12 +224,17 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
-        new LogSourceTableFilter().getFilterDef(),
-        // new LogHostTableFilter().getFilterDef(),
+        new LogSourceTableFilter(this.authorizationService).getFilterDef(),
+        new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef()
       ];
     }
-    return [];
+    return [
+      new LogDateFromTableFilter().getFilterDef(),
+      new LogDateUntilTableFilter().getFilterDef(),
+      new LogLevelTableFilter().getFilterDef(),
+      new LogActionTableFilter().getFilterDef(),
+      new LogSourceTableFilter(this.authorizationService).getFilterDef()];
   }
 
   private exportLogs() {

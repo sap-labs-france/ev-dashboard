@@ -6,12 +6,20 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analytics-link-dialog.component';
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
+import {
+  AppRegistrationTokenStatusPipe,
+  RegistrationTokenStatusComponent
+} from './charging_station/registration-tokens/registration-token-status.component';
+import { RegistrationTokenUrlComponent } from './charging_station/registration-tokens/registration-token-url.component';
+import { RegistrationTokenComponent } from './charging_station/registration-tokens/registration-token.component';
+import { SettingsOcppComponent } from './charging_station/settings-ocpp.component';
 import { settingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFomatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
@@ -44,11 +52,13 @@ import { SettingsRoutes } from './settings.routing';
     MaterialModule,
     TableModule,
     DialogsModule,
+    CommonDirectivesModule,
     FormattersModule
   ],
   declarations: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOcppComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -75,11 +85,16 @@ import { SettingsRoutes } from './settings.routing';
     AppFormatOcpiEvsesFailurePipe,
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
-    SettingsOcpiEnpointsDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent,
+    RegistrationTokenComponent,
+    RegistrationTokenStatusComponent,
+    RegistrationTokenUrlComponent,
+    AppRegistrationTokenStatusPipe
   ],
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOcppComponent,
     SettingsOcpiEnpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
@@ -97,7 +112,10 @@ import { SettingsRoutes } from './settings.routing';
     OcpiDetailSuccessEvsesStatusFormatterComponent,
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
-    SettingsOcpiEnpointsDetailsComponent
+    SettingsOcpiEnpointsDetailsComponent,
+    RegistrationTokenComponent,
+    RegistrationTokenStatusComponent,
+    RegistrationTokenUrlComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

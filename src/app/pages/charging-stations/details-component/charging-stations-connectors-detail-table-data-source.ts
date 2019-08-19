@@ -31,6 +31,7 @@ import { TableOpenAction } from '../../../shared/table/actions/table-open-action
 import { TableStartAction } from '../../../shared/table/actions/table-start-action';
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
 import { Constants } from '../../../utils/Constants';
+import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
@@ -336,7 +337,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
         'chargeBoxID': this.charger.id,
-        'userName': user.name
+        'userName': Users.buildUserFullName(user)
       })
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
@@ -384,7 +385,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           // Show select user dialog
           dialogConfig.data = {
             title: 'chargers.start_transaction_user_select_title',
-            validateButtonTitle: 'chargers.start_transaction_user_select_button'
+            validateButtonTitle: 'chargers.start_transaction_user_select_button',
+            rowMultipleSelection: false
           };
           dialogConfig.panelClass = 'transparent-dialog-container';
           const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);

@@ -34,7 +34,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Display Charging Station's registration token in Site Area if it's still valid`,
-              `Fixed Remote Start with another User`
+              `Fixed Remote Start with another User`,
+              `Site Admin can see the Sessions made on his Charging Stations`
             ]
           }
         ]

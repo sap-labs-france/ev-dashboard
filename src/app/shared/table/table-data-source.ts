@@ -69,8 +69,11 @@ export abstract class TableDataSource<T extends Data> {
     return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
   }
 
-  public setMutlipleRowSelection(multipleRowSelection: boolean) {
+  public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
+    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+      this.tableDef.rowSelection.multiple = this.multipleRowSelection;
+    }
   }
 
   public getSelectedRows(): T[] {

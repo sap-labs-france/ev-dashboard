@@ -23,7 +23,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach(row => {
-        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}` });
+        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}`, objectRef: row });
       });
     }
     return items;

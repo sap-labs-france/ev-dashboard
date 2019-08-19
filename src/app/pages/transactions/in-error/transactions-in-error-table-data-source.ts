@@ -45,6 +45,7 @@ import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
+  private isSiteAdmin = false;
   private dialogRefSession;
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -66,6 +67,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
   }
@@ -143,7 +145,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sortable: false,
         formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
       });
-    if (this.isAdmin) {
+    if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',

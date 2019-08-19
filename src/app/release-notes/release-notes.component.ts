@@ -27,6 +27,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.4',
+        date: new Date('2019-08-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Display Charging Station's registration token in Site Area if it's still valid`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.3',
         date: new Date('2019-08-17'),
         componentChanges: [

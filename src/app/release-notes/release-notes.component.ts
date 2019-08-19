@@ -33,7 +33,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Display Charging Station's registration token in Site Area if it's still valid`
+              `Display Charging Station's registration token in Site Area if it's still valid`,
+              `Fixed Remote Start with another User`
             ]
           }
         ]

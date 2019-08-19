@@ -46,6 +46,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private openAction = new TableOpenAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
   private isAdmin = false;
+  private isSiteAdmin = false;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -67,6 +68,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
   }
@@ -178,7 +180,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         }
       });
-    if (this.authorizationService.isAdmin()) {
+    if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',

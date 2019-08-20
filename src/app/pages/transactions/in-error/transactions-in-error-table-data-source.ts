@@ -51,19 +51,19 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private componentService: ComponentService,
-      private authorizationService: AuthorizationService,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe,
-      private appConnectorIdPipe: AppConnectorIdPipe,
-      private appUserNamePipe: AppUserNamePipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -79,16 +79,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
-          .subscribe((transactions) => {
-        this.formatErrorMessages(transactions.result);
-        // Ok
-        observer.next(transactions);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+        .subscribe((transactions) => {
+          this.formatErrorMessages(transactions.result);
+          // Ok
+          observer.next(transactions);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -163,22 +163,36 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title` });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`
+    });
 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter().getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
-      new ChargerTableFilter().getFilterDef()
+      new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      filters.push(new SitesTableFilter().getFilterDef());
-      filters.push(new SiteAreaTableFilter().getFilterDef());
+      filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new SitesTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    } else {
+      filters.push(new ChargerTableFilter().getFilterDef());
     }
 
     switch (this.centralServerService.getLoggedUser().role) {
@@ -193,10 +207,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   buildTableRowActions(): TableActionDef[] {
-    return [
-      this.openAction,
-      this.deleteAction
-    ];
+    const actions = [];
+    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
+      actions.push(this.openAction);
+    }
+    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_DELETE)) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {

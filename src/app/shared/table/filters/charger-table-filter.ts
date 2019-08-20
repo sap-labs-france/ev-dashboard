@@ -4,7 +4,7 @@ import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog.
 import { TableFilter } from './table-filter';
 
 export class ChargerTableFilter extends TableFilter {
-  constructor() {
+  constructor(siteIDs?: ReadonlyArray<string>) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -19,6 +19,14 @@ export class ChargerTableFilter extends TableFilter {
       multiple: true,
       cleared: true
     };
+
+    if (siteIDs) {
+      filterDef.dialogComponentData = {
+        staticFilter: {
+          SiteID: siteIDs.join('|')
+        }
+      };
+    }
     // Set
     this.setFilterDef(filterDef);
   }

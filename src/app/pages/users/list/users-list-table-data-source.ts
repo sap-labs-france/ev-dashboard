@@ -186,7 +186,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION) && this.authorizationService.isAdmin()) {
       actions = [
         this.editAction,
         this.assignSiteAction,

@@ -61,7 +61,7 @@
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                     <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
                            type="text"
                            [formControl]="maximumPower">
@@ -73,7 +73,7 @@
                     <mat-error *ngIf="maximumPower.errors?.pattern">
                       {{"chargers.invalid_power_value" | translate}}
                     </mat-error>
-                  </mat-form-field>
+                  </mat-form-field> -->
                   <div style="text-align: left">
                     <mat-checkbox [formControl]="accessControl">
                       {{'site_areas.enable_access_control' | translate}}

@@ -573,7 +573,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('users.create_success',
           {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
@@ -582,6 +581,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         if (this.inDialog && this.dialogRef) {
           this.dialogRef.close(true);
         }
+        this.formGroup.markAsPristine();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.create_error');
@@ -627,6 +627,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         if (this.inDialog && this.dialogRef) {
           this.dialogRef.close(true);
         }
+        this.formGroup.markAsPristine();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'users.update_error');

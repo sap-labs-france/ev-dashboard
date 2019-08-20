@@ -80,7 +80,7 @@
                     </mat-checkbox>
                   </div>
                 </div>
-                <div *ngIf="currentSiteAreaID">
+                <div *ngIf="isAdmin && currentSiteAreaID">
                   <div *ngIf="!registrationToken" class="d-flex justify-content-start">
                     <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
                       <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>

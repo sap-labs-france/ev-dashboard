@@ -4,7 +4,7 @@ import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
 
 export class SiteAreaTableFilter extends TableFilter {
-  constructor() {
+  constructor(siteIDs?: ReadonlyArray<string>) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -19,6 +19,14 @@ export class SiteAreaTableFilter extends TableFilter {
       dialogComponent: SiteAreasDialogComponent,
       cleared: true
     };
+
+    if (siteIDs) {
+      filterDef.dialogComponentData = {
+        staticFilter: {
+          SiteID: siteIDs.join('|')
+        }
+      };
+    }
     // Set
     this.setFilterDef(filterDef);
   }

@@ -15,7 +15,7 @@ export class ChargingStationsComponent extends AbstractTabComponent implements O
     windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['all', 'inerror']);
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 
   ngOnInit() {

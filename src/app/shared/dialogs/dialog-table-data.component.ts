@@ -30,6 +30,8 @@ export abstract class DialogTableDataComponent<T extends Data> {
       this.dialogDataSource.setStaticFilters([
         data.staticFilter
       ]);
+    } else {
+      this.dialogDataSource.setStaticFilters([]);
     }
     // Multiple Selection
     if (data.hasOwnProperty('rowMultipleSelection')) {

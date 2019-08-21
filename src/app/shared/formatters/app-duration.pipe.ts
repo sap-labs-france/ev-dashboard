@@ -21,14 +21,14 @@ export class AppDurationPipe implements PipeTransform {
     durationInSecs -= hours * 3600;
     const minutes = Math.floor(durationInSecs / 60);
     const seconds = Math.floor(durationInSecs - (minutes * 60));
-    if (days > 0) {
+    if (days !== 0) {
       if (days === 1) {
         result += `${days} ${this.localeService.getI18nDay()} `;
       } else {
         result += `${days} ${this.localeService.getI18nDays()} `;
       }
     }
-    if (((hours > 0) || (days > 0)) && (hours !== 0 || (minutes !== 0 && days === 0))) {
+    if (((hours !== 0) || (days !== 0)) && (hours !== 0 || (minutes !== 0 && days === 0))) {
       if (hours === 1) {
         result += `${hours} ${this.localeService.getI18nHour()} `;
       } else {
@@ -36,14 +36,14 @@ export class AppDurationPipe implements PipeTransform {
       }
     }
     if (days === 0) {
-      if ((minutes > 0) || (hours > 0) && (minutes !== 0 || (seconds !== 0 && hours === 0))) {
+      if ((minutes !== 0) || (hours !== 0) && (minutes !== 0 || (seconds !== 0 && hours === 0))) {
         if (minutes === 1) {
           result += `${minutes} ${this.localeService.getI18nMinute()} `;
         } else {
           result += `${minutes} ${this.localeService.getI18nMinutes()} `;
         }
       }
-      if ((hours === 0) && (seconds > 0)) {
+      if ((hours === 0) && (seconds !== 0)) {
         if (seconds === 1) {
           result += `${seconds} ${this.localeService.getI18nSecond()}`;
         } else {

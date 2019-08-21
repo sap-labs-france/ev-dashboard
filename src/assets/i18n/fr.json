@@ -798,7 +798,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",
-      "in_error": "Défectueuse"
+      "in_error": "En Erreur"
     },
     "errors": {
       "missingSettings": {
@@ -812,7 +812,7 @@
         "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
       },
       "missingSiteArea": {
-        "title": "La Borne n'est pas Assignée",
+        "title": "Non Assignée à une Zone",
         "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
         "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
@@ -1309,7 +1309,7 @@
     "tabs": {
       "history": "Historique",
       "in_progress": "En cours",
-      "in_error": "Défectueuse",
+      "in_error": "En Erreur",
       "refund": "Remboursement"
     },
     "graph": {

@@ -798,7 +798,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",
-      "in_error": "Faulty"
+      "in_error": "In Error"
     },
     "errors": {
       "missingSettings": {
@@ -812,7 +812,7 @@
         "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
-        "title": "Charging Station is not Assigned",
+        "title": "Not Assigned to a Site Area",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
         "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
@@ -1309,7 +1309,7 @@
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "Faulty",
+      "in_error": "In Error",
       "refund": "Refunding"
     },
     "graph": {

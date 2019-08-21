@@ -183,6 +183,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`
     });
+    // Sort
+    errorTypes.sort((errorType1, errorType2) => {
+      if (errorType1.value < errorType2.value) {
+        return -1;
+      }
+      if (errorType1.value > errorType2.value) {
+        return 1;
+      }
+      return 0;
+    });
 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter().getFilterDef(),

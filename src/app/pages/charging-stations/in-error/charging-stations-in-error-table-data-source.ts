@@ -277,6 +277,16 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR,
       value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title`
     });
+    // Sort
+    errorTypes.sort((errorType1, errorType2) => {
+      if (errorType1.value < errorType2.value) {
+        return -1;
+      }
+      if (errorType1.value > errorType2.value) {
+        return 1;
+      }
+      return 0;
+    });
 
     if (this.isOrganizationComponentActive) {
       return [

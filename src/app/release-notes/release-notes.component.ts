@@ -34,8 +34,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Enabled Site Admin role`,
-              `Added in User In Error, the users that are not assigned to a Site`,
               `Display Charging Station's registration token in Site Area if it's still valid`,
+              `Added Users that are not assigned to a Site in User In Error`,
               `Add Sessions with negative duration in Session In Error`,
               `Enable Charging Station and Sessions for Site Admin users`,
               `Add Token description`,

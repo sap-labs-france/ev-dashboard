@@ -1380,8 +1380,13 @@
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       },
       "negative_inactivity": {
-        "title": "Negative inactivity",
-        "description": "The inactivity value of the session is negative.",
+        "title": "Negative Inactivity",
+        "description": "The inactivity of the session is negative.",
+        "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "negative_duration": {
+        "title": "Negative Duration",
+        "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
       "incorrect_starting_date": {

@@ -13,9 +13,9 @@ import { Utils } from '../../../utils/Utils';
 import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
 
 @Component({
-  templateUrl: './session-dialog.component.html'
+  templateUrl: './transaction-dialog.component.html'
 })
-export class SessionDialogComponent implements OnInit, OnDestroy {
+export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
@@ -43,7 +43,7 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
     private centralServerService: CentralServerService,
     private configService: ConfigService,
     private localeService: LocaleService,
-    protected dialogRef: MatDialogRef<SessionDialogComponent>,
+    protected dialogRef: MatDialogRef<TransactionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.locale = this.localeService.getCurrentLocaleJS();
     if (data) {

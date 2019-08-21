@@ -20,6 +20,7 @@ export class Constants {
   public static TRANSACTION_IN_ERROR_NO_CONSUMPTION = 'no_consumption';
   public static TRANSACTION_IN_ERROR_OVER_CONSUMPTION = 'average_consumption_greater_than_connector_capacity';
   public static TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY = 'negative_inactivity';
+  public static TRANSACTION_IN_ERROR_NEGATIVE_DURATION = 'negative_duration';
   public static TRANSACTION_IN_ERROR_INVALID_START_DATE = 'incorrect_starting_date';
 
   public static CHARGER_IN_ERROR_MISSING_SETTINGS = 'missingSettings';

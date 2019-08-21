@@ -24,7 +24,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -179,6 +179,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION,
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`
     });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`
+    });
 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter().getFilterDef(),
@@ -281,7 +285,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

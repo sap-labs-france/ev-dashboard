@@ -23,7 +23,7 @@ import { ComponentEnum, ComponentService } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -265,7 +265,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
   protected _chargingStationStopTransaction(transaction: Transaction) {

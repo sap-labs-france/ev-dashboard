@@ -22,7 +22,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
@@ -50,7 +50,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public noAction = new TableNoAction();
 
   private charger: Charger;
-  private dialogRefSession: MatDialogRef<SessionDialogComponent>;
+  private dialogRefSession: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -418,7 +418,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       connector: connector,
     };
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

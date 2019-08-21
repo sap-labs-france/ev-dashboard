@@ -1384,6 +1384,11 @@
         "description": "La periode d'inactivité enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
       },
+      "negative_duration": {
+        "title": "Durée négative",
+        "description": "La durée enregistrée est négative.",
+        "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
+      },
       "incorrect_starting_date": {
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",

@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from 'app/shared/dialogs/transaction/transaction-dialog.component';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
@@ -18,7 +18,7 @@ import { ChargingStationsConnectorsCellComponent } from './cell-components/charg
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { ChargingStationsSessionDetailComponentCellComponent } from './cell-components/charging-stations-session-detail-cell.component';
+import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
@@ -60,12 +60,12 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
-    SessionDialogComponent,
+    TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
-    SessionDialogComponent,
+    TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
-    ChargingStationsSessionDetailComponentCellComponent,
+    ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
     ChargingStationsInstantPowerConnectorProgressBarCellComponent,
     ChargingStationsConnectorStatusCellComponent,
@@ -87,7 +87,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     AppChargingStationsFormatConnectorPipe,
     AppChargingStationsFormatConnectorStatusPipe,
     ChargingStationsHeartbeatCellComponent,
-    ChargingStationsSessionDetailComponentCellComponent,
+    ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
     ChargingStationsInstantPowerConnectorProgressBarCellComponent,
     ChargingStationsConnectorStatusCellComponent,

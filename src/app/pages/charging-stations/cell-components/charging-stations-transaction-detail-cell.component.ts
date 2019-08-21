@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { SessionDialogComponent } from 'app/shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from 'app/shared/dialogs/transaction/transaction-dialog.component';
 import { LocaleService } from '../../../services/locale.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
@@ -16,11 +16,11 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   }`]
 
 })
-export class ChargingStationsSessionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {
+export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {
   @Input() row: any;
   locale: string;
   displaySessionAuthorized: boolean;
-  dialogRef: MatDialogRef<SessionDialogComponent>;
+  dialogRef: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
       private localeService: LocaleService,
@@ -46,7 +46,7 @@ export class ChargingStationsSessionDetailComponentCellComponent extends CellCon
       };
     }
     // Open
-    this.dialogRef = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRef = this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
   refresh() {

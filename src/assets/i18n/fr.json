@@ -12,6 +12,7 @@
     "changed_by": "Modifié par",
     "expired_on": "Expire le",
     "revoked_on": "Révoqué le",
+    "description": "Description",
     "days": "jours",
     "hours": "heures",
     "minutes": "mins",

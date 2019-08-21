@@ -302,8 +302,10 @@ export class SiteAreaComponent implements OnInit {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.spinnerService.show();
 
+          const selectedSite = this.sites.find((site) => site.id === this.siteID.value);
           this.centralServerService.createRegistrationToken({
-            siteAreaID: this.currentSiteAreaID
+            siteAreaID: this.currentSiteAreaID,
+            description: `Token for ${selectedSite.name} / ${this.name.value}`
           }).subscribe(token => {
             this.spinnerService.hide();
             if (token) {

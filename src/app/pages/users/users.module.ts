@@ -22,6 +22,7 @@ import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { UserRoutes } from './users.routing';
   entryComponents: [
     UserStatusFormatterComponent,
     UserDialogComponent,
-    UserSitesDialogComponent
+    UserSitesDialogComponent,
+    ErrorCodeDetailsComponent
   ],
   exports: [
     AppUserRolePipe,

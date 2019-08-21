@@ -965,6 +965,18 @@
         "no_invoice_found": "No invoice available for your account",
         "unable_to_get_invoice": "Error occurred while retrieving your invoice"
       }
+    },
+    "errors": {
+      "unactive_users": {
+        "title": "Unactive user",
+        "description": "This user is not active.",
+        "action": "Check the status of this user."
+      },
+      "unassigned_users": {
+        "title": "Unassigned user",
+        "description": "This user is not assigned to any site.",
+        "action": "Assign this user to at least a site as the organization component is active."
+      }
     }
   },
   "tenants": {

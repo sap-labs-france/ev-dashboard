@@ -965,6 +965,18 @@
         "no_invoice_found": "Aucune facture disponible pour votre compte",
         "unable_to_get_invoice": "Une erreur est survenue pendant la récupération de votre facture"
       }
+    },
+    "errors": {
+      "unactive_users": {
+        "title": "Compte utilisateur non activé",
+        "description": "Le compte de cet utilisateur n'est pas activé.",
+        "action": "Contrôler le statut de ce compte utilisateur."
+      },
+      "unassigned_users": {
+        "title": "Utilisateur sans site",
+        "description": "Cet utilisateur n'est pas assigné à au moins un site.",
+        "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
+      }
     }
   },
   "tenants": {

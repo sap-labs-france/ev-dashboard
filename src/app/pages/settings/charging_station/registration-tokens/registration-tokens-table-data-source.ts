@@ -85,26 +85,26 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   public buildTableColumnDefs(): TableColumnDef[] {
     const columns = [
       {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none d-xl-table-cell col-25p',
-        class: 'd-none d-xl-table-cell col-25p',
-      },
-      {
         id: 'status',
         name: 'users.status',
         isAngularComponent: true,
         angularComponent: RegistrationTokenStatusComponent,
-        headerClass: 'col-10p',
-        class: 'col-10p',
+        headerClass: 'col-5p',
+        class: 'col-5p',
         sortable: true
+      },
+      {
+        id: 'description',
+        name: 'general.description',
+        headerClass: 'd-none d-xl-table-cell col-15p',
+        class: 'd-none d-xl-table-cell col-15p',
       },
       {
         id: 'createdOn',
         name: 'general.created_on',
         formatter: (createdOn) => this.datePipe.transform(createdOn),
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sortable: true,
         sorted: true
       },
@@ -112,8 +112,8 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         id: 'expirationDate',
         name: 'general.expired_on',
         formatter: (expirationDate) => this.datePipe.transform(expirationDate),
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         direction: 'desc',
         sortable: true
       },
@@ -121,8 +121,8 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         id: 'revocationDate',
         name: 'general.revoked_on',
         formatter: (revocationDate) => this.datePipe.transform(revocationDate),
-        headerClass: 'col-25p',
-        class: 'text-left col-25p',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         direction: 'desc',
         sortable: true
       },
@@ -134,15 +134,15 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
             return token.siteArea.name;
           }
         },
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true
       },
       {
         id: 'ocpp15Url',
         name: 'settings.charging_station.url',
-        headerClass: 'col-25p text-center',
-        class: 'col-25p',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p',
         isAngularComponent: true,
         angularComponent: RegistrationTokenUrlComponent,
       }];

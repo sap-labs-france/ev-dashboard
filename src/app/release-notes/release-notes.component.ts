@@ -33,8 +33,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Enable Site Admin role`,
+              `Enabled Site Admin role`,
               `Display Charging Station's registration token in Site Area if it's still valid`,
+              `Enable Charging Station and Sessions for Site Admin users`,
+              `Add Token description`,
               `Fixed Remote Start with another User`,
               `Site Admin can see the Sessions made on his Charging Stations`
             ]

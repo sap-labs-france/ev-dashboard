@@ -17,7 +17,7 @@ export class RegistrationTokenComponent implements OnInit {
   public siteAreaID: AbstractControl;
   public siteAreas: SiteArea[];
   public expirationDate: AbstractControl;
-  public restrictToSiteArea: AbstractControl;
+  public description: AbstractControl;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -31,12 +31,14 @@ export class RegistrationTokenComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       'siteAreaID': new FormControl(),
+      'description': new FormControl(),
       'expirationDate': new FormControl(moment().add(1, 'd'),
         Validators.compose([
           Validators.required
         ]))
     });
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
+    this.description = this.formGroup.controls['description'];
     this.expirationDate = this.formGroup.controls['expirationDate'];
 
     this.loadSiteAreas();

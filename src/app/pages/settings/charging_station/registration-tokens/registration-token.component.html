@@ -11,7 +11,6 @@
                     <li class="nav-item">
                       <a class="nav-link active" data-toggle="tab" href="#profile">
                         <mat-icon>link</mat-icon>
-                        <span>{{'settings.charging_station.registration_token_creation_title' | translate}}</span>
                         <div class="ripple-container"></div>
                       </a>
                     </li>
@@ -33,6 +32,10 @@
                 <div class="tab-pane active" id="profile">
                   <div class="row">
                     <div class="col-md-12 text-left">
+                      <mat-form-field class="form-group">
+                        <input [formControl]="description" appAutofocus matInput
+                               placeholder="{{'general.description' | translate}}" type="text">
+                      </mat-form-field>
                       <mat-form-field class="form-group">
                         <mat-datetimepicker #picker type="datetime" openOnFocus="false"
                                             mode="portrait" timeInterval="1">

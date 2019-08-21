@@ -277,6 +277,7 @@ export interface Setting extends Data {
 
 export interface RegistrationToken extends Data {
   id: string;
+  description?: string;
   createdOn: Date;
   expirationDate: Date;
   revocationDate?: Date;

@@ -212,6 +212,10 @@ export class StatisticsFiltersComponent implements OnInit {
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Show
+    if (filterDef.cleared) {
+      dialogConfig.data.cleared = true;
+      filterDef.cleared = false;
+    }
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Update value
     dialogRef.afterClosed().subscribe(data => {

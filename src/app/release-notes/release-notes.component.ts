@@ -28,7 +28,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.4',
-        date: new Date('2019-08-21'),
+        date: new Date('2019-08-22'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -36,6 +36,8 @@ export class ReleaseNotesComponent {
               `Enabled Site Admin role`,
               `Display Charging Station's registration token in Site Area if it's still valid`,
               `Added Users that are not assigned to a Site in User In Error`,
+              `Fixed filter not reinitialized in Statistics between two tabs`,
+              `Analytics drop down displays only demo links for Demo user`,
               `Add Sessions with negative duration in Session In Error`,
               `Enable Charging Station and Sessions for Site Admin users`,
               `Add Token description`,

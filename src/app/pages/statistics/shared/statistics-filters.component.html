@@ -27,7 +27,7 @@
             </button>
             <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
                 <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
-                    <a mat-menu-item href="{{sacLink.url}}" target= "_blank">{{sacLink.description}}</a>
+                    <a *ngIf="isAdmin || (!isAdmin && sacLink.role === 'D')" mat-menu-item href="{{sacLink.url}}" target= "_blank">{{sacLink.description}}</a>
                 </ng-template>
             </mat-menu>
         </div>

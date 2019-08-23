@@ -393,7 +393,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       transactionId: connector.activeTransactionID,
-      siteArea: this.charger.siteArea,
+      chargingStationId: this.charger.id,
       connector: connector,
     };
     // Open

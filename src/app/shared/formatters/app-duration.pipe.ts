@@ -3,14 +3,13 @@ import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appDuration'})
 export class AppDurationPipe implements PipeTransform {
-  private readonly locale: string;
   private localeService: LocaleService;
 
   constructor(localeService: LocaleService) {
     this.localeService = localeService;
   }
 
-  transform(durationInSecs: number): any {
+  transform(durationInSecs: number): string {
     let result = '';
     if (durationInSecs === 0) {
       return `0 ${this.localeService.getI18nSecond()}`;

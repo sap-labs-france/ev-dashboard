@@ -142,21 +142,24 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   buildTableDynamicRowActions(site: Site) {
+    const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude) ? false : true;
+
     if (this.authorizationService.isSiteAdmin(site.id)) {
-      return [
-        this.editAction,
-        this.editUsersAction,
-        openInMaps,
-        this.deleteAction
-      ];
+      actions.push(this.editAction);
+      actions.push(this.editUsersAction);
+    } else {
+      actions.push(this.viewAction);
     }
-    return [
-      this.viewAction,
-      openInMaps
-    ];
+
+    actions.push(openInMaps);
+
+    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

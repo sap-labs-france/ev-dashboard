@@ -80,8 +80,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         this.charger.connectors.forEach(connector => {
           connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeBadgeID);
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
-          connector.isTransactionDisplayAuthorized = connector.activeTransactionID && this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
-          connector.hasDetails = connector.isTransactionDisplayAuthorized;
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
 
         observer.next({
@@ -182,37 +182,20 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
+    const actions = [];
     if (connector) {
-      // Check active transaction
-      if (connector.activeTransactionID) {
-        // Authorized to stop?
-        if (connector.isStopAuthorized) {
-          if (!this.charger.inactive) {
-            return [
-              this.openAction.getActionDef(),
-              this.stopAction.getActionDef()
-            ];
-          }
-          return [
-            this.openAction.getActionDef(),
-          ];
-        }
-        // Display only?
-        if (connector.isTransactionDisplayAuthorized) {
-          return [
-            this.openAction.getActionDef(),
-          ];
-        }
-        // No Active Transaction
-      } else {
-        // Authorized to start?
-        if (connector.isStartAuthorized && !this.charger.inactive) {
-          // By default no actions
-          return [
-            this.startAction.getActionDef()
-          ];
-        }
+      if (connector.isTransactionDisplayAuthorized) {
+        actions.push(this.openAction.getActionDef());
       }
+      if (connector.isStopAuthorized) {
+        actions.push(this.stopAction.getActionDef());
+      }
+      if (connector.isStartAuthorized && !this.charger.inactive) {
+        actions.push(this.startAction.getActionDef());
+      }
+    }
+    if (actions.length > 0) {
+      return actions;
     }
     // By default no actions
     return [
@@ -268,11 +251,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
             this.translateService.instant('chargers.action_error.session_details_not_authorized'));
-        }
-        if (!connector.activeTransactionID) {
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('chargers.action_error.session_details_title'),
-            this.translateService.instant('chargers.action_error.no_active_transaction'));
+          return;
         }
         // Show
         this.openSession(connector);

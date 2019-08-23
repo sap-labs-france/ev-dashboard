@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Image, Transaction } from '../../../common.types';
+import { Connector, Image, Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -17,6 +17,7 @@ import { ConsumptionChartComponent } from '../../component/consumption-chart/con
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
+  public connector: Connector = undefined;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
   public endStateOfCharge: number;
@@ -48,6 +49,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     this.locale = this.localeService.getCurrentLocaleJS();
     if (data) {
       this.transactionId = data.transactionId;
+      this.connector = data.connector;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

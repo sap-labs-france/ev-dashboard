@@ -624,6 +624,7 @@
     "reboot_title": "Reboot Charging Station",
     "soft_reset_title": "Reset Charging Station",
     "charger_id_not_found": "Charging Station ID '{{chargerID}}' has not been found",
+    "no_transaction_found": "No session found for Charging Station '{{chargerID}}' ",
     "dialog": {
       "export": {
         "title": "Export charging stations",

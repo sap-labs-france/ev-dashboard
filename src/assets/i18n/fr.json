@@ -624,6 +624,7 @@
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
     "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
+    "no_transaction_found": "Aucune session trouvée pour la borne '{{chargerID}}' ",
     "dialog": {
       "export": {
         "title": "Exporter les bornes",

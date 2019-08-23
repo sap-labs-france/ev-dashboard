@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Enabled Site Admin role`,
               `Site Admin can delete his Charging Station`,
               `Site Admin cannot delete his Site`,
+              `Display the last Session details in Charging Station's Connector when no Session is ongoing`,
               `Display Charging Station's registration token in Site Area if it's still valid`,
               `Added Users that are not assigned to a Site in User In Error`,
               `Fixed filter not reinitialized in Statistics between two tabs`,

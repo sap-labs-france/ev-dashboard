@@ -168,6 +168,7 @@ export interface Connector extends Data {
   status: string;
   activeBadgeID: string;
   activeTransactionID: number;
+  activeTransactionDate: Date;
   type: string;
   hasDetails: boolean;
   isStopAuthorized: boolean;

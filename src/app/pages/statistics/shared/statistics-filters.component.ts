@@ -76,7 +76,16 @@ export class StatisticsFiltersComponent implements OnInit {
 
     // Get SAC links
     this.componentService.getSacSettings(true).subscribe((sacSettings) => {
-      this.sacLinks = sacSettings.links;
+      if (this.isAdmin) {
+        this.sacLinks = sacSettings.links;
+      } else {
+        this.sacLinks = [];
+        for (let sacLink of sacSettings.links) {
+          if (sacLink.role === 'D') {
+            this.sacLinks.push(sacLink);
+          }
+        }
+      }
       if (Array.isArray(this.sacLinks) && this.sacLinks.length > 0) {
         this.sacLinksActive = true;
       } else {

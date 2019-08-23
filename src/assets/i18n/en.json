@@ -1041,7 +1041,7 @@
       "url": "OCPP URL",
       "copy_url_tooltip": "Copy OCPP URL",
       "url_copied": "OCPP Url has been copied to your clipboard",
-      "generate_connection_url": "Generate Connection URL",
+      "generate_connection_url": "Connect a Charging Station",
       "copy_ocpp_15_url": "Copy OCPP 1.5 URL",
       "copy_ocpp_16_url": "Copy OCPP 1.6 URL"
     },

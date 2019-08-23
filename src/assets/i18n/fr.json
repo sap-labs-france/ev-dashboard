@@ -1041,7 +1041,7 @@
       "url": "OCPP URL",
       "copy_url_tooltip": "Copier l'URL OCPP",
       "url_copied": "L'URL OCPP a été copiée dans votre presse-papiers",
-      "generate_connection_url": "Générer une URL de connexion",
+      "generate_connection_url": "Connecter une Borne",
       "copy_ocpp_15_url": "Copier l'URL OCPP 1.5",
       "copy_ocpp_16_url": "Copier l'URL OCPP 1.6"
     },

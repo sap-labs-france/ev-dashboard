@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter.js';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import {
@@ -24,7 +24,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -45,27 +45,29 @@ import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
+  private isSiteAdmin = false;
   private dialogRefSession;
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private componentService: ComponentService,
-      private authorizationService: AuthorizationService,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private datePipe: AppDatePipe,
-      private appConnectorIdPipe: AppConnectorIdPipe,
-      private appUserNamePipe: AppUserNamePipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
   }
@@ -77,16 +79,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
-          .subscribe((transactions) => {
-        this.formatErrorMessages(transactions.result);
-        // Ok
-        observer.next(transactions);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+        .subscribe((transactions) => {
+          this.formatErrorMessages(transactions.result);
+          // Ok
+          observer.next(transactions);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -143,7 +145,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sortable: false,
         formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
       });
-    if (this.isAdmin) {
+    if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
@@ -161,22 +163,50 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title` });
-    errorTypes.push({ key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION, value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title` });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`
+    });
+    errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`
+    });
+    // Sort
+    errorTypes.sort((errorType1, errorType2) => {
+      if (errorType1.value < errorType2.value) {
+        return -1;
+      }
+      if (errorType1.value > errorType2.value) {
+        return 1;
+      }
+      return 0;
+    });
 
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter().getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
-      new ChargerTableFilter().getFilterDef()
+      new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      filters.push(new SitesTableFilter().getFilterDef());
-      filters.push(new SiteAreaTableFilter().getFilterDef());
+      filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    } else {
+      filters.push(new ChargerTableFilter().getFilterDef());
     }
 
     switch (this.centralServerService.getLoggedUser().role) {
@@ -191,10 +221,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   buildTableRowActions(): TableActionDef[] {
-    return [
-      this.openAction,
-      this.deleteAction
-    ];
+    const actions = [];
+    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
+      actions.push(this.openAction);
+    }
+    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_DELETE)) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -261,7 +295,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

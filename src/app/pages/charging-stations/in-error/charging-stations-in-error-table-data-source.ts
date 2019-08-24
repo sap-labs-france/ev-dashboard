@@ -24,11 +24,12 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -63,21 +64,31 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       new TableDeleteAction().getActionDef()
     ]
   };
+  private isOrganizationComponentActive: boolean;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private router: Router,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private dialog: MatDialog,
-      private dialogService: DialogService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private router: Router,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
+    private dialog: MatDialog,
+    private dialogService: DialogService) {
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{ 'WithSite': true }]);
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters(
+        [
+          {'WithSite': true},
+          {'SiteID': this.authorizationService.getSitesAdmin().join('|')}
+        ]);
+    }
     this.initDataSource();
   }
 
@@ -90,24 +101,24 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       // Get data
       this.centralServerService.getChargersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          this.formatErrorMessages(chargers.result);
-          // Update details status
-          chargers.result.forEach(charger => {
-            // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter(connector => !Utils.isNull(connector));
-            charger.connectors.forEach(connector => {
-              connector.hasDetails = connector.activeTransactionID > 0;
-            });
+        this.formatErrorMessages(chargers.result);
+        // Update details status
+        chargers.result.forEach(charger => {
+          // At first filter out the connectors that are null
+          charger.connectors = charger.connectors.filter(connector => !Utils.isNull(connector));
+          charger.connectors.forEach(connector => {
+            connector.hasDetails = connector.activeTransactionID > 0;
           });
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
         });
+        // Ok
+        observer.next(chargers);
+        observer.complete();
+      }, (error) => {
+        // No longer exists!
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
+      });
     });
   }
 
@@ -207,18 +218,18 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'reboot':
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Hard' }),
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', { 'chargeBoxID': rowItem.id }),
-          this.translateService.instant('chargers.reboot_success', { 'chargeBoxID': rowItem.id }),
+          this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
+          this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
           'chargers.reset_error'
         );
         break;
       case 'soft_reset':
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({ type: 'Soft' }),
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
           this.translateService.instant('chargers.soft_reset_title'),
-          this.translateService.instant('chargers.soft_reset_confirm', { 'chargeBoxID': rowItem.id }),
-          this.translateService.instant('chargers.soft_reset_success', { 'chargeBoxID': rowItem.id }),
+          this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
+          this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
           'chargers.soft_reset_error'
         );
         break;
@@ -250,13 +261,40 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   public buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
-    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_MISSING_SETTINGS, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SETTINGS}.title` });
-    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title` });
-    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title` });
-    errorTypes.push({ key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR, value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title` });
+    errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_MISSING_SETTINGS,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SETTINGS}.title`
+    });
+    errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title`
+    });
+    errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`
+    });
+    errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title`
+    });
+    // Sort
+    errorTypes.sort((errorType1, errorType2) => {
+      if (errorType1.value < errorType2.value) {
+        return -1;
+      }
+      if (errorType1.value > errorType2.value) {
+        return 1;
+      }
+      return 0;
+    });
+
+    if (this.isOrganizationComponentActive) {
+      return [
+        new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        new ErrorTypeTableFilter(errorTypes).getFilterDef()
+      ];
+    }
     return [
-      // new ChargerTableFilter().getFilterDef(),
-      new SitesTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];
   }
@@ -265,8 +303,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     if (this.isAdmin) {
       return this.actions[charger.errorCode];
     } else {
-      return [
-      ];
+      return [];
     }
   }
 
@@ -349,13 +386,13 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     } else {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.delete_title'),
-        this.translateService.instant('chargers.delete_confirm', { 'chargeBoxID': chargingStation.id })
+        this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
               this.refreshData().subscribe();
-              this.messageService.showSuccessMessage('chargers.delete_success', { 'chargeBoxID': chargingStation.id });
+              this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, 'chargers.delete_error');

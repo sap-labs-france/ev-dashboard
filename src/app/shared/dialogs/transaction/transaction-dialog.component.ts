@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Image, Transaction } from '../../../common.types';
+import { Connector, Image, Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -13,10 +13,12 @@ import { Utils } from '../../../utils/Utils';
 import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
 
 @Component({
-  templateUrl: './session-dialog.component.html'
+  templateUrl: './transaction-dialog.component.html'
 })
-export class SessionDialogComponent implements OnInit, OnDestroy {
+export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
+  public connector: Connector = undefined;
+  public chargingStationId: string;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
   public endStateOfCharge: number;
@@ -43,11 +45,13 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
     private centralServerService: CentralServerService,
     private configService: ConfigService,
     private localeService: LocaleService,
-    protected dialogRef: MatDialogRef<SessionDialogComponent>,
+    protected dialogRef: MatDialogRef<TransactionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.locale = this.localeService.getCurrentLocaleJS();
     if (data) {
       this.transactionId = data.transactionId;
+      this.connector = data.connector;
+      this.chargingStationId = data.chargingStationId;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -95,6 +99,24 @@ export class SessionDialogComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.spinnerService.show();
+    if (!this.transactionId) {
+      this.centralServerService.getLastTransaction(this.chargingStationId, this.connector.connectorId.toString()).subscribe((dataResult) => {
+        if (dataResult.result && dataResult.result.length > 0) {
+          this.transactionId = dataResult.result[0].id;
+          this.loadConsumption(this.transactionId);
+        } else {
+          this.spinnerService.hide();
+          this.messageService.showInfoMessage('chargers.no_transaction_found', {'chargerID': this.chargingStationId});
+          this.dialogRef.close();
+        }
+      });
+    } else {
+      this.loadConsumption(this.transactionId);
+    }
+  }
+
+  loadConsumption(transactionId: number) {
     this.spinnerService.show();
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();

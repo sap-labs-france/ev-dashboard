@@ -61,7 +61,7 @@
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                     <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
                            type="text"
                            [formControl]="maximumPower">
@@ -73,14 +73,14 @@
                     <mat-error *ngIf="maximumPower.errors?.pattern">
                       {{"chargers.invalid_power_value" | translate}}
                     </mat-error>
-                  </mat-form-field>
+                  </mat-form-field> -->
                   <div style="text-align: left">
                     <mat-checkbox [formControl]="accessControl">
                       {{'site_areas.enable_access_control' | translate}}
                     </mat-checkbox>
                   </div>
                 </div>
-                <div *ngIf="currentSiteAreaID">
+                <div *ngIf="isAdmin && currentSiteAreaID">
                   <div *ngIf="!registrationToken" class="d-flex justify-content-start">
                     <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
                       <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>

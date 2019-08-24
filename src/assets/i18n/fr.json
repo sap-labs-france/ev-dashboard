@@ -12,6 +12,7 @@
     "changed_by": "Modifié par",
     "expired_on": "Expire le",
     "revoked_on": "Révoqué le",
+    "description": "Description",
     "days": "jours",
     "hours": "heures",
     "minutes": "mins",
@@ -26,7 +27,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.3",
+    "last_update": "Version 2.1.4",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -375,7 +376,7 @@
     "charger_list_target_title": "Utilisées",
     "number_of_charging_stations": "Nb Bornes",
     "site_area_not_found": "Zone inconnue",
-    "select_site_areas": "Séléction Zone(s)",
+    "select_site_areas": "Séléction Zone",
     "unassigned": "Non assigné",
     "image": "Image",
     "assigned_chargers": "Bornes",
@@ -623,6 +624,7 @@
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
     "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
+    "no_transaction_found": "Aucune session trouvée pour la borne '{{chargerID}}' ",
     "dialog": {
       "export": {
         "title": "Exporter les bornes",
@@ -797,7 +799,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",
-      "in_error": "Défectueuse"
+      "in_error": "En Erreur"
     },
     "errors": {
       "missingSettings": {
@@ -811,7 +813,7 @@
         "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
       },
       "missingSiteArea": {
-        "title": "La Borne n'est pas Assignée",
+        "title": "Non Assignée à une Zone",
         "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
         "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
       },
@@ -965,6 +967,18 @@
         "no_invoice_found": "Aucune facture disponible pour votre compte",
         "unable_to_get_invoice": "Une erreur est survenue pendant la récupération de votre facture"
       }
+    },
+    "errors": {
+      "unactive_users": {
+        "title": "Compte utilisateur non activé",
+        "description": "Le compte de cet utilisateur n'est pas activé.",
+        "action": "Contrôler le statut de ce compte utilisateur."
+      },
+      "unassigned_users": {
+        "title": "Utilisateur sans site",
+        "description": "Cet utilisateur n'est pas assigné à au moins un site.",
+        "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
+      }
     }
   },
   "tenants": {
@@ -1028,7 +1042,7 @@
       "url": "OCPP URL",
       "copy_url_tooltip": "Copier l'URL OCPP",
       "url_copied": "L'URL OCPP a été copiée dans votre presse-papiers",
-      "generate_connection_url": "Générer une URL de connexion",
+      "generate_connection_url": "Connecter une Borne",
       "copy_ocpp_15_url": "Copier l'URL OCPP 1.5",
       "copy_ocpp_16_url": "Copier l'URL OCPP 1.6"
     },
@@ -1296,7 +1310,7 @@
     "tabs": {
       "history": "Historique",
       "in_progress": "En cours",
-      "in_error": "Défectueuse",
+      "in_error": "En Erreur",
       "refund": "Remboursement"
     },
     "graph": {
@@ -1369,6 +1383,11 @@
       "negative_inactivity": {
         "title": "Inactivité négative",
         "description": "La periode d'inactivité enregistrée est négative.",
+        "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
+      },
+      "negative_duration": {
+        "title": "Durée négative",
+        "description": "La durée enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
       },
       "incorrect_starting_date": {

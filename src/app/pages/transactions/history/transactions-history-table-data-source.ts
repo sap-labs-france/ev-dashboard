@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -26,7 +26,7 @@ import { ComponentEnum, ComponentService } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -49,6 +49,7 @@ import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
+  private isSiteAdmin = false;
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
@@ -73,6 +74,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
     // Add statistics to query
@@ -160,7 +162,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         name: 'transactions.consumption',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       });
-    if (this.isAdmin) {
+    if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
@@ -226,7 +228,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      filters.push(new SitesTableFilter().getFilterDef());
+      filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
@@ -331,7 +333,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
   protected _deleteTransaction(transaction: Transaction) {

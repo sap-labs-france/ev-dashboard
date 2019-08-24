@@ -12,6 +12,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 import { RegistrationToken } from '../../../../common.types';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging_station/registration-tokens/registration-tokens-table-data-source';
@@ -136,6 +137,7 @@ export class SiteAreaComponent implements OnInit {
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
+      this.loadRegistrationToken();
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];
@@ -300,8 +302,10 @@ export class SiteAreaComponent implements OnInit {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.spinnerService.show();
 
+          const selectedSite = this.sites.find((site) => site.id === this.siteID.value);
           this.centralServerService.createRegistrationToken({
-            siteAreaID: this.currentSiteAreaID
+            siteAreaID: this.currentSiteAreaID,
+            description: `Token for ${selectedSite.name} / ${this.name.value}`
           }).subscribe(token => {
             this.spinnerService.hide();
             if (token) {
@@ -380,6 +384,30 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this.closeDialog();
     }
+  }
+
+  private loadRegistrationToken() {
+    if (!this.currentSiteAreaID) {
+      return;
+    }
+    this.centralServerService.getRegistrationTokens({
+      'siteAreaID': this.currentSiteAreaID
+    }).subscribe((dataResult => {
+      if (dataResult && dataResult.result) {
+        for (const registrationToken of dataResult.result) {
+          if (this.isRegistrationTokenValid(registrationToken)) {
+            this.registrationToken = registrationToken;
+            break;
+          }
+        }
+      }
+    }));
+  }
+
+  private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
+    const now = moment();
+    return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
+      && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
   }
 
   private _createSiteArea(siteArea) {

@@ -21,6 +21,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
@@ -98,13 +99,13 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p'
-      // },
-      // {
-      //   id: 'siteAdmin',
-      //   isAngularComponent: true,
-      //   angularComponent: SiteUsersAdminCheckboxComponent,
-      //   name: 'sites.admin_role',
-      //   class: 'col-10p'
+      },
+      {
+        id: 'siteAdmin',
+        isAngularComponent: true,
+        angularComponent: SiteUsersAdminCheckboxComponent,
+        name: 'sites.admin_role',
+        class: 'col-10p'
       }
     ];
   }

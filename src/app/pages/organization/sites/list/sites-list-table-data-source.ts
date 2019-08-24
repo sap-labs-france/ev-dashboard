@@ -26,7 +26,7 @@ import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { CompaniesTableFilter } from 'app/shared/table/filters/company-table-filter';
+import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -142,21 +142,24 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   buildTableDynamicRowActions(site: Site) {
+    const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude) ? false : true;
+
     if (this.authorizationService.isSiteAdmin(site.id)) {
-      return [
-        this.editAction,
-        this.editUsersAction,
-        openInMaps,
-        this.deleteAction
-      ];
+      actions.push(this.editAction);
+      actions.push(this.editUsersAction);
+    } else {
+      actions.push(this.viewAction);
     }
-    return [
-      this.viewAction,
-      openInMaps
-    ];
+
+    actions.push(openInMaps);
+
+    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
+      actions.push(this.deleteAction);
+    }
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -200,7 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
-      new CompaniesTableFilter().getFilterDef()
+      new CompanyTableFilter().getFilterDef()
     ];
   }
 

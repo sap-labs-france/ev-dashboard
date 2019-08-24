@@ -73,7 +73,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         }
         // Watt -> kWatts
         maxPowerKW /= 1000;
-        return Math.round(maxPowerKW);
+        return Math.round((maxPowerKW * 10)) / 10;
     }
   }
 }

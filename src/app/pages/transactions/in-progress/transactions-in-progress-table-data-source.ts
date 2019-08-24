@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { Observable } from 'rxjs';
 import {
   ActionResponse,
@@ -23,7 +23,7 @@ import { ComponentEnum, ComponentService } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -46,6 +46,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private openAction = new TableOpenAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
   private isAdmin = false;
+  private isSiteAdmin = false;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -67,6 +68,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
   }
@@ -178,7 +180,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         }
       });
-    if (this.authorizationService.isAdmin()) {
+    if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
@@ -218,7 +220,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-      filters.push(new SitesTableFilter().getFilterDef());
+      filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
@@ -263,7 +265,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
   protected _chargingStationStopTransaction(transaction: Transaction) {

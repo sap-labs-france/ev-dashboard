@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -419,6 +419,27 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getLastTransaction(chargingStationId: string, connectorId: string): Observable<DataResult<Transaction>> {
+    let params = new HttpParams();
+    params = params.append('ChargeBoxID', chargingStationId);
+    params = params.append('ConnectorId', connectorId);
+    params = params.append('Limit', '1');
+    params = params.append('Skip', '0');
+    params = params.append('SortFields', 'timestamp');
+    params = params.append('SortDirs', '-1');
+
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactions`,
+      {
+        headers: this._buildHttpHeaders(),
+        params: params
       })
       .pipe(
         catchError(this._handleHttpError)

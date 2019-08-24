@@ -19,7 +19,7 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
-import { SessionDialogComponent } from './session/session-dialog.component';
+import { TransactionDialogComponent } from './transaction/transaction-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
 import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
 import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
@@ -50,7 +50,7 @@ export class FooterModule {
     ChargersDialogComponent,
     SiteAreasDialogComponent,
     CompaniesDialogComponent,
-    SessionDialogComponent,
+    TransactionDialogComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent
@@ -62,7 +62,7 @@ export class FooterModule {
     ChargersDialogComponent,
     SiteAreasDialogComponent,
     CompaniesDialogComponent,
-    SessionDialogComponent,
+    TransactionDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
@@ -75,7 +75,7 @@ export class FooterModule {
     ChargersDialogComponent,
     SiteAreasDialogComponent,
     CompaniesDialogComponent,
-    SessionDialogComponent,
+    TransactionDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent
   ],

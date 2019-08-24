@@ -12,6 +12,7 @@
     "changed_by": "Changed By",
     "expired_on": "Expired On",
     "revoked_on": "Revoked On",
+    "description": "Description",
     "days": "days",
     "hours": "hours",
     "minutes": "mins",
@@ -26,7 +27,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.3",
+    "last_update": "Version 2.1.4",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -623,6 +624,7 @@
     "reboot_title": "Reboot Charging Station",
     "soft_reset_title": "Reset Charging Station",
     "charger_id_not_found": "Charging Station ID '{{chargerID}}' has not been found",
+    "no_transaction_found": "No session found for Charging Station '{{chargerID}}' ",
     "dialog": {
       "export": {
         "title": "Export charging stations",
@@ -797,7 +799,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",
-      "in_error": "Faulty"
+      "in_error": "In Error"
     },
     "errors": {
       "missingSettings": {
@@ -811,7 +813,7 @@
         "action": "Manual intervention is required. Check your network and/or the charging station configuration"
       },
       "missingSiteArea": {
-        "title": "Charging Station is not Assigned",
+        "title": "Not Assigned to a Site Area",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
         "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
       },
@@ -965,6 +967,18 @@
         "no_invoice_found": "No invoice available for your account",
         "unable_to_get_invoice": "Error occurred while retrieving your invoice"
       }
+    },
+    "errors": {
+      "unactive_users": {
+        "title": "Unactive user",
+        "description": "This user is not active.",
+        "action": "Check the status of this user."
+      },
+      "unassigned_users": {
+        "title": "Unassigned user",
+        "description": "This user is not assigned to any site.",
+        "action": "Assign this user to at least a site as the organization component is active."
+      }
     }
   },
   "tenants": {
@@ -1028,7 +1042,7 @@
       "url": "OCPP URL",
       "copy_url_tooltip": "Copy OCPP URL",
       "url_copied": "OCPP Url has been copied to your clipboard",
-      "generate_connection_url": "Generate Connection URL",
+      "generate_connection_url": "Connect a Charging Station",
       "copy_ocpp_15_url": "Copy OCPP 1.5 URL",
       "copy_ocpp_16_url": "Copy OCPP 1.6 URL"
     },
@@ -1296,7 +1310,7 @@
     "tabs": {
       "history": "History",
       "in_progress": "In Progress",
-      "in_error": "Faulty",
+      "in_error": "In Error",
       "refund": "Refunding"
     },
     "graph": {
@@ -1367,8 +1381,13 @@
         "action": "Check the charging station settings. Ensure that the connector maximum power is set and valid."
       },
       "negative_inactivity": {
-        "title": "Negative inactivity",
-        "description": "The inactivity value of the session is negative.",
+        "title": "Negative Inactivity",
+        "description": "The inactivity of the session is negative.",
+        "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "negative_duration": {
+        "title": "Negative Duration",
+        "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
       "incorrect_starting_date": {

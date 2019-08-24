@@ -3,8 +3,8 @@ import { TableFilterDef } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
 
-export class SitesTableFilter extends TableFilter {
-  constructor() {
+export class SiteTableFilter extends TableFilter {
+  constructor(siteIDs?: ReadonlyArray<string>) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
@@ -19,6 +19,14 @@ export class SitesTableFilter extends TableFilter {
       dialogComponent: SitesDialogComponent,
       cleared: true
     };
+
+    if (siteIDs) {
+      filterDef.dialogComponentData = {
+        staticFilter: {
+          SiteID: siteIDs.join('|')
+        }
+      };
+    }
     // Set
     this.setFilterDef(filterDef);
   }

@@ -22,7 +22,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { SessionDialogComponent } from '../../../shared/dialogs/session/session-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
@@ -31,6 +31,7 @@ import { TableOpenAction } from '../../../shared/table/actions/table-open-action
 import { TableStartAction } from '../../../shared/table/actions/table-start-action';
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
 import { Constants } from '../../../utils/Constants';
+import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
@@ -49,7 +50,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public noAction = new TableNoAction();
 
   private charger: Charger;
-  private dialogRefSession: MatDialogRef<SessionDialogComponent>;
+  private dialogRefSession: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -79,8 +80,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         this.charger.connectors.forEach(connector => {
           connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeBadgeID);
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
-          connector.isTransactionDisplayAuthorized = connector.activeTransactionID && this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
-          connector.hasDetails = connector.isTransactionDisplayAuthorized;
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
 
         observer.next({
@@ -181,37 +182,20 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   }
 
   public buildTableDynamicRowActions(connector: Connector): TableActionDef[] {
+    const actions = [];
     if (connector) {
-      // Check active transaction
-      if (connector.activeTransactionID) {
-        // Authorized to stop?
-        if (connector.isStopAuthorized) {
-          if (!this.charger.inactive) {
-            return [
-              this.openAction.getActionDef(),
-              this.stopAction.getActionDef()
-            ];
-          }
-          return [
-            this.openAction.getActionDef(),
-          ];
-        }
-        // Display only?
-        if (connector.isTransactionDisplayAuthorized) {
-          return [
-            this.openAction.getActionDef(),
-          ];
-        }
-        // No Active Transaction
-      } else {
-        // Authorized to start?
-        if (connector.isStartAuthorized && !this.charger.inactive) {
-          // By default no actions
-          return [
-            this.startAction.getActionDef()
-          ];
-        }
+      if (connector.isTransactionDisplayAuthorized) {
+        actions.push(this.openAction.getActionDef());
       }
+      if (connector.isStopAuthorized) {
+        actions.push(this.stopAction.getActionDef());
+      }
+      if (connector.isStartAuthorized && !this.charger.inactive) {
+        actions.push(this.startAction.getActionDef());
+      }
+    }
+    if (actions.length > 0) {
+      return actions;
     }
     // By default no actions
     return [
@@ -267,11 +251,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.session_details_title'),
             this.translateService.instant('chargers.action_error.session_details_not_authorized'));
-        }
-        if (!connector.activeTransactionID) {
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('chargers.action_error.session_details_title'),
-            this.translateService.instant('chargers.action_error.no_active_transaction'));
+          return;
         }
         // Show
         this.openSession(connector);
@@ -336,7 +316,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
         'chargeBoxID': this.charger.id,
-        'userName': user.name
+        'userName': Users.buildUserFullName(user)
       })
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
@@ -384,7 +364,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           // Show select user dialog
           dialogConfig.data = {
             title: 'chargers.start_transaction_user_select_title',
-            validateButtonTitle: 'chargers.start_transaction_user_select_button'
+            validateButtonTitle: 'chargers.start_transaction_user_select_button',
+            rowMultipleSelection: false
           };
           dialogConfig.panelClass = 'transparent-dialog-container';
           const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);
@@ -412,11 +393,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       transactionId: connector.activeTransactionID,
-      siteArea: this.charger.siteArea,
+      chargingStationId: this.charger.id,
       connector: connector,
     };
     // Open
-    this.dialogRefSession = this.dialog.open(SessionDialogComponent, dialogConfig);
+    this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
     this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

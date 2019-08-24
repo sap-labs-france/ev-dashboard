@@ -30,10 +30,12 @@ export abstract class DialogTableDataComponent<T extends Data> {
       this.dialogDataSource.setStaticFilters([
         data.staticFilter
       ]);
+    } else {
+      this.dialogDataSource.setStaticFilters([]);
     }
     // Multiple Selection
     if (data.hasOwnProperty('rowMultipleSelection')) {
-      this.dialogDataSource.setMutlipleRowSelection(data.rowMultipleSelection);
+      this.dialogDataSource.setMultipleRowSelection(data.rowMultipleSelection);
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -54,8 +56,8 @@ export abstract class DialogTableDataComponent<T extends Data> {
     }
   }
 
-  setMutlipleRowSelection(mutlipleRowSelection: boolean) {
-    this.dialogDataSource.setMutlipleRowSelection(mutlipleRowSelection);
+  setMultipleRowSelection(mutlipleRowSelection: boolean) {
+    this.dialogDataSource.setMultipleRowSelection(mutlipleRowSelection);
   }
 
   cancel() {

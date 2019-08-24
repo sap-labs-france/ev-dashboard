@@ -33,6 +33,8 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -67,7 +69,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Ok
+          this.formatErrorMessages(users.result);
+          // Ok
         observer.next(users);
         observer.complete();
       }, (error) => {
@@ -76,6 +79,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         // Error
         observer.error(error);
       });
+    });
+  }
+
+  private formatErrorMessages(users) {
+    users.forEach(user => {
+      const path = `users.errors.${user.errorCode}`;
+      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      user.errorMessage = errorMessage;
     });
   }
 
@@ -129,6 +140,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       headerClass: 'col-15p',
       class: 'text-left col-15p',
       sortable: true
+    },
+    {
+      id: 'errorCodeDetails',
+      name: 'errors.details',
+      sortable: false,
+      class: 'action-cell text-left',
+      isAngularComponent: true,
+      angularComponent: ErrorCodeDetailsComponent
+    },
+    {
+      id: 'errorCode',
+      name: 'errors.title',
+      sortable: true,
+      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`)
+    },
+    {
+      id: 'errorCodeDescription',
+      name: 'errors.description',
+      sortable: false,
+      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`)
     },
     {
       id: 'email',

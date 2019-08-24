@@ -27,6 +27,30 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.4',
+        date: new Date('2019-08-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enabled Site Admin role`,
+              `Site Admin can delete his Charging Station`,
+              `Site Admin cannot delete his Site`,
+              `Display the last Session details in Charging Station's Connector when no Session is ongoing`,
+              `Display Charging Station's registration token in Site Area if it's still valid`,
+              `Added Users that are not assigned to a Site in User In Error`,
+              `Fixed filter not reinitialized in Statistics between two tabs`,
+              `Analytics drop down displays only demo links for Demo user`,
+              `Add Sessions with negative duration in Session In Error`,
+              `Enable Charging Station and Sessions for Site Admin users`,
+              `Add Token description`,
+              `Fixed Remote Start with another User`,
+              `Site Admin can see the Sessions made on his Charging Stations`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.3',
         date: new Date('2019-08-17'),
         componentChanges: [

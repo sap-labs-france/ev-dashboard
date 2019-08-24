@@ -9,7 +9,7 @@
         <app-users-list></app-users-list>
       </ng-template>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon><span>{{'users.tabs.in_error' | translate}}</span>
       </ng-template>

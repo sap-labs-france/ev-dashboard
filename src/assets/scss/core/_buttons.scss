@@ -3,6 +3,12 @@
   padding-bottom: 1px !important;
 }
 
+.mat-button, .mat-icon-button {
+  &:focus {
+    outline: none;
+  }
+}
+
 .mat-button-tab-close-only {
   right: 15px;
   position: fixed !important;

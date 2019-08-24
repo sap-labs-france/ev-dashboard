@@ -168,6 +168,7 @@ export interface Connector extends Data {
   status: string;
   activeBadgeID: string;
   activeTransactionID: number;
+  activeTransactionDate: Date;
   type: string;
   hasDetails: boolean;
   isStopAuthorized: boolean;
@@ -277,6 +278,7 @@ export interface Setting extends Data {
 
 export interface RegistrationToken extends Data {
   id: string;
+  description?: string;
   createdOn: Date;
   expirationDate: Date;
   revocationDate?: Date;

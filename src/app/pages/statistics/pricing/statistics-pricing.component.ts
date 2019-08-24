@@ -7,7 +7,7 @@ import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SitesTableFilter } from '../../../shared/table/filters/sites-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
@@ -51,7 +51,7 @@ export class StatisticsPricingComponent implements OnInit {
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
-    filterDef = new SitesTableFilter().getFilterDef();
+    filterDef = new SiteTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteAreaTableFilter().getFilterDef();

@@ -3,7 +3,7 @@ import { TableFilterDef } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
 
-export class SitesTableFilter extends TableFilter {
+export class SiteTableFilter extends TableFilter {
   constructor(siteIDs?: ReadonlyArray<string>) {
     super();
     // Define filter

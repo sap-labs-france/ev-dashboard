@@ -3,7 +3,7 @@ import { Constants } from '../../../utils/Constants';
 import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
 import { TableFilter } from './table-filter';
 
-export class CompaniesTableFilter extends TableFilter {
+export class CompanyTableFilter extends TableFilter {
   constructor() {
     super();
     // Define filter

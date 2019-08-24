@@ -26,7 +26,7 @@ import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { CompaniesTableFilter } from 'app/shared/table/filters/company-table-filter';
+import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -203,7 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
-      new CompaniesTableFilter().getFilterDef()
+      new CompanyTableFilter().getFilterDef()
     ];
   }
 

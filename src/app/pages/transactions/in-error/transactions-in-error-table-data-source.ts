@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter.js';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import {
@@ -203,7 +203,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
       filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
-      filters.push(new SitesTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     } else {
       filters.push(new ChargerTableFilter().getFilterDef());

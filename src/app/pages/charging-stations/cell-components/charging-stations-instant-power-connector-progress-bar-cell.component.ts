@@ -48,7 +48,7 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
       // Compute Max Power
       case 'maxPowerKW':
         if (connector.power) {
-          return Math.round(connector.power / 1000);
+          return Math.round(connector.power / 100) / 10;
         } else {
           return 0;
         }

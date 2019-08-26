@@ -17,6 +17,8 @@ import { CentralServerNotificationService } from '../../../services/central-serv
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -33,8 +35,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -79,14 +79,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         // Error
         observer.error(error);
       });
-    });
-  }
-
-  private formatErrorMessages(users) {
-    users.forEach(user => {
-      const path = `users.errors.${user.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
-      user.errorMessage = errorMessage;
     });
   }
 
@@ -263,6 +255,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       if (saved) {
         this.refreshData().subscribe();
       }
+    });
+  }
+
+  private formatErrorMessages(users) {
+    users.forEach(user => {
+      const path = `users.errors.${user.errorCode}`;
+      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      user.errorMessage = errorMessage;
     });
   }
 

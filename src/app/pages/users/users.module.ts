@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -22,7 +23,6 @@ import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 
 @NgModule({
   imports: [

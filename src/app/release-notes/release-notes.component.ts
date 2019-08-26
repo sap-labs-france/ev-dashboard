@@ -27,6 +27,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.5',
+        date: new Date('2019-08-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added the User that stopped the Session if different`,
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.4',
         date: new Date('2019-08-24'),
         componentChanges: [

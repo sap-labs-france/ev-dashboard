@@ -35,6 +35,8 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -51,6 +53,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
+      private componentService: ComponentService,
       private userRolePipe: AppUserRolePipe,
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
@@ -67,6 +70,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
+      console.log(`>>> filters:${JSON.stringify(this.buildFilterValues())}`);
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
           this.formatErrorMessages(users.result);
@@ -233,9 +237,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
+    // Create error type
+    const errorTypes = [];
+    errorTypes.push({
+      key: Constants.USER_IN_ERROR_NOT_ACTIVE,
+      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ACTIVE}.title`
+    });
+    errorTypes.push({
+      key: Constants.USER_IN_ERROR_NOT_ASSIGNED,
+      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`
+    });
+
+    const filters: TableFilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef()
     ];
+
+    // Show Error types filter only if Organization component is active
+    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      filters.push(new ErrorTypeTableFilter(errorTypes).getFilterDef());
+    }
+    return filters;
   }
 
   public showUserDialog(user?: User) {

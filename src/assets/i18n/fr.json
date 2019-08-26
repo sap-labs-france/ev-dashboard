@@ -969,12 +969,12 @@
       }
     },
     "errors": {
-      "unactive_users": {
+      "unactive_user": {
         "title": "Compte utilisateur non activé",
         "description": "Le compte de cet utilisateur n'est pas activé.",
         "action": "Contrôler le statut de ce compte utilisateur."
       },
-      "unassigned_users": {
+      "unassigned_user": {
         "title": "Utilisateur sans site",
         "description": "Cet utilisateur n'est pas assigné à au moins un site.",
         "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."

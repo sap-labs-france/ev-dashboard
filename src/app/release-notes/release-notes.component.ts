@@ -34,6 +34,11 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added the User that stopped the Session if different`,
+              `Added Error drop down filter in User In Error`,
+              `Registration token Description is mandatory`,
+              `Allow site admin to run Actions on Charging Stations`,
+              `Removed User list + User update for Site admin`,
+              `Display the User who stopped the Session if different`
             ]
           }
         ]

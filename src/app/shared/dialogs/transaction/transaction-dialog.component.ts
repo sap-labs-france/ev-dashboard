@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Image, Transaction } from '../../../common.types';
+import { Connector, Image, Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -17,6 +17,8 @@ import { ConsumptionChartComponent } from '../../component/consumption-chart/con
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
+  public connector: Connector = undefined;
+  public chargingStationId: string;
   public stateOfChargeIcon: string;
   public stateOfCharge: number;
   public endStateOfCharge: number;
@@ -50,6 +52,8 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     this.locale = this.localeService.getCurrentLocaleJS();
     if (data) {
       this.transactionId = data.transactionId;
+      this.connector = data.connector;
+      this.chargingStationId = data.chargingStationId;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -97,6 +101,24 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
+    this.spinnerService.show();
+    if (!this.transactionId) {
+      this.centralServerService.getLastTransaction(this.chargingStationId, this.connector.connectorId.toString()).subscribe((dataResult) => {
+        if (dataResult.result && dataResult.result.length > 0) {
+          this.transactionId = dataResult.result[0].id;
+          this.loadConsumption(this.transactionId);
+        } else {
+          this.spinnerService.hide();
+          this.messageService.showInfoMessage('chargers.no_transaction_found', {'chargerID': this.chargingStationId});
+          this.dialogRef.close();
+        }
+      });
+    } else {
+      this.loadConsumption(this.transactionId);
+    }
+  }
+
+  loadConsumption(transactionId: number) {
     this.spinnerService.show();
     this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();

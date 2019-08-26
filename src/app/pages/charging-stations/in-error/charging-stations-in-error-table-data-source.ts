@@ -24,7 +24,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SitesTableFilter } from 'app/shared/table/filters/sites-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -290,7 +290,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
     if (this.isOrganizationComponentActive) {
       return [
-        new SitesTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef()
       ];
     }

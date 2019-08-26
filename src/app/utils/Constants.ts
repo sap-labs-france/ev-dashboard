@@ -95,6 +95,7 @@ export class Constants {
   /* Data Service */
   public static DEFAULT_LIMIT = 100;
   public static DEFAULT_SKIP = 0;
+  public static FIRST_ITEM_PAGING = {limit: 1, skip: Constants.DEFAULT_SKIP};
   public static DEFAULT_PAGING = {limit: Constants.DEFAULT_LIMIT, skip: Constants.DEFAULT_SKIP};
 
   /* Notification */

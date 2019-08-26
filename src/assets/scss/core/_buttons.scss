@@ -3,7 +3,7 @@
   padding-bottom: 1px !important;
 }
 
-.mat-button, .mat-icon-button {
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-menu-item {
   &:focus {
     outline: none;
   }

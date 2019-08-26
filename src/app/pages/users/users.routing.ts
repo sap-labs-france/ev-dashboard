@@ -26,8 +26,8 @@ export const UserRoutes: Routes = [
   {
     path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Constants.ENTITY_USERS,
-        action: Constants.ACTION_LIST
+        entity: Constants.ENTITY_USER,
+        action: Constants.ACTION_CREATE
       }
     }
   },

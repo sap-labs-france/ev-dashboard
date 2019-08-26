@@ -969,12 +969,12 @@
       }
     },
     "errors": {
-      "unactive_users": {
+      "unactive_user": {
         "title": "Unactive user",
         "description": "This user is not active.",
         "action": "Check the status of this user."
       },
-      "unassigned_users": {
+      "unassigned_user": {
         "title": "Unassigned user",
         "description": "This user is not assigned to any site.",
         "action": "Assign this user to at least a site as the organization component is active."

@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { DevEnvGuard } from './guard/development.guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { NoSupportComponent } from './pages/no-support/no-support.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ComponentEnum } from './services/component.service';
 import { Constants } from './utils/Constants';
+
 
 export const AppRoutes: Routes = [
   {
@@ -182,6 +184,9 @@ export const AppRoutes: Routes = [
 
       },
     ]
+  },
+  {
+    path: 'no-support', component: NoSupportComponent
   },
   {
     path: '**', redirectTo: 'charging-stations', pathMatch: 'full'

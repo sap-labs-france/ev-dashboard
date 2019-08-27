@@ -121,6 +121,7 @@
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
     "reset_filters" : "Réinitialiser les Filtres",
+    "no_support" : "Nous sommes déslolés, ce navigateur n'est pas supporté par notre app",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

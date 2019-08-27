@@ -23,6 +23,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   static readonly LOGIN_ROUTE = '/auth/login';
   static readonly TENANT_ROUTE = '/tenants';
   static readonly CHARGING_STATION_ROUTE = '/charging-stations';
+  static readonly NO_SUPPORT_ROUTE = '/no-support';
 
   private userRole?: string;
 
@@ -44,6 +45,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
+
+    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+    if (isIEOrEdge) {
+      this.redirectToNoSupportRoute();
+      return false;
+    }
+
     const queryParams = {};
 
     // Check if authenticated
@@ -127,6 +135,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
           route = RouteGuardService.CHARGING_STATION_ROUTE;
       }
     }
+    return this.router.navigate([route]);
+  }
+
+  redirectToNoSupportRoute(): Promise<boolean> {
+    let route = RouteGuardService.NO_SUPPORT_ROUTE;
     return this.router.navigate([route]);
   }
 }

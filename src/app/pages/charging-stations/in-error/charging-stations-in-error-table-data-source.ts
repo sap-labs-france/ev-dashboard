@@ -86,8 +86,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(
         [
-          {'WithSite': true},
-          {'SiteID': this.authorizationService.getSitesAdmin().join('|')}
+          {'WithSite': true}
         ]);
     }
     this.initDataSource();
@@ -291,7 +290,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
     if (this.isOrganizationComponentActive) {
       return [
-        new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        new SiteTableFilter().getFilterDef(),
         new SiteAreaTableFilter().getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef()
       ];

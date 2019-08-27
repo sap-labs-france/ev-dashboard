@@ -67,7 +67,7 @@ import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
-import { NoSupportModule } from './pages/no-support/no-support.module';
+import { BrowserNotSupportedModule } from './pages/browser-not-supported/browser-not-supported.module';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -151,7 +151,7 @@ export function localeFactory(
     FooterModule,
     HttpClientModule,
     ChartModule,
-    NoSupportModule,
+    BrowserNotSupportedModule,
     AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
     TranslateModule.forRoot({
       loader: {

@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { SiteArea } from '../../../../common.types';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -14,8 +16,8 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class RegistrationTokenComponent implements OnInit {
   public formGroup: FormGroup;
+  public siteArea: AbstractControl;
   public siteAreaID: AbstractControl;
-  public siteAreas: SiteArea[];
   public expirationDate: AbstractControl;
   public description: AbstractControl;
 
@@ -23,6 +25,7 @@ export class RegistrationTokenComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private dialog: MatDialog,
     private router: Router,
     protected dialogRef: MatDialogRef<RegistrationTokenComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
@@ -30,18 +33,21 @@ export class RegistrationTokenComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
+      'siteArea': new FormControl(),
       'siteAreaID': new FormControl(),
-      'description': new FormControl(),
+      'description': new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(100)
+      ])),
       'expirationDate': new FormControl(moment().add(1, 'd'),
         Validators.compose([
           Validators.required
         ]))
     });
+    this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.description = this.formGroup.controls['description'];
     this.expirationDate = this.formGroup.controls['expirationDate'];
-
-    this.loadSiteAreas();
   }
 
   cancel() {
@@ -65,29 +71,24 @@ export class RegistrationTokenComponent implements OnInit {
     });
   }
 
-  updateSiteAreaRestriction(event: MatCheckboxChange) {
-    if (event && event.checked) {
-      this.siteAreaID.enable();
-      this.siteAreaID.setValidators(Validators.required);
-      this.siteAreaID.updateValueAndValidity();
-    } else {
-      this.siteAreaID.setValue(null);
-      this.siteAreaID.disable();
-      this.siteAreaID.clearValidators();
-      this.siteAreaID.updateValueAndValidity();
-    }
-  }
-
-  private loadSiteAreas() {
-    this.spinnerService.show();
-    this.centralServerService.getSiteAreas().subscribe((result) => {
-      this.spinnerService.hide();
-      this.siteAreas = result.result;
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-      this.dialogRef.close();
+  public assignSiteArea() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'chargers.assign_site_area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false
+    };
+    // Open
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+      if (result && result.length > 0 && result[0].objectRef) {
+        const siteArea = <SiteArea>(result[0].objectRef);
+        this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
+        this.siteAreaID.setValue(siteArea.id);
+      }
     });
   }
 }

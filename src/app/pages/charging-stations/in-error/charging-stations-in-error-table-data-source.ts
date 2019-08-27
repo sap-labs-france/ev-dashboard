@@ -40,6 +40,7 @@ import { ChargingStationsResetAction } from '../actions/charging-stations-reset-
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {
@@ -291,6 +292,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     if (this.isOrganizationComponentActive) {
       return [
         new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        new SiteAreaTableFilter().getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef()
       ];
     }

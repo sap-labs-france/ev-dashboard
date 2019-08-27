@@ -108,8 +108,8 @@ export const AppRoutes: Routes = [
             path: '/users'
           },
           auth: {
-            entity: Constants.ENTITY_USERS,
-            action: Constants.ACTION_LIST
+            entity: Constants.ENTITY_USER,
+            action: Constants.ACTION_CREATE
           }
         }
       },

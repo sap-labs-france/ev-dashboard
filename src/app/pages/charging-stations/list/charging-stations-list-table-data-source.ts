@@ -40,6 +40,7 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
@@ -293,7 +294,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     if (this.isOrganizationComponentActive) {
       return [
         //      new ChargerTableFilter().getFilterDef(),
-        new SiteTableFilter().getFilterDef()
+        new SiteTableFilter().getFilterDef(),
+        new SiteAreaTableFilter().getFilterDef()
       ];
     }
     return [];

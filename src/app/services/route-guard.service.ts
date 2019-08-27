@@ -23,6 +23,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   static readonly LOGIN_ROUTE = '/auth/login';
   static readonly TENANT_ROUTE = '/tenants';
   static readonly CHARGING_STATION_ROUTE = '/charging-stations';
+  static readonly BROWSER_NOT_SUPPORTED_ROUTE = '/browser-not-supported';
 
   private userRole?: string;
 
@@ -44,6 +45,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
+
+    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+    this.redirectToBrowserNotSupportRoute();
+    return false;
+    if (isIEOrEdge) {
+    }
+
     const queryParams = {};
 
     // Check if authenticated
@@ -128,5 +136,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       }
     }
     return this.router.navigate([route]);
+  }
+
+  redirectToBrowserNotSupportRoute(): Promise<boolean> {
+    return this.router.navigate([RouteGuardService.BROWSER_NOT_SUPPORTED_ROUTE]);
   }
 }

@@ -47,9 +47,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
 
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
-    this.redirectToBrowserNotSupportRoute();
-    return false;
     if (isIEOrEdge) {
+      this.redirectToBrowserNotSupportRoute();
+      return false;
     }
 
     const queryParams = {};

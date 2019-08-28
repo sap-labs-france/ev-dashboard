@@ -15,7 +15,7 @@ import {
   Ordering,
   Paging, RegistrationToken, Setting,
   Site,
-  SiteArea,
+  SiteArea, SiteUser,
   Tenant,
   Transaction,
   User, UserSite
@@ -204,6 +204,24 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<Logo>(
       `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
+      {
+        headers: this._buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUserSites(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserSites`,
       {
         headers: this._buildHttpHeaders(),
         params

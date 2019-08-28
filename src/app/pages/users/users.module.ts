@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
+import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -16,13 +17,13 @@ import { AppUserStatusPipe } from './formatters/user-status.pipe';
 import { UsersInErrorTableDataSource } from './in-error/users-in-error-table-data-source';
 import { UsersInErrorComponent } from './in-error/users-in-error.component';
 import { UsersListComponent } from './list/users-list.component';
+import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-checkbox.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
-import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-det
     UserComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
+    UserSitesAdminCheckboxComponent,
     UserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe
@@ -54,6 +56,7 @@ import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-det
     UserStatusFormatterComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
+    UserSitesAdminCheckboxComponent,
     ErrorCodeDetailsComponent
   ],
   exports: [

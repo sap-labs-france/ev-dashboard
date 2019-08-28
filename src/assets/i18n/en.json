@@ -365,7 +365,7 @@
     "admin_role": "Site Admin",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
-    "update_site_users_role_error": "Error occurred while trying to update the access rigth of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",
@@ -956,6 +956,9 @@
     "create_error": "Error occurred while creating the user",
     "no_users": "No users found",
     "select_users": "Select User",
+    "update_set_site_admin_success": "The user is now administrator of the site '{{siteName}}'",
+    "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}' ",
+    "update_site_admin_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",

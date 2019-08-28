@@ -510,7 +510,7 @@ export interface UserSite extends Data {
   siteAdmin: boolean;
 }
 
-export interface SiteUser {
+export interface SiteUser extends Data {
   site: Site;
   userID: string;
   siteAdmin: boolean;

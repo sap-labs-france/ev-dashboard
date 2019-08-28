@@ -62,9 +62,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     private dialogService: DialogService
   ) {
     super(spinnerService);
-    // Init
-    this.setStaticFilters([{'WithSite': true}]);
+    // Init  
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    if (this.isOrganizationComponentActive) {
+      this.setStaticFilters([{'WithSite': true}]);
+    }
     this.initDataSource();
   }
 

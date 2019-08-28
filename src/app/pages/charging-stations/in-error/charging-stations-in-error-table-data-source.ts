@@ -270,13 +270,15 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title`
     });
     errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`
-    });
-    errorTypes.push({
       key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR,
       value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title`
     });
+    if (this.isOrganizationComponentActive) {
+      errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`
+      });
+    }
     // Sort
     errorTypes.sort((errorType1, errorType2) => {
       if (errorType1.value < errorType2.value) {

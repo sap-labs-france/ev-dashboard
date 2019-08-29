@@ -974,14 +974,14 @@
     },
     "errors": {
       "unactive_user": {
-        "title": "Unactive user",
+        "title": "Inactive Users",
         "description": "This user is not active.",
         "action": "Check the status of this user."
       },
       "unassigned_user": {
-        "title": "Unassigned user",
-        "description": "This user is not assigned to any site.",
-        "action": "Assign this user to at least a site as the organization component is active."
+        "title": "Not Assigned to a Site",
+        "description": "This user is not assigned to a site.",
+        "action": "Assign this user to at least one site as the organization component is active."
       }
     }
   },

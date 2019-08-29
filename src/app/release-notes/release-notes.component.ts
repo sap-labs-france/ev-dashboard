@@ -38,7 +38,11 @@ export class ReleaseNotesComponent {
               `Registration token Description is mandatory`,
               `Allow site admin to run Actions on Charging Stations`,
               `Removed User list + User update for Site admin`,
-              `Display the User who stopped the Session if different`
+              `Display the User who stopped the Session if different`,
+              `Transaction entity has been migrated to Typescript in the backend`,
+              `Added Error filter drop down in User in Errors`,
+              `Added Site Area filter drop down in Charging Station lists`,
+              `Site Admin users cannot edit other user's profile`
             ]
           }
         ]

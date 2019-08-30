@@ -15,6 +15,7 @@ import {
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
@@ -27,6 +28,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -35,8 +37,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {

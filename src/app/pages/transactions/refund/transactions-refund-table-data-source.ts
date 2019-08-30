@@ -39,7 +39,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { TransactionsTypeFilter } from '../filters/transactions-type-filter';
+import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -82,7 +82,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
-      filters['UserID'] = this.centralServerService.getLoggedUser().id;
+      //filters['UserID'] = this.centralServerService.getLoggedUser().id;
       filters['MinimalPrice'] = 0;
       this.centralServerService.getTransactions(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
@@ -218,7 +218,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
       moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsTypeFilter().getFilterDef(),
+      new TransactionsRefundStatusFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef()];
 
     switch (this.centralServerService.getLoggedUser().role) {

@@ -28,7 +28,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.5',
-        date: new Date('2019-08-26'),
+        date: new Date('2019-08-30'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -42,7 +42,9 @@ export class ReleaseNotesComponent {
               `Transaction entity has been migrated to Typescript in the backend`,
               `Added Error filter drop down in User in Errors`,
               `Added Site Area filter drop down in Charging Station lists`,
-              `Site Admin users cannot edit other user's profile`
+              `Site Admin users cannot edit other user's profile`,
+              `Fixed performance issues on displaying the Sessions`,
+              `Fixed Charging Stations' count in list is wrong when Basic User is not assigned to a Site`
             ]
           }
         ]

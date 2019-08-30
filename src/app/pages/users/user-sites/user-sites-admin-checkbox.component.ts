@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
 import { SiteUser, User } from '../../../common.types';
@@ -12,14 +12,15 @@ import { Utils } from '../../../utils/Utils';
   template: `
       <div class="d-flex justify-content-center">
           <mat-checkbox class="mx-auto"
-                        [disabled]="loggedUser.id === row.userID"
-                        [checked]="(row.siteAdmin ? row.siteAdmin : false)"
+                        [disabled]="loggedUser.id === row.userID || (user && user.role !== 'B')"
+                        [checked]="(row.siteAdmin ? row.siteAdmin : false) || (user && user.role === 'A')"
                         (change)="changeSiteAdmin($event)"></mat-checkbox>
       </div>`
 })
-export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponent {
+export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponent implements OnInit {
   @Input() row: SiteUser;
   public loggedUser: User;
+  public user: User;
 
   constructor(
     private messageService: MessageService,
@@ -33,6 +34,12 @@ export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponen
     if (matCheckboxChange) {
       this.setUserSiteAdmin(this.row, matCheckboxChange.checked);
     }
+  }
+
+  ngOnInit(): void {
+    this.centralServerService.getUser(this.row.userID).subscribe(user => {
+      this.user = user;
+    });
   }
 
   private setUserSiteAdmin(siteUser: SiteUser, siteAdmin: boolean) {

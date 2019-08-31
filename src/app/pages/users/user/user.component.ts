@@ -439,11 +439,28 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public saveUser(user) {
-    if (this.currentUserID) {
-      this.updateUser(user);
-    } else {
-      this.createUser(user);
-    }
+    this.centralServerService.getUnassignedTransactionsCount(user.tagIDs).subscribe(count => {
+      if (count && count > 0) {
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('users.assign_transactions_title'),
+          this.translateService.instant('users.assign_transactions_confirm', {'count': count})
+        ).subscribe((result) => {
+          if (result === Constants.BUTTON_TYPE_YES) {
+            if (this.currentUserID) {
+              this.updateUser(user, true);
+            } else {
+              this.createUser(user, true);
+            }
+          }
+        });
+      } else {
+        if (this.currentUserID) {
+          this.updateUser(user, false);
+        } else {
+          this.createUser(user, false);
+        }
+      }
+    });
   }
 
   public imageChanged(event) {
@@ -562,7 +579,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // }
   }
 
-  private createUser(user) {
+  private createUser(user, assignTransactions = false) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -573,10 +590,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('users.create_success',
-          {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
         this.currentUserID = user.id;
+        if (assignTransactions) {
+          this.assignTransactions(user);
+        }
+        this.messageService.showSuccessMessage('users.create_success',
+          {'userFullName': user.firstName + ' ' + user.name});
         // Close
         if (this.inDialog && this.dialogRef) {
           this.dialogRef.close(true);
@@ -610,7 +630,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private updateUser(user) {
+  private assignTransactions(user) {
+    this.centralServerService.assignTransactionsToUser(user.id).subscribe((response) => {
+      this.messageService.showSuccessMessage('users.assign_transactions_success', {'userFullName': user.firstName + ' ' + user.name});
+    }, error => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
+    });
+  }
+
+  private updateUser(user, assignTransactions) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -621,6 +649,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (assignTransactions) {
+          this.assignTransactions(user);
+        }
         // Ok
         this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
         // Close

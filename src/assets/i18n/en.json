@@ -959,6 +959,10 @@
     "update_set_site_admin_success": "The user is now administrator of the site '{{siteName}}'",
     "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}' ",
     "update_site_admin_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
+    "assign_transactions_title": "Transactions Assignment",
+    "assign_transactions_confirm": "Do you have to assign {{count}} existing transactions to the user ?",
+    "assign_transactions_success": "Transactions have been assigned to user {{userFullName}}",
+    "assign_transactions_error": "Error occurred while assigning transactions to user {{userFullName}}",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",

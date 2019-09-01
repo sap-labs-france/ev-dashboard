@@ -699,6 +699,38 @@ export class CentralServerService {
       );
   }
 
+  public assignTransactionsToUser(userId: string) {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssignTransactionsToUser`, null,
+      {
+        headers: this._buildHttpHeaders(),
+        params: {UserID: userId}
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public getUnassignedTransactionsCount(tagIDs: string): Observable<number> {
+    // Verify init
+    this._checkInit();
+
+    if (!tagIDs || tagIDs.length === 0) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
+      {
+        headers: this._buildHttpHeaders(),
+        params: {tagIDs: tagIDs}
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getTransaction(id: string): Observable<Transaction> {
     // Verify init
     this._checkInit();

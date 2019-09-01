@@ -959,6 +959,10 @@
     "update_set_site_admin_success": "L'utilisateur est désormais administrateur du site '{{siteName}}'",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{siteName}}' ",
     "update_site_admin_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}'",
+    "assign_transactions_title": "Assignation des transactions",
+    "assign_transactions_confirm": "Voulez-vous assigner les {{count}} transactions existantes à l'utilisateur ?",
+    "assign_transactions_success": "Les transactions ont été assignées à l'utilisateur {{userFullName}}",
+    "assign_transactions_error": "Une erreur est survenue pendant l'assignation des transactions à l'utilisateur {{userFullName}}",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",

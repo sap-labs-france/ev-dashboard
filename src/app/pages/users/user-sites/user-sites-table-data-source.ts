@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
 import {
   DataResult,
-  Site,
+  Site, SiteUser,
   TableActionDef,
   TableColumnDef,
   TableDef,
@@ -21,9 +21,11 @@ import { TableRemoveAction } from '../../../shared/table/actions/table-remove-ac
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
+import { SiteUsersAdminCheckboxComponent } from '../../organization/sites/site-users/site-users-admin-checkbox.component';
+import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 
 @Injectable()
-export class UserSitesTableDataSource extends TableDataSource<Site> {
+export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   private user: User;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
@@ -41,15 +43,15 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Site>> {
+  public loadDataImpl(): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
       // User provided?
       if (this.user) {
         // Yes: Get data
-        this.centralServerService.getSites(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((sites) => {
+        this.centralServerService.getUserSites(this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((userSites) => {
           // Ok
-          observer.next(sites);
+          observer.next(userSites);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -76,14 +78,15 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
       },
       search: {
         enabled: false
-      }
+      },
+      rowFieldNameIdentifier: 'site.id'
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'name',
+        id: 'site.name',
         name: 'sites.name',
         headerClass: 'col-50p',
         class: 'text-left',
@@ -92,16 +95,23 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
         sortable: true
       },
       {
-        id: 'address.city',
+        id: 'site.address.city',
         name: 'general.city',
         headerClass: 'col-25p',
         class: 'text-left'
       },
       {
-        id: 'address.country',
+        id: 'site.address.country',
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'text-left'
+      },
+      {
+        id: 'siteAdmin',
+        isAngularComponent: true,
+        angularComponent: UserSitesAdminCheckboxComponent,
+        name: 'sites.admin_role',
+        class: 'col-10p'
       }
     ];
   }
@@ -146,7 +156,7 @@ export class UserSitesTableDataSource extends TableDataSource<Site> {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
               // Remove
-              this.removeSites(this.getSelectedRows().map((row) => row.id));
+              this.removeSites(this.getSelectedRows().map((row) => row.site.id));
             }
           });
         }

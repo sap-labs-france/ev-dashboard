@@ -27,7 +27,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.4",
+    "last_update": "Version 2.1.5",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -121,6 +121,7 @@
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
     "reset_filters" : "Réinitialiser les Filtres",
+    "browser_not_supported" : "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -955,6 +956,13 @@
     "create_error": "Une erreur est survenue pendant la création de l'utilisateur",
     "no_users": "Aucun utilisateur n'a été trouvé",
     "select_users": "Selection Utilisateur",
+    "update_set_site_admin_success": "L'utilisateur est désormais administrateur du site '{{siteName}}'",
+    "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{siteName}}' ",
+    "update_site_admin_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}'",
+    "assign_transactions_title": "Assignation des transactions",
+    "assign_transactions_confirm": "Voulez-vous assigner les {{count}} transactions existantes à l'utilisateur ?",
+    "assign_transactions_success": "Les transactions ont été assignées à l'utilisateur {{userFullName}}",
+    "assign_transactions_error": "Une erreur est survenue pendant l'assignation des transactions à l'utilisateur {{userFullName}}",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -969,13 +977,13 @@
       }
     },
     "errors": {
-      "unactive_users": {
-        "title": "Compte utilisateur non activé",
+      "unactive_user": {
+        "title": "Utilisateurs non Actif",
         "description": "Le compte de cet utilisateur n'est pas activé.",
         "action": "Contrôler le statut de ce compte utilisateur."
       },
-      "unassigned_users": {
-        "title": "Utilisateur sans site",
+      "unassigned_user": {
+        "title": "Utilisateurs non Assignés a un Site",
         "description": "Cet utilisateur n'est pas assigné à au moins un site.",
         "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
       }

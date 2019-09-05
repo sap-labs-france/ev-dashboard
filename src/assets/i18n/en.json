@@ -27,7 +27,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.4",
+    "last_update": "Version 2.1.5",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -121,6 +121,7 @@
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
     "reset_filters" : "Reset Filters",
+    "browser_not_supported" : "This browser is not supported! Use Chrome or Firefox.",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -364,7 +365,7 @@
     "admin_role": "Site Admin",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
-    "update_site_users_role_error": "Error occurred while trying to update the access rigth of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",
@@ -955,6 +956,13 @@
     "create_error": "Error occurred while creating the user",
     "no_users": "No users found",
     "select_users": "Select User",
+    "update_set_site_admin_success": "The user is now administrator of the site '{{siteName}}'",
+    "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}' ",
+    "update_site_admin_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
+    "assign_transactions_title": "Transactions Assignment",
+    "assign_transactions_confirm": "Do you have to assign {{count}} existing transactions to the user ?",
+    "assign_transactions_success": "Transactions have been assigned to user {{userFullName}}",
+    "assign_transactions_error": "Error occurred while assigning transactions to user {{userFullName}}",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",
@@ -969,15 +977,15 @@
       }
     },
     "errors": {
-      "unactive_users": {
-        "title": "Unactive user",
+      "unactive_user": {
+        "title": "Inactive Users",
         "description": "This user is not active.",
         "action": "Check the status of this user."
       },
-      "unassigned_users": {
-        "title": "Unassigned user",
-        "description": "This user is not assigned to any site.",
-        "action": "Assign this user to at least a site as the organization component is active."
+      "unassigned_user": {
+        "title": "Not Assigned to a Site",
+        "description": "This user is not assigned to a site.",
+        "action": "Assign this user to at least one site as the organization component is active."
       }
     }
   },

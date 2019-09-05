@@ -27,6 +27,33 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.5',
+        date: new Date('2019-09-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added the Site Admin check box in Site assignment pop-up in the User's list view`,
+              `Allow Users with Site Admin role to run Actions on their Charging Stations`,
+              `Added the User that stopped the Session if different`,
+              `Added Error drop down filter in User In Error`,
+              `Registration token Description is mandatory`,
+              `Removed access to User list and update of Users for Users with Site Admin role`,
+              `Display the User who stopped the Session if different from the one who started it`,
+              `Added Error filter drop down in User in Errors`,
+              `Added Site Area filter drop down in Charging Station lists`,
+              `Fixed performance issues on displaying all the Session lists`,
+              `Fixed wrong Charging Stations' count in list when Basic User is not assigned to any Site`,
+              `Transaction has been migrated to Typescript in the backend`,
+              `Fixed misnamed values in the Refund Type drop-down filter`,
+              `Fixed Basic User cannot create Concur connectors`,
+              `Fixed Basic User cannot refund his Sessions to Concur`,
+              `Fixed Admin User did not receive a confirmation email after Tenant creation`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.4',
         date: new Date('2019-08-24'),
         componentChanges: [

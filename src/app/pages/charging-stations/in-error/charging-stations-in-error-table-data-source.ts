@@ -40,6 +40,7 @@ import { ChargingStationsResetAction } from '../actions/charging-stations-reset-
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {
@@ -85,8 +86,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(
         [
-          {'WithSite': true},
-          {'SiteID': this.authorizationService.getSitesAdmin().join('|')}
+          {'WithSite': true}
         ]);
     }
     this.initDataSource();
@@ -270,13 +270,15 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title`
     });
     errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`
-    });
-    errorTypes.push({
       key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR,
       value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title`
     });
+    if (this.isOrganizationComponentActive) {
+      errorTypes.push({
+      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
+      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`
+      });
+    }
     // Sort
     errorTypes.sort((errorType1, errorType2) => {
       if (errorType1.value < errorType2.value) {
@@ -290,7 +292,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
     if (this.isOrganizationComponentActive) {
       return [
-        new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        new SiteTableFilter().getFilterDef(),
+        new SiteAreaTableFilter().getFilterDef(),
         new ErrorTypeTableFilter(errorTypes).getFilterDef()
       ];
     }

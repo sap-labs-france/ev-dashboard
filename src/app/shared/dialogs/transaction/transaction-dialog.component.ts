@@ -23,6 +23,8 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public stateOfCharge: number;
   public endStateOfCharge: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
+  public stopUserImage = Constants.USER_NO_PICTURE;
+  public isStoppedByAnotherUser = false;
   public totalConsumption: number;
   public totalInactivitySecs: number;
   public totalDurationSecs: number;
@@ -133,6 +135,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
         this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
+        this.isStoppedByAnotherUser = (transaction.user.id !== transaction.stop.user.id);
       } else {
         this.totalConsumption = transaction.currentTotalConsumption;
         this.stateOfCharge = transaction.stateOfCharge;
@@ -165,6 +168,13 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
           this.loggedUserImage = userImage.image.toString();
         }
       });
+      if (transaction.stop) {
+        this.centralServerService.getUserImage(transaction.stop.user.id).subscribe((userImage: Image) => {
+          if (userImage && userImage.image) {
+            this.stopUserImage = userImage.image.toString();
+          }
+        });
+      }
     }, (error) => {
       this.spinnerService.hide();
       this.dialogRef.close();

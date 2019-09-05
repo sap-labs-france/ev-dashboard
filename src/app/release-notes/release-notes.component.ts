@@ -44,7 +44,8 @@ export class ReleaseNotesComponent {
               `Added Site Area filter drop down in Charging Station lists`,
               `Fixed performance issues on displaying all the Session lists`,
               `Fixed wrong Charging Stations' count in list when Basic User is not assigned to any Site`,
-              `Transaction entity has been migrated to Typescript in the backend`,
+              `Transaction has been migrated to Typescript in the backend`,
+              `Fixed misnamed values in the Refund Type drop-down filter`,
               `Fixed Basic User cannot create Concur connectors`,
               `Fixed Basic User cannot refund his Sessions to Concur`
             ]

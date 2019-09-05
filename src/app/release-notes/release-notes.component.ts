@@ -47,7 +47,8 @@ export class ReleaseNotesComponent {
               `Transaction has been migrated to Typescript in the backend`,
               `Fixed misnamed values in the Refund Type drop-down filter`,
               `Fixed Basic User cannot create Concur connectors`,
-              `Fixed Basic User cannot refund his Sessions to Concur`
+              `Fixed Basic User cannot refund his Sessions to Concur`,
+              `Fixed Admin User did not receive a confirmation email after Tenant creation`
             ]
           }
         ]

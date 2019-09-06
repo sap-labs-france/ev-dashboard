@@ -48,7 +48,9 @@ export class ReleaseNotesComponent {
               `Fixed misnamed values in the Refund Type drop-down filter`,
               `Fixed Basic User cannot create Concur connectors`,
               `Fixed Basic User cannot refund his Sessions to Concur`,
-              `Fixed Admin User did not receive a confirmation email after Tenant creation`
+              `Fixed Admin User did not receive a confirmation email after Tenant creation`,
+              `Fixed malformed Session ID for SAP CC`,
+              `Fixed backup to Company address when User's Site address is not know in Concur`
             ]
           }
         ]

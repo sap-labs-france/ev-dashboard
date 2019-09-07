@@ -12,18 +12,21 @@ export class AppBatteryPercentagePipe implements PipeTransform {
     this.percentPipe = new PercentPipe(this.locale);
   }
 
-  transform(initialPercentage: number, finalPercentage?: number, withEvolution = true): any {
-    let formattedMessage = this.percentPipe.transform(initialPercentage / 100, '1.0-0');
-    if (finalPercentage) {
-      formattedMessage += ` > ${this.percentPipe.transform(finalPercentage / 100, '1.0-0')}`;
-      if (withEvolution) {
-        /* Adding + sign in front of positive values */
-        const pct = ((finalPercentage - initialPercentage) > 0) ?
-          '+' + this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0') :
-          this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0');
-        formattedMessage += ` (${pct})`;
+  transform(initialPercentage: number, finalPercentage?: number, withEvolution = true): string {
+    if (initialPercentage || finalPercentage) {
+      let formattedMessage = this.percentPipe.transform(initialPercentage / 100, '1.0-0');
+      if (finalPercentage) {
+        formattedMessage += ` > ${this.percentPipe.transform(finalPercentage / 100, '1.0-0')}`;
+        if (withEvolution) {
+          /* Adding + sign in front of positive values */
+          const pct = ((finalPercentage - initialPercentage) > 0) ?
+            '+' + this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0') :
+            this.percentPipe.transform((finalPercentage - initialPercentage) / 100, '1.0-0');
+          formattedMessage += ` (${pct})`;
+        }
       }
+      return formattedMessage;
     }
-    return formattedMessage;
+    return '- %';
   }
 }

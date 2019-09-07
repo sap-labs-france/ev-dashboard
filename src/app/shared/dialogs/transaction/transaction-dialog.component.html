@@ -51,7 +51,7 @@
           <div class="d-flex flex-column justify-content-around">
             <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
-              <mat-icon>battery_charging_full</mat-icon><span class="first-text">{{stateOfCharge| appBatteryPercentage: endStateOfCharge }}</span>
+              <mat-icon>battery_charging_full</mat-icon><span class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</span>
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">

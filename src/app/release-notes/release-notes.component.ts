@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Only Site Admin can get refunded in Concur`,
+              `Fixed Soft Stop of Sessions`,
               `Fixed user Basic cannot change his password`,
               `User can get assigned orphan sessions when his profile is changed`,
               `Fixed filters not working in Sessions`,

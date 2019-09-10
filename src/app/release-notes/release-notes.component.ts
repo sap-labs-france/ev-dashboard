@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed user Basic cannot change his password`,
               `Fixed filters not working in Sessions`,
               `Added Charging Station's Connector ID in Email notification`,
               `Enhanced Backend logs to better follow the the Session lifecycle`,

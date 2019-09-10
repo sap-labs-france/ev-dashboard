@@ -731,18 +731,14 @@ export class CentralServerService {
       );
   }
 
-  public getUnassignedTransactionsCount(tagIDs: string): Observable<number> {
+  public getUnassignedTransactionsCount(userId: string): Observable<number> {
     // Verify init
     this._checkInit();
-
-    if (!tagIDs || tagIDs.length === 0) {
-      return EMPTY;
-    }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
       {
         headers: this._buildHttpHeaders(),
-        params: {tagIDs: tagIDs}
+        params: {UserID: userId}
       })
       .pipe(
         catchError(this._handleHttpError)

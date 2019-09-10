@@ -439,45 +439,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public saveUser(user) {
-    // Admin?
-    if (this.isAdmin) {
-      // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(user.tagIDs).subscribe(count => {
-        if (count && count > 0) {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', {'count': count})
-          ).subscribe((result) => {
-            if (result === Constants.BUTTON_TYPE_YES) {
-              if (this.currentUserID) {
-                this.updateUser(user, true);
-              } else {
-                this.createUser(user, true);
-              }
-            }
-          });
-        } else {
-          if (this.currentUserID) {
-            this.updateUser(user, false);
-          } else {
-            this.createUser(user, false);
-          }
-        }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        if (this.currentUserID) {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-        } else {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-        }
-      });
+    if (this.currentUserID) {
+      this.updateUser(user, false);
     } else {
-      if (this.currentUserID) {
-        this.updateUser(user, false);
-      } else {
-        this.createUser(user, false);
-      }
+      this.createUser(user, false);
     }
   }
 
@@ -597,6 +562,32 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // }
   }
 
+  private assignTransactionsToUser(user: User) {
+    // Show
+    this.spinnerService.show();
+    // Assign Transaction
+    this.centralServerService.assignTransactionsToUser(user.id).subscribe((response) => {
+      // Hide
+      this.spinnerService.hide();
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('users.assign_transactions_success', {'userFullName': user.firstName + ' ' + user.name});
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
+      }
+      // Close dialog
+      if (this.inDialog && this.dialogRef) {
+        this.dialogRef.close(true);
+      }
+    }, (error) => {
+      // Hide
+      this.spinnerService.hide();
+      // Handle error
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
+    });
+  }
+
   private createUser(user, assignTransactions = false) {
     // Show
     this.spinnerService.show();
@@ -608,21 +599,16 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage('users.create_success', {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
         this.currentUserID = user.id;
-        if (assignTransactions) {
-          this.assignTransactions(user);
-        }
-        this.messageService.showSuccessMessage('users.create_success',
-          {'userFullName': user.firstName + ' ' + user.name});
-        // Close
-        if (this.inDialog && this.dialogRef) {
-          this.dialogRef.close(true);
-        }
+        // Init form
         this.formGroup.markAsPristine();
+        // Assign transactions?
+        this.checkUnassignedTransactions(user);
       } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'users.create_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');
       }
     }, (error) => {
       // Hide
@@ -648,15 +634,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private assignTransactions(user) {
-    this.centralServerService.assignTransactionsToUser(user.id).subscribe((response) => {
-      this.messageService.showSuccessMessage('users.assign_transactions_success', {'userFullName': user.firstName + ' ' + user.name});
-    }, error => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
-    });
-  }
-
-  private updateUser(user, assignTransactions) {
+  private updateUser(user: User) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -667,19 +645,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        if (assignTransactions) {
-          this.assignTransactions(user);
-        }
         // Ok
         this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
-        // Close
-        if (this.inDialog && this.dialogRef) {
-          this.dialogRef.close(true);
-        }
+        // Init form
         this.formGroup.markAsPristine();
+        // Assign transactions?
+        this.checkUnassignedTransactions(user);
       } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'users.update_error');
+        // Error
+        Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
       }
     }, (error) => {
       // Hide
@@ -703,6 +677,44 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
       }
     });
+  }
+
+  private checkUnassignedTransactions(user: User) {
+    // Admin?
+    if (this.isAdmin) {
+      // Check if there are unassigned transactions
+      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe(count => {
+        if (count && count > 0) {
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('users.assign_transactions_title'),
+            this.translateService.instant('users.assign_transactions_confirm', {'count': count})
+          ).subscribe((result) => {
+            if (result === Constants.BUTTON_TYPE_YES) {
+              // Assign transactions
+              this.assignTransactionsToUser(user);
+            }
+          });
+        } else {
+          // Close dialog
+          if (this.inDialog && this.dialogRef) {
+            this.dialogRef.close(true);
+          }
+        }
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        if (this.currentUserID) {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+        } else {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+        }
+      });
+    } else {
+      // Close dialog
+      if (this.inDialog && this.dialogRef) {
+        this.dialogRef.close(true);
+      }
+    }
   }
 
   private generateTagID(user?: User) {

@@ -28,11 +28,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.6',
-        date: new Date('2019-09-10'),
+        date: new Date('2019-09-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Only Site Admin can get refunded in Concur`,
               `Fixed user Basic cannot change his password`,
               `User can get assigned orphan sessions when his profile is changed`,
               `Fixed filters not working in Sessions`,

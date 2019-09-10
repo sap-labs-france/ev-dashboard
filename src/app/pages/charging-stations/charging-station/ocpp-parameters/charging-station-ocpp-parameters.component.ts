@@ -60,16 +60,10 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     this.loadConfiguration();
   }
 
-  /**
-   * refresh
-   */
   public refresh() {
     this.loadConfiguration();
   }
 
-  /**
-   * loadConfiguration : Retrieve charging station configuration from rest server
-   */
   public loadConfiguration() {
     if (!this.charger.id) {
       return;
@@ -164,9 +158,6 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   }
 
 
-  /**
-   * changeParameter: change an OCPP parameter value
-   */
   public changeParameter(item) {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
@@ -198,9 +189,6 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     }
   }
 
-  /**
-   * clearParameter
-   */
   public clearParameter(item) {
     // activate get configuration button
     this.isGetConfigurationActive = true;
@@ -214,9 +202,6 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     this.formGroup.markAsPristine();
   }
 
-  /**
-   * getConfiguration:Retrieve : Retrieve OCPP Configuration
-   */
   public getConfiguration() {
     if (this.charger.inactive) {
       // Charger is not connected

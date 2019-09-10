@@ -1581,7 +1581,7 @@ export class CentralServerService {
   softStopTransaction(id: number) {
     this._checkInit();
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
-      `{ "transactionId": "${id}" }`,
+      `{ "ID": "${id}" }`,
       {
         headers: this._buildHttpHeaders()
       })

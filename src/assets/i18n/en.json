@@ -1014,6 +1014,7 @@
       "charging_station": "Charging Station",
       "refund": "Refunding",
       "pricing": "Pricing",
+      "billing": "Billing",
       "analytics": "Analytics"
     },
     "ocpi": {
@@ -1104,6 +1105,12 @@
         "title": "Simple Pricing",
         "price": "Price",
         "currency": "Currency"
+      }
+    },
+    "billing" : {
+      "stripe": {
+        "description" : "E-Mobility allows to send invoices to the users with Stripe ...",
+        "title" : "Stripe"
       }
     },
     "analytics": {
@@ -1241,6 +1248,11 @@
     "price_unit_label": "Currency",
     "update_success": "The price has been updated successfully",
     "update_error": "Error occurred while updating the price"
+  },
+  "billing": {
+    "title": "Billing",
+    "type_placeholder": "Type",
+    "description": "Billing Interface"
   },
   "transactions": {
     "id": "Id",

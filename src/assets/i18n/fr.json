@@ -1014,6 +1014,7 @@
       "charging_station": "Borne",
       "refund": "Remboursement",
       "pricing": "Pricing",
+      "billing": "Billing",
       "analytics": "Analytics"
     },
     "ocpi": {
@@ -1104,6 +1105,12 @@
         "title": "Calculs Basique",
         "price": "Prix",
         "currency": "Devise"
+      }
+    },
+    "billing" : {
+      "stripe": {
+        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs avec Stripe ...",
+        "title" : "Stripe"
       }
     },
     "analytics": {
@@ -1241,6 +1248,11 @@
     "price_unit_label": "Monnaie",
     "update_success": "Le prix a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du prix"
+  },
+  "billing": {
+    "title": "Billing",
+    "type_placeholder": "Type",
+    "description": "Billing Interface"
   },
   "transactions": {
     "id": "Id",

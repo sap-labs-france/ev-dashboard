@@ -32,6 +32,13 @@ export class TenantComponent implements OnInit {
     }
   ];
 
+  public billingTypes = [
+    {
+      key: 'stripe',
+      description: 'settings.billing.stripe.title'
+    }
+  ];
+
   public refundTypes = [
     {
       key: 'concur',

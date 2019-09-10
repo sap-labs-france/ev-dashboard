@@ -440,9 +440,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public saveUser(user) {
     if (this.currentUserID) {
-      this.updateUser(user, false);
+      this.updateUser(user);
     } else {
-      this.createUser(user, false);
+      this.createUser(user);
     }
   }
 
@@ -588,7 +588,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private createUser(user, assignTransactions = false) {
+  private createUser(user) {
     // Show
     this.spinnerService.show();
     // Set the image

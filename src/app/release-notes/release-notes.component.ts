@@ -28,14 +28,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.6',
-        date: new Date('2019-09-09'),
+        date: new Date('2019-09-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed filters not working in Sessions`,
               `Added Charging Station's Connector ID in Email notification`,
-              `Enhanced Backend logs to better follow the the Session lifecycle`
+              `Enhanced Backend logs to better follow the the Session lifecycle`,
+              `Fixed Sessions In Error list should not be refreshed after Session's details pop-up is closed`
             ]
           }
         ]

@@ -27,6 +27,23 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.6',
+        date: new Date('2019-09-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed user Basic cannot change his password`,
+              `Fixed filters not working in Sessions`,
+              `Added Charging Station's Connector ID in Email notification`,
+              `Enhanced Backend logs to better follow the the Session lifecycle`,
+              `Fixed Sessions In Error list should not be refreshed after Session's details pop-up is closed`,
+              `Can search for a user in Logs using his name, first name or email in free text search field`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.5',
         date: new Date('2019-09-05'),
         componentChanges: [

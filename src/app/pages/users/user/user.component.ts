@@ -439,28 +439,46 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public saveUser(user) {
-    this.centralServerService.getUnassignedTransactionsCount(user.tagIDs).subscribe(count => {
-      if (count && count > 0) {
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('users.assign_transactions_title'),
-          this.translateService.instant('users.assign_transactions_confirm', {'count': count})
-        ).subscribe((result) => {
-          if (result === Constants.BUTTON_TYPE_YES) {
-            if (this.currentUserID) {
-              this.updateUser(user, true);
-            } else {
-              this.createUser(user, true);
+    // Admin?
+    if (this.isAdmin) {
+      // Check if there are unassigned transactions
+      this.centralServerService.getUnassignedTransactionsCount(user.tagIDs).subscribe(count => {
+        if (count && count > 0) {
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('users.assign_transactions_title'),
+            this.translateService.instant('users.assign_transactions_confirm', {'count': count})
+          ).subscribe((result) => {
+            if (result === Constants.BUTTON_TYPE_YES) {
+              if (this.currentUserID) {
+                this.updateUser(user, true);
+              } else {
+                this.createUser(user, true);
+              }
             }
-          }
-        });
-      } else {
-        if (this.currentUserID) {
-          this.updateUser(user, false);
+          });
         } else {
-          this.createUser(user, false);
+          if (this.currentUserID) {
+            this.updateUser(user, false);
+          } else {
+            this.createUser(user, false);
+          }
         }
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        if (this.currentUserID) {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+        } else {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+        }
+      });
+    } else {
+      if (this.currentUserID) {
+        this.updateUser(user, false);
+      } else {
+        this.createUser(user, false);
       }
-    });
+    }
   }
 
   public imageChanged(event) {

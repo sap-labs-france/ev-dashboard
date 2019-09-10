@@ -296,6 +296,5 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     dialogConfig.disableClose = true;
     // Open
     this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
-    this.dialogRefSession.afterClosed().subscribe(() => this.refreshData().subscribe());
   }
 }

@@ -27,6 +27,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.7',
+        date: new Date('2019-09-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Migrated Consumption to TypeScript`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.6',
         date: new Date('2019-09-11'),
         componentChanges: [

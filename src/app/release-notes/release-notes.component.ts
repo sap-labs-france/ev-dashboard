@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Charging Station ID was not saved during a BootNotification`,
               `Migrated Consumption in backend to TypeScript`,
               `Fixed Basic User cannot see his Sessions`,
               `Get the Charging Station from the Transaction in SAP Convergent Charging`

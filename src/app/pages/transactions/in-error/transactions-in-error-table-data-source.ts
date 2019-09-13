@@ -195,7 +195,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
 
     const filters: TableFilterDef[] = [
-      new TransactionsDateFromFilter().getFilterDef(),
+      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef()
     ];

@@ -602,7 +602,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage('users.create_success', {'userFullName': user.firstName + ' ' + user.name});
         // Refresh
-        this.currentUserID = user.id;
+        user.id = response.id;
+        this.currentUserID = response.id;
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?

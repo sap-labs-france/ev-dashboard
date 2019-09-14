@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthorizationService } from 'app/services/authorization.service';
 
 interface ReleaseNotes {
   version: string;
@@ -18,14 +17,28 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  constructor(
-    private authorizationService: AuthorizationService
-  ) {
+  constructor() {
     this.buidlReleaseNotes();
   }
 
   buidlReleaseNotes(): any {
     this.releaseNotes = [
+      {
+        version: '2.1.7',
+        date: new Date('2019-09-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed wrong Email is sent when User's status is changed by an Admin`,
+              `Fixed Charging Station ID was not saved during a BootNotification`,
+              `Migrated Consumption in backend to TypeScript`,
+              `Fixed Basic User cannot see his Sessions`,
+              `Get the Charging Station from the Transaction in SAP Convergent Charging`
+            ]
+          }
+        ]
+      },
       {
         version: '2.1.6',
         date: new Date('2019-09-11'),

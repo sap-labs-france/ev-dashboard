@@ -693,6 +693,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             if (result === Constants.BUTTON_TYPE_YES) {
               // Assign transactions
               this.assignTransactionsToUser(user);
+            } else {
+              // Close dialog
+              if (this.inDialog && this.dialogRef) {
+                this.dialogRef.close(true);
+              }
             }
           });
         } else {

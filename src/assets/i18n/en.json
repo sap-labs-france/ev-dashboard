@@ -1398,6 +1398,11 @@
         "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
+      "missing_price": {
+        "title": "Missing price",
+        "description": "The transaction has not been priced.",
+        "action": "Eventhough the pricing is activated in the tenant, the transaction has not been priced. Contact your site administrator."
+      },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",

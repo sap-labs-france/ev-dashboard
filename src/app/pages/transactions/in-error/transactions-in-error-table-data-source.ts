@@ -183,6 +183,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`
     });
+    // If pricing is activated check that transactions have been priced
+    if (this.componentService.isActive(ComponentEnum.PRICING)) {
+      errorTypes.push({
+        key: Constants.TRANSACTION_IN_ERROR_MISSING_PRICE,
+        value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_MISSING_PRICE}.title`
+      });
+    }
     // Sort
     errorTypes.sort((errorType1, errorType2) => {
       if (errorType1.value < errorType2.value) {

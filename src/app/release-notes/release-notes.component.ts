@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.8',
+        date: new Date('2019-09-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Site Admin Users no longer have the right to change their status their profile`,
+              `Site Admins can now refund any Users that charged on their Sites`,
+              `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`,
+              `Fixed Admin Users got wrong number of records (Paging) in Refunding`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.7',
         date: new Date('2019-09-16'),
         componentChanges: [

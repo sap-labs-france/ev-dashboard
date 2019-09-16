@@ -27,7 +27,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.7",
+    "last_update": "Version 2.1.8",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -1397,6 +1397,11 @@
         "title": "Negative Duration",
         "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "missing_price": {
+        "title": "Missing price",
+        "description": "The transaction has not been priced.",
+        "action": "Eventhough the pricing is activated in the tenant, the transaction has not been priced. Contact your site administrator."
       },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",

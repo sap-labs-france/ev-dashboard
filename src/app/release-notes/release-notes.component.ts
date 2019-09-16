@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.7',
-        date: new Date('2019-09-14'),
+        date: new Date('2019-09-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Site Admin users couldn't see their Refunded Sessions`,
               `Fixed wrong Email is sent when User's status is changed by an Admin`,
               `Fixed Charging Station ID was not saved during a BootNotification`,
               `Migrated Consumption in backend to TypeScript`,

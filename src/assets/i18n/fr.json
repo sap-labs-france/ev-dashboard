@@ -1398,6 +1398,11 @@
         "description": "La durée enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
       },
+      "missing_price": {
+        "title": "Transaction non valorisée",
+        "description": "La transaction n'a pas été valorisée.",
+        "action": "Bien que la tarification soit activée dans ce tenant, la transaction n'a pas été valorisée. veuillez contacter votre administrateur de site à ce sujet."
+      },
       "incorrect_starting_date": {
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",

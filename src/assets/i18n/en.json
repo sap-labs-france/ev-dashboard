@@ -1108,9 +1108,27 @@
       }
     },
     "billing" : {
+      "description": "The Billing interface enables billing capabilities for charging station providers.",
+      "not_found": "Billing settings not found",
+      "create_success": "Billing settings have been created successfully",
+      "create_error": "Error occurred while creating the Billing settings",
+      "update_success": "Billing settings have been updated successfully",
+      "update_error": "Error occurred while updating the Billing settings",
+      "check_connection": "Check Connection",
+      "connection_success": "Connection to Billing application tested with success",
+      "connection_error": "Connection to Billing application failed",
+      "synchronize_users": "Synchronize Users",
       "stripe": {
-        "description" : "E-Mobility allows to send invoices to the users with Stripe ...",
-        "title" : "Stripe"
+        "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",
+        "title": "Stripe",
+        "url": "URL of Stripe Dashboard",
+        "public_key": "Publishable API Key",
+        "invalid_public_key": "Publishable API key is not plausible",
+        "secret_key": "Secret API Key",
+        "invalid_secret_key": "Secret API key is not plausible",
+        "billing_method": "Billing Method",
+        "immediate_billing": "Immediate Billing",
+        "periodic_billing": "Periodic Billing (not yet implemented)"
       }
     },
     "analytics": {

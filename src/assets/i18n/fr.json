@@ -1108,9 +1108,27 @@
       }
     },
     "billing" : {
+      "description": "L'interface de Billing permet aux fournisseurs de bornes de facturer leurs services.",
+      "not_found": "La configuration Billing n'est pas disponible",
+      "create_success": "La configuration Billing a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration Billing",
+      "update_success": "La configuration Billing a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Billing",
+      "check_connection": "Vérifier connexion",
+      "connection_success": "Connexion vers l'application Billing vérifiée avec succès",
+      "connection_error": "Connexion vers l'application Billing échouée",
+      "synchronize_users": "Synchronizer utilisateurs",
       "stripe": {
-        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs avec Stripe ...",
-        "title" : "Stripe"
+        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
+        "title" : "Stripe",
+        "url" : "URL du termimal Stripe",
+        "public_key" : "Clé API publique",
+        "invalid_public_key" : "La clé API publique n'est pas plausible",
+        "secret_key" : "Clé API secrète",
+        "invalid_secret_key" : "La clé API secrète n'est pas plausible",
+        "billing_method": "Méthode de facturation",
+        "immediate_billing": "Facturation immédiate",
+        "periodic_billing": "Facturation périodique (pas encore implémentée)"
       }
     },
     "analytics": {

@@ -582,6 +582,26 @@ export interface PricingSettings {
   };
 }
 
+export enum BillingSettingsType {
+  stripe = 'stripe'
+}
+
+export interface BillingSettings {
+  id?: string;
+  identifier: ComponentEnum.BILLING;
+  sensitiveData: string[];
+  type: BillingSettingsType;
+  stripe: {
+    url: string;
+    secretKey: string;
+    publicKey: string;
+    noCardAllowed: boolean;
+    immediateBillingAllowed: boolean;
+    periodicBillingAllowed: boolean;
+    advanceBillingAllowed: boolean;
+  };
+}
+
 export enum OcpiSettingsType {
   gireve = 'gireve'
 }

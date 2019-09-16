@@ -103,7 +103,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin || isSuperAdmin || isSiteAdmin" class="col-md-6">
+              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
                     <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}">

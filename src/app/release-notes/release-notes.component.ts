@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`
+              `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`,
+              `Fixed Admin Users got wrong number of records (Paging) in Refunding`
             ]
           }
         ]

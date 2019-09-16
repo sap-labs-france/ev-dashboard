@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.8',
+        date: new Date('2019-09-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.7',
         date: new Date('2019-09-16'),
         componentChanges: [

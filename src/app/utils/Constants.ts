@@ -22,6 +22,7 @@ export class Constants {
   public static TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY = 'negative_inactivity';
   public static TRANSACTION_IN_ERROR_NEGATIVE_DURATION = 'negative_duration';
   public static TRANSACTION_IN_ERROR_INVALID_START_DATE = 'incorrect_starting_date';
+  public static TRANSACTION_IN_ERROR_MISSING_PRICE = 'missing_price';
 
   public static CHARGER_IN_ERROR_MISSING_SETTINGS = 'missingSettings';
   public static CHARGER_IN_ERROR_CONNECTION_BROKEN = 'connectionBroken';

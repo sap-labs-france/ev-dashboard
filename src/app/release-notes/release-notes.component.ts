@@ -25,11 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.8',
-        date: new Date('2019-09-17'),
+        date: new Date('2019-09-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Selection of Sites pop-up is not cleared when trying to assign a User to a Site`,
+              `User that is not assigned to a Site and is not Active should appear twice in User In Error`,
+              `Wrong pagination in Sessions In Error`,
               `Site Admin Users no longer have the right to change their status their profile`,
               `Site Admins can now refund any Users that charged on their Sites`,
               `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`,

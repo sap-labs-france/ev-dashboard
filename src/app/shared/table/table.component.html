@@ -306,13 +306,13 @@
           <div class="more-records">{{'general.more_records' | translate}}</div>
         </td>
       </tr>
-      <tr><td [attr.colspan]="numberOfColumns"><div class="more-records"></div></td></tr>
       </tbody>
     </table>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
       {{'general.no_record_found' | translate}}
     </div>
+  </div>
     <!-- Bottom list -->
     <div class="bottom-table d-flex justify-content-between" *ngIf="!dataSource.tableDef.isSimpleTable">
       <!-- Left side -->
@@ -345,5 +345,4 @@
         </span>
       </div>
     </div>
-  </div>
 </div>

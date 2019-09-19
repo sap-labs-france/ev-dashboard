@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { BillingSettings, BillingSettingsType } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
@@ -22,8 +24,10 @@ export class SettingsBillingComponent implements OnInit {
   constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
     private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private translateService: TranslateService,
     private router: Router
   ) {
     this.isActive = this.componentService.isActive(ComponentEnum.BILLING);
@@ -111,6 +115,27 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public synchronizeUsers() {
-
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.synchronize_users_dialog_title'),
+      this.translateService.instant('settings.billing.synchronize_users_dialog_confirm')
+    ).subscribe((response) => {
+      if (response === Constants.BUTTON_TYPE_YES) {
+        this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
+        this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
+          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success', {number: synchronizeResponse.created + synchronizeResponse.updated}));
+            if (synchronizeResponse.error) {
+              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure', {number: synchronizeResponse.error}));
+            }
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'settings.billing.synchronize_users_error');
+        });
+      }
+    });
   }
+
 }

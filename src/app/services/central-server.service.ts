@@ -1048,6 +1048,18 @@ export class CentralServerService {
       );
   }
 
+  public SynchronizeUsersForBilling(): Observable<any> {
+    this._checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
+      {
+        headers: this._buildHttpHeaders()
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
   public getRegistrationTokens(params: any, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this._checkInit();

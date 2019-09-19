@@ -18,6 +18,7 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
     if (this.title === '') {
       this.title = 'chargers.select_chargers';
     }
+    this.chargersDataSource.destroyDatasource();
   }
 
   getSelectedItems(selectedRows: Charger[]): KeyValue[] {

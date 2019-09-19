@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthorizationService } from 'app/services/authorization.service';
 
 interface ReleaseNotes {
   version: string;
@@ -18,14 +17,67 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  constructor(
-    private authorizationService: AuthorizationService
-  ) {
+  constructor() {
     this.buidlReleaseNotes();
   }
 
   buidlReleaseNotes(): any {
     this.releaseNotes = [
+      {
+        version: '2.1.8',
+        date: new Date('2019-09-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Selection of Sites pop-up is not cleared when trying to assign a User to a Site`,
+              `User that is not assigned to a Site and is not Active should appear twice in User In Error`,
+              `Wrong pagination in Sessions In Error`,
+              `Site Admin Users no longer have the right to change their status their profile`,
+              `Site Admins can now refund any Users that charged on their Sites`,
+              `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`,
+              `Fixed Admin Users got wrong number of records (Paging) in Refunding`
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.1.7',
+        date: new Date('2019-09-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Site Admin users couldn't see their Refunded Sessions`,
+              `Fixed wrong Email is sent when User's status is changed by an Admin`,
+              `Fixed Charging Station ID was not saved during a BootNotification`,
+              `Migrated Consumption in backend to TypeScript`,
+              `Fixed Basic User cannot see his Sessions`,
+              `Get the Charging Station from the Transaction in SAP Convergent Charging`
+            ]
+          }
+        ]
+      },
+      {
+        version: '2.1.6',
+        date: new Date('2019-09-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Only Site Admin can get refunded in Concur`,
+              `Fixed Soft Stop of Sessions`,
+              `Fixed user Basic cannot change his password`,
+              `User can get assigned orphan sessions when his profile is changed`,
+              `Fixed filters not working in Sessions`,
+              `Added Charging Station's Connector ID in Email notification`,
+              `Enhanced Backend logs to better follow the the Session lifecycle`,
+              `Fixed Sessions In Error list should not be refreshed after Session's details pop-up is closed`,
+              `Can search for a user in Logs using his name, first name or email in free text search field`
+            ]
+          }
+        ]
+      },
       {
         version: '2.1.5',
         date: new Date('2019-09-05'),

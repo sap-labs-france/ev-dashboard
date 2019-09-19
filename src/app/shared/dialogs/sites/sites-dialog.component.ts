@@ -18,6 +18,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     if (this.title === '') {
       this.title = 'sites.select_sites';
     }
+    this.dialogDataSource.destroyDatasource();
   }
 
   getSelectedItems(selectedRows: Site[]): KeyValue[] {

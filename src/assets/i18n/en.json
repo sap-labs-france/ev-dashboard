@@ -27,7 +27,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.5",
+    "last_update": "Version 2.1.8",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -959,10 +959,10 @@
     "update_set_site_admin_success": "The user is now administrator of the site '{{siteName}}'",
     "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}' ",
     "update_site_admin_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
-    "assign_transactions_title": "Transactions Assignment",
-    "assign_transactions_confirm": "Do you have to assign {{count}} existing transactions to the user ?",
-    "assign_transactions_success": "Transactions have been assigned to user {{userFullName}}",
-    "assign_transactions_error": "Error occurred while assigning transactions to user {{userFullName}}",
+    "assign_transactions_title": "Sessions Assignment",
+    "assign_transactions_confirm": "{{count}} orphan sessions have been found. Do you want to assign them to this user?",
+    "assign_transactions_success": "All orphan sessions have been assigned to the user '{{userFullName}}'",
+    "assign_transactions_error": "Error occurred while assigning the orphan sessions to the user '{{userFullName}}'",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",
@@ -1433,6 +1433,11 @@
         "title": "Negative Duration",
         "description": "The duration of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
+      },
+      "missing_price": {
+        "title": "Missing price",
+        "description": "The transaction has not been priced.",
+        "action": "Eventhough the pricing is activated in the tenant, the transaction has not been priced. Contact your site administrator."
       },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",

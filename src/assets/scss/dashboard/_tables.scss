@@ -457,6 +457,8 @@ tr.element-row:not(.expanded-row):active {
 .bottom-table {
   position: sticky;
   bottom: 0;
+  left:0;
+  width:100%;
   padding: 10px;
   background: $brand-background;
   z-index: 100;

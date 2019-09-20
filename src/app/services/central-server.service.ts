@@ -879,14 +879,14 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+  public getConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
     const params: any = [];
     params['TransactionId'] = transactionId;
     // Verify init
     this._checkInit();
     // Execute the REST service
     return this.httpClient.get<Transaction>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionFromTransaction`,
+      `${this.centralRestServerServiceSecuredURL}/ConsumptionFromTransaction`,
       {
         headers: this._buildHttpHeaders(),
         params

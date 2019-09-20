@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Removed battery level from charging curve when not needed`,
               `Last line in the Charger's list is not displayed in Firefox`,
               `Selection of Sites pop-up is not cleared when trying to assign a User to a Site`,
               `User that is not assigned to a Site and is not Active should appear twice in User In Error`,

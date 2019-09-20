@@ -1006,7 +1006,9 @@
     "delete_confirm": "Voulez-vous vraiment supprimer le tenant '{{name}}' ?",
     "delete_title": "Supprimer le tenant",
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du tenant"
+    "delete_error": "Une erreur est survenue pendant la suppression du tenant",
+    "save_error_refund": "Pricing doit être actif pour utiliser Remboursement",
+    "save_error_billing": "Pricing doit être actif pour utiliser Billing"
   },
   "settings": {
     "tabs": {
@@ -1119,10 +1121,10 @@
       "connection_error": "Connexion vers l'application Billing impossible",
       "synchronize_users": "Synchronizer utilisateurs",
       "synchronize_users_dialog_title": "Synchronizer utilisateurs pour Billing",
-      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour Billing?",
+      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour Billing ?",
       "synchronize_users_started": "La synchronization des utilisateurs a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
-      "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (voir les logs)",
+      "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
       "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
       "stripe": {
         "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",

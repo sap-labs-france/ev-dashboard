@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Chart } from 'chart.js';
-import { ConsumptionValue } from '../../../common.types';
+import { Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
@@ -14,9 +14,9 @@ import { AppDatePipe } from '../../formatters/app-date.pipe';
   templateUrl: 'consumption-chart.component.html'
 })
 
-export class ConsumptionChartComponent implements OnInit, AfterViewInit {
+export class ConsumptionChartComponent implements AfterViewInit {
   @Input() transactionId: number;
-  @Input() consumptions: ConsumptionValue[];
+  @Input() transaction: Transaction;
   @Input() ratio: number;
 
   @ViewChild('primary', {static: true}) primaryElement: ElementRef;
@@ -84,9 +84,6 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
     };
   }
 
-  ngOnInit(): void {
-  }
-
   ngAfterViewInit(): void {
     this.consumptionColor = getComputedStyle(this.accentElement.nativeElement).color;
     this.instantPowerColor = getComputedStyle(this.primaryElement.nativeElement).color;
@@ -106,12 +103,12 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
-    this.centralServerService.getChargingStationConsumptionFromTransaction(this.transactionId)
+    this.centralServerService.getConsumptionFromTransaction(this.transactionId)
       .subscribe(transaction => {
-        this.consumptions = transaction.values;
+        this.transaction = transaction;
         this.prepareOrUpdateGraph();
-      }, error => {
-        this.consumptions = [];
+      }, (error) => {
+        this.transaction = null;
       });
   }
 
@@ -148,11 +145,11 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
     this.options.scales.yAxes.push({
       id: 'power',
       ticks: {
-        callback: (value, index, values) => value / 1000.0,
+        callback: (value) => value / 1000.0,
         min: 0
       }
     });
-    if (this.consumptions.find(c => c.stateOfCharge !== undefined)) {
+    if (this.transaction.stateOfCharge) {
       this.data.datasets.push({
         name: 'stateOfCharge',
         type: 'line',
@@ -189,7 +186,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
       ...ConsumptionChartComponent.formatLineColor(this.consumptionColor),
       label: this.translateService.instant('transactions.graph.energy')
     });
-    if (this.consumptions.find(c => c.hasOwnProperty('pricingSource')) !== undefined) {
+    if (this.transaction.values.find(c => c.hasOwnProperty('pricingSource')) !== undefined) {
       this.data.datasets.push({
         name: 'cumulatedAmount',
         type: 'line',
@@ -225,7 +222,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   canDisplayGraph() {
-    return this.consumptions && this.consumptions.length > 1;
+    return this.transaction && this.transaction.values && this.transaction.values.length > 1;
   }
 
   refreshDataSets() {
@@ -237,8 +234,8 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
     const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
     const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
     const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
-    for (let i = 0; i < this.consumptions.length; i += 1) {
-      const consumption = this.consumptions[i];
+    for (let i = 0; i < this.transaction.values.length; i += 1) {
+      const consumption = this.transaction.values[i];
       this.data.labels.push(new Date(consumption.date).getTime());
       instantPowerDataSet.push(consumption.value);
       cumulatedConsumptionDataSet.push(consumption.cumulated);
@@ -254,7 +251,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
         }
       }
       if (stateOfChargeDataSet) {
-        if (consumption.stateOfCharge !== undefined) {
+        if (consumption.stateOfCharge) {
           stateOfChargeDataSet.push(consumption.stateOfCharge);
         } else {
           stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ? stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : 0);
@@ -339,7 +336,7 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
             type: 'linear',
             position: 'left',
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value / 1000),
+              callback: (value) => this.decimalPipe.transform(value / 1000),
               fontColor: this.defaultColor
             },
             gridLines: {
@@ -380,8 +377,9 @@ export class ConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   updatePanOptions() {
-    this.options.pan.rangeMin.x = this.consumptions.length > 0 ? new Date(this.consumptions[0].date).getTime() : 0;
+    this.options.pan.rangeMin.x =
+      this.transaction.values.length > 0 ? new Date(this.transaction.values[0].date).getTime() : 0;
     // tslint:disable-next-line:max-line-length
-    this.options.pan.rangeMax.x = this.consumptions.length > 0 ? new Date(this.consumptions[this.consumptions.length - 1].date).getTime() : 0;
+    this.options.pan.rangeMax.x = this.transaction.values.length > 0 ? new Date(this.transaction.values[this.transaction.values.length - 1].date).getTime() : 0;
   }
 }

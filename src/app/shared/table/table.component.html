@@ -300,14 +300,12 @@
           </ng-container>
         </tr>
       </ng-template>
-      <!-- More Records -->
-      <tr *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length">
-        <td [attr.colspan]="numberOfColumns" (click)="displayMoreRecords()">
-          <div class="more-records">{{'general.more_records' | translate}}</div>
-        </td>
-      </tr>
       </tbody>
     </table>
+    <!-- More Records -->
+    <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length" (click)="displayMoreRecords()" class="more-records">
+      {{'general.more_records' | translate}}
+    </div>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
       {{'general.no_record_found' | translate}}

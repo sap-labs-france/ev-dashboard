@@ -146,17 +146,6 @@ export interface ConsumptionValue {
   pricingSource: string;
 }
 
-export interface ChargerConsumption {
-  chargeBoxID: string;
-  totalConsumption: number;
-  connectorId: number;
-  transactionId: number;
-  startDateTime: Date;
-  endDateTime: Date;
-  user: User;
-  values: ConsumptionValue[];
-}
-
 export interface Connector extends Data {
   connectorId: number;
   errorCode: string;

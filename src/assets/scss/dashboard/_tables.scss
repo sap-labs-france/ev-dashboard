@@ -446,17 +446,19 @@ tr.element-row:not(.expanded-row):active {
       margin-top: -2px;
     }
   }
-
-  .more-records {
-    text-align: center;
-    font-size: 1rem;
-    cursor: pointer;    
-  }
 }
+
+.more-records {
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;    
+  }
 
 .bottom-table {
   position: sticky;
   bottom: 0;
+  left:0;
+  width:100%;
   padding: 10px;
   background: $brand-background;
   z-index: 100;

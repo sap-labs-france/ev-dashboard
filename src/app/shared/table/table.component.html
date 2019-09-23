@@ -300,50 +300,47 @@
           </ng-container>
         </tr>
       </ng-template>
-      <!-- More Records -->
-      <tr *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length">
-        <td [attr.colspan]="numberOfColumns" (click)="displayMoreRecords()">
-          <div class="more-records">{{'general.more_records' | translate}}</div>
-        </td>
-      </tr>
-      <tr><td [attr.colspan]="numberOfColumns"><div class="more-records"></div></td></tr>
       </tbody>
     </table>
+    <!-- More Records -->
+    <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length" (click)="displayMoreRecords()" class="more-records">
+      {{'general.more_records' | translate}}
+    </div>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
       {{'general.no_record_found' | translate}}
     </div>
+  </div>
     <!-- Bottom list -->
     <div class="bottom-table d-flex justify-content-between" *ngIf="!dataSource.tableDef.isSimpleTable">
-      <!-- Left side -->
-      <div class="left-bottom-table">
-        <!-- Multi-Selection enabled? -->
-        <span *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
-          {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
-        </span>
-        <!-- Stats -->
-        <span>
-          {{dataSource.tableFooterStats}}
-        </span>
+        <!-- Left side -->
+        <div class="left-bottom-table">
+          <!-- Multi-Selection enabled? -->
+          <span *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
+            {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
+          </span>
+          <!-- Stats -->
+          <span>
+            {{dataSource.tableFooterStats}}
+          </span>
+        </div>
+        <!-- Right side -->
+        <div class="right-bottom-table">
+          {{'general.nbr_of_records' | translate}}:
+          <!-- Too many records? -->
+          <span *ngIf="dataSource.totalNumberOfRecords === maxRecords">
+            {{dataSource.data.length}} / -
+          </span>
+          <!-- n records / Max Records -->
+          <span
+            *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
+            {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
+          </span>
+          <!-- n records === Max Records -->
+          <span
+            *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
+            {{dataSource.data.length}}
+          </span>
+        </div>
       </div>
-      <!-- Right side -->
-      <div class="right-bottom-table">
-        {{'general.nbr_of_records' | translate}}:
-        <!-- Too many records? -->
-        <span *ngIf="dataSource.totalNumberOfRecords === maxRecords">
-          {{dataSource.data.length}} / -
-        </span>
-        <!-- n records / Max Records -->
-        <span
-          *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
-          {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
-        </span>
-        <!-- n records === Max Records -->
-        <span
-          *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
-          {{dataSource.data.length}}
-        </span>
-      </div>
-    </div>
   </div>
-</div>

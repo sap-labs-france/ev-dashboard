@@ -65,7 +65,7 @@
           </div>
         </div>
         <!-- chart -->
-        <app-transaction-chart #chartConsumption [consumptions]="transaction.values" [transactionId]="transaction.id"
+        <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id"
           class="w-100" ratio="4"></app-transaction-chart>
       </div>
     </div>

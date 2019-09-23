@@ -1124,6 +1124,7 @@
       "synchronize_users_dialog_confirm": "Do you really want to synchronize the users for billing?",
       "synchronize_users_started": "The synchronization of users has been started",
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
+      "synchronize_users_success_all": "All users are already synchronized",
       "synchronize_users_failure": "Failed to synchronize {{number}} user(s) (see the logs)",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {

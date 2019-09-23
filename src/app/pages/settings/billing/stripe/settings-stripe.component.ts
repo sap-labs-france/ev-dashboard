@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BillingSettings } from 'app/common.types';
+import { Constants } from 'app/utils/Constants';
 import { StripeToolBox } from './StripeToolbox';
 
 export class StripeBillingConstants {
@@ -29,14 +30,15 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         'url': new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(200)
+            Validators.maxLength(200),
+            Validators.pattern(Constants.URL_PATTERN)
           ])
         ),
         'secretKey': new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100)
-          //  StripeToolBox.validateSecretKey
+            //  StripeToolBox.validateSecretKey
           ]),
         ),
         'publicKey': new FormControl('',
@@ -70,9 +72,9 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     // Set data
     if (this.stripe) {
       this.stripeUrl.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
-      if (firstTime) {
-        this.stripeSecretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
-      }
+      //      if (firstTime) {
+      this.stripeSecretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
+      //      }
       this.stripePublicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
       this.stripeImmediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
         ? this.billingSettings.stripe.immediateBillingAllowed : '');
@@ -81,4 +83,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     }
   }
 
+  openUrl() {
+    window.open(this.stripeUrl.value);
+  }
 }

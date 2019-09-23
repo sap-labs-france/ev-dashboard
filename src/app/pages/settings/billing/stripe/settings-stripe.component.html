@@ -17,6 +17,13 @@
           <mat-error *ngIf="stripeUrl.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 200}"></div>
           </mat-error>
+          <mat-error *ngIf="stripeUrl.errors?.pattern">
+            <div [translate]="'general.error_url_pattern'"></div>
+          </mat-error>
+          <button mat-icon-button matSuffix aria-label="View" (click)="openUrl()"
+            [disabled]="stripeUrl.errors?.pattern || stripeUrl.errors?.required">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
         </mat-form-field>
       </div>
     </div>

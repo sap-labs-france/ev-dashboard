@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed 'More' button in list disappears when Log's Message column is too wide`
+              `Fixed 'More' button in list disappears when Log's Message column is too wide`,
+              `Changed handling of locked connectors for ABB chargers`
             ]
           }
         ]

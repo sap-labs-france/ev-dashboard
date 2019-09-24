@@ -215,14 +215,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
-    switch (this.centralServerService.getLoggedUser().role) {
-      case  Constants.ROLE_DEMO:
-      case  Constants.ROLE_BASIC:
-        break;
-      case  Constants.ROLE_SUPER_ADMIN:
-      case  Constants.ROLE_ADMIN:
-        filters.push(new UserTableFilter().getFilterDef());
+    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
+      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
+
     return filters;
   }
 

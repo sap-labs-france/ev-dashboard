@@ -25,11 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.9',
-        date: new Date('2019-09-23'),
+        date: new Date('2019-09-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed bottom list's stats in Refunded Sessions to take into account cancelled expenses`,
+              `Fixed Charging Station's connection token cannot be revoked when it has already expired`,
               `Fixed 'More' button in list disappears when Log's Message column is too wide`,
               `Changed handling of locked connectors for ABB chargers`
             ]

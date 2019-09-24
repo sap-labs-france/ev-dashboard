@@ -32,6 +32,13 @@ export class TenantComponent implements OnInit {
     }
   ];
 
+  public billingTypes = [
+    {
+      key: 'stripe',
+      description: 'settings.billing.stripe.title'
+    }
+  ];
+
   public refundTypes = [
     {
       key: 'concur',
@@ -149,12 +156,32 @@ export class TenantComponent implements OnInit {
 
   save(tenant) {
     // Clear Type of inactive tenants
+    let pricingActive = false;
+    let refundActive = false;
+    let billingActive = false;
     for (const component in tenant.components) {
       if (tenant.components.hasOwnProperty(component)) {
         if (!tenant.components[component].active) {
           tenant.components[component].type = null;
         }
+        if (component === ComponentEnum.PRICING) {
+          pricingActive = tenant.components[component].active;
+        }
+        if (component === ComponentEnum.REFUND) {
+          refundActive = tenant.components[component].active;
+        }
+        if (component === ComponentEnum.BILLING) {
+          billingActive = tenant.components[component].active;
+        }
       }
+    }
+    if (refundActive && !pricingActive) {
+      this.messageService.showErrorMessage('tenants.save_error_refund');
+      return;
+    }
+    if (billingActive && !pricingActive) {
+      this.messageService.showErrorMessage('tenants.save_error_billing');
+      return;
     }
     if (this.currentTenant) {
       // update existing tenant

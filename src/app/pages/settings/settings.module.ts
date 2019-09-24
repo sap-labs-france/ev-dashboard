@@ -29,6 +29,9 @@ import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './o
 import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
+
+import { SettingsBillingComponent } from './billing/settings-billing.component';
+import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details.component';
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
@@ -64,6 +67,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsPricingComponent,
     SettingsSimplePricingComponent,
     SettingsConvergentChargingComponent,
+    SettingsBillingComponent,
+    SettingsStripeComponent,
     SettingsAnalyticsComponent,
     SettingsSacComponent,
     OcpiJobResultFormatterComponent,
@@ -100,6 +105,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsConcurComponent,
     SettingsPricingComponent,
     SettingsConvergentChargingComponent,
+    SettingsBillingComponent,
+    SettingsStripeComponent,
     SettingsAnalyticsComponent,
     SettingsSimplePricingComponent,
     SettingsSacComponent,

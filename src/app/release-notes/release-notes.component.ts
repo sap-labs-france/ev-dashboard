@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes(): any {
     this.releaseNotes = [
       {
+        version: '2.1.9',
+        date: new Date('2019-09-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed 'More' button in list disappears when Log's Message column is too wide`,
+              `Changed handling of locked connectors for ABB chargers`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.8',
         date: new Date('2019-09-20'),
         componentChanges: [

@@ -1,6 +1,6 @@
 {
   "name": "ev-dashboard",
-  "version": "2.0.28",
+  "version": "2.1.9",
   "private": true,
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --configuration=development --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "npm run build:dev",
-    "build:prod": "ng build --prod",
+    "build:prod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod",
     "build:dev": "ng build --configuration=development",
     "test": "npm run e2e",
     "lint": "ng lint",

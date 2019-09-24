@@ -34,6 +34,8 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -72,7 +74,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Init
     this.initDataSource();
     // Add statistics to query
-    this.setStaticFilters([ {Statistics: 'refund'} ]);
+    this.setStaticFilters([{Statistics: 'refund'}]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -217,20 +219,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
       moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsRefundStatusFilter().getFilterDef(),
-      new ChargerTableFilter().getFilterDef()];
+      new TransactionsRefundStatusFilter().getFilterDef()];
 
-    switch (this.centralServerService.getLoggedUser().role) {
-      case  Constants.ROLE_DEMO:
-      case  Constants.ROLE_BASIC:
-        break;
-      case  Constants.ROLE_SUPER_ADMIN:
-      case  Constants.ROLE_ADMIN:
-        // Show Site Area Filter If Organization component is active
-        if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
-          filters.push(new SiteAreaTableFilter().getFilterDef());
-        }
+    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
+      if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+        filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      }
     }
+
     return filters;
 
   }

@@ -15,8 +15,11 @@ import {
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -25,6 +28,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -33,10 +37,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -83,14 +83,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         // Error
         observer.error(error);
       });
-    });
-  }
-
-  private formatErrorMessages(users) {
-    users.forEach(user => {
-      const path = `users.errors.${user.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
-      user.errorMessage = errorMessage;
     });
   }
 
@@ -284,6 +276,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       if (saved) {
         this.refreshData().subscribe();
       }
+    });
+  }
+
+  private formatErrorMessages(users) {
+    users.forEach(user => {
+      const path = `users.errors.${user.errorCode}`;
+      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      user.errorMessage = errorMessage;
     });
   }
 

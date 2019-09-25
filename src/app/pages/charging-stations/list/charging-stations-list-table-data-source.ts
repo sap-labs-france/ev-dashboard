@@ -31,6 +31,7 @@ import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
@@ -40,7 +41,6 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
@@ -62,7 +62,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     private dialogService: DialogService
   ) {
     super(spinnerService);
-    // Init  
+    // Init
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{'WithSite': true}]);

@@ -33,6 +33,7 @@ import { ComponentEnum, ComponentService } from '../../../services/component.ser
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
 import { ACTION_SMART_CHARGING } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
@@ -40,7 +41,6 @@ import { ChargingStationsResetAction } from '../actions/charging-stations-reset-
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {

@@ -80,7 +80,7 @@ export class StatisticsFiltersComponent implements OnInit {
         this.sacLinks = sacSettings.links;
       } else {
         this.sacLinks = [];
-        for (let sacLink of sacSettings.links) {
+        for (const sacLink of sacSettings.links) {
           if (sacLink.role === 'D') {
             this.sacLinks.push(sacLink);
           }

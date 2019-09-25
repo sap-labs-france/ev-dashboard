@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { ActionResponse, AnalyticsSettings, OcpiSettings, PricingSettings, PricingSettingsType, BillingSettings, BillingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
+import { ActionResponse, AnalyticsSettings, BillingSettings, BillingSettingsType, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
 

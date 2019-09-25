@@ -40,6 +40,15 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
+        <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-billing></app-settings-billing>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
         <mat-icon>insert_chart_outlined</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>

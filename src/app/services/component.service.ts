@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { ActionResponse, AnalyticsSettings, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
+import { ActionResponse, AnalyticsSettings, OcpiSettings, PricingSettings, PricingSettingsType, BillingSettings, BillingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
 
@@ -8,6 +8,7 @@ export enum ComponentEnum {
   OCPI = 'ocpi',
   ORGANIZATION = 'organization',
   PRICING = 'pricing',
+  BILLING = 'billing',
   REFUND = 'refund',
   STATISTICS = 'statistics',
   ANALYTICS = 'analytics'
@@ -98,6 +99,32 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
+  public saveBillingSettings(settings: BillingSettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = BillingSettingsType.stripe;
+    }
+     // build setting payload
+    const settingsToSave = {
+      'id': settings.id,
+      'identifier': ComponentEnum.BILLING,
+      'sensitiveData': [],
+      'content': JSON.parse(JSON.stringify(settings))
+    };
+    if (settings.type === BillingSettingsType.stripe) {
+      settingsToSave.sensitiveData = ['content.stripe.secretKey'];
+    }
+    // Set some temporary defaults
+    settingsToSave.content.stripe.noCardAllowed = true;
+    settingsToSave.content.stripe.advanceBillingAllowed = false;
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
@@ -151,6 +178,32 @@ export class ComponentService {
     delete settingsToSave.content.sensitiveData;
     // Save
     return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+    public getBillingSettings(): Observable<BillingSettings> {
+    return new Observable((observer) => {
+      const billingSettings = {
+        identifier: ComponentEnum.BILLING
+      } as BillingSettings;
+      // Get the Billing settings
+      this.centralServerService.getSettings(ComponentEnum.BILLING).subscribe((settings) => {
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // ID
+          billingSettings.id = settings.result[0].id;
+          billingSettings.sensitiveData = settings.result[0].sensitiveData;
+          // Stripe
+          if (config.stripe) {
+            billingSettings.type = BillingSettingsType.stripe;
+            billingSettings.stripe = config.stripe;
+          }
+        }
+        observer.next(billingSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
   }
 
   public getOcpiSettings(): Observable<OcpiSettings> {

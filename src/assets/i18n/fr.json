@@ -1006,7 +1006,9 @@
     "delete_confirm": "Voulez-vous vraiment supprimer le tenant '{{name}}' ?",
     "delete_title": "Supprimer le tenant",
     "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du tenant"
+    "delete_error": "Une erreur est survenue pendant la suppression du tenant",
+    "save_error_refund": "Pricing doit être actif pour utiliser Remboursement",
+    "save_error_billing": "Pricing doit être actif pour utiliser Billing"
   },
   "settings": {
     "tabs": {
@@ -1014,6 +1016,7 @@
       "charging_station": "Borne",
       "refund": "Remboursement",
       "pricing": "Pricing",
+      "billing": "Billing",
       "analytics": "Analytics"
     },
     "ocpi": {
@@ -1104,6 +1107,37 @@
         "title": "Calculs Basique",
         "price": "Prix",
         "currency": "Devise"
+      }
+    },
+    "billing" : {
+      "description": "L'interface de Billing permet aux fournisseurs de bornes de facturer leurs services.",
+      "not_found": "La configuration Billing n'est pas disponible",
+      "create_success": "La configuration Billing a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration Billing",
+      "update_success": "La configuration Billing a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Billing",
+      "check_connection": "Vérifier connexion",
+      "connection_success": "Connexion vers l'application Billing vérifiée avec succès",
+      "connection_error": "Connexion vers l'application Billing impossible",
+      "synchronize_users": "Synchronizer utilisateurs",
+      "synchronize_users_dialog_title": "Synchronizer utilisateurs pour Billing",
+      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour Billing ?",
+      "synchronize_users_started": "La synchronization des utilisateurs a été démarrée",
+      "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
+      "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
+      "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
+      "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
+      "stripe": {
+        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
+        "title" : "Stripe",
+        "url" : "URL du termimal Stripe",
+        "public_key" : "Clé API publique",
+        "invalid_public_key" : "La clé API publique n'est pas plausible",
+        "secret_key" : "Clé API secrète",
+        "invalid_secret_key" : "La clé API secrète n'est pas plausible",
+        "billing_method": "Méthode de facturation",
+        "immediate_billing": "Facturation immédiate",
+        "periodic_billing": "Facturation périodique (pas encore implémentée)"
       }
     },
     "analytics": {
@@ -1241,6 +1275,11 @@
     "price_unit_label": "Monnaie",
     "update_success": "Le prix a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du prix"
+  },
+  "billing": {
+    "title": "Billing",
+    "type_placeholder": "Type",
+    "description": "Billing Interface"
   },
   "transactions": {
     "id": "Id",

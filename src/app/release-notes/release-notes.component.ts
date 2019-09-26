@@ -25,11 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.9',
-        date: new Date('2019-09-25'),
+        date: new Date('2019-09-26'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Reset Password now is done in the application by the User and is no longer generated`,
+              `Delete Connector when a User is deleted`,
               `Add enpoint for Mobile App to enable Auto Login feature`,
               `Fixed bottom list's stats in Refunded Sessions to take into account cancelled expenses`,
               `Fixed Charging Station's connection token cannot be revoked when it has already expired`,

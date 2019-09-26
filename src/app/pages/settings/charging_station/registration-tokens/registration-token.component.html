@@ -30,34 +30,37 @@
             <div class="card-body">
               <div class="tab-content">
                 <div class="tab-pane active" id="profile">
-                  <div class="row">
-                    <div class="col-md-12 text-left">
-                      <mat-form-field class="form-group">
-                        <input [formControl]="description" appAutofocus matInput
-                               placeholder="{{'general.description' | translate}}" type="text">
-                        <mat-error *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                        <mat-error *ngIf="description.errors?.maxlength">
-                          <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
-                        </mat-error>
-                      </mat-form-field>
-                      <mat-form-field class="form-group">
-                        <mat-datetimepicker #picker type="datetime" openOnFocus="false"
-                                            mode="portrait" timeInterval="1">
-                        </mat-datetimepicker>
-                        <mat-datetimepicker-toggle [for]="picker"
-                                                   matSuffix></mat-datetimepicker-toggle>
-                        <input [formControl]="expirationDate" matInput
-                               placeholder="{{'general.expired_on' | translate}}"
-                               [matDatetimepicker]="picker" autocomplete="false">
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                               class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"/>
-                        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()">
-                          <mat-icon>create</mat-icon>
-                        </button>
-                      </mat-form-field>
-                    </div>
+                  <div class="d-flex align-items-start flex-column mb-3">
+                    <mat-form-field class="col-md-12 form-group">
+                      <input [formControl]="description" appAutofocus matInput
+                             placeholder="{{'general.description' | translate}}" type="text">
+                      <mat-error
+                        *ngIf="description.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="description.errors?.maxlength">
+                        <div [translateParams]="{length: 100}"
+                             [translate]="'general.error_max_length'"></div>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12 col-lg-8 col-xl-6 form-group">
+                      <mat-datetimepicker #picker type="datetime" openOnFocus="false"
+                                          mode="portrait" timeInterval="1">
+                      </mat-datetimepicker>
+                      <mat-datetimepicker-toggle [for]="picker"
+                                                 matSuffix></mat-datetimepicker-toggle>
+                      <input [formControl]="expirationDate" matInput
+                             placeholder="{{'general.expired_on' | translate}}"
+                             [matDatetimepicker]="picker" autocomplete="false">
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12 form-group">
+                      <input matInput type="text" readonly=true
+                             placeholder="{{'chargers.site_area' | translate}}"
+                             class="form-field-popup" (click)="assignSiteArea()"
+                             [formControl]="siteArea"/>
+                      <button mat-button matSuffix mat-icon-button aria-label="Add"
+                              (click)="assignSiteArea()">
+                        <mat-icon>create</mat-icon>
+                      </button>
+                    </mat-form-field>
                     <div class="clearfix"></div>
                   </div>
                 </div>

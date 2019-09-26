@@ -113,12 +113,8 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
         // Check status error code
         switch (error.status) {
           // Hash no longer valid
-          case 540:
-            this.messageService.showErrorMessage('authentication.reset_password_hash_not_valid');
-            break;
-          // Email does not exist
           case 550:
-            this.messageService.showErrorMessage('authentication.reset_password_email_not_valid');
+            this.messageService.showErrorMessage('authentication.reset_password_hash_not_valid');
             break;
           // Unexpected error`
           default:

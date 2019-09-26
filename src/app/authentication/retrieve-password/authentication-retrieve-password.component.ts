@@ -18,8 +18,6 @@ import { Utils } from '../../utils/Utils';
 export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
-  public resetPasswordHash: string;
-  public resetPasswordEmail: string;
 
   private siteKey: string;
 
@@ -44,8 +42,6 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
     });
     // Form
     this.email = this.formGroup.controls['email'];
-    this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
-    this.resetPasswordEmail = this.route.snapshot.queryParamMap.get('email');
   }
 
   ngOnInit() {
@@ -57,16 +53,6 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
       // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
-    // Check the hash
-    if (this.resetPasswordHash && this.resetPasswordEmail) {
-      // Set
-      this.formGroup.controls.email.setValue(this.resetPasswordEmail);
-      // Reset
-      this.resetPassword({
-        'email': this.resetPasswordEmail,
-        'hash': this.resetPasswordHash
-      });
-    }
   }
 
   ngOnDestroy() {
@@ -105,10 +91,6 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
         this.spinnerService.hide();
         // Check status error code
         switch (error.status) {
-          // Hash no longer valid
-          case 540:
-            this.messageService.showErrorMessage('authentication.reset_password_hash_not_valid');
-            break;
           // Email does not exist
           case 550:
             this.messageService.showErrorMessage('authentication.reset_password_email_not_valid');

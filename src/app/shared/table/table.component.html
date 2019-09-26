@@ -210,7 +210,7 @@
           <!-- Select Cell -->
           <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
               class="text-left col-5em col-select pt-2">
-            <mat-checkbox (change)="toggleRowSelection(row)" (click)="$event.stopPropagation()"
+            <mat-checkbox (change)="toggleRowSelection(row, $event)" (click)="$event.stopPropagation()"
                           [checked]="row.isSelected" [disabled]="!row.isSelectable">
             </mat-checkbox>
           </td>

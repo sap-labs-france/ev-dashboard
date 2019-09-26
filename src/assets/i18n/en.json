@@ -442,7 +442,7 @@
     "reset_password_button": "Reset",
     "reset_password_confirm": "Do you really want to reset your password?",
     "reset_password_success": "An email has been sent successfully to reset your password",
-    "reset_password_success_ok": "Your new password has been reset with success and sent by email",
+    "reset_password_success_ok": "Your new password has been updated with success",
     "reset_password_hash_not_valid": "Request no longer valid, request a new password again",
     "reset_password_email_not_valid": "Email does not exist",
     "reset_password_error": "Error occurred when reseting your password",

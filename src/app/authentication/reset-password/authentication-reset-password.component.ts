@@ -8,18 +8,24 @@ import { CentralServerService } from '../../services/central-server.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { Constants } from '../../utils/Constants';
+import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
+import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 
 @Component({
-  selector: 'app-authentication-retrieve-password',
-  templateUrl: './authentication-retrieve-password.component.html'
+  selector: 'app-authentication-reset-password',
+  templateUrl: './authentication-reset-password.component.html'
 })
 
-export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestroy {
-  public email: AbstractControl;
+export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public formGroup: FormGroup;
   public resetPasswordHash: string;
-  public resetPasswordEmail: string;
+  public passwords: FormGroup;
+  public password: AbstractControl;
+  public repeatPassword: AbstractControl;
+  public hidePassword = true;
+  public hideRepeatPassword = true;
 
   private siteKey: string;
 
@@ -36,16 +42,26 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new FormGroup({
-      'email': new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email
-        ]))
+      'passwords': new FormGroup({
+        'password': new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Users.passwordWithNoSpace,
+            Users.validatePassword
+          ])),
+        'repeatPassword': new FormControl('',
+          Validators.compose([
+            Validators.required
+          ])),
+      }, (passwordFormGroup: FormGroup) => {
+        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
+      }),
     });
     // Form
-    this.email = this.formGroup.controls['email'];
+    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
+    this.password = this.passwords.controls['password'];
+    this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
-    this.resetPasswordEmail = this.route.snapshot.queryParamMap.get('email');
   }
 
   ngOnInit() {
@@ -57,16 +73,6 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
       // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
-    // Check the hash
-    if (this.resetPasswordHash && this.resetPasswordEmail) {
-      // Set
-      this.formGroup.controls.email.setValue(this.resetPasswordEmail);
-      // Reset
-      this.resetPassword({
-        'email': this.resetPasswordEmail,
-        'hash': this.resetPasswordHash
-      });
-    }
   }
 
   ngOnDestroy() {
@@ -83,6 +89,7 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
         this.messageService.showErrorMessage('general.invalid_captcha_token');
         return;
       }
+      data['hash'] = this.resetPasswordHash;
       // Show
       this.spinnerService.show();
       // Yes: Update
@@ -92,9 +99,9 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
         // Success
         if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Show message`
-          this.messageService.showSuccessMessage('authentication.reset_password_success');
+          this.messageService.showSuccessMessage('authentication.reset_password_success_ok');
           // Go back to login
-          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+          this.router.navigate(['/auth/login']);
           // Unexpected Error
         } else {
           Utils.handleError(JSON.stringify(response),

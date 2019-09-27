@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import {
   DataResult,
@@ -158,6 +159,9 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
+    if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
+      return [this.deleteAction];
+    }
     return [
       this.revokeAction,
       this.deleteAction,

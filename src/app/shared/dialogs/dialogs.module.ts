@@ -19,11 +19,11 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
-import { TransactionDialogComponent } from './transaction/transaction-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
 import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
 import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
 import { SitesDialogComponent } from './sites/sites-dialog.component';
+import { TransactionDialogComponent } from './transaction/transaction-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
 

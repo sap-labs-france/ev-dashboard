@@ -54,23 +54,23 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private componentService: ComponentService,
-      private datePipe: AppDatePipe,
-      private appUnitPipe: AppUnitPipe,
-      private percentPipe: PercentPipe,
-      private appConnectorIdPipe: AppConnectorIdPipe,
-      private appUserNamePipe: AppUserNamePipe,
-      private appDurationPipe: AppDurationPipe,
-      private appCurrencyPipe: AppCurrencyPipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
+    private datePipe: AppDatePipe,
+    private appUnitPipe: AppUnitPipe,
+    private percentPipe: PercentPipe,
+    private appConnectorIdPipe: AppConnectorIdPipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe,
+    private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -78,7 +78,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     // Init
     this.initDataSource();
     // Add statistics to query
-    this.setStaticFilters([ {Statistics: 'history'} ]);
+    this.setStaticFilters([{Statistics: 'history'}]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -87,16 +87,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
-      this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
-        .subscribe((transactions) => {
-          // Ok
-          observer.next(transactions);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
+          .subscribe((transactions) => {
+            // Ok
+            observer.next(transactions);
+            observer.complete();
+          }, (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            // Error
+            observer.error(error);
+          });
       }
     );
   }
@@ -124,7 +124,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push({
-      id: 'timestamp',
+        id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
         sorted: true,
@@ -183,12 +183,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   formatInactivity(totalInactivitySecs, row) {
-    let  percentage = 0;
+    let percentage = 0;
     if (row.stop) {
       percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-    ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
+      ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
   }
 
   formatChargingStation(chargingStation, row) {
@@ -232,14 +232,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
 
-    switch (this.centralServerService.getLoggedUser().role) {
-      case  Constants.ROLE_DEMO:
-      case  Constants.ROLE_BASIC:
-        break;
-      case  Constants.ROLE_SUPER_ADMIN:
-      case  Constants.ROLE_ADMIN:
-        filters.push(new UserTableFilter().getFilterDef());
+    if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
+      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
+
     return filters;
   }
 

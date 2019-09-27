@@ -110,7 +110,7 @@
     "backend_not_running": "Cannot reach to the central server",
     "error_backend": "Error occurred while contacting the central server",
     "success_backend": "Connection to the central server has been restored",
-    "user_or_tenant_updated": "You have been logged off because either your profile or your tenant's settings have been updated",
+    "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localization",
     "change_pending_title": "Pending Changes",
@@ -141,7 +141,7 @@
       "manufacturers": "Manufacturers",
       "vehicles": "Vehicles",
       "logs": "Logs",
-      "tenants": "Tenants",
+      "tenants": "Organizations",
       "pricing": "Pricing",
       "components": "Components",
       "settings": "Settings",
@@ -442,7 +442,7 @@
     "reset_password_button": "Reset",
     "reset_password_confirm": "Do you really want to reset your password?",
     "reset_password_success": "An email has been sent successfully to reset your password",
-    "reset_password_success_ok": "Your new password has been reset with success and sent by email",
+    "reset_password_success_ok": "Your new password has been updated with success",
     "reset_password_hash_not_valid": "Request no longer valid, request a new password again",
     "reset_password_email_not_valid": "Email does not exist",
     "reset_password_error": "Error occurred when reseting your password",
@@ -990,23 +990,23 @@
     }
   },
   "tenants": {
-    "title": "Tenant",
+    "title": "Organization",
     "name": "Name",
-    "tenant_management": "Tenant Management",
-    "tenant_not_found": "This tenant does not exist! You cannot login!",
+    "tenant_management": "Organization Management",
+    "tenant_not_found": "This organization does not exist! You cannot login!",
     "email": "Email",
     "subdomain": "Subdomain",
-    "create_success": "The tenant '{{name}}' has been created successfully",
-    "create_error": "Error occurred while creating the tenant",
-    "name_already_used": "The tenant '{{name}}' is already used",
+    "create_success": "The organization '{{name}}' has been created successfully",
+    "create_error": "Error occurred while creating the organization",
+    "name_already_used": "The organization '{{name}}' is already used",
     "subdomain_already_used": "The subdomain '{{subdomain}}' is already used",
-    "update_error": "Error occurred while updating the tenant",
+    "update_error": "Error occurred while updating the organization",
     "error_subdomain": "Only lowercase and numbers are allowed",
-    "update_success": "The tenant '{{name}}' has been updated successfully",
-    "delete_confirm": "Do you really want to delete the tenant '{{name}}'?",
-    "delete_title": "Delete Tenant",
-    "delete_success": "The tenant '{{name}}' has been deleted successfully",
-    "delete_error": "Error occurred while deleting the tenant",
+    "update_success": "The organization '{{name}}' has been updated successfully",
+    "delete_confirm": "Do you really want to delete the organization '{{name}}'?",
+    "delete_title": "Delete Organization",
+    "delete_success": "The organization '{{name}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the organization",
     "save_error_refund": "Pricing must be active to use Refunding",
     "save_error_billing": "Pricing must be active to use Billing"
   },
@@ -1413,7 +1413,7 @@
         "not_authorized": "You are not authorized to perform this request",
         "error": "The E-Mobility application couldn't connect to the refunding system. Contact an administrator.",
         "concur_connection_invalid": "Your refunding system connection is not configured correctly. Contact an administrator.",
-        "tenant_concur_connection_invalid": "The Tenant of your refunding system configuration is not complete. Contact an administrator"
+        "tenant_concur_connection_invalid": "The Organization of your refunding system configuration is not complete. Contact an administrator"
       }
     },
     "errors": {
@@ -1440,7 +1440,7 @@
       "missing_price": {
         "title": "Missing price",
         "description": "The transaction has not been priced.",
-        "action": "Eventhough the pricing is activated in the tenant, the transaction has not been priced. Contact your site administrator."
+        "action": "Eventhough the pricing is activated in the organization, the transaction has not been priced. Contact your site administrator."
       },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",

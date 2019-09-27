@@ -9,6 +9,7 @@ import { AuthenticationRoutes } from './authentication.routing';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
 import { AuthenticationLoginComponent } from './login/authentication-login.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
+import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
 import { AuthenticationRetrievePasswordComponent } from './retrieve-password/authentication-retrieve-password.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
@@ -26,6 +27,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationLoginComponent,
     AuthenticationEulaComponent,
     AuthenticationRegisterComponent,
+    AuthenticationResetPasswordComponent,
     AuthenticationRetrievePasswordComponent,
     AuthenticationVerifyEmailComponent
   ]

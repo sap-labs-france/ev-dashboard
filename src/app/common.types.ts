@@ -584,10 +584,11 @@ export interface BillingSettings {
     url: string;
     secretKey: string;
     publicKey: string;
-    noCardAllowed: boolean;
+    noCardAllowed?: boolean;
     immediateBillingAllowed: boolean;
     periodicBillingAllowed: boolean;
-    advanceBillingAllowed: boolean;
+    advanceBillingAllowed?: boolean;
+    lastSynchronizedOn?: Date;
   };
 }
 

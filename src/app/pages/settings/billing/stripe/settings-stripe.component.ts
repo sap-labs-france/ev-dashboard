@@ -23,6 +23,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripePublicKey: AbstractControl;
   public stripeImmediateBillingAllowed: AbstractControl;
   public stripePeriodicBillingAllowed: AbstractControl;
+  public stripeLastSynchronizedOn: AbstractControl;
 
   ngOnInit() {
     this.formGroup.addControl('stripe',
@@ -50,6 +51,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         ),
         'immediateBillingAllowed': new FormControl(''),
         'periodicBillingAllowed': new FormControl(''),
+        'lastSynchronizedOn': new FormControl(''),
       })
     );
     // Keep
@@ -59,6 +61,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.stripePublicKey = this.stripe.controls['publicKey'];
     this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
     this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
+    this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
     // Set data
     this.updateFormData(true);
   }
@@ -80,6 +83,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         ? this.billingSettings.stripe.immediateBillingAllowed : '');
       this.stripePeriodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
         ? this.billingSettings.stripe.periodicBillingAllowed : '');
+      this.stripeLastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
+        ? this.billingSettings.stripe.lastSynchronizedOn : '');
     }
   }
 

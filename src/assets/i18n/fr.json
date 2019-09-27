@@ -110,7 +110,7 @@
     "backend_not_running": "Impossible de se conncter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "success_backend": "La connexion avec le serveur central a été restaurée",
-    "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre tenant",
+    "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",
@@ -990,23 +990,23 @@
     }
   },
   "tenants": {
-    "title": "Tenant",
+    "title": "Organisation",
     "name": "Nom",
     "tenant_management": "Gestion des Tenants",
-    "tenant_not_found": "Ce tenant n'existe pas ! Vous ne pouvez pas vous connecter !",
+    "tenant_not_found": "Cette organisation n'existe pas ! Vous ne pouvez pas vous connecter !",
     "email": "Email",
     "subdomain": "Sous Domaine",
-    "create_success": "Le tenant '{{name}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du tenant",
-    "name_already_used": "Le tenant '{{name}}' est déjà utilisé",
+    "create_success": "L'organisation '{{name}}' a été créée avec succès",
+    "create_error": "Une erreur est survenue pendant la création de l'organisation",
+    "name_already_used": "L'organisation '{{name}}' est déjà utilisée",
     "subdomain_already_used": "Le sous domaine '{{subdomain}}' est déjà utilisé",
-    "update_error": "Une erreur est survenue pendant la mise à jour du tenant",
+    "update_error": "Une erreur est survenue pendant la mise à jour de l'organisation",
     "error_subdomain": "Les minuscules et les nombres sont seulement autorisés",
-    "update_success": "Le tenant '{{name}}' a été mis à jour avec succès",
-    "delete_confirm": "Voulez-vous vraiment supprimer le tenant '{{name}}' ?",
-    "delete_title": "Supprimer le tenant",
-    "delete_success": "Le tenant '{{name}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du tenant",
+    "update_success": "L'organisation '{{name}}' a été mise à jour avec succès",
+    "delete_confirm": "Voulez-vous vraiment supprimer l'organisation '{{name}}' ?",
+    "delete_title": "Supprimer l'organisation",
+    "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
     "save_error_refund": "Pricing doit être actif pour utiliser Remboursement",
     "save_error_billing": "Pricing doit être actif pour utiliser Billing"
   },
@@ -1413,7 +1413,7 @@
         "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
         "error": "L'application E-Mobility n'a pas pu se connecter au systéme de remboursement. Veuillez contacter un administrateur.",
         "concur_connection_invalid": "La connection a votre systéme de remboursement n'est pas configurée correctement. Veuillez contacter un administrateur.",
-        "tenant_concur_connection_invalid": "La configuration du systéme de remboursement de votre tenant n'est pas complète. Veuillez contacter un administrateur."
+        "tenant_concur_connection_invalid": "La configuration du systéme de remboursement de votre organisation n'est pas complète. Veuillez contacter un administrateur."
       }
     },
     "errors": {
@@ -1440,7 +1440,7 @@
       "missing_price": {
         "title": "Transaction non valorisée",
         "description": "La transaction n'a pas été valorisée.",
-        "action": "Bien que la tarification soit activée dans ce tenant, la transaction n'a pas été valorisée. veuillez contacter votre administrateur de site à ce sujet."
+        "action": "Bien que la tarification soit activée dans cette organisation, la transaction n'a pas été valorisée. veuillez contacter votre administrateur de site à ce sujet."
       },
       "incorrect_starting_date": {
         "title": "Date de début de Transaction Incorrecte",

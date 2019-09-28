@@ -40,18 +40,12 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
       private reCaptchaV3Service: ReCaptchaV3Service,
       private configService: ConfigService,
       private translateService: TranslateService) {
-    // Check mobile vendor
-    switch(window['mobileVendor']) {
-      case MobileType.iOS:
-        window.location.href = 'eMobility://auth/signup';
-        break;
-      case MobileType.android:
-        window.location.href = 'eMobility://auth/signup';
-        break;
+
+    if (Utils.isInMobileApp()) {
+      const mobileAppURL: string = Utils.buildMobileAppDeepLink('auth/signup');
+      console.log(mobileAppURL);
+      window.location.href = mobileAppURL;
     }
-    const url = 'intent://auth/signup/#Intent;scheme=eMobility;package=com.emobility;end';
-    window.location.href = url;
-    console.log(url);
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form

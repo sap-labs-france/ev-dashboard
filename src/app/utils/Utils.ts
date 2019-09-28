@@ -4,6 +4,7 @@ import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-code
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
+import { MobileType } from 'app/common.types';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
@@ -25,6 +26,34 @@ export class Utils {
   public static handleError(error, messageService, errorMessage?, params?): Observable<any> {
     console.log(`Error: ${errorMessage}: ${error}`);
     return messageService.showErrorMessage(errorMessage, params);
+  }
+
+  public static isInMobileApp(): boolean {
+    return Utils.getMobileVendor() !== null;
+  }
+
+  public static getMobileVendor(): MobileType {
+    let mobileVendor: MobileType = null;
+    const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
+    if (userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i )) {
+      mobileVendor = MobileType.android;
+    } else if (userAgent.match( /Android/i )) {
+      mobileVendor = MobileType.iOS;
+    }
+    return mobileVendor;
+  }
+
+  public static buildMobileAppDeepLink(path: string): string {
+    const mobileVendor = Utils.getMobileVendor();
+    // Check mobile vendor
+    switch(mobileVendor) {
+      case MobileType.iOS:
+        return 'eMobility://auth/signup';
+        break;
+      case MobileType.android:
+        return `intent://${path}/#Intent;scheme=eMobility;package=com.emobility;end`;
+        break;
+    }
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,

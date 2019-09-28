@@ -59,11 +59,11 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: true
+        multiple: true,
       },
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
@@ -83,8 +83,8 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         class: 'text-left col-600px',
         direction: 'asc',
         sortable: true,
-        formatter: (name, row: SiteArea) => `${row.site.name}`
-      }
+        formatter: (name, row: SiteArea) => `${row.site.name}`,
+      },
     ];
   }
 }

@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from '../../services/central-server.service';
 
 @Component({
-  templateUrl: './authentication-eula.component.html'
+  templateUrl: './authentication-eula.component.html',
 })
 export class AuthenticationEulaComponent implements OnInit {
   public eulaText: string;

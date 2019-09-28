@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConfigService {
-  private _config: Object;
+  private _config: object;
 
   constructor(
     private http: HttpClient) {
   }
 
   public load() {
-    this.http.get('/assets/config.json').subscribe(data => {
+    this.http.get('/assets/config.json').subscribe((data) => {
       this._config = data;
     });
   }

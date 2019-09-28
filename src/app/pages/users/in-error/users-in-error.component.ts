@@ -7,7 +7,7 @@ import { UsersInErrorTableDataSource } from './users-in-error-table-data-source'
 @Component({
   selector: 'app-users-in-error',
   templateUrl: 'users-in-error.component.html',
-  providers: [UsersInErrorTableDataSource]
+  providers: [UsersInErrorTableDataSource],
 })
 export class UsersInErrorComponent implements OnInit {
   constructor(
@@ -21,12 +21,12 @@ export class UsersInErrorComponent implements OnInit {
     // Check if User ID id provided
     const userId = this.windowService.getSearch('UserID');
     if (userId) {
-      this.centralServerService.getUser(userId).subscribe(user => {
+      this.centralServerService.getUser(userId).subscribe((user) => {
         // Found
         this.usersInErrorDataSource.showUserDialog(user);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
+        this.messageService.showErrorMessage('users.user_id_not_found', {userId});
       });
       // Clear Search
       this.windowService.deleteSearch('UserID');

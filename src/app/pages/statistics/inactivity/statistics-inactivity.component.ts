@@ -14,7 +14,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-inactivity',
-  templateUrl: './statistics-inactivity.component.html'
+  templateUrl: './statistics-inactivity.component.html',
 })
 
 export class StatisticsInactivityComponent implements OnInit {
@@ -29,7 +29,7 @@ export class StatisticsInactivityComponent implements OnInit {
   @ViewChild('inactivityBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('inactivityPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: Object;
+  private filterParams: object;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
@@ -95,27 +95,27 @@ export class StatisticsInactivityComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title',
-          { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.inactivity_per_user_month_title',
-          { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_year_title',
-            { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_total_title',
-            { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_year_title',
-            { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_total_title',
-            { 'total': Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
         }
       }
     }
@@ -166,7 +166,7 @@ export class StatisticsInactivityComponent implements OnInit {
 
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationInactivityStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
@@ -182,7 +182,7 @@ export class StatisticsInactivityComponent implements OnInit {
         });
     } else {
       this.centralServerService.getUserInactivityStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);

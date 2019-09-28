@@ -3,12 +3,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteAreaChargersDataSource } from './site-area-chargers-table-data-source';
 
-
 @Component({
   templateUrl: 'site-area-chargers-dialog.component.html',
 })
 export class SiteAreaChargersDialogComponent {
-  public dialogTitle: String;
+  public dialogTitle: string;
 
   constructor(
     public siteAreaChargersDataSource: SiteAreaChargersDataSource,
@@ -20,7 +19,7 @@ export class SiteAreaChargersDialogComponent {
 
     if (data) {
       this.siteAreaChargersDataSource.setSiteArea(data);
-      this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area', { 'siteAreaName': data.name });
+      this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area', { siteAreaName: data.name });
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {

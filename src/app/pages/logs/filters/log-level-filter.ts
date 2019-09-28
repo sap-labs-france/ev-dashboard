@@ -15,8 +15,8 @@ export class LogLevelTableFilter extends TableFilter {
       class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       label: '',
       currentValue: [],
-      items: Object.assign([], logLevels),
-      multiple: true
+      items: object.assign([], logLevels),
+      multiple: true,
     };
     // Set
     this.setFilterDef(filterDef);

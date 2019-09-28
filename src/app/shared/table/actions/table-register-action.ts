@@ -8,9 +8,8 @@ export class TableRegisterAction implements TableAction {
     icon: 'swap_horiz',
     color: ButtonColor.primary,
     name: 'general.register',
-    tooltip: 'general.tooltips.register'
+    tooltip: 'general.tooltips.register',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

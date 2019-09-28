@@ -14,7 +14,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -30,7 +30,7 @@ export abstract class TableDataSource<T extends Data> {
   public data: T[] = [];
   public paging: Paging = {
     limit: this.getPageSize(),
-    skip: 0
+    skip: 0,
   };
   public sort: MatSort = new MatSort();
 
@@ -146,7 +146,7 @@ export abstract class TableDataSource<T extends Data> {
     // Reset to default paging
     this.setPaging({
       skip: 0,
-      limit: this.getPageSize()
+      limit: this.getPageSize(),
     });
     this.searchValue = searchValue;
   }
@@ -167,7 +167,7 @@ export abstract class TableDataSource<T extends Data> {
     if (!this.paging) {
       this.paging = {
         skip: 0,
-        limit: this.getPageSize()
+        limit: this.getPageSize(),
       };
     }
     return this.paging;
@@ -184,7 +184,7 @@ export abstract class TableDataSource<T extends Data> {
   public getSorting(): Ordering[] {
     if (this.getSort()) {
       return [
-        {field: this.getSort().active, direction: this.getSort().direction}
+        {field: this.getSort().active, direction: this.getSort().direction},
       ];
     } else {
       // Find Sorted columns
@@ -192,7 +192,7 @@ export abstract class TableDataSource<T extends Data> {
       // Set Sorting
       if (columnDef) {
         return [
-          {field: columnDef.id, direction: columnDef.direction}
+          {field: columnDef.id, direction: columnDef.direction},
         ];
       }
     }
@@ -221,7 +221,7 @@ export abstract class TableDataSource<T extends Data> {
     // Default
     if (this.tableFiltersDef && this.tableFiltersDef.length > 0) {
       return [
-        new TableResetFiltersAction().getActionDef()
+        new TableResetFiltersAction().getActionDef(),
       ];
     }
     return [];
@@ -249,7 +249,7 @@ export abstract class TableDataSource<T extends Data> {
     // Reset to default paging
     this.setPaging({
       skip: 0,
-      limit: this.getPageSize()
+      limit: this.getPageSize(),
     });
     // Init
     this.resetTotalNumberOfRecords();
@@ -380,7 +380,7 @@ export abstract class TableDataSource<T extends Data> {
     // Reload all loaded records
     this.setPaging({
       skip: 0,
-      limit: currentPaging.limit + currentPaging.skip
+      limit: currentPaging.limit + currentPaging.skip,
     });
     // Load data
     return this.loadData(showSpinner);
@@ -444,7 +444,7 @@ export abstract class TableDataSource<T extends Data> {
   public clearPaging() {
     this.paging = {
       limit: this.getPageSize(),
-      skip: 0
+      skip: 0,
     };
   }
 
@@ -456,7 +456,7 @@ export abstract class TableDataSource<T extends Data> {
     // Set static filter
     const staticFilters = [
       ...this.getStaticFilters(),
-      {'OnlyRecordCount': true}
+      {OnlyRecordCount: true},
     ];
     // Set
     this.setStaticFilters(staticFilters);

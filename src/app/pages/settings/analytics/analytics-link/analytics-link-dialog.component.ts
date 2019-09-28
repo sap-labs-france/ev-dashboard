@@ -7,7 +7,7 @@ import { KeyValue } from '../../../../common.types';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
 @Component({
-  templateUrl: './analytics-link-dialog.component.html'
+  templateUrl: './analytics-link-dialog.component.html',
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup: FormGroup;
@@ -30,11 +30,11 @@ export class AnalyticsLinkDialogComponent implements OnInit {
       this.currentLink = data;
     } else {
       this.currentLink = {
-        'id': '',
-        'name': '',
-        'description': '',
-        'role': '',
-        'url': ''
+        id: '',
+        name: '',
+        description: '',
+        role: '',
+        url: '',
       };
     }
   }
@@ -46,19 +46,19 @@ export class AnalyticsLinkDialogComponent implements OnInit {
       { key: '', value: '' } ];
     this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
     this.formGroup = new FormGroup({
-      'id': new FormControl(this.currentLink.id),
-      'name': new FormControl(this.currentLink.name,
+      id: new FormControl(this.currentLink.id),
+      name: new FormControl(this.currentLink.name,
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
+          Validators.maxLength(100),
         ])),
-      'description': new FormControl(this.currentLink.description, Validators.required),
-      'role': new FormControl(this.currentLink.role),
-      'url': new FormControl(this.currentLink.url,
+      description: new FormControl(this.currentLink.description, Validators.required),
+      role: new FormControl(this.currentLink.role),
+      url: new FormControl(this.currentLink.url,
         Validators.compose([
           Validators.required,
-          Validators.pattern(Constants.URL_PATTERN)
-        ]))
+          Validators.pattern(Constants.URL_PATTERN),
+        ])),
     });
 
     this.id = this.formGroup.controls['id'];

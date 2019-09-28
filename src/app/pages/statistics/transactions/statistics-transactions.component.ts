@@ -14,7 +14,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-transactions',
-  templateUrl: './statistics-transactions.component.html'
+  templateUrl: './statistics-transactions.component.html',
 })
 
 export class StatisticsTransactionsComponent implements OnInit {
@@ -29,7 +29,7 @@ export class StatisticsTransactionsComponent implements OnInit {
   @ViewChild('transactionsBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('transactionsPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: Object;
+  private filterParams: object;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
@@ -95,27 +95,27 @@ export class StatisticsTransactionsComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.transactions_per_cs_month_title',
-          { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.transactions_per_user_month_title',
-          { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.transactions_per_cs_year_title',
-            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.transactions_per_cs_total_title',
-            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.transactions_per_user_year_title',
-            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.transactions_per_user_total_title',
-            { 'total': Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
         }
       }
     }
@@ -166,7 +166,7 @@ export class StatisticsTransactionsComponent implements OnInit {
 
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationTransactionsStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
@@ -182,7 +182,7 @@ export class StatisticsTransactionsComponent implements OnInit {
         });
     } else {
       this.centralServerService.getUserTransactionsStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);

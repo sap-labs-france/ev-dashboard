@@ -6,7 +6,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-registration-token-url-formatter',
-  templateUrl: 'registration-token-url.component.html'
+  templateUrl: 'registration-token-url.component.html',
 })
 export class RegistrationTokenUrlComponent extends CellContentTemplateComponent {
   @Input() row: RegistrationToken;

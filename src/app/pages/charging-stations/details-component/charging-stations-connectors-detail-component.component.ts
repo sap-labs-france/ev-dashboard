@@ -5,7 +5,7 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
-  providers: [ ChargingStationsConnectorsDetailTableDataSource ]
+  providers: [ ChargingStationsConnectorsDetailTableDataSource ],
 })
 
 export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {

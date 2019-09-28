@@ -18,7 +18,7 @@ import {
   SiteArea, SiteUser,
   Tenant,
   Transaction,
-  User, UserSite
+  User, UserSite,
 } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -28,9 +28,9 @@ import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
-  private centralRestServerServiceBaseURL: String;
-  private centralRestServerServiceSecuredURL: String;
-  private centralRestServerServiceAuthURL: String;
+  private centralRestServerServiceBaseURL: string;
+  private centralRestServerServiceSecuredURL: string;
+  private centralRestServerServiceAuthURL: string;
   private centralSystemServerConfig;
   private initialized = false;
   private currentUserToken;
@@ -54,12 +54,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
-      { 'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs },
+      { siteAreaID, chargingStationIDs: chargerIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -68,12 +68,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
-      { 'siteAreaID': siteAreaID, 'chargingStationIDs': chargerIDs },
+      { siteAreaID, chargingStationIDs: chargerIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -82,12 +82,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromSite`,
-      { 'siteID': siteID, 'userIDs': userIDs },
+      { siteID, userIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -96,24 +96,24 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
-      { 'siteID': siteID, 'userIDs': userIDs },
+      { siteID, userIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
   public updateSiteUserAdmin(siteID, userID, siteAdmin) {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
-      { 'siteID': siteID, 'userID': userID, 'siteAdmin': siteAdmin },
+      { siteID, userID, siteAdmin },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -122,12 +122,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
-      { 'userID': userID, 'siteIDs': siteIDs },
+      { userID, siteIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -136,12 +136,12 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
-      { 'userID': userID, 'siteIDs': siteIDs },
+      { userID, siteIDs },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -157,10 +157,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Companies`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -175,10 +175,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Company`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -189,14 +189,14 @@ export class CentralServerService {
     return this.httpClient.get<Logo[]>(
       `${this.centralRestServerServiceSecuredURL}/CompanyLogos`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
-  public getCompanyLogo(companyId: String): Observable<Logo> {
+  public getCompanyLogo(companyId: string): Observable<Logo> {
     const params: any = [];
     params['ID'] = companyId;
     // Verify init
@@ -206,10 +206,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -224,10 +224,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserSites`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -243,10 +243,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Sites`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -261,14 +261,14 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Site`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
-  public getSiteImage(siteId: String): Observable<Image> {
+  public getSiteImage(siteId: string): Observable<Image> {
     const params: any = [];
     params['ID'] = siteId;
     // Verify init
@@ -278,10 +278,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/SiteImage`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -297,10 +297,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -314,14 +314,14 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/SiteArea`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
-  public getSiteAreaImage(siteAreaId: String): Observable<Image> {
+  public getSiteAreaImage(siteAreaId: string): Observable<Image> {
     const params: any = [];
     params['ID'] = siteAreaId;
     // Verify init
@@ -331,10 +331,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/SiteAreaImage`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -346,10 +346,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/TransactionYears`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -361,10 +361,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -376,10 +376,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserConsumptionStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -391,10 +391,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUsageStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -406,10 +406,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserUsageStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -421,10 +421,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationInactivityStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -436,10 +436,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserInactivityStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -457,10 +457,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactions`,
       {
         headers: this._buildHttpHeaders(),
-        params: params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -472,10 +472,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactionsStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -487,10 +487,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserTransactionsStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -502,10 +502,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/ChargingStationPricingStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -517,10 +517,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/UserPricingStatistics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -531,10 +531,10 @@ export class CentralServerService {
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -549,10 +549,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -566,10 +566,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id }
+        params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -585,10 +585,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -603,10 +603,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/SiteUsers`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -621,10 +621,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Users`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -639,10 +639,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UsersInError`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -657,10 +657,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Tenant>>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -674,10 +674,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id }
+        params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -692,10 +692,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -710,10 +710,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefund`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -724,10 +724,10 @@ export class CentralServerService {
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssignTransactionsToUser`, null,
       {
         headers: this._buildHttpHeaders(),
-        params: { UserID: userId }
+        params: { UserID: userId },
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -738,10 +738,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
       {
         headers: this._buildHttpHeaders(),
-        params: {UserID: userId}
+        params: {UserID: userId},
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -755,10 +755,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id }
+        params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -770,10 +770,10 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         responseType: 'blob',
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -785,10 +785,10 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         responseType: 'blob',
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -800,10 +800,10 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         responseType: 'blob',
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -815,10 +815,10 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         responseType: 'blob',
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -834,10 +834,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -853,10 +853,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -872,10 +872,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/OcpiEndpoints`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -889,10 +889,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/ConsumptionFromTransaction`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -902,10 +902,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -915,10 +915,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantUpdate`, tenant,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -927,10 +927,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -946,10 +946,10 @@ export class CentralServerService {
     return this.httpClient.get<DataResult<Log>>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -962,10 +962,10 @@ export class CentralServerService {
     // Call
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -978,10 +978,10 @@ export class CentralServerService {
     }
     return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -994,10 +994,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1011,10 +1011,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserInvoice?ID=${id}`,
       {
         headers: this._buildHttpHeaders(),
-        responseType: 'blob'
+        responseType: 'blob',
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1024,10 +1024,10 @@ export class CentralServerService {
     // Execute the REST Service
     return this.httpClient.get<DataResult<Setting>>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1037,10 +1037,10 @@ export class CentralServerService {
     // Execute the REST Service
     return this.httpClient.get<any>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1049,10 +1049,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1067,10 +1067,10 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/RegistrationTokens`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1078,10 +1078,10 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenCreate`, registrationToken,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1089,10 +1089,10 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1100,10 +1100,10 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenRevoke?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1113,10 +1113,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`,
       {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1128,10 +1128,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1212,10 +1212,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceAuthURL}/Logout`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1246,10 +1246,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1261,10 +1261,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1274,10 +1274,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserCreate`, user,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1287,10 +1287,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1300,10 +1300,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyCreate`, company,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1313,10 +1313,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyUpdate`, company,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1327,10 +1327,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1340,10 +1340,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteCreate`, site,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1353,10 +1353,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUpdate`, site,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1367,10 +1367,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1380,10 +1380,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaCreate`, siteArea,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1393,10 +1393,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaUpdate`, siteArea,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1407,10 +1407,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1420,10 +1420,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingUpdate`, setting,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1433,10 +1433,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiendpoint,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1446,10 +1446,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiendpoint,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1459,10 +1459,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiendpoint,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1472,10 +1472,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiendpoint,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1485,10 +1485,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiendpoint,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1499,10 +1499,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1514,10 +1514,10 @@ export class CentralServerService {
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointRegister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1528,10 +1528,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1545,10 +1545,10 @@ export class CentralServerService {
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
       {
         headers: this._buildHttpHeaders(),
-        params
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1560,10 +1560,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1572,10 +1572,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1584,10 +1584,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1596,10 +1596,10 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeRefundedTransactions`, {},
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1608,10 +1608,10 @@ export class CentralServerService {
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
       `{ "ID": "${id}" }`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1620,15 +1620,15 @@ export class CentralServerService {
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
-        transactionId: transactionId
-      }
+        transactionId,
+      },
     };
     return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStopTransaction`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1637,16 +1637,16 @@ export class CentralServerService {
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
-        tagID: tagID,
-        connectorID: connectorID
-      }
+        tagID,
+        connectorID,
+      },
     };
     return this.httpClient.post(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStartTransaction`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1656,10 +1656,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.put(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
       {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain())
+        headers: this._buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1670,10 +1670,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1684,10 +1684,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1708,10 +1708,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1733,10 +1733,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1769,10 +1769,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1792,10 +1792,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1833,10 +1833,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1859,10 +1859,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1877,10 +1877,10 @@ export class CentralServerService {
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1888,10 +1888,10 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnections?userId=${userId}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1899,10 +1899,10 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, payload,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1911,10 +1911,10 @@ export class CentralServerService {
     return this.httpClient.delete<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 
@@ -1938,9 +1938,9 @@ export class CentralServerService {
     }
   }
 
-  private _buildHttpHeaders(tenant?: String) {
+  private _buildHttpHeaders(tenant?: string) {
     const header = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
 
     if (tenant !== undefined) {

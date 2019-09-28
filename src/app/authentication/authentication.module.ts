@@ -21,7 +21,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     ReactiveFormsModule,
     MaterialModule,
     TranslateModule,
-    DialogsModule
+    DialogsModule,
   ],
   declarations: [
     AuthenticationLoginComponent,
@@ -29,8 +29,8 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationRegisterComponent,
     AuthenticationResetPasswordComponent,
     AuthenticationRetrievePasswordComponent,
-    AuthenticationVerifyEmailComponent
-  ]
+    AuthenticationVerifyEmailComponent,
+  ],
 })
 
 export class AuthenticationModule {

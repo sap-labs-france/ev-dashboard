@@ -2,7 +2,6 @@ import { TableFilterDef } from '../../../common.types';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
 
-
 export class ErrorTypeTableFilter extends TableFilter {
   constructor(types) {
     super();
@@ -15,8 +14,8 @@ export class ErrorTypeTableFilter extends TableFilter {
       class: 'col-sm-4 col-md-4 col-lg-3 col-xl-2 ',
       label: '',
       currentValue: [],
-      items: Object.assign([], types),
-      multiple: true
+      items: object.assign([], types),
+      multiple: true,
     };
     // Set
     this.setFilterDef(filterDef);

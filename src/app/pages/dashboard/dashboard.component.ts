@@ -25,8 +25,8 @@ const FADE_OUT_CLASS = 'fade-out';
         group([
           query('.slide-card-up', [ // Used for title to move it up and and down when it changes
             group([
-              animate('1.0s ease-in', style({transform: 'translateY(-300%)'}))
-            ])
+              animate('1.0s ease-in', style({transform: 'translateY(-300%)'})),
+            ]),
           ], {optional: true}),
           query('.fade-out-text', [ // Slight opacity for static texts
             animate('1.0s ease', style({opacity: '0.6'})),
@@ -37,7 +37,7 @@ const FADE_OUT_CLASS = 'fade-out';
           query('.fade-out', [
             animate('1.0s ease', style({opacity: '0'})),
           ], {optional: true}),
-        ])
+        ]),
       ]),
     ]),
 
@@ -47,8 +47,8 @@ const FADE_OUT_CLASS = 'fade-out';
           query('.slide-card-up, .fade-out-text', [
             group([
               animate('1.0s ease', style({opacity: '1'})),
-              animate('1.0s ease', style({transform: 'translateY(0%)'}))
-            ])
+              animate('1.0s ease', style({transform: 'translateY(0%)'})),
+            ]),
           ], {optional: true}),
           query('.fade-in', [
             animate('1.0s ease', style({opacity: '1'})),
@@ -56,10 +56,10 @@ const FADE_OUT_CLASS = 'fade-out';
           query('.fade-out', [
             animate('1.0s ease', style({opacity: '0'})),
           ], {optional: true}),
-        ])
-      ])
+        ]),
+      ]),
     ]),
-  ]
+  ],
 })
 
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('statisticsChart', { static: false }) statisticsChartComponent: CardChartComponent;
   buttonsRealtimeChart = [
     {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
-    {name: 'utilization', title: 'dashboard.realtime.button.utilization'}
+    {name: 'utilization', title: 'dashboard.realtime.button.utilization'},
   ];
   @ViewChild('realtimeChart', { static: false }) realtimeChartComponent: CardChartComponent;
 
@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.spinnerService.show();
     // Special initialization sequence
-    this.dashboardService.initialLoadDone.subscribe(isDone => {
+    this.dashboardService.initialLoadDone.subscribe((isDone) => {
       if (isDone) {
         // Get first site
         this.spinnerService.hide();
@@ -146,13 +146,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     // Handle data update
-    this.dashboardService.refreshData.subscribe(metrics => {
+    this.dashboardService.refreshData.subscribe((metrics) => {
       this.update();
     });
     // Start carousel
     this.carouselInterval = setInterval(() => this.next(true), SLIDE_INTERVAL);
     this.todayDay = {
-      todayDay: moment().format('dddd')
+      todayDay: moment().format('dddd'),
     };
   }
 
@@ -299,7 +299,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 200);
     }
     this.todayDay = {
-      todayDay: moment().format('dddd')
+      todayDay: moment().format('dddd'),
     };
   }
 
@@ -312,9 +312,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           data: chartData.series[0],
           yAxisID: 'power',
           ...this.formatLineColor([38, 198, 218]),
-          label: this.translateService.instant('transactions.graph.power')
-        }]
-      }
+          label: this.translateService.instant('transactions.graph.power'),
+        }],
+      },
     };
   }
 
@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       responsive: true,
       aspectRatio: 2,
       animation: {
-        duration: 0, easing: 'linear'
+        duration: 0, easing: 'linear',
       },
       scales: {
         xAxes: [{
@@ -332,11 +332,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labels: target.labels,
           gridLines: {
             display: true,
-            color: 'rgba(0,0,0,0.2)'
+            color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            fontColor: '#0d47a1'
-          }
+            fontColor: '#0d47a1',
+          },
         }],
         yAxes: [
           {
@@ -344,14 +344,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             type: 'linear',
             position: 'left',
             ticks: {
-              fontColor: '#0d47a1'
+              fontColor: '#0d47a1',
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
-            }
-          }
-        ]
+              color: 'rgba(0,0,0,0.2)',
+            },
+          },
+        ],
       },
       tooltips: {
         bodySpacing: 5,
@@ -363,7 +363,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba([38, 198, 218], 1)
+              backgroundColor: this.rgba([38, 198, 218], 1),
             };
           },
           label: (tooltipItem, values) => {
@@ -377,12 +377,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             const currentDate = data.labels[tooltipItems[0].index];
 
             return currentDate;
-          }
-        }
+          },
+        },
       },
       hover: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       },
     };
     target.options = optionsLine;
@@ -396,8 +396,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const dataDefinition = this.createRealtimeGraphData(nextRealtimeChart.dataConsumptionChart);
     event.chart = {
-      data: <ChartData>dataDefinition.data,
-      options: dataDefinition.options
+      data: dataDefinition.data as ChartData,
+      options: dataDefinition.options,
     };
   }
 
@@ -410,9 +410,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           data: chartData.series[0],
           yAxisID: 'power',
           ...this.formatLineColor([38, 198, 218]),
-          label: this.translateService.instant('transactions.graph.power')
-        }]
-      }
+          label: this.translateService.instant('transactions.graph.power'),
+        }],
+      },
     };
   }
 
@@ -422,7 +422,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       responsive: true,
       aspectRatio: 2,
       animation: {
-        duration: 0, easing: 'linear'
+        duration: 0, easing: 'linear',
       },
       scales: {
         xAxes: [{
@@ -430,11 +430,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labels: target.labels,
           gridLines: {
             display: true,
-            color: 'rgba(0,0,0,0.2)'
+            color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            fontColor: '#0d47a1'
-          }
+            fontColor: '#0d47a1',
+          },
         }],
         yAxes: [
           {
@@ -442,14 +442,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             type: 'linear',
             position: 'left',
             ticks: {
-              fontColor: '#0d47a1'
+              fontColor: '#0d47a1',
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
-            }
-          }
-        ]
+              color: 'rgba(0,0,0,0.2)',
+            },
+          },
+        ],
       },
       tooltips: {
         bodySpacing: 5,
@@ -461,7 +461,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba([38, 198, 218], 1)
+              backgroundColor: this.rgba([38, 198, 218], 1),
             };
           },
           label: (tooltipItem, values) => {
@@ -475,12 +475,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             const currentDate = data.labels[tooltipItems[0].index];
 
             return currentDate;
-          }
-        }
+          },
+        },
       },
       hover: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       },
     };
     target.options = optionsLine;
@@ -494,23 +494,23 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const dataDefinition = this.createStatisticsGraphData(nextRealtimeChart.dataDeliveredChart);
     event.chart = {
-      data: <ChartData>dataDefinition.data,
-      options: dataDefinition.options
+      data: dataDefinition.data as ChartData,
+      options: dataDefinition.options,
     };
   }
 
-  formatLineColor(colors: Array<number>): any {
+  formatLineColor(colors: number[]): any {
     return {
       backgroundColor: this.rgba(colors, 0.6),
       borderColor: this.rgba(colors, 1),
       pointRadius: 0,
       borderWidth: 2,
       pointHoverBackgroundColor: this.rgba(colors, 1),
-      pointHoverBorderColor: '#fff'
+      pointHoverBorderColor: '#fff',
     };
   }
 
-  rgba(colour: Array<number>, alpha: number): string {
+  rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 

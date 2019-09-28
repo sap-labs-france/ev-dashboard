@@ -14,8 +14,8 @@ export class TransactionsRefundStatusFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: Object.assign([], transactionRefundStatus),
-      multiple: true
+      items: object.assign([], transactionRefundStatus),
+      multiple: true,
     };
     this.setFilterDef(filterDef);
   }

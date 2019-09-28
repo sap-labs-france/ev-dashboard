@@ -8,7 +8,7 @@ export class TableCreateAction implements TableAction {
     icon: 'add',
     color: ButtonColor.primary,
     name: 'general.create',
-    tooltip: 'general.tooltips.create'
+    tooltip: 'general.tooltips.create',
   };
 
   // Return an action

@@ -8,7 +8,7 @@ export class TableOpenInMapsAction implements TableAction {
     icon: 'location_on',
     color: ButtonColor.primary,
     name: 'general.open_in_maps',
-    tooltip: 'general.tooltips.open_in_maps'
+    tooltip: 'general.tooltips.open_in_maps',
   };
 
   public getActionDef(): TableActionDef {

@@ -4,7 +4,7 @@ import { PricingSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-simple-pricing',
-  templateUrl: 'settings-simple-pricing.component.html'
+  templateUrl: 'settings-simple-pricing.component.html',
 })
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
@@ -17,19 +17,19 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // Simple pricing
     this.simplePricing = new FormGroup({
-      'price': new FormControl('',
+      price: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^-?((\d+(\.\d+)?))$/),
-          Validators.maxLength(10)
-        ])
+          Validators.maxLength(10),
+        ]),
       ),
-      'currency': new FormControl('',
+      currency: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(3)
-        ])
-      )
+          Validators.maxLength(3),
+        ]),
+      ),
     });
     // Add
     this.formGroup.addControl('simple', this.simplePricing);

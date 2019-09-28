@@ -1,15 +1,15 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MobileType } from 'app/common.types';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-import { MobileType } from 'app/common.types';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
-    const field1: FormControl = <FormControl>formGroup.controls[firstField];
-    const field2: FormControl = <FormControl>formGroup.controls[secondField];
+    const field1: FormControl = formGroup.controls[firstField] as FormControl;
+    const field2: FormControl = formGroup.controls[secondField] as FormControl;
 
     // Null?
     if (!field1.value && !field2.value) {
@@ -45,7 +45,7 @@ export class Utils {
 
   public static buildMobileAppDeepLink(path: string): string {
     const mobileVendor = Utils.getMobileVendor();
-    switch(mobileVendor) {
+    switch (mobileVendor) {
       case MobileType.iOS:
         return 'eMobility://auth/${path}';
       case MobileType.android:
@@ -54,7 +54,7 @@ export class Utils {
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,
-      centralServerService: CentralServerService, errorMessage: string, params?) {
+                                centralServerService: CentralServerService, errorMessage: string, params?) {
     // Check error
     switch (error.status) {
       // Server connection error`

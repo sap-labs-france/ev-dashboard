@@ -10,7 +10,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
@@ -59,13 +59,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     private dialog: MatDialog,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     super(spinnerService);
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{'WithSite': true}]);
+      this.setStaticFilters([{WithSite: true}]);
     }
     this.initDataSource();
   }
@@ -80,10 +80,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       this.centralServerService.getChargers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
         // Update details status
-        chargers.result.forEach(charger => {
+        chargers.result.forEach((charger) => {
           // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter(connector => !Utils.isNull(connector));
-          charger.connectors.forEach(connector => {
+          charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
+          charger.connectors.forEach((connector) => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
         });
@@ -102,17 +102,17 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
       rowSelection: {
         enabled: false,
-        multiple: false
+        multiple: false,
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ChargingStationsConnectorsDetailComponent
+        angularComponent: ChargingStationsConnectorsDetailComponent,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -125,7 +125,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         name: 'chargers.name',
         sortable: true,
         sorted: true,
-        direction: 'asc'
+        direction: 'asc',
       },
       {
         id: 'inactive',
@@ -134,7 +134,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         class: 'text-center',
         isAngularComponent: true,
         angularComponent: ChargingStationsHeartbeatCellComponent,
-        sortable: false
+        sortable: false,
       },
       {
         id: 'connectorsStatus',
@@ -143,7 +143,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorsCellComponent
+        angularComponent: ChargingStationsConnectorsCellComponent,
       },
       {
         id: 'connectorsConsumption',
@@ -152,8 +152,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         isAngularComponent: true,
         headerClass: 'text-center',
         class: 'power-progress-bar',
-        angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent
-      }
+        angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
+      },
     ];
     if (this.isOrganizationComponentActive) {
       tableColumns = tableColumns.concat(
@@ -163,16 +163,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
             name: 'sites.site',
             sortable: true,
             defaultValue: 'sites.unassigned',
-            headerClass: 'd-none d-xl-table-cell'
+            headerClass: 'd-none d-xl-table-cell',
           },
           {
             id: 'siteArea.name',
             name: 'site_areas.title',
             sortable: true,
             defaultValue: 'site_areas.unassigned',
-            headerClass: 'd-none d-xl-table-cell'
-          }
-        ]
+            headerClass: 'd-none d-xl-table-cell',
+          },
+        ],
       );
     }
     if (this.authorizationService.isAdmin()) {
@@ -183,16 +183,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
             name: 'chargers.vendor',
             headerClass: 'd-none d-lg-table-cell',
             class: 'd-none d-lg-table-cell',
-            sortable: true
+            sortable: true,
           },
           {
             id: 'ocppVersion',
             name: 'chargers.ocpp_version_title',
             headerClass: 'd-none d-xl-table-cell text-center',
             class: 'd-none d-xl-table-cell text-center',
-            sortable: false
-          }
-        ]
+            sortable: false,
+          },
+        ],
       );
     }
     return tableColumns;
@@ -201,7 +201,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -210,7 +210,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     if (this.authorizationService.isAdmin()) {
       return [
         new TableExportAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -221,7 +221,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('chargers.dialog.export.title'),
-          this.translateService.instant('chargers.dialog.export.confirm')
+          this.translateService.instant('chargers.dialog.export.confirm'),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this.exportChargingStations();
@@ -243,9 +243,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       case 'reboot':
         this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {'chargeBoxID': rowItem.id}),
-          this.translateService.instant('chargers.reboot_success', {'chargeBoxID': rowItem.id}),
-          'chargers.reset_error'
+          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
+          'chargers.reset_error',
         );
         break;
       case 'open_in_maps':
@@ -263,17 +263,17 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
           case ACTION_SOFT_RESET:
             this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
               this.translateService.instant('chargers.soft_reset_title'),
-              this.translateService.instant('chargers.soft_reset_confirm', {'chargeBoxID': rowItem.id}),
-              this.translateService.instant('chargers.soft_reset_success', {'chargeBoxID': rowItem.id}),
-              'chargers.soft_reset_error'
+              this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
+              this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
+              'chargers.soft_reset_error',
             );
             break;
           case ACTION_CLEAR_CACHE:
             this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
               this.translateService.instant('chargers.clear_cache_title'),
-              this.translateService.instant('chargers.clear_cache_confirm', {'chargeBoxID': rowItem.id}),
-              this.translateService.instant('chargers.clear_cache_success', {'chargeBoxID': rowItem.id}),
-              'chargers.clear_cache_error'
+              this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
+              this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
+              'chargers.clear_cache_error',
             );
             break;
 
@@ -297,7 +297,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       return [
         //      new ChargerTableFilter().getFilterDef(),
         new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef()
+        new SiteAreaTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -317,7 +317,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(saved => {
+    dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();
       }
@@ -352,11 +352,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
         title,
-        message
+        message,
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
           // Call REST service
-          this.centralServerService.actionChargingStation(action, charger.id, args).subscribe(response => {
+          this.centralServerService.actionChargingStation(action, charger.id, args).subscribe((response) => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(successMessage);
@@ -375,7 +375,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private deleteChargingStation(chargingStation: Charger) {
-    if (chargingStation.connectors.findIndex(connector => connector.activeTransactionID > 0) >= 0) {
+    if (chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.delete_title'),
@@ -383,13 +383,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     } else {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.delete_title'),
-        this.translateService.instant('chargers.delete_confirm', {'chargeBoxID': chargingStation.id})
+        this.translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
-          this.centralServerService.deleteChargingStation(chargingStation.id).subscribe(response => {
+          this.centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
               this.refreshData().subscribe();
-              this.messageService.showSuccessMessage('chargers.delete_success', {'chargeBoxID': chargingStation.id});
+              this.messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, 'chargers.delete_error');
@@ -428,7 +428,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(saved => {
+      dialogRef.afterClosed().subscribe((saved) => {
         if (saved) {
           this.refreshData().subscribe();
         }
@@ -461,7 +461,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   private exportChargingStations() {
     this.centralServerService.exportChargingStations(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP
+      skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportChargingStations.csv');
@@ -488,21 +488,21 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         longitude: this.getChargerLatitudeLongitude(charger).longitude,
         label: charger.id ? charger.id : '',
         displayOnly: true,
-        dialogTitle: charger.id ? charger.id : ''
+        dialogTitle: charger.id ? charger.id : '',
       };
     } else {
-      const markers = this.getData().map(currCharger => {
+      const markers = this.getData().map((currCharger) => {
         return {
           latitude: this.getChargerLatitudeLongitude(currCharger).latitude,
           longitude: this.getChargerLatitudeLongitude(currCharger).longitude,
-          labelFormatted: currCharger.id
+          labelFormatted: currCharger.id,
         };
       });
       // Set data
       dialogConfig.data = {
         displayOnly: true,
         dialogTitle: this.translateService.instant('chargers.dialog.localisation.title'),
-        markers: markers
+        markers,
       };
     }
     // disable outside click close
@@ -538,6 +538,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         }
       }
     }
-    return {latitude: latitude, longitude: longitude};
+    return {latitude, longitude};
   }
 }

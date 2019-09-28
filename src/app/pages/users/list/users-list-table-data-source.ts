@@ -12,7 +12,7 @@ import {
   TableColumnDef,
   TableDef,
   TableFilterDef,
-  User
+  User,
 } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -63,7 +63,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     super(spinnerService);
     // Init
     if (this.authorizationService.hasSitesAdminRights()) {
-      this.setStaticFilters([{ 'SiteID': this.authorizationService.getSitesAdmin().join('|') }]);
+      this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
     }
     this.initDataSource();
     // Store the current user
@@ -94,9 +94,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -111,7 +111,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
       class: 'col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'id',
@@ -125,7 +125,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'name',
@@ -134,21 +134,21 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'text-left col-15p',
       sorted: true,
       direction: 'asc',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'firstName',
       name: 'users.first_name',
       headerClass: 'col-15p',
       class: 'text-left col-15p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'email',
       name: 'users.email',
       headerClass: 'col-20p',
       class: 'col-20p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'tagIDs',
@@ -156,14 +156,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       formatter: this.arrayToStringPipe.transform,
       headerClass: 'col-15p',
       class: 'col-15p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'plateID',
       name: 'users.plate_id',
       headerClass: 'col-10p',
       class: 'col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'createdOn',
@@ -171,7 +171,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       formatter: (createdOn) => this.datePipe.transform(createdOn),
       headerClass: 'col-15p',
       class: 'col-15p',
-      sortable: true
+      sortable: true,
     });
     return columns as TableColumnDef[];
   }
@@ -180,7 +180,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
-      ...tableActionsDef
+      ...tableActionsDef,
     ];
   }
 
@@ -232,14 +232,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
-      new UserStatusFilter().getFilterDef()
+      new UserStatusFilter().getFilterDef(),
     ];
   }
 
@@ -277,13 +277,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
+      this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteUser(user.id).subscribe(response => {
+        this.centralServerService.deleteUser(user.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
+            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');

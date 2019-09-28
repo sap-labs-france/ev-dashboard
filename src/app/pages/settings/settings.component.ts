@@ -8,7 +8,7 @@ declare const $: any;
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html'
+  templateUrl: './settings.component.html',
 })
 export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;
@@ -20,7 +20,7 @@ export class SettingsComponent extends AbstractTabComponent {
   constructor(
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService
+    windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['ocpi', 'refund', 'pricing', 'billing', 'sac']);
     this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);

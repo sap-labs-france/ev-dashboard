@@ -14,7 +14,7 @@ const LARGE_SLIDER_STEP = 1000;
 
 @Component({
   selector: 'app-charging-station-smart-charging-power-slider',
-  templateUrl: 'charging-station-smart-charging-power-slider.component.html'
+  templateUrl: 'charging-station-smart-charging-power-slider.component.html',
 })
 @Injectable()
 export class ChargingStationSmartChargingPowerSliderComponent implements OnInit, AfterViewInit {
@@ -110,7 +110,7 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit,
   }
 
   public formatPowerPercent(value: number | null) {
-    const self = <MatSlider><unknown>this; // To check why we have issue between compile and runtime. At runtime this is a MatSlider
+    const self = this as unknown as MatSlider; // To check why we have issue between compile and runtime. At runtime this is a MatSlider
     if (!value) {
       return '0';
     }

@@ -10,7 +10,7 @@ declare const $: any;
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './admin-layout.component.html'
+  templateUrl: './admin-layout.component.html',
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
@@ -28,8 +28,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
-    const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
+    const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
+    const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
     this.location.subscribe((ev: PopStateEvent) => {
       this.lastPoppedUrl = ev.url;
     });
@@ -47,7 +47,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       elemMainPanel.scrollTop = 0;
       elemSidebar.scrollTop = 0;
     });
@@ -59,7 +59,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     } else {
       html.classList.add('perfect-scrollbar-off');
     }
-    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.navbar.sidebarClose();
     });
   }
@@ -78,8 +78,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
   runOnRouteChange(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-      const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
-      const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
+      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
+      const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
       // let ps = new PerfectScrollbar(elemMainPanel);
       // ps = new PerfectScrollbar(elemSidebar);
       // ps.update();

@@ -32,7 +32,7 @@ import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,
-    ChartModule
+    ChartModule,
   ],
   entryComponents: [
     ChargingStationSmartChargingDialogComponent,
@@ -51,10 +51,10 @@ import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit
     ChargingStationSmartChargingLimitPlanningComponent,
     ChargingStationSmartChargingLimitPlannerComponent,
     ChargingStationSmartChargingLimitChartComponent,
-    ChargingStationSmartChargingLimitPlannerChartComponent
+    ChargingStationSmartChargingLimitPlannerChartComponent,
   ],
   exports: [
-    ChargingStationSmartChargingDialogComponent
+    ChargingStationSmartChargingDialogComponent,
   ],
 })
 export class ChargingStationSmartChargingModule { }

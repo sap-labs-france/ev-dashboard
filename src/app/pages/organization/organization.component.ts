@@ -5,12 +5,12 @@ import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract
 
 @Component({
   selector: 'app-organization',
-  templateUrl: './organization.component.html'
+  templateUrl: './organization.component.html',
 })
 export class OrganizationComponent extends AbstractTabComponent {
   constructor(
     activatedRoute: ActivatedRoute,
-    windowService: WindowService
+    windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['companies', 'sites', 'site-areas']);
   }

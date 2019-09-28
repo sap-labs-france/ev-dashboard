@@ -11,7 +11,7 @@ import { AppDatePipe } from '../../formatters/app-date.pipe';
 
 @Component({
   selector: 'app-transaction-chart',
-  templateUrl: 'consumption-chart.component.html'
+  templateUrl: 'consumption-chart.component.html',
 })
 
 export class ConsumptionChartComponent implements AfterViewInit {
@@ -68,7 +68,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       pointHoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 1),
       pointHoverBorderColor: '#fff',
       hoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 0.8),
-      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1)
+      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1),
     };
   }
 
@@ -80,7 +80,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       pointHoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 1),
       pointHoverBorderColor: '#fff',
       hoverBackgroundColor: ConsumptionChartComponent.toRgba(color, 0.8),
-      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1)
+      hoverBorderColor: ConsumptionChartComponent.toRgba(color, 1),
     };
   }
 
@@ -104,14 +104,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   refresh() {
     this.centralServerService.getConsumptionFromTransaction(this.transactionId)
-      .subscribe(transaction => {
+      .subscribe((transaction) => {
         this.transaction = transaction;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.transaction = null;
       });
   }
-
 
   prepareOrUpdateGraph() {
     if (this.canDisplayGraph()) {
@@ -123,7 +122,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           {
             type: 'bar',
             data: this.data,
-            options: this.options
+            options: this.options,
           });
       }
       this.updatePanOptions();
@@ -140,14 +139,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
       yAxisID: 'power',
       lineTension: this.lineTension,
       ...ConsumptionChartComponent.formatLineColor(this.instantPowerColor),
-      label: this.translateService.instant('transactions.graph.power')
+      label: this.translateService.instant('transactions.graph.power'),
     });
     this.options.scales.yAxes.push({
       id: 'power',
       ticks: {
         callback: (value) => value / 1000.0,
-        min: 0
-      }
+        min: 0,
+      },
     });
     if (this.transaction.stateOfCharge) {
       this.data.datasets.push({
@@ -158,7 +157,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...ConsumptionChartComponent.formatLineColor(this.stateOfChargeColor),
         label:
-          this.translateService.instant('transactions.graph.battery')
+          this.translateService.instant('transactions.graph.battery'),
       });
       this.options.scales.yAxes.push(
         {
@@ -168,12 +167,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
           display: 'auto',
           gridLines: {
             display: true,
-            color: 'rgba(0,0,0,0.2)'
+            color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
             callback: (value, index, values) => `${value}%`,
-            fontColor: this.defaultColor
-          }
+            fontColor: this.defaultColor,
+          },
         });
     }
     this.data.datasets.push({
@@ -184,9 +183,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
       yAxisID: 'power',
       lineTension: this.lineTension,
       ...ConsumptionChartComponent.formatLineColor(this.consumptionColor),
-      label: this.translateService.instant('transactions.graph.energy')
+      label: this.translateService.instant('transactions.graph.energy'),
     });
-    if (this.transaction.values.find(c => c.hasOwnProperty('pricingSource')) !== undefined) {
+    if (this.transaction.values.find((c) => c.hasOwnProperty('pricingSource')) !== undefined) {
       this.data.datasets.push({
         name: 'cumulatedAmount',
         type: 'line',
@@ -195,7 +194,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         yAxisID: 'amount',
         lineTension: this.lineTension,
         ...ConsumptionChartComponent.formatLineColor(this.amountColor),
-        label: this.translateService.instant('transactions.graph.cumulated_amount')
+        label: this.translateService.instant('transactions.graph.cumulated_amount'),
       });
       this.options.scales.yAxes.push(
         {
@@ -205,19 +204,19 @@ export class ConsumptionChartComponent implements AfterViewInit {
           display: 'auto',
           gridLines: {
             display: true,
-            color: 'rgba(0,0,0,0.2)'
+            color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
             callback: (value) => this.appCurrencyPipe.transform(value, this.currencyCode),
             min: 0,
-            fontColor: this.defaultColor
-          }
+            fontColor: this.defaultColor,
+          },
         });
     }
   }
 
   getDataSet(name) {
-    const dataSet = this.data.datasets.find(d => (d as any).name === name);
+    const dataSet = this.data.datasets.find((d) => (d as any).name === name);
     return dataSet ? dataSet.data : null;
   }
 
@@ -265,8 +264,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: this.defaultColor
-        }
+          fontColor: this.defaultColor,
+        },
       },
       responsive: true,
       maintainAspectRatio: false,
@@ -282,7 +281,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.data.datasets[tooltipItem.datasetIndex].borderColor
+              backgroundColor: this.data.datasets[tooltipItem.datasetIndex].borderColor,
             };
           },
           label: (tooltipItem, values) => {
@@ -307,12 +306,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
             const currentDate = data.labels[tooltipItems[0].index];
             return this.datePipe.transform(currentDate) +
               ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
-          }
-        }
+          },
+        },
       },
       hover: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       },
       scales: {
         xAxes: [
@@ -323,12 +322,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
+              color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              fontColor: this.defaultColor
-            }
-          }
+              fontColor: this.defaultColor,
+            },
+          },
         ],
         yAxes: [
           {
@@ -337,14 +336,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
             position: 'left',
             ticks: {
               callback: (value) => this.decimalPipe.transform(value / 1000),
-              fontColor: this.defaultColor
+              fontColor: this.defaultColor,
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
-            }
-          }
-        ]
+              color: 'rgba(0,0,0,0.2)',
+            },
+          },
+        ],
       },
       pan: {
         enabled: true,
@@ -353,15 +352,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
           x: 0,
         },
         rangeMax: {
-          x: 0
+          x: 0,
         },
       },
       zoom: {
         enabled: true,
         drag: false,
         mode: 'x',
-        sensitivity: 10
-      }
+        sensitivity: 10,
+      },
     };
     if (this.localeService.language === 'fr') {
       this.options.scales.xAxes[0].time = {
@@ -370,8 +369,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
           millisecond: 'HH:mm:ss.SSS',
           second: 'HH:mm:ss',
           minute: 'HH:mm',
-          hour: 'HH'
-        }
+          hour: 'HH',
+        },
       };
     }
   }

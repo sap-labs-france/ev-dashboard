@@ -8,9 +8,8 @@ export class TableSendAction implements TableAction {
     icon: 'cast',
     color: ButtonColor.primary,
     name: 'general.send_evses_update',
-    tooltip: 'general.tooltips.send'
+    tooltip: 'general.tooltips.send',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

@@ -17,14 +17,14 @@ export class SiteTableFilter extends TableFilter {
       name: 'sites.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: SitesDialogComponent,
-      cleared: true
+      cleared: true,
     };
 
     if (siteIDs) {
       filterDef.dialogComponentData = {
         staticFilter: {
-          SiteID: siteIDs.join('|')
-        }
+          SiteID: siteIDs.join('|'),
+        },
       };
     }
     // Set

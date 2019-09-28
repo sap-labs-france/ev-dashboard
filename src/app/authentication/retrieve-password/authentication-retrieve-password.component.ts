@@ -12,7 +12,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-retrieve-password',
-  templateUrl: './authentication-retrieve-password.component.html'
+  templateUrl: './authentication-retrieve-password.component.html',
 })
 
 export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestroy {
@@ -34,11 +34,11 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new FormGroup({
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
-        ]))
+          Validators.email,
+        ])),
     });
     // Form
     this.email = this.formGroup.controls['email'];
@@ -49,7 +49,7 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);

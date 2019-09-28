@@ -8,7 +8,7 @@ export class TableViewAction implements TableAction {
     icon: 'remove_red_eye',
     color: ButtonColor.primary,
     name: 'general.edit',
-    tooltip: 'general.tooltips.view'
+    tooltip: 'general.tooltips.view',
   };
 
   public getActionDef(): TableActionDef {

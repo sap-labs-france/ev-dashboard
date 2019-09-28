@@ -7,7 +7,7 @@ export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
 export const BUTTON_SELECT_USER = 'SELECT_USER';
 
 @Component({
-  templateUrl: './charging-stations-start-transaction-dialog-component.html'
+  templateUrl: './charging-stations-start-transaction-dialog-component.html',
 })
 export class ChargingStationsStartTransactionDialogComponent {
   public title = '';

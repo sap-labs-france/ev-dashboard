@@ -12,7 +12,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 
 @Component({
   selector: 'app-settings-analytics',
-  templateUrl: 'settings-analytics.component.html'
+  templateUrl: 'settings-analytics.component.html',
 })
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
@@ -25,9 +25,9 @@ export class SettingsAnalyticsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
-    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource
+    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource,
   ) {
-    this.analyticsLinksTableDataSource.changed.subscribe(_ => {
+    this.analyticsLinksTableDataSource.changed.subscribe((_) => {
       this.formGroup.markAsDirty();
     });
     this.isActive = componentService.isActive(ComponentEnum.ANALYTICS);

@@ -12,7 +12,7 @@ import {
   TableColumnDef,
   TableDef,
   TableFilterDef,
-  Tenant
+  Tenant,
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -74,8 +74,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         name: 'general.id',
         headerClass: 'col-25p',
         class: 'text-left col-25p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'name',
@@ -95,22 +95,22 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         class: 'text-left col-25p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'email',
         name: 'tenants.email',
         headerClass: 'col-30p',
         class: 'col-30p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'subdomain',
         name: 'tenants.subdomain',
         headerClass: 'col-25p',
         class: 'col-25p',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
   }
 
@@ -118,7 +118,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
-      ...tableActionsDef
+      ...tableActionsDef,
     ];
   }
 
@@ -126,7 +126,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     return [
       this.editAction,
       this.openAction,
-      this.deleteAction
+      this.deleteAction,
     ];
   }
 
@@ -161,7 +161,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction().getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -195,12 +195,12 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   private deleteTenant(tenant) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('tenants.delete_title'),
-      this.translateService.instant('tenants.delete_confirm', {'name': tenant.name})
+      this.translateService.instant('tenants.delete_confirm', {name: tenant.name}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteTenant(tenant.id).subscribe(response => {
+        this.centralServerService.deleteTenant(tenant.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('tenants.delete_success', {'name': tenant.name});
+            this.messageService.showSuccessMessage('tenants.delete_success', {name: tenant.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

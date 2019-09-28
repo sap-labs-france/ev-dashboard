@@ -15,7 +15,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',
-  templateUrl: './charging-station-ocpp-parameters.component.html'
+  templateUrl: './charging-station-ocpp-parameters.component.html',
 })
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
@@ -113,14 +113,14 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
-      this.translateService.instant('chargers.set_configuration_confirm', { 'chargeBoxID': this.charger.id, key: item.key })
+      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: item.key }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Show
         this.spinnerService.show();
         // Yes: Update
         this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe(response => {
+          this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe((response) => {
             // Hide
             this.spinnerService.hide();
             // Ok?
@@ -156,7 +156,6 @@ export class ChargingStationOcppParametersComponent implements OnInit {
       }
     });
   }
-
 
   public changeParameter(item) {
     if (item.icon === 'edit') {
@@ -212,13 +211,13 @@ export class ChargingStationOcppParametersComponent implements OnInit {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.get_configuration_title'),
-        this.translateService.instant('chargers.get_configuration_confirm', { 'chargeBoxID': this.charger.id })
+        this.translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: this.charger.id }),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
           // Show
           this.spinnerService.show();
           // Yes: Update
-          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe(response => {
+          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe((response) => {
             // Hide
             this.spinnerService.hide();
             // Ok?
@@ -256,5 +255,3 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     }
   }
 }
-
-

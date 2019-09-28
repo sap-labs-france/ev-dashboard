@@ -11,7 +11,7 @@ import { Constants } from '../../../../utils/Constants';
           {{row | appRegistrationTokenStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class RegistrationTokenStatusComponent extends CellContentTemplateComponent {
   @Input() row: RegistrationToken;

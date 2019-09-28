@@ -15,7 +15,7 @@ import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit
 
 @Component({
   selector: 'app-charging-station-smart-charging-dialog',
-  templateUrl: 'charging-station-smart-charging.dialog.component.html'
+  templateUrl: 'charging-station-smart-charging.dialog.component.html',
 })
 export class ChargingStationSmartChargingDialogComponent implements AfterViewInit {
   charger: Charger;
@@ -65,15 +65,15 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
     // show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
-      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { 'chargeBoxID': this.charger.id })
+      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // call REST service
-        this.centralServerService.chargingStationClearChargingProfile(this.charger).subscribe(response => {
+        this.centralServerService.chargingStationClearChargingProfile(this.charger).subscribe((response) => {
           if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // success + reload
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
-              { 'chargeBoxID': this.charger.id }));
+              { chargeBoxID: this.charger.id }));
             this.limitPlanning.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),

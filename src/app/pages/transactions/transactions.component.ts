@@ -8,7 +8,7 @@ import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-transactions',
-  templateUrl: './transactions.component.html'
+  templateUrl: './transactions.component.html',
 })
 export class TransactionsComponent extends AbstractTabComponent {
   public showTransactionRefundTab: boolean;

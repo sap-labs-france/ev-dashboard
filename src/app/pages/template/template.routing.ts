@@ -8,8 +8,8 @@ export const TemplateRoutes: Routes = [
     path: '', component: TemplateComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_LOGGINGS,
-        action: Constants.ACTION_LIST
+        action: Constants.ACTION_LIST,
       },
-    }
-  }
+    },
+  },
 ];

@@ -36,13 +36,13 @@ export class SimpleChart {
   private font: Font;
 
   constructor(language: string, chartType: 'bar' | 'stackedBar' | 'pie', mainLabel: string,
-    labelXAxis?: string, labelYAxis?: string,
-    toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
+              labelXAxis?: string, labelYAxis?: string,
+              toolTipUnit?: string, withLegend = false, roundedChartLabels = true) {
 
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
 
-    Chart.Tooltip.positioners.customBar = function (elements, eventPosition) {
+    Chart.Tooltip.positioners.customBar = function(elements, eventPosition) {
       // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
       // @param elements {Chart.Element[]} the tooltip elements
       // @param eventPosition {Point} the position of the event in canvas coordinates
@@ -73,7 +73,7 @@ export class SimpleChart {
 
       return {
         x: elements[0]._model.x,
-        y: elements[0]._model.y + yOffset
+        y: elements[0]._model.y + yOffset,
       };
     };
 
@@ -98,7 +98,7 @@ export class SimpleChart {
       type: this.chartType,
       plugins: [ChartDataLabels],
       options: this.chartOptions,
-      data: { labels: [], datasets: [] }
+      data: { labels: [], datasets: [] },
     });
   }
 
@@ -220,9 +220,9 @@ export class SimpleChart {
         }
 
         if (dataset.stack) {
-          newChartData.datasets.push({ 'label': dataset.label, 'data': anyArray, 'stack': dataset.stack });
+          newChartData.datasets.push({ label: dataset.label, data: anyArray, stack: dataset.stack });
         } else {
-          newChartData.datasets.push({ 'data': anyArray });
+          newChartData.datasets.push({ data: anyArray });
         }
       });
 
@@ -233,7 +233,7 @@ export class SimpleChart {
   }
 
   private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
-    toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
+                                toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
     this.labelXAxis = labelXAxis;
@@ -247,25 +247,25 @@ export class SimpleChart {
     this.chartOptions['title'] = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold'
+      fontStyle: 'bold',
     };
 
     this.chartOptions['legend'] = {
       display: withLegend,
       labels: {},
-      position: 'bottom'
+      position: 'bottom',
     };
 
     this.chartOptions['plugins'] = {};
     this.chartOptions['plugins']['datalabels'] = {
       display: (context) => {
         return context.dataset.data[context.dataIndex] > 0;
-      }
+      },
     };
 
     this.chartOptions['animation'] = {
       duration: 2000,
-      easing: 'easeOutBounce'
+      easing: 'easeOutBounce',
     };
 
     this.chartOptions['tooltips'] = {
@@ -290,24 +290,24 @@ export class SimpleChart {
             toolTip = toolTip + ` ${toolTipUnit}`;
           }
           return toolTip;
-        }
-      }
+        },
+      },
     };
 
     this.chartOptions['scales'] = {
       xAxes:
         [{
-          stacked: stacked,
+          stacked,
           scaleLabel: {
             display: true,
             labelString: labelXAxis,
             fontStyle: 'bold',
           },
-          ticks: {}
+          ticks: {},
         }],
       yAxes:
         [{
-          stacked: stacked,
+          stacked,
           scaleLabel: {
             display: true,
             labelString: labelYAxis,
@@ -317,9 +317,9 @@ export class SimpleChart {
             beginAtZero: true,
             callback: (value, index, values) => {
               return value.toLocaleString(this.language);
-            }
-          }
-        }]
+            },
+          },
+        }],
     };
   }
 
@@ -334,13 +334,13 @@ export class SimpleChart {
     this.chartOptions['title'] = {
       display: true,
       text: mainLabel,
-      fontStyle: 'bold'
+      fontStyle: 'bold',
     };
 
     this.chartOptions['legend'] = {
       display: withLegend,
       labels: {},
-      position: 'bottom'
+      position: 'bottom',
     };
 
     this.chartOptions['plugins'] = {};
@@ -352,7 +352,7 @@ export class SimpleChart {
 
     this.chartOptions['animation'] = {
       duration: 2000,
-      easing: 'easeOutBounce'
+      easing: 'easeOutBounce',
     };
 
     this.chartOptions['tooltips'] = {
@@ -373,8 +373,8 @@ export class SimpleChart {
             toolTip = toolTip + ` ${toolTipUnit}`;
           }
           return toolTip;
-        }
-      }
+        },
+      },
     };
   }
 
@@ -463,7 +463,7 @@ export class SimpleChart {
         } else {
           return value.toLocaleString(this.language);
         }
-      }
+      },
     };
   }
 
@@ -528,7 +528,7 @@ export class SimpleChart {
       [255, 160, 122, 0.5],
       [70, 130, 180, 0.8],
       [255, 222, 173, 0.5],
-      [218, 112, 214, 0.8]
+      [218, 112, 214, 0.8],
     ];
 
     const div20 = counter % 20;

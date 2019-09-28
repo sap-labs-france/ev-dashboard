@@ -13,10 +13,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 
-
 @Component({
   selector: 'app-charging-stations-get-diagnostics',
-  templateUrl: './charging-stations-get-diagnostics.component.html'
+  templateUrl: './charging-stations-get-diagnostics.component.html',
 })
 @Injectable()
 export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterViewInit {
@@ -64,7 +63,7 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_title'),
-      this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_confirm', { 'chargeBoxID': this.charger.id })
+      this.translateService.instant('chargers.more_actions.get_diagnostics_dialog_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
@@ -72,12 +71,12 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
           const date = new Date();
           date.setHours(0, 0, 0, 0);
           // tslint:disable-next-line:max-line-length
-          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe(response => {
+          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe((response) => {
             if (response.fileName && response.fileName.length > 0) {
               this.fileName = response.fileName;
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.more_actions.get_diagnostics_success',
-                { 'chargeBoxID': self.charger.id }));
+                { chargeBoxID: self.charger.id }));
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.more_actions.get_diagnostics_error'));

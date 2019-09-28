@@ -20,23 +20,23 @@ import { GaugesModule } from './gauge/gauge.module';
     FormattersModule,
     ChartModule,
     GaugesModule,
-    MaterialModule
+    MaterialModule,
   ],
   declarations: [
     ConsumptionChartDetailComponent,
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
   ],
   exports: [
-    ConsumptionChartComponent
+    ConsumptionChartComponent,
   ],
   entryComponents: [
-    ConsumptionChartDetailComponent
+    ConsumptionChartDetailComponent,
   ],
   providers: [
     CurrencyPipe,
     PercentPipe,
-    DecimalPipe
-  ]
+    DecimalPipe,
+  ],
 })
 export class ComponentModule {
 }

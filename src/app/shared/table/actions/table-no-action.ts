@@ -8,9 +8,8 @@ export class TableNoAction implements TableAction {
     icon: 'block',
     color: ButtonColor.primary,
     name: 'general.no_action',
-    tooltip: 'general.tooltips.no_action'
+    tooltip: 'general.tooltips.no_action',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

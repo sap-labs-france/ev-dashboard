@@ -15,10 +15,9 @@ import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 
-
 @Component({
   selector: 'app-company',
-  templateUrl: 'company.component.html'
+  templateUrl: 'company.component.html',
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -72,37 +71,37 @@ export class CompanyComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'address': new FormGroup({
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'postalCode': new FormControl(''),
-        'city': new FormControl(''),
-        'department': new FormControl(''),
-        'region': new FormControl(''),
-        'country': new FormControl(''),
-        'latitude': new FormControl('',
+      address: new FormGroup({
+        address1: new FormControl(''),
+        address2: new FormControl(''),
+        postalCode: new FormControl(''),
+        city: new FormControl(''),
+        department: new FormControl(''),
+        region: new FormControl(''),
+        country: new FormControl(''),
+        latitude: new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
-        'longitude': new FormControl('',
+        longitude: new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-          ]))
-      })
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];
@@ -246,7 +245,7 @@ export class CompanyComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('companies.logo_size_error', {'maxPictureKb': this.maxSize});
+        this.messageService.showErrorMessage('companies.logo_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -275,7 +274,7 @@ export class CompanyComponent implements OnInit {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
+        this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
@@ -284,7 +283,7 @@ export class CompanyComponent implements OnInit {
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
+        this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveCompany(this.formGroup.value);
@@ -303,14 +302,14 @@ export class CompanyComponent implements OnInit {
     // Set the logo
     this.updateCompanyLogo(company);
     // Yes: Update
-    this.centralServerService.createCompany(company).subscribe(response => {
+    this.centralServerService.createCompany(company).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.create_success',
-          { 'companyName': company.name });
+          { companyName: company.name });
         // Refresh
         this.currentCompanyID = company.id;
         this.closeDialog(true);
@@ -341,13 +340,13 @@ export class CompanyComponent implements OnInit {
     // Set the logo
     this.updateCompanyLogo(company);
     // Yes: Update
-    this.centralServerService.updateCompany(company).subscribe(response => {
+    this.centralServerService.updateCompany(company).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('companies.update_success', { 'companyName': company.name });
+        this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

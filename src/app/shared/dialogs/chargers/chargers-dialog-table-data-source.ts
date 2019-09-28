@@ -45,13 +45,13 @@ export class ChargersDialogTableDataSource extends DialogTableDataSource<Charger
         class: 'text-left',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'chargePointVendor',
         name: 'chargers.name',
-        class: 'text-left'
-      }
+        class: 'text-left',
+      },
     ];
   }
 }

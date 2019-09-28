@@ -9,7 +9,7 @@ export const CONNECTOR_TYPE_MAP =
     {key: 'T1CCS', description: 'chargers.connector_type_type1ccs', svgIconName: 'T1CCS', svgIconFile: 'assets/img/connectors/type1-ccs.svg'},
     // {key: 'T3C', description: 'chargers.connector_type_type3c', svgIconName: 'T3C', svgIconFile: 'assets/img/connectors/type3c.svg'},
     {key: 'D', description: 'chargers.connector_type_domestic', svgIconName: 'D', svgIconFile: 'assets/img/connectors/domestic-ue.svg'},
-    {key: 'U', description: 'chargers.connector_type_unknown', svgIconName: 'U', svgIconFile: 'assets/img/connectors/no-connector.svg'}
+    {key: 'U', description: 'chargers.connector_type_unknown', svgIconName: 'U', svgIconFile: 'assets/img/connectors/no-connector.svg'},
   ];
 
 @Pipe({name: 'appConnectorType'})

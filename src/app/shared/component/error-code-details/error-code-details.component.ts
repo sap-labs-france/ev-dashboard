@@ -11,7 +11,7 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
   `,
   styles: [`.no-margin {
     margin: 0
-  }`]
+  }`],
 })
 export class ErrorCodeDetailsComponent extends CellContentTemplateComponent implements OnInit {
   @Input() row: any;

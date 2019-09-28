@@ -15,16 +15,15 @@ import {
   DropdownItem,
   TableActionDef,
   TableColumnDef,
-  TableFilterDef
+  TableFilterDef,
 } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
 
-
 @Component({
   selector: 'app-table',
-  templateUrl: 'table.component.html'
+  templateUrl: 'table.component.html',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<Data>;
@@ -82,7 +81,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         takeWhile(() => this.alive),
         map((e: KeyboardEvent) => e.target['value']),
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       ).subscribe((text: string) => {
         this.dataSource.setSearchValue(text);
         this.refresh();
@@ -114,7 +113,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Set new paging
     this.dataSource.setPaging({
       skip: this.dataSource.data.length,
-      limit: this.dataSource.getPageSize()
+      limit: this.dataSource.getPageSize(),
     });
     // Load data
     this.loadData();
@@ -221,7 +220,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
-    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
+    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe((data) => {
       if (data) {
         filterDef.currentValue = data;
         this.filterChanged(filterDef);
@@ -234,7 +233,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.autoRefreshPollEnabled && !this.autoRefreshSubscription) {
       // Create timer
       this.autoRefreshSubscription = interval(this.autoRefreshPollingIntervalMillis).pipe(
-        takeWhile(() => this.alive)
+        takeWhile(() => this.alive),
       ).subscribe(() => {
         if (!this.ongoingRefresh) {
           this.refresh(true);

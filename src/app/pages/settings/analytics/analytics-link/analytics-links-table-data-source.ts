@@ -12,7 +12,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -73,12 +73,12 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
         }
         observer.next({
           count: links.length,
-          result: links
+          result: links,
         });
       } else {
         observer.next({
           count: 0,
-          result: []
+          result: [],
         });
       }
       observer.complete();
@@ -89,15 +89,15 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return {
       class: 'analytics-links-table-list',
       search: {
-        enabled: false
+        enabled: false,
       },
       design: {
-        flat: true
+        flat: true,
       },
       footer: {
-        enabled: false
+        enabled: false,
       },
-      rowFieldNameIdentifier: 'url'
+      rowFieldNameIdentifier: 'url',
     };
   }
 
@@ -110,14 +110,14 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
         class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'description',
         name: 'analytics.link.description',
         headerClass: 'col-30p',
         class: 'col-30p',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'role',
@@ -125,22 +125,22 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
         formatter: (role) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'url',
         name: 'analytics.link.url',
         headerClass: 'col-45p',
         class: 'col-45p',
-        sortable: false
-      }
+        sortable: false,
+      },
     ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     // const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateAction().getActionDef()
+      new TableCreateAction().getActionDef(),
     ];
   }
 
@@ -148,7 +148,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return [
       this.editAction,
       this.viewAction,
-      this.deleteAction
+      this.deleteAction,
     ];
   }
 
@@ -181,7 +181,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -201,10 +201,10 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(AnalyticsLinkDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // find object
-        const index = _.findIndex(this.analyticsLinks, { 'id': result.id });
+        const index = _.findIndex(this.analyticsLinks, { id: result.id });
         if (index >= 0) {
           this.analyticsLinks.splice(index, 1, result);
         } else {
@@ -219,10 +219,10 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
   private deleteLink(analyticsLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('analytics.delete_title'),
-      this.translateService.instant('analytics.delete_confirm', { 'linkName': analyticsLink.name })
+      this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.analyticsLinks, function (o: AnalyticsLink) { return (o.id === analyticsLink.id); });
+        _.remove(this.analyticsLinks, function(o: AnalyticsLink) { return (o.id === analyticsLink.id); });
         this.refreshData().subscribe();
         this.changed.emit(true);
       }

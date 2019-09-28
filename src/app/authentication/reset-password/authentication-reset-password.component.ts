@@ -42,7 +42,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
       private translateService: TranslateService) {
 
     if (Utils.isInMobileApp()) {
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink('auth/signUp/45678');
+      const mobileAppURL: string = Utils.buildMobileAppDeepLink('auth/signUp?hash=145678');
       alert(mobileAppURL);
       window.location.href = mobileAppURL;
     }

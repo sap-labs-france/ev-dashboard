@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { MobileType } from 'app/common.types';
 import { ConfigService } from 'app/services/config.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
@@ -26,6 +27,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public repeatPassword: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
+  public mobileVendor: string;
 
   private siteKey: string;
 
@@ -38,6 +40,16 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
       private reCaptchaV3Service: ReCaptchaV3Service,
       private configService: ConfigService,
       private translateService: TranslateService) {
+    // Check mobile vendor
+    switch(window['mobileVendor']) {
+      case MobileType.iOS:
+        window.location.href = 'eMobility://auth/signup';
+        break;
+      case MobileType.android:
+        window.location.href = 'eMobility://auth/signup';
+        break;
+    }
+    window.location.href = 'eMobility://auth/signup';
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form

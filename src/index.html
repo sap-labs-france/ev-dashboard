@@ -14,7 +14,17 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"/>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://storage.googleapis.com/non-spec-apps/mio-icons/latest/twotone.css">
-  </head>
+    <script>
+        let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        if (userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i )) {
+          window.mobileVendor = 'iOS';
+        } else if (userAgent.match( /Android/i )) {
+          window.mobileVendor = 'Android';
+        } else {
+          window.mobileVendor = null;
+        }
+      </script>
+    </head>
 
   <body class="menu-on-left mat-typography app-frame mat-app-background">
     <app-my-app></app-my-app>

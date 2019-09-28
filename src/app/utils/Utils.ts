@@ -35,12 +35,10 @@ export class Utils {
   public static getMobileVendor(): MobileType {
     let mobileVendor: MobileType = null;
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
-    console.log({userAgent});
-    alert(userAgent);
     if (userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i )) {
-      mobileVendor = MobileType.android;
-    } else if (userAgent.match( /Android/i )) {
       mobileVendor = MobileType.iOS;
+    } else if (userAgent.match( /Android/i )) {
+      mobileVendor = MobileType.android;
     }
     return mobileVendor;
   }

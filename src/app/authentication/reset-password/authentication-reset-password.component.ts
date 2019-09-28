@@ -43,7 +43,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
 
     if (Utils.isInMobileApp()) {
       const mobileAppURL: string = Utils.buildMobileAppDeepLink('auth/signUp/45678');
-      console.log(mobileAppURL);
+      alert(mobileAppURL);
       window.location.href = mobileAppURL;
     }
     // Get the Site Key

@@ -49,8 +49,9 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
         window.location.href = 'eMobility://auth/signup';
         break;
     }
-    window.location.href = 'intent://eMobility/#Intent;scheme=eMobility;package=com.emobility;end';
-    console.log('intent://eMobility/#Intent;scheme=eMobility;package=com.emobility;end');
+    const url = 'intent://eMobility/auth/signup/#Intent;scheme=eMobility;package=com.emobility;end';
+    window.location.href = url;
+    console.log(url);
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form

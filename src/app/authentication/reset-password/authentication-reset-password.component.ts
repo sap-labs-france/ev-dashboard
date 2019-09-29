@@ -67,9 +67,9 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
     if (Utils.isInMobileApp()) {
+      // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
-      alert(mobileAppURL);
       window.location.href = mobileAppURL;
     }
   }

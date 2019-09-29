@@ -3,23 +3,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { throwError, BehaviorSubject, EMPTY, Observable, ObservableInput } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, ObservableInput, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-  ActionResponse,
-  Charger, ChargerInError,
-  Company, DataResult,
-  Image,
-  Log,
-  Logo, OcpiEndpoint,
-  Ordering,
-  Paging, RegistrationToken, Setting,
-  Site,
-  SiteArea, SiteUser,
-  Tenant,
-  Transaction,
-  User, UserSite
-} from '../common.types';
+import { ActionResponse, Charger, ChargerInError, Company, DataResult, Image, Log, Logo, OcpiEndpoint, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, Tenant, Transaction, User, UserSite } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';

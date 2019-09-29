@@ -47,7 +47,7 @@ export class Utils {
     const mobileVendor = Utils.getMobileVendor();
     switch (mobileVendor) {
       case MobileType.iOS:
-        return 'eMobility://auth/${path}';
+        return `eMobility://${path}`;
       case MobileType.android:
         return `intent://${path}/#Intent;scheme=eMobility;package=com.emobility;end`;
     }

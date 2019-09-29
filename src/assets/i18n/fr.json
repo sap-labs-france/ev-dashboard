@@ -141,7 +141,7 @@
       "manufacturers": "Constructeurs",
       "vehicles": "Véhicules",
       "logs": "Logs",
-      "tenants": "Tenants",
+      "tenants": "Organisations",
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
@@ -992,7 +992,7 @@
   "tenants": {
     "title": "Organisation",
     "name": "Nom",
-    "tenant_management": "Gestion des Tenants",
+    "tenant_management": "Gestion des Organization",
     "tenant_not_found": "Cette organisation n'existe pas ! Vous ne pouvez pas vous connecter !",
     "email": "Email",
     "subdomain": "Sous Domaine",

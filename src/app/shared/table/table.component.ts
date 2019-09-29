@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
@@ -294,8 +295,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
-  public toggleRowSelection(row) {
-    this.dataSource.toggleRowSelection(row);
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    this.dataSource.toggleRowSelection(row, event);
   }
 
   public toggleMasterSelect() {

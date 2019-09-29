@@ -8,6 +8,11 @@ export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
 export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL' | 'DIRTY_CHANGE' | 'INVALID_CHANGE';
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
 
+export enum MobileType {
+  iOS = 'iOS',
+  android = 'Android'
+}
+
 export interface KeyValue {
   key: string;
   value: string;
@@ -568,6 +573,27 @@ export interface PricingSettings {
     chargeableItemName: string;
     user: string;
     password: string;
+  };
+}
+
+export enum BillingSettingsType {
+  stripe = 'stripe'
+}
+
+export interface BillingSettings {
+  id?: string;
+  identifier: ComponentEnum.BILLING;
+  sensitiveData: string[];
+  type: BillingSettingsType;
+  stripe: {
+    url: string;
+    secretKey: string;
+    publicKey: string;
+    noCardAllowed?: boolean;
+    immediateBillingAllowed: boolean;
+    periodicBillingAllowed: boolean;
+    advanceBillingAllowed?: boolean;
+    lastSynchronizedOn?: Date;
   };
 }
 

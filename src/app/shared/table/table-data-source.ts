@@ -1,3 +1,4 @@
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
@@ -73,6 +74,9 @@ export abstract class TableDataSource<T extends Data> {
     this.multipleRowSelection = multipleRowSelection;
     if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
+      if (!multipleRowSelection && this.selectedRows > 1) {
+        this.clearSelectedRows();
+      }
     }
   }
 
@@ -87,6 +91,7 @@ export abstract class TableDataSource<T extends Data> {
   public clearSelectedRows() {
     // Clear all
     this.selectedRows = 0;
+    this.lastSelectedRow = null;
     this.data.forEach((row) => {
       if (row.isSelectable) {
         row.isSelected = false;
@@ -113,21 +118,23 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  public toggleRowSelection(row) {
-    // Invert selection
-    row.isSelected = !row.isSelected;
-    // Adjust number of selected rows
-    if (row.isSelected) {
-      this.selectedRows++;
-      // Single Select?
-      if (!this.tableDef.rowSelection.multiple && this.lastSelectedRow) {
-        // Unselect last row
-        this.lastSelectedRow.isSelected = false;
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    if (this.tableDef.rowSelection.multiple) {
+      row.isSelected = event.checked;
+      if (row.isSelected) {
+        this.selectedRows++;
+        this.lastSelectedRow = row;
+      } else {
+        this.selectedRows--;
+        this.lastSelectedRow = null;
       }
-      this.lastSelectedRow = row;
     } else {
-      this.selectedRows--;
-      this.lastSelectedRow = null;
+      this.clearSelectedRows();
+      if (event.checked) {
+        row.isSelected = event.checked;
+        this.selectedRows = 1;
+        this.lastSelectedRow = row;
+      }
     }
   }
 
@@ -305,7 +312,7 @@ export abstract class TableDataSource<T extends Data> {
           // Date
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Dialog
+            // Dialog
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
@@ -321,17 +328,17 @@ export abstract class TableDataSource<T extends Data> {
                 }
               }
             }
-          // Dialog with multiple selections
+            // Dialog with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
-          // Dropdown with multiple selections
+            // Dropdown with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0 ) {
+            if (filterDef.currentValue.length > 0) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
-          // Others
+            // Others
           } else {
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
@@ -381,38 +388,38 @@ export abstract class TableDataSource<T extends Data> {
 
   public loadData(showSpinner = true): Observable<void> {
     return new Observable((observer) => {
-    // Show Spinner
-    if (showSpinner) {
-      this.spinnerService.show();
-    }
-    // Load data source
-    this.loadDataImpl().pipe(first()).subscribe((data) => {
-      // Set nbr of records
-      this.setTotalNumberOfRecords(data.count);
-      // Build stats
-      this.tableFooterStats = this.buildTableFooterStats(data);
-      // Ok
-      this.setData(data.result);
-      // Loading on going?
-      if (!this.loadingNumberOfRecords) {
-        if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-          this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
-          // Load records
-          this.requestNumberOfRecords();
+      // Show Spinner
+      if (showSpinner) {
+        this.spinnerService.show();
+      }
+      // Load data source
+      this.loadDataImpl().pipe(first()).subscribe((data) => {
+        // Set nbr of records
+        this.setTotalNumberOfRecords(data.count);
+        // Build stats
+        this.tableFooterStats = this.buildTableFooterStats(data);
+        // Ok
+        this.setData(data.result);
+        // Loading on going?
+        if (!this.loadingNumberOfRecords) {
+          if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
+            this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
+            // Load records
+            this.requestNumberOfRecords();
+          }
         }
-      }
-      // Hide Spinner
-      if (showSpinner) {
-        this.spinnerService.hide();
-      }
-      // Notify
-      observer.next();
-      observer.complete();
-    }, (error) => {
-      // Hide Spinner
-      if (showSpinner) {
-        this.spinnerService.hide();
-      }
+        // Hide Spinner
+        if (showSpinner) {
+          this.spinnerService.hide();
+        }
+        // Notify
+        observer.next();
+        observer.complete();
+      }, (error) => {
+        // Hide Spinner
+        if (showSpinner) {
+          this.spinnerService.hide();
+        }
         observer.error(error);
       });
     });

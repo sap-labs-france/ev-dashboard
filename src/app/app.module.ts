@@ -50,6 +50,7 @@ import { AppRouting } from './app.routing';
 import { DevEnvGuard } from './guard/development.guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { BrowserNotSupportedModule } from './pages/browser-not-supported/browser-not-supported.module';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { AuthorizationService } from './services/authorization.service';
@@ -67,7 +68,6 @@ import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
-import { BrowserNotSupportedModule } from './pages/browser-not-supported/browser-not-supported.module';
 
 registerLocaleData(localeFr, 'fr');
 

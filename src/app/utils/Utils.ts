@@ -49,7 +49,7 @@ export class Utils {
       case MobileType.iOS:
         return `emobility://${path}`;
       case MobileType.android:
-        return `intent://${path}#Intent;scheme=emobility;package=com.emobility;end`;
+        return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
     }
   }
 

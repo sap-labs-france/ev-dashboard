@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``
+              `Deep links Mobile App integration`
             ]
           }
         ]

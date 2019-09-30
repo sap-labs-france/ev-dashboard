@@ -1,10 +1,10 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MobileType } from 'app/common.types';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-import { MobileType } from 'app/common.types';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
@@ -47,7 +47,7 @@ export class Utils {
     const mobileVendor = Utils.getMobileVendor();
     switch (mobileVendor) {
       case MobileType.iOS:
-        return `emobility://${path}`;
+        return `eMobility://${path}`;
       case MobileType.android:
         return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
     }

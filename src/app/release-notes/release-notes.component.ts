@@ -30,10 +30,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``
-            ]
-          }
-        ]
+              ``,
+            ],
+          },
+        ],
       },
       {
         version: '2.1.9',

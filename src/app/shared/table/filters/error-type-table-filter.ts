@@ -14,7 +14,7 @@ export class ErrorTypeTableFilter extends TableFilter {
       class: 'col-sm-4 col-md-4 col-lg-3 col-xl-2 ',
       label: '',
       currentValue: [],
-      items: object.assign([], types),
+      items: Object.assign([], types),
       multiple: true,
     };
     // Set

@@ -14,7 +14,7 @@ export class LogHostTableFilter extends TableFilter {
       name: 'logs.host',
       class: 'col-md-4 col-lg-4 col-xl-2',
       currentValue: [],
-      items: object.assign([], logHosts),
+      items: Object.assign([], logHosts),
       multiple: true,
     };
     // Set

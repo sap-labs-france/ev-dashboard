@@ -369,8 +369,7 @@ export abstract class TableDataSource<T extends Data> {
     return this.staticFilters;
   }
 
-  public onRowActionMenuOpen(action: TableActionDef, row: T) {
-  }
+  public onRowActionMenuOpen(action: TableActionDef, row: T) {}
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 

@@ -14,7 +14,7 @@ export class LogActionTableFilter extends TableFilter {
       name: 'logs.actions',
       class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: [],
-      items: object.assign([], logActions),
+      items: Object.assign([], logActions),
       multiple: true,
     };
     // Set

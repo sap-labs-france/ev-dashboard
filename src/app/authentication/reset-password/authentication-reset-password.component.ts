@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MobileType } from 'app/common.types';
 import { ConfigService } from 'app/services/config.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
@@ -12,6 +11,7 @@ import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-authentication-reset-password',
@@ -38,14 +38,9 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
       private spinnerService: SpinnerService,
       private messageService: MessageService,
       private reCaptchaV3Service: ReCaptchaV3Service,
+      private windowService: WindowService,
       private configService: ConfigService,
       private translateService: TranslateService) {
-
-    if (Utils.isInMobileApp()) {
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink('auth/retrievePassword');
-      alert(mobileAppURL);
-      window.location.href = mobileAppURL;
-    }
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
@@ -70,6 +65,13 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
+    // Handle Deep Linking
+    if (Utils.isInMobileApp()) {
+      // Forward to Mobile App
+      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
+        `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
+      window.location.href = mobileAppURL;
+    }
   }
 
   ngOnInit() {

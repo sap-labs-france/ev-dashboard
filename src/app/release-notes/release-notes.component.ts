@@ -25,15 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.10',
-        date: new Date('2019-09-30'),
+        date: new Date('2019-10-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              ``,
-            ],
-          },
-        ],
+              `Deep links Mobile App integration`,
+              `Reset password occurs now in Mobile App`,
+              `Fixed User's image was not retrieved correctly`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.9',
@@ -49,10 +51,10 @@ export class ReleaseNotesComponent {
               `Fixed bottom list's stats in Refunded Sessions to take into account cancelled expenses`,
               `Fixed Charging Station's connection token cannot be revoked when it has already expired`,
               `Fixed 'More' button in list disappears when Log's Message column is too wide`,
-              `Changed handling of locked connectors for ABB chargers`,
-            ],
-          },
-        ],
+              `Changed handling of locked connectors for ABB chargers`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.8',
@@ -69,10 +71,10 @@ export class ReleaseNotesComponent {
               `Site Admin Users no longer have the right to change their status their profile`,
               `Site Admins can now refund any Users that charged on their Sites`,
               `Added in Sessions In Error the Sessions that have not been priced when the Pricing has been activated later on`,
-              `Fixed Admin Users got wrong number of records (Paging) in Refunding`,
-            ],
-          },
-        ],
+              `Fixed Admin Users got wrong number of records (Paging) in Refunding`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.7',
@@ -86,10 +88,10 @@ export class ReleaseNotesComponent {
               `Fixed Charging Station ID was not saved during a BootNotification`,
               `Migrated Consumption in backend to TypeScript`,
               `Fixed Basic User cannot see his Sessions`,
-              `Get the Charging Station from the Transaction in SAP Convergent Charging`,
-            ],
-          },
-        ],
+              `Get the Charging Station from the Transaction in SAP Convergent Charging`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.6',
@@ -106,10 +108,10 @@ export class ReleaseNotesComponent {
               `Added Charging Station's Connector ID in Email notification`,
               `Enhanced Backend logs to better follow the the Session lifecycle`,
               `Fixed Sessions In Error list should not be refreshed after Session's details pop-up is closed`,
-              `Can search for a user in Logs using his name, first name or email in free text search field`,
-            ],
-          },
-        ],
+              `Can search for a user in Logs using his name, first name or email in free text search field`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.5',
@@ -135,10 +137,10 @@ export class ReleaseNotesComponent {
               `Fixed Basic User cannot refund his Sessions to Concur`,
               `Fixed Admin User did not receive a confirmation email after Tenant creation`,
               `Fixed malformed Session ID for SAP CC`,
-              `Fixed backup to Company address when User's Site address is not know in Concur`,
-            ],
-          },
-        ],
+              `Fixed backup to Company address when User's Site address is not know in Concur`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.4',
@@ -159,10 +161,10 @@ export class ReleaseNotesComponent {
               `Enable Charging Station and Sessions for Site Admin users`,
               `Add Token description`,
               `Fixed Remote Start with another User`,
-              `Site Admin can see the Sessions made on his Charging Stations`,
-            ],
-          },
-        ],
+              `Site Admin can see the Sessions made on his Charging Stations`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.3',
@@ -182,10 +184,10 @@ export class ReleaseNotesComponent {
               `Added new filter named Host in Logs`,
               `Fixed Basic User can see an empty Session Details pane of another User`,
               `Enabled multi-selection for all filters throughout the application`,
-              `Fixed sorting not working on Charging Station`,
-            ],
-          },
-        ],
+              `Fixed sorting not working on Charging Station`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.2',
@@ -199,18 +201,18 @@ export class ReleaseNotesComponent {
               `Force mandatory fields to be highlighted in Charging Station Settings`,
               `Added Sessions with a wrong inactivity in Faulty Sessions`,
               `Added multi-selection in all drop-down filters`,
-              `Fixed navigation issues`,
-            ],
+              `Fixed navigation issues`
+            ]
           },
           {
             name: 'Backend',
             changes: [
               `Fixed search with an ID in Site, Site Area, Company and User list`,
               `Send a new notification email for signed and certified Sessions to the User`,
-              `Added several tens of Unit Tests`,
-            ],
-          },
-        ],
+              `Added several tens of Unit Tests`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.1',
@@ -229,8 +231,8 @@ export class ReleaseNotesComponent {
               `Fixed wrong messages when Charging Station is saved`,
               `Fixed Session's stats in list footer disappear when filters are reset`,
               `Fixed Max Record in paginator is not recalculated after applying a filter`,
-              `Invoice button is removed for Basic Users (used only for SAP CC testing)`,
-            ],
+              `Invoice button is removed for Basic Users (used only for SAP CC testing)`
+            ]
           },
           {
             name: 'Backend',
@@ -239,10 +241,10 @@ export class ReleaseNotesComponent {
               `Added multi-selection capabilities in DB requests`,
               `Fixed setting were lost when Tenant's component changed`,
               `IP of Charging Stations is stored when Boot Notification and Heartbeat is received (Soap and JSon)`,
-              `Removed useless logs (save DB space)`,
-            ],
-          },
-        ],
+              `Removed useless logs (save DB space)`
+            ]
+          }
+        ]
       },
       {
         version: '2.1.0',
@@ -262,8 +264,8 @@ export class ReleaseNotesComponent {
               `Added filter on all years in Statistics`,
               `Split Statistics chart to Year/Month`,
               `Migrated the application to Angular version 8`,
-              `Displayed Statistic chart's legends`,
-            ],
+              `Displayed Statistic chart's legends`
+            ]
           },
           {
             name: 'Backend',
@@ -272,10 +274,10 @@ export class ReleaseNotesComponent {
               `Added Site Admin role for Basic users`,
               `All Tenant' settings were reset when activating a component in a Tenant`,
               `Use of backup email server in case the main server is blocked`,
-              `Migrated the backend in Typescript (first phase)`,
-            ],
-          },
-        ],
+              `Migrated the backend in Typescript (first phase)`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.28',
@@ -285,8 +287,8 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Fixed when there is only one connector in charger's details`,
-              `Added capability to search in detailed logs`,
-            ],
+              `Added capability to search in detailed logs`
+            ]
           },
           {
             name: 'Backend',
@@ -297,9 +299,9 @@ export class ReleaseNotesComponent {
               `Check that the chargeBoxIdentity is always provided in OCPP`,
               `Enhanced OCPP SOAP logging by adding SOAP Headers`,
               `Fixed new registered Users are not auto-assigned to Sites`,
-            ],
-          },
-        ],
+            ]
+          }
+        ]
       },
       {
         version: '2.0.27',
@@ -314,17 +316,17 @@ export class ReleaseNotesComponent {
               `Use theme colors in chart`,
               `Enhanced Logging's Actions for OCPI`,
               `Center vertically the tooltip in Statistics' bar chart`,
-              `Removed double scroll bar when displaying the Session's charging curve`,
-            ],
+              `Removed double scroll bar when displaying the Session's charging curve`
+            ]
           },
           {
             name: 'Backend',
             changes: [
               `Set first consumption to 0 kW.h in the Session's charging curve`,
-              `Refactoring of Authorizations based on scopes`,
-            ],
-          },
-        ],
+              `Refactoring of Authorizations based on scopes`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.26',
@@ -334,18 +336,18 @@ export class ReleaseNotesComponent {
             name: 'Front-end',
             changes: [
               `Added units in Statistics + Format numbers with locale in User's profile`,
-              `Fixed all values appear in Session's charging curve`,
-            ],
+              `Fixed all values appear in Session's charging curve`
+            ]
           },
           {
             name: 'Backend',
             changes: [
               `Removed from Log's source the instance ID`,
               `Take into consideration the price to optimize the Session charging curve`,
-              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`,
-            ],
-          },
-        ],
+              `Fixed auto disconnect user when he/she has more than 2 badges in his/her profile`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.25',
@@ -360,8 +362,8 @@ export class ReleaseNotesComponent {
               `Fixed date filters not working anymore in all list`,
               `Added missing actions in Log action filter`,
               `Added inactivity in Charging Station list`,
-              `Added Statistics on Consumption and Usage`,
-            ],
+              `Added Statistics on Consumption and Usage`
+            ]
           },
           {
             name: 'Backend',
@@ -375,10 +377,10 @@ export class ReleaseNotesComponent {
               `Handle Meter Value consumption as floating point instead of integer for KEBA certification`,
               `Round instant power in transaction's consumption`,
               `Fixed Is Authorized to Stop Transaction for Mobile app`,
-              `Add inactivity in Charging Station's connectors`,
-            ],
-          },
-        ],
+              `Add inactivity in Charging Station's connectors`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.24',
@@ -394,8 +396,8 @@ export class ReleaseNotesComponent {
               `Super Admin cannot access Settings and Connectors in Master Tenant`,
               `Added creation of Tenant with Components`,
               `Added Component's type drop-down per component`,
-              `Unfold the sidebar when the screen width is greater than 1280 pixels`,
-            ],
+              `Unfold the sidebar when the screen width is greater than 1280 pixels`
+            ]
           },
           {
             name: 'Backend',
@@ -407,10 +409,10 @@ export class ReleaseNotesComponent {
               `Convergent Charging based on Site Area instead of Charging Station`,
               `Add extra inactivity when the connector's status changes from Finishing to Available at the end of the transaction`,
               `Updated the authentication token size`,
-              `Changed storage structure of Component's settings`,
-            ],
-          },
-        ],
+              `Changed storage structure of Component's settings`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.23',
@@ -429,8 +431,8 @@ export class ReleaseNotesComponent {
               `Uncheck unselectable refund rows in table after a refunding`,
               `Improved performances of lists + fix sticky list header issue on Firefox and Safari`,
               `Users are logged off if their profile or tenant's config are changed`,
-              `Admin can disable the notifications for a given user`,
-            ],
+              `Admin can disable the notifications for a given user`
+            ]
           },
           {
             name: 'Backend',
@@ -441,10 +443,10 @@ export class ReleaseNotesComponent {
               `Add OCPP validation of Session request (1.6 and 1.5)`,
               `Save last reboot date of Charging Station`,
               `Fix potential duplicate keys when computing IDs with timestamp (use of ISO date instead of to string date)`,
-              `Migration task to update the price of existing Sessions`,
-            ],
-          },
-        ],
+              `Migration task to update the price of existing Sessions`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.22',
@@ -467,8 +469,8 @@ export class ReleaseNotesComponent {
               `Reload data with spinner when filter is changed`,
               `Added auto-refresh to session's details pop-up when a session in ongoing`,
               `Enabled polling auto-refresh only when enabled in configuration`,
-              `Fixed Google map autocomplete issue`,
-            ],
+              `Fixed Google map autocomplete issue`
+            ]
           },
           {
             name: 'Backend',
@@ -479,10 +481,10 @@ export class ReleaseNotesComponent {
               `Updated session duration in notification`,
               `Fixed basic user see all charging stations`,
               `Fixed Site-Area filter does not work in Sessions`,
-              `Always create a new report in Concur when a refund is requested`,
-            ],
-          },
-        ],
+              `Always create a new report in Concur when a refund is requested`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.21',
@@ -496,15 +498,15 @@ export class ReleaseNotesComponent {
               `Should be able to see the list of chargers in Site Area`,
               `Display an error message when Session fails to start`,
               `Handle auto stop of Session when user got locked after starting one`,
-            ],
+            ]
           },
           {
             name: 'Backend',
             changes: [
               `Validate charger's messages with JSon schemas`,
-            ],
-          },
-        ],
+            ]
+          }
+        ]
       },
       {
         version: '2.0.20',
@@ -516,10 +518,10 @@ export class ReleaseNotesComponent {
               `Dialog Filters: Overlay appears without showing the pop-up`,
               `Chargers: Concatenate connector's errors in one column instead of three`,
               `Site Area: User access control checkbox value is displayed for Basic user`,
-              `Session Details: Added the percentage of inactivity`,
-            ],
-          },
-        ],
+              `Session Details: Added the percentage of inactivity`
+            ]
+          }
+        ]
       },
       {
         version: '2.0.19',
@@ -528,18 +530,18 @@ export class ReleaseNotesComponent {
           {
             name: 'Front-end',
             changes: [
-              `Productive use of the new e-Mobility front-end`,
-            ],
+              `Productive use of the new e-Mobility front-end`
+            ]
           },
           {
             name: 'Backend',
             changes: [
               `Concur: Add quick expense V4 implementation`,
               `Convergent Invoicing: Enhanced logs when an error occurred`,
-              `Ignored connector ID 0 for EBEE charger`            ],
-          },
-        ],
-      },
+              `Ignored connector ID 0 for EBEE charger`            ]
+          }
+        ]
+      }
     ];
   }
 }

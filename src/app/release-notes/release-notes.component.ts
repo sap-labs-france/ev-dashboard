@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `User filter has been added in Refund Session`,
               `Filter on Charging Station's OCPP parameters`,
               `Added Export of Charging Station's OCPP parameters`,
               `Reset password occurs now in Mobile App`,

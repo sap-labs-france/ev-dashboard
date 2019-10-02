@@ -121,7 +121,9 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       // Search filter
       let filteredChargerConfiguration = [];
       for (const parameter of this.chargerConfiguration) {
-        if (parameter.key.includes(this.searchValue)) {
+        let key = parameter.key;
+        key = key.toLowerCase();
+        if (key.includes(this.searchValue.toLowerCase())) {
           filteredChargerConfiguration.push(parameter);
         }
       }
@@ -206,7 +208,19 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   }
 
   public exportConfiguration() {
-    // TODO
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.dialog.export.title'),
+      this.translateService.instant('chargers.dialog.export.confirm')
+    ).subscribe((response) => {
+      if (response === Constants.BUTTON_TYPE_YES) {
+        let csv = `Parameter,Value\r\nid,${this.charger.id}\r\n`;
+        for (const parameter of this.chargerConfiguration) {
+          csv += `${parameter.key},"${parameter.value}"\r\n`;
+        }
+        const blob = new Blob([csv]);
+        saveAs(blob, 'exportChargingStationConfiguration.csv');
+      }
+    });
   }
 
   public changeParameter(item) {

@@ -11,6 +11,7 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+import { TransactionsHistoryTableDataSource } from 'app/pages/transactions/history/transactions-history-table-data-source';
 
 @Injectable()
 export class CentralServerService {
@@ -802,6 +803,20 @@ export class CentralServerService {
         headers: this._buildHttpHeaders(),
         responseType: 'blob',
         params
+      })
+      .pipe(
+        catchError(this._handleHttpError)
+      );
+  }
+
+  public exportChargingStationConfiguration(id): Observable<any> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfigurationExport?ChargeBoxID=${id}`,
+      {
+        headers: this._buildHttpHeaders()
       })
       .pipe(
         catchError(this._handleHttpError)

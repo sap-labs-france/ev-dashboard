@@ -1,12 +1,16 @@
-import { Component, ElementRef, Injectable, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injectable, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
+import saveAs from 'file-saver';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 import { Charger } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
+import { ConfigService } from '../../../../services/config.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -18,8 +22,10 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: './charging-station-ocpp-parameters.component.html'
 })
 @Injectable()
-export class ChargingStationOcppParametersComponent implements OnInit {
+export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() charger: Charger;
+  @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
+  public searchPlaceholder = '';
   public chargerConfiguration;
   public loadedChargerConfiguration;
   public userLocales;
@@ -28,8 +34,11 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   isGetConfigurationActive = true;
   @ViewChildren('parameter') parameterInput: QueryList<ElementRef>;
   private messages;
+  private searchValue = '';
+  private alive: boolean;
 
   constructor(
+    private configService: ConfigService,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -39,6 +48,9 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private dialogService: DialogService) {
+
+    // Set placeholder
+    this.searchPlaceholder = this.translateService.instant('general.search');
 
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
@@ -60,8 +72,36 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     this.loadConfiguration();
   }
 
+  ngAfterViewInit(): void {
+    this.alive = true;
+    // Init initial value
+    this.searchInput.nativeElement.value = this.getSearchValue();
+    // Observe the Search field
+    fromEvent(this.searchInput.nativeElement, 'input').pipe(
+      takeWhile(() => this.alive),
+      map((e: KeyboardEvent) => e.target['value']),
+      debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+      distinctUntilChanged()
+    ).subscribe((text: string) => {
+      this.setSearchValue(text);
+      this.refresh();
+    });
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
+  }
+
   public refresh() {
     this.loadConfiguration();
+  }
+
+  public getSearchValue(): string {
+    return this.searchValue;
+  }
+
+  public setSearchValue(value: string) {
+    this.searchValue = value;
   }
 
   public loadConfiguration() {
@@ -78,6 +118,16 @@ export class ChargingStationOcppParametersComponent implements OnInit {
         this.chargerConfiguration = [];
       }
       this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration)); // keep a copy of teh original loaded data
+      // Search filter
+      let filteredChargerConfiguration = [];
+      for (const parameter of this.chargerConfiguration) {
+        let key = parameter.key;
+        key = key.toLowerCase();
+        if (key.includes(this.searchValue.toLowerCase())) {
+          filteredChargerConfiguration.push(parameter);
+        }
+      }
+      this.chargerConfiguration = filteredChargerConfiguration;
       for (const parameter of this.chargerConfiguration) {
         if (!parameter.readonly) {
           this.formGroup.addControl(parameter.key, new FormControl());
@@ -157,6 +207,21 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     });
   }
 
+  public exportConfiguration() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.dialog.exportConfig.title'),
+      this.translateService.instant('chargers.dialog.exportConfig.confirm')
+    ).subscribe((response) => {
+      if (response === Constants.BUTTON_TYPE_YES) {
+        let csv = `Parameter,Value\r\nid,${this.charger.id}\r\n`;
+        for (const parameter of this.chargerConfiguration) {
+          csv += `${parameter.key},"${parameter.value}"\r\n`;
+        }
+        const blob = new Blob([csv]);
+        saveAs(blob, 'exportChargingStationConfiguration.csv');
+      }
+    });
+  }
 
   public changeParameter(item) {
     if (item.icon === 'edit') {

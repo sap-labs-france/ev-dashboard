@@ -30,6 +30,10 @@
     height: 45px;
 }
 
+.charger-dialog-container {
+  max-height: 85vh !important;
+}
+
 .charger-param-component {
     max-height: 74vh !important;
 }
@@ -39,5 +43,5 @@
 }
 
 .ocpp-param-component {
-    max-height: 65vh !important;
+    max-height: 57vh !important;
 }

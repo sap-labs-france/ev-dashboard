@@ -631,6 +631,10 @@
         "title": "Export charging stations",
         "confirm": "Do you really want to export all the charging stations matching the filters ?"
       },
+      "exportConfig": {
+        "title": "Export charging station parameters",
+        "confirm": "Do you really want to export all the parameters matching the filter ?"
+      },
       "localisation": {
         "title": "Charging stations localisations"
       },

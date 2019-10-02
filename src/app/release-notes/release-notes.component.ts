@@ -25,12 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.10',
-        date: new Date('2019-09-30'),
+        date: new Date('2019-10-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Deep links Mobile App integration`
+              `Deep links Mobile App integration`,
+              `Reset password occurs now in Mobile App`,
+              `Fixed User's image was not retrieved correctly`
             ]
           }
         ]

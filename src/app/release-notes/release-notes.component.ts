@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Deep links Mobile App integration`,
+              `Filter on Charging Station's OCPP parameters`,
+              `Added Export of Charging Station's OCPP parameters`,
               `Reset password occurs now in Mobile App`,
               `Fixed User's image was not retrieved correctly`
             ]

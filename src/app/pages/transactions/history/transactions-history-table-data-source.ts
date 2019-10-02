@@ -17,7 +17,7 @@ import {
   TableColumnDef,
   TableDef,
   TableFilterDef,
-  Transaction
+  Transaction,
 } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -97,20 +97,20 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             // Error
             observer.error(error);
           });
-      }
+      },
     );
   }
 
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ConsumptionChartDetailComponent
+        angularComponent: ConsumptionChartDetailComponent,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -131,26 +131,26 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value)
+        formatter: (value) => this.datePipe.transform(value),
       },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
+        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
       },
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
         headerClass: 'd-none d-lg-table-cell',
         class: 'text-left d-none d-lg-table-cell',
-        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row)
+        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row),
       },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
       },
       {
         id: 'tagID',
@@ -161,14 +161,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       {
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
       });
     if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        formatter: (value) => this.appUserNamePipe.transform(value),
       });
       if (this.componentService.isActive(ComponentEnum.PRICING)) {
         columns.push({
@@ -176,7 +176,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           name: 'transactions.price',
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
-          formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit)
+          formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
         });
       }
     }
@@ -224,7 +224,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new ChargerTableFilter().getFilterDef()
+      new ChargerTableFilter().getFilterDef(),
     ];
 
     // Show Site Area Filter If Organization component is active
@@ -275,7 +275,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.delete.title'),
-          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this._deleteTransaction(transaction);
@@ -293,7 +293,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -302,7 +302,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (!this.authorizationService.isDemo()) {
       return [
         new TableExportAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     } else {
       return tableActionsDef;
@@ -314,7 +314,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.export.title'),
-          this.translateService.instant('transactions.dialog.export.confirm')
+          this.translateService.instant('transactions.dialog.export.confirm'),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this.exportTransactions();
@@ -333,7 +333,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     dialogConfig.width = '80vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
-      transactionId: transaction.id
+      transactionId: transaction.id,
     };
     // disable outside click close
     dialogConfig.disableClose = true;
@@ -355,7 +355,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private exportTransactions() {
     this.centralServerService.exportTransactions(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP
+      skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportTransactions.csv');

@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.10',
-        date: new Date('2019-10-01'),
+        date: new Date('2019-10-03'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,7 +34,8 @@ export class ReleaseNotesComponent {
               `Filter on Charging Station's OCPP parameters`,
               `Added Export of Charging Station's OCPP parameters`,
               `Reset password occurs now in Mobile App`,
-              `Fixed User's image was not retrieved correctly`
+              `Fixed User's image was not retrieved correctly`,
+              `Fixed User account activation`
             ]
           }
         ]

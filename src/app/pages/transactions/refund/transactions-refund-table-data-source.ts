@@ -5,16 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import {
-  ActionsResponse,
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  Transaction,
-} from '../../../common.types';
+import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -34,7 +25,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
@@ -101,16 +91,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true,
+        enabled: true
       },
       rowSelection: {
         enabled: true,
-        multiple: true,
+        multiple: true
       },
       rowDetails: {
         enabled: false,
-        angularComponent: ConsumptionChartDetailComponent,
-      },
+        angularComponent: ConsumptionChartDetailComponent
+      }
     };
   }
 
@@ -147,20 +137,26 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'd-none d-xl-table-cell',
       },
       {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      },
+      {
         id: 'refundData.reportId',
         name: 'transactions.reportId',
-        sortable: true,
+        sortable: true
       },
       {
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : '',
+        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : ''
       },
       {
         id: 'refundData.status',
         name: 'transactions.state',
-        formatter: (value) => this.translateService.instant(`transactions.refund_${value}`),
+        formatter: (value) => this.translateService.instant(`transactions.refund_${value}`)
       },
       {
         id: 'timestamp',
@@ -169,32 +165,26 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value),
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (value) => this.datePipe.transform(value)
       },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
+        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs)
       }, {
         id: 'stop.totalConsumption',
         name: 'transactions.total_consumption',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh')
       }, {
         id: 'stop.price',
         name: 'transactions.price',
-        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
+        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit)
       }, {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
       });
 
     return columns as TableColumnDef[];
@@ -236,7 +226,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return [
       new TableRefundAction().getActionDef(),
       new TableOpenInConcurAction().getActionDef(),
-      ...tableActionsDef,
+      ...tableActionsDef
     ];
   }
 
@@ -250,7 +240,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         } else {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('transactions.dialog.refund.title'),
-            this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length}),
+            this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length})
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
               this.refundTransactions(this.getSelectedRows());
@@ -275,7 +265,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef(),
+      new TableRefreshAction().getActionDef()
     ];
   }
 
@@ -285,14 +275,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
-    this.centralServerService.refundTransactions(transactions.map((tr) => tr.id)).subscribe((response: ActionsResponse) => {
+    this.centralServerService.refundTransactions(transactions.map(tr => tr.id)).subscribe((response: ActionsResponse) => {
       if (response.inError > 0) {
         this.messageService.showErrorMessage(
           this.translateService.instant('transactions.notification.refund.partial',
             {
               inError: response.inError,
-              total: response.inError + response.inSuccess,
-            },
+              total: response.inError + response.inSuccess
+            }
           ));
       } else {
         this.messageService.showSuccessMessage(
@@ -324,7 +314,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
+      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0];
         }

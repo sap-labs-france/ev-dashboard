@@ -631,6 +631,10 @@
         "title": "Exporter les bornes",
         "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?"
       },
+      "exportConfig": {
+        "title": "Exporter les paramètres de la borne",
+        "confirm": "Voulez-vous vraiment exporter les paramètres de la borne correspondant au filtre ?"
+      },
       "localisation": {
         "title": "Localisation des bornes"
       },

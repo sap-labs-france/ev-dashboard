@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
+import { TransactionsHistoryTableDataSource } from 'app/pages/transactions/history/transactions-history-table-data-source';
 import { throwError, BehaviorSubject, EMPTY, Observable, ObservableInput } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ActionResponse, Charger, ChargerInError, Company, DataResult, Image, Log, Logo, OcpiEndpoint, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, Tenant, Transaction, User, UserSite } from '../common.types';
@@ -11,7 +12,6 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-import { TransactionsHistoryTableDataSource } from 'app/pages/transactions/history/transactions-history-table-data-source';
 
 @Injectable()
 export class CentralServerService {
@@ -816,10 +816,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfigurationExport?ChargeBoxID=${id}`,
       {
-        headers: this._buildHttpHeaders()
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError)
+        catchError(this._handleHttpError),
       );
   }
 

@@ -25,11 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.10',
-        date: new Date('2019-10-03'),
+        date: new Date('2019-10-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Tenant creation (email activation + user's password)`,
+              `Notify Admins when authentication with primary email server failed`,
+              `Notify Admins when OCPI patching of Charging Station's statuses failed`,
               `User filter has been added in Refund Session`,
               `Filter on Charging Station's OCPP parameters`,
               `Added Export of Charging Station's OCPP parameters`,

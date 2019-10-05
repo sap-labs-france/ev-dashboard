@@ -5,16 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import {
-  ActionsResponse,
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  Transaction
-} from '../../../common.types';
+import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -34,7 +25,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
@@ -147,6 +137,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'd-none d-xl-table-cell',
       },
       {
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      },
+      {
         id: 'refundData.reportId',
         name: 'transactions.reportId',
         sortable: true
@@ -170,12 +166,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         sortable: true,
         direction: 'desc',
         formatter: (value) => this.datePipe.transform(value)
-      },
-      {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
       },
       {
         id: 'stop.totalDurationSecs',

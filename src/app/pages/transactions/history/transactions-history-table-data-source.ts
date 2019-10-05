@@ -109,7 +109,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent
-      }
+      },
+      hasDynamicRowAction: true
     };
   }
 
@@ -239,10 +240,18 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
+  buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
+    if (!transaction) {
+      return [];
+    }
     const rowActions = [this.openAction];
     if (this.isAdmin) {
-      rowActions.push(this.deleteAction);
+      if (!transaction.refundData || !transaction.refundData.status) {
+        rowActions.push(this.deleteAction);
+      } else if (transaction.refundData.status === 'notSubmitted'
+        || transaction.refundData.status === 'cancelled') {
+        rowActions.push(this.deleteAction);
+      }
     }
     return rowActions;
   }

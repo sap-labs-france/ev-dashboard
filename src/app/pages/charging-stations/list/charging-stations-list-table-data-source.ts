@@ -2,16 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef
-} from 'app/common.types';
+import { Charger, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -164,16 +155,22 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
             sortable: true,
             defaultValue: 'sites.unassigned',
             headerClass: 'd-none d-xl-table-cell'
-          },
-          {
-            id: 'siteArea.name',
-            name: 'site_areas.title',
-            sortable: true,
-            defaultValue: 'site_areas.unassigned',
-            headerClass: 'd-none d-xl-table-cell'
           }
         ]
       );
+      if (!this.authorizationService.isDemo()) {
+        tableColumns = tableColumns.concat(
+          [
+            {
+              id: 'siteArea.name',
+              name: 'site_areas.title',
+              sortable: true,
+              defaultValue: 'site_areas.unassigned',
+              headerClass: 'd-none d-xl-table-cell'
+            }
+          ]
+        );
+      }
     }
     if (this.authorizationService.isAdmin()) {
       tableColumns = tableColumns.concat(

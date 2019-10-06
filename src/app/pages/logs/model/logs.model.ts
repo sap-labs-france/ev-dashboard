@@ -121,6 +121,7 @@ export const logActions: KeyValue[] = [
   {key: 'Settings', value: 'Settings'},
   {key: 'CleanupTransaction', value: 'CleanupTransaction'},
   {key: 'TransactionsCompleted', value: 'TransactionsCompleted'},
+  {key: 'UpdateUserMobileToken', value: 'UpdateUserMobileToken'},
   {key: 'NotifyOptimalChargeReached', value: 'NotifyOptimalChargeReached'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {

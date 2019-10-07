@@ -154,6 +154,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
             name: 'sites.site',
             sortable: true,
             defaultValue: 'sites.unassigned',
+            class: 'd-none d-xl-table-cell',
             headerClass: 'd-none d-xl-table-cell'
           }
         ]
@@ -166,6 +167,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
               name: 'site_areas.title',
               sortable: true,
               defaultValue: 'site_areas.unassigned',
+              class: 'd-none d-xl-table-cell',
               headerClass: 'd-none d-xl-table-cell'
             }
           ]

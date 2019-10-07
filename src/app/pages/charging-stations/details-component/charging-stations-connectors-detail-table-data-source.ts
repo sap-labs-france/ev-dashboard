@@ -78,9 +78,9 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Return connector
       if (this.charger) {
         this.charger.connectors.forEach(connector => {
-          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
-          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeTagID);
           connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
 

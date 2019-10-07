@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.11',
+        date: new Date('2019-10-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fix stop authorization for Basic User`,
+              `Hide column when the browser is resized`
+            ]
+          }
+        ]
+      },
+      {
         version: '2.1.10',
         date: new Date('2019-10-05'),
         componentChanges: [

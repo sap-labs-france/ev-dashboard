@@ -4,7 +4,7 @@ export const logLevels: KeyValue[] = [
   {key: 'E', value: 'logs.error'},
   {key: 'W', value: 'logs.warning'},
   {key: 'I', value: 'logs.info'},
-  {key: 'D', value: 'logs.debug'},
+  {key: 'D', value: 'logs.debug'}
 ];
 
 export const logActions: KeyValue[] = [
@@ -121,7 +121,8 @@ export const logActions: KeyValue[] = [
   {key: 'Settings', value: 'Settings'},
   {key: 'CleanupTransaction', value: 'CleanupTransaction'},
   {key: 'TransactionsCompleted', value: 'TransactionsCompleted'},
-  {key: 'NotifyOptimalChargeReached', value: 'NotifyOptimalChargeReached'},
+  {key: 'UpdateUserMobileToken', value: 'UpdateUserMobileToken'},
+  {key: 'NotifyOptimalChargeReached', value: 'NotifyOptimalChargeReached'}
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;
@@ -143,7 +144,7 @@ export const logHosts: KeyValue[] = [
   {key: 'sap-ev-odata-server', value: 'sap-ev-odata-server'},
   {key: 'sap-ev-rest-server', value: 'sap-ev-rest-server'},
   {key: 'sap-ev-rest-server-qa', value: 'sap-ev-rest-server-qa'},
-  {key: 'sap-ev-simulator-qa', value: 'sap-ev-simulator-qa'},
+  {key: 'sap-ev-simulator-qa', value: 'sap-ev-simulator-qa'}
 ].sort((host1, host2) => {
   if (host1.value.toLocaleLowerCase() < host2.value.toLocaleLowerCase()) {
     return -1;

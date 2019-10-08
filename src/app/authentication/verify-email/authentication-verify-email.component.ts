@@ -19,6 +19,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
   public verifyEmailAction: boolean;
   public verificationToken: string;
+  public resetToken: string;
   public verificationEmail: string;
   private messages: object;
 
@@ -51,6 +52,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.email = this.formGroup.controls['email'];
     // Get verificationToken & email
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
+    this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
   }
 
@@ -98,10 +100,18 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       // Success
       if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Show message
-        this.messageService.showSuccessMessage(this.messages['verify_email_success']);
-        // Go to login
-        this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+
+        if (this.resetToken) {
+          // Show message
+          this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
+          // Go to reset password
+          this.router.navigate(['auth/reset-password'], {queryParams: {hash: this.resetToken}});
+        } else {
+          // Show message
+          this.messageService.showSuccessMessage(this.messages['verify_email_success']);
+          // Go to login
+          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+        }
         // Unexpected Error
       } else {
         // Unexpected error

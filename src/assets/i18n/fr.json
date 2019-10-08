@@ -27,7 +27,7 @@
     "nbr_of_records": "Enregistrements",
     "connectors": "Connecteurs",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.10",
+    "last_update": "Version 2.1.11",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -462,6 +462,7 @@
     "verify_email_title": "Activation de votre Compte",
     "verify_email_already_active": "Votre compte est déjà actif !",
     "verify_email_success": "Votre compte a été activé avec succès!",
+    "verify_email_success_set_password": "Votre compte a été activé ! Merci de définir un mot de passe pour finaliser l'enregistrement",
     "verify_email_token_not_valid": "Le lien d'activation de votre compte n'est plus valide",
     "verify_email_email_not_valid": "Cet Email n'existe plus",
     "verify_email_error": "Une erreur est survenue pendant l'activation' de votre compte",
@@ -1375,7 +1376,8 @@
     "dialog": {
       "delete": {
         "title": "Supprimer la Session",
-        "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?"
+        "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?",
+        "rejected_refunded_msg": "La session de {{user}} ne peut pas être supprimée car elle a été transférée vers votre système de remboursement"
       },
       "export": {
         "title": "Exporter les sessions",

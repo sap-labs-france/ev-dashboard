@@ -27,7 +27,7 @@
     "nbr_of_records": "Records",
     "connectors": "Connectors",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.10",
+    "last_update": "Version 2.1.11",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -462,6 +462,7 @@
     "verify_email_title": "Account Activation",
     "verify_email_already_active": "Your account is already active!",
     "verify_email_success": "Your account has been activated with success!",
+    "verify_email_success_set_password": "Your account has been activated, please set up your password to finalize the registration",
     "verify_email_token_not_valid": "Your account's activation link is no longer valid",
     "verify_email_email_not_valid": "This Email does not exist anymore",
     "verify_email_error": "Error occurred while activating your account",
@@ -1375,7 +1376,8 @@
     "dialog": {
       "delete": {
         "title": "Delete Session",
-        "confirm": "Do you really want to delete the session of {{user}} ?"
+        "confirm": "Do you really want to delete the session of {{user}} ?",
+        "rejected_refunded_msg": "Session of {{user}} cannot be deleted because it has been transferred to your refunding system"
       },
       "export": {
         "title": "Export Sessions",

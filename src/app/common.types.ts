@@ -160,7 +160,7 @@ export interface Connector extends Data {
   voltage: number;
   amperage: number;
   status: string;
-  activeBadgeID: string;
+  activeTagID: string;
   activeTransactionID: number;
   activeTransactionDate: Date;
   type: string;

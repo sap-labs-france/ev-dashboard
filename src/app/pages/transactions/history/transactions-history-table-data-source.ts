@@ -109,8 +109,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent
-      },
-      hasDynamicRowAction: true
+      }
     };
   }
 
@@ -240,18 +239,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    if (!transaction) {
-      return [];
-    }
+  buildTableRowActions(): TableActionDef[] {
     const rowActions = [this.openAction];
     if (this.isAdmin) {
-      if (!transaction.refundData || !transaction.refundData.status) {
-        rowActions.push(this.deleteAction);
-      } else if (transaction.refundData.status === 'notSubmitted'
-        || transaction.refundData.status === 'cancelled') {
-        rowActions.push(this.deleteAction);
-      }
+      rowActions.push(this.deleteAction);
     }
     return rowActions;
   }
@@ -273,14 +264,24 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('transactions.dialog.delete.title'),
-          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
-        ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
-            this._deleteTransaction(transaction);
-          }
-        });
+
+        if (transaction.refundData && (transaction.refundData.status === 'submitted' ||
+          transaction.refundData.status === 'approved')) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg',
+              {user: this.appUserNamePipe.transform(transaction.user)}));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.confirm',
+              {user: this.appUserNamePipe.transform(transaction.user)})
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._deleteTransaction(transaction);
+            }
+          });
+        }
         break;
       case 'open':
         this.openSession(transaction);

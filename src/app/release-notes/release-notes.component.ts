@@ -31,10 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fix stop authorization for Basic User`,
-              `Hide column when the browser is resized`
-            ]
-          }
-        ]
+              `Hide column when the browser is resized`,
+            ],
+          },
+        ],
       },
       {
         version: '2.1.10',

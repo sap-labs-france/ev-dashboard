@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.11',
-        date: new Date('2019-10-07'),
+        date: new Date('2019-10-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fix stop authorization for Basic User`,
               `Hide column when the browser is resized`,
+              `TypeScript migration of OCPI entity in the backend`
             ],
           },
         ],

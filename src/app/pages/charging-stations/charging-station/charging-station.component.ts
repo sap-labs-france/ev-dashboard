@@ -14,7 +14,7 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
   selector: 'app-charging-station',
-  templateUrl: 'charging-station.component.html'
+  templateUrl: 'charging-station.component.html',
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {
   @Input() currentCharger: Charger;

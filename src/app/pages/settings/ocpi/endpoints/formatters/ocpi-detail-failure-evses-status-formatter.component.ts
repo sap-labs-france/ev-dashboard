@@ -10,7 +10,7 @@ import { Constants } from 'app/utils/Constants';
         {{row.failureNbr}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpointDetail;

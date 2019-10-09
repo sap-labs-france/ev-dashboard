@@ -4,7 +4,7 @@ import { PricingSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-convergent-charging',
-  templateUrl: 'settings-convergent-charging.component.html'
+  templateUrl: 'settings-convergent-charging.component.html',
 })
 export class SettingsConvergentChargingComponent implements OnInit {
   @Input() formGroup: FormGroup;
@@ -19,30 +19,30 @@ export class SettingsConvergentChargingComponent implements OnInit {
   ngOnInit(): void {
     // Convergent Charging pricing
     this.convergentCharging = new FormGroup({
-      'url': new FormControl('',
+      url: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
-        ])
+          Validators.maxLength(100),
+        ]),
       ),
-      'chargeableItemName': new FormControl('',
+      chargeableItemName: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
-        ])
+          Validators.maxLength(100),
+        ]),
       ),
-      'user': new FormControl('',
+      user: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
-        ])
+          Validators.maxLength(100),
+        ]),
       ),
-      'password': new FormControl('',
+      password: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
-        ])
-      )
+          Validators.maxLength(100),
+        ]),
+      ),
     });
     // Add
     this.formGroup.addControl('convergentCharging', this.convergentCharging);

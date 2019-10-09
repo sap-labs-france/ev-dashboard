@@ -24,9 +24,9 @@ export class LocalStorageService {
         request: {
           id: this._requestId++,
           type: 'set',
-          key: key,
-          value: value
-        }
+          key,
+          value,
+        },
       };
       // Send
       this._sendRequest(data);
@@ -38,16 +38,16 @@ export class LocalStorageService {
 
   public getItem(key): Observable<any> {
     // Exec
-    return new Observable(observer => {
+    return new Observable((observer) => {
       // iFrame?
       if (this._isInIFrame) {
         const data = {
           request: {
             id: this._requestId++,
             type: 'get',
-            key: key
+            key,
           },
-          callback: observer
+          callback: observer,
         };
         // Send request
         this._sendRequest(data);
@@ -66,8 +66,8 @@ export class LocalStorageService {
         request: {
           id: this._requestId++,
           type: 'remove',
-          key: key
-        }
+          key,
+        },
       };
       // Send request
       this._sendRequest(data);
@@ -83,8 +83,8 @@ export class LocalStorageService {
       const data = {
         request: {
           id: this._requestId++,
-          type: 'clear'
-        }
+          type: 'clear',
+        },
       };
       // Send request
       this._sendRequest(data);

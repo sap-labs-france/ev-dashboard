@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html'
+  templateUrl: './statistics.component.html',
 })
 export class StatisticsComponent extends AbstractTabComponent {
   public isAdmin: boolean;
@@ -16,7 +16,7 @@ export class StatisticsComponent extends AbstractTabComponent {
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService
+    windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'transactions', 'pricing']);
     this.isAdmin = this.authorizationService.isAdmin();

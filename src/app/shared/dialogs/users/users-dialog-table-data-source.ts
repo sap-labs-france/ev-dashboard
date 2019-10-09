@@ -45,18 +45,18 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
         class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'firstName',
         name: 'users.first_name',
-        class: 'text-left col-25p'
+        class: 'text-left col-25p',
       },
       {
         id: 'email',
         name: 'users.email',
-        class: 'text-left col-40p'
-      }
+        class: 'text-left col-40p',
+      },
     ];
   }
 }

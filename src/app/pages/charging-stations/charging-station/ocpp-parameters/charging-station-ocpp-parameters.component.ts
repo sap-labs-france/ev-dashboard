@@ -19,7 +19,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',
-  templateUrl: './charging-station-ocpp-parameters.component.html'
+  templateUrl: './charging-station-ocpp-parameters.component.html',
 })
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -81,7 +81,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       takeWhile(() => this.alive),
       map((e: KeyboardEvent) => e.target['value']),
       debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     ).subscribe((text: string) => {
       this.setSearchValue(text);
       this.refresh();
@@ -119,7 +119,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       }
       this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration)); // keep a copy of teh original loaded data
       // Search filter
-      let filteredChargerConfiguration = [];
+      const filteredChargerConfiguration = [];
       for (const parameter of this.chargerConfiguration) {
         let key = parameter.key;
         key = key.toLowerCase();
@@ -163,14 +163,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
-      this.translateService.instant('chargers.set_configuration_confirm', { 'chargeBoxID': this.charger.id, key: item.key })
+      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: item.key }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Show
         this.spinnerService.show();
         // Yes: Update
         this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe(response => {
+          this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe((response) => {
             // Hide
             this.spinnerService.hide();
             // Ok?
@@ -210,7 +210,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   public exportConfiguration() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.dialog.exportConfig.title'),
-      this.translateService.instant('chargers.dialog.exportConfig.confirm')
+      this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         let csv = `Parameter,Value\r\nid,${this.charger.id}\r\n`;
@@ -277,13 +277,13 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.get_configuration_title'),
-        this.translateService.instant('chargers.get_configuration_confirm', { 'chargeBoxID': this.charger.id })
+        this.translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: this.charger.id }),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
           // Show
           this.spinnerService.show();
           // Yes: Update
-          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe(response => {
+          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe((response) => {
             // Hide
             this.spinnerService.hide();
             // Ok?
@@ -321,5 +321,3 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     }
   }
 }
-
-

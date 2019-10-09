@@ -8,14 +8,14 @@ import { SidebarComponent } from './sidebar.component';
   imports: [
     RouterModule,
     CommonModule,
-    TranslateModule
+    TranslateModule,
   ],
   declarations: [
-    SidebarComponent
+    SidebarComponent,
   ],
   exports: [
-    SidebarComponent
-  ]
+    SidebarComponent,
+  ],
 })
 export class SidebarModule {
 }

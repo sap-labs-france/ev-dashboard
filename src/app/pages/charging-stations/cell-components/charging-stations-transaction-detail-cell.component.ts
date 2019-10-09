@@ -13,7 +13,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
   styles: [`.no-margin {
       margin: 0
-  }`]
+  }`],
 
 })
 export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {

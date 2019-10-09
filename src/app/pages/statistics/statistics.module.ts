@@ -32,7 +32,7 @@ import { StatisticsRoutes } from './statistics.routing';
     ComponentModule,
     CommonDirectivesModule,
     TableModule,
-    DialogsModule
+    DialogsModule,
   ],
   declarations: [
     StatisticsComponent,
@@ -41,7 +41,7 @@ import { StatisticsRoutes } from './statistics.routing';
     StatisticsInactivityComponent,
     StatisticsTransactionsComponent,
     StatisticsPricingComponent,
-    StatisticsFiltersComponent
+    StatisticsFiltersComponent,
   ],
   exports: [
   ],
@@ -49,8 +49,8 @@ import { StatisticsRoutes } from './statistics.routing';
   ],
   providers: [
     StatisticsBuildService,
-    StatisticsExportService
-  ]
+    StatisticsExportService,
+  ],
 })
 
 export class StatisticsModule {

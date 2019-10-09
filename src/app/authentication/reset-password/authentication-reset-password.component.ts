@@ -15,7 +15,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-reset-password',
-  templateUrl: './authentication-reset-password.component.html'
+  templateUrl: './authentication-reset-password.component.html',
 })
 
 export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
@@ -45,23 +45,23 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new FormGroup({
-      'passwords': new FormGroup({
-        'password': new FormControl('',
+      passwords: new FormGroup({
+        password: new FormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
-            Users.validatePassword
+            Users.validatePassword,
           ])),
-        'repeatPassword': new FormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
-            Validators.required
+            Validators.required,
           ])),
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
     });
     // Form
-    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
+    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
@@ -79,7 +79,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);

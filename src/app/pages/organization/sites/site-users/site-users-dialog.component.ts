@@ -3,14 +3,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteUsersTableDataSource } from './site-users-table-data-source';
 
-
 @Component({
   templateUrl: 'site-users-dialog.component.html',
-  providers: [SiteUsersTableDataSource]
+  providers: [SiteUsersTableDataSource],
 })
 
 export class SiteUsersDialogComponent {
-  public dialogTitle: String;
+  public dialogTitle: string;
 
   constructor(
     public siteUsersTableDataSource: SiteUsersTableDataSource,
@@ -20,7 +19,7 @@ export class SiteUsersDialogComponent {
 
     if (data) {
       this.siteUsersTableDataSource.setSite(data);
-      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {'siteName': data.name});
+      this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {siteName: data.name});
     } else {
       this.dialogTitle = this.translateService.instant('sites.users');
     }

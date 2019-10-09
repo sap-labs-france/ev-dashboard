@@ -24,7 +24,7 @@ export class ChargersDialogComponent extends DialogTableDataComponent<Charger> {
   getSelectedItems(selectedRows: Charger[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
-      selectedRows.forEach(row => {
+      selectedRows.forEach((row) => {
         items.push({key: row.id, value: row.id, objectRef: row});
       });
     }

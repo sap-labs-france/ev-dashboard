@@ -7,7 +7,7 @@ export class TableAutoRefreshAction implements TableAction {
     type: 'slide',
     currentValue: true,
     name: 'general.auto_refresh',
-    tooltip: 'general.tooltips.auto_refresh'
+    tooltip: 'general.tooltips.auto_refresh',
   };
 
   constructor(

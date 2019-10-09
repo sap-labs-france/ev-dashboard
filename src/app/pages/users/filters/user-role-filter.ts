@@ -18,7 +18,7 @@ export class UserRoleFilter extends TableFilter {
       label: '',
       currentValue: [],
       items: UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role),
-      multiple: true
+      multiple: true,
     };
     this.setFilterDef(filterDef);
   }

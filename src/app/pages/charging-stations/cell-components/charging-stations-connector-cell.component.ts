@@ -27,7 +27,7 @@ import { Constants } from 'app/utils/Constants';
         </div>
       </div>
     </div>
-  `
+  `,
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {

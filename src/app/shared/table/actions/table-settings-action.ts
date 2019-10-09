@@ -8,7 +8,7 @@ export class TableSettingsAction implements TableAction {
     icon: 'settings',
     color: ButtonColor.primary,
     name: 'general.edit',
-    tooltip: 'general.tooltips.settings'
+    tooltip: 'general.tooltips.settings',
   };
 
   public getActionDef(): TableActionDef {

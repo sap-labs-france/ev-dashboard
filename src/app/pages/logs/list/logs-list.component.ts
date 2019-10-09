@@ -4,7 +4,7 @@ import { LogsListTableDataSource } from './logs-list-table-data-source';
 @Component({
   selector: 'app-logs-list',
   templateUrl: 'logs-list.component.html',
-  providers: [LogsListTableDataSource]
+  providers: [LogsListTableDataSource],
 })
 export class LogsListComponent {
   constructor(

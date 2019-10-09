@@ -16,7 +16,7 @@ export class UserStatusFilter extends TableFilter {
       label: '',
       currentValue: [],
       items: Object.assign([], userStatuses),
-      multiple: true
+      multiple: true,
     };
     this.setFilterDef(filterDef);
   }

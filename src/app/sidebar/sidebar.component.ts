@@ -41,9 +41,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private centralServerNotificationService: CentralServerNotificationService) {
     this.toggleSidebar();
     // Get the routes
-    this.menuItems = this.activatedRoute.routeConfig.children.filter(route => {
+    this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
       return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, null);
-    }).map(route => route.data.menu);
+    }).map((route) => route.data.menu);
 
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
@@ -99,7 +99,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   updatePS(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-      const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
+      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
     }
   }
 

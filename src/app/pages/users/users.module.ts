@@ -36,7 +36,7 @@ import { UserRoutes } from './users.routing';
     TableModule,
     DialogsModule,
     CommonDirectivesModule,
-    FormattersModule
+    FormattersModule,
   ],
   declarations: [
     UserStatusFormatterComponent,
@@ -50,26 +50,26 @@ import { UserRoutes } from './users.routing';
     UserSitesAdminCheckboxComponent,
     UserConnectionComponent,
     AppUserRolePipe,
-    AppUserStatusPipe
+    AppUserStatusPipe,
   ],
   entryComponents: [
     UserStatusFormatterComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
-    ErrorCodeDetailsComponent
+    ErrorCodeDetailsComponent,
   ],
   exports: [
     AppUserRolePipe,
     AppUserStatusPipe,
-    UserDialogComponent
+    UserDialogComponent,
   ],
   providers: [
     AppUserRolePipe,
     AppUserStatusPipe,
     UserSitesTableDataSource,
-    UsersInErrorTableDataSource
-  ]
+    UsersInErrorTableDataSource,
+  ],
 })
 
 export class UsersModule {

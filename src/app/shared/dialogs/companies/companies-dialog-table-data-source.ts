@@ -42,11 +42,11 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: false
+        multiple: false,
       },
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
@@ -58,18 +58,18 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
         class: 'text-left col-600px',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.city',
         name: 'general.city',
-        class: 'text-left col-350px'
+        class: 'text-left col-350px',
       },
       {
         id: 'address.country',
         name: 'general.country',
-        class: 'text-left col-300px'
-      }
+        class: 'text-left col-300px',
+      },
     ];
   }
 }

@@ -11,8 +11,8 @@ export const OrganizationRoutes: Routes = [
       component: ComponentEnum.ORGANIZATION,
       auth: {
         entity: Constants.ENTITY_COMPANIES,
-        action: Constants.ACTION_LIST
-      }
-    }
-  }
+        action: Constants.ACTION_LIST,
+      },
+    },
+  },
 ];

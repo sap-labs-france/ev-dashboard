@@ -8,9 +8,8 @@ export class TableStopAction implements TableAction {
     icon: 'stop',
     color: ButtonColor.warn,
     name: 'general.stop',
-    tooltip: 'general.tooltips.stop'
+    tooltip: 'general.tooltips.stop',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

@@ -5,7 +5,7 @@ import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data.component.html'
+  templateUrl: '../dialog-table-data.component.html',
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
@@ -23,7 +23,7 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
   getSelectedItems(selectedRows: Company[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
-      selectedRows.forEach(row => {
+      selectedRows.forEach((row) => {
         items.push({key: row.id, value: row.name, objectRef: row});
       });
     }

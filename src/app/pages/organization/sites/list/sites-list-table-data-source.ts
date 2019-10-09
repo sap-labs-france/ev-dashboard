@@ -10,7 +10,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
@@ -52,7 +52,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
     super(spinnerService);
-    this.setStaticFilters([{'WithCompany': true}]);
+    this.setStaticFilters([{WithCompany: true}]);
     this.initDataSource();
   }
 
@@ -80,9 +80,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -95,36 +95,36 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'company.name',
         name: 'companies.title',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.city',
         name: 'general.city',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
     if (this.authorizationService.isAdmin()) {
       tableColumnDef.unshift({
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell'
+        class: 'd-none col-15p d-xl-table-cell',
       });
     }
     return tableColumnDef;
@@ -135,7 +135,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
       return [
         new TableCreateAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -197,13 +197,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
-      new CompanyTableFilter().getFilterDef()
+      new CompanyTableFilter().getFilterDef(),
     ];
   }
 
@@ -249,12 +249,12 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private _deleteSite(site) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sites.delete_title'),
-      this.translateService.instant('sites.delete_confirm', {'siteName': site.name})
+      this.translateService.instant('sites.delete_confirm', {siteName: site.name}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteSite(site.id).subscribe(response => {
+        this.centralServerService.deleteSite(site.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('sites.delete_success', {'siteName': site.name});
+            this.messageService.showSuccessMessage('sites.delete_success', {siteName: site.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

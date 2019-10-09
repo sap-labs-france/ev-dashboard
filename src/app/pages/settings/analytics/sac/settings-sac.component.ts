@@ -7,7 +7,7 @@ import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links
 
 @Component({
   selector: 'app-settings-sac',
-  templateUrl: 'settings-sac.component.html'
+  templateUrl: 'settings-sac.component.html',
 })
 export class SettingsSacComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
@@ -28,12 +28,12 @@ export class SettingsSacComponent implements OnInit, OnChanges {
     this.formGroup.addControl(
       'mainUrl', new FormControl('',
         Validators.compose([
-          Validators.pattern(Constants.URL_PATTERN)
-        ]))
+          Validators.pattern(Constants.URL_PATTERN),
+        ])),
     );
     this.formGroup.addControl(
       'timezone', new FormControl('',
-        Validators.required)
+        Validators.required),
     );
     this.mainUrl = this.formGroup.controls['mainUrl'];
     this.timezone = this.formGroup.controls['timezone'];

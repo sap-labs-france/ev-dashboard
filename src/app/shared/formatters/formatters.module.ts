@@ -27,7 +27,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppFormatRowCellPipe,
     AppUnitPipe,
     AppCurrencyPipe,
-    AppUserMultipleRolesPipe
+    AppUserMultipleRolesPipe,
   ],
   exports: [
     AppArrayToStringPipe,
@@ -41,7 +41,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppBatteryPercentagePipe,
     AppUnitPipe,
     AppCurrencyPipe,
-    AppUserMultipleRolesPipe
+    AppUserMultipleRolesPipe,
   ],
   providers: [
     LocaleService,
@@ -55,8 +55,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppBatteryPercentagePipe,
     AppUnitPipe,
     AppCurrencyPipe,
-    AppUserMultipleRolesPipe
-  ]
+    AppUserMultipleRolesPipe,
+  ],
 })
 export class FormattersModule {
 }

@@ -4,7 +4,7 @@ import { OcpiEndpoint } from '../../../../../common.types';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 
 @Component({
-  template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEnpointsDetaislTableDataSource"></app-table>'
+  template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEnpointsDetaislTableDataSource"></app-table>',
 })
 
 export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateComponent implements OnChanges, OnInit {

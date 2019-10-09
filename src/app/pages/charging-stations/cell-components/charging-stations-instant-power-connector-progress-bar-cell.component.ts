@@ -14,7 +14,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
         [value]="row | appChargingStationsFormatPowerConnector:'instantPowerKWPercent':row" mode="determinate">
       </mat-progress-bar>
     </div>
-  `
+  `,
 })
 export class ChargingStationsInstantPowerConnectorProgressBarCellComponent extends CellContentTemplateComponent {
   @Input() row: Connector;

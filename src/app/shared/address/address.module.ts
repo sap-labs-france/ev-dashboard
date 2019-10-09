@@ -15,14 +15,14 @@ import { AddressComponent } from './address.component';
     ReactiveFormsModule,
     TranslateModule,
     MaterialModule,
-    GooglePlaceModule
+    GooglePlaceModule,
   ],
   declarations: [
-    AddressComponent
+    AddressComponent,
   ],
   exports: [
-    AddressComponent
-  ]
+    AddressComponent,
+  ],
 })
 export class AddressModule {
 }

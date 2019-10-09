@@ -9,24 +9,24 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
 export const AuthenticationRoutes: Routes = [
   {
     path: 'login',
-    component: AuthenticationLoginComponent
+    component: AuthenticationLoginComponent,
   }, {
     path: 'retrieve-password',
-    component: AuthenticationRetrievePasswordComponent
+    component: AuthenticationRetrievePasswordComponent,
   }, {
     path: 'reset-password',
-    component: AuthenticationResetPasswordComponent
+    component: AuthenticationResetPasswordComponent,
   }, {
     path: 'register',
-    component: AuthenticationRegisterComponent
+    component: AuthenticationRegisterComponent,
   }, {
     path: 'eula',
-    component: AuthenticationEulaComponent
+    component: AuthenticationEulaComponent,
   }, {
     path: 'verify-email',
-    component: AuthenticationVerifyEmailComponent
+    component: AuthenticationVerifyEmailComponent,
   }, {
     path: '**',
-    redirectTo: 'login'
-  }
+    redirectTo: 'login',
+  },
 ];

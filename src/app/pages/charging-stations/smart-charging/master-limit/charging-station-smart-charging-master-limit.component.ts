@@ -17,7 +17,7 @@ import { ChargingStationSmartChargingPowerSliderComponent } from '../component/c
 
 @Component({
   selector: 'app-charging-station-smart-charging-master-limit',
-  templateUrl: './charging-station-smart-charging-master-limit.component.html'
+  templateUrl: './charging-station-smart-charging-master-limit.component.html',
 })
 @Injectable()
 export class ChargingStationSmartChargingMasterLimitComponent implements OnInit, AfterViewInit {
@@ -76,17 +76,17 @@ export class ChargingStationSmartChargingMasterLimitComponent implements OnInit,
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm',
-        { 'chargeBoxID': this.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
+        { chargeBoxID: this.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // call REST service
         // tslint:disable-next-line:max-line-length
-        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, ChargingStations.provideLimit(this.charger, this.powerSliderComponent.powerSliderValue), 0).subscribe(response => {
+        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, ChargingStations.provideLimit(this.charger, this.powerSliderComponent.powerSliderValue), 0).subscribe((response) => {
           if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // success + reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_success',
-                { 'chargeBoxID': self.charger.id, 'power': this.powerSliderComponent.getDisplayedValue('kW') })
+                { chargeBoxID: self.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
             );
             this.onApplyPlanning.emit();
           } else {

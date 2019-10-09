@@ -8,7 +8,7 @@ import {
   OcpiEndpointDetail,
   TableActionDef,
   TableColumnDef,
-  TableDef
+  TableDef,
 } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -54,17 +54,17 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       let ocpiEndpointDetail;
       if (this.ocpiEndpoint) {
         // Set
-        ocpiEndpointDetail = <OcpiEndpointDetail> {
+        ocpiEndpointDetail = ({
           id: this.ocpiEndpoint.id,
           ocpiendpoint: this.ocpiEndpoint,
           successNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.successNbr : 0,
           failureNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.failureNbr : 0,
           totalNbr: this.ocpiEndpoint.lastPatchJobResult ? this.ocpiEndpoint.lastPatchJobResult.totalNbr : 0,
-          lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null
-        };
+          lastPatchJobOn: this.ocpiEndpoint.lastPatchJobOn ? this.ocpiEndpoint.lastPatchJobOn : null,
+        } as OcpiEndpointDetail);
         observer.next({
           count: 1,
-          result: [ocpiEndpointDetail]
+          result: [ocpiEndpointDetail],
         });
         observer.complete();
       }
@@ -79,19 +79,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     return {
       class: 'table-detailed-list',
       rowSelection: {
-        enabled: false
+        enabled: false,
       },
       footer: {
-        enabled: false
+        enabled: false,
       },
       search: {
-        enabled: false
+        enabled: false,
       },
       isSimpleTable: true,
       design: {
-        flat: true
+        flat: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -104,7 +104,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OcpiDetailJobStatusFomatterComponent,
         headerClass: 'text-center',
         class: '',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'lastPatchJobOn',
@@ -115,7 +115,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         class: 'text-left col-40p',
         sorted: true,
         direction: 'desc',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'totalNbr',
@@ -125,7 +125,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sorted: false
+        sorted: false,
       },
       {
         id: 'successNbr',
@@ -135,7 +135,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OcpiDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sorted: false
+        sorted: false,
       },
       {
         id: 'failureNbr',
@@ -145,15 +145,15 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         angularComponent: OcpiDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sorted: false
-      }
+        sorted: false,
+      },
     ];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -195,11 +195,11 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private sendEVSEStatusesOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { 'name': ocpiendpoint.name })
+      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Ping
-        this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success > 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.success });
           } else if (response.failure > 0 && response.success > 0) {
@@ -226,13 +226,13 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     this.dialogService.createAndShowYesNoDialog(
       (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_title')
                 : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
-      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { 'name': ocpiendpoint.name })
-                : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { 'name': ocpiendpoint.name })
+      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { name: ocpiendpoint.name })
+                : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Switch background job state
         ocpiendpoint.backgroundPatchJob = enable;
-        this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
+        this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             if (ocpiendpoint.backgroundPatchJob) {
               this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');

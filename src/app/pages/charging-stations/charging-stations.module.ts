@@ -52,7 +52,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationSmartChargingModule
+    ChargingStationSmartChargingModule,
   ],
   entryComponents: [
     ChargingStationComponent,
@@ -74,7 +74,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsMoreActionsDialogComponent,
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsInErrorComponent
+    ChargingStationsInErrorComponent,
   ],
   declarations: [
     ChargingStationComponent,
@@ -99,17 +99,17 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsMoreActionsDialogComponent,
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
-    ChargingStationsInErrorComponent
+    ChargingStationsInErrorComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,
-    ChargingStationsMoreActionsDialogComponent
+    ChargingStationsMoreActionsDialogComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,
     ChargingStationsListTableDataSource,
-    ChargingStationsConnectorsDetailTableDataSource
-  ]
+    ChargingStationsConnectorsDetailTableDataSource,
+  ],
 })
 export class ChargingStationsModule {
 }

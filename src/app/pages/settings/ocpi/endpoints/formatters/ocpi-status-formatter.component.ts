@@ -6,7 +6,7 @@ import { Constants } from 'app/utils/Constants';
 export const ocpiStatuses: KeyValue[] = [
   {key: 'new', value: 'ocpiendpoints.new'},
   {key: 'registered', value: 'ocpiendpoints.registered'},
-  {key: 'unregistered', value: 'ocpiendpoints.unregistered'}
+  {key: 'unregistered', value: 'ocpiendpoints.unregistered'},
 ];
 
 @Component({
@@ -16,7 +16,7 @@ export const ocpiStatuses: KeyValue[] = [
         {{row.status | appFormatOcpiStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;

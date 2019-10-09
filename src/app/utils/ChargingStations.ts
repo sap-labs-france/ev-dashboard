@@ -72,5 +72,5 @@ export const MANDATORY_SETTINGS_LIST = [
   }},
   {key: 'connectors.power', value: 'chargers.connector_max_power', isOK: (value) => {
     return value && value > 0;
-  }}
+  }},
 ];

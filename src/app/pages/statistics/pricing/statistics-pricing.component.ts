@@ -15,7 +15,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-pricing',
-  templateUrl: './statistics-pricing.component.html'
+  templateUrl: './statistics-pricing.component.html',
 })
 
 export class StatisticsPricingComponent implements OnInit {
@@ -31,7 +31,7 @@ export class StatisticsPricingComponent implements OnInit {
   @ViewChild('pricingBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('pricingPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: Object;
+  private filterParams: object;
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
@@ -112,27 +112,27 @@ export class StatisticsPricingComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.pricing_per_cs_month_title',
-          { 'total': totalPriceString });
+          { total: totalPriceString });
       } else {
         mainLabel = this.translateService.instant('statistics.pricing_per_user_month_title',
-          { 'total': totalPriceString });
+          { total: totalPriceString });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.pricing_per_cs_year_title',
-            { 'total': totalPriceString });
+            { total: totalPriceString });
         } else {
           mainLabel = this.translateService.instant('statistics.pricing_per_cs_total_title',
-            { 'total': totalPriceString });
+            { total: totalPriceString });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.pricing_per_user_year_title',
-            { 'total': totalPriceString });
+            { total: totalPriceString });
         } else {
           mainLabel = this.translateService.instant('statistics.pricing_per_user_total_title',
-            { 'total': totalPriceString });
+            { total: totalPriceString });
         }
       }
     }
@@ -146,7 +146,7 @@ export class StatisticsPricingComponent implements OnInit {
     const toolTipUnit: string = this.totalPriceWithUnit[0].unit;
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
-      { 'currency': toolTipUnit });
+      { currency: toolTipUnit });
 
     this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
@@ -191,7 +191,7 @@ export class StatisticsPricingComponent implements OnInit {
 
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
 
@@ -201,7 +201,7 @@ export class StatisticsPricingComponent implements OnInit {
           } else {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
-          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { 'currency': newToolTipUnit });
+          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
@@ -213,7 +213,7 @@ export class StatisticsPricingComponent implements OnInit {
         });
     } else {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
 
@@ -223,7 +223,7 @@ export class StatisticsPricingComponent implements OnInit {
           } else {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
-          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { 'currency': newToolTipUnit });
+          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);

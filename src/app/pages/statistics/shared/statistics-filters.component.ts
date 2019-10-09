@@ -19,7 +19,7 @@ interface StatisticsFilterDef extends TableFilterDef {
 
 @Component({
   selector: 'app-statistics-filters',
-  templateUrl: './statistics-filters.component.html'
+  templateUrl: './statistics-filters.component.html',
 })
 export class StatisticsFiltersComponent implements OnInit {
   public ongoingRefresh = false;
@@ -216,7 +216,7 @@ export class StatisticsFiltersComponent implements OnInit {
     dialogConfig.disableClose = true;
     // Set Validate button title to 'Set Filter'
     dialogConfig.data = {
-      validateButtonTitle: 'general.set_filter'
+      validateButtonTitle: 'general.set_filter',
     };
     // Render the Dialog Container transparent
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -227,7 +227,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Update value
-    dialogRef.afterClosed().subscribe(data => {
+    dialogRef.afterClosed().subscribe((data) => {
       // dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
       if (data) {
         let dataIsChanged = false;
@@ -246,7 +246,7 @@ export class StatisticsFiltersComponent implements OnInit {
     });
   }
 
-  public buildFilterValues(): Object {
+  public buildFilterValues(): object {
     const filterJson = {};
     // Parse filters
     if (this.statFiltersDef) {

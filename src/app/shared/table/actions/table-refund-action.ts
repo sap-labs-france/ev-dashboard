@@ -8,9 +8,8 @@ export class TableRefundAction implements TableAction {
     icon: 'local_atm',
     color: ButtonColor.primary,
     name: 'general.refund',
-    tooltip: 'general.tooltips.refund'
+    tooltip: 'general.tooltips.refund',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

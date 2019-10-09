@@ -13,7 +13,7 @@ const connectorIdMap = {
   9: 'I',
   10: 'J',
   11: 'K',
-  12: 'L'
+  12: 'L',
 };
 
 @Pipe({name: 'appConnectorId'})

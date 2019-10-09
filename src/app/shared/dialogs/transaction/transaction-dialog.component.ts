@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
 
 @Component({
-  templateUrl: './transaction-dialog.component.html'
+  templateUrl: './transaction-dialog.component.html',
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction: Transaction = undefined;
@@ -33,7 +33,6 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartConsumption', {static: false}) chartComponent: ConsumptionChartComponent;
   private transactionId: number;
-
 
   private autoRefeshTimer;
   private autoRefeshPollEnabled;
@@ -109,7 +108,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
           this.loadConsumption(this.transactionId);
         } else {
           this.spinnerService.hide();
-          this.messageService.showInfoMessage('chargers.no_transaction_found', {'chargerID': this.chargingStationId});
+          this.messageService.showInfoMessage('chargers.no_transaction_found', {chargerID: this.chargingStationId});
           this.dialogRef.close();
         }
       });

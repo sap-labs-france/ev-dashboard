@@ -15,7 +15,7 @@ import {
   TableColumnDef,
   TableDef,
   TableFilterDef,
-  Transaction
+  Transaction,
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -95,8 +95,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
@@ -117,13 +117,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value)
+        formatter: (value) => this.datePipe.transform(value),
       },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row)
+        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
       },
       {
         id: 'errorCodeDetails',
@@ -131,26 +131,26 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sortable: false,
         class: 'action-cell text-left',
         isAngularComponent: true,
-        angularComponent: ErrorCodeDetailsComponent
+        angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`)
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
       {
         id: 'errorCodeDescription',
         name: 'errors.description',
         sortable: false,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`)
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`),
       });
     if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        formatter: (value) => this.appUserNamePipe.transform(value),
       });
     }
     return columns as TableColumnDef[];
@@ -165,29 +165,29 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const errorTypes = [];
     errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title`
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title`,
     });
     errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`,
     });
     errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`,
     });
     errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`,
     });
     errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`,
     });
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(ComponentEnum.PRICING)) {
       errorTypes.push({
         key: Constants.TRANSACTION_IN_ERROR_MISSING_PRICE,
-        value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_MISSING_PRICE}.title`
+        value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_MISSING_PRICE}.title`,
       });
     }
     // Sort
@@ -204,7 +204,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new ErrorTypeTableFilter(errorTypes).getFilterDef()
+      new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
 
     // Show Site Area Filter If Organization component is active
@@ -239,7 +239,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case 'delete':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.delete.title'),
-          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this._deleteTransaction(transaction);
@@ -257,7 +257,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -273,7 +273,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   private formatErrorMessages(transactions) {
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       const path = `transactions.errors.${transaction.errorCode}`;
       const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
       switch (transaction.errorCode) {
@@ -293,7 +293,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     dialogConfig.width = '80vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
-      transactionId: transaction.id
+      transactionId: transaction.id,
     };
     // disable outside click close
     dialogConfig.disableClose = true;

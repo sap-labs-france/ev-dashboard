@@ -26,7 +26,7 @@ import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
-  templateUrl: 'user.component.html'
+  templateUrl: 'user.component.html',
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -133,97 +133,97 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'firstName': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'notificationsActive': new FormControl(true),
-      'email': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
         ])),
-      'phone': new FormControl('',
+      firstName: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
+          Validators.required,
         ])),
-      'mobile': new FormControl('',
+      notificationsActive: new FormControl(true),
+      email: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
+          Validators.required,
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
         ])),
-      'iNumber': new FormControl('',
+      phone: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z]{1}[0-9]{6}$')
+          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
         ])),
-      'tagIDs': new FormControl(this.generateTagID(),
+      mobile: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
+        ])),
+      iNumber: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
+        ])),
+      tagIDs: new FormControl(this.generateTagID(),
         Validators.compose(this.isAdmin ?
           [
             Validators.required,
             Validators.minLength(3),
-            Validators.pattern('^[a-zA-Z0-9,]*$')
+            Validators.pattern('^[a-zA-Z0-9,]*$'),
           ] :
-          []
+          [],
         )),
-      'plateID': new FormControl('',
+      plateID: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9-]*$')
+          Validators.pattern('^[A-Z0-9-]*$'),
         ])),
-      'costCenter': new FormControl('',
+      costCenter: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^[0-9]*$'),
         ])),
-      'status': new FormControl(Constants.USER_STATUS_ACTIVE,
+      status: new FormControl(Constants.USER_STATUS_ACTIVE,
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'role': new FormControl(
+      role: new FormControl(
         this.isSuperAdmin ? Constants.USER_ROLE_SUPER_ADMIN : Constants.USER_ROLE_BASIC,
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'locale': new FormControl(this.localeService.getCurrentLocale(),
+      locale: new FormControl(this.localeService.getCurrentLocale(),
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'address': new FormGroup({
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'postalCode': new FormControl(''),
-        'city': new FormControl(''),
-        'department': new FormControl(''),
-        'region': new FormControl(''),
-        'country': new FormControl(''),
-        'latitude': new FormControl('',
+      address: new FormGroup({
+        address1: new FormControl(''),
+        address2: new FormControl(''),
+        postalCode: new FormControl(''),
+        city: new FormControl(''),
+        department: new FormControl(''),
+        region: new FormControl(''),
+        country: new FormControl(''),
+        latitude: new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
-        'longitude': new FormControl('',
+        longitude: new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-          ]))
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
       }),
-      'passwords': new FormGroup({
-        'password': new FormControl('',
+      passwords: new FormGroup({
+        password: new FormControl('',
           Validators.compose([
             Users.passwordWithNoSpace,
-            Users.validatePassword
+            Users.validatePassword,
           ])),
-        'repeatPassword': new FormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
-            Users.validatePassword
+            Users.validatePassword,
           ])),
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      })
+      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -239,10 +239,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.status = this.formGroup.controls['status'];
     this.role = this.formGroup.controls['role'];
     this.locale = this.formGroup.controls['locale'];
-    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
+    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];
@@ -450,7 +450,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('users.picture_size_error', {'maxPictureKb': this.maxSize});
+        this.messageService.showErrorMessage('users.picture_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -480,7 +480,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.refund.concur.revoke_error');
         this.loadApplicationSettings();
-      }
+      },
     );
   }
 
@@ -495,7 +495,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       const state = {
         connector: 'concur',
         appId: this.refundSetting.id,
-        userId: this.currentUserID
+        userId: this.currentUserID,
       };
       this.document.location.href =
         // tslint:disable-next-line:max-line-length
@@ -536,13 +536,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
-    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
+    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
         this.refundSetting = settingResult.result[0];
       }
     });
     if (this.currentUserID) {
-      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
         this.integrationConnections = undefined;
         this.concurConnection = undefined;
         this.isConcurConnectionValid = false;
@@ -572,7 +572,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.assign_transactions_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.assign_transactions_success', {userFullName: user.firstName + ' ' + user.name});
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
       }
@@ -594,13 +594,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.createUser(user).subscribe(response => {
+    this.centralServerService.createUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.create_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
         user.id = response['id'];
         this.currentUserID = response['id'];
@@ -641,13 +641,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.updateUser(user).subscribe(response => {
+    this.centralServerService.updateUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.update_success', {userFullName: user.firstName + ' ' + user.name});
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?
@@ -684,11 +684,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     if (this.isAdmin) {
       // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe(count => {
+      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe((count) => {
         if (count && count > 0) {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', {'count': count})
+            this.translateService.instant('users.assign_transactions_confirm', {count}),
           ).subscribe((result) => {
             if (result === Constants.BUTTON_TYPE_YES) {
               // Assign transactions

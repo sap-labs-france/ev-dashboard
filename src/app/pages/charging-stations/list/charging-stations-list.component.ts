@@ -7,7 +7,7 @@ import { ChargingStationsListTableDataSource } from './charging-stations-list-ta
 @Component({
   selector: 'app-charging-stations-list',
   templateUrl: 'charging-stations-list.component.html',
-  providers: [ChargingStationsListTableDataSource]
+  providers: [ChargingStationsListTableDataSource],
 })
 export class ChargingStationsListComponent implements OnInit {
 
@@ -15,19 +15,19 @@ export class ChargingStationsListComponent implements OnInit {
     public chargingStationsListTableDataSource: ChargingStationsListTableDataSource,
     private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
     // Check if transaction ID id provided
     const chargingStationID = this.windowService.getSearch('ChargingStationID');
     if (chargingStationID) {
-      this.centralServerService.getCharger(chargingStationID).subscribe(chargingStation => {
+      this.centralServerService.getCharger(chargingStationID).subscribe((chargingStation) => {
         // Found
         this.chargingStationsListTableDataSource.showChargingStationDialog(chargingStation);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('chargers.charger_id_not_found', {'chargerID': chargingStationID});
+        this.messageService.showErrorMessage('chargers.charger_id_not_found', {chargerID: chargingStationID});
       });
       // Clear Search
       this.windowService.deleteSearch('ChargingStationID');

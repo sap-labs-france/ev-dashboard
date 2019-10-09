@@ -1,6 +1,6 @@
 export class Formatters {
 
-  public static formatTextToHTML(value): String {
+  public static formatTextToHTML(value): string {
     // Check
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {

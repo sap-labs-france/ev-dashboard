@@ -8,7 +8,7 @@ export class TableRevokeAction implements TableAction {
     icon: 'link_off',
     color: ButtonColor.warn,
     name: 'general.revoke',
-    tooltip: 'general.tooltips.revoke'
+    tooltip: 'general.tooltips.revoke',
   };
 
   // Return an action

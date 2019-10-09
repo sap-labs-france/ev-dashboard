@@ -81,13 +81,13 @@ interface ChartDataLocal {
           query('.first-chart', [
             group([
             animate('1.5s ease-in', style({ opacity: '0' })),
-          ])
+          ]),
           ]),
           query('.second-chart', [
             style({opacity: '0'}),
             group([
             animate('1.5s ease-in', style({ opacity: '1' })),
-          ])
+          ]),
           ]),
         ]),
       ]),
@@ -97,17 +97,17 @@ interface ChartDataLocal {
             style({opacity: '0'}),
             group([
             animate('1.5s ease-in', style({ opacity: '1' })),
-          ])
+          ]),
           ]),
           query('.second-chart', [
             group([
             animate('1.5s ease-in', style({ opacity: '0' })),
-          ])
+          ]),
           ]),
         ]),
-      ])
-    ])
-  ]
+      ]),
+    ]),
+  ],
 })
 
 export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -249,7 +249,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   firstChart: ChartDataLocal = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
-    isDisplayed: true
+    isDisplayed: true,
   };
   /**
    * Chart data used in the second DOM chart element
@@ -258,7 +258,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   secondChart = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
-    isDisplayed: false
+    isDisplayed: false,
   };
 
   /**

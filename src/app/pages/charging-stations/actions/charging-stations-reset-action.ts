@@ -8,7 +8,7 @@ export class ChargingStationsResetAction implements TableAction {
     icon: 'refresh',
     color: ButtonColor.primary,
     name: 'general.edit',
-    tooltip: 'general.tooltips.soft_reset'
+    tooltip: 'general.tooltips.soft_reset',
   };
 
   public getActionDef(): TableActionDef {

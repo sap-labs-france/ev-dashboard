@@ -12,7 +12,7 @@ export class AuthorizationService {
     private centralServerService: CentralServerService,
     private componentService: ComponentService) {
 
-    this.centralServerService.getCurrentUserSubject().subscribe(user => {
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.loggedUser = user;
     });
   }
@@ -46,7 +46,7 @@ export class AuthorizationService {
     return this.canAccess(Constants.ENTITY_USER, Constants.ACTION_UPDATE);
   }
 
-  public canAccess(resource: String, action: String): boolean {
+  public canAccess(resource: string, action: string): boolean {
     return this.loggedUser && this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }
 

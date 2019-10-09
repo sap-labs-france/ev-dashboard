@@ -9,8 +9,8 @@ export const DashboardRoutes: Routes = [
     path: '', component: DashboardComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_CHARGING_STATIONS,
-        action: Constants.ACTION_LIST
-      }
-    }
-  }
+        action: Constants.ACTION_LIST,
+      },
+    },
+  },
 ];

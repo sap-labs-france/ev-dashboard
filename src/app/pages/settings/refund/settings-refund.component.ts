@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-refund',
-  templateUrl: 'settings-refund.component.html'
+  templateUrl: 'settings-refund.component.html',
 })
 export class SettingsRefundComponent implements OnInit {
   public isActive = false;
@@ -28,7 +28,7 @@ export class SettingsRefundComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
   ) {
     this.isActive = this.componentService.isActive(ComponentEnum.REFUND);
   }
@@ -93,7 +93,7 @@ export class SettingsRefundComponent implements OnInit {
   public synchronize() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.refund.synchronize_dialog_refund_title'),
-      this.translateService.instant('settings.refund.synchronize_dialog_refund_confirm')
+      this.translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         this.messageService.showInfoMessage('settings.refund.synchronize_started');

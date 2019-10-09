@@ -15,11 +15,11 @@ export abstract class DialogTableDataSource<T extends Data> extends TableDataSou
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: true
+        multiple: true,
       },
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 

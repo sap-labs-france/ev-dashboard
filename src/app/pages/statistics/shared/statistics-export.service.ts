@@ -16,14 +16,14 @@ export class StatisticsExportService {
     private messageService: MessageService,
     private centralServerService: CentralServerService) { }
 
-  public enhanceFilterParams(filterParams: Object, dataType: string, dataCategory: string, year: number, dataScope?: string): Object {
+  public enhanceFilterParams(filterParams: object, dataType: string, dataCategory: string, year: number, dataScope?: string): object {
     if (dataScope) {
-      return { ...filterParams, 'DataType': dataType, 'DataCategory': dataCategory, 'DataScope': dataScope, 'Year': year };
+      return { ...filterParams, DataType: dataType, DataCategory: dataCategory, DataScope: dataScope, Year: year };
     }
-    return { ...filterParams, 'DataType': dataType, 'DataCategory': dataCategory, 'Year': year };
+    return { ...filterParams, DataType: dataType, DataCategory: dataCategory, Year: year };
   }
 
-  public exportDataWithDialog(filterParams: Object, dialogTitle: string, dialogQuestion: string) {
+  public exportDataWithDialog(filterParams: object, dialogTitle: string, dialogQuestion: string) {
     this.dialogService.createAndShowYesNoDialog(dialogTitle, dialogQuestion).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         this.exportStatisticsData(filterParams);
@@ -31,7 +31,7 @@ export class StatisticsExportService {
     });
   }
 
-  private exportStatisticsData(filterParams: Object) {
+  private exportStatisticsData(filterParams: object) {
     const fileName = `export${filterParams['DataType']}Statistics.csv`;
 
     this.centralServerService.exportStatistics(filterParams)

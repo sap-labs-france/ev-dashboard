@@ -112,7 +112,6 @@ export class Constants {
   public static NOTIF_TYPE_TRANSACTION_METER_VALUES = 'MeterValues';
   public static NOTIF_TYPE_CHARGING_STATION = 'ChargingStation';
   public static NOTIF_TYPE_CHARGING_STATION_CONFIGURATION = 'Configuration';
-
   /* Users */
   public static USER_STATUS_PENDING = 'P';
   public static USER_STATUS_ACTIVE = 'A';

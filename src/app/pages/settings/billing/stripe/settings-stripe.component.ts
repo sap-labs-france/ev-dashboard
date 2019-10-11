@@ -11,7 +11,7 @@ export class StripeBillingConstants {
 
 @Component({
   selector: 'app-settings-stripe-billing',
-  templateUrl: 'settings-stripe.component.html'
+  templateUrl: 'settings-stripe.component.html',
 })
 export class SettingsStripeComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
@@ -28,34 +28,34 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.formGroup.addControl('stripe',
       new FormGroup({
-        'url': new FormControl('',
+        url: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern(Constants.URL_PATTERN)
-          ])
-        ),
-        'secretKey': new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100)
-            //  StripeToolBox.validateSecretKey
+            Validators.pattern(Constants.URL_PATTERN),
           ]),
         ),
-        'publicKey': new FormControl('',
+        secretKey: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
-            StripeToolBox.validatePublicKey
-          ])
+            //  StripeToolBox.validateSecretKey
+          ]),
         ),
-        'immediateBillingAllowed': new FormControl(''),
-        'periodicBillingAllowed': new FormControl(''),
-        'lastSynchronizedOn': new FormControl(''),
-      })
+        publicKey: new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100),
+            StripeToolBox.validatePublicKey,
+          ]),
+        ),
+        immediateBillingAllowed: new FormControl(''),
+        periodicBillingAllowed: new FormControl(''),
+        lastSynchronizedOn: new FormControl(''),
+      }),
     );
     // Keep
-    this.stripe = <FormGroup>this.formGroup.controls['stripe'];
+    this.stripe = (this.formGroup.controls['stripe'] as FormGroup);
     this.stripeUrl = this.stripe.controls['url'];
     this.stripeSecretKey = this.stripe.controls['secretKey'];
     this.stripePublicKey = this.stripe.controls['publicKey'];

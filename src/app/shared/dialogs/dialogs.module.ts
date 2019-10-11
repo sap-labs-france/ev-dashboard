@@ -30,7 +30,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
 export class FooterModule {
 }
 
-
 @NgModule({
   imports: [
     RouterModule,
@@ -41,7 +40,7 @@ export class FooterModule {
     ComponentModule,
     FormattersModule,
     AgmCoreModule,
-    GooglePlaceModule
+    GooglePlaceModule,
   ],
   declarations: [
     SitesDialogComponent,
@@ -53,7 +52,7 @@ export class FooterModule {
     TransactionDialogComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
-    ErrorCodeDetailsComponent
+    ErrorCodeDetailsComponent,
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -66,7 +65,7 @@ export class FooterModule {
     ConsumptionChartComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
-    ErrorCodeDetailsComponent
+    ErrorCodeDetailsComponent,
   ],
   exports: [
     SitesDialogComponent,
@@ -77,7 +76,7 @@ export class FooterModule {
     CompaniesDialogComponent,
     TransactionDialogComponent,
     ErrorCodeDetailsDialogComponent,
-    ErrorCodeDetailsComponent
+    ErrorCodeDetailsComponent,
   ],
   providers: [
     CurrencyPipe,
@@ -93,8 +92,8 @@ export class FooterModule {
     ChargersDialogTableDataSource,
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
-    CompaniesDialogTableDataSource
-  ]
+    CompaniesDialogTableDataSource,
+  ],
 })
 export class DialogsModule {
 }

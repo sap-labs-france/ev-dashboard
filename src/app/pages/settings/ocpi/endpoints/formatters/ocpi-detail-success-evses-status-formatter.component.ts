@@ -9,7 +9,7 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
         {{row.successNbr}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpointDetail;

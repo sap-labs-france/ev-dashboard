@@ -11,7 +11,7 @@ import { logLevels } from '../model/logs.model';
         {{row.level | appFormatLogLevel:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class LogLevelFormatterComponent extends CellContentTemplateComponent {
   @Input() row: Log;

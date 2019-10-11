@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 @Component({
-  templateUrl: 'user.dialog.component.html'
+  templateUrl: 'user.dialog.component.html',
 })
 export class UserDialogComponent {
   userID: string;

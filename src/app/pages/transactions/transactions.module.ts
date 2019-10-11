@@ -36,7 +36,7 @@ import { TransactionsRoutes } from './transactions.routing';
     CommonDirectivesModule,
     DialogsModule,
     FormattersModule,
-    ComponentModule
+    ComponentModule,
   ],
   declarations: [
     TransactionsComponent,
@@ -55,10 +55,10 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsRefundComponent,
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
-    ErrorCodeDetailsComponent
+    ErrorCodeDetailsComponent,
   ],
   exports: [
-    TransactionsComponent
+    TransactionsComponent,
   ],
   providers: [
     CurrencyPipe,
@@ -67,8 +67,8 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsHistoryTableDataSource,
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,
-    TransactionsRefundTableDataSource
-  ]
+    TransactionsRefundTableDataSource,
+  ],
 })
 
 export class TransactionsModule {

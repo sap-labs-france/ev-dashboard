@@ -10,7 +10,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: 'user-connection.component.html'
+  templateUrl: 'user-connection.component.html',
 })
 export class UserConnectionComponent extends AbstractTabComponent {
   public isAdmin;
@@ -23,7 +23,6 @@ export class UserConnectionComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, [], false);
-
 
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
@@ -42,8 +41,8 @@ export class UserConnectionComponent extends AbstractTabComponent {
         data:
           {
             code: this.activatedRoute.snapshot.queryParams['code'],
-            redirectUri: this.windowService.getOrigin() + this.windowService.getPath()
-          }
+            redirectUri: this.windowService.getOrigin() + this.windowService.getPath(),
+          },
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
@@ -57,7 +56,7 @@ export class UserConnectionComponent extends AbstractTabComponent {
           Utils.handleError(JSON.stringify(error),
             this.messageService, 'settings.refund.concur.link_error');
           this.router.navigate([`/users/${state.userId}#connectors`]);
-        }
+        },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],

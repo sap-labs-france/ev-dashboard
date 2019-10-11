@@ -8,8 +8,8 @@ import { MessageService } from '../services/message.service';
 
 export class Utils {
   public static validateEqual(formGroup: FormGroup, firstField, secondField) {
-    const field1: FormControl = <FormControl>formGroup.controls[firstField];
-    const field2: FormControl = <FormControl>formGroup.controls[secondField];
+    const field1: FormControl = formGroup.controls[firstField] as FormControl;
+    const field2: FormControl = formGroup.controls[secondField] as FormControl;
 
     // Null?
     if (!field1.value && !field2.value) {
@@ -54,7 +54,7 @@ export class Utils {
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,
-      centralServerService: CentralServerService, errorMessage: string, params?) {
+                                centralServerService: CentralServerService, errorMessage: string, params?) {
     // Check error
     switch (error.status) {
       // Server connection error`

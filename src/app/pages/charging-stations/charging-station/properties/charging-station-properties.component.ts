@@ -3,7 +3,6 @@ import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { Charger } from '../../../../common.types';
 import { LocaleService } from '../../../../services/locale.service';
 
-
 export interface PropertyDisplay {
   key: string;
   title: string;
@@ -13,7 +12,7 @@ export interface PropertyDisplay {
 
 @Component({
   selector: 'app-charging-station-properties',
-  templateUrl: './charging-station-properties.component.html'
+  templateUrl: './charging-station-properties.component.html',
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
@@ -31,13 +30,13 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {
       key: 'lastReboot', title: 'chargers.last_reboot', formatter: (value) => {
         return new DatePipe(this.localeService.language).transform(value, 'medium');
-      }
+      },
     },
     {
       key: 'createdOn', title: 'chargers.created_on', formatter: (value) => {
         return new DatePipe(this.localeService.language).transform(value, 'medium');
-      }
-    }
+      },
+    },
   ];
 
   displayedColumns: string[] = ['title', 'value'];

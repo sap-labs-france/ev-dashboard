@@ -54,7 +54,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteUsersAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent,
   ],
   entryComponents: [
     OrganizationComponent,
@@ -68,15 +68,15 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteUsersAdminCheckboxComponent
+    SiteUsersAdminCheckboxComponent,
   ],
   providers: [
     CompaniesListTableDataSource,
     SiteAreasListTableDataSource,
     SiteAreaChargersDataSource,
     SitesListTableDataSource,
-    SiteUsersTableDataSource
-  ]
+    SiteUsersTableDataSource,
+  ],
 })
 
 export class OrganizationModule {

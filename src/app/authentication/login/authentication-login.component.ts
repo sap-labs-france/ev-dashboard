@@ -17,10 +17,10 @@ declare var $: any;
 
 @Component({
   selector: 'app-authentication-login',
-  templateUrl: './authentication-login.component.html'
+  templateUrl: './authentication-login.component.html',
 })
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
-  public returnUrl: String;
+  public returnUrl: string;
   public formGroup: FormGroup;
   public email: AbstractControl;
   public password: AbstractControl;
@@ -29,7 +29,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   private toggleButton: any;
   private sidebarVisible: boolean;
   private nativeElement: Node;
-  private messages: Object;
+  private messages: object;
   private subDomain: string;
 
   constructor(
@@ -56,20 +56,20 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
+          Validators.email,
         ])),
-      'password': new FormControl('',
+      password: new FormControl('',
         Validators.compose([
           Validators.required,
-          Users.passwordWithNoSpace
+          Users.passwordWithNoSpace,
         ])),
-      'acceptEula': new FormControl('',
+      acceptEula: new FormControl('',
         Validators.compose([
-          Validators.required
-        ]))
+          Validators.required,
+        ])),
     });
     // Get controls
     this.email = this.formGroup.controls['email'];
@@ -89,7 +89,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     body.classList.add('login-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       // after 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
@@ -114,7 +114,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     const sidebar = document.getElementsByClassName('navbar-collapse')[0];
     if (this.sidebarVisible === false) {
-      setTimeout(function () {
+      setTimeout(function() {
         toggleButton.classList.add('toggled');
       }, 500);
       body.classList.add('nav-open');
@@ -132,7 +132,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  login(user: Object): void {
+  login(user: object): void {
     // Show
     this.spinnerService.show();
     // clear User and UserAuthorization
@@ -174,7 +174,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
             // No Create and show dialog data
             this.dialogService.createAndShowYesNoDialog(
               this.translateService.instant('authentication.verify_email_title'),
-              this.translateService.instant('authentication.verify_email_resend_confirm')
+              this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
               if (response === Constants.BUTTON_TYPE_YES) {
                 this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});

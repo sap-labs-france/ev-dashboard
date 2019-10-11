@@ -8,9 +8,8 @@ export class TableStartAction implements TableAction {
     icon: 'play_arrow',
     color: ButtonColor.accent,
     name: 'general.start',
-    tooltip: 'general.tooltips.start'
+    tooltip: 'general.tooltips.start',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

@@ -18,14 +18,14 @@ export class SettingsOcpiEnpointsMoreAction implements TableAction {
         id: ACTION_SEND,
         name: 'ocpiendpoints.sendEVSEStatuses_title',
         icon: 'cast',
-        tooltip: 'ocpiendpoints.sendEVSEStatuses_title'
+        tooltip: 'ocpiendpoints.sendEVSEStatuses_title',
       }, {
         id: ACTION_STOP_START_JOB,
         name: 'ocpiendpoints.start_stop_job',
         icon: 'av_timer',
-        tooltip: 'ocpiendpoints.start_stop_job'
-      }
-    ]
+        tooltip: 'ocpiendpoints.start_stop_job',
+      },
+    ],
   };
 
   public getActionDef(): TableActionDef {

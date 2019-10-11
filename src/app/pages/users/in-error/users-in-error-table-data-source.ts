@@ -11,7 +11,7 @@ import {
   TableColumnDef,
   TableDef,
   TableFilterDef,
-  User
+  User,
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -75,8 +75,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         this.getPaging(), this.getSorting()).subscribe((users) => {
           this.formatErrorMessages(users.result);
           // Ok
-        observer.next(users);
-        observer.complete();
+          observer.next(users);
+          observer.complete();
       }, (error) => {
         // Show error
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
@@ -89,8 +89,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
@@ -105,7 +105,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
       class: 'col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'id',
@@ -119,7 +119,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'name',
@@ -128,14 +128,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       class: 'text-left col-15p',
       sorted: true,
       direction: 'asc',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'firstName',
       name: 'users.first_name',
       headerClass: 'col-15p',
       class: 'text-left col-15p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'errorCodeDetails',
@@ -143,26 +143,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       sortable: false,
       class: 'action-cell text-left',
       isAngularComponent: true,
-      angularComponent: ErrorCodeDetailsComponent
+      angularComponent: ErrorCodeDetailsComponent,
     },
     {
       id: 'errorCode',
       name: 'errors.title',
       sortable: true,
-      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`)
+      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },
     {
       id: 'errorCodeDescription',
       name: 'errors.description',
       sortable: false,
-      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`)
+      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`),
     },
     {
       id: 'email',
       name: 'users.email',
       headerClass: 'col-20p',
       class: 'col-20p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'tagIDs',
@@ -170,14 +170,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       formatter: this.arrayToStringPipe.transform,
       headerClass: 'col-15p',
       class: 'col-15p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'plateID',
       name: 'users.plate_id',
       headerClass: 'col-10p',
       class: 'col-10p',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'createdOn',
@@ -185,7 +185,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       formatter: (createdOn) => this.datePipe.transform(createdOn),
       headerClass: 'col-15p',
       class: 'col-15p',
-      sortable: true
+      sortable: true,
     });
     return columns as TableColumnDef[];
   }
@@ -198,7 +198,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     return [
       this.editAction,
       this.assignSiteAction,
-      this.deleteAction
+      this.deleteAction,
     ];
   }
 
@@ -232,7 +232,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -241,15 +241,15 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const errorTypes = [];
     errorTypes.push({
       key: Constants.USER_IN_ERROR_NOT_ACTIVE,
-      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ACTIVE}.title`
+      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ACTIVE}.title`,
     });
     errorTypes.push({
       key: Constants.USER_IN_ERROR_NOT_ASSIGNED,
-      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`
+      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`,
     });
 
     const filters: TableFilterDef[] = [
-      new UserRoleFilter(this.centralServerService).getFilterDef()
+      new UserRoleFilter(this.centralServerService).getFilterDef(),
     ];
 
     // Show Error types filter only if Organization component is active
@@ -280,7 +280,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   private formatErrorMessages(users) {
-    users.forEach(user => {
+    users.forEach((user) => {
       const path = `users.errors.${user.errorCode}`;
       const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
       user.errorMessage = errorMessage;
@@ -301,13 +301,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {'userFullName': this.userNamePipe.transform(user)})
+      this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteUser(user.id).subscribe(response => {
+        this.centralServerService.deleteUser(user.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {'userFullName': this.userNamePipe.transform(user)});
+            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.userNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');

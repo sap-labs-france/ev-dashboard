@@ -7,7 +7,7 @@ import { TransactionsInProgressTableDataSource } from './transactions-in-progres
 @Component({
   selector: 'app-transactions-in-progress',
   templateUrl: 'transactions-in-progress.component.html',
-  providers: [TransactionsInProgressTableDataSource]
+  providers: [TransactionsInProgressTableDataSource],
 })
 export class TransactionsInProgressComponent implements OnInit {
 
@@ -22,12 +22,12 @@ export class TransactionsInProgressComponent implements OnInit {
     // Check if transaction ID id provided
     const transactionID = this.windowService.getSearch('TransactionID');
     if (transactionID) {
-      this.centralServerService.getTransaction(transactionID).subscribe(transaction => {
+      this.centralServerService.getTransaction(transactionID).subscribe((transaction) => {
         // Found
         this.transactionsInProgressTableDataSource.openSession(transaction);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {'sessionID': transactionID});
+        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: transactionID});
       });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');

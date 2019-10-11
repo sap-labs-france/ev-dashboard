@@ -15,7 +15,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
         </div>
       </div>
     </div>
-  `
+  `,
 })
 @Injectable()
 export class TransactionsConnectorCellComponent extends CellContentTemplateComponent {

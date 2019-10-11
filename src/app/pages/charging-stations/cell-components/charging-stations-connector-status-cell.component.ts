@@ -18,7 +18,7 @@ const TYPE_GREY = 'chip-grey';
         {{row.status | appChargingStationsFormatConnectorStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class ChargingStationsConnectorStatusCellComponent extends CellContentTemplateComponent {
   @Input() row: Connector;
@@ -87,7 +87,3 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
     return `chargers.status_${status.toLowerCase()}`;
   }
 }
-
-
-
-

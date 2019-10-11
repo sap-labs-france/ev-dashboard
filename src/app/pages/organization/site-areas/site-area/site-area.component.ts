@@ -20,7 +20,7 @@ import { RegistrationTokensTableDataSource } from '../../../settings/charging_st
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
-  providers: [RegistrationTokensTableDataSource]
+  providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
   @Input() currentSiteAreaID: string;
@@ -80,41 +80,41 @@ export class SiteAreaComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'siteID': new FormControl('',
+      siteID: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'maximumPower': new FormControl('',
+      maximumPower: new FormControl('',
         Validators.compose([
-          Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+          Validators.pattern(/^-?(0|[1-9]\d*)?$/),
         ])),
-      'accessControl': new FormControl(true),
-      'address': new FormGroup({
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'postalCode': new FormControl(''),
-        'city': new FormControl(''),
-        'department': new FormControl(''),
-        'region': new FormControl(''),
-        'country': new FormControl(''),
-        'latitude': new FormControl('',
+      accessControl: new FormControl(true),
+      address: new FormGroup({
+        address1: new FormControl(''),
+        address2: new FormControl(''),
+        postalCode: new FormControl(''),
+        city: new FormControl(''),
+        department: new FormControl(''),
+        region: new FormControl(''),
+        country: new FormControl(''),
+        latitude: new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
-        'longitude': new FormControl('',
+        longitude: new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-          ]))
-      })
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -122,7 +122,7 @@ export class SiteAreaComponent implements OnInit {
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.accessControl = this.formGroup.controls['accessControl'];
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];
@@ -169,7 +169,7 @@ export class SiteAreaComponent implements OnInit {
 
   public refreshAvailableSites() {
     const params = {
-      'SiteID': this.authorizationService.getSitesAdmin().join('|')
+      SiteID: this.authorizationService.getSitesAdmin().join('|'),
     };
     this.centralServerService.getSites(params).subscribe((availableSites) => {
       // clear current entries
@@ -177,7 +177,7 @@ export class SiteAreaComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableSites.count; i++) {
-        this.sites.push({'id': availableSites.result[i].id, 'name': availableSites.result[i].name});
+        this.sites.push({id: availableSites.result[i].id, name: availableSites.result[i].name});
       }
     });
   }
@@ -297,7 +297,7 @@ export class SiteAreaComponent implements OnInit {
     if (this.currentSiteAreaID) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('settings.charging_station.registration_token_creation_title'),
-        this.translateService.instant('settings.charging_station.registration_token_creation_confirm')
+        this.translateService.instant('settings.charging_station.registration_token_creation_confirm'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.spinnerService.show();
@@ -305,8 +305,8 @@ export class SiteAreaComponent implements OnInit {
           const selectedSite = this.sites.find((site) => site.id === this.siteID.value);
           this.centralServerService.createRegistrationToken({
             siteAreaID: this.currentSiteAreaID,
-            description: `Token for ${selectedSite.name} / ${this.name.value}`
-          }).subscribe(token => {
+            description: `Token for ${selectedSite.name} / ${this.name.value}`,
+          }).subscribe((token) => {
             this.spinnerService.hide();
             if (token) {
               this.registrationToken = token;
@@ -335,7 +335,7 @@ export class SiteAreaComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('site_areas.image_size_error', {'maxPictureKb': this.maxSize});
+        this.messageService.showErrorMessage('site_areas.image_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -364,7 +364,7 @@ export class SiteAreaComponent implements OnInit {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
+        this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
@@ -373,7 +373,7 @@ export class SiteAreaComponent implements OnInit {
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
+        this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveSiteArea(this.formGroup.value);
@@ -391,8 +391,8 @@ export class SiteAreaComponent implements OnInit {
       return;
     }
     this.centralServerService.getRegistrationTokens({
-      'siteAreaID': this.currentSiteAreaID
-    }).subscribe((dataResult => {
+      siteAreaID: this.currentSiteAreaID,
+    }).subscribe(((dataResult) => {
       if (dataResult && dataResult.result) {
         for (const registrationToken of dataResult.result) {
           if (this.isRegistrationTokenValid(registrationToken)) {
@@ -416,14 +416,14 @@ export class SiteAreaComponent implements OnInit {
     // Set the image
     this.updateSiteAreaImage(siteArea);
     // Yes: Update
-    this.centralServerService.createSiteArea(siteArea).subscribe(response => {
+    this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
-          {'siteAreaName': siteArea.name});
+          {siteAreaName: siteArea.name});
         // Close
         this.currentSiteAreaID = siteArea.id;
         this.closeDialog(true);
@@ -454,13 +454,13 @@ export class SiteAreaComponent implements OnInit {
     // Set the image
     this.updateSiteAreaImage(siteArea);
     // Yes: Update
-    this.centralServerService.updateSiteArea(siteArea).subscribe(response => {
+    this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('site_areas.update_success', {'siteAreaName': siteArea.name});
+        this.messageService.showSuccessMessage('site_areas.update_success', {siteAreaName: siteArea.name});
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

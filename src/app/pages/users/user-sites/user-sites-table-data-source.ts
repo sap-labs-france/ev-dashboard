@@ -10,7 +10,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  User
+  User,
 } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -62,7 +62,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       } else {
         observer.next({
           count: 0,
-          result: []
+          result: [],
         });
         observer.complete();
       }
@@ -74,12 +74,12 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       class: 'table-dialog-list',
       rowSelection: {
         enabled: true,
-        multiple: true
+        multiple: true,
       },
       search: {
-        enabled: false
+        enabled: false,
       },
-      rowFieldNameIdentifier: 'site.id'
+      rowFieldNameIdentifier: 'site.id',
     };
   }
 
@@ -92,34 +92,34 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         class: 'text-left',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'site.address.city',
         name: 'general.city',
         headerClass: 'col-25p',
-        class: 'text-left'
+        class: 'text-left',
       },
       {
         id: 'site.address.country',
         name: 'general.country',
         headerClass: 'col-20p',
-        class: 'text-left'
+        class: 'text-left',
       },
       {
         id: 'siteAdmin',
         isAngularComponent: true,
         angularComponent: UserSitesAdminCheckboxComponent,
         name: 'sites.admin_role',
-        class: 'col-10p'
-      }
+        class: 'col-10p',
+      },
     ];
   }
 
   public setUser(user: User) {
     // Set static filter
     this.setStaticFilters([
-      {'UserID': user.id}
+      {UserID: user.id},
     ]);
     // Set user
     this.user = user;
@@ -130,7 +130,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     return [
       this.addAction,
       this.removeAction,
-      ...tableActionsDef
+      ...tableActionsDef,
     ];
   }
 
@@ -151,7 +151,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('users.remove_sites_title'),
-            this.translateService.instant('users.remove_sites_confirm')
+            this.translateService.instant('users.remove_sites_confirm'),
           ).subscribe((response) => {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
@@ -170,18 +170,18 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     // Set data
     dialogConfig.data = {
       staticFilter: {
-        'ExcludeSitesOfUserID': this.user.id
-      }
+        ExcludeSitesOfUserID: this.user.id,
+      },
     };
     // Show
     const dialogRef = this.dialog.open(SitesDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe(sites => this.addSites(sites));
+    dialogRef.afterClosed().subscribe((sites) => this.addSites(sites));
   }
 
   private removeSites(siteIDs) {
     // Yes: Update
-    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe(response => {
+    this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe((response) => {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
@@ -206,7 +206,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       // Get the IDs
       const siteIDs = sites.map((site) => site.key);
       // Yes: Update
-      this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe(response => {
+      this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe((response) => {
         // Ok?
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Ok

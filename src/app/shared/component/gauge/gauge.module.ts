@@ -5,6 +5,6 @@ import { RadialGaugeComponent } from './radial-gauge';
 
 @NgModule({
     declarations: [ LinearGaugeComponent, RadialGaugeComponent],
-    exports:    [ LinearGaugeComponent, RadialGaugeComponent ]
+    exports:    [ LinearGaugeComponent, RadialGaugeComponent ],
 })
 export class GaugesModule { }

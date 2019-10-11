@@ -4,7 +4,7 @@ import { TransactionsRefundTableDataSource } from './transactions-refund-table-d
 @Component({
   selector: 'app-transactions-refund',
   templateUrl: 'transactions-refund.component.html',
-  providers: [TransactionsRefundTableDataSource]
+  providers: [TransactionsRefundTableDataSource],
 })
 export class TransactionsRefundComponent {
   constructor(

@@ -31,12 +31,12 @@ export const PROFILE_TYPE_MAP =
     { key: 'Relative', description: 'chargers.smart_charging.profile_types.relative', stackLevel: 4, id: 4 },
     { key: 'Absolute', description: 'chargers.smart_charging.profile_types.absolute', stackLevel: 3, id: 3 },
     { key: 'Daily', description: 'chargers.smart_charging.profile_types.recurring_daily', stackLevel: 2, id: 2 },
-    { key: 'Weekly', description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, id: 1 }
+    { key: 'Weekly', description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, id: 1 },
   ];
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner',
-  templateUrl: 'charging-station-smart-charging-limit-planner.component.html'
+  templateUrl: 'charging-station-smart-charging-limit-planner.component.html',
 })
 export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit {
   @Input() charger: Charger;
@@ -84,19 +84,19 @@ export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit
     }
     // Init the form
     this.formGroup = new FormGroup({
-      'profileTypeControl': new FormControl('',
+      profileTypeControl: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'stackLevelControl': new FormControl('',
+      stackLevelControl: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'profileIdControl': new FormControl('',
+      profileIdControl: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'durationControl': new FormControl('')
+      durationControl: new FormControl(''),
     });
     // Form
     this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
@@ -127,20 +127,20 @@ export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit
       const previousSlot = this.slotsSchedule[this.slotsSchedule.length - 1];
       if (previousSlot.duration > 0) {
         const start = new Date(previousSlot.slot.start.getTime() + previousSlot.duration * 1000);
-        slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+        slot = { start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
       } else {
         const start = new Date(this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 60000);
-        slot = { start: start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+        slot = { start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
         previousSlot.slot.end = start;
         previousSlot.duration = ((previousSlot.slot.end.getTime() - previousSlot.slot.start.getTime()) / 1000);
       }
     }
     const displayedSlot: DisplayedScheduleSlot = {
-      slot: slot,
+      slot,
       id: this.slotsSchedule.length,
       displayedStartValue: this._buildDisplayDateTimePickerValue(slot.start),
       displayedEndValue: this._buildDisplayDateTimePickerValue(slot.end),
-      duration: ((slot.end.getTime() - slot.start.getTime()) / 1000)
+      duration: ((slot.end.getTime() - slot.start.getTime()) / 1000),
     };
     this.slotsSchedule.push(displayedSlot);
     this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
@@ -156,7 +156,6 @@ export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit
     slot.slot.displayedLimitInkW = this._getDisplayedLimit(value);
     this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
-
 
   changeStartSlotDate(event, slot: DisplayedScheduleSlot) {
     const start = new Date(event.target.value);
@@ -209,18 +208,18 @@ export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { 'chargeBoxID': this.charger.id })
+      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
           // Build OCPP planning
           const chargingProfile = this._buildProfile();
           // call REST service
-          this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe(response => {
+          this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe((response) => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { 'chargeBoxID': self.charger.id, 'power': 'plan' }));
+                { chargeBoxID: self.charger.id, power: 'plan' }));
               this.onApplyPlanning.emit();
             } else {
               Utils.handleError(JSON.stringify(response),

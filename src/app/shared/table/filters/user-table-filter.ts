@@ -17,14 +17,14 @@ export class UserTableFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: UsersDialogComponent,
       multiple: true,
-      cleared: true
+      cleared: true,
     };
 
     if (siteIDs) {
       filterDef.dialogComponentData = {
         staticFilter: {
-          SiteID: siteIDs.join('|')
-        }
+          SiteID: siteIDs.join('|'),
+        },
       };
     }
     // Set

@@ -21,7 +21,7 @@ import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-p
         <a mat-icon-button (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
     </div>
-  `
+  `,
 })
 
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit, AfterViewInit {
@@ -33,16 +33,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private colors = [
     [255, 99, 132],
     [54, 162, 235],
-    [255, 206, 86]
+    [255, 206, 86],
   ];
 
   constructor(private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private durationPipe: AppDurationPipe,
-    private localeService: LocaleService,
-    private datePipe: AppDatePipe,
-    private decimalPipe: DecimalPipe,
-    private connectorIdPipe: AppConnectorIdPipe) {
+              private translateService: TranslateService,
+              private durationPipe: AppDurationPipe,
+              private localeService: LocaleService,
+              private datePipe: AppDatePipe,
+              private decimalPipe: DecimalPipe,
+              private connectorIdPipe: AppConnectorIdPipe) {
   }
 
   resetZoom() {
@@ -73,7 +73,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     this.options = this.createOptions(scheduleSlots);
     this.data = {
       labels: [],
-      datasets: []
+      datasets: [],
     };
     // Build single connector data set
     // Line label
@@ -83,7 +83,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       data: [],
       yAxisID: axisId,
       ...this.formatLineColor(this.colors[0]),
-      label: connectorLabel
+      label: connectorLabel,
     };
     // Push in the graph
     this.data.datasets.push(limitPowerDataSet);
@@ -95,7 +95,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       this.data.labels.push(limit.start.getTime());
       limitPowerDataSet.data.push({
         x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-        }
+        },
       });
       if (index === scheduleSlots.length - 1) {
         // Add last limit
@@ -103,13 +103,13 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           this.data.labels.push(limit.end.getTime());
           limitPowerDataSet.data.push({
             x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-            }
+            },
           });
         } else {
           this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
           limitPowerDataSet.data.push({
             x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
-            }
+            },
           });
         }
       }
@@ -121,8 +121,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: '#0d47a1'
-        }
+          fontColor: '#0d47a1',
+        },
       },
       responsive: true,
       aspectRatio: this.ratio,
@@ -136,7 +136,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1)
+              backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1),
             };
           },
           label: (tooltipItem, values) => {
@@ -149,12 +149,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
 
             return this.datePipe.transform(currentDate) +
             ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
-          }
-        }
+          },
+        },
       },
       hover: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       },
       scales: {
         xAxes: [
@@ -163,16 +163,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
             distribution: 'linear',
             time: {
               tooltipFormat: 'h:mm',
-              unit: 'minute'
+              unit: 'minute',
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
+              color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              fontColor: '#0d47a1'
-            }
-          }
+              fontColor: '#0d47a1',
+            },
+          },
         ],
         yAxes: [
           {
@@ -183,14 +183,14 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
             stepSize: 1,
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value / 1000, '1.0-0'),
-              fontColor: '#0d47a1'
+              fontColor: '#0d47a1',
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
-            }
-          }
-        ]
+              color: 'rgba(0,0,0,0.2)',
+            },
+          },
+        ],
       },
       pan: {
         enabled: true,
@@ -206,15 +206,15 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         enabled: true,
         drag: false,
         mode: 'x',
-        sensitivity: 10
+        sensitivity: 10,
       },
       elements: {
         line: {
-          stepped: true
-        }
+          stepped: true,
+        },
       },
       onClick: (event, array) => {
-      }
+      },
     };
     if (this.localeService.language === 'fr') {
       options.scales.xAxes[0].time = {
@@ -223,24 +223,24 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           millisecond: 'HH:mm:ss.SSS',
           second: 'HH:mm:ss',
           minute: 'HH:mm',
-          hour: 'HH'
-        }
+          hour: 'HH',
+        },
       };
     }
     return options;
   }
 
-  formatLineColor(colors: Array<number>): any {
+  formatLineColor(colors: number[]): any {
     return {
       backgroundColor: this.rgba(colors, 0.4),
       borderColor: this.rgba(colors, 1),
       pointRadius: 0,
       pointHoverBackgroundColor: this.rgba(colors, 1),
-      pointHoverBorderColor: '#fff'
+      pointHoverBorderColor: '#fff',
     };
   }
 
-  rgba(colour: Array<number>, alpha: number): string {
+  rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 

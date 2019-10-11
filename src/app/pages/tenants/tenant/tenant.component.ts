@@ -11,7 +11,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './tenant.component.html'
+  templateUrl: './tenant.component.html',
 })
 export class TenantComponent implements OnInit {
   public formGroup: FormGroup;
@@ -25,39 +25,39 @@ export class TenantComponent implements OnInit {
   public pricingTypes = [
     {
       key: 'convergentCharging',
-      description: 'settings.pricing.convergentcharging.title'
+      description: 'settings.pricing.convergentcharging.title',
     }, {
       key: 'simple',
-      description: 'settings.pricing.simple.title'
-    }
+      description: 'settings.pricing.simple.title',
+    },
   ];
 
   public billingTypes = [
     {
       key: 'stripe',
-      description: 'settings.billing.stripe.title'
-    }
+      description: 'settings.billing.stripe.title',
+    },
   ];
 
   public refundTypes = [
     {
       key: 'concur',
-      description: 'settings.refund.concur.title'
-    }
+      description: 'settings.refund.concur.title',
+    },
   ];
 
   public ocpiTypes = [
     {
       key: 'gireve',
-      description: 'settings.ocpi.gireve.title'
-    }
+      description: 'settings.ocpi.gireve.title',
+    },
   ];
 
   public analyticsTypes = [
     {
       key: 'sac',
-      description: 'settings.analytics.sac.title'
-    }
+      description: 'settings.analytics.sac.title',
+    },
   ];
   private currentTenant: Tenant;
 
@@ -76,24 +76,24 @@ export class TenantComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
+          Validators.maxLength(100),
         ])),
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
+          Validators.email,
         ])),
-      'subdomain': new FormControl('',
+      subdomain: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(20),
-          Validators.pattern('^[a-z0-9]+$')
+          Validators.pattern('^[a-z0-9]+$'),
         ])),
-      'components': new FormGroup({})
+      components: new FormGroup({}),
     });
     // Assign
     this.id = this.formGroup.controls['id'];
@@ -101,13 +101,13 @@ export class TenantComponent implements OnInit {
     this.email = this.formGroup.controls['email'];
     this.subdomain = this.formGroup.controls['subdomain'];
     this.subdomain = this.formGroup.controls['subdomain'];
-    this.components = <FormGroup>this.formGroup.controls['components'];
+    this.components = (this.formGroup.controls['components'] as FormGroup);
     // Create component
     for (const componentIdentifier of Object.values(ComponentEnum)) {
       // Create controls
       this.components.addControl(componentIdentifier, new FormGroup({
-        'active': new FormControl(false),
-        'type': new FormControl('')
+        active: new FormControl(false),
+        type: new FormControl(''),
       }));
     }
     // Load
@@ -131,7 +131,7 @@ export class TenantComponent implements OnInit {
             // Set the params
             if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {
               // Get component group
-              const component = <FormGroup>this.components.controls[componentIdentifier];
+              const component = this.components.controls[componentIdentifier] as FormGroup;
               // Set Active
               component.controls.active.setValue(
                 this.currentTenant.components[componentIdentifier].active === true);
@@ -194,10 +194,10 @@ export class TenantComponent implements OnInit {
 
   private createTenant(tenant) {
     this.spinnerService.show();
-    this.centralServerService.createTenant(tenant).subscribe(response => {
+    this.centralServerService.createTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.create_success', {'name': tenant.name});
+        this.messageService.showSuccessMessage('tenants.create_success', {name: tenant.name});
         this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
@@ -210,10 +210,10 @@ export class TenantComponent implements OnInit {
 
   private updateTenant(tenant) {
     this.spinnerService.show();
-    this.centralServerService.updateTenant(tenant).subscribe(response => {
+    this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.update_success', {'name': tenant.name});
+        this.messageService.showSuccessMessage('tenants.update_success', {name: tenant.name});
         this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');

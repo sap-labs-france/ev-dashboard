@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-colors-template',
-  templateUrl: './colors-template.component.html'
+  templateUrl: './colors-template.component.html',
 })
 
 export class ColorsTemplateComponent {

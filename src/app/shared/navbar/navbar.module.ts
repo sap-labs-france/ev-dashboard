@@ -8,7 +8,7 @@ import { NavbarComponent } from './navbar.component';
 @NgModule({
   imports: [RouterModule, CommonModule, MatButtonModule, TranslateModule],
   declarations: [NavbarComponent],
-  exports: [NavbarComponent]
+  exports: [NavbarComponent],
 })
 
 export class NavbarModule {

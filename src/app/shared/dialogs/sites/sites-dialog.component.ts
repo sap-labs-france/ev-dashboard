@@ -5,7 +5,7 @@ import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { SitesDialogTableDataSource } from './sites-dialog-table-data-source';
 
 @Component({
-  templateUrl: '../dialog-table-data.component.html'
+  templateUrl: '../dialog-table-data.component.html',
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   constructor(
@@ -24,7 +24,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   getSelectedItems(selectedRows: Site[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
-      selectedRows.forEach(row => {
+      selectedRows.forEach((row) => {
         items.push({key: row.id, value: row.name, objectRef: row});
       });
     }

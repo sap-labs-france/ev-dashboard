@@ -7,7 +7,7 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
     <div class="logo-container">
       <img *ngIf="row.logo" class="app-companies-logo" [src]='row.logo'>
     </div>
-  `
+  `,
 })
 
 export class CompanyLogoFormatterComponent extends CellContentTemplateComponent {

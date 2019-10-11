@@ -26,21 +26,21 @@ import { DashboardRoutes } from './dashboard.routing';
     GaugesModule,
     AgmCoreModule,
     ChartModule,
-    FormattersModule
+    FormattersModule,
   ],
   declarations: [
     DashboardComponent,
     ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
-    CardKeyfigureComponent
+    CardKeyfigureComponent,
   ],
   exports: [
     ChargingStationConsumptionGaugeComponent,
     ChargingStationGaugeComponent,
     CardChartComponent,
-    CardKeyfigureComponent
-  ]
+    CardKeyfigureComponent,
+  ],
 })
 
 export class DashboardModule {

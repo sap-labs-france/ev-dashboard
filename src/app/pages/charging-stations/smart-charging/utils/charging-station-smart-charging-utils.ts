@@ -8,7 +8,7 @@ export class ChargingStationSmartChargingUtils {
   * @param {*} valueUnit : unit (W, kW, A) of the value
   */
   static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision,
-      powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
+                                 powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
     switch (valueUnit) {
       case 'W':
         return appUnitFormatter.transform(value, valueUnit, displayUnit, addUnit, powerDigitPrecision, powerFloatingPrecision);

@@ -11,7 +11,7 @@ import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
 @Component({
-  templateUrl: './settings-ocpi-endpoint-dialog.component.html'
+  templateUrl: './settings-ocpi-endpoint-dialog.component.html',
 })
 export class settingsOcpiEnpointDialogComponent implements OnInit {
   public formGroup: FormGroup;
@@ -41,52 +41,52 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
       this.currentEndpoint = data;
     } else {
       this.currentEndpoint = {
-        'id': '',
-        'name': '',
-        'baseUrl': '',
-        'countryCode': '',
-        'partyId': '',
-        'localToken': '',
-        'token': '',
-        'backgroundPatchJob': false
+        id: '',
+        name: '',
+        baseUrl: '',
+        countryCode: '',
+        partyId: '',
+        localToken: '',
+        token: '',
+        backgroundPatchJob: false,
       };
     }
   }
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      'id': new FormControl(this.currentEndpoint.id),
-      'name': new FormControl(this.currentEndpoint.name,
+      id: new FormControl(this.currentEndpoint.id),
+      name: new FormControl(this.currentEndpoint.name,
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
+          Validators.maxLength(100),
         ])),
-      'baseUrl': new FormControl(this.currentEndpoint.baseUrl,
+      baseUrl: new FormControl(this.currentEndpoint.baseUrl,
         Validators.compose([
           Validators.required,
-          Validators.pattern(Constants.URL_PATTERN)
+          Validators.pattern(Constants.URL_PATTERN),
         ])),
-      'countryCode': new FormControl(this.currentEndpoint.countryCode,
+      countryCode: new FormControl(this.currentEndpoint.countryCode,
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
-          Validators.minLength(2)
+          Validators.minLength(2),
         ])),
-      'partyId': new FormControl(this.currentEndpoint.partyId,
+      partyId: new FormControl(this.currentEndpoint.partyId,
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
-          Validators.minLength(3)
+          Validators.minLength(3),
         ])),
-      'localToken': new FormControl(this.currentEndpoint.localToken,
+      localToken: new FormControl(this.currentEndpoint.localToken,
         Validators.compose([
-          Validators.maxLength(64)
+          Validators.maxLength(64),
         ])),
-      'token': new FormControl(this.currentEndpoint.token,
+      token: new FormControl(this.currentEndpoint.token,
         Validators.compose([
-          Validators.maxLength(64)
+          Validators.maxLength(64),
         ])),
-      'backgroundPatchJob': new FormControl(this.currentEndpoint.backgroundPatchJob)
+      backgroundPatchJob: new FormControl(this.currentEndpoint.backgroundPatchJob),
     });
 
     this.id = this.formGroup.controls['id'];
@@ -128,7 +128,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Generate new local token
-    this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         this.localToken.setValue(response.localToken);
@@ -147,10 +147,10 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Ping
-    this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { 'name': ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiendpoint.name });
       } else {
         // switch message according status code recieved
         let messageId = 'ocpiendpoints.error_ping';
@@ -184,7 +184,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
+        this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
@@ -193,7 +193,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
+        this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.save(this.formGroup.value);
@@ -207,10 +207,10 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
   }
 
   private createOcpiEndpoint(ocpiendpoint) {
-    this.centralServerService.createOcpiEndpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.createOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { 'name': ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiendpoint.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -224,10 +224,10 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
   }
 
   private updateOcpiEndpoint(ocpiendpoint) {
-    this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe(response => {
+    this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { 'name': ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiendpoint.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

@@ -12,7 +12,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -94,7 +94,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public getRowDetails(row: Log): Observable<String> {
     // Read the log details
     return this.centralServerService.getLog(row.id).pipe(
-      map(log => Formatters.formatTextToHTML(log.detailedMessages)));
+      map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
   public getPageSize(): number {
@@ -104,13 +104,13 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
       rowDetails: {
         enabled: true,
         detailsField: 'detailedMessages',
-        showDetailsField: 'hasDetailedMessages'
-      }
+        showDetailsField: 'hasDetailedMessages',
+      },
     };
   }
 
@@ -123,7 +123,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         angularComponent: LogLevelFormatterComponent,
         headerClass: 'col-7p',
         class: 'col-7p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'timestamp',
@@ -134,43 +134,43 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         class: 'text-left col-15p',
         sorted: true,
         direction: 'desc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'host',
         name: 'logs.host',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'process',
         name: 'logs.process',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'source',
         name: 'logs.source',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'action',
         name: 'logs.action',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'message',
         name: 'logs.message',
         headerClass: 'col-50p',
         class: 'text-left col-50p',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
   }
 
@@ -179,7 +179,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     if (!this.authorizationService.isDemo()) {
       return [
         new TableExportAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -190,7 +190,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       case 'export':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('logs.dialog.export.title'),
-          this.translateService.instant('logs.dialog.export.confirm')
+          this.translateService.instant('logs.dialog.export.confirm'),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this.exportLogs();
@@ -204,7 +204,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -215,7 +215,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogDateUntilTableFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
-        new UserTableFilter().getFilterDef()
+        new UserTableFilter().getFilterDef(),
       ];
     }
     if (this.authorizationService.isAdmin()) {
@@ -226,7 +226,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
-        new UserTableFilter().getFilterDef()
+        new UserTableFilter().getFilterDef(),
       ];
     }
     return [
@@ -241,7 +241,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   private exportLogs() {
     this.centralServerService.exportLogs(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP
+      skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
         saveAs(result, 'exportLogs.csv');

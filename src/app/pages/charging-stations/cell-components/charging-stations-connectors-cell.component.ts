@@ -9,7 +9,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
           <app-charging-stations-connector-cell [row]="connector"></app-charging-stations-connector-cell>
         </ng-container>
     </div>
-  `
+  `,
 })
 export class ChargingStationsConnectorsCellComponent extends CellContentTemplateComponent {
   @Input() row: Charger;

@@ -10,7 +10,7 @@ export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOS
 
 export enum MobileType {
   iOS = 'iOS',
-  android = 'Android'
+  android = 'Android',
 }
 
 export interface KeyValue {
@@ -48,7 +48,7 @@ export interface DropdownItem {
 export enum ButtonColor {
   primary = 'primary',
   accent = 'accent',
-  warn = 'warn'
+  warn = 'warn',
 }
 
 export interface TableActionDef {
@@ -104,7 +104,7 @@ export interface DropdownLink {
 export enum NavItemType {
   Sidebar = 1, // Only ever shown on sidebar
   NavbarLeft = 2, // Left-aligned icon-only link on navbar in desktop mode, shown above sidebar items on collapsed sidebar in mobile mode
-  NavbarRight = 3 // Right-aligned link on navbar in desktop mode, shown above sidebar items on collapsed sidebar in mobile mode
+  NavbarRight = 3, // Right-aligned link on navbar in desktop mode, shown above sidebar items on collapsed sidebar in mobile mode
 }
 
 export interface NavItem {
@@ -113,7 +113,7 @@ export interface NavItem {
   routerLink?: string;
   iconClass?: string;
   numNotifications?: number;
-  dropdownItems?: (DropdownLink | 'separator')[];
+  dropdownItems?: Array<DropdownLink | 'separator'>;
 }
 
 export interface ActionResponse {
@@ -347,10 +347,10 @@ export interface Site extends Data {
   siteAreas: SiteArea[];
   address: Address;
   image: string;
-  images: Object[];
+  images: object[];
   gps: string;
-  consumptionData: Object;
-  occupationData: Object;
+  consumptionData: object;
+  occupationData: object;
   userIDs: string[];
   users: User[];
   createdBy: string;
@@ -502,11 +502,11 @@ export interface User extends Data {
   locale: string;
   language: string;
   numberOfSites: number;
-  activeComponents?: Array<string>;
-  scopes: Array<string>;
-  companies: Array<string>;
-  sites: Array<string>;
-  sitesAdmin: Array<string>;
+  activeComponents?: string[];
+  scopes: string[];
+  companies: string[];
+  sites: string[];
+  sitesAdmin: string[];
   userHashID: number;
   tenantHashID: number;
 }
@@ -569,7 +569,7 @@ export interface ConnectorSchedule {
 
 export enum PricingSettingsType {
   simple = 'simple',
-  convergentCharging = 'convergentCharging'
+  convergentCharging = 'convergentCharging',
 }
 
 export interface PricingSettings {
@@ -590,7 +590,7 @@ export interface PricingSettings {
 }
 
 export enum BillingSettingsType {
-  stripe = 'stripe'
+  stripe = 'stripe',
 }
 
 export interface BillingSettings {
@@ -611,7 +611,7 @@ export interface BillingSettings {
 }
 
 export enum OcpiSettingsType {
-  gireve = 'gireve'
+  gireve = 'gireve',
 }
 
 export interface OcpiCommon {
@@ -640,7 +640,7 @@ export interface OcpiSettings {
 }
 
 export enum AnalyticsSettingsType {
-  sac = 'sac'
+  sac = 'sac',
 }
 
 export interface AnalyticsLink extends Data {
@@ -664,7 +664,7 @@ export interface AnalyticsSettings {
 }
 
 export enum RefundSettingsType {
-  concur = 'concur'
+  concur = 'concur',
 }
 
 export interface RefundSettings {

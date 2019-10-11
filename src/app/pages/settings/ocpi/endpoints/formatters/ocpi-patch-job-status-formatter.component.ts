@@ -10,7 +10,7 @@ import { Constants } from 'app/utils/Constants';
         {{row.backgroundPatchJob | appFormatOcpiPatchJobStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class OcpiPatchJobStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpoint;

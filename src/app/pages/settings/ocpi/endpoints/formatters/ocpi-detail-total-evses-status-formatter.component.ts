@@ -10,7 +10,7 @@ import { Constants } from 'app/utils/Constants';
         {{row.totalNbr | appFormatOcpiEvsesTotal:'text'}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class OcpiDetailTotalEvsesStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: OcpiEndpointDetail;

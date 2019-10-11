@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './auth-layout.component.html'
+  templateUrl: './auth-layout.component.html',
 })
 export class AuthLayoutComponent implements OnInit {
   mobileMenuVisible: any = 0;
@@ -21,7 +21,7 @@ export class AuthLayoutComponent implements OnInit {
     const navbar: HTMLElement = this.element.nativeElement;
 
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.sidebarClose();
     });
   }
@@ -29,7 +29,7 @@ export class AuthLayoutComponent implements OnInit {
   sidebarOpen() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       toggleButton.classList.add('toggled');
     }, 500);
     body.classList.add('nav-open');
@@ -55,10 +55,10 @@ export class AuthLayoutComponent implements OnInit {
       } else if (body.classList.contains('off-canvas-sidebar')) {
         document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
       }
-      setTimeout(function () {
+      setTimeout(function() {
         $layer.classList.add('visible');
       }, 100);
-      $layer.onclick = function () { // Assign a function
+      $layer.onclick = function() { // Assign a function
         body.classList.remove('nav-open');
         this.mobile_menu_visible = 0;
         $layer.classList.remove('visible');

@@ -3,7 +3,7 @@ import { Placement } from 'bootstrap';
 import * as jQuery from 'jquery';
 
 @Directive({
-  selector: '[appTooltip]'
+  selector: '[appTooltip]',
 })
 export class TooltipDirective implements AfterViewInit, OnDestroy {
   constructor(private elementRef: ElementRef) {
@@ -15,7 +15,7 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
       place = this.elementRef.nativeElement.attributes['data-placement'].value;
     }
     jQuery(this.elementRef.nativeElement).tooltip({
-      placement: place, trigger: 'hover', sanitize: false, sanitizeFn: content => content
+      placement: place, trigger: 'hover', sanitize: false, sanitizeFn: (content) => content,
     });
   }
 

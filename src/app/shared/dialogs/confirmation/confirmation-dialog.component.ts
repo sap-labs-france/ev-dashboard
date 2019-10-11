@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Constants } from '../../../utils/Constants';
 
 @Component({
-  templateUrl: './confirmation-dialog.component.html'
+  templateUrl: './confirmation-dialog.component.html',
 })
 export class ConfirmationDialogComponent implements AfterViewInit {
   public title = '';

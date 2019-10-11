@@ -28,9 +28,9 @@ export class StatisticsBuildService {
   }
 
   public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
-    addUnitToLabel = false,
-    sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
-    maxNumberOfItems = 20): ChartData {
+                                        addUnitToLabel = false,
+                                        sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
+                                        maxNumberOfItems = 20): ChartData {
 
     const stackedChartData: ChartData = { labels: [], datasets: [] };
 
@@ -103,7 +103,7 @@ export class StatisticsBuildService {
                 }
 
                 numberArray.push(transactionValue[key]);
-                stackedChartData.datasets.push({ 'label': newKey, 'data': numberArray, 'stack': ChartConstants.STACKED_ITEM });
+                stackedChartData.datasets.push({ label: newKey, data: numberArray, stack: ChartConstants.STACKED_ITEM });
               } else {
                 numberArray = stackedChartData.datasets[dataSetIndex].data;
                 if (newMonth) {
@@ -135,7 +135,6 @@ export class StatisticsBuildService {
             }
           }
         });
-
 
         // Deferred update for totals:
         if (newMonth) {
@@ -236,7 +235,7 @@ export class StatisticsBuildService {
       }
 
       // Last chart dataset for totals:
-      stackedChartData.datasets.push({ 'label': this.totalLabel, 'data': totalDataArray, 'stack': ChartConstants.STACKED_TOTAL });
+      stackedChartData.datasets.push({ label: this.totalLabel, data: totalDataArray, stack: ChartConstants.STACKED_TOTAL });
     }
 
     return stackedChartData;
@@ -297,7 +296,7 @@ export class StatisticsBuildService {
         if (totalChartData.datasets.length === 0) {
           numberArray = [];
           numberArray.push(totalValue);
-          totalChartData.datasets.push({ 'data': numberArray }); // no 'label, no 'stack'
+          totalChartData.datasets.push({ data: numberArray }); // no 'label, no 'stack'
         } else {
           numberArray = totalChartData.datasets[0].data;
           numberArray.push(totalValue);
@@ -326,8 +325,8 @@ export class StatisticsBuildService {
   }
 
   public calculateTotalsWithUnits(statisticsData: any,
-    roundingDecimals: number = 0,
-    ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+                                  roundingDecimals: number = 0,
+                                  ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
 
     let roundingFactor = 1;
     let index = 0;

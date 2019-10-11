@@ -23,7 +23,7 @@ interface LocalConnectorSchedule extends ConnectorSchedule {
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planning',
-  templateUrl: './charging-station-smart-charging-limit-planning.component.html'
+  templateUrl: './charging-station-smart-charging-limit-planning.component.html',
 })
 @Injectable()
 export class ChargingStationSmartChargingLimitPlanningComponent implements OnInit, AfterViewInit {

@@ -5,14 +5,14 @@ import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  templateUrl: 'charging-stations.component.html'
+  templateUrl: 'charging-stations.component.html',
 })
 export class ChargingStationsComponent extends AbstractTabComponent implements OnInit {
   isAdmin: boolean;
-  constructor (
+  constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService
+    windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['all', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();

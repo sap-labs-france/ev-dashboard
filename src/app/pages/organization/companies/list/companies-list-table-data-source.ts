@@ -11,7 +11,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
@@ -52,7 +52,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{'WithLogo': true}]);
+    this.setStaticFilters([{WithLogo: true}]);
     this.initDataSource();
   }
 
@@ -85,9 +85,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -99,7 +99,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CompanyLogoFormatterComponent
+        angularComponent: CompanyLogoFormatterComponent,
       },
       {
         id: 'name',
@@ -107,29 +107,29 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         class: 'text-left',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.city',
         name: 'general.city',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
     if (this.isAdmin) {
       tableColumnDef.splice(1, 0, {
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell'
+        class: 'd-none col-15p d-xl-table-cell',
       });
     }
     return tableColumnDef;
@@ -140,7 +140,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     if (this.isAdmin) {
       return [
         new TableCreateAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     } else {
       return tableActionsDef;
@@ -155,12 +155,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       return [
         this.editAction,
         openInMaps,
-        this.deleteAction
+        this.deleteAction,
       ];
     } else {
       return [
         this.viewAction,
-        openInMaps
+        openInMaps,
       ];
     }
   }
@@ -197,7 +197,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -224,7 +224,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(saved => {
+    dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();
       }
@@ -234,12 +234,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('companies.delete_title'),
-      this.translateService.instant('companies.delete_confirm', { 'companyName': company.name })
+      this.translateService.instant('companies.delete_confirm', { companyName: company.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteCompany(company.id).subscribe(response => {
+        this.centralServerService.deleteCompany(company.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('companies.delete_success', { 'companyName': company.name });
+            this.messageService.showSuccessMessage('companies.delete_success', { companyName: company.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

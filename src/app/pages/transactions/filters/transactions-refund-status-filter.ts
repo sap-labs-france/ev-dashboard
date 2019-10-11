@@ -15,7 +15,7 @@ export class TransactionsRefundStatusFilter extends TableFilter {
       label: '',
       currentValue: [],
       items: Object.assign([], transactionRefundStatus),
-      multiple: true
+      multiple: true,
     };
     this.setFilterDef(filterDef);
   }

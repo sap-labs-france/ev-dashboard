@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
-  templateUrl: './geomap-dialog.component.html'
+  templateUrl: './geomap-dialog.component.html',
 })
 export class GeoMapDialogComponent {
   public mapLatitude: number;
@@ -16,7 +16,7 @@ export class GeoMapDialogComponent {
   public label = '';
   public zoom = 4;
   public icon = {
-    url: '../../../../assets/img/map-pin-18x30.svg', scale: 0.2, labelOrigin: { x: 11, y: -10 }
+    url: '../../../../assets/img/map-pin-18x30.svg', scale: 0.2, labelOrigin: { x: 11, y: -10 },
   };
   public displayOnly = false;
   public dialogTitle: string;

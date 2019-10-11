@@ -7,7 +7,7 @@ import {
   Route,
   Router,
   RouterStateSnapshot,
-  UrlSegment
+  UrlSegment,
 } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'environments/environment';
@@ -35,7 +35,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     private centralServerService: CentralServerService,
     private componentService: ComponentService) {
 
-    this.centralServerService.getCurrentUserSubject().subscribe(user => {
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       if (user) {
         this.userRole = user.role;
       } else {
@@ -74,9 +74,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     if (email && password) {
       // Login
       this.centralServerService.login({
-        'email': email,
-        'password': password,
-        'acceptEula': true
+        email,
+        password,
+        acceptEula: true,
       }).subscribe((result) => {
         // Success
         this.centralServerService.loggingSucceeded(result.token);
@@ -86,7 +86,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
         // Naigate to login
-        this.router.navigate([RouteGuardService.LOGIN_ROUTE], {queryParams: {'email': email}});
+        this.router.navigate([RouteGuardService.LOGIN_ROUTE], {queryParams: {email}});
       });
     } else {
       // Not logged in so redirect to login page with the return url

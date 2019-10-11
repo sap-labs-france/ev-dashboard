@@ -23,23 +23,23 @@ import { TenantsRoutes } from './tenants.routing';
     MaterialModule,
     TableModule,
     CommonDirectivesModule,
-    DialogsModule
+    DialogsModule,
   ],
   declarations: [
     TenantsListComponent,
-    TenantComponent
+    TenantComponent,
   ],
   entryComponents: [
     TenantsListComponent,
-    TenantComponent
+    TenantComponent,
   ],
   exports: [
     TenantsListComponent,
-    TenantComponent
+    TenantComponent,
   ],
   providers: [
-    TenantsListTableDataSource
-  ]
+    TenantsListTableDataSource,
+  ],
 })
 
 export class TenantsModule {

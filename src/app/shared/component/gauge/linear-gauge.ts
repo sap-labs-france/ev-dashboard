@@ -7,7 +7,7 @@ import { BaseGauge } from './base-gauge';
  */
 @Component({
     selector: 'app-linear-gauge',
-    template: '<canvas #gauge></canvas>'
+    template: '<canvas #gauge></canvas>',
 })
 export class LinearGaugeComponent extends BaseGauge<CanvasGauges.LinearGauge, CanvasGauges.LinearGaugeOptions> implements OnInit {
     constructor(el: ElementRef, zone: NgZone) {

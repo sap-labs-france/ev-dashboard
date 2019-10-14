@@ -466,6 +466,19 @@ export interface User extends Data {
   phone: Date;
   mobile: string;
   notificationsActive: boolean;
+  notifications: {
+    sendSessionStarted?: boolean;
+    sendOptimalChargeReached?: boolean;
+    sendEndOfCharge?: boolean;
+    sendEndOfSession?: boolean;
+    sendUserAccountStatusChanged?: boolean;
+    sendNewRegisteredUser?: boolean;
+    sendUnknownUserBadged?: boolean;
+    sendChargingStationStatusError?: boolean;
+    sendChargingStationRegistered?: boolean;
+    sendOcpiPatchStatusError?: boolean;
+    sendSmtpAuthError?: boolean;
+  },
   address: {
     address1: string;
     address2: string;

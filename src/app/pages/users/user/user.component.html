@@ -146,11 +146,6 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="isAdmin" class="col-md-6" style="text-align: left">
-                <div class="form-group">
-                  <mat-checkbox [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
-                </div>
-              </div>
             </div>
           </div>
         </mat-tab>
@@ -247,6 +242,58 @@
               </div>
               <div *ngIf="!refundSetting" class="mx-auto my-3">
                 <p class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>email</mat-icon>
+            <span>Notifications</span>
+          </ng-template>
+          <div class="card-body" style="text-align: left">
+            <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <mat-checkbox (click)="toggleNotificationsActive()" [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                  </div>
+                </div>
+            </div>
+            <div  *ngIf="notificationsActive.value" style="margin-left:20px"> 
+              <div class="row">
+                  <div class="col-sm-12"><mat-checkbox [formControl]="sendSessionStarted">{{"notifications.session-started" | translate}}</mat-checkbox></div>
+              </div> 
+              <div class="row">
+                  <div class="col-sm-12"><mat-checkbox [formControl]="sendOptimalChargeReached">{{"notifications.optimal-charge-reached" | translate}}</mat-checkbox></div>
+              </div> 
+              <div class="row">
+                  <div class="col-sm-12"><mat-checkbox [formControl]="sendEndOfCharge">{{"notifications.end-of-charge" | translate}}</mat-checkbox></div>
+              </div> 
+              <div class="row">
+                  <div class="col-sm-12"><mat-checkbox [formControl]="sendEndOfSession">{{"notifications.end-of-session" | translate}}</mat-checkbox></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12"><mat-checkbox [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox></div>
+              </div>
+              <div *ngIf="role.value !== 'B'"> 
+                <div class="row">
+                    <div class="col-sm-12"><mat-checkbox [formControl]="sendNewRegisteredUser">{{"notifications.new-registered-user" | translate}}</mat-checkbox></div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12"><mat-checkbox [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12"><mat-checkbox [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12"><mat-checkbox [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12"><mat-checkbox [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12"><mat-checkbox [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                </div>
               </div>
             </div>
           </div>

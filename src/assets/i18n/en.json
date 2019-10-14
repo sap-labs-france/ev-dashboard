@@ -1467,5 +1467,18 @@
     "details": "Details",
     "description": "Description",
     "action": "Recommended action"
+  },
+  "notifications": {
+    "session-started": "Notify me when my session has started",
+    "optimal-charge-reached": "Notify me when the optimal charge has been reached (battery level, when provided, at 85%)",
+    "end-of-charge": "Notify me when my charge is finished (the electric vehicle is not charging anymore)",
+    "end-of-session": "Notify me when my session is finished",
+    "user-account-status-changed": "Notify me when my status has been changed by an Administrator (Active, Blocked…)",
+    "new-registered-user": "[Admin] Notify me when a new user has just registered",
+    "unknown-user-badged": "[Admin] Notify me when an unknown user has badged on a charging station",
+    "charging-station-status-error": "[Admin] Notify me when an error occurred on a charging station’s connector",
+    "charging-station-registered": "[Admin] Notify me whan a charging station has just registered or restarted",
+    "ocpi-patch-status-error": "[Admin] Notify me if the OCPI transfer of a charging station’s statuses has failed",
+    "smtp-auth-error": "[Admin] Notify me if the email notification server’s authentication has failed"
   }
 }

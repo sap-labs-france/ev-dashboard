@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -76,7 +76,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
+
   public notificationsActive: AbstractControl;
+  public notifications: FormGroup;
+  public sendSessionStarted: AbstractControl;
+  public sendOptimalChargeReached: AbstractControl;
+  public sendEndOfCharge: AbstractControl;
+  public sendEndOfSession: AbstractControl;
+  public sendUserAccountStatusChanged: AbstractControl;
+  public sendNewRegisteredUser: AbstractControl;
+  public sendUnknownUserBadged: AbstractControl;
+  public sendChargingStationStatusError: AbstractControl;
+  public sendChargingStationRegistered: AbstractControl;
+  public sendOcpiPatchStatusError: AbstractControl;
+  public sendSmtpAuthError: AbstractControl;
+
   public isConcurConnectionValid: boolean;
   public canSeeInvoice: boolean;
 
@@ -95,7 +109,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'notifications', 'miscs'], false);
 
     this.maxSize = this.configService.getUser().maxPictureKb;
 
@@ -142,8 +156,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      notificationsActive: new FormControl(true),
-      email: new FormControl('',
+      'notificationsActive': new FormControl(true),
+      'notifications': new FormGroup({
+        'sendSessionStarted': new FormControl(true),
+        'sendOptimalChargeReached': new FormControl(true),
+        'sendEndOfCharge': new FormControl(true),
+        'sendEndOfSession': new FormControl(true),
+        'sendUserAccountStatusChanged': new FormControl(true),
+        'sendNewRegisteredUser': new FormControl(true),
+        'sendUnknownUserBadged': new FormControl(true),
+        'sendChargingStationStatusError': new FormControl(true),
+        'sendChargingStationRegistered': new FormControl(true),
+        'sendOcpiPatchStatusError': new FormControl(true),
+        'sendSmtpAuthError': new FormControl(true)
+        }),
+      'email': new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
@@ -252,7 +279,20 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
+    
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
+    this.notifications = <FormGroup>this.formGroup.controls['notifications'];
+    this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
+    this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
+    this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
+    this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
+    this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
+    this.sendNewRegisteredUser = this.notifications.controls['sendNewRegisteredUser'];
+    this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
+    this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
+    this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
+    this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
     if (this.currentUserID) {
       this.loadUser();
@@ -268,6 +308,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
+  }
+
+  public toggleNotificationsActive() {
+    // reset notifications ?
   }
 
   public setCurrentUserId(currentUserId) {
@@ -372,6 +416,39 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendSessionStarted')) {
+        this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOptimalChargeReached')) {
+        this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
+        this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfSession')) {
+        this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendNewRegisteredUser')) {
+        this.notifications.controls.sendNewRegisteredUser.setValue(user.notifications.sendNewRegisteredUser);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
+        this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationStatusError')) {
+        this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationRegistered')) {
+        this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendSmtpAuthError')) {
+        this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);

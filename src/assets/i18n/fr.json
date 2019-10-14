@@ -1467,5 +1467,18 @@
     "details": "Détails",
     "description": "Description",
     "action": "Action recommendée"
+  },
+  "notifications": {
+    "session-started": "Me notifier lorsque ma session a démarré",
+    "optimal-charge-reached": "Me notifier lorsque la recharge optimale (batterie à 85%) a été atteinte",
+    "end-of-charge": "Me notifier lorsque la recharge est terminée (le véhicule électrique ne se recharge plus)",
+    "end-of-session": "Me notifier lorsque ma session est terminée",
+    "user-account-status-changed": "Me notifier lorsque mon statut est modifié par un administrateur (actif, en-attente, ...)",
+    "new-registered-user": "[Admin] Me notifier lorsqu'un nouvel utilisateur s'est enregistré",
+    "unknown-user-badged": "[Admin] Me notifier lorsqu'un utilisateur inconnu s'est connecté sur une borne de recharge",
+    "charging-station-status-error": "[Admin] Me notifier lorsqu'une erreur se produit sur une borne de recharge",
+    "charging-station-registered": "[Admin] Me notifier lorsqu'une une borne de recharge s'est enregistrée ou a redémarré",
+    "ocpi-patch-status-error": "[Admin] Me notifier lorsque le transfert via le connecteur OCPI du statut d'une borne de recharge a échoué",
+    "smtp-auth-error": "[Admin] Me notifier lorsque l'authentification sur le serveur email principal a échoué"
   }
 }

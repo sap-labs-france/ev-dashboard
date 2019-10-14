@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Admin Users can enable/disable Notifications`,
               `Fix stop authorization for Basic User`,
+              `User's Badge ID is not regenerated when not existing in profile`,
               `Hide column when the browser is resized`,
               `Both OCPI and Notification entities has been migrated to TypeScript`
             ],

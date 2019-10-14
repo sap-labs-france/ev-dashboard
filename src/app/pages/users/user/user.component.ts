@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
+import { ActionResponse, PricingSettingsType, User, RefundSettings } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -156,21 +156,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      'notificationsActive': new FormControl(true),
-      'notifications': new FormGroup({
-        'sendSessionStarted': new FormControl(true),
-        'sendOptimalChargeReached': new FormControl(true),
-        'sendEndOfCharge': new FormControl(true),
-        'sendEndOfSession': new FormControl(true),
-        'sendUserAccountStatusChanged': new FormControl(true),
-        'sendNewRegisteredUser': new FormControl(true),
-        'sendUnknownUserBadged': new FormControl(true),
-        'sendChargingStationStatusError': new FormControl(true),
-        'sendChargingStationRegistered': new FormControl(true),
-        'sendOcpiPatchStatusError': new FormControl(true),
-        'sendSmtpAuthError': new FormControl(true)
+      notificationsActive: new FormControl(true),
+      notifications: new FormGroup({
+        sendSessionStarted: new FormControl(true),
+        sendOptimalChargeReached: new FormControl(true),
+        sendEndOfCharge: new FormControl(true),
+        sendEndOfSession: new FormControl(true),
+        sendUserAccountStatusChanged: new FormControl(true),
+        sendNewRegisteredUser: new FormControl(true),
+        sendUnknownUserBadged: new FormControl(true),
+        sendChargingStationStatusError: new FormControl(true),
+        sendChargingStationRegistered: new FormControl(true),
+        sendOcpiPatchStatusError: new FormControl(true),
+        sendSmtpAuthError: new FormControl(true)
         }),
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
@@ -187,18 +187,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
-/*
-        tagIDs: new FormControl(this.generateTagID(),
-        Validators.compose(this.isAdmin ?
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.pattern('^[a-zA-Z0-9,]*$'),
-          ] :
-          [],
-        )),
-*/
-        tagIDs: new FormControl('',
+      tagIDs: new FormControl('',
         Validators.compose(this.isAdmin ?
           [
             Validators.required,
@@ -290,9 +279,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
-    
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
-    this.notifications = <FormGroup>this.formGroup.controls['notifications'];
+    this.notifications = this.formGroup.controls['notifications'] as FormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
@@ -313,6 +301,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       });
     }
+    if (!this.currentUserID) {
+      this.formGroup.controls.tagIDs.setValue(this.generateTagID());
+    }
 
     this.loadApplicationSettings();
 
@@ -325,12 +316,14 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // reset notifications ?
   }
 
-  public setCurrentUserId(currentUserId) {
-    this.currentUserID = currentUserId;
+  public setCurrentUserId(currentUserID: string) {
+    this.currentUserID = currentUserID;
   }
 
+  // Google Address
   public setAddress(address: Address) {
     // Set data
+    // tslint:disable-next-line: no-unsafe-any variable-name
     address.address_components.forEach(((address_component) => {
       switch (address_component.types[0]) {
         // Postal Code
@@ -379,6 +372,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       // Init form
@@ -418,9 +412,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.tagIDs && user.tagIDs.length > 0) {
         this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
-      } else {
-//        this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
-        this.formGroup.markAsDirty();
       }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
@@ -498,6 +489,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.image = userImage.image.toString();
       }
       this.spinnerService.hide();
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -516,7 +510,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  public updateUserImage(user) {
+  public updateUserImage(user: User) {
     if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
       // Set to user
       user.image = this.image;
@@ -526,7 +520,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public saveUser(user) {
+  public saveUser(user: User) {
     if (this.currentUserID) {
       this.updateUser(user);
     } else {
@@ -534,7 +528,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public imageChanged(event) {
+  public imageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {

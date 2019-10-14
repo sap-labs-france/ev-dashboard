@@ -12,7 +12,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-verify-email',
-  templateUrl: './authentication-verify-email.component.html'
+  templateUrl: './authentication-verify-email.component.html',
 })
 export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
@@ -21,7 +21,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string;
   public resetToken: string;
   public verificationEmail: string;
-  private messages: Object;
+  private messages: object;
 
   private siteKey: string;
 
@@ -42,11 +42,11 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new FormGroup({
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
-        ]))
+          Validators.email,
+        ])),
     });
     // Form
     this.email = this.formGroup.controls['email'];
@@ -61,7 +61,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       // after 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
@@ -75,8 +75,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.verifyEmailAction = true;
         // Verify Email
         this.verifyEmail({
-          'email': this.verificationEmail,
-          'verificationToken': this.verificationToken
+          email: this.verificationEmail,
+          verificationToken: this.verificationToken,
         });
       } else {
         // Enable resend verification email
@@ -95,7 +95,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     // Show
     this.spinnerService.show();
     // Verify Email
-    this.centralServerService.verifyEmail({'Email': data.email, 'VerificationToken': data.verificationToken}).subscribe((response) => {
+    this.centralServerService.verifyEmail({Email: data.email, VerificationToken: data.verificationToken}).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Success

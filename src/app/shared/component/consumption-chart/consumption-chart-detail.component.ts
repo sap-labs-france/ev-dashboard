@@ -4,7 +4,7 @@ import { CellContentTemplateComponent } from '../../table/cell-content-template/
 
 @Component({
   template:
-  `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`
+  `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`,
 })
 
 export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {

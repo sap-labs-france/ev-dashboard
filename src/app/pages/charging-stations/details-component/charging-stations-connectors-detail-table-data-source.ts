@@ -15,7 +15,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  User
+  User,
 } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -39,7 +39,7 @@ import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '.
 import {
   BUTTON_FOR_MYSELF,
   BUTTON_SELECT_USER,
-  ChargingStationsStartTransactionDialogComponent
+  ChargingStationsStartTransactionDialogComponent,
 } from './charging-stations-start-transaction-dialog-component';
 
 @Injectable()
@@ -77,16 +77,16 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     return new Observable((observer) => {
       // Return connector
       if (this.charger) {
-        this.charger.connectors.forEach(connector => {
-          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeBadgeID);
+        this.charger.connectors.forEach((connector) => {
+          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
-          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeBadgeID);
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeTagID);
           connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
 
         observer.next({
           count: this.charger.connectors.length,
-          result: this.charger.connectors
+          result: this.charger.connectors,
         });
       }
       observer.complete();
@@ -101,19 +101,19 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     return {
       class: 'table-detailed-list',
       rowSelection: {
-        enabled: false
+        enabled: false,
       },
       rowDetails: {
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent,
-        showDetailsField: 'hasDetails'
+        showDetailsField: 'hasDetails',
       },
       rowFieldNameIdentifier: 'connectorId',
       isSimpleTable: true,
       design: {
-        flat: true
+        flat: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -126,7 +126,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         headerClass: 'text-center',
         class: 'text-center',
         isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorCellComponent
+        angularComponent: ChargingStationsConnectorCellComponent,
       },
       {
         id: 'status',
@@ -135,7 +135,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         class: '',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorStatusCellComponent,
-        sortable: false
+        sortable: false,
       },
       {
         id: 'currentConsumption',
@@ -144,26 +144,26 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         class: 'text-center',
         isAngularComponent: true,
         angularComponent: ChargingStationsInstantPowerConnectorProgressBarCellComponent,
-        sortable: false
+        sortable: false,
       },
       {
         id: 'totalConsumption',
         name: 'chargers.total_consumption_title',
         formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
-        sortable: false
+        sortable: false,
       },
       {
         id: 'totalInactivitySecs',
         name: 'chargers.inactivity',
         formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
-        sortable: false
+        sortable: false,
       },
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
         formatter: (errorCode, row) => this.formatError(errorCode, row.info, row.vendorErrorCode),
-        sortable: false
-      }
+        sortable: false,
+      },
     ];
   }
 
@@ -177,7 +177,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -199,7 +199,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
     // By default no actions
     return [
-      this.noAction.getActionDef()
+      this.noAction.getActionDef(),
     ];
   }
 
@@ -284,7 +284,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         // Check authorization
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('chargers.stop_transaction_title'),
-          this.translateService.instant('chargers.stop_transaction_confirm', {'chargeBoxID': this.charger.id})
+          this.translateService.instant('chargers.stop_transaction_confirm', {chargeBoxID: this.charger.id}),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this.centralServerService.chargingStationStopTransaction(
@@ -292,7 +292,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
               // Ok?
               if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
                 this.messageService.showSuccessMessage(
-                  this.translateService.instant('chargers.stop_transaction_success', {'chargeBoxID': this.charger.id}));
+                  this.translateService.instant('chargers.stop_transaction_success', {chargeBoxID: this.charger.id}));
               } else {
                 Utils.handleError(JSON.stringify(response),
                   this.messageService, this.translateService.instant('chargers.stop_transaction_error'));
@@ -315,9 +315,9 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
-        'chargeBoxID': this.charger.id,
-        'userName': Users.buildUserFullName(user)
-      })
+        chargeBoxID: this.charger.id,
+        userName: Users.buildUserFullName(user),
+      }),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
@@ -327,7 +327,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // Ok
             this.messageService.showSuccessMessage(
-              this.translateService.instant('chargers.start_transaction_success', {'chargeBoxID': this.charger.id}));
+              this.translateService.instant('chargers.start_transaction_success', {chargeBoxID: this.charger.id}));
             // Reload
             this.refreshData().subscribe();
           } else {
@@ -351,7 +351,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     // Set data
     dialogConfig.data = {
       title: 'chargers.start_transaction_admin_title',
-      message: 'chargers.start_transaction_admin_message'
+      message: 'chargers.start_transaction_admin_message',
     };
     // Show
     const dialogRef = this.dialog.open(ChargingStationsStartTransactionDialogComponent, dialogConfig);
@@ -365,12 +365,12 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           dialogConfig.data = {
             title: 'chargers.start_transaction_user_select_title',
             validateButtonTitle: 'chargers.start_transaction_user_select_button',
-            rowMultipleSelection: false
+            rowMultipleSelection: false,
           };
           dialogConfig.panelClass = 'transparent-dialog-container';
           const dialogRef2 = this.dialog.open(UsersDialogComponent, dialogConfig);
           // Add sites
-          dialogRef2.afterClosed().subscribe(data => {
+          dialogRef2.afterClosed().subscribe((data) => {
             if (data && data.length > 0) {
               return this.startTransaction(connector, data[0].objectRef);
             }
@@ -394,7 +394,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     dialogConfig.data = {
       transactionId: connector.activeTransactionID,
       chargingStationId: this.charger.id,
-      connector: connector,
+      connector,
     };
     // Open
     this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);

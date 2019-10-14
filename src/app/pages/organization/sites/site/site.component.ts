@@ -16,7 +16,7 @@ import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site',
-  templateUrl: 'site.component.html'
+  templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
   @Input() currentSiteID: string;
@@ -73,44 +73,44 @@ export class SiteComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'companyID': new FormControl('',
+      companyID: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'autoUserSiteAssignment': new FormControl(false),
-      'address': new FormGroup({
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'postalCode': new FormControl(''),
-        'city': new FormControl(''),
-        'department': new FormControl(''),
-        'region': new FormControl(''),
-        'country': new FormControl(''),
-        'latitude': new FormControl('',
+      autoUserSiteAssignment: new FormControl(false),
+      address: new FormGroup({
+        address1: new FormControl(''),
+        address2: new FormControl(''),
+        postalCode: new FormControl(''),
+        city: new FormControl(''),
+        department: new FormControl(''),
+        region: new FormControl(''),
+        country: new FormControl(''),
+        latitude: new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
-        'longitude': new FormControl('',
+        longitude: new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-          ]))
-      })
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];
@@ -165,7 +165,7 @@ export class SiteComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableCompanies.count; i++) {
-        this.companies.push({'id': availableCompanies.result[i].id, 'name': availableCompanies.result[i].name});
+        this.companies.push({id: availableCompanies.result[i].id, name: availableCompanies.result[i].name});
       }
     });
   }
@@ -280,7 +280,7 @@ export class SiteComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('sites.image_size_error', {'maxPictureKb': this.maxSize});
+        this.messageService.showErrorMessage('sites.image_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -309,7 +309,7 @@ export class SiteComponent implements OnInit {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
+        this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
@@ -318,7 +318,7 @@ export class SiteComponent implements OnInit {
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
+        this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveSite(this.formGroup.value);
@@ -337,14 +337,14 @@ export class SiteComponent implements OnInit {
     // Set the image
     this.updateSiteImage(site);
     // Yes: Update
-    this.centralServerService.createSite(site).subscribe(response => {
+    this.centralServerService.createSite(site).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.create_success',
-          {'siteName': site.name});
+          {siteName: site.name});
         // close
         this.currentSiteID = site.id;
         this.closeDialog(true);
@@ -375,13 +375,13 @@ export class SiteComponent implements OnInit {
     // Set the image
     this.updateSiteImage(site);
     // Yes: Update
-    this.centralServerService.updateSite(site).subscribe(response => {
+    this.centralServerService.updateSite(site).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('sites.update_success', {'siteName': site.name});
+        this.messageService.showSuccessMessage('sites.update_success', {siteName: site.name});
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

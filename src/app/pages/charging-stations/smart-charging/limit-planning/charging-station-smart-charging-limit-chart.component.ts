@@ -24,7 +24,7 @@ import * as moment from 'moment';
           (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
     </div>
-  `
+  `,
 })
 
 export class ChargingStationSmartChargingLimitChartComponent implements OnInit, AfterViewInit {
@@ -37,7 +37,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
   private colors = [
     [255, 99, 132],
     [54, 162, 235],
-    [255, 206, 86]
+    [255, 206, 86],
   ];
 
   constructor(
@@ -66,7 +66,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
     let distanceBetween2points = 1;
     this.data = {
       labels: [],
-      datasets: []
+      datasets: [],
     };
     // build for each connectors
     for (let index = 0; index < limitPlanning.length; index++) {
@@ -84,7 +84,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
         data: [],
         yAxisID: axisId,
         ...this.formatLineColor(this.colors[index]),
-        label: connectorLabel
+        label: connectorLabel,
       };
       // Add each slots
       for (let i = 0; i < connectorPlanning.slots.length; i++) {
@@ -112,8 +112,8 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
       legend: {
         position: 'bottom',
         labels: {
-          fontColor: '#0d47a1'
-        }
+          fontColor: '#0d47a1',
+        },
       },
       responsive: true,
       aspectRatio: this.ratio,
@@ -127,7 +127,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
           labelColor: (tooltipItem, chart) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
-              backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1)
+              backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1),
             };
           },
           label: (tooltipItem, values) => {
@@ -138,13 +138,13 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
             const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
             return this.datePipe.transform(currentDate) +
-              ' - ' + (<any>moment.duration(moment(currentDate).diff(firstDate))).format('h[h]mm[m]', { trim: false });
-          }
-        }
+              ' - ' + (moment.duration(moment(currentDate).diff(firstDate)) as any).format('h[h]mm[m]', { trim: false });
+          },
+        },
       },
       hover: {
         mode: 'index',
-        intersect: false
+        intersect: false,
       },
       scales: {
         xAxes: [
@@ -156,12 +156,12 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
+              color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              fontColor: '#0d47a1'
-            }
-          }
+              fontColor: '#0d47a1',
+            },
+          },
         ],
         yAxes: [
           {
@@ -170,14 +170,14 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
             position: 'left',
             ticks: {
               callback: (value, index, values) => this.decimalPipe.transform(value),
-              fontColor: '#0d47a1'
+              fontColor: '#0d47a1',
             },
             gridLines: {
               display: true,
-              color: 'rgba(0,0,0,0.2)'
-            }
-          }
-        ]
+              color: 'rgba(0,0,0,0.2)',
+            },
+          },
+        ],
       },
       pan: {
         enabled: true,
@@ -193,13 +193,13 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
         enabled: true,
         drag: false,
         mode: 'x',
-        sensitivity: 10
+        sensitivity: 10,
       },
       elements: {
         line: {
-          stepped: true
-        }
-      }
+          stepped: true,
+        },
+      },
     };
     if (this.localeService.language === 'fr') {
       options.scales.xAxes[0].time = {
@@ -208,26 +208,25 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
           millisecond: 'HH:mm:ss.SSS',
           second: 'HH:mm:ss',
           minute: 'HH:mm',
-          hour: 'HH'
-        }
+          hour: 'HH',
+        },
       };
     }
     return options;
   }
 
-  formatLineColor(colors: Array<number>): any {
+  formatLineColor(colors: number[]): any {
     return {
       backgroundColor: this.rgba(colors, 0.4),
       borderColor: this.rgba(colors, 1),
       pointRadius: 0,
       pointHoverBackgroundColor: this.rgba(colors, 1),
-      pointHoverBorderColor: '#fff'
+      pointHoverBorderColor: '#fff',
     };
   }
 
-  rgba(colour: Array<number>, alpha: number): string {
+  rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
-
 
 }

@@ -39,7 +39,7 @@ interface Measure {
 
 enum Unit {
   W,
-  Wh
+  Wh,
 }
 
 enum Size {
@@ -47,5 +47,5 @@ enum Size {
   c = 10 * Size.basis,
   d = 10 * Size.c,
   k = 10 * Size.d,
-  m = 10 * Size.k
+  m = 10 * Size.k,
 }

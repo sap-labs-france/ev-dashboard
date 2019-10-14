@@ -11,7 +11,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
@@ -56,7 +56,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private authorizationService: AuthorizationService) {
     super(spinnerService);
     // Init
-    this.setStaticFilters([{'WithSite': true}]);
+    this.setStaticFilters([{WithSite: true}]);
     this.initDataSource();
   }
 
@@ -84,9 +84,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: true
+        enabled: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -99,36 +99,36 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'site.name',
         name: 'sites.site',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.city',
         name: 'general.city',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
     if (this.authorizationService.isAdmin()) {
       tableColumnDef.unshift({
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell'
+        class: 'd-none col-15p d-xl-table-cell',
       });
     }
     return tableColumnDef;
@@ -139,7 +139,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (this.authorizationService.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_CREATE)) {
       return [
         new TableCreateAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -154,7 +154,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.editChargersAction,
         openInMaps,
-        this.deleteAction
+        this.deleteAction,
       ];
     }
     if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
@@ -162,13 +162,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.displayChargersAction,
         openInMaps,
-        this.deleteAction
+        this.deleteAction,
       ];
     }
     return [
       this.viewAction,
       this.displayChargersAction,
-      openInMaps
+      openInMaps,
     ];
   }
 
@@ -208,16 +208,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       // new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
-      new SiteTableFilter().getFilterDef()
+      new SiteTableFilter().getFilterDef(),
     ];
   }
-
 
   private _showPlace(rowItem) {
     if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
@@ -261,12 +260,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private _deleteSiteArea(siteArea) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('site_areas.delete_title'),
-      this.translateService.instant('site_areas.delete_confirm', {'siteAreaName': siteArea.name})
+      this.translateService.instant('site_areas.delete_confirm', {siteAreaName: siteArea.name}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteSiteArea(siteArea.id).subscribe(response => {
+        this.centralServerService.deleteSiteArea(siteArea.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('site_areas.delete_success', {'siteAreaName': siteArea.name});
+            this.messageService.showSuccessMessage('site_areas.delete_success', {siteAreaName: siteArea.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

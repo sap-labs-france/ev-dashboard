@@ -4,14 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { Users } from 'app/utils/Users';
 import { UserSitesTableDataSource } from './user-sites-table-data-source';
 
-
 @Component({
   selector: 'app-user-sites-dialog',
   templateUrl: 'user-sites-dialog.component.html',
-  providers: [UserSitesTableDataSource]
+  providers: [UserSitesTableDataSource],
 })
 export class UserSitesDialogComponent {
-  public dialogTitle: String;
+  public dialogTitle: string;
 
   constructor(
     public userSitesTableDataSource: UserSitesTableDataSource,
@@ -21,7 +20,7 @@ export class UserSitesDialogComponent {
 
     if (data) {
       this.userSitesTableDataSource.setUser(data);
-      this.dialogTitle = this.translateService.instant('users.assigned_sites_to_user', {'userName': Users.buildUserFullName(data) });
+      this.dialogTitle = this.translateService.instant('users.assigned_sites_to_user', {userName: Users.buildUserFullName(data) });
     } else {
       this.dialogTitle = this.translateService.instant('users.sites');
     }

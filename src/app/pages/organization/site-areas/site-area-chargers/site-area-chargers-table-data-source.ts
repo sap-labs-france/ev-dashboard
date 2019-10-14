@@ -8,7 +8,7 @@ import {
   SiteArea,
   TableActionDef,
   TableColumnDef,
-  TableDef
+  TableDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -59,7 +59,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         // Ok
         observer.next({
           count: 0,
-          result: []
+          result: [],
         });
         observer.complete();
       }
@@ -72,22 +72,22 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         class: 'table-dialog-list',
         rowSelection: {
           enabled: true,
-          multiple: true
+          multiple: true,
         },
         search: {
-          enabled: true
-        }
+          enabled: true,
+        },
       };
     }
     return {
       class: 'table-dialog-list',
       rowSelection: {
         enabled: false,
-        multiple: false
+        multiple: false,
       },
       search: {
-        enabled: false
-      }
+        enabled: false,
+      },
     };
   }
 
@@ -100,7 +100,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         class: 'text-left',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'chargePointVendor',
@@ -109,15 +109,15 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
         class: 'text-left',
         sorted: true,
         direction: 'asc',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
   }
 
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      {'SiteAreaID': siteArea.id}
+      {SiteAreaID: siteArea.id},
     ]);
     // Set user
     this.siteArea = siteArea;
@@ -130,7 +130,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       return [
         new TableAddAction().getActionDef(),
         new TableRemoveAction().getActionDef(),
-        ...tableActionsDef
+        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -153,7 +153,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('site_areas.remove_chargers_title'),
-            this.translateService.instant('site_areas.remove_chargers_confirm')
+            this.translateService.instant('site_areas.remove_chargers_confirm'),
           ).subscribe((response) => {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
@@ -172,18 +172,18 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     // Set data
     dialogConfig.data = {
       staticFilter: {
-        WithNoSiteArea: true
-      }
+        WithNoSiteArea: true,
+      },
     };
     // Show
     const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe(chargers => this.addChargers(chargers));
+    dialogRef.afterClosed().subscribe((chargers) => this.addChargers(chargers));
   }
 
   private removeChargers(chargerIDs) {
     // Yes: Update
-    this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe(response => {
+    this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
@@ -208,7 +208,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
       // Get the IDs
       const chargerIDs = chargers.map((charger) => charger.key);
       // Yes: Update
-      this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe(response => {
+      this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
         // Ok?
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Ok

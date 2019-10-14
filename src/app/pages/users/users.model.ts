@@ -6,11 +6,11 @@ export const userStatuses: KeyValue[] = [
   {key: 'B', value: 'users.status_blocked'},
   {key: 'I', value: 'users.status_inactive'},
   {key: 'L', value: 'users.status_locked'},
-  {key: 'P', value: 'users.status_pending'}
+  {key: 'P', value: 'users.status_pending'},
 ];
 
 export class UserRoles {
-  public static getAvailableRoles(role: String): KeyValue[] {
+  public static getAvailableRoles(role: string): KeyValue[] {
     if (role === Constants.ROLE_SUPER_ADMIN) {
       return [
         {key: 'S', value: 'users.role_super_admin'},
@@ -19,9 +19,7 @@ export class UserRoles {
     return [
       {key: 'A', value: 'users.role_admin'},
       {key: 'B', value: 'users.role_basic'},
-      {key: 'D', value: 'users.role_demo'}
+      {key: 'D', value: 'users.role_demo'},
     ];
   }
 }
-
-

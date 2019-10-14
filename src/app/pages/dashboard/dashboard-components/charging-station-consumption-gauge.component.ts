@@ -4,7 +4,7 @@ import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
     selector: 'app-charging-station-consumption-gauge',
-    template: '<canvas #gauge></canvas>'
+    template: '<canvas #gauge></canvas>',
 })
 export class ChargingStationConsumptionGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
@@ -12,8 +12,8 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
     @Input() maxConsumption = 0;
 
   constructor(el: ElementRef,
-                zone: NgZone,
-                private translateService: TranslateService) {
+              zone: NgZone,
+              private translateService: TranslateService) {
     super(el, zone);
   }
 
@@ -106,23 +106,23 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
       Math.floor(Math.round(this.maxConsumption / 1000) / 5) : 1);
     let currentTick = 0;
     for (let index = 0; index < 5; index++) {
-      this.options.majorTicks = <number[]> [...this.options.majorTicks, currentTick];
+      this.options.majorTicks = ([...this.options.majorTicks, currentTick] as number[]);
       switch (index) {
         case 3:
-          this.options.highlights.push({ 'from': 0, 'to': currentTick, 'color': 'rgba(0,255,0,.35)' });
+          this.options.highlights.push({ from: 0, to: currentTick, color: 'rgba(0,255,0,.35)' });
           break;
         case 4:
-          this.options.highlights.push({ 'from': this.options.highlights[0].to, 'to': currentTick, 'color': 'rgba(255,255,0,.45)' });
+          this.options.highlights.push({ from: this.options.highlights[0].to, to: currentTick, color: 'rgba(255,255,0,.45)' });
           break;
         default:
           break;
       }
       currentTick += tickRange;
     }
-    this.options.highlights.push({ 'from': this.options.highlights[1].to,
-              'to': Math.round(this.maxConsumption / 1000),
-              'color': 'rgba(255,30,0,.55)' });
-    this.options.majorTicks = <number[]> [...this.options.majorTicks, Math.round(this.maxConsumption / 1000)];
+    this.options.highlights.push({ from: this.options.highlights[1].to,
+              to: Math.round(this.maxConsumption / 1000),
+              color: 'rgba(255,30,0,.55)' });
+    this.options.majorTicks = ([...this.options.majorTicks, Math.round(this.maxConsumption / 1000)] as number[]);
   }
 
 }

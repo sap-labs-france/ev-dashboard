@@ -15,7 +15,7 @@ import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-register',
-  templateUrl: './authentication-register.component.html'
+  templateUrl: './authentication-register.component.html',
 })
 
 export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
@@ -30,7 +30,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
-  private messages: Object;
+  private messages: object;
   private subDomain: string;
 
   private siteKey: string;
@@ -54,42 +54,42 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new FormGroup({
-      'name': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'firstName': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'email': new FormControl('',
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.email
         ])),
-      'passwords': new FormGroup({
-        'password': new FormControl('',
+      firstName: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      email: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+        ])),
+      passwords: new FormGroup({
+        password: new FormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
-            Users.validatePassword
+            Users.validatePassword,
           ])),
-        'repeatPassword': new FormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
-            Validators.required
+            Validators.required,
           ])),
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
-      'acceptEula': new FormControl('',
+      acceptEula: new FormControl('',
         Validators.compose([
-          Validators.required
-        ]))
+          Validators.required,
+        ])),
     });
     // Form
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
-    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
+    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.firstName = this.formGroup.controls['firstName'];
@@ -101,7 +101,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function () {
+    setTimeout(function() {
       // After 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);

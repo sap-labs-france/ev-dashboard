@@ -6,7 +6,7 @@ import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class CentralServerNotificationService {
-  private centralRestServerServiceURL: String;
+  private centralRestServerServiceURL: string;
   private subjectTenants = new Subject<SubjectInfo>();
   private subjectTenant = new Subject<SubjectInfo>();
   private subjectChargingStations = new Subject<SubjectInfo>();
@@ -133,7 +133,7 @@ export class CentralServerNotificationService {
     return this.subjectOcpiEndpoint.asObservable();
   }
 
-  public initSocketIO(tenantID: String) {
+  public initSocketIO(tenantID: string) {
     // Check
     if (!this.socket && tenantID) {
       // Connect to Socket IO

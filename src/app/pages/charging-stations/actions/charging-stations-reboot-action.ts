@@ -8,7 +8,7 @@ export class ChargingStationsRebootAction implements TableAction {
     icon: 'repeat',
     color: ButtonColor.warn,
     name: 'general.edit',
-    tooltip: 'general.tooltips.reboot'
+    tooltip: 'general.tooltips.reboot',
   };
 
   public getActionDef(): TableActionDef {

@@ -13,7 +13,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from '../../../../common.types';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -77,9 +77,9 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false
+        enabled: false,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -92,7 +92,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         angularComponent: RegistrationTokenStatusComponent,
         headerClass: 'col-5p',
         class: 'col-5p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'description',
@@ -107,7 +107,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
-        sorted: true
+        sorted: true,
       },
       {
         id: 'expirationDate',
@@ -116,7 +116,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         direction: 'desc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'revocationDate',
@@ -125,7 +125,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         direction: 'desc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'siteAreaID',
@@ -137,7 +137,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         },
         headerClass: 'col-15p',
         class: 'col-15p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'ocpp15Url',
@@ -154,7 +154,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
-      ...tableActionsDef
+      ...tableActionsDef,
     ];
   }
 
@@ -195,7 +195,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -220,10 +220,10 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   private deleteToken(registrationToken: RegistrationToken) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.charging_station.registration_token_delete_title'),
-      this.translateService.instant('settings.charging_station.registration_token_delete_confirm')
+      this.translateService.instant('settings.charging_station.registration_token_delete_confirm'),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteRegistrationToken(registrationToken.id).subscribe(response => {
+        this.centralServerService.deleteRegistrationToken(registrationToken.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
             this.messageService.showSuccessMessage('settings.charging_station.registration_token_delete_success');
@@ -242,10 +242,10 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   private revokeToken(registrationToken: RegistrationToken) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.charging_station.registration_token_revoke_title'),
-      this.translateService.instant('settings.charging_station.registration_token_revoke_confirm')
+      this.translateService.instant('settings.charging_station.registration_token_revoke_confirm'),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.revokeRegistrationToken(registrationToken.id).subscribe(response => {
+        this.centralServerService.revokeRegistrationToken(registrationToken.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
             this.messageService.showSuccessMessage('settings.charging_station.registration_token_revoke_success');

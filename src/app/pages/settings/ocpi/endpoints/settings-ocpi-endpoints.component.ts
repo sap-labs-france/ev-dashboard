@@ -4,7 +4,7 @@ import { SettingsOcpiEndpointsTableDataSource } from './settings-ocpi-endpoints-
 
 @Component({
   selector: 'app-settings-ocpi-endpoints',
-  templateUrl: './settings-ocpi-endpoints.component.html'
+  templateUrl: './settings-ocpi-endpoints.component.html',
 })
 export class SettingsOcpiEnpointsComponent {
   public isAdmin;

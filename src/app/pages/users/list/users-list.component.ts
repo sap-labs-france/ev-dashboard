@@ -8,7 +8,7 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
 @Component({
   selector: 'app-users-list',
   templateUrl: 'users-list.component.html',
-  providers: [UsersListTableDataSource]
+  providers: [UsersListTableDataSource],
 })
 export class UsersListComponent implements OnInit {
   public isAdmin: boolean;
@@ -26,12 +26,12 @@ export class UsersListComponent implements OnInit {
     // Check if User ID id provided
     const userId = this.windowService.getSearch('UserID');
     if (userId) {
-      this.centralServerService.getUser(userId).subscribe(user => {
+      this.centralServerService.getUser(userId).subscribe((user) => {
         // Found
         this.usersListTableDataSource.showUserDialog(user);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('users.user_id_not_found', {'userId': userId});
+        this.messageService.showErrorMessage('users.user_id_not_found', {userId});
       });
       // Clear Search
       this.windowService.deleteSearch('UserID');

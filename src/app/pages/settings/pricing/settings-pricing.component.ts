@@ -11,7 +11,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-pricing',
-  templateUrl: 'settings-pricing.component.html'
+  templateUrl: 'settings-pricing.component.html',
 })
 export class SettingsPricingComponent implements OnInit {
   public isActive = false;
@@ -24,7 +24,7 @@ export class SettingsPricingComponent implements OnInit {
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
   ) {
     this.isActive = this.componentService.isActive(ComponentEnum.PRICING);
   }

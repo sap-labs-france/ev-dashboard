@@ -35,43 +35,43 @@ export class MessageService {
     this.showWarningMessage('general.user_or_tenant_updated');
   }
 
-  public showMessage(message: string, params?: Object, title?: string) {
+  public showMessage(message: string, params?: object, title?: string) {
     this._showMessage('primary', message, title, params);
   }
 
-  public showInfoMessage(message: string, params?: Object, title?: string) {
+  public showInfoMessage(message: string, params?: object, title?: string) {
     this._showMessage('info', message, title, params);
   }
 
-  public showWarningMessage(message: string, params?: Object, title?: string) {
+  public showWarningMessage(message: string, params?: object, title?: string) {
     this._showMessage('warning', message, title, params);
   }
 
-  public showSuccessMessage(message: string, params?: Object, title?: string) {
+  public showSuccessMessage(message: string, params?: object, title?: string) {
     this._showMessage('success', message, title, params);
   }
 
-  public showErrorMessage(message: string, params?: Object, title?: string) {
+  public showErrorMessage(message: string, params?: object, title?: string) {
     this._showMessage('danger', message, title, params);
   }
 
-  private _showMessage(type, message, title = '', params?: Object, from = 'top', align = 'right', icon = 'notifications') {
+  private _showMessage(type, message, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
-        icon: icon,
-        title: title,
-        message: this.translateService.instant(message, params)
+        icon,
+        title,
+        message: this.translateService.instant(message, params),
       }, {
-        type: type,
+        type,
         delay: 3000,
         timer: 1500,
         allow_dismiss: true,
         placement: {
-          from: from,
-          align: align
+          from,
+          align,
         },
         z_index: 10000,
-        template: this.messageTemplate
-      }
+        template: this.messageTemplate,
+      },
     );
   }
 }

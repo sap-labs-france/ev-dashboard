@@ -5,16 +5,16 @@ import { TooltipDirective } from './tooltip.directive';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   declarations: [
     AppAutofocusDirective,
-    TooltipDirective
+    TooltipDirective,
   ],
   exports: [
     AppAutofocusDirective,
-    TooltipDirective
-  ]
+    TooltipDirective,
+  ],
 })
 export class CommonDirectivesModule {
 }

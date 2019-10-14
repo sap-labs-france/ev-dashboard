@@ -4,7 +4,7 @@ import { Charger } from 'app/common.types';
 
 @Component({
   selector: 'app-charging-station-settings',
-  templateUrl: 'charging-station-settings.component.html'
+  templateUrl: 'charging-station-settings.component.html',
 })
 export class ChargingStationSettingsComponent {
   chargeBox: Charger;

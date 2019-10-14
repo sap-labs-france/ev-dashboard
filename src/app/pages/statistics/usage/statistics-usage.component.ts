@@ -14,7 +14,7 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-usage',
-  templateUrl: './statistics-usage.component.html'
+  templateUrl: './statistics-usage.component.html',
 })
 
 export class StatisticsUsageComponent implements OnInit {
@@ -95,27 +95,27 @@ export class StatisticsUsageComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.usage_per_cs_month_title',
-          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.usage_per_user_month_title',
-          { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.usage_per_cs_year_title',
-            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.usage_per_cs_total_title',
-            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.usage_per_user_year_title',
-            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.usage_per_user_total_title',
-            { 'total': Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalUsage).toLocaleString(this.localeService.language) });
         }
       }
     }
@@ -166,7 +166,7 @@ export class StatisticsUsageComponent implements OnInit {
 
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationUsageStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
@@ -182,7 +182,7 @@ export class StatisticsUsageComponent implements OnInit {
         });
     } else {
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
-        .subscribe(statisticsData => {
+        .subscribe((statisticsData) => {
 
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);

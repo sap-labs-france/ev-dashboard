@@ -137,7 +137,7 @@ export class DashboardService {
     }
     currentData.dataDeliveredChart = {
       labels: graphLabels,
-      series: [graphSerie]
+      series: [graphSerie],
     };
     return currentData;
   }
@@ -174,7 +174,7 @@ export class DashboardService {
     }
     currentData.dataConsumptionChart = {
       labels: graphLabels,
-      series: [graphSerie]
+      series: [graphSerie],
     };
     return currentData;
   }

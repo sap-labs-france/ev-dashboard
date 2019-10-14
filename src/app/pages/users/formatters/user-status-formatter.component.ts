@@ -12,7 +12,7 @@ import { userStatuses } from '../users.model';
         {{row.status | appFormatUserStatus:'text' | translate}}
       </mat-chip>
     </mat-chip-list>
-  `
+  `,
 })
 export class UserStatusFormatterComponent extends CellContentTemplateComponent {
   @Input() row: User;

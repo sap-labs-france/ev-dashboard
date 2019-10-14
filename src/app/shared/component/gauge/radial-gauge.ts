@@ -8,7 +8,7 @@ import { BaseGauge } from './base-gauge';
  */
 @Component({
     selector: 'app-radial-gauge',
-    template: '<canvas #gauge></canvas>'
+    template: '<canvas #gauge></canvas>',
 })
 export class RadialGaugeComponent extends BaseGauge<CanvasGauges.RadialGauge, CanvasGauges.RadialGaugeOptions> implements OnInit {
 

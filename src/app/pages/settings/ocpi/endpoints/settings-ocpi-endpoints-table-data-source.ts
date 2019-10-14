@@ -12,7 +12,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -34,7 +34,6 @@ import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-jo
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
-
 
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
@@ -80,15 +79,15 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false
+        enabled: false,
       },
       design: {
-        flat: true
+        flat: true,
       },
       rowDetails: {
         enabled: true,
-        angularComponent: SettingsOcpiEnpointsDetailsComponent
-      }
+        angularComponent: SettingsOcpiEnpointsDetailsComponent,
+      },
     };
   }
 
@@ -101,35 +100,35 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'baseUrl',
         name: 'ocpiendpoints.baseUrl',
         headerClass: 'col-25p',
         class: 'col-25p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'countryCode',
         name: 'ocpiendpoints.countryCode',
         headerClass: 'col-5p',
         class: 'col-5p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'partyId',
         name: 'ocpiendpoints.partyId',
         headerClass: 'col-5p',
         class: 'col-5p',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'version',
         name: 'ocpiendpoints.version',
         headerClass: '',
         class: '',
-        sortable: true
+        sortable: true,
       },
       {
         id: 'status',
@@ -138,7 +137,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         angularComponent: OcpiEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'patchJobStatus',
@@ -147,7 +146,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         angularComponent: OcpiPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sortable: false
+        sortable: false,
       },
       {
         id: 'patchJobResult',
@@ -156,8 +155,8 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         angularComponent: OcpiPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
         class: '',
-        sortable: false
-      }
+        sortable: false,
+      },
     ];
   }
 
@@ -165,7 +164,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     const tableActionsDef = super.buildTableActionsDef();
     return [
       new TableCreateAction().getActionDef(),
-      ...tableActionsDef
+      ...tableActionsDef,
     ];
   }
 
@@ -173,7 +172,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     return [
       this.editAction,
       this.registerAction,
-      this.deleteAction
+      this.deleteAction,
     ];
   }
 
@@ -207,7 +206,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 
@@ -233,12 +232,12 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private deleteOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.delete_title'),
-      this.translateService.instant('ocpiendpoints.delete_confirm', { 'name': ocpiendpoint.name })
+      this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe(response => {
+        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { 'name': ocpiendpoint.name });
+            this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -255,12 +254,12 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
   private registerOcpiEndpoint(ocpiendpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.register_title'),
-      this.translateService.instant('ocpiendpoints.register_confirm', { 'name': ocpiendpoint.name })
+      this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe(response => {
+        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('ocpiendpoints.register_success', { 'name': ocpiendpoint.name });
+            this.messageService.showSuccessMessage('ocpiendpoints.register_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

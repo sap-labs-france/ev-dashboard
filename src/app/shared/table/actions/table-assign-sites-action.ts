@@ -8,7 +8,7 @@ export class TableAssignSitesAction implements TableAction {
     icon: 'store_mall_directory',
     color: ButtonColor.primary,
     name: 'general.assign_site',
-    tooltip: 'general.tooltips.assign_site'
+    tooltip: 'general.tooltips.assign_site',
   };
 
   public getActionDef(): TableActionDef {

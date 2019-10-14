@@ -14,7 +14,7 @@ import { Utils } from '../../../../utils/Utils';
       <mat-checkbox class="mx-auto"
         [disabled]="row.user.role !== 'B' || loggedUser.id === row.user.id"
         [checked]="(row.siteAdmin ? row.siteAdmin : false) || row.user.role === 'A'" (change)="changeSiteAdmin($event)"></mat-checkbox>
-    </div>`
+    </div>`,
 })
 export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponent {
   @Input() row: UserSite;
@@ -38,18 +38,18 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponen
     // Set
     userSite.siteAdmin = siteAdmin;
     // Update
-    this.centralServerService.updateSiteUserAdmin(userSite.siteID, userSite.user.id, siteAdmin).subscribe(response => {
+    this.centralServerService.updateSiteUserAdmin(userSite.siteID, userSite.user.id, siteAdmin).subscribe((response) => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           if (siteAdmin) {
-            this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {'userName': userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: userSite.user.name});
           } else {
-            this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {'userName': userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: userSite.user.name});
           }
         } else {
           userSite.siteAdmin = !siteAdmin;
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'sites.update_site_users_role_error', {
-              'userName': userSite.user.name
+              userName: userSite.user.name,
             });
         }
       }
@@ -57,8 +57,8 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponen
       (error) => {
         userSite.siteAdmin = !siteAdmin;
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'sites.update_site_users_role_error', {'userName': userSite.user.name});
-      }
+          'sites.update_site_users_role_error', {userName: userSite.user.name});
+      },
     );
   }
 }

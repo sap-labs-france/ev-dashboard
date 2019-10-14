@@ -1,7 +1,7 @@
 import { ButtonColor, DropdownItem, TableActionDef } from '../../../common.types';
 import {
   ACTION_CLEAR_CACHE,
-  ACTION_SMART_CHARGING
+  ACTION_SMART_CHARGING,
 } from '../../../pages/charging-stations/actions/charging-stations-more-action';
 import { TableAction } from './table-action';
 
@@ -14,7 +14,7 @@ export class TableMultiCreateAction implements TableAction {
     name: 'general.create',
     tooltip: 'general.tooltips.create',
     isDropdownMenu: true,
-    dropdownItems: []
+    dropdownItems: [],
   };
 
   constructor(dropdownItems: DropdownItem[]) {

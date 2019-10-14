@@ -4,7 +4,7 @@ import { SiteAreasListTableDataSource } from './site-areas-list-table-data-sourc
 @Component({
   selector: 'app-site-areas-list',
   template: '<app-table [dataSource]="siteAreasListTableDataSource"></app-table>',
-  providers: [SiteAreasListTableDataSource]
+  providers: [SiteAreasListTableDataSource],
 })
 export class SiteAreasListComponent {
   constructor(

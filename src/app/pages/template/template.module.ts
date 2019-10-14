@@ -43,7 +43,7 @@ import { TemplateRoutes } from './template.routing';
     FormsTemplateComponent,
     DialogsTemplateComponent,
   ],
-  providers: []
+  providers: [],
 })
 export class TemplateModule {
 }

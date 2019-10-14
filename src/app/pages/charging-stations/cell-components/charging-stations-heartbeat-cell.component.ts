@@ -20,7 +20,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
         </span>
       </ng-container>
     </span>
-  `
+  `,
 })
 export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateComponent {
   @Input() row: Charger;

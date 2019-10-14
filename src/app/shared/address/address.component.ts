@@ -2,10 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
-
 @Component({
   selector: 'app-address',
-  templateUrl: 'address.component.html'
+  templateUrl: 'address.component.html',
 })
 export class AddressComponent implements OnInit {
   @Input() formGroup: FormGroup;
@@ -23,7 +22,7 @@ export class AddressComponent implements OnInit {
 
   ngOnInit() {
     // Form
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];

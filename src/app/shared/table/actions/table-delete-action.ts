@@ -8,7 +8,7 @@ export class TableDeleteAction implements TableAction {
     icon: 'delete',
     color: ButtonColor.warn,
     name: 'general.remove',
-    tooltip: 'general.tooltips.delete'
+    tooltip: 'general.tooltips.delete',
   };
 
   // Return an action

@@ -11,8 +11,8 @@ export const StatisticsRoutes: Routes = [
       component: ComponentEnum.STATISTICS,
       auth: {
         entity: Constants.ENTITY_TRANSACTIONS,
-        action: Constants.ACTION_LIST
-      }
-    }
-  }
+        action: Constants.ACTION_LIST,
+      },
+    },
+  },
 ];

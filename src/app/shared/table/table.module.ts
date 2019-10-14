@@ -16,14 +16,14 @@ import { TableComponent } from './table.component';
     TranslateModule,
     FormattersModule,
     CellContentTemplateModule,
-    CommonDirectivesModule
+    CommonDirectivesModule,
   ],
   declarations: [
-    TableComponent
+    TableComponent,
   ],
   exports: [
-    TableComponent
-  ]
+    TableComponent,
+  ],
 })
 export class TableModule {
 }

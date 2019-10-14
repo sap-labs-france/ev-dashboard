@@ -15,7 +15,7 @@ import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
 import {
   AppRegistrationTokenStatusPipe,
-  RegistrationTokenStatusComponent
+  RegistrationTokenStatusComponent,
 } from './charging_station/registration-tokens/registration-token-status.component';
 import { RegistrationTokenUrlComponent } from './charging_station/registration-tokens/registration-token-url.component';
 import { RegistrationTokenComponent } from './charging_station/registration-tokens/registration-token.component';
@@ -56,7 +56,7 @@ import { SettingsRoutes } from './settings.routing';
     TableModule,
     DialogsModule,
     CommonDirectivesModule,
-    FormattersModule
+    FormattersModule,
   ],
   declarations: [
     SettingsComponent,
@@ -94,7 +94,7 @@ import { SettingsRoutes } from './settings.routing';
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
     RegistrationTokenUrlComponent,
-    AppRegistrationTokenStatusPipe
+    AppRegistrationTokenStatusPipe,
   ],
   entryComponents: [
     SettingsComponent,
@@ -122,13 +122,13 @@ import { SettingsRoutes } from './settings.routing';
     SettingsOcpiEnpointsDetailsComponent,
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
-    RegistrationTokenUrlComponent
+    RegistrationTokenUrlComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
     SettingsOcpiEndpointsTableDataSource,
-    AnalyticsLinksTableDataSource
-  ]
+    AnalyticsLinksTableDataSource,
+  ],
 })
 
 export class SettingsModule {

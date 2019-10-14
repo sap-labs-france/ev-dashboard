@@ -52,7 +52,7 @@ export class DialogService {
     dialogConfig.disableClose = true;
     // Set data
     dialogConfig.data = {
-      title, message, dialogType
+      title, message, dialogType,
     };
     // Show
     const dialogRef = this.matDialog.open(component, dialogConfig);

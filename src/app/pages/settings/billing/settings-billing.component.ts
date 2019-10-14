@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-billing',
-  templateUrl: 'settings-billing.component.html'
+  templateUrl: 'settings-billing.component.html',
 })
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
@@ -28,7 +28,7 @@ export class SettingsBillingComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
   ) {
     this.isActive = this.componentService.isActive(ComponentEnum.BILLING);
   }
@@ -117,7 +117,7 @@ export class SettingsBillingComponent implements OnInit {
   public synchronizeUsers() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.billing.synchronize_users_dialog_title'),
-      this.translateService.instant('settings.billing.synchronize_users_dialog_confirm')
+      this.translateService.instant('settings.billing.synchronize_users_dialog_confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         this.messageService.showInfoMessage('settings.billing.synchronize_users_started');

@@ -8,7 +8,7 @@ export class TableExportAction implements TableAction {
     icon: 'cloud_download',
     name: 'general.export',
     color: ButtonColor.primary,
-    tooltip: 'general.tooltips.export'
+    tooltip: 'general.tooltips.export',
   };
 
   // Return an action

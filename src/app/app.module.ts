@@ -106,7 +106,7 @@ registerLocaleData(localeFr, 'fr');
     MatToolbarModule,
   ],
   providers: [
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter}
+    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
   ],
 })
 export class MaterialModule {
@@ -137,6 +137,7 @@ export function localeFactory(
   return language;
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     CommonModule,
@@ -157,9 +158,9 @@ export function localeFactory(
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   declarations: [
     AppComponent,
@@ -168,7 +169,7 @@ export function localeFactory(
     ReleaseNotesComponent,
   ],
   exports: [
-    TranslateModule
+    TranslateModule,
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -188,9 +189,9 @@ export function localeFactory(
     DashboardService,
     {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
     {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter}
+    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(

@@ -86,13 +86,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false
+        enabled: false,
       },
       rowDetails: {
         enabled: true,
-        angularComponent: ConsumptionChartDetailComponent
+        angularComponent: ConsumptionChartDetailComponent,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -113,14 +113,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value)
+        formatter: (value) => this.datePipe.transform(value),
       },
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
         formatter: (currentTotalDurationSecs, row: Transaction) =>
-          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000)
+          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
       },
       {
         id: 'currentTotalInactivitySecs',
@@ -131,12 +131,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
           return this.appDurationPipe.transform(currentTotalInactivitySecs) +
             ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
-        }
+        },
       },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        class: 'text-left'
+        class: 'text-left',
       },
       {
         id: 'connectorId',
@@ -154,12 +154,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW')
+        formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW'),
       },
       {
         id: 'currentTotalConsumption',
         name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh')
+        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh'),
       },
       {
         id: 'currentStateOfCharge',
@@ -169,14 +169,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
             return '';
           }
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
-        }
+        },
       });
     if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        formatter: (value) => this.appUserNamePipe.transform(value),
       });
     }
     return columns as TableColumnDef[];
@@ -188,7 +188,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case 'stop':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.soft_stop.title'),
-          this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)})
+          this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
             this._stopTransaction(transaction);
@@ -203,10 +203,9 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
   }
 
-
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      new ChargerTableFilter().getFilterDef()
+      new ChargerTableFilter().getFilterDef(),
     ];
 
     // Show Site Area Filter If Organization component is active
@@ -224,7 +223,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   buildTableDynamicRowActions(): TableActionDef[] {
     const actions = [
-      this.openAction
+      this.openAction,
     ];
     if (!this.authorizationService.isDemo()) {
       actions.push(this.stopAction);
@@ -235,7 +234,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
-      new TableRefreshAction().getActionDef()
+      new TableRefreshAction().getActionDef(),
     ];
   }
 

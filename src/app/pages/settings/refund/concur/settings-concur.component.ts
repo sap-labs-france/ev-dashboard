@@ -4,7 +4,7 @@ import { RefundSettings } from 'app/common.types';
 
 @Component({
   selector: 'app-settings-concur',
-  templateUrl: 'settings-concur.component.html'
+  templateUrl: 'settings-concur.component.html',
 })
 export class SettingsConcurComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
@@ -23,58 +23,58 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.formGroup.addControl('concur',
       new FormGroup({
-        'authenticationUrl': new FormControl('',
+        authenticationUrl: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'apiUrl': new FormControl('',
+        apiUrl: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'clientId': new FormControl('',
+        clientId: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'clientSecret': new FormControl('',
+        clientSecret: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'paymentTypeId': new FormControl('',
+        paymentTypeId: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'expenseTypeCode': new FormControl('',
+        expenseTypeCode: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'policyId': new FormControl('',
+        policyId: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-        'reportName': new FormControl('',
+        reportName: new FormControl('',
           Validators.compose([
             Validators.required,
-            Validators.maxLength(100)
-          ])
+            Validators.maxLength(100),
+          ]),
         ),
-      })
+      }),
     );
     // Keep
-    this.concur = <FormGroup>this.formGroup.controls['concur'];
+    this.concur = (this.formGroup.controls['concur'] as FormGroup);
     this.concurAuthenticationUrl = this.concur.controls['authenticationUrl'];
     this.concurApiUrl = this.concur.controls['apiUrl'];
     this.concurClientId = this.concur.controls['clientId'];

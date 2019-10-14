@@ -5,7 +5,7 @@ import { CellContentTemplateComponent } from './cell-content-template.component'
 @Component({
   selector: 'app-cell-content-template-container',
   template: `
-    <ng-template></ng-template>`
+    <ng-template></ng-template>`,
 })
 
 // tslint:disable-next-line:component-class-suffix
@@ -47,7 +47,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
       this.viewContainerRef.clear();
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
       this.cellComponentRef = this.viewContainerRef.createComponent(componentFactory);
-      this.cellComponent = <CellContentTemplateComponent>this.cellComponentRef.instance;
+      this.cellComponent = (this.cellComponentRef.instance as CellContentTemplateComponent);
       // Pass the data
       this.cellComponent.row = this.row;
       this.cellComponent.columnDef = this.columnDef;

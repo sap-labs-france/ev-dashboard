@@ -7,14 +7,14 @@ import { TransactionsHistoryTableDataSource } from './transactions-history-table
 @Component({
   selector: 'app-transactions-history',
   templateUrl: 'transactions-history.component.html',
-  providers: [TransactionsHistoryTableDataSource]
+  providers: [TransactionsHistoryTableDataSource],
 })
 export class TransactionsHistoryComponent implements OnInit {
   constructor(
     public transactionsHistoryTableDataSource: TransactionsHistoryTableDataSource,
     private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
   }
 
@@ -22,12 +22,12 @@ export class TransactionsHistoryComponent implements OnInit {
     // Check if transaction ID id provided
     const transactionID = this.windowService.getSearch('TransactionID');
     if (transactionID) {
-      this.centralServerService.getTransaction(transactionID).subscribe(transaction => {
+      this.centralServerService.getTransaction(transactionID).subscribe((transaction) => {
         // Found
         this.transactionsHistoryTableDataSource.openSession(transaction);
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {'sessionID': transactionID});
+        this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: transactionID});
       });
       // Clear Search
       this.windowService.deleteSearch('TransactionID');

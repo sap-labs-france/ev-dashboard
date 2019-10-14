@@ -4,7 +4,7 @@ import { TransactionsInErrorTableDataSource } from './transactions-in-error-tabl
 @Component({
   selector: 'app-transactions-in-error',
   templateUrl: 'transactions-in-error.component.html',
-  providers: [TransactionsInErrorTableDataSource]
+  providers: [TransactionsInErrorTableDataSource],
 })
 export class TransactionsInErrorComponent {
   constructor(

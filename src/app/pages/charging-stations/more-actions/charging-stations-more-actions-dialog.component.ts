@@ -4,7 +4,7 @@ import { Charger } from 'app/common.types';
 
 @Component({
   selector: 'app-charging-station-dialog-cmp',
-  templateUrl: 'charging-stations-more-actions-dialog.component.html'
+  templateUrl: 'charging-stations-more-actions-dialog.component.html',
 })
 export class ChargingStationsMoreActionsDialogComponent {
   charger: Charger;

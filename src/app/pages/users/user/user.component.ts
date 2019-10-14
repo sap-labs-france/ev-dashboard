@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, PricingSettingsType, User } from '../../../common.types';
+import { ActionResponse, PricingSettingsType, User, RefundSettings } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -21,12 +21,12 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { UserRoles, userStatuses } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
-  templateUrl: 'user.component.html'
+  templateUrl: 'user.component.html',
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -76,7 +76,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
+
   public notificationsActive: AbstractControl;
+  public notifications: FormGroup;
+  public sendSessionStarted: AbstractControl;
+  public sendOptimalChargeReached: AbstractControl;
+  public sendEndOfCharge: AbstractControl;
+  public sendEndOfSession: AbstractControl;
+  public sendUserAccountStatusChanged: AbstractControl;
+  public sendNewRegisteredUser: AbstractControl;
+  public sendUnknownUserBadged: AbstractControl;
+  public sendChargingStationStatusError: AbstractControl;
+  public sendChargingStationRegistered: AbstractControl;
+  public sendOcpiPatchStatusError: AbstractControl;
+  public sendSmtpAuthError: AbstractControl;
+
   public isConcurConnectionValid: boolean;
   public canSeeInvoice: boolean;
 
@@ -95,7 +109,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'notifications', 'miscs'], false);
 
     this.maxSize = this.configService.getUser().maxPictureKb;
 
@@ -133,97 +147,110 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
-      'id': new FormControl(''),
-      'name': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'firstName': new FormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
-      'notificationsActive': new FormControl(true),
-      'email': new FormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
         ])),
-      'phone': new FormControl('',
+      firstName: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
+          Validators.required,
         ])),
-      'mobile': new FormControl('',
+      notificationsActive: new FormControl(true),
+      notifications: new FormGroup({
+        sendSessionStarted: new FormControl(true),
+        sendOptimalChargeReached: new FormControl(true),
+        sendEndOfCharge: new FormControl(true),
+        sendEndOfSession: new FormControl(true),
+        sendUserAccountStatusChanged: new FormControl(true),
+        sendNewRegisteredUser: new FormControl(true),
+        sendUnknownUserBadged: new FormControl(true),
+        sendChargingStationStatusError: new FormControl(true),
+        sendChargingStationRegistered: new FormControl(true),
+        sendOcpiPatchStatusError: new FormControl(true),
+        sendSmtpAuthError: new FormControl(true)
+        }),
+      email: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$')
+          Validators.required,
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
         ])),
-      'iNumber': new FormControl('',
+      phone: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z]{1}[0-9]{6}$')
+          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
         ])),
-      'tagIDs': new FormControl(this.generateTagID(),
+      mobile: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
+        ])),
+      iNumber: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
+        ])),
+      tagIDs: new FormControl('',
         Validators.compose(this.isAdmin ?
           [
             Validators.required,
             Validators.minLength(3),
-            Validators.pattern('^[a-zA-Z0-9,]*$')
+            Validators.pattern('^[a-zA-Z0-9,]*$'),
           ] :
-          []
+          [],
         )),
-      'plateID': new FormControl('',
+      plateID: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9-]*$')
+          Validators.pattern('^[A-Z0-9-]*$'),
         ])),
-      'costCenter': new FormControl('',
+      costCenter: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^[0-9]*$'),
         ])),
-      'status': new FormControl(Constants.USER_STATUS_ACTIVE,
+      status: new FormControl(Constants.USER_STATUS_ACTIVE,
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'role': new FormControl(
+      role: new FormControl(
         this.isSuperAdmin ? Constants.USER_ROLE_SUPER_ADMIN : Constants.USER_ROLE_BASIC,
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'locale': new FormControl(this.localeService.getCurrentLocale(),
+      locale: new FormControl(this.localeService.getCurrentLocale(),
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'address': new FormGroup({
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'postalCode': new FormControl(''),
-        'city': new FormControl(''),
-        'department': new FormControl(''),
-        'region': new FormControl(''),
-        'country': new FormControl(''),
-        'latitude': new FormControl('',
+      address: new FormGroup({
+        address1: new FormControl(''),
+        address2: new FormControl(''),
+        postalCode: new FormControl(''),
+        city: new FormControl(''),
+        department: new FormControl(''),
+        region: new FormControl(''),
+        country: new FormControl(''),
+        latitude: new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
-        'longitude': new FormControl('',
+        longitude: new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-          ]))
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
       }),
-      'passwords': new FormGroup({
-        'password': new FormControl('',
+      passwords: new FormGroup({
+        password: new FormControl('',
           Validators.compose([
             Users.passwordWithNoSpace,
-            Users.validatePassword
+            Users.validatePassword,
           ])),
-        'repeatPassword': new FormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
-            Users.validatePassword
+            Users.validatePassword,
           ])),
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      })
+      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -239,10 +266,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.status = this.formGroup.controls['status'];
     this.role = this.formGroup.controls['role'];
     this.locale = this.formGroup.controls['locale'];
-    this.passwords = <FormGroup>this.formGroup.controls['passwords'];
+    this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.address = <FormGroup>this.formGroup.controls['address'];
+    this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
     this.postalCode = this.address.controls['postalCode'];
@@ -253,6 +280,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
+    this.notifications = this.formGroup.controls['notifications'] as FormGroup;
+    this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
+    this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
+    this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
+    this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
+    this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
+    this.sendNewRegisteredUser = this.notifications.controls['sendNewRegisteredUser'];
+    this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
+    this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
+    this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
+    this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
     if (this.currentUserID) {
       this.loadUser();
@@ -262,6 +301,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       });
     }
+    if (!this.currentUserID) {
+      this.formGroup.controls.tagIDs.setValue(this.generateTagID());
+    }
 
     this.loadApplicationSettings();
 
@@ -270,12 +312,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public setCurrentUserId(currentUserId) {
-    this.currentUserID = currentUserId;
+  public toggleNotificationsActive() {
+    // reset notifications ?
   }
 
+  public setCurrentUserId(currentUserID: string) {
+    this.currentUserID = currentUserID;
+  }
+
+  // Google Address
   public setAddress(address: Address) {
     // Set data
+    // tslint:disable-next-line: no-unsafe-any variable-name
     address.address_components.forEach(((address_component) => {
       switch (address_component.types[0]) {
         // Postal Code
@@ -324,6 +372,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
       // Init form
@@ -363,15 +412,45 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.tagIDs && user.tagIDs.length > 0) {
         this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
-      } else {
-        this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
-        this.formGroup.markAsDirty();
       }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
       if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendSessionStarted')) {
+        this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOptimalChargeReached')) {
+        this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
+        this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfSession')) {
+        this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendNewRegisteredUser')) {
+        this.notifications.controls.sendNewRegisteredUser.setValue(user.notifications.sendNewRegisteredUser);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
+        this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationStatusError')) {
+        this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationRegistered')) {
+        this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendSmtpAuthError')) {
+        this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
@@ -410,6 +489,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.image = userImage.image.toString();
       }
       this.spinnerService.hide();
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -428,7 +510,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  public updateUserImage(user) {
+  public updateUserImage(user: User) {
     if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
       // Set to user
       user.image = this.image;
@@ -438,7 +520,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public saveUser(user) {
+  public saveUser(user: User) {
     if (this.currentUserID) {
       this.updateUser(user);
     } else {
@@ -446,11 +528,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  public imageChanged(event) {
+  public imageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('users.picture_size_error', {'maxPictureKb': this.maxSize});
+        this.messageService.showErrorMessage('users.picture_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -480,7 +562,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.refund.concur.revoke_error');
         this.loadApplicationSettings();
-      }
+      },
     );
   }
 
@@ -495,7 +577,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       const state = {
         connector: 'concur',
         appId: this.refundSetting.id,
-        userId: this.currentUserID
+        userId: this.currentUserID,
       };
       this.document.location.href =
         // tslint:disable-next-line:max-line-length
@@ -536,13 +618,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
-    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe(settingResult => {
+    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
         this.refundSetting = settingResult.result[0];
       }
     });
     if (this.currentUserID) {
-      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe(connectionResult => {
+      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
         this.integrationConnections = undefined;
         this.concurConnection = undefined;
         this.isConcurConnectionValid = false;
@@ -572,7 +654,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.assign_transactions_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.assign_transactions_success', {userFullName: user.firstName + ' ' + user.name});
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
       }
@@ -594,13 +676,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.createUser(user).subscribe(response => {
+    this.centralServerService.createUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.create_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
         user.id = response['id'];
         this.currentUserID = response['id'];
@@ -641,13 +723,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.updateUser(user).subscribe(response => {
+    this.centralServerService.updateUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.update_success', {'userFullName': user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.update_success', {userFullName: user.firstName + ' ' + user.name});
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?
@@ -684,11 +766,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     if (this.isAdmin) {
       // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe(count => {
+      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe((count) => {
         if (count && count > 0) {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', {'count': count})
+            this.translateService.instant('users.assign_transactions_confirm', {count}),
           ).subscribe((result) => {
             if (result === Constants.BUTTON_TYPE_YES) {
               // Assign transactions

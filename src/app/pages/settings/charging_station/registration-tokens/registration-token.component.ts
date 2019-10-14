@@ -12,7 +12,7 @@ import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  templateUrl: 'registration-token.component.html'
+  templateUrl: 'registration-token.component.html',
 })
 export class RegistrationTokenComponent implements OnInit {
   public formGroup: FormGroup;
@@ -33,16 +33,16 @@ export class RegistrationTokenComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      'siteArea': new FormControl(),
-      'siteAreaID': new FormControl(),
-      'description': new FormControl('', Validators.compose([
+      siteArea: new FormControl(),
+      siteAreaID: new FormControl(),
+      description: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
       ])),
-      'expirationDate': new FormControl(moment().add(1, 'd'),
+      expirationDate: new FormControl(moment().add(1, 'd'),
         Validators.compose([
-          Validators.required
-        ]))
+          Validators.required,
+        ])),
     });
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
@@ -56,7 +56,7 @@ export class RegistrationTokenComponent implements OnInit {
 
   save(token) {
     this.spinnerService.show();
-    this.centralServerService.createRegistrationToken(token).subscribe(response => {
+    this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();
       if (token) {
         this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
@@ -79,13 +79,13 @@ export class RegistrationTokenComponent implements OnInit {
       title: 'chargers.assign_site_area',
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
-      rowMultipleSelection: false
+      rowMultipleSelection: false,
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0].objectRef) {
-        const siteArea = <SiteArea>(result[0].objectRef);
+        const siteArea = (result[0].objectRef) as SiteArea;
         this.siteArea.setValue(`${(siteArea.site ? siteArea.site.name + ' - ' : '')}${siteArea.name}`);
         this.siteAreaID.setValue(siteArea.id);
       }

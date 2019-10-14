@@ -21,18 +21,18 @@ export const CONNECTED_PHASE_MAP =
   [
     {key: 1, description: 'chargers.single_phase'},
     {key: 3, description: 'chargers.tri_phases'},
-    {key: 0, description: 'chargers.direct_current'}
+    {key: 0, description: 'chargers.direct_current'},
   ];
 
 export const POWER_UNIT_MAP =
   [
     {key: 'W', description: 'chargers.watt'},
-    {key: 'A', description: 'chargers.amper'}
+    {key: 'A', description: 'chargers.amper'},
   ];
 
 @Component({
   selector: 'app-charging-station-parameters',
-  templateUrl: './charging-station-parameters.component.html'
+  templateUrl: './charging-station-parameters.component.html',
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
@@ -91,42 +91,42 @@ export class ChargingStationParametersComponent implements OnInit {
 
     // Init the form
     this.formGroup = new FormGroup({
-      'chargingStationURL': new FormControl('',
+      chargingStationURL: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(Constants.URL_PATTERN)
+          Validators.pattern(Constants.URL_PATTERN),
         ])),
-      'numberOfConnectedPhase': new FormControl('',
+      numberOfConnectedPhase: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'powerLimitUnit': new FormControl('',
+      powerLimitUnit: new FormControl('',
         Validators.compose([
-          Validators.required
+          Validators.required,
         ])),
-      'cannotChargeInParallel': new FormControl(''),
-      'maximumPower': new FormControl('',
+      cannotChargeInParallel: new FormControl(''),
+      maximumPower: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$')
+          Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      'siteArea': new FormControl(''),
-      'siteAreaID': new FormControl(''),
-      'latitude': new FormControl('',
+      siteArea: new FormControl(''),
+      siteAreaID: new FormControl(''),
+      latitude: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.max(90),
           Validators.min(-90),
-          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE)
+          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
         ])),
-      'longitude': new FormControl('',
+      longitude: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.max(180),
           Validators.min(-180),
-          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE)
-        ]))
+          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+        ])),
     });
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
@@ -171,25 +171,25 @@ export class ChargingStationParametersComponent implements OnInit {
       this.formGroup.addControl(connectorTypeId, new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[^U]*$')
+          Validators.pattern('^[^U]*$'),
         ])));
       this.formGroup.addControl(connectorMaxPowerId, new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$')
+          Validators.pattern('^[+]?[0-9]*$'),
         ])));
       this.formGroup.addControl(connectorVoltageId, new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$')
+          Validators.pattern('^[+]?[0-9]*$'),
         ])));
       this.formGroup.addControl(connectorAmperageId, new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$')
+          Validators.pattern('^[+]?[0-9]*$'),
         ])));
       if (!this.isAdmin) {
         this.formGroup.controls[connectorTypeId].disable();
@@ -321,13 +321,13 @@ export class ChargingStationParametersComponent implements OnInit {
       title: 'chargers.assign_site_area',
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
-      rowMultipleSelection: false
+      rowMultipleSelection: false,
     };
     // Open
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
-        this.charger.siteArea = <SiteArea>(result[0].objectRef);
+        this.charger.siteArea = ((result[0].objectRef) as SiteArea);
         this.formGroup.markAsDirty();
         this.formGroup.controls.siteArea.setValue(
           `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
@@ -368,9 +368,9 @@ export class ChargingStationParametersComponent implements OnInit {
     // Set data
     dialogConfig.data = {
       dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', {chargeBoxID: this.charger.id}),
-      latitude: latitude,
-      longitude: longitude,
-      label: this.charger.id ? this.charger.id : ''
+      latitude,
+      longitude,
+      label: this.charger.id ? this.charger.id : '',
     };
     // disable outside click close
     dialogConfig.disableClose = true;
@@ -400,7 +400,7 @@ export class ChargingStationParametersComponent implements OnInit {
     if (this.formGroup.invalid && this.formGroup.dirty) {
       this.dialogService.createAndShowInvalidChangeCloseDialog(
         this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text')
+        this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
@@ -409,7 +409,7 @@ export class ChargingStationParametersComponent implements OnInit {
     } else if (this.formGroup.dirty) {
       this.dialogService.createAndShowDirtyChangeCloseDialog(
         this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text')
+        this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
           this.saveChargeBox();
@@ -426,7 +426,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Yes: Update
-    this.centralServerService.updateChargingStationParams(this.charger).subscribe(response => {
+    this.centralServerService.updateChargingStationParams(this.charger).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?

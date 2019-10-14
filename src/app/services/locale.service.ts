@@ -14,7 +14,7 @@ export class LocaleService {
     private centralServerService: CentralServerService) {
     // Set
 
-    this.centralServerService.getCurrentUserSubject().subscribe(user => {
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.updateLanguage(user);
     });
   }
@@ -50,10 +50,10 @@ export class LocaleService {
     // en, fr...
     const configLocales = this.configService.getLocales();
     // Return
-    configLocales.fullSupported.forEach(localeFull => {
+    configLocales.fullSupported.forEach((localeFull) => {
       locales.push({
         key: localeFull,
-        value: this.getLocaleDescription(localeFull)
+        value: this.getLocaleDescription(localeFull),
       });
     });
     return locales;
@@ -61,7 +61,7 @@ export class LocaleService {
 
   public getLocaleByKey(localeKey) {
     // Return the found key
-    const locales = this.getLocales().filter(locale => {
+    const locales = this.getLocales().filter((locale) => {
       return locale.key === localeKey;
     });
     return (locales && locales.length > 0 ? locales[0] :
@@ -144,11 +144,11 @@ export class LocaleService {
     return this.getDateFormat() + ' ' + this.getTimeFormat();
   }
 
-  public getAllDateTimeProps(): Object {
+  public getAllDateTimeProps(): object {
     return {
-      'dateTimeFormat': this.getDateTimeFormat(),
-      'hourFormat': this.getHourFormat(),
-      'firstDayOfWeek': this.getFirstDayOfWeek()
+      dateTimeFormat: this.getDateTimeFormat(),
+      hourFormat: this.getHourFormat(),
+      firstDayOfWeek: this.getFirstDayOfWeek(),
     };
   }
 

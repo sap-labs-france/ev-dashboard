@@ -11,24 +11,24 @@ export const UserRoutes: Routes = [
     path: 'connections', component: UserConnectionComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_USER,
-        action: Constants.ACTION_UPDATE
-      }
-    }
+        action: Constants.ACTION_UPDATE,
+      },
+    },
   },
   {
     path: ':id', component: UserComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_USER,
-        action: Constants.ACTION_UPDATE
-      }
-    }
+        action: Constants.ACTION_UPDATE,
+      },
+    },
   },
   {
     path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_USER,
-        action: Constants.ACTION_CREATE
-      }
-    }
+        action: Constants.ACTION_CREATE,
+      },
+    },
   },
 ];

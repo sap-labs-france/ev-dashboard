@@ -8,9 +8,8 @@ export class TableRemoveAction implements TableAction {
     icon: 'remove',
     color: ButtonColor.warn,
     name: 'general.remove',
-    tooltip: 'general.tooltips.remove'
+    tooltip: 'general.tooltips.remove',
   };
-
 
   // Return an action
   public getActionDef(): TableActionDef {

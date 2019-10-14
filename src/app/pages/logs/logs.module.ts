@@ -24,19 +24,19 @@ import { LogsRoutes } from './logs.routing';
     TableModule,
     ComponentModule,
     CommonDirectivesModule,
-    DialogsModule
+    DialogsModule,
   ],
   declarations: [
     LogsListComponent,
     LogLevelFormatterComponent,
-    AppFormatLogLevelPipe
+    AppFormatLogLevelPipe,
   ],
   entryComponents: [
-    LogLevelFormatterComponent
+    LogLevelFormatterComponent,
   ],
   providers: [
-    LogsListTableDataSource
-  ]
+    LogsListTableDataSource,
+  ],
 })
 
 export class LogsModule {

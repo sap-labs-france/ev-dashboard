@@ -8,7 +8,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: String [];
+  changes: string [];
 }
 
 @Component({

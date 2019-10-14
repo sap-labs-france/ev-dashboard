@@ -478,7 +478,7 @@ export interface User extends Data {
     sendChargingStationRegistered?: boolean;
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
-  },
+  };
   address: {
     address1: string;
     address2: string;

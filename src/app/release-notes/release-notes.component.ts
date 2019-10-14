@@ -32,7 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fix stop authorization for Basic User`,
               `Hide column when the browser is resized`,
-              `TypeScript migration of OCPI entity in the backend`
+              `TypeScript migration of OCPI entity in the backend`,
             ],
           },
         ],

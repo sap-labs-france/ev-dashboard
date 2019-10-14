@@ -21,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../users.model';
+import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -156,21 +156,21 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      'notificationsActive': new FormControl(true),
-      'notifications': new FormGroup({
-        'sendSessionStarted': new FormControl(true),
-        'sendOptimalChargeReached': new FormControl(true),
-        'sendEndOfCharge': new FormControl(true),
-        'sendEndOfSession': new FormControl(true),
-        'sendUserAccountStatusChanged': new FormControl(true),
-        'sendNewRegisteredUser': new FormControl(true),
-        'sendUnknownUserBadged': new FormControl(true),
-        'sendChargingStationStatusError': new FormControl(true),
-        'sendChargingStationRegistered': new FormControl(true),
-        'sendOcpiPatchStatusError': new FormControl(true),
-        'sendSmtpAuthError': new FormControl(true)
+      notificationsActive: new FormControl(true),
+      notifications: new FormGroup({
+        sendSessionStarted: new FormControl(true),
+        sendOptimalChargeReached: new FormControl(true),
+        sendEndOfCharge: new FormControl(true),
+        sendEndOfSession: new FormControl(true),
+        sendUserAccountStatusChanged: new FormControl(true),
+        sendNewRegisteredUser: new FormControl(true),
+        sendUnknownUserBadged: new FormControl(true),
+        sendChargingStationStatusError: new FormControl(true),
+        sendChargingStationRegistered: new FormControl(true),
+        sendOcpiPatchStatusError: new FormControl(true),
+        sendSmtpAuthError: new FormControl(true),
         }),
-      'email': new FormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
@@ -279,9 +279,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.latitude = this.address.controls['latitude'];
     this.longitude = this.address.controls['longitude'];
-    
+
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
-    this.notifications = <FormGroup>this.formGroup.controls['notifications'];
+    this.notifications = (this.formGroup.controls['notifications'] as FormGroup);
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];

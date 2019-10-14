@@ -1378,7 +1378,7 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?",
-        "rejected_refunded_msg": "Session of {{user}} cannot be deleted because it has been transferred to your refunding system"
+        "rejected_refunded_msg": "You cannot delete a session that has been already refunded!"
       },
       "export": {
         "title": "Export Sessions",

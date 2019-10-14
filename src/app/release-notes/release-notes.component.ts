@@ -8,7 +8,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: String [];
+  changes: string [];
 }
 
 @Component({
@@ -25,14 +25,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.11',
-        date: new Date('2019-10-09'),
+        date: new Date('2019-10-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Admin Users can enable/disable Notifications`,
               `Fix stop authorization for Basic User`,
+              `User's Badge ID is not regenerated when not existing in profile`,
               `Hide column when the browser is resized`,
-              `TypeScript migration of OCPI entity in the backend`,
+              `Both OCPI and Notification entities has been migrated to TypeScript`,
             ],
           },
         ],

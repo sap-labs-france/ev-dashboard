@@ -33,7 +33,7 @@ export class ReleaseNotesComponent {
               `Admin Users can enable/disable Notifications`,
               `Fix stop authorization for Basic User`,
               `Hide column when the browser is resized`,
-              `TypeScript migration of OCPI entity in the backend`
+              `Both OCPI and Notification entities has been migrated to TypeScript`
             ],
           },
         ],

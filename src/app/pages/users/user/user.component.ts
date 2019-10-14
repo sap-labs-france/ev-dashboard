@@ -187,7 +187,18 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
-      tagIDs: new FormControl(this.generateTagID(),
+/*
+        tagIDs: new FormControl(this.generateTagID(),
+        Validators.compose(this.isAdmin ?
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern('^[a-zA-Z0-9,]*$'),
+          ] :
+          [],
+        )),
+*/
+        tagIDs: new FormControl('',
         Validators.compose(this.isAdmin ?
           [
             Validators.required,
@@ -408,7 +419,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.tagIDs && user.tagIDs.length > 0) {
         this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
       } else {
-        this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
+//        this.formGroup.controls.tagIDs.setValue(this.generateTagID(user));
         this.formGroup.markAsDirty();
       }
       if (user.plateID) {

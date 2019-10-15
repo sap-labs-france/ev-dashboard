@@ -181,7 +181,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     dialogRef.afterClosed().subscribe((chargers) => this.addChargers(chargers));
   }
 
-  private removeChargers(chargerIDs) {
+  private removeChargers(chargerIDs: string[]) {
     // Yes: Update
     this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
       // Ok?

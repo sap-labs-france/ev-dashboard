@@ -29,7 +29,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   @ViewChild('consumptionBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('consumptionPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: object;
+  private filterParams: { [param: string]: string | string[]; };
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
@@ -72,7 +72,7 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.selectedYear = year;
   }
 
-  filtersChanged(filterParams): void {
+  filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
     this.filterParams = filterParams;
   }
 

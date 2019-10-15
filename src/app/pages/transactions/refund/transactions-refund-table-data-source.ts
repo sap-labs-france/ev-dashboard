@@ -74,7 +74,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
-      filters['MinimalPrice'] = 0;
+      filters['MinimalPrice'] = '0';
       this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           // Ok

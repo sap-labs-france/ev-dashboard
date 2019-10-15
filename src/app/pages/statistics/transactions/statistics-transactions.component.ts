@@ -29,7 +29,7 @@ export class StatisticsTransactionsComponent implements OnInit {
   @ViewChild('transactionsBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('transactionsPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: object;
+  private filterParams: { [param: string]: string | string[]; };
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;

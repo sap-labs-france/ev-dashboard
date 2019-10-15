@@ -246,7 +246,7 @@ export class StatisticsFiltersComponent implements OnInit {
     });
   }
 
-  public buildFilterValues(): object {
+  public buildFilterValues(): { [param: string]: string | string[]; } {
     const filterJson = {};
     // Parse filters
     if (this.statFiltersDef) {

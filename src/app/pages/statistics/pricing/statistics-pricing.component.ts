@@ -31,7 +31,7 @@ export class StatisticsPricingComponent implements OnInit {
   @ViewChild('pricingBarChart', { static: true }) ctxBarChart: ElementRef;
   @ViewChild('pricingPieChart', { static: true }) ctxPieChart: ElementRef;
 
-  private filterParams: object;
+  private filterParams: { [param: string]: string | string[]; };
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;

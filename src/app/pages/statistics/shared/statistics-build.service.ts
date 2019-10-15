@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { StatisticData } from '../../../common.types';
 import { LocaleService } from '../../../services/locale.service';
 import { ChartConstants, ChartData } from './chart-utilities';
 
@@ -27,7 +28,7 @@ export class StatisticsBuildService {
     this.unitLabel = 'unit';
   }
 
-  public buildStackedChartDataForMonths(statisticsData: any, roundingDecimals: number = 0,
+  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0,
                                         addUnitToLabel = false,
                                         sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
                                         maxNumberOfItems = 20): ChartData {
@@ -59,12 +60,12 @@ export class StatisticsBuildService {
     }
 
     if (transactionValues && transactionValues.length > 0) {
-      transactionValues.forEach((transactionValue: { [x: string]: number; }) => {
+      transactionValues.forEach((transactionValue) => {
         // for each month (sorted from 0 to 11, but attention, multiple month values are possible if multiple units!):
         let totalValuePerMonth = 0;
         let newMonth = false;
 
-        monthIndex = transactionValue[this.monthLabel];
+        monthIndex = transactionValue.month;
         monthString = moment().locale(this.localeService.language).month(monthIndex).format('MMMM');
 
         const currentIndex = stackedChartData.labels.indexOf(monthString);

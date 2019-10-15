@@ -6,7 +6,12 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, PricingSettingsType, User, RefundSettings } from '../../../common.types';
+import {
+  ActionResponse,
+  IntegrationConnection,
+  PricingSettingsType,
+  User
+, RefundSettings } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -70,8 +75,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public latitude: AbstractControl;
   public longitude: AbstractControl;
   public refundSetting: any;
-  public integrationConnections: any;
-  public concurConnection: any;
+  public integrationConnections: IntegrationConnection[];
+  public concurConnection: IntegrationConnection;
 
   public passwords: FormGroup;
   public password: AbstractControl;

@@ -7,7 +7,7 @@ import { DialogService } from 'app/services/dialog.service';
 import saveAs from 'file-saver';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-import { Charger } from '../../../../common.types';
+import { Charger, ChargerConfiguration } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
@@ -111,7 +111,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getChargingStationConfiguration(this.charger.id).subscribe((configurationResult) => {
+    this.centralServerService.getChargingStationConfiguration(this.charger.id).subscribe((configurationResult: ChargerConfiguration) => {
       if (configurationResult && Array.isArray(configurationResult.configuration)) {
         this.chargerConfiguration = configurationResult.configuration;
       } else {

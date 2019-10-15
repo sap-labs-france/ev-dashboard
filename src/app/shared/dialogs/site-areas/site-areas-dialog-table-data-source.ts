@@ -35,7 +35,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
  public loadDataImpl(): Observable<DataResult<SiteArea>> {
     return new Observable((observer) => {
       const filterValues = this.buildFilterValues();
-      filterValues['WithSite'] = true;
+      filterValues['WithSite'] = 'true';
       if (this.siteIDs) {
         filterValues['SiteID'] = this.siteIDs;
       }

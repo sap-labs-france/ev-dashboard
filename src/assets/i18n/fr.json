@@ -1378,7 +1378,7 @@
       "delete": {
         "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?",
-        "rejected_refunded_msg": "La session de {{user}} ne peut pas être supprimée car elle a été transférée vers votre système de remboursement"
+        "rejected_refunded_msg": "Vous ne pouvez pas supprimer une session qui a déjà été remboursée!"
       },
       "export": {
         "title": "Exporter les sessions",

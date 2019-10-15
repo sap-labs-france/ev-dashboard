@@ -269,8 +269,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           transaction.refundData.status === 'approved')) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg',
-              {user: this.appUserNamePipe.transform(transaction.user)}));
+            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
         } else {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('transactions.dialog.delete.title'),

@@ -472,7 +472,6 @@ export interface User extends Data {
     sendEndOfCharge?: boolean;
     sendEndOfSession?: boolean;
     sendUserAccountStatusChanged?: boolean;
-    sendNewRegisteredUser?: boolean;
     sendUnknownUserBadged?: boolean;
     sendChargingStationStatusError?: boolean;
     sendChargingStationRegistered?: boolean;

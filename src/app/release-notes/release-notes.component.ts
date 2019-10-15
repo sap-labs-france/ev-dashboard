@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.12',
+        date: new Date('2019-10-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Refactored Notification to implement Remote Push Notification`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.11',
         date: new Date('2019-10-14'),
         componentChanges: [

@@ -277,9 +277,6 @@
               </div>
               <div *ngIf="isAdmin"> 
                 <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendNewRegisteredUser">{{"notifications.new-registered-user" | translate}}</mat-checkbox></div>
-                </div> 
-                <div class="row">
                     <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
                 </div> 
                 <div class="row">

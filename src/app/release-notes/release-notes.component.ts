@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``,
+              `Refactored Notification to implement Remote Push Notification`,
             ],
           },
         ],

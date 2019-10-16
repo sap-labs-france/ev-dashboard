@@ -3,7 +3,7 @@ import { AfterViewInit, Component, Injectable, Input, OnInit } from '@angular/co
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger } from 'app/common.types';
+import { Charger, GetDiagnosticResponse } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -24,7 +24,7 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
   public isAdmin;
 
   public fileURL = '';
-  public fileName: 'No file';
+  public fileName = 'No file';
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -71,7 +71,7 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
           const date = new Date();
           date.setHours(0, 0, 0, 0);
           // tslint:disable-next-line:max-line-length
-          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe((response) => {
+          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe((response: GetDiagnosticResponse) => {
             if (response.fileName && response.fileName.length > 0) {
               this.fileName = response.fileName;
               // success + reload

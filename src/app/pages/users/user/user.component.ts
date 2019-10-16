@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, PricingSettingsType, RefundSettings, User } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, PricingSettingsType, RefundSettings, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -70,8 +70,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public latitude: AbstractControl;
   public longitude: AbstractControl;
   public refundSetting: any;
-  public integrationConnections: any;
-  public concurConnection: any;
+  public integrationConnections: IntegrationConnection[];
+  public concurConnection: IntegrationConnection;
 
   public passwords: FormGroup;
   public password: AbstractControl;
@@ -84,7 +84,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendEndOfCharge: AbstractControl;
   public sendEndOfSession: AbstractControl;
   public sendUserAccountStatusChanged: AbstractControl;
-  public sendNewRegisteredUser: AbstractControl;
   public sendUnknownUserBadged: AbstractControl;
   public sendChargingStationStatusError: AbstractControl;
   public sendChargingStationRegistered: AbstractControl;
@@ -163,7 +162,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendEndOfCharge: new FormControl(true),
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
-        sendNewRegisteredUser: new FormControl(true),
         sendUnknownUserBadged: new FormControl(true),
         sendChargingStationStatusError: new FormControl(true),
         sendChargingStationRegistered: new FormControl(true),
@@ -286,7 +284,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
     this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
     this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
-    this.sendNewRegisteredUser = this.notifications.controls['sendNewRegisteredUser'];
     this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
     this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
@@ -433,9 +430,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
         this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
-      }
-      if (user.notifications && user.notifications.hasOwnProperty('sendNewRegisteredUser')) {
-        this.notifications.controls.sendNewRegisteredUser.setValue(user.notifications.sendNewRegisteredUser);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
         this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);

@@ -89,7 +89,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     body.classList.add('login-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
-    setTimeout(function() {
+    setTimeout(() => {
       // after 1000 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
@@ -114,7 +114,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     const sidebar = document.getElementsByClassName('navbar-collapse')[0];
     if (this.sidebarVisible === false) {
-      setTimeout(function() {
+      setTimeout(() => {
         toggleButton.classList.add('toggled');
       }, 500);
       body.classList.add('nav-open');

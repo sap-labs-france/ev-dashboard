@@ -126,6 +126,48 @@ export interface ActionsResponse extends ActionResponse {
   inError: number;
 }
 
+export interface LoginResponse extends ActionResponse {
+  token: string;
+}
+
+export interface OCPIEVSEStatusesResponse extends ActionResponse {
+  success: number;
+  failure: number;
+  total: number;
+  logs: string[];
+  chargeBoxIDsInFailure: string[];
+  chargeBoxIDsInSuccess: string[];
+}
+
+export interface OCPIPingResponse extends ActionResponse {
+  statusCode: number;
+  statusText: string;
+  message: string;
+}
+
+export interface OCPIGenerateLocalTokenResponse extends ActionResponse {
+  id: string;
+  localToken: string;
+}
+
+export interface SynchronizeResponse {
+  status: string;
+  synchronized: number;
+  error: number;
+}
+
+export interface EndUserLicenseAgreement {
+  text: string;
+}
+
+export interface GetDiagnosticResponse extends ActionResponse {
+  fileName: string;
+}
+
+export interface ValidateBillingConnectionResponse extends ActionResponse {
+  connectionIsValid: boolean;
+}
+
 export interface ChargerConfiguration {
   chargeBoxID: string;
   timestamp: Date;
@@ -134,8 +176,7 @@ export interface ChargerConfiguration {
       value: string;
       readonly: boolean;
       key: string;
-    }
-    ];
+    }];
 }
 
 export interface ConsumptionValue {
@@ -367,6 +408,44 @@ export interface SubjectInfo {
   };
 }
 
+export interface StatisticData {
+  month: number;
+  [key: string]: number;
+}
+
+export interface IntegrationConnection extends Data {
+  connectorId: string;
+  createdAt: Date;
+  validUntil: Date;
+}
+
+export interface UserConnection {
+  connectorId: string;
+  settingId: string;
+  userId: string;
+  data: {
+    [key: string]: string;
+  };
+}
+
+export interface CurrentMetrics {
+  name: string;
+  id: string;
+  companyID: string;
+  company: Company;
+  currentConsumption: number;
+  totalConsumption: number;
+  currentTotalInactivitySecs: number;
+  maximumPower: number;
+  maximumNumberOfChargingPoint: number;
+  occupiedChargingPoint: number;
+  address: Address[];
+  image: any;
+  trends: any;
+  dataConsumptionChart: any;
+  dataDeliveredChart: any;
+}
+
 export interface TableDef {
   class?: string;
   rowSelection?: {
@@ -472,7 +551,6 @@ export interface User extends Data {
     sendEndOfCharge?: boolean;
     sendEndOfSession?: boolean;
     sendUserAccountStatusChanged?: boolean;
-    sendNewRegisteredUser?: boolean;
     sendUnknownUserBadged?: boolean;
     sendChargingStationStatusError?: boolean;
     sendChargingStationRegistered?: boolean;

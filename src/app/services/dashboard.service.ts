@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Address, Company } from 'app/common.types';
+import { CurrentMetrics } from 'app/common.types';
 import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
@@ -9,29 +9,11 @@ import { CentralServerService } from './central-server.service';
 
 const DATA_LOAD_INTERVAL = 10000;
 
-export interface SiteCurrentMetrics {
-  name: string;
-  id: string;
-  companyID: string;
-  company: Company;
-  currentConsumption: number;
-  totalConsumption: number;
-  currentTotalInactivitySecs: number;
-  maximumPower: number;
-  maximumNumberOfChargingPoint: number;
-  occupiedChargingPoint: number;
-  address: Address[];
-  image: any;
-  trends: any;
-  dataConsumptionChart: any;
-  dataDeliveredChart: any;
-}
-
 @Injectable()
 export class DashboardService {
-  currentMetrics: SiteCurrentMetrics[] = [];
+  currentMetrics: CurrentMetrics[] = [];
   initialLoadDone = new BehaviorSubject<boolean>(false);
-  refreshData = new BehaviorSubject<SiteCurrentMetrics[]>([]);
+  refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
   intervalReference;
 
   constructor(private centralServerService: CentralServerService,
@@ -43,8 +25,8 @@ export class DashboardService {
   }
 
   loadData() {
-    this.centralServerService.getCurrentMetrics().subscribe((statistics) => {
-      this.currentMetrics = statistics;
+    this.centralServerService.getCurrentMetrics().subscribe((metrics) => {
+      this.currentMetrics = metrics;
       if (this.initialLoadDone.getValue() === false) {
         this.initialLoadDone.next(true);
       } else {
@@ -71,7 +53,7 @@ export class DashboardService {
     }
   }
 
-  getStatistics(period: string, metrics: SiteCurrentMetrics): SiteCurrentMetrics {
+  getStatistics(period: string, metrics: CurrentMetrics): CurrentMetrics {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
     if (!currentData) {
       return;
@@ -142,7 +124,7 @@ export class DashboardService {
     return currentData;
   }
 
-  getRealtime(type: string, metrics: SiteCurrentMetrics): SiteCurrentMetrics {
+  getRealtime(type: string, metrics: CurrentMetrics): CurrentMetrics {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
     if (!currentData) {
       return;
@@ -179,7 +161,7 @@ export class DashboardService {
     return currentData;
   }
 
-  generateDummyData(numberOfData, maxValue, maxVariation: number = 0): any[] {
+  generateDummyData(numberOfData, maxValue, maxVariation: number = 0): number[] {
     const data = [];
     for (let index = 0; index < numberOfData; index++) {
       if (maxVariation > 0 && index > 0) {

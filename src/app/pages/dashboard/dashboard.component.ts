@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
-import { DashboardService, SiteCurrentMetrics } from '../../services/dashboard.service';
+import { CurrentMetrics } from '../../common.types';
+import { DashboardService } from '../../services/dashboard.service';
 import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;
@@ -114,7 +115,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {SiteCurrentMetrics}
    * @memberof DashboardComponent
    */
-  currentMetrics: SiteCurrentMetrics;
+  currentMetrics: CurrentMetrics;
 
   realtimeInterval = REALTIME_INTERVAL;
   statisticsInterval = STATISTICS_INTERVAL;

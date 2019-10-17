@@ -14,8 +14,8 @@ export class AuthenticationEulaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.centralServerService.getEndUserLicenseAgreement(this.translateService.getBrowserLang()).subscribe((uela) => {
-      this.eulaText = uela.text;
+    this.centralServerService.getEndUserLicenseAgreement(this.translateService.getBrowserLang()).subscribe((eula) => {
+      this.eulaText = eula.text;
     });
   }
 }

@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.12',
-        date: new Date('2019-10-15'),
+        date: new Date('2019-10-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Refactored Notification to implement Remote Push Notification`,
+              `Fixed handling of the State Of Charge when it starts at 0 %`
             ],
           },
         ],

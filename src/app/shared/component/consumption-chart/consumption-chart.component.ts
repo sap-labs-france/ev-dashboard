@@ -148,7 +148,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         min: 0,
       },
     });
-    if (this.transaction.stateOfCharge) {
+    if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
       this.data.datasets.push({
         name: 'stateOfCharge',
         type: 'line',
@@ -253,7 +253,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         if (consumption.stateOfCharge) {
           stateOfChargeDataSet.push(consumption.stateOfCharge);
         } else {
-          stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ? stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : 0);
+          stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ?
+            stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : this.transaction.stateOfCharge);
         }
       }
     }

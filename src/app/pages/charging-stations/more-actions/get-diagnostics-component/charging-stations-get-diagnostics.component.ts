@@ -24,7 +24,7 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
   public isAdmin;
 
   public fileURL = '';
-  public fileName= 'No file';
+  public fileName = 'No file';
 
   constructor(
     private authorizationService: AuthorizationService,

@@ -6,12 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import {
-  ActionResponse,
-  IntegrationConnection,
-  PricingSettingsType,
-  User
-, RefundSettings } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, PricingSettingsType, RefundSettings, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -26,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../users.model';
+import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -171,7 +166,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendChargingStationStatusError: new FormControl(true),
         sendChargingStationRegistered: new FormControl(true),
         sendOcpiPatchStatusError: new FormControl(true),
-        sendSmtpAuthError: new FormControl(true)
+        sendSmtpAuthError: new FormControl(true),
         }),
       email: new FormControl('',
         Validators.compose([

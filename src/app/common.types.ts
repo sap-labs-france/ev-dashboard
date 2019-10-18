@@ -164,7 +164,7 @@ export interface GetDiagnosticResponse extends ActionResponse {
   fileName: string;
 }
 
-export interface ValidateBillingConnectionResponse extends ActionResponse{
+export interface ValidateBillingConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
@@ -556,7 +556,7 @@ export interface User extends Data {
     sendChargingStationRegistered?: boolean;
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
-  },
+  };
   address: {
     address1: string;
     address2: string;

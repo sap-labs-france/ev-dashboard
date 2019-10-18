@@ -34,7 +34,7 @@ export class ReleaseNotesComponent {
               `Refactored Notification to implement Remote Push Notification`,
               'Finished TypeScript migration of Notification and Configuration',
               `Fixed handling of the State Of Charge when it starts at 0 %`,
-              `Update End User Licence Agreement with third party products`
+              `Update End User Licence Agreement with third party products`,
             ],
           },
         ],
@@ -51,7 +51,7 @@ export class ReleaseNotesComponent {
               `Admins cannot delete a Session that has already been refunded`,
               `User's Badge ID is not regenerated when not existing in profile`,
               `Hide column when the browser is resized`,
-              `Both OCPI and Notification entities has been migrated to TypeScript`
+              `Both OCPI and Notification entities has been migrated to TypeScript`,
             ],
           },
         ],

@@ -1472,7 +1472,7 @@
   "notifications": {
     "admin-only": "Administrateurs seulement",
     "session-started": "Me notifier lorsque ma session de charge a démarré",
-    "optimal-charge-reached": "Me notifier lorsque ma session de charge a atteint son niveau optimal (batterie à 85%)",
+    "optimal-charge-reached": "Me notifier lorsque le niveau de la batterie a atteint son niveau optimal (85%)",
     "end-of-charge": "Me notifier lorsque mon véhicule électrique ne se charge plus (le véhicule électrique est encore connecté)",
     "end-of-session": "Me notifier lorsque ma session de charge est terminée (le véhicule électrique est déconnecté)",
     "user-account-status-changed": "Me notifier lorsque mon statut est modifié par un administrateur (Actif, En attente...)",

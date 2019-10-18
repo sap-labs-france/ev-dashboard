@@ -1472,15 +1472,15 @@
   "notifications": {
     "admin-only": "Administrators only",
     "session-started": "Notify me when my charging session has started",
-    "optimal-charge-reached": "Notify me when the optimal charging session has been reached (battery level at 85%)",
+    "optimal-charge-reached": "Notify me when the optimal battery level has been reached (85%)",
     "end-of-charge": "Notify me when my electric vehicle is not charging anymore (the electric vehicle is still connected)",
     "end-of-session": "Notify me when my charging session is finished (the electric vehicle is no longer connected)",
     "user-account-status-changed": "Notify me when my user's status has been changed by an Administrator (Active, Blocked…)",
     "new-registered-user": "Notify me when a new user has just registered",
     "unknown-user-badged": "Notify me when an unknown user has badged on a charging station",
     "charging-station-status-error": "Notify me when an error occurred on a charging station’s connector",
-    "charging-station-registered": "Notify me whan a charging station has just registered to the backend or has been restarted",
+    "charging-station-registered": "Notify me when a charging station has been registered to the backend or has been restarted",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
-    "smtp-auth-error": "Notify me if the authentication to the email server has failed"
+    "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
   }
 }

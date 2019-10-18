@@ -25,13 +25,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.12',
-        date: new Date('2019-10-17'),
+        date: new Date('2019-10-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Implemented Remote Push Notification`,
               `Refactored Notification to implement Remote Push Notification`,
-              `Fixed handling of the State Of Charge when it starts at 0 %`
+              'Finished TypeScript migration of Notification and Configuration',
+              `Fixed handling of the State Of Charge when it starts at 0 %`,
+              `Update End User Licence Agreement with third party products`
             ],
           },
         ],
@@ -61,7 +64,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Tenant creation (email activation + user's password)`,
-              `Notify Admins when authentication with primary email server failed`,
+              `Notify Admins when authentication with primary Email server failed`,
               `Notify Admins when OCPI patching of Charging Station's statuses failed`,
               `User filter has been added in Refund Session`,
               `Filter on Charging Station's OCPP parameters`,

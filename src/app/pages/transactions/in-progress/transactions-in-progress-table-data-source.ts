@@ -191,7 +191,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
-            this._stopTransaction(transaction);
+            this._softStopTransaction(transaction);
           }
         });
         break;
@@ -254,24 +254,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
-  protected _chargingStationStopTransaction(transaction: Transaction) {
-    this.centralServerService.chargingStationStopTransaction(
-        transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Rejected') {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.notification.soft_stop.error'));
-      } else {
-        this.messageService.showSuccessMessage(
-        this.translateService.instant('transactions.notification.soft_stop.success',
-          {user: this.appUserNamePipe.transform(transaction.user)}));
-        this.refreshData().subscribe();
-      }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'transactions.notification.soft_stop.error');
-    });
-  }
-
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Invalid') {
@@ -288,13 +270,5 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       Utils.handleHttpError(error, this.router, this.messageService,
         this.centralServerService, 'transactions.notification.soft_stop.error');
     });
-  }
-
-  private _stopTransaction(transaction: Transaction) {
-    if (transaction.status === 'Available') {
-      this._softStopTransaction(transaction);
-    } else {
-      this._chargingStationStopTransaction(transaction);
-    }
   }
 }

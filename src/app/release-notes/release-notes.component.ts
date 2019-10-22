@@ -33,7 +33,8 @@ export class ReleaseNotesComponent {
               'Prevent registration of Charging Stations with special characters',
               `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
               `Allow to delete a Charging Station linked with an outdated Session`,
-              `Admin Users receive the notifications with the right locale`
+              `Admin Users receive the notifications with the right locale`,
+              `Connector IDs are translated into letters in notifications`
             ],
           },
         ],

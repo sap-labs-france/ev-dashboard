@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.13',
+        date: new Date('2019-10-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
+              `Allow to delete a Charging Station linked with an outdated Session`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.12',
         date: new Date('2019-10-18'),
         componentChanges: [

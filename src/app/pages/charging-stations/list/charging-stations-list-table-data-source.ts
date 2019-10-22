@@ -374,7 +374,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private deleteChargingStation(chargingStation: Charger) {
-    if (chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
+    if (!chargingStation.inactive && chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.delete_title'),

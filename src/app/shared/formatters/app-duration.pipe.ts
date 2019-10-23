@@ -9,17 +9,17 @@ export class AppDurationPipe implements PipeTransform {
     this.localeService = localeService;
   }
 
-  transform(durationInSecs: number): string {
+  transform(durationSecs: number): string {
     let result = '';
-    if (durationInSecs === 0) {
+    if (durationSecs === 0) {
       return `0 ${this.localeService.getI18nSecond()}`;
     }
-    const days = Math.floor(durationInSecs / (3600 * 24));
-    durationInSecs -= days * 3600 * 24;
-    const hours = Math.floor(durationInSecs / 3600);
-    durationInSecs -= hours * 3600;
-    const minutes = Math.floor(durationInSecs / 60);
-    const seconds = Math.floor(durationInSecs - (minutes * 60));
+    const days = Math.floor(durationSecs / (3600 * 24));
+    durationSecs -= days * 3600 * 24;
+    const hours = Math.floor(durationSecs / 3600);
+    durationSecs -= hours * 3600;
+    const minutes = Math.floor(durationSecs / 60);
+    const seconds = Math.floor(durationSecs - (minutes * 60));
     if (days !== 0) {
       if (days === 1) {
         result += `${days} ${this.localeService.getI18nDay()} `;

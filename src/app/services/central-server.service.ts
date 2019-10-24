@@ -131,6 +131,18 @@ export class CentralServerService {
       );
   }
 
+  public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
+      {siteID, userID},
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public removeSitesFromUser(userID: string, siteIDs: string[]): Observable<ActionResponse> {
     // Verify init
     this._checkInit();

@@ -593,12 +593,14 @@ export interface UserSite extends Data {
   user: User;
   siteID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface SiteUser extends Data {
   site: Site;
   userID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface VehicleManufacturer {

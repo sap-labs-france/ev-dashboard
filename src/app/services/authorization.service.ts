@@ -99,6 +99,16 @@ export class AuthorizationService {
     return false;
   }
 
+  public isSiteOwner(siteID: string): boolean {
+    if (this.isAdmin()) {
+      return true;
+    }
+    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
+      return this.loggedUser.sitesOwner && this.loggedUser.sitesOwner.includes(siteID);
+    }
+    return false;
+  }
+
   public isSiteUser(siteID: string): boolean {
     if (this.isAdmin()) {
       return true;

@@ -585,6 +585,7 @@ export interface User extends Data {
   companies: string[];
   sites: string[];
   sitesAdmin: string[];
+  sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
 }

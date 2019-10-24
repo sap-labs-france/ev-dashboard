@@ -60,15 +60,15 @@ export class StatisticsInactivityComponent implements OnInit {
     this.initCharts();
   }
 
-  scopeChanged(chartName): void {
+  scopeChanged(chartName: string): void {
     this.selectedChart = chartName;
   }
 
-  categoryChanged(category): void {
+  categoryChanged(category: string): void {
     this.selectedCategory = category;
   }
 
-  yearChanged(year): void {
+  yearChanged(year: number): void {
     this.selectedYear = year;
   }
 

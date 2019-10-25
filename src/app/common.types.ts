@@ -596,6 +596,7 @@ export interface UserToken {
   firstName?: string;
   locale?: string;
   language?: string;
+  currency?: string;
   tagIDs?: string[];
   tenantID: string;
   tenantName?: string;

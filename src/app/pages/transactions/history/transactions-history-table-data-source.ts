@@ -13,7 +13,7 @@ import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -154,7 +154,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         class: 'text-left',
         formatter: (value) => this.appUserNamePipe.transform(value),
       });
-      if (this.componentService.isActive(ComponentEnum.PRICING)) {
+      if (this.componentService.isActive(ComponentType.PRICING)) {
         columns.push({
           id: 'stop.price',
           name: 'transactions.price',
@@ -212,7 +212,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }

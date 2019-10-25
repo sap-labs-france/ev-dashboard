@@ -20,7 +20,7 @@ import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
@@ -54,7 +54,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   ) {
     super(spinnerService);
     // Init
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{WithSite: true}]);
     }

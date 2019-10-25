@@ -1,5 +1,5 @@
 import { SortDirection } from '@angular/material/typings';
-import { ComponentEnum } from './services/component.service';
+import { ComponentType } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
@@ -671,7 +671,7 @@ export enum PricingSettingsType {
 
 export interface PricingSettings {
   id?: string;
-  identifier: ComponentEnum.PRICING;
+  identifier: ComponentType.PRICING;
   sensitiveData: string[];
   type: PricingSettingsType;
   simple: {
@@ -692,7 +692,7 @@ export enum BillingSettingsType {
 
 export interface BillingSettings {
   id?: string;
-  identifier: ComponentEnum.BILLING;
+  identifier: ComponentType.BILLING;
   sensitiveData: string[];
   type: BillingSettingsType;
   stripe: {
@@ -730,7 +730,7 @@ export interface OcpiCommon {
 
 export interface OcpiSettings {
   id?: string;
-  identifier: ComponentEnum.OCPI;
+  identifier: ComponentType.OCPI;
   sensitiveData: string[];
   type: OcpiSettingsType;
   ocpi: OcpiCommon;
@@ -750,7 +750,7 @@ export interface AnalyticsLink extends Data {
 
 export interface AnalyticsSettings {
   id?: string;
-  identifier: ComponentEnum.ANALYTICS;
+  identifier: ComponentType.ANALYTICS;
   sensitiveData: string[];
   type: AnalyticsSettingsType;
   sac: {
@@ -766,7 +766,7 @@ export enum RefundSettingsType {
 
 export interface RefundSettings {
   id?: string;
-  identifier: ComponentEnum.REFUND;
+  identifier: ComponentType.REFUND;
   type: RefundSettingsType;
   sensitiveData: string[];
   concur?: {

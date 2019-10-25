@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { PricingSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentEnum, ComponentService } from 'app/services/component.service';
+import { ComponentType, ComponentService } from 'app/services/component.service';
 import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appCurrency'})

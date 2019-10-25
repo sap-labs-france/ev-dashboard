@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TableFilterDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
@@ -46,7 +46,7 @@ export class StatisticsPricingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
     private statisticsExportService: StatisticsExportService) {
-    this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
   }
 
   ngOnInit(): void {

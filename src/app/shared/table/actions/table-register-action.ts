@@ -6,7 +6,7 @@ export class TableRegisterAction implements TableAction {
     id: 'register',
     type: 'button',
     icon: 'swap_horiz',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.register',
     tooltip: 'general.tooltips.register',
   };

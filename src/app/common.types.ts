@@ -9,8 +9,8 @@ export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL'
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
 
 export enum MobileType {
-  iOS = 'iOS',
-  android = 'Android',
+  IOS = 'iOS',
+  ANDROID = 'Android',
 }
 
 export interface KeyValue {
@@ -46,9 +46,9 @@ export interface DropdownItem {
 }
 
 export enum ButtonColor {
-  primary = 'primary',
-  accent = 'accent',
-  warn = 'warn',
+  PRIMARY = 'primary',
+  ACCENT = 'accent',
+  WARN = 'warn',
 }
 
 export interface TableActionDef {
@@ -665,8 +665,8 @@ export interface ConnectorSchedule {
 }
 
 export enum PricingSettingsType {
-  simple = 'simple',
-  convergentCharging = 'convergentCharging',
+  SIMPLE = 'simple',
+  CONVERGENT_CHARGING = 'convergentCharging',
 }
 
 export interface PricingSettings {
@@ -687,7 +687,7 @@ export interface PricingSettings {
 }
 
 export enum BillingSettingsType {
-  stripe = 'stripe',
+  STRIPE = 'stripe',
 }
 
 export interface BillingSettings {
@@ -708,7 +708,7 @@ export interface BillingSettings {
 }
 
 export enum OcpiSettingsType {
-  gireve = 'gireve',
+  GIREVE = 'gireve',
 }
 
 export interface OcpiCommon {
@@ -737,7 +737,7 @@ export interface OcpiSettings {
 }
 
 export enum AnalyticsSettingsType {
-  sac = 'sac',
+  SAC = 'sac',
 }
 
 export interface AnalyticsLink extends Data {
@@ -761,7 +761,7 @@ export interface AnalyticsSettings {
 }
 
 export enum RefundSettingsType {
-  concur = 'concur',
+  CONCUR = 'concur',
 }
 
 export interface RefundSettings {

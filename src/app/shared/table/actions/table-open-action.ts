@@ -6,7 +6,7 @@ export class TableOpenAction implements TableAction {
     id: 'open',
     type: 'button',
     icon: 'open_in_new',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.open',
     tooltip: 'general.tooltips.open',
   };

@@ -69,7 +69,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     // Set data
     this.analyticsSettings.sac = content;
     this.analyticsSettings.links = this.analyticsLinksTableDataSource.getLinks();
-    this.analyticsSettings.type = AnalyticsSettingsType.sac;
+    this.analyticsSettings.type = AnalyticsSettingsType.SAC;
     // Save
     this.spinnerService.show();
     this.componentService.saveSacSettings(this.analyticsSettings).subscribe((response) => {

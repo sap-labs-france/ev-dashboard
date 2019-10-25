@@ -154,7 +154,7 @@ export class SettingsOcpiComponent implements OnInit {
 
   public save(content) {
     this.ocpiSettings.ocpi = content;
-    this.ocpiSettings.type = OcpiSettingsType.gireve;
+    this.ocpiSettings.type = OcpiSettingsType.GIREVE;
     this.spinnerService.show();
     this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();

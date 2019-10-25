@@ -6,7 +6,7 @@ export class TableRemoveAction implements TableAction {
     id: 'remove',
     type: 'button',
     icon: 'remove',
-    color: ButtonColor.warn,
+    color: ButtonColor.WARN,
     name: 'general.remove',
     tooltip: 'general.tooltips.remove',
   };

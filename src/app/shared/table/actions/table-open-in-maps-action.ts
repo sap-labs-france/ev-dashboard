@@ -6,7 +6,7 @@ export class TableOpenInMapsAction implements TableAction {
     id: 'open_in_maps',
     type: 'button',
     icon: 'location_on',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.open_in_maps',
     tooltip: 'general.tooltips.open_in_maps',
   };

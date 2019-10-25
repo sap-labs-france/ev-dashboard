@@ -64,7 +64,7 @@ export class SettingsBillingComponent implements OnInit {
     // Stripe
     if (content.stripe) {
       this.billingSettings.stripe = content.stripe;
-      this.billingSettings.type = BillingSettingsType.stripe;
+      this.billingSettings.type = BillingSettingsType.STRIPE;
     } else {
       return;
     }

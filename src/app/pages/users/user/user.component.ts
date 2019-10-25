@@ -131,7 +131,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
-      if (settings && settings.type === PricingSettingsType.convergentCharging) {
+      if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
         this.canSeeInvoice = true;
       }
     });

@@ -55,7 +55,7 @@ export class ComponentService {
           pricingSettings.sensitiveData = settings.result[0].sensitiveData;
           // Simple price
           if (config.simple) {
-            pricingSettings.type = PricingSettingsType.simple;
+            pricingSettings.type = PricingSettingsType.SIMPLE;
             pricingSettings.simple = {
               price: config.simple.price ? parseFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : '',
@@ -63,7 +63,7 @@ export class ComponentService {
           }
           // Convergeant Charging
           if (config.convergentCharging) {
-            pricingSettings.type = PricingSettingsType.convergentCharging;
+            pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
             pricingSettings.convergentCharging = {
               url: config.convergentCharging.url ? config.convergentCharging.url : '',
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
@@ -88,7 +88,7 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === PricingSettingsType.convergentCharging) {
+    if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -102,7 +102,7 @@ export class ComponentService {
   public saveBillingSettings(settings: BillingSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
-      settings.type = BillingSettingsType.stripe;
+      settings.type = BillingSettingsType.STRIPE;
     }
      // build setting payload
     const settingsToSave = {
@@ -111,7 +111,7 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === BillingSettingsType.stripe) {
+    if (settings.type === BillingSettingsType.STRIPE) {
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
     // Set some temporary defaults
@@ -128,7 +128,7 @@ export class ComponentService {
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
-      settings.type = RefundSettingsType.concur;
+      settings.type = RefundSettingsType.CONCUR;
     }
     // build setting payload
     const settingsToSave = {
@@ -137,7 +137,7 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === RefundSettingsType.concur) {
+    if (settings.type === RefundSettingsType.CONCUR) {
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS
@@ -194,7 +194,7 @@ export class ComponentService {
           billingSettings.sensitiveData = settings.result[0].sensitiveData;
           // Stripe
           if (config.stripe) {
-            billingSettings.type = BillingSettingsType.stripe;
+            billingSettings.type = BillingSettingsType.STRIPE;
             billingSettings.stripe = config.stripe;
           }
         }

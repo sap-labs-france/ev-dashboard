@@ -4,14 +4,12 @@ import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
-  private locale: string;
   private decimalPipe: DecimalPipe;
 
   constructor(private localeService: LocaleService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.locale = locale.currentLocaleJS;
+      this.decimalPipe = new DecimalPipe(locale.currentLocaleJS);
     });
-    this.decimalPipe = new DecimalPipe(this.locale);
   }
 
   _parseMeasure(measureAsString): Measure {

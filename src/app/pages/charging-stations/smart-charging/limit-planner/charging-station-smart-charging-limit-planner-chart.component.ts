@@ -195,12 +195,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       pan: {
         enabled: true,
         mode: 'x',
-        /*        rangeMin: {
-                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
-                },
-                rangeMax: {
-                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0
-                },*/
+        // rangeMin: {
+        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
+        // },
+        // rangeMax: {
+        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0,
+        // },
       },
       zoom: {
         enabled: true,

@@ -159,20 +159,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
           },
         ],
       );
-      if (!this.authorizationService.isDemo()) {
-        tableColumns = tableColumns.concat(
-          [
-            {
-              id: 'siteArea.name',
-              name: 'site_areas.title',
-              sortable: true,
-              defaultValue: 'site_areas.unassigned',
-              class: 'd-none d-xl-table-cell',
-              headerClass: 'd-none d-xl-table-cell',
-            },
-          ],
-        );
-      }
     }
     if (this.authorizationService.isAdmin()) {
       tableColumns = tableColumns.concat(

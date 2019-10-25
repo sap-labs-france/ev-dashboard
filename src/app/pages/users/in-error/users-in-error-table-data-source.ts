@@ -4,15 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  User,
-} from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentEnum, ComponentService } from '../../../services/component.service';
@@ -156,36 +148,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       name: 'errors.description',
       sortable: false,
       formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`),
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-20p',
-      class: 'col-20p',
-      sortable: true,
-    },
-    {
-      id: 'tagIDs',
-      name: 'users.tag_ids',
-      formatter: this.arrayToStringPipe.transform,
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'plateID',
-      name: 'users.plate_id',
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
-    },
-    {
-      id: 'createdOn',
-      name: 'users.created_on',
-      formatter: (createdOn) => this.datePipe.transform(createdOn),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
     });
     return columns as TableColumnDef[];
   }

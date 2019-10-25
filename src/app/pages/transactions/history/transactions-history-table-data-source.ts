@@ -143,12 +143,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'text-left d-none d-xl-table-cell',
-      },
-      {
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
         formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),

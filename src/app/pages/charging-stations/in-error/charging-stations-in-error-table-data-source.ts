@@ -2,18 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  ChargerInError,
-  Connector,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { Charger, ChargerInError, Connector, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -163,15 +152,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         isAngularComponent: true,
         angularComponent: ChargingStationsHeartbeatCellComponent,
         sortable: false,
-      },
-      {
-        id: 'connectorsStatus',
-        name: 'chargers.connectors_title',
-        headerClass: 'text-center',
-        class: 'text-center',
-        sortable: false,
-        isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorsCellComponent,
       },
       {
         id: 'errorCodeDetails',

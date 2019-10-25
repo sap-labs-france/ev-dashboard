@@ -5,15 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  User,
-} from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -141,13 +133,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       name: 'users.first_name',
       headerClass: 'col-15p',
       class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-20p',
-      class: 'col-20p',
       sortable: true,
     },
     {

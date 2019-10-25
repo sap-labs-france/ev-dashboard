@@ -8,15 +8,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Observable } from 'rxjs';
-import {
-  ActionResponse,
-  Charger,
-  Connector, DataResult,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  User,
-} from '../../../common.types';
+import { ActionResponse, Charger, Connector, DataResult, TableActionDef, TableColumnDef, TableDef, User, UserToken } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -36,11 +28,7 @@ import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import {
-  BUTTON_FOR_MYSELF,
-  BUTTON_SELECT_USER,
-  ChargingStationsStartTransactionDialogComponent,
-} from './charging-stations-start-transaction-dialog-component';
+import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -311,7 +299,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User): boolean {
+  public startTransaction(connector: Connector, user: User|UserToken): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {

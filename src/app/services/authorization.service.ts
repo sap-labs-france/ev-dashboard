@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SiteArea, User } from '../common.types';
+import { SiteArea, UserToken } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
 import { ComponentEnum, ComponentService } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
-  private loggedUser: User;
+  private loggedUser: UserToken;
 
   constructor(
     private centralServerService: CentralServerService,

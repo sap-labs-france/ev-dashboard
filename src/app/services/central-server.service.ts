@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, ValidateBillingConnectionResponse } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -20,8 +20,8 @@ export class CentralServerService {
   private centralSystemServerConfig;
   private initialized = false;
   private currentUserToken: string;
-  private currentUser: User;
-  private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
+  private currentUser: UserToken;
+  private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
   constructor(
     private httpClient: HttpClient,
@@ -1161,7 +1161,7 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
-      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+      this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
@@ -1184,7 +1184,7 @@ export class CentralServerService {
     }
   }
 
-  public getLoggedUserFromToken(): User {
+  public getLoggedUserFromToken(): UserToken {
     // Get the token
     if (!this.currentUser) {
       // Decode the token
@@ -1208,7 +1208,7 @@ export class CentralServerService {
     return this.currentUserToken;
   }
 
-  public getCurrentUserSubject(): BehaviorSubject<User> {
+  public getCurrentUserSubject(): BehaviorSubject<UserToken> {
     return this.currentUserSubject;
   }
 
@@ -1245,7 +1245,7 @@ export class CentralServerService {
     this.centralServerNotificationService.resetSocketIO();
   }
 
-  public getLoggedUser(): User {
+  public getLoggedUser(): UserToken {
     // Verify init
     this._checkInit();
     this.getLoggedUserFromToken();

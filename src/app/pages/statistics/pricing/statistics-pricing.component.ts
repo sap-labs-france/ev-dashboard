@@ -37,6 +37,7 @@ export class StatisticsPricingComponent implements OnInit {
   private barChartData: ChartData;
   private pieChartData: ChartData;
   private totalPriceWithUnit: StatisticsBuildValueWithUnit[] = [];
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -47,6 +48,9 @@ export class StatisticsPricingComponent implements OnInit {
     private statisticsBuildService: StatisticsBuildService,
     private statisticsExportService: StatisticsExportService) {
     this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   ngOnInit(): void {
@@ -106,7 +110,7 @@ export class StatisticsPricingComponent implements OnInit {
         if (totalPriceString) {
           totalPriceString += ' + ';
         }
-        totalPriceString += Math.round(object.value).toLocaleString(this.localeService.language) + ' ' + object.unit;
+        totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
       }
     });
     if (this.selectedChart === 'month') {
@@ -148,11 +152,11 @@ export class StatisticsPricingComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
       { currency: toolTipUnit });
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 

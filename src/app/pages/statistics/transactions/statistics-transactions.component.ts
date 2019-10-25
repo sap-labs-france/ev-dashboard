@@ -34,6 +34,7 @@ export class StatisticsTransactionsComponent implements OnInit {
   private pieChart: SimpleChart;
   private barChartData: ChartData;
   private pieChartData: ChartData;
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -41,7 +42,11 @@ export class StatisticsTransactionsComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {}
+    private statisticsExportService: StatisticsExportService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
+  }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
@@ -95,27 +100,27 @@ export class StatisticsTransactionsComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.transactions_per_cs_month_title',
-          { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.transactions_per_user_month_title',
-          { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+          { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.transactions_per_cs_year_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.transactions_per_cs_total_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.transactions_per_user_year_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.transactions_per_user_total_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.localeService.language) });
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
         }
       }
     }
@@ -128,11 +133,11 @@ export class StatisticsTransactionsComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_transactions_y_axis');
     const toolTipUnit = '';
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 

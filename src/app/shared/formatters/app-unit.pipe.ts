@@ -4,11 +4,13 @@ import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
-  private readonly locale: string;
+  private locale: string;
   private decimalPipe: DecimalPipe;
 
-  constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentLocaleJS();
+  constructor(private localeService: LocaleService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
     this.decimalPipe = new DecimalPipe(this.locale);
   }
 

@@ -39,6 +39,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private amountColor: string;
   private stateOfChargeColor: string;
   private defaultColor: string;
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -48,6 +49,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private durationPipe: AppDurationPipe,
     private decimalPipe: DecimalPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   static toRgba(rgb: string, alpha: number): string {
@@ -363,7 +367,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         sensitivity: 10,
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       this.options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

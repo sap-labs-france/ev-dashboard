@@ -1,8 +1,7 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { PricingSettingsType } from 'app/common.types';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentEnum, ComponentService } from 'app/services/component.service';
+import { ComponentService } from 'app/services/component.service';
 import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appCurrency'})
@@ -15,7 +14,9 @@ export class AppCurrencyPipe implements PipeTransform {
       private componentService: ComponentService,
       private localeService: LocaleService) {
     // Get the locale
-    this.locale = this.localeService.getCurrentLocaleJS();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
     // Get the Pricing settings
     this.componentService.getPricingSettings().subscribe((settings) => {
       // Get the currency

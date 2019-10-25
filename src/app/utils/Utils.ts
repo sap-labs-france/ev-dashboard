@@ -36,9 +36,9 @@ export class Utils {
     let mobileVendor: MobileType = null;
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i )) {
-      mobileVendor = MobileType.iOS;
+      mobileVendor = MobileType.IOS;
     } else if (userAgent.match( /Android/i )) {
-      mobileVendor = MobileType.android;
+      mobileVendor = MobileType.ANDROID;
     }
     return mobileVendor;
   }
@@ -46,9 +46,9 @@ export class Utils {
   public static buildMobileAppDeepLink(path: string): string {
     const mobileVendor = Utils.getMobileVendor();
     switch (mobileVendor) {
-      case MobileType.iOS:
+      case MobileType.IOS:
         return `eMobility://${path}`;
-      case MobileType.android:
+      case MobileType.ANDROID:
         return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
     }
   }

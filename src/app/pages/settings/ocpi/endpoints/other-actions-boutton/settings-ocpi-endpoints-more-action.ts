@@ -9,7 +9,7 @@ export class SettingsOcpiEnpointsMoreAction implements TableAction {
     id: 'more',
     type: 'button',
     icon: 'more_horiz',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { KeyValue, User } from '../common.types';
+import { KeyValue, User, UserToken } from '../common.types';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 
@@ -19,7 +19,7 @@ export class LocaleService {
     });
   }
 
-  public updateLanguage(loggedUser: User) {
+  public updateLanguage(loggedUser: User|UserToken) {
     if (loggedUser && loggedUser.language) {
       this.language = loggedUser.language;
     } else {

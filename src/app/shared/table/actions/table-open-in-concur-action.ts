@@ -6,7 +6,7 @@ export class TableOpenInConcurAction implements TableAction {
     id: 'open_in_concur',
     type: 'button',
     icon: 'open_in_new',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.open_in_concur',
     tooltip: 'general.tooltips.open',
   };

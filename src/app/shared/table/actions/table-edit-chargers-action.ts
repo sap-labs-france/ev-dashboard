@@ -6,7 +6,7 @@ export class TableEditChargersAction implements TableAction {
     id: 'edit_chargers',
     type: 'button',
     icon: 'ev_station',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.edit_chargers',
   };

@@ -3,37 +3,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-  ActionResponse,
-  Charger,
-  ChargerConfiguration,
-  ChargerInError,
-  Company,
-  CurrentMetrics,
-  DataResult,
-  EndUserLicenseAgreement,
-  Image,
-  IntegrationConnection,
-  Log,
-  LoginResponse,
-  Logo,
-  OcpiEndpoint,
-  Ordering,
-  OCPIEVSEStatusesResponse,
-  OCPIGenerateLocalTokenResponse,
-  OCPIPingResponse,
-  Paging,
-  RegistrationToken,
-  Setting,
-  Site,
-  SiteArea,
-  SiteUser,
-  StatisticData,
-  SynchronizeResponse,
-  Tenant, Transaction, User, UserConnection, UserSite, ValidateBillingConnectionResponse,
-} from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -47,9 +19,9 @@ export class CentralServerService {
   private centralRestServerServiceAuthURL: string;
   private centralSystemServerConfig;
   private initialized = false;
-  private currentUserToken;
-  private currentUser;
-  private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
+  private currentUserToken: string;
+  private currentUser: UserToken;
+  private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
   constructor(
     private httpClient: HttpClient,
@@ -371,8 +343,9 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationConsumptionStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getChargingStationConsumptionStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -386,8 +359,9 @@ export class CentralServerService {
       );
   }
 
-  public getUserConsumptionStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getUserConsumptionStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -401,8 +375,9 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationUsageStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getChargingStationUsageStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -416,8 +391,9 @@ export class CentralServerService {
       );
   }
 
-  public getUserUsageStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getUserUsageStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -431,8 +407,9 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationInactivityStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getChargingStationInactivityStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -446,8 +423,9 @@ export class CentralServerService {
       );
   }
 
-  public getUserInactivityStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getUserInactivityStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -482,8 +460,9 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationTransactionsStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getChargingStationTransactionsStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -497,8 +476,9 @@ export class CentralServerService {
       );
   }
 
-  public getUserTransactionsStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getUserTransactionsStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -512,8 +492,9 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationPricingStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getChargingStationPricingStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -527,8 +508,9 @@ export class CentralServerService {
       );
   }
 
-  public getUserPricingStatistics(year, params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
-    params['Year'] = year;
+  public getUserPricingStatistics(year: number,
+      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params['Year'] = year + '';
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -557,7 +539,7 @@ export class CentralServerService {
   }
 
   public getChargers(params: { [param: string]: string | string[]; },
-                     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -594,7 +576,7 @@ export class CentralServerService {
 
   // tslint:disable-next-line:max-line-length
   public getChargersInError(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -613,7 +595,7 @@ export class CentralServerService {
   }
 
   public getSiteUsers(params: { [param: string]: string | string[]; },
-                      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -632,7 +614,7 @@ export class CentralServerService {
   }
 
   public getUsers(params: { [param: string]: string | string[]; },
-                  paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -651,7 +633,7 @@ export class CentralServerService {
   }
 
   public getUsersInError(params: { [param: string]: string | string[]; },
-                         paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -670,7 +652,7 @@ export class CentralServerService {
   }
 
   public getTenants(params: { [param: string]: string | string[]; },
-                    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -706,7 +688,7 @@ export class CentralServerService {
   }
 
   public getTransactions(params: { [param: string]: string | string[]; },
-                         paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -725,8 +707,8 @@ export class CentralServerService {
   }
 
   public getTransactionsToRefund(params: { [param: string]: string | string[]; },
-                                 paging: Paging = Constants.DEFAULT_PAGING,
-                                 ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+      paging: Paging = Constants.DEFAULT_PAGING,
+      ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -790,7 +772,7 @@ export class CentralServerService {
   }
 
   public exportLogs(params: { [param: string]: string | string[]; },
-                    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -806,7 +788,7 @@ export class CentralServerService {
   }
 
   public exportTransactions(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -822,7 +804,7 @@ export class CentralServerService {
   }
 
   public exportStatistics(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -838,7 +820,7 @@ export class CentralServerService {
   }
 
   public exportChargingStations(params: { [param: string]: string | string[]; },
-                                paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -854,8 +836,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: { [param: string]: string | string[]; },
-                                paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
-    : Observable<DataResult<Transaction>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -874,7 +855,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: { [param: string]: string | string[]; },
-                               paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
     : Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
@@ -895,7 +876,7 @@ export class CentralServerService {
 
   // tslint:disable-next-line:max-line-length
   public getOcpiEndpoints(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -969,8 +950,8 @@ export class CentralServerService {
   }
 
   public getLogs(params: { [param: string]: string | string[]; },
-                 paging: Paging = Constants.DEFAULT_PAGING,
-                 ordering: Ordering[] = []): Observable<DataResult<Log>> {
+      paging: Paging = Constants.DEFAULT_PAGING,
+      ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1093,8 +1074,8 @@ export class CentralServerService {
   }
 
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
-                               paging: Paging = Constants.DEFAULT_PAGING,
-                               ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
+      paging: Paging = Constants.DEFAULT_PAGING,
+      ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1180,7 +1161,7 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
-      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+      this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
     // Set Language
     this.translateService.use(this.getLoggedUser().language);
@@ -1203,7 +1184,7 @@ export class CentralServerService {
     }
   }
 
-  public getLoggedUserFromToken(): User {
+  public getLoggedUserFromToken(): UserToken {
     // Get the token
     if (!this.currentUser) {
       // Decode the token
@@ -1227,7 +1208,7 @@ export class CentralServerService {
     return this.currentUserToken;
   }
 
-  public getCurrentUserSubject(): BehaviorSubject<User> {
+  public getCurrentUserSubject(): BehaviorSubject<UserToken> {
     return this.currentUserSubject;
   }
 
@@ -1264,7 +1245,7 @@ export class CentralServerService {
     this.centralServerNotificationService.resetSocketIO();
   }
 
-  public getLoggedUser(): User {
+  public getLoggedUser(): UserToken {
     // Verify init
     this._checkInit();
     this.getLoggedUserFromToken();

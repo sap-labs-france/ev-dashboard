@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentEnum, ComponentService } from '../../services/component.service';
+import { ComponentType, ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
@@ -23,10 +23,10 @@ export class SettingsComponent extends AbstractTabComponent {
     windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['ocpi', 'refund', 'pricing', 'billing', 'sac']);
-    this.isOCPIActive = this.componentService.isActive(ComponentEnum.OCPI);
-    this.isRefundActive = this.componentService.isActive(ComponentEnum.REFUND);
-    this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
-    this.isBillingActive = this.componentService.isActive(ComponentEnum.BILLING);
-    this.isSacActive = this.componentService.isActive(ComponentEnum.ANALYTICS);
+    this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
+    this.isRefundActive = this.componentService.isActive(ComponentType.REFUND);
+    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
+    this.isBillingActive = this.componentService.isActive(ComponentType.BILLING);
+    this.isSacActive = this.componentService.isActive(ComponentType.ANALYTICS);
   }
 }

@@ -6,7 +6,7 @@ export class TableAssignSitesAction implements TableAction {
     id: 'assign_site',
     type: 'button',
     icon: 'store_mall_directory',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.assign_site',
     tooltip: 'general.tooltips.assign_site',
   };

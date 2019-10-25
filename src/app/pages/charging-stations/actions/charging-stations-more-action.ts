@@ -11,7 +11,7 @@ export class ChargingStationsMoreAction implements TableAction {
   private action: TableActionDef = {
     id: 'more',
     type: 'button',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     icon: 'more_horiz',
     name: 'general.edit',
     tooltip: 'general.tooltips.more',

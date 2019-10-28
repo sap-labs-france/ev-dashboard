@@ -70,7 +70,7 @@ export class LocaleService {
     return this.translateService.instant('general.second');
   }
 
-  private updateLanguage(loggedUser: User) {
+  private updateLanguage(loggedUser: UserToken) {
     let language: string;
     if (loggedUser && loggedUser.language) {
       language = loggedUser.language;

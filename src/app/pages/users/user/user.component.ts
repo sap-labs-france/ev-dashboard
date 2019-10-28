@@ -9,7 +9,7 @@ import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';

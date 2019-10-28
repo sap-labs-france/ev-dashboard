@@ -9,7 +9,7 @@ import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-are
 import { Charger, SiteArea } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';

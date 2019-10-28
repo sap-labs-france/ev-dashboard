@@ -9,7 +9,7 @@ import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, Tabl
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';

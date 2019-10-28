@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SiteArea, UserToken } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
-import { ComponentType, ComponentService } from './component.service';
+import { ComponentService, ComponentType } from './component.service';
 
 @Injectable()
 export class AuthorizationService {

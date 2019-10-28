@@ -6,7 +6,7 @@ export class TableMoreAction implements TableAction {
     id: 'more',
     type: 'button',
     icon: 'more_horiz',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
   };

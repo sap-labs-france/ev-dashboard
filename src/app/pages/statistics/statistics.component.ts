@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization.service';
-import { ComponentEnum, ComponentService } from '../../services/component.service';
+import { ComponentType, ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
@@ -20,6 +20,6 @@ export class StatisticsComponent extends AbstractTabComponent {
   ) {
     super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'transactions', 'pricing']);
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
   }
 }

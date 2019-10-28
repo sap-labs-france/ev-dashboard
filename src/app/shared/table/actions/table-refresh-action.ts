@@ -6,7 +6,7 @@ export class TableRefreshAction implements TableAction {
     id: 'refresh',
     type: 'button',
     icon: 'refresh',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: '',
     tooltip: 'general.tooltips.refresh',
   };

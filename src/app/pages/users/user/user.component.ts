@@ -9,7 +9,7 @@ import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -135,7 +135,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
-      if (settings && settings.type === PricingSettingsType.convergentCharging) {
+      if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
         this.canSeeInvoice = true;
       }
     });
@@ -616,7 +616,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
-    this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
+    this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
         this.refundSetting = settingResult.result[0];
       }

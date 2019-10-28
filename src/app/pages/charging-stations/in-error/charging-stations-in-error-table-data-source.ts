@@ -18,7 +18,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -70,7 +70,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
 
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(

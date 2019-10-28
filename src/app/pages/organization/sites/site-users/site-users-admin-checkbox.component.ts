@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { User, UserSite } from '../../../../common.types';
+import { User, UserSite, UserToken } from '../../../../common.types';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../shared/table/cell-content-template/cell-content-template.component';
@@ -18,7 +18,7 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponent {
   @Input() row: UserSite;
-  public loggedUser: User;
+  public loggedUser: UserToken;
 
   constructor(
     private messageService: MessageService,

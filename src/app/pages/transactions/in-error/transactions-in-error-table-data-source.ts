@@ -19,7 +19,7 @@ import {
 } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
@@ -184,7 +184,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`,
     });
     // If pricing is activated check that transactions have been priced
-    if (this.componentService.isActive(ComponentEnum.PRICING)) {
+    if (this.componentService.isActive(ComponentType.PRICING)) {
       errorTypes.push({
         key: Constants.TRANSACTION_IN_ERROR_MISSING_PRICE,
         value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_MISSING_PRICE}.title`,
@@ -208,7 +208,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
       filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());

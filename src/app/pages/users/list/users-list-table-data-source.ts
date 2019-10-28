@@ -5,11 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
@@ -35,7 +35,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private currentUser: User;
+  private currentUser: UserToken;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -171,7 +171,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION) && this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION) && this.authorizationService.isAdmin()) {
       actions = [
         this.editAction,
         this.assignSiteAction,

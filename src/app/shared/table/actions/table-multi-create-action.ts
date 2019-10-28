@@ -10,7 +10,7 @@ export class TableMultiCreateAction implements TableAction {
     id: 'multi-create',
     type: 'dropdown-button',
     icon: 'more_vert',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.create',
     tooltip: 'general.tooltips.create',
     isDropdownMenu: true,

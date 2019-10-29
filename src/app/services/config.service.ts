@@ -7,6 +7,7 @@ export class ConfigService {
 
   constructor(
     private http: HttpClient) {
+      this.load();
   }
 
   public load() {

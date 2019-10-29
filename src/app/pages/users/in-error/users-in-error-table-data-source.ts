@@ -70,7 +70,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
-      console.log(`>>> filters:${JSON.stringify(this.buildFilterValues())}`);
       this.centralServerService.getUsersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
           this.formatErrorMessages(users.result);

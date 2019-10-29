@@ -17,7 +17,7 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -31,6 +31,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../components/transactions-connector-cell.component';
+import { TransactionsCurrentInactivityCellComponent } from '../cell-components/transactions-current-inactivity-cell.component';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -126,12 +127,9 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
         headerClass: 'd-none d-lg-table-cell',
-        class: 'text-left d-none d-lg-table-cell',
-        formatter: (currentTotalInactivitySecs, row) => {
-          const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
-          return this.appDurationPipe.transform(currentTotalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
-        },
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: TransactionsCurrentInactivityCellComponent,
       },
       {
         id: 'chargeBoxID',

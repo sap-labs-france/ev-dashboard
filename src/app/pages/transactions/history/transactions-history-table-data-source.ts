@@ -20,7 +20,7 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -36,6 +36,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -57,7 +58,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private componentService: ComponentService,
     private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
@@ -133,8 +133,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
         headerClass: 'd-none d-lg-table-cell',
-        class: 'text-left d-none d-lg-table-cell',
-        formatter: (totalInactivitySecs, row) => this.formatInactivity(totalInactivitySecs, row),
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: TransactionsInactivityCellComponent,
       },
       {
         id: 'chargeBoxID',
@@ -171,15 +172,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       }
     }
     return columns as TableColumnDef[];
-  }
-
-  formatInactivity(totalInactivitySecs, row) {
-    let percentage = 0;
-    if (row.stop) {
-      percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
-    }
-    return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
   }
 
   formatChargingStation(chargingStation, row) {

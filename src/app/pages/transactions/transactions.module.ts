@@ -23,6 +23,8 @@ import { TransactionsRefundTableDataSource } from './refund/transactions-refund-
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
+import { AppInactivityPipe, TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
+import { TransactionsCurrentInactivityCellComponent, AppCurrentInactivityPipe } from './cell-components/transactions-current-inactivity-cell.component';
 
 @NgModule({
   imports: [
@@ -46,6 +48,10 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsRefundComponent,
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
+    TransactionsInactivityCellComponent,
+    TransactionsCurrentInactivityCellComponent,
+    AppInactivityPipe,
+    AppCurrentInactivityPipe
   ],
   entryComponents: [
     TransactionsComponent,
@@ -56,6 +62,8 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent,
+    TransactionsInactivityCellComponent,
+    TransactionsCurrentInactivityCellComponent
   ],
   exports: [
     TransactionsComponent,
@@ -67,7 +75,7 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsHistoryTableDataSource,
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,
-    TransactionsRefundTableDataSource,
+    TransactionsRefundTableDataSource
   ],
 })
 

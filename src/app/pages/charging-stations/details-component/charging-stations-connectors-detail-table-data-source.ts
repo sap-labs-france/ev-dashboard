@@ -41,6 +41,7 @@ import {
   BUTTON_SELECT_USER,
   ChargingStationsStartTransactionDialogComponent,
 } from './charging-stations-start-transaction-dialog-component';
+import { ChargingStationsConnectorInactivityCellComponent } from 'app/pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -155,8 +156,9 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'totalInactivitySecs',
         name: 'chargers.inactivity',
-        formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
         sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
         id: 'errorCode',

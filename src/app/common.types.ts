@@ -529,6 +529,7 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
+    inactivityStatusLevel: string;
   };
   dateTimestring: string;
   values: ConsumptionValue[];

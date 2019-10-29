@@ -25,11 +25,11 @@ export class AppCurrencyPipe implements PipeTransform {
     });
   }
 
-  transform(price: number, currency?: string, digitInfo: string = '1.0-2', display: string|boolean = 'symbol'): string {
+  transform(price: number, currency?: string, display: string = 'symbol'): string {
     // Take from the conf
     if (!currency) {
       currency = this.currency;
     }
-    return this.currencyPipe.transform(price, currency, display, digitInfo);
+    return this.currencyPipe.transform(price, currency, display);
   }
 }

@@ -11,6 +11,7 @@ import { TransactionDialogComponent } from 'app/shared/dialogs/transaction/trans
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '../../app.module';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
@@ -53,6 +54,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ComponentModule,
     ChartModule,
     ChargingStationSmartChargingModule,
+    MomentModule,
   ],
   entryComponents: [
     ChargingStationComponent,

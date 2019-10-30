@@ -7,19 +7,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import {
-  ActionResponse,
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  Transaction,
-} from '../../../common.types';
+import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
@@ -110,7 +101,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push({
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push({
+        id: 'user',
+        name: 'transactions.user',
+        class: 'text-left',
+        formatter: (value) => this.appUserNamePipe.transform(value)
+      });
+    }
+    columns.push(
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         class: 'text-left',
@@ -129,30 +129,19 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         id: 'errorCodeDetails',
         name: 'errors.details',
         sortable: false,
-        class: 'action-cell text-left',
+        headerClass: 'text-center',
+        class: 'action-cell text-center',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
+        class: 'col-30p',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
-      },
-      {
-        id: 'errorCodeDescription',
-        name: 'errors.description',
-        sortable: false,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.description`),
-      });
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(1, 0, {
-        id: 'user',
-        name: 'transactions.user',
-        class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
-      });
-    }
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`)
+      }
+    );
     return columns as TableColumnDef[];
   }
 

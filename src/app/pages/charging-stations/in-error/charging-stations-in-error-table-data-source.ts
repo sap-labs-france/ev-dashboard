@@ -18,7 +18,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -140,6 +140,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       {
         id: 'id',
         name: 'chargers.name',
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true,
         sorted: true,
         direction: 'asc',
@@ -154,25 +156,30 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         sortable: false,
       },
       {
+        id: 'connectorsStatus',
+        name: 'chargers.connectors_title',
+        headerClass: 'text-center',
+        class: 'text-center',
+        sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsConnectorsCellComponent
+      },
+      {
         id: 'errorCodeDetails',
         name: 'errors.details',
         sortable: false,
-        class: 'action-cell text-left',
+        headerClass: 'text-center',
+        class: 'action-cell text-center',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
+        class: 'col-30p',
         sortable: true,
         formatter: (value) => this.translateService.instant(`chargers.errors.${value}.title`),
-      },
-      {
-        id: 'errorCodeDescription',
-        name: 'errors.description',
-        sortable: false,
-        formatter: (value, row: ChargerInError) => this.translateService.instant(`chargers.errors.${row.errorCode}.description`),
-      },
+      }
     ];
   }
 

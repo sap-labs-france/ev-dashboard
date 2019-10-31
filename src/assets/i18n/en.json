@@ -1439,6 +1439,11 @@
         "description": "The inactivity of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
+      "long_inactivity": {
+        "title": "Inactivity more than 24h",
+        "description": "The inactivity of the session is more than 24hours.",
+        "action": "Report the issue to the user."
+      },
       "negative_duration": {
         "title": "Negative Duration",
         "description": "The duration of the session is negative.",

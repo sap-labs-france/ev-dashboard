@@ -29,6 +29,10 @@
   opacity: 0;
 }
 
+.mat-chip-list-wrapper { 
+  justify-content: center;
+}
+
 // flat bg with text color variations
 .chip-default {
   @include chip($brand-default);

@@ -91,26 +91,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const columns = [];
     columns.push(
     {
-      id: 'status',
-      name: 'users.status',
-      isAngularComponent: true,
-      angularComponent: UserStatusFormatterComponent,
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
-    },
-    {
       id: 'id',
       name: 'transactions.id',
       headerClass: 'd-none d-xl-table-cell',
       class: 'd-none d-xl-table-cell',
     },
     {
+      id: 'status',
+      name: 'users.status',
+      isAngularComponent: true,
+      angularComponent: UserStatusFormatterComponent,
+      headerClass: 'col-10p text-center',
+      class: 'col-10p',
+      sortable: true,
+    },
+    {
       id: 'role',
       name: 'users.role',
       formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
-      headerClass: 'col-10p',
-      class: 'text-left col-10p',
+      headerClass: 'col-10p text-center',
+      class: 'text-left col-10p text-center',
       sortable: true,
     },
     {
@@ -133,21 +133,25 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       id: 'errorCodeDetails',
       name: 'errors.details',
       sortable: false,
-      class: 'action-cell text-left',
+      headerClass: 'text-center',
+      class: 'action-cell text-center',
       isAngularComponent: true,
       angularComponent: ErrorCodeDetailsComponent,
     },
     {
       id: 'errorCode',
       name: 'errors.title',
+      class: 'col-30p',
       sortable: true,
       formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },
     {
-      id: 'errorCodeDescription',
-      name: 'errors.description',
-      sortable: false,
-      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`),
+      id: 'createdOn',
+      name: 'users.created_on',
+      formatter: (createdOn) => this.datePipe.transform(createdOn),
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true,
     });
     return columns as TableColumnDef[];
   }

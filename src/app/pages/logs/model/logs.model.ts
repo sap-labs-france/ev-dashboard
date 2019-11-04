@@ -135,17 +135,28 @@ export const logActions: KeyValue[] = [
 });
 
 export const logHosts: KeyValue[] = [
+  {key: 'sap-ev-chargebox-json-server-dev', value: 'sap-ev-chargebox-json-server-dev'},
   {key: 'sap-ev-chargebox-json-server', value: 'sap-ev-chargebox-json-server'},
   {key: 'sap-ev-chargebox-json-server-qa', value: 'sap-ev-chargebox-json-server-qa'},
+  {key: 'sap-ev-chargebox-soap-server-dev', value: 'sap-ev-chargebox-soap-server-dev'},
   {key: 'sap-ev-chargebox-soap-server', value: 'sap-ev-chargebox-soap-server'},
   {key: 'sap-ev-chargebox-soap-server-qa', value: 'sap-ev-chargebox-soap-server-qa'},
+  {key: 'sap-ev-front-end-dev', value: 'sap-ev-front-end-dev'},
+  {key: 'sap-ev-front-end', value: 'sap-ev-front-end'},
   {key: 'sap-ev-front-end-new', value: 'sap-ev-front-end-new'},
+  {key: 'sap-ev-front-end-qa', value: 'sap-ev-front-end-qa'},
   {key: 'sap-ev-front-end-new-qa', value: 'sap-ev-front-end-new-qa'},
+  {key: 'sap-ev-ocpi-server-dev', value: 'sap-ev-ocpi-server-dev'},
   {key: 'sap-ev-ocpi-server', value: 'sap-ev-ocpi-server'},
+  {key: 'sap-ev-ocpi-server-qa', value: 'sap-ev-ocpi-server-qa'},
+  {key: 'sap-ev-odata-server-dev', value: 'sap-ev-odata-server-dev'},
   {key: 'sap-ev-odata-server', value: 'sap-ev-odata-server'},
+  {key: 'sap-ev-odata-server-qa', value: 'sap-ev-odata-server-qa'},
+  {key: 'sap-ev-rest-server-dev', value: 'sap-ev-rest-server-dev'},
   {key: 'sap-ev-rest-server', value: 'sap-ev-rest-server'},
   {key: 'sap-ev-rest-server-qa', value: 'sap-ev-rest-server-qa'},
-  {key: 'sap-ev-simulator-qa', value: 'sap-ev-simulator-qa'},
+  // {key: 'sap-ev-simulator-dev', value: 'sap-ev-simulator-dev'},
+  // {key: 'sap-ev-simulator-qa', value: 'sap-ev-simulator-qa'},
 ].sort((host1, host2) => {
   if (host1.value.toLocaleLowerCase() < host2.value.toLocaleLowerCase()) {
     return -1;

@@ -6,7 +6,7 @@ export class TableRefundAction implements TableAction {
     id: 'refund',
     type: 'button',
     icon: 'local_atm',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.refund',
     tooltip: 'general.tooltips.refund',
   };

@@ -6,7 +6,7 @@ export class TableSettingsAction implements TableAction {
     id: 'settings',
     type: 'button',
     icon: 'settings',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.settings',
   };

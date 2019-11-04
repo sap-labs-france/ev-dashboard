@@ -6,7 +6,7 @@ export class TableEditAction implements TableAction {
     id: 'edit',
     type: 'button',
     icon: 'edit',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.edit',
   };

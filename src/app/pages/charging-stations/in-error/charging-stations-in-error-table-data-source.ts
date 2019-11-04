@@ -2,18 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  ChargerInError,
-  Connector,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { Charger, ChargerInError, Connector, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -29,7 +18,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -81,7 +70,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
 
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(
@@ -151,6 +140,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       {
         id: 'id',
         name: 'chargers.name',
+        headerClass: 'col-15p',
+        class: 'col-15p',
         sortable: true,
         sorted: true,
         direction: 'asc',
@@ -171,28 +162,24 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorsCellComponent,
+        angularComponent: ChargingStationsConnectorsCellComponent
       },
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
         sortable: false,
-        class: 'action-cell text-left',
+        headerClass: 'text-center',
+        class: 'action-cell text-center',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
+        class: 'col-30p',
         sortable: true,
         formatter: (value) => this.translateService.instant(`chargers.errors.${value}.title`),
-      },
-      {
-        id: 'errorCodeDescription',
-        name: 'errors.description',
-        sortable: false,
-        formatter: (value, row: ChargerInError) => this.translateService.instant(`chargers.errors.${row.errorCode}.description`),
-      },
+      }
     ];
   }
 

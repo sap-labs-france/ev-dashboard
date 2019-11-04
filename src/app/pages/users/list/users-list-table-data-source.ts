@@ -5,19 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  User,
-} from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
@@ -43,7 +35,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private currentUser: User;
+  private currentUser: UserToken;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -56,8 +48,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
-      private userRolePipe: AppUserRolePipe,
-      private userNamePipe: AppUserNamePipe,
+      private appUserRolePipe: AppUserRolePipe,
+      private appUserNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService);
@@ -122,7 +114,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'role',
       name: 'users.role',
-      formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
+      formatter: (role) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
       sortable: true,
@@ -134,20 +126,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'text-left col-15p',
       sorted: true,
       direction: 'asc',
-      sortable: true,
+      sortable: true
     },
     {
       id: 'firstName',
       name: 'users.first_name',
       headerClass: 'col-15p',
       class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-20p',
-      class: 'col-20p',
       sortable: true,
     },
     {
@@ -186,7 +171,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION) && this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION) && this.authorizationService.isAdmin()) {
       actions = [
         this.editAction,
         this.assignSiteAction,
@@ -277,13 +262,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteUser(user: User) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),
+      this.translateService.instant('users.delete_confirm', {userFullName: this.appUserNamePipe.transform(user)}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteUser(user.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.userNamePipe.transform(user)});
+            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.appUserNamePipe.transform(user)});
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');

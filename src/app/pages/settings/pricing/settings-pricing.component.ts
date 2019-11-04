@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PricingSettings, PricingSettingsType } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
@@ -26,7 +26,7 @@ export class SettingsPricingComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.isActive = this.componentService.isActive(ComponentType.PRICING);
   }
 
   ngOnInit(): void {
@@ -60,11 +60,11 @@ export class SettingsPricingComponent implements OnInit {
     // Convergent Charging
     if (content.convergentCharging) {
       this.pricingSettings.convergentCharging = content.convergentCharging;
-      this.pricingSettings.type = PricingSettingsType.convergentCharging;
+      this.pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
     // Simple
     } else if (content.simple) {
       this.pricingSettings.simple = content.simple;
-      this.pricingSettings.type = PricingSettingsType.simple;
+      this.pricingSettings.type = PricingSettingsType.SIMPLE;
     } else {
       return;
     }

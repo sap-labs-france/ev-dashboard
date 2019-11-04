@@ -10,7 +10,7 @@ import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -144,12 +144,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         angularComponent: TransactionsConnectorCellComponent,
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'text-left d-none d-xl-table-cell',
-      },
-      {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
         formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW'),
@@ -207,7 +201,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }

@@ -4,18 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  User,
-} from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
@@ -98,26 +90,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const columns = [];
     columns.push(
     {
-      id: 'status',
-      name: 'users.status',
-      isAngularComponent: true,
-      angularComponent: UserStatusFormatterComponent,
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
-    },
-    {
       id: 'id',
       name: 'transactions.id',
       headerClass: 'd-none d-xl-table-cell',
       class: 'd-none d-xl-table-cell',
     },
     {
+      id: 'status',
+      name: 'users.status',
+      isAngularComponent: true,
+      angularComponent: UserStatusFormatterComponent,
+      headerClass: 'col-10p text-center',
+      class: 'col-10p',
+      sortable: true,
+    },
+    {
       id: 'role',
       name: 'users.role',
       formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
-      headerClass: 'col-10p',
-      class: 'text-left col-10p',
+      headerClass: 'col-10p text-center',
+      class: 'text-left col-10p text-center',
       sortable: true,
     },
     {
@@ -140,43 +132,17 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       id: 'errorCodeDetails',
       name: 'errors.details',
       sortable: false,
-      class: 'action-cell text-left',
+      headerClass: 'text-center',
+      class: 'action-cell text-center',
       isAngularComponent: true,
       angularComponent: ErrorCodeDetailsComponent,
     },
     {
       id: 'errorCode',
       name: 'errors.title',
+      class: 'col-30p',
       sortable: true,
       formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
-    },
-    {
-      id: 'errorCodeDescription',
-      name: 'errors.description',
-      sortable: false,
-      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.description`),
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-20p',
-      class: 'col-20p',
-      sortable: true,
-    },
-    {
-      id: 'tagIDs',
-      name: 'users.tag_ids',
-      formatter: this.arrayToStringPipe.transform,
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'plateID',
-      name: 'users.plate_id',
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
     },
     {
       id: 'createdOn',
@@ -252,7 +218,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     ];
 
     // Show Error types filter only if Organization component is active
-    if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
       filters.push(new ErrorTypeTableFilter(errorTypes).getFilterDef());
     }
     return filters;

@@ -6,7 +6,7 @@ export class TableSendAction implements TableAction {
     id: 'send',
     type: 'button',
     icon: 'cast',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.send_evses_update',
     tooltip: 'general.tooltips.send',
   };

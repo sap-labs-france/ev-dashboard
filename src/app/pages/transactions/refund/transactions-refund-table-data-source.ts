@@ -9,7 +9,7 @@ import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDe
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentType, ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -210,7 +210,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       new TransactionsRefundStatusFilter().getFilterDef()];
 
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -314,7 +314,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
+      this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0];
         }

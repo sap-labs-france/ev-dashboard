@@ -1,5 +1,5 @@
 import { SortDirection } from '@angular/material/typings';
-import { ComponentEnum } from './services/component.service';
+import { ComponentType } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
@@ -9,8 +9,8 @@ export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL'
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
 
 export enum MobileType {
-  iOS = 'iOS',
-  android = 'Android',
+  IOS = 'iOS',
+  ANDROID = 'Android',
 }
 
 export interface KeyValue {
@@ -46,9 +46,9 @@ export interface DropdownItem {
 }
 
 export enum ButtonColor {
-  primary = 'primary',
-  accent = 'accent',
-  warn = 'warn',
+  PRIMARY = 'primary',
+  ACCENT = 'accent',
+  WARN = 'warn',
 }
 
 export interface TableActionDef {
@@ -590,6 +590,26 @@ export interface User extends Data {
   tenantHashID: number;
 }
 
+export interface UserToken {
+  id?: string;
+  role?: string;
+  name?: string;
+  firstName?: string;
+  locale?: string;
+  language?: string;
+  currency?: string;
+  tagIDs?: string[];
+  tenantID: string;
+  tenantName?: string;
+  userHashID?: string;
+  tenantHashID?: string;
+  scopes?: readonly string[];
+  companies?: string[];
+  sites?: string[];
+  sitesAdmin?: string[];
+  activeComponents?: string[];
+}
+
 export interface UserSite extends Data {
   user: User;
   siteID: string;
@@ -647,13 +667,13 @@ export interface ConnectorSchedule {
 }
 
 export enum PricingSettingsType {
-  simple = 'simple',
-  convergentCharging = 'convergentCharging',
+  SIMPLE = 'simple',
+  CONVERGENT_CHARGING = 'convergentCharging',
 }
 
 export interface PricingSettings {
   id?: string;
-  identifier: ComponentEnum.PRICING;
+  identifier: ComponentType.PRICING;
   sensitiveData: string[];
   type: PricingSettingsType;
   simple: {
@@ -669,12 +689,12 @@ export interface PricingSettings {
 }
 
 export enum BillingSettingsType {
-  stripe = 'stripe',
+  STRIPE = 'stripe',
 }
 
 export interface BillingSettings {
   id?: string;
-  identifier: ComponentEnum.BILLING;
+  identifier: ComponentType.BILLING;
   sensitiveData: string[];
   type: BillingSettingsType;
   stripe: {
@@ -690,7 +710,7 @@ export interface BillingSettings {
 }
 
 export enum OcpiSettingsType {
-  gireve = 'gireve',
+  GIREVE = 'gireve',
 }
 
 export interface OcpiCommon {
@@ -712,14 +732,14 @@ export interface OcpiCommon {
 
 export interface OcpiSettings {
   id?: string;
-  identifier: ComponentEnum.OCPI;
+  identifier: ComponentType.OCPI;
   sensitiveData: string[];
   type: OcpiSettingsType;
   ocpi: OcpiCommon;
 }
 
 export enum AnalyticsSettingsType {
-  sac = 'sac',
+  SAC = 'sac',
 }
 
 export interface AnalyticsLink extends Data {
@@ -732,7 +752,7 @@ export interface AnalyticsLink extends Data {
 
 export interface AnalyticsSettings {
   id?: string;
-  identifier: ComponentEnum.ANALYTICS;
+  identifier: ComponentType.ANALYTICS;
   sensitiveData: string[];
   type: AnalyticsSettingsType;
   sac: {
@@ -743,12 +763,12 @@ export interface AnalyticsSettings {
 }
 
 export enum RefundSettingsType {
-  concur = 'concur',
+  CONCUR = 'concur',
 }
 
 export interface RefundSettings {
   id?: string;
-  identifier: ComponentEnum.REFUND;
+  identifier: ComponentType.REFUND;
   type: RefundSettingsType;
   sensitiveData: string[];
   concur?: {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { KeyValue, User } from '../common.types';
+import { KeyValue, User, UserToken } from '../common.types';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 
@@ -19,7 +19,7 @@ export class LocaleService {
     });
   }
 
-  public updateLanguage(loggedUser: User) {
+  public updateLanguage(loggedUser: User|UserToken) {
     if (loggedUser && loggedUser.language) {
       this.language = loggedUser.language;
     } else {
@@ -66,22 +66,6 @@ export class LocaleService {
     });
     return (locales && locales.length > 0 ? locales[0] :
       {key: 'U', description: this.translateService.instant('users.locale_unknown', {})});
-  }
-
-  public getI18nDays() {
-    return this.translateService.instant('general.days');
-  }
-
-  public getI18nHours() {
-    return this.translateService.instant('general.hours');
-  }
-
-  public getI18nMinutes() {
-    return this.translateService.instant('general.minutes');
-  }
-
-  public getI18nSeconds() {
-    return this.translateService.instant('general.seconds');
   }
 
   public getI18nDay() {

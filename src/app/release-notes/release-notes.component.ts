@@ -25,16 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.13',
-        date: new Date('2019-10-22'),
+        date: new Date('2019-10-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              'Prevent registration of Charging Stations with special characters',
+              `Prevent registration of Charging Stations with special characters`,
               `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
               `Allow to delete a Charging Station linked with an outdated Session`,
               `Admin Users receive the notifications with the right locale`,
-              `Connector IDs are translated into letters in notifications`
+              `Connector IDs are translated into letters in notifications`,
+              `Format numbers, currency according user's locale`,
             ],
           },
         ],

@@ -5,15 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  DataResult,
-  Log,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from '../../../common.types';
+import { DataResult, Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';

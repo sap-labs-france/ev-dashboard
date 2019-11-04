@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Tenant } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum } from '../../../services/component.service';
+import { ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
@@ -103,7 +103,7 @@ export class TenantComponent implements OnInit {
     this.subdomain = this.formGroup.controls['subdomain'];
     this.components = (this.formGroup.controls['components'] as FormGroup);
     // Create component
-    for (const componentIdentifier of Object.values(ComponentEnum)) {
+    for (const componentIdentifier of Object.values(ComponentType)) {
       // Create controls
       this.components.addControl(componentIdentifier, new FormGroup({
         active: new FormControl(false),
@@ -127,7 +127,7 @@ export class TenantComponent implements OnInit {
           this.email.setValue(this.currentTenant.email);
           this.subdomain.setValue(this.currentTenant.subdomain);
           // Add available components
-          for (const componentIdentifier of Object.values(ComponentEnum)) {
+          for (const componentIdentifier of Object.values(ComponentType)) {
             // Set the params
             if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {
               // Get component group
@@ -164,13 +164,13 @@ export class TenantComponent implements OnInit {
         if (!tenant.components[component].active) {
           tenant.components[component].type = null;
         }
-        if (component === ComponentEnum.PRICING) {
+        if (component === ComponentType.PRICING) {
           pricingActive = tenant.components[component].active;
         }
-        if (component === ComponentEnum.REFUND) {
+        if (component === ComponentType.REFUND) {
           refundActive = tenant.components[component].active;
         }
-        if (component === ComponentEnum.BILLING) {
+        if (component === ComponentType.BILLING) {
           billingActive = tenant.components[component].active;
         }
       }

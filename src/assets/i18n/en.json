@@ -1349,6 +1349,7 @@
     "no_history": "No history during this period",
     "refundDate": "Transferred On",
     "reportId": "Report ID",
+    "select_report": "Select Report",
     "filter": {
       "type": {
         "name": "Type",
@@ -1461,7 +1462,7 @@
   },
   "errors": {
     "title": "Error",
-    "details": "Details", 
+    "details": "Details",
     "description": "Description",
     "action": "Recommended action"
   },

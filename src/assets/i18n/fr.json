@@ -1349,6 +1349,7 @@
     "no_history": "Pas d'historique pendant cette période",
     "refundDate": "Transférée le",
     "reportId": "Rapport ID",
+    "select_report": "Selection Rapport",
     "filter": {
       "type": {
         "name": "Type",

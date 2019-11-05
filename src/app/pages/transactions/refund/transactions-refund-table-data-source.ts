@@ -9,7 +9,7 @@ import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDe
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -24,6 +24,7 @@ import { TableOpenInConcurAction } from '../../../shared/table/actions/table-ope
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -214,6 +215,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new ReportTableFilter().getFilterDef());
       }
     }
 

@@ -2,7 +2,8 @@
   <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
 
     <!-- Toolbar -->
-    <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
+    <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled"
+         class="mat-toolbar">
 
       <!-- Actions  -->
       <div class="left-actions d-flex flex-row mat-toolbar-row ">
@@ -10,18 +11,24 @@
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
+          <button mat-raised-button
+                  *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
                   (click)="actionTriggered(actionDef)"
-                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
-                  data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
+                  data-placement="bottom"
+                  data-toggle="tooltip"
+                  [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
           <!-- Reset Filters -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
+          <button mat-raised-button
+                  *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
                   (click)="resetFilters()"
-                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
-                  data-toggle="tooltip" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
+                  data-placement="bottom"
+                  data-toggle="tooltip"
+                  [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
@@ -35,14 +42,16 @@
                           [disabled]="dropdownItem.disabled"
                           appTooltip data-placement="bottom" data-toggle="tooltip"
                           [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                    <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
+                    <mat-icon
+                      *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                     <span>{{dropdownItem.name | translate}}</span>
                   </button>
                 </ng-container>
               </ng-template>
             </mat-menu>
             <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
-                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip="" data-placement="bottom"
+                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
+                    data-placement="bottom"
                     data-toggle="tooltip" [title]="'analytics.links' | translate">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
@@ -54,12 +63,15 @@
         <span class="toolbar-spacer"></span>
 
         <!-- Create Right Actions -->
-        <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-          <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
+        <div
+          class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+          <ng-container
+            *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Action Slide -->
             <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
-                                *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue">
+                                *ngIf="actionRightDef.type === 'slide'"
+                                [checked]="actionRightDef.currentValue">
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
@@ -70,7 +82,8 @@
                       (click)="actionTriggered(actionRightDef)"
                       appTooltip="" data-placement="bottom" data-toggle="tooltip"
                       [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
-                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                <mat-icon
+                  *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
                   <span>{{actionRightDef.name | translate}}</span>
                 </ng-container>
@@ -86,13 +99,15 @@
                 <div class="loader"></div>
               </div>
               <div *ngIf="!ongoingAutoRefresh" class="refresh-icon">
-                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                <mat-icon
+                  *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
               </div>
             </button>
             <!-- Auto Refresh -->
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
               <mat-slide-toggle (change)="toggleAutoRefresh($event)"
-                                [checked]="actionRightDef.currentValue" appTooltip="" data-toggle="tooltip"
+                                [checked]="actionRightDef.currentValue" appTooltip=""
+                                data-toggle="tooltip"
                                 data-placement="bottom"
                                 [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)"
                                 class="auto-refresh-slider">
@@ -111,47 +126,68 @@
         <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
              [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
-          <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && !filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef)"
+                        [(value)]="filterDef.currentValue"
                         [placeholder]="filterDef.name | translate">
-              <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+              <mat-option *ngFor="let item of filterDef.items"
+                          [value]="item.key">{{item.value | translate}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <!-- Dropdown Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-                [placeholder]="filterDef.name | translate" multiple disableRipple>
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef)"
+                        [(value)]="filterDef.currentValue"
+                        [placeholder]="filterDef.name | translate" multiple
+                        disableRipple>
               <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
-              <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+              <mat-option *ngFor="let item of filterDef.items"
+                          [value]="item">{{item.value | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
           <!-- Dialog Table Filter -->
-          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && !filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)"
+                   [placeholder]="filterDef.name | translate"
                    [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
                    class="form-field-popup" matInput readonly=true type="text"/>
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+            <button mat-icon-button matSuffix
+                    (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
           <!-- Dialog Table Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)"
+                   [placeholder]="filterDef.name | translate"
                    [value]="filterDef.label"
                    class="form-field-popup" matInput readonly=true type="text"/>
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+            <button mat-icon-button matSuffix
+                    (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
           <!-- Date Filter -->
-          <mat-form-field *ngIf="filterDef.type === 'date'">
-            <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DATE">
+            <mat-datetimepicker #picker type="datetime" openOnFocus="false"
+                                mode="portrait" timeInterval="1">
             </mat-datetimepicker>
-            <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-            <input [id]="filterDef.id" matInput [placeholder]="filterDef.name | translate"
-                   (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
+            <mat-datetimepicker-toggle [for]="picker"
+                                       matSuffix></mat-datetimepicker-toggle>
+            <input [id]="filterDef.id" matInput
+                   [placeholder]="filterDef.name | translate"
+                   (dateChange)="dateFilterChanged(filterDef, $event)"
+                   [matDatetimepicker]="picker"
                    [value]="filterDef.currentValue" autocomplete="false">
+          </mat-form-field>
+          <!-- All key filter -->
+          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_ALL_KEY">
+            <input [placeholder]="filterDef.name | translate" matInput>
           </mat-form-field>
         </div>
 
@@ -210,7 +246,8 @@
           <!-- Select Cell -->
           <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
               class="text-left col-5em col-select pt-2">
-            <mat-checkbox (change)="toggleRowSelection(row, $event)" (click)="$event.stopPropagation()"
+            <mat-checkbox (change)="toggleRowSelection(row, $event)"
+                          (click)="$event.stopPropagation()"
                           [checked]="row.isSelected" [disabled]="!row.isSelectable">
             </mat-checkbox>
           </td>
@@ -233,32 +270,39 @@
             <!-- Angular Component Cell -->
             <td *ngIf="tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row"></app-cell-content-template-container>
+              <app-cell-content-template-container [columnDef]="tableColumnDef"
+                                                   [row]="row"></app-cell-content-template-container>
             </td>
           </ng-template>
           <!-- Action Cell -->
           <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
             <ng-container
               *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
-              <ng-container *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
+              <ng-container
+                *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
                 <!-- Drop Down Action -->
                 <ng-container *ngIf="rowAction.isDropdownMenu">
                   <mat-menu #rowActionMenu="matMenu" xPosition="before">
                     <ng-template matMenuContent>
-                      <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
+                      <ng-container
+                        *ngFor="let dropdownItem of rowAction.dropdownItems">
                         <button mat-menu-item
                                 (click)="rowActionTriggered(rowAction, row, dropdownItem)"
                                 [disabled]="dropdownItem.disabled"
-                                appTooltip data-placement="bottom" data-toggle="tooltip"
+                                appTooltip data-placement="bottom"
+                                data-toggle="tooltip"
                                 [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                          <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
+                          <mat-icon
+                            *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
                           <span>{{dropdownItem.name | translate}}</span>
                         </button>
                       </ng-container>
                     </ng-template>
                   </mat-menu>
-                  <button mat-icon-button (menuOpened)="onRowActionMenuOpen(rowAction, row)"
-                          [matMenuTriggerFor]="rowActionMenu" appTooltip="" data-placement="bottom"
+                  <button mat-icon-button
+                          (menuOpened)="onRowActionMenuOpen(rowAction, row)"
+                          [matMenuTriggerFor]="rowActionMenu" appTooltip=""
+                          data-placement="bottom"
                           data-toggle="tooltip"
                           [title]="rowAction.tooltip | translate">
                     <mat-icon>{{rowAction.icon}}</mat-icon>
@@ -266,7 +310,8 @@
                 </ng-container>
                 <!-- Button Action -->
                 <ng-container *ngIf="!rowAction.isDropdownMenu">
-                  <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip"
+                  <div class="d-inline-block" appTooltip data-placement="bottom"
+                       data-toggle="tooltip"
                        [title]="rowAction.tooltip | translate">
                     <button mat-icon-button
                             [color]="(rowAction.color ? rowAction.color : '')"
@@ -281,7 +326,8 @@
           </td>
         </tr>
         <!-- Detail Row -->
-        <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
+        <tr
+          *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
           <!-- Text Details -->
           <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
             <td class="col-3em details-column-row"></td>
@@ -295,7 +341,8 @@
           <!-- Angular Component Details -->
           <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
             <td [attr.colspan]="numberOfColumns">
-              <app-cell-content-template-container [tableDef]="dataSource.tableDef" [row]="row"></app-cell-content-template-container>
+              <app-cell-content-template-container [tableDef]="dataSource.tableDef"
+                                                   [row]="row"></app-cell-content-template-container>
             </td>
           </ng-container>
         </tr>
@@ -303,44 +350,48 @@
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length" (click)="displayMoreRecords()" class="more-records">
+    <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length"
+         (click)="displayMoreRecords()" class="more-records">
       {{'general.more_records' | translate}}
     </div>
     <!-- Message for no data in table -->
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible" class="ml-4 text-center table-no-record-found">
+    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
+         class="ml-4 text-center table-no-record-found">
       {{'general.no_record_found' | translate}}
     </div>
   </div>
-    <!-- Bottom list -->
-    <div class="bottom-table d-flex justify-content-between" *ngIf="!dataSource.tableDef.isSimpleTable">
-        <!-- Left side -->
-        <div class="left-bottom-table">
-          <!-- Multi-Selection enabled? -->
-          <span *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
+  <!-- Bottom list -->
+  <div class="bottom-table d-flex justify-content-between"
+       *ngIf="!dataSource.tableDef.isSimpleTable">
+    <!-- Left side -->
+    <div class="left-bottom-table">
+      <!-- Multi-Selection enabled? -->
+      <span
+        *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.multiple">
             {{'general.selected_records' | translate}}: {{dataSource.selectedRows}}&nbsp;
           </span>
-          <!-- Stats -->
-          <span>
+      <!-- Stats -->
+      <span>
             {{dataSource.tableFooterStats}}
           </span>
-        </div>
-        <!-- Right side -->
-        <div class="right-bottom-table">
-          {{'general.nbr_of_records' | translate}}:
-          <!-- Too many records? -->
-          <span *ngIf="dataSource.totalNumberOfRecords === maxRecords">
+    </div>
+    <!-- Right side -->
+    <div class="right-bottom-table">
+      {{'general.nbr_of_records' | translate}}:
+      <!-- Too many records? -->
+      <span *ngIf="dataSource.totalNumberOfRecords === maxRecords">
             {{dataSource.data.length}} / -
           </span>
-          <!-- n records / Max Records -->
-          <span
-            *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
+      <!-- n records / Max Records -->
+      <span
+        *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
             {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
           </span>
-          <!-- n records === Max Records -->
-          <span
-            *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
+      <!-- n records === Max Records -->
+      <span
+        *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
             {{dataSource.data.length}}
           </span>
-        </div>
-      </div>
+    </div>
   </div>
+</div>

@@ -3,17 +3,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
-    selector: 'app-charging-station-gauge',
-    template: '<canvas #gauge></canvas>',
+  selector: 'app-charging-station-gauge',
+  template: '<canvas #gauge></canvas>',
 })
 export class ChargingStationGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
-    @Input() activeChargers = 0;
-    @Input() maxChargers = 0;
+  @Input() activeChargers = 0;
+  @Input() maxChargers = 0;
 
   constructor(el: ElementRef,
-              zone: NgZone,
-              private translateService: TranslateService) {
+    zone: NgZone,
+    private translateService: TranslateService) {
     super(el, zone);
   }
 
@@ -103,7 +103,7 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
 
   buildTicks() {
     this.options.majorTicks = [];
-    const tickRange = ( Math.floor(this.maxChargers / 5) > 0 ? Math.floor(this.maxChargers / 5) : 1);
+    const tickRange = (Math.floor(this.maxChargers / 5) > 0 ? Math.floor(this.maxChargers / 5) : 1);
     for (let currentTick = 0; currentTick < this.maxChargers; currentTick += tickRange) {
       this.options.majorTicks = ([...this.options.majorTicks, currentTick] as number[]);
     }

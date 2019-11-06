@@ -162,7 +162,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         class: 'text-center',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: ChargingStationsConnectorsCellComponent
+        angularComponent: ChargingStationsConnectorsCellComponent,
       },
       {
         id: 'errorCodeDetails',
@@ -179,7 +179,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         class: 'col-30p',
         sortable: true,
         formatter: (value) => this.translateService.instant(`chargers.errors.${value}.title`),
-      }
+      },
     ];
   }
 

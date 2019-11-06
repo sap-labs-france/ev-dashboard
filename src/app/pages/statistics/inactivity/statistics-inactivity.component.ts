@@ -26,14 +26,15 @@ export class StatisticsInactivityComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('inactivityBarChart', { static: true }) ctxBarChart: ElementRef;
-  @ViewChild('inactivityPieChart', { static: true }) ctxPieChart: ElementRef;
+  @ViewChild('inactivityBarChart', {static: true}) ctxBarChart: ElementRef;
+  @ViewChild('inactivityPieChart', {static: true}) ctxPieChart: ElementRef;
 
   private filterParams: { [param: string]: string | string[]; };
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
   private pieChartData: ChartData;
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -41,7 +42,11 @@ export class StatisticsInactivityComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) { }
+    private statisticsExportService: StatisticsExportService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
+  }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
@@ -95,27 +100,27 @@ export class StatisticsInactivityComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title',
-          { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
       } else {
         mainLabel = this.translateService.instant('statistics.inactivity_per_user_month_title',
-          { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_year_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_total_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_year_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_total_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
         }
       }
     }
@@ -128,11 +133,11 @@ export class StatisticsInactivityComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_inactivity_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 

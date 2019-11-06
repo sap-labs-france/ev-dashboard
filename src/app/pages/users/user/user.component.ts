@@ -92,6 +92,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public isConcurConnectionValid: boolean;
   public canSeeInvoice: boolean;
+  private currentLocale: string;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -124,6 +125,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.currentLocale = locale.currentLocale;
+    })
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -211,7 +215,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      locale: new FormControl(this.localeService.getCurrentLocale(),
+      locale: new FormControl(this.currentLocale,
         Validators.compose([
           Validators.required,
         ])),

@@ -26,14 +26,15 @@ export class StatisticsConsumptionComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('consumptionBarChart', { static: true }) ctxBarChart: ElementRef;
-  @ViewChild('consumptionPieChart', { static: true }) ctxPieChart: ElementRef;
+  @ViewChild('consumptionBarChart', {static: true}) ctxBarChart: ElementRef;
+  @ViewChild('consumptionPieChart', {static: true}) ctxPieChart: ElementRef;
 
   private filterParams: { [param: string]: string | string[]; };
   private barChart: SimpleChart;
   private pieChart: SimpleChart;
   private barChartData: ChartData;
   private pieChartData: ChartData;
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -41,7 +42,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {}
+    private statisticsExportService: StatisticsExportService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
+  }
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
@@ -95,27 +100,27 @@ export class StatisticsConsumptionComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title',
-          { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
       } else {
         mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title',
-          { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
-            { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_total_title',
-            { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
-            { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_total_title',
-            { total: Math.round(this.totalConsumption).toLocaleString(this.localeService.language) });
+            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         }
       }
     }
@@ -128,11 +133,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 

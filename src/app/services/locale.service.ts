@@ -1,48 +1,34 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 import { KeyValue, User, UserToken } from '../common.types';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 
+export interface Locale {
+  language: string;
+  currentLocale: string;
+  currentLocaleJS: string;
+}
+
 @Injectable()
 export class LocaleService {
-  public language: string;
+  private locale: Locale;
+  private currentLocaleSubject: BehaviorSubject<Locale>;
 
   constructor(
     private translateService: TranslateService,
     private configService: ConfigService,
     private centralServerService: CentralServerService) {
-    // Set
+    this.updateLocale(this.translateService.getBrowserLang());
 
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.updateLanguage(user);
     });
   }
 
-  public updateLanguage(loggedUser: User|UserToken) {
-    if (loggedUser && loggedUser.language) {
-      this.language = loggedUser.language;
-    } else {
-      this.language = this.translateService.getBrowserLang();
-    }
-  }
-
-  public getCurrentLocale() {
-    switch (this.language) {
-      case 'en':
-        return 'en_US';
-      case 'fr':
-        return 'fr_FR';
-    }
-  }
-
-  public getCurrentLocaleJS() {
-    switch (this.language) {
-      case 'en':
-        return 'en-US';
-      case 'fr':
-        return 'fr-FR';
-    }
+  public getCurrentLocaleSubject(): BehaviorSubject<Locale> {
+    return this.currentLocaleSubject;
   }
 
   public getLocales(): KeyValue[] {
@@ -84,56 +70,49 @@ export class LocaleService {
     return this.translateService.instant('general.second');
   }
 
-  public getDateFormat(): string {
-    switch (this.language) {
-      case 'fr':
-        return 'DD/MM/YYYY';
-      // 'en' and other language
-      default:
-        return 'DD/MM/YYYY';
+  private updateLanguage(loggedUser: UserToken) {
+    let language: string;
+    if (loggedUser && loggedUser.language) {
+      language = loggedUser.language;
+    } else {
+      language = this.translateService.getBrowserLang();
+    }
+    this.updateLocale(language);
+  }
+
+  private updateLocale(language: string) {
+    if (!this.locale || this.locale.language !== language) {
+      this.locale = {
+        language,
+        currentLocale: this.getCurrentLocale(language),
+        currentLocaleJS: this.getCurrentLocaleJS(language),
+      };
+      if (!this.currentLocaleSubject) {
+        this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
+      } else {
+        this.currentLocaleSubject.next(this.locale);
+      }
     }
   }
 
-  public getHourFormat(): string {
-    switch (this.language) {
+  private getCurrentLocale(language: string) {
+    switch (language) {
       case 'fr':
-        return '24';
-      // 'en' and other language
+        return 'fr_FR';
+      case 'en':
       default:
-        return '12';
+        return 'en_US';
     }
   }
 
-  public getTimeFormat(): string {
-    switch (this.language) {
+  private getCurrentLocaleJS(language: string) {
+    switch (language) {
       case 'fr':
-        return 'H:mm';
-      // 'en' and other language
+        return 'fr-FR';
+      case 'en':
       default:
-        return 'h:mm A';
+        return 'en-US';
     }
-  }
-
-  public getFirstDayOfWeek() {
-    switch (this.language) {
-      case 'fr':
-        return 1;
-      // 'en' and other language
-      default:
-        return 0;
-    }
-  }
-
-  public getDateTimeFormat(): string {
-    return this.getDateFormat() + ' ' + this.getTimeFormat();
-  }
-
-  public getAllDateTimeProps(): object {
-    return {
-      dateTimeFormat: this.getDateTimeFormat(),
-      hourFormat: this.getHourFormat(),
-      firstDayOfWeek: this.getFirstDayOfWeek(),
-    };
   }
 
   private getLocaleDescription(localeFull) {

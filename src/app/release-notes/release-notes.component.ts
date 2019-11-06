@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Fold/Unflod the side menu manually`,
+              `TypeScript migration of Exceptions`,
             ],
           },
         ],
@@ -62,7 +63,7 @@ export class ReleaseNotesComponent {
               `Implemented Remote Push Notification`,
               `Refactored Notification to implement Remote Push Notification`,
               `Increased End of Session notification frequency according the charging station power`,
-              'Finished TypeScript migration of Notification and Configuration',
+              'TypeScript migration of Notification and Configuration',
               `Fixed handling of the State Of Charge when it starts at 0 %`,
               `Update End User Licence Agreement with third party products`,
             ],

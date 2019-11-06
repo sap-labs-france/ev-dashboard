@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.14',
+        date: new Date('2019-11-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Fold/Unflod the side menu manually`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.13',
         date: new Date('2019-10-28'),
         componentChanges: [

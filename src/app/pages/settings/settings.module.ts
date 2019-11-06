@@ -20,7 +20,7 @@ import {
 import { RegistrationTokenUrlComponent } from './charging_station/registration-tokens/registration-token-url.component';
 import { RegistrationTokenComponent } from './charging_station/registration-tokens/registration-token.component';
 import { SettingsOcppComponent } from './charging_station/settings-ocpp.component';
-import { settingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
+import { SettingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFomatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-evses-status-formatter.component';
@@ -75,7 +75,7 @@ import { SettingsRoutes } from './settings.routing';
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
     SettingsOcpiEnpointsComponent,
-    settingsOcpiEnpointDialogComponent,
+    SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
@@ -111,7 +111,7 @@ import { SettingsRoutes } from './settings.routing';
     SettingsSimplePricingComponent,
     SettingsSacComponent,
     AnalyticsLinkDialogComponent,
-    settingsOcpiEnpointDialogComponent,
+    SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
     OcpiDetailJobStatusFomatterComponent,
     OcpiPatchJobResultFormatterComponent,

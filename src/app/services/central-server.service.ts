@@ -1446,11 +1446,11 @@ export class CentralServerService {
       );
   }
 
-  public createOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
+  public createOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiendpoint,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1459,11 +1459,11 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiendpoint): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiendpoint,
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1472,11 +1472,11 @@ export class CentralServerService {
       );
   }
 
-  public pingOcpiEndpoint(ocpiendpoint): Observable<OCPIPingResponse> {
+  public pingOcpiEndpoint(ocpiEndpoint): Observable<OCPIPingResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIPingResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiendpoint,
+    return this.httpClient.post<OCPIPingResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1485,11 +1485,11 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiEndpoint(ocpiendpoint): Observable<OCPIGenerateLocalTokenResponse> {
+  public generateLocalTokenOcpiEndpoint(ocpiEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiendpoint,
+    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1498,11 +1498,11 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiendpoint,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })

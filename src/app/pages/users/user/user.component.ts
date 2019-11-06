@@ -127,7 +127,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.currentLocale = locale.currentLocale;
-    })
+    });
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();

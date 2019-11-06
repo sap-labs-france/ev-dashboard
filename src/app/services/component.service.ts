@@ -180,7 +180,7 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-    public getBillingSettings(): Observable<BillingSettings> {
+  public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
       const billingSettings = {
         identifier: ComponentType.BILLING,

@@ -126,7 +126,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'text-left col-15p',
       sorted: true,
       direction: 'asc',
-      sortable: true
+      sortable: true,
     },
     {
       id: 'firstName',

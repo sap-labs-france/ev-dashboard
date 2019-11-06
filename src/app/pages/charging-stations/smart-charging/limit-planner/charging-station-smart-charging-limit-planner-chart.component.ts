@@ -35,6 +35,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     [54, 162, 235],
     [255, 206, 86],
   ];
+  private language: string;
 
   constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
@@ -43,6 +44,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
               private datePipe: AppDatePipe,
               private decimalPipe: DecimalPipe,
               private connectorIdPipe: AppConnectorIdPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   resetZoom() {
@@ -216,7 +220,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       onClick: (event, array) => {
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

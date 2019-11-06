@@ -29,7 +29,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { Constants } from 'app/utils/Constants';
-import { settingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
+import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
@@ -63,9 +63,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     return new Observable((observer) => {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((ocpiendpoints) => {
+        this.getPaging(), this.getSorting()).subscribe((ocpiEndpoints) => {
           // Ok
-          observer.next(ocpiendpoints);
+          observer.next(ocpiEndpoints);
           observer.complete();
         }, (error) => {
           // Show error
@@ -100,6 +100,13 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
+        sortable: true,
+      },
+      {
+        id: 'role',
+        name: 'ocpiendpoints.role',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         sortable: true,
       },
       {
@@ -221,7 +228,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(settingsOcpiEnpointDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SettingsOcpiEnpointDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

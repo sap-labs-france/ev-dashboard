@@ -39,6 +39,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
     [54, 162, 235],
     [255, 206, 86],
   ];
+  private language: string;
 
   constructor(
     private translateService: TranslateService,
@@ -46,6 +47,9 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
     private datePipe: AppDatePipe,
     private decimalPipe: DecimalPipe,
     private connectorIdPipe: AppConnectorIdPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   resetZoom() {
@@ -201,7 +205,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
         },
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

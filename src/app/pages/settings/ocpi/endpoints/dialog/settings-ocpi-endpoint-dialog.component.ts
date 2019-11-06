@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
+import { OcpiEndpoint } from '../../../../../common.types';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
@@ -13,10 +14,12 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   templateUrl: './settings-ocpi-endpoint-dialog.component.html',
 })
-export class settingsOcpiEnpointDialogComponent implements OnInit {
+export class SettingsOcpiEnpointDialogComponent implements OnInit {
   public formGroup: FormGroup;
   public id: AbstractControl;
   public name: AbstractControl;
+  public role: AbstractControl;
+  public type: AbstractControl;
   public baseUrl: AbstractControl;
   public countryCode: AbstractControl;
   public partyId: AbstractControl;
@@ -24,7 +27,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
   public token: AbstractControl;
   public isBackgroundPatchJobActive: AbstractControl;
 
-  public currentEndpoint: any;
+  public currentEndpoint: Partial<OcpiEndpoint>;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -34,7 +37,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router,
-    protected dialogRef: MatDialogRef<settingsOcpiEnpointDialogComponent>,
+    protected dialogRef: MatDialogRef<SettingsOcpiEnpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     // Check if data is passed to the dialog
     if (data) {
@@ -43,6 +46,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
       this.currentEndpoint = {
         id: '',
         name: '',
+        role: '',
         baseUrl: '',
         countryCode: '',
         partyId: '',
@@ -60,6 +64,10 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
+        ])),
+      role: new FormControl(this.currentEndpoint.role,
+        Validators.compose([
+          Validators.required,
         ])),
       baseUrl: new FormControl(this.currentEndpoint.baseUrl,
         Validators.compose([
@@ -91,6 +99,7 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
 
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.role = this.formGroup.controls['role'];
     this.baseUrl = this.formGroup.controls['baseUrl'];
     this.countryCode = this.formGroup.controls['countryCode'];
     this.partyId = this.formGroup.controls['partyId'];
@@ -206,11 +215,11 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     }
   }
 
-  private createOcpiEndpoint(ocpiendpoint) {
-    this.centralServerService.createOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+  private createOcpiEndpoint(ocpiEndpoint) {
+    this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiEndpoint.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -223,11 +232,11 @@ export class settingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  private updateOcpiEndpoint(ocpiendpoint) {
-    this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+  private updateOcpiEndpoint(ocpiEndpoint) {
+    this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiendpoint.name });
+        this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiEndpoint.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

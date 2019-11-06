@@ -24,7 +24,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.13",
+    "last_update": "Version 2.1.14",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -1161,6 +1161,7 @@
   "ocpiendpoints": {
     "name": "Nom",
     "baseUrl": "URL",
+    "role": "Rôle",
     "countryCode": "Code Pays",
     "partyId": "Groupe ID",
     "status": "Statut",

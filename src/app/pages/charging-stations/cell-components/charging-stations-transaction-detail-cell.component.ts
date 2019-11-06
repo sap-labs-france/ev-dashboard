@@ -27,7 +27,9 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
       private authorizationService: AuthorizationService,
       private dialog: MatDialog) {
     super();
-    this.locale = this.localeService.getCurrentLocaleJS();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
   }
 
   showSessionDialog() {

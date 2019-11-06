@@ -4,11 +4,13 @@ import { LocaleService } from '../../services/locale.service';
 
 @Pipe({ name: 'appBatteryPercentage' })
 export class AppBatteryPercentagePipe implements PipeTransform {
-  private readonly locale: string;
+  private locale: string;
   private percentPipe: PercentPipe;
 
-  constructor(locale: LocaleService) {
-    this.locale = locale.getCurrentLocaleJS();
+  constructor(private localeService: LocaleService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
     this.percentPipe = new PercentPipe(this.locale);
   }
 

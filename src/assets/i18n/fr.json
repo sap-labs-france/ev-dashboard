@@ -1161,6 +1161,7 @@
   "ocpiendpoints": {
     "name": "Nom",
     "baseUrl": "URL",
+    "role": "Rôle",
     "countryCode": "Code Pays",
     "partyId": "Groupe ID",
     "status": "Statut",

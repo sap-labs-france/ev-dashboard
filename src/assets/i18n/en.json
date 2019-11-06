@@ -1161,6 +1161,7 @@
   "ocpiendpoints": {
     "name": "Name",
     "baseUrl": "URL",
+    "role": "Role",
     "countryCode": "Country Code",
     "partyId": "Party ID",
     "status": "Status",
@@ -1461,7 +1462,7 @@
   },
   "errors": {
     "title": "Error",
-    "details": "Details", 
+    "details": "Details",
     "description": "Description",
     "action": "Recommended action"
   },

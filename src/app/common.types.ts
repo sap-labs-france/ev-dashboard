@@ -612,6 +612,7 @@ export interface UserToken {
   sites?: string[];
   sitesAdmin?: string[];
   activeComponents?: string[];
+  sitesOwner?: string[];
 }
 
 export interface UserSite extends Data {

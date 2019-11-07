@@ -36,7 +36,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
+import { TransactionsHistoryInactivityCellComponent } from '../cell-components/transactions-history-inactivity-cell.component';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -135,7 +135,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'd-none d-lg-table-cell',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: TransactionsInactivityCellComponent,
+        angularComponent: TransactionsHistoryInactivityCellComponent,
       },
       {
         id: 'chargeBoxID',

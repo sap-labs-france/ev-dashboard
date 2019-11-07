@@ -23,8 +23,8 @@ import { TransactionsRefundTableDataSource } from './refund/transactions-refund-
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
-import { AppInactivityPipe, TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
-import { TransactionsCurrentInactivityCellComponent, AppCurrentInactivityPipe } from './cell-components/transactions-current-inactivity-cell.component';
+import { TransactionsHistoryInactivityCellComponent } from './cell-components/transactions-history-inactivity-cell.component';
+import { TransactionsInProgressInactivityCellComponent } from './cell-components/transactions-in-progress-inactivity-cell.component';
 
 @NgModule({
   imports: [
@@ -48,10 +48,8 @@ import { TransactionsCurrentInactivityCellComponent, AppCurrentInactivityPipe } 
     TransactionsRefundComponent,
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
-    TransactionsInactivityCellComponent,
-    TransactionsCurrentInactivityCellComponent,
-    AppInactivityPipe,
-    AppCurrentInactivityPipe
+    TransactionsHistoryInactivityCellComponent,
+    TransactionsInProgressInactivityCellComponent
   ],
   entryComponents: [
     TransactionsComponent,
@@ -62,8 +60,8 @@ import { TransactionsCurrentInactivityCellComponent, AppCurrentInactivityPipe } 
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent,
-    TransactionsInactivityCellComponent,
-    TransactionsCurrentInactivityCellComponent
+    TransactionsHistoryInactivityCellComponent,
+    TransactionsInProgressInactivityCellComponent
   ],
   exports: [
     TransactionsComponent,
@@ -75,7 +73,7 @@ import { TransactionsCurrentInactivityCellComponent, AppCurrentInactivityPipe } 
     TransactionsHistoryTableDataSource,
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,
-    TransactionsRefundTableDataSource
+    TransactionsRefundTableDataSource,
   ],
 })
 

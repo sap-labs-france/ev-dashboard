@@ -12,6 +12,7 @@ import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
+import { AppInactivityPipe } from './app-inactivity.pipe';
 
 @NgModule({
   imports: [],
@@ -24,6 +25,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
+    AppInactivityPipe,
     AppFormatRowCellPipe,
     AppUnitPipe,
     AppCurrencyPipe,
@@ -39,6 +41,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
+    AppInactivityPipe,
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
@@ -56,6 +59,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppInactivityPipe
   ],
 })
 export class FormattersModule {

@@ -31,7 +31,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../components/transactions-connector-cell.component';
-import { TransactionsCurrentInactivityCellComponent } from '../cell-components/transactions-current-inactivity-cell.component';
+import { TransactionsInProgressInactivityCellComponent } from '../cell-components/transactions-in-progress-inactivity-cell.component';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -129,7 +129,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'd-none d-lg-table-cell',
         sortable: false,
         isAngularComponent: true,
-        angularComponent: TransactionsCurrentInactivityCellComponent,
+        angularComponent: TransactionsInProgressInactivityCellComponent,
       },
       {
         id: 'chargeBoxID',

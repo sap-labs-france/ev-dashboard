@@ -5,7 +5,7 @@ export class TableAddAction implements TableAction {
   private action: TableActionDef = {
     id: 'add',
     type: 'button',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     icon: 'add',
     name: 'general.add',
     tooltip: 'general.tooltips.add',

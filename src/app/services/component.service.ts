@@ -4,7 +4,7 @@ import { ActionResponse, AnalyticsSettings, BillingSettings, BillingSettingsType
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
 
-export enum ComponentEnum {
+export enum ComponentType {
   OCPI = 'ocpi',
   ORGANIZATION = 'organization',
   PRICING = 'pricing',
@@ -29,7 +29,7 @@ export class ComponentService {
     });
   }
 
-  public isActive(componentName: ComponentEnum): boolean {
+  public isActive(componentName: ComponentType): boolean {
     if (this.activeComponents) {
       return this.activeComponents.includes(componentName);
     }
@@ -43,10 +43,10 @@ export class ComponentService {
   public getPricingSettings(): Observable<PricingSettings> {
     return new Observable((observer) => {
       const pricingSettings = {
-        identifier: ComponentEnum.PRICING,
+        identifier: ComponentType.PRICING,
       } as PricingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.PRICING).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentType.PRICING).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -55,7 +55,7 @@ export class ComponentService {
           pricingSettings.sensitiveData = settings.result[0].sensitiveData;
           // Simple price
           if (config.simple) {
-            pricingSettings.type = PricingSettingsType.simple;
+            pricingSettings.type = PricingSettingsType.SIMPLE;
             pricingSettings.simple = {
               price: config.simple.price ? parseFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : '',
@@ -63,7 +63,7 @@ export class ComponentService {
           }
           // Convergeant Charging
           if (config.convergentCharging) {
-            pricingSettings.type = PricingSettingsType.convergentCharging;
+            pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
             pricingSettings.convergentCharging = {
               url: config.convergentCharging.url ? config.convergentCharging.url : '',
               chargeableItemName: config.convergentCharging.chargeableItemName ? config.convergentCharging.chargeableItemName : '',
@@ -84,11 +84,11 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentEnum.PRICING,
+      identifier: ComponentType.PRICING,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === PricingSettingsType.convergentCharging) {
+    if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -102,16 +102,16 @@ export class ComponentService {
   public saveBillingSettings(settings: BillingSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
-      settings.type = BillingSettingsType.stripe;
+      settings.type = BillingSettingsType.STRIPE;
     }
      // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentEnum.BILLING,
+      identifier: ComponentType.BILLING,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === BillingSettingsType.stripe) {
+    if (settings.type === BillingSettingsType.STRIPE) {
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
     // Set some temporary defaults
@@ -128,16 +128,16 @@ export class ComponentService {
   public saveRefundSettings(settings: RefundSettings): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
-      settings.type = RefundSettingsType.concur;
+      settings.type = RefundSettingsType.CONCUR;
     }
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentEnum.REFUND,
+      identifier: ComponentType.REFUND,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
-    if (settings.type === RefundSettingsType.concur) {
+    if (settings.type === RefundSettingsType.CONCUR) {
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS
@@ -152,7 +152,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentEnum.OCPI,
+      identifier: ComponentType.OCPI,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -168,7 +168,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentEnum.ANALYTICS,
+      identifier: ComponentType.ANALYTICS,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -180,13 +180,13 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-    public getBillingSettings(): Observable<BillingSettings> {
+  public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
       const billingSettings = {
-        identifier: ComponentEnum.BILLING,
+        identifier: ComponentType.BILLING,
       } as BillingSettings;
       // Get the Billing settings
-      this.centralServerService.getSettings(ComponentEnum.BILLING).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentType.BILLING).subscribe((settings) => {
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
           // ID
@@ -194,7 +194,7 @@ export class ComponentService {
           billingSettings.sensitiveData = settings.result[0].sensitiveData;
           // Stripe
           if (config.stripe) {
-            billingSettings.type = BillingSettingsType.stripe;
+            billingSettings.type = BillingSettingsType.STRIPE;
             billingSettings.stripe = config.stripe;
           }
         }
@@ -209,10 +209,10 @@ export class ComponentService {
   public getOcpiSettings(): Observable<OcpiSettings> {
     return new Observable((observer) => {
       const ocpiSettings = {
-        identifier: ComponentEnum.OCPI,
+        identifier: ComponentType.OCPI,
       } as OcpiSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.OCPI).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentType.OCPI).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -232,10 +232,10 @@ export class ComponentService {
   public getSacSettings(contentFilter = false): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
       const analyticsSettings = {
-        identifier: ComponentEnum.ANALYTICS,
+        identifier: ComponentType.ANALYTICS,
       } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.ANALYTICS, contentFilter).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentType.ANALYTICS, contentFilter).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -256,10 +256,10 @@ export class ComponentService {
   public getRefundSettings(): Observable<RefundSettings> {
     return new Observable((observer) => {
       const refundSettings = {
-        identifier: ComponentEnum.REFUND,
+        identifier: ComponentType.REFUND,
       } as RefundSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settings) => {
+      this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;

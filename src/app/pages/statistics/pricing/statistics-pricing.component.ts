@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TableFilterDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
@@ -37,6 +37,7 @@ export class StatisticsPricingComponent implements OnInit {
   private barChartData: ChartData;
   private pieChartData: ChartData;
   private totalPriceWithUnit: StatisticsBuildValueWithUnit[] = [];
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -46,7 +47,10 @@ export class StatisticsPricingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
     private statisticsExportService: StatisticsExportService) {
-    this.isPricingActive = this.componentService.isActive(ComponentEnum.PRICING);
+    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   ngOnInit(): void {
@@ -106,7 +110,7 @@ export class StatisticsPricingComponent implements OnInit {
         if (totalPriceString) {
           totalPriceString += ' + ';
         }
-        totalPriceString += Math.round(object.value).toLocaleString(this.localeService.language) + ' ' + object.unit;
+        totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
       }
     });
     if (this.selectedChart === 'month') {
@@ -148,11 +152,11 @@ export class StatisticsPricingComponent implements OnInit {
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
       { currency: toolTipUnit });
 
-    this.barChart = new SimpleChart(this.localeService.language, 'stackedBar',
+    this.barChart = new SimpleChart(this.language, 'stackedBar',
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
 
-    this.pieChart = new SimpleChart(this.localeService.language, 'pie',
+    this.pieChart = new SimpleChart(this.language, 'pie',
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);
 

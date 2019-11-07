@@ -16,6 +16,7 @@ export class StatisticsBuildService {
   private totalLabel: string;
   private monthLabel: string;
   private unitLabel: string;
+  private language: string;
 
   constructor(
     private translateService: TranslateService,
@@ -26,6 +27,9 @@ export class StatisticsBuildService {
     }
     this.monthLabel = 'month';
     this.unitLabel = 'unit';
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0,
@@ -66,7 +70,7 @@ export class StatisticsBuildService {
         let newMonth = false;
 
         monthIndex = transactionValue.month;
-        monthString = moment().locale(this.localeService.language).month(monthIndex).format('MMMM');
+        monthString = moment().locale(this.language).month(monthIndex).format('MMMM');
 
         const currentIndex = stackedChartData.labels.indexOf(monthString);
 

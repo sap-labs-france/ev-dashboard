@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { RefundSettings } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -35,7 +35,7 @@ export class SettingsOcppComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(ComponentEnum.REFUND);
+    this.isActive = this.componentService.isActive(ComponentType.REFUND);
   }
 
   ngOnInit(): void {

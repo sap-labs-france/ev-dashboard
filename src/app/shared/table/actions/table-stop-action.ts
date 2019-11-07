@@ -6,7 +6,7 @@ export class TableStopAction implements TableAction {
     id: 'stop',
     type: 'button',
     icon: 'stop',
-    color: ButtonColor.warn,
+    color: ButtonColor.WARN,
     name: 'general.stop',
     tooltip: 'general.tooltips.stop',
   };

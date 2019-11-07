@@ -7,7 +7,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
 
 @Component({
@@ -30,7 +30,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.analyticsLinksTableDataSource.changed.subscribe((_) => {
       this.formGroup.markAsDirty();
     });
-    this.isActive = componentService.isActive(ComponentEnum.ANALYTICS);
+    this.isActive = componentService.isActive(ComponentType.ANALYTICS);
     // Build form
     this.formGroup = new FormGroup({});
   }
@@ -69,7 +69,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     // Set data
     this.analyticsSettings.sac = content;
     this.analyticsSettings.links = this.analyticsLinksTableDataSource.getLinks();
-    this.analyticsSettings.type = AnalyticsSettingsType.sac;
+    this.analyticsSettings.type = AnalyticsSettingsType.SAC;
     // Save
     this.spinnerService.show();
     this.componentService.saveSacSettings(this.analyticsSettings).subscribe((response) => {

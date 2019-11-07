@@ -6,7 +6,7 @@ export class TableStartAction implements TableAction {
     id: 'start',
     type: 'button',
     icon: 'play_arrow',
-    color: ButtonColor.accent,
+    color: ButtonColor.ACCENT,
     name: 'general.start',
     tooltip: 'general.tooltips.start',
   };

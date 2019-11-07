@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SiteArea, User } from '../common.types';
+import { SiteArea, UserToken } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
-import { ComponentEnum, ComponentService } from './component.service';
+import { ComponentService, ComponentType } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
-  private loggedUser: User;
+  private loggedUser: UserToken;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -55,7 +55,7 @@ export class AuthorizationService {
       if (this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
-      if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         return siteArea && this.isSiteAdmin(siteArea.siteID);
       }
       return this.isAdmin();
@@ -65,7 +65,7 @@ export class AuthorizationService {
 
   public canStartTransaction(siteArea: SiteArea) {
     if (this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_REMOTE_START_TRANSACTION)) {
-      if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         if (!siteArea) {
           return false;
         }
@@ -81,7 +81,7 @@ export class AuthorizationService {
       if (this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
-      if (this.componentService.isActive(ComponentEnum.ORGANIZATION) && siteArea) {
+      if (this.componentService.isActive(ComponentType.ORGANIZATION) && siteArea) {
         return this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
       }
       return this.isAdmin() || this.isDemo();

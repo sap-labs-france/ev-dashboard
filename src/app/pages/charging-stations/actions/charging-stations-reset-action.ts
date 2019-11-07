@@ -6,7 +6,7 @@ export class ChargingStationsResetAction implements TableAction {
     id: 'soft_reset',
     type: 'button',
     icon: 'refresh',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.soft_reset',
   };

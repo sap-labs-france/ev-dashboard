@@ -35,6 +35,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     [54, 162, 235],
     [255, 206, 86],
   ];
+  private language: string;
 
   constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
@@ -43,6 +44,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
               private datePipe: AppDatePipe,
               private decimalPipe: DecimalPipe,
               private connectorIdPipe: AppConnectorIdPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   resetZoom() {
@@ -195,12 +199,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       pan: {
         enabled: true,
         mode: 'x',
-        /*        rangeMin: {
-                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
-                },
-                rangeMax: {
-                  x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0
-                },*/
+        // rangeMin: {
+        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
+        // },
+        // rangeMax: {
+        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0,
+        // },
       },
       zoom: {
         enabled: true,
@@ -216,7 +220,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       onClick: (event, array) => {
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

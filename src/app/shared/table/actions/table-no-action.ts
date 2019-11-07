@@ -6,7 +6,7 @@ export class TableNoAction implements TableAction {
     id: 'block',
     type: 'button',
     icon: 'block',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.no_action',
     tooltip: 'general.tooltips.no_action',
   };

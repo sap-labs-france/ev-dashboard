@@ -9,7 +9,7 @@ import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDe
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -63,7 +63,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     // Init
     this.initDataSource();
     // Add statistics to query
-    this.setStaticFilters([{Statistics: 'refund'}]);
+    this.setStaticFilters([{ Statistics: 'refund' }]);
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -172,19 +172,19 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
       }, {
-        id: 'stop.totalConsumption',
-        name: 'transactions.total_consumption',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
-      }, {
-        id: 'stop.price',
-        name: 'transactions.price',
-        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
-      }, {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
-      });
+      id: 'stop.totalConsumption',
+      name: 'transactions.total_consumption',
+      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+    }, {
+      id: 'stop.price',
+      name: 'transactions.price',
+      formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
+    }, {
+      id: 'chargeBoxID',
+      name: 'transactions.charging_station',
+      class: 'text-left',
+      formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
+    });
 
     return columns as TableColumnDef[];
   }
@@ -205,11 +205,11 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
       moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsRefundStatusFilter().getFilterDef()];
+    new TransactionsDateUntilFilter().getFilterDef(),
+    new TransactionsRefundStatusFilter().getFilterDef()];
 
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      if (this.componentService.isActive(ComponentEnum.ORGANIZATION)) {
+      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -242,7 +242,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         } else {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('transactions.dialog.refund.title'),
-            this.translateService.instant('transactions.dialog.refund.confirm', {quantity: this.getSelectedRows().length}),
+            this.translateService.instant('transactions.dialog.refund.confirm', { quantity: this.getSelectedRows().length }),
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
               this.refundTransactions(this.getSelectedRows());
@@ -289,7 +289,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       } else {
         this.messageService.showSuccessMessage(
           this.translateService.instant('transactions.notification.refund.success',
-            {inSuccess: response.inSuccess}));
+            { inSuccess: response.inSuccess }));
       }
       this.spinnerService.hide();
       this.clearSelectedRows();
@@ -316,7 +316,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(ComponentEnum.REFUND).subscribe((settingResult) => {
+      this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0];
         }

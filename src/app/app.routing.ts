@@ -5,7 +5,7 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { BrowserNotSupportedComponent } from './pages/browser-not-supported/browser-not-supported.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { ComponentEnum } from './services/component.service';
+import { ComponentType } from './services/component.service';
 import { Constants } from './utils/Constants';
 
 export const AppRoutes: Routes = [
@@ -83,7 +83,7 @@ export const AppRoutes: Routes = [
             entity: Constants.ENTITY_TRANSACTIONS,
             action: Constants.ACTION_LIST,
           },
-          component: ComponentEnum.STATISTICS,
+          component: ComponentType.STATISTICS,
         },
       },
       {
@@ -126,7 +126,7 @@ export const AppRoutes: Routes = [
             entity: Constants.ENTITY_COMPANIES,
             action: Constants.ACTION_LIST,
           },
-          component: ComponentEnum.ORGANIZATION,
+          component: ComponentType.ORGANIZATION,
         },
       },
       {

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { ComponentEnum } from '../../services/component.service';
+import { ComponentType } from '../../services/component.service';
 import { RouteGuardService } from '../../services/route-guard.service';
 import { Constants } from '../../utils/Constants';
 import { StatisticsComponent } from './statistics.component';
@@ -8,7 +8,7 @@ import { StatisticsComponent } from './statistics.component';
 export const StatisticsRoutes: Routes = [
   {
     path: '', component: StatisticsComponent, canActivate: [RouteGuardService], data: {
-      component: ComponentEnum.STATISTICS,
+      component: ComponentType.STATISTICS,
       auth: {
         entity: Constants.ENTITY_TRANSACTIONS,
         action: Constants.ACTION_LIST,

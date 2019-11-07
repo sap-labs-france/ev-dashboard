@@ -24,17 +24,31 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.1.13',
-        date: new Date('2019-10-22'),
+        version: '2.1.14',
+        date: new Date('2019-11-06'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              'Prevent registration of Charging Stations with special characters',
+              `Fixed Fold/Unflod the side menu manually`,
+              `TypeScript migration of Exceptions`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.1.13',
+        date: new Date('2019-10-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Prevent registration of Charging Stations with special characters`,
               `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
               `Allow to delete a Charging Station linked with an outdated Session`,
               `Admin Users receive the notifications with the right locale`,
-              `Connector IDs are translated into letters in notifications`
+              `Connector IDs are translated into letters in notifications`,
+              `Format numbers, currency according user's locale`,
             ],
           },
         ],
@@ -49,7 +63,7 @@ export class ReleaseNotesComponent {
               `Implemented Remote Push Notification`,
               `Refactored Notification to implement Remote Push Notification`,
               `Increased End of Session notification frequency according the charging station power`,
-              'Finished TypeScript migration of Notification and Configuration',
+              'TypeScript migration of Notification and Configuration',
               `Fixed handling of the State Of Charge when it starts at 0 %`,
               `Update End User Licence Agreement with third party products`,
             ],

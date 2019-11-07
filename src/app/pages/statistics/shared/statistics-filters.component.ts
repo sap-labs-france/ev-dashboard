@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsLink, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentEnum, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {
@@ -57,7 +57,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    this.isOrganizationActive = this.componentService.isActive(ComponentEnum.ORGANIZATION);
+    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION);
     this.category.emit(this.selectedCategory);
 
     this.selectedYear = new Date().getFullYear();

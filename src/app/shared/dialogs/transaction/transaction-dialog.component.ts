@@ -48,7 +48,9 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     private localeService: LocaleService,
     protected dialogRef: MatDialogRef<TransactionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
-    this.locale = this.localeService.getCurrentLocaleJS();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
     if (data) {
       this.transactionId = data.transactionId;
       this.connector = data.connector;

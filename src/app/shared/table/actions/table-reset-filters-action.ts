@@ -6,7 +6,7 @@ export class TableResetFiltersAction implements TableAction {
     id: 'reset-filters',
     type: 'button',
     icon: 'cancel',
-    color: ButtonColor.primary,
+    color: ButtonColor.PRIMARY,
     name: 'general.reset_filters',
     tooltip: 'general.tooltips.reset_filters',
   };

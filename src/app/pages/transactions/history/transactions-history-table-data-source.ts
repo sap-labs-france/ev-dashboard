@@ -20,7 +20,7 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';

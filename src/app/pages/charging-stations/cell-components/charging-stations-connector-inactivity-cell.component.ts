@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Connector } from 'app/common.types';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Connector } from '../../../common.types';
+import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   template: `

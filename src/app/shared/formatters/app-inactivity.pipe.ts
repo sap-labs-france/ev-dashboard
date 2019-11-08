@@ -1,7 +1,7 @@
 import { PercentPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LocaleService } from '../../services/locale.service';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { AppDurationPipe } from '../../shared/formatters/app-duration.pipe';
 
 @Pipe({ name: 'appInactivity' })
 export class AppInactivityPipe implements PipeTransform {

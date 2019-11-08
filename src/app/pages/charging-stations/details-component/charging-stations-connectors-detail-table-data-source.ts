@@ -29,7 +29,7 @@ import { ChargingStationsConnectorCellComponent } from '../cell-components/charg
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER, ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
-import { ChargingStationsConnectorInactivityCellComponent } from 'app/pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
+import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {

@@ -27,9 +27,11 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Transact
       // Get data
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
-      this.centralServerService.getTransactionsToRefund(filters,
+      this.centralServerService.getTransactionsToRefundList(filters,
         this.getPaging(), this.getSorting()).subscribe((transaction) => {
           // Ok
+          console.log(JSON.stringify(transaction));
+          console.log(transaction.result);
           observer.next(transaction);
           observer.complete();
         }, (error) => {

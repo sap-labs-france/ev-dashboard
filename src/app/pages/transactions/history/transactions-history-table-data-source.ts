@@ -197,7 +197,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
         // Total Price
         // tslint:disable-next-line:max-line-length
-        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, null, '1.0-0')}`;
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
         return stats;
       }
     }

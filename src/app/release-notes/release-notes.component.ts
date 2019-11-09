@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.14',
-        date: new Date('2019-11-08'),
+        date: new Date('2019-11-09'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,7 +34,8 @@ export class ReleaseNotesComponent {
               `TypeScript migration of Exceptions`,
               `Charging Station can be deleted if an attached ongoing Session is finished`,
               `Fixed URL in OCPI credential object according endpoint role`,
-              `Fixed bug in Log's Search`
+              `Fixed bug in Log's Search`,
+              `OCPI eMSP ongoing implementation`
             ],
           },
         ],

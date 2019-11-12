@@ -149,10 +149,6 @@ export class SiteComponent implements OnInit {
     this.currentSiteID = currentSiteId;
   }
 
-  public showPlace() {
-    window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
-  }
-
   public refresh() {
     // Load Site
     this.loadSite();

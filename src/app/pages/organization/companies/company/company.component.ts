@@ -143,10 +143,6 @@ export class CompanyComponent implements OnInit {
     this.currentCompanyID = currentCompanyId;
   }
 
-  public showPlace() {
-    window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
-  }
-
   public refresh() {
     // Load Company
     this.loadCompany();

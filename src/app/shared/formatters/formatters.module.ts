@@ -13,6 +13,7 @@ import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
 import { AppInactivityPipe } from './app-inactivity.pipe';
+import { AppColorByLevelPipe } from './app-color-by-level.pipe';
 
 @NgModule({
   imports: [],
@@ -29,6 +30,7 @@ import { AppInactivityPipe } from './app-inactivity.pipe';
     AppFormatRowCellPipe,
     AppUnitPipe,
     AppCurrencyPipe,
+    AppColorByLevelPipe,
     AppUserMultipleRolesPipe,
   ],
   exports: [
@@ -44,6 +46,7 @@ import { AppInactivityPipe } from './app-inactivity.pipe';
     AppInactivityPipe,
     AppUnitPipe,
     AppCurrencyPipe,
+    AppColorByLevelPipe,
     AppUserMultipleRolesPipe,
   ],
   providers: [
@@ -59,7 +62,8 @@ import { AppInactivityPipe } from './app-inactivity.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
-    AppInactivityPipe
+    AppInactivityPipe,
+    AppColorByLevelPipe
   ],
 })
 export class FormattersModule {

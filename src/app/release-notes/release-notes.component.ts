@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.15',
+        date: new Date('2019-11-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Impossible to update an User in the Master Tenant`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.14',
         date: new Date('2019-11-09'),
         componentChanges: [

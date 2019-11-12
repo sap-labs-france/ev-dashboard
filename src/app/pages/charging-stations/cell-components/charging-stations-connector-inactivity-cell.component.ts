@@ -5,27 +5,17 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   template: `
   <span>
-  <ng-container *ngIf="row.inactivityStatusLevel && row.inactivityStatusLevel === 'info'">
-    <span class="ml-1 text-success">
-      {{row.totalInactivitySecs | appInactivity}}
-    </span>
-  </ng-container>
-  <ng-container *ngIf="row.inactivityStatusLevel && row.inactivityStatusLevel === 'warning'">
-    <span class="ml-1 text-warning">
-      {{row.totalInactivitySecs | appInactivity}}
-    </span>
-  </ng-container>
-  <ng-container *ngIf="row.inactivityStatusLevel && row.inactivityStatusLevel === 'danger'">
-    <span class="ml-1 text-danger">
-      {{row.totalInactivitySecs | appInactivity}}
-    </span>
-  </ng-container>
-  <ng-container *ngIf="!row.inactivityStatusLevel || (row.inactivityStatusLevel !== 'info' && row.inactivityStatusLevel !== 'warning' && row.inactivityStatusLevel !== 'danger')">
-    <span class="ml-1">
-      {{row.totalInactivitySecs | appInactivity}}
-    </span>
-  </ng-container>
-</span>
+    <ng-container *ngIf="row.inactivityStatusLevel">
+      <span [ngClass]="row.inactivityStatusLevel | appColorByLevel">
+        {{row.totalInactivitySecs | appInactivity}}
+      </span>
+    </ng-container>
+    <ng-container *ngIf="!row.inactivityStatusLevel">
+      <span class="ml-1">
+        {{row.totalInactivitySecs | appInactivity}}
+      </span>
+    </ng-container>
+  </span>
 `,
 })
 export class ChargingStationsConnectorInactivityCellComponent extends CellContentTemplateComponent {

@@ -127,7 +127,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.currentLocale = locale.currentLocale;
-    })
+    });
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -471,11 +471,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.address && user.address.country) {
         this.address.controls.country.setValue(user.address.country);
       }
-      if (user.address && user.address.latitude) {
-        this.address.controls.latitude.setValue(user.address.latitude);
-      }
-      if (user.address && user.address.longitude) {
-        this.address.controls.longitude.setValue(user.address.longitude);
+      if (user.address && user.address.coordinates && user.address.coordinates.length === 2) {
+        this.address.controls.longitude.setValue(user.address.coordinates[0]);
+        this.address.controls.latitude.setValue(user.address.coordinates[1]);
       }
       // Reset password
       this.passwords.controls.password.setValue('');

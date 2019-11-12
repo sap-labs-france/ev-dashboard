@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,8 +40,7 @@ export class CompanyComponent implements OnInit {
   public department: AbstractControl;
   public region: AbstractControl;
   public country: AbstractControl;
-  public latitude: AbstractControl;
-  public longitude: AbstractControl;
+  public coordinates: FormArray;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -84,18 +83,20 @@ export class CompanyComponent implements OnInit {
         department: new FormControl(''),
         region: new FormControl(''),
         country: new FormControl(''),
-        latitude: new FormControl('',
-          Validators.compose([
-            Validators.max(90),
-            Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-        longitude: new FormControl('',
-          Validators.compose([
-            Validators.max(180),
-            Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
+        coordinates: new FormArray ([
+          new FormControl('',
+            Validators.compose([
+              Validators.max(180),
+              Validators.min(-180),
+              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+            ])),
+          new FormControl('',
+            Validators.compose([
+              Validators.max(90),
+              Validators.min(-90),
+              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+            ])),
+        ]),
       }),
     });
     // Form
@@ -109,8 +110,7 @@ export class CompanyComponent implements OnInit {
     this.department = this.address.controls['department'];
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
-    this.latitude = this.address.controls['latitude'];
-    this.longitude = this.address.controls['longitude'];
+    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
@@ -190,11 +190,9 @@ export class CompanyComponent implements OnInit {
       if (company.address && company.address.country) {
         this.address.controls.country.setValue(company.address.country);
       }
-      if (company.address && company.address.latitude) {
-        this.address.controls.latitude.setValue(company.address.latitude);
-      }
-      if (company.address && company.address.longitude) {
-        this.address.controls.longitude.setValue(company.address.longitude);
+      if (company.address && company.address.coordinates && company.address.coordinates.length === 2) {
+        this.coordinates.at(0).setValue(company.address.coordinates[0]);
+        this.coordinates.at(1).setValue(company.address.coordinates[1]);
       }
       // Yes, get logo
       return this.centralServerService.getCompanyLogo(this.currentCompanyID);

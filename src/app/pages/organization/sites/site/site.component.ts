@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -40,8 +40,7 @@ export class SiteComponent implements OnInit {
   public department: AbstractControl;
   public region: AbstractControl;
   public country: AbstractControl;
-  public latitude: AbstractControl;
-  public longitude: AbstractControl;
+  public coordinates: FormArray;
   public companies: any;
   public isAdmin: boolean;
 
@@ -91,18 +90,20 @@ export class SiteComponent implements OnInit {
         department: new FormControl(''),
         region: new FormControl(''),
         country: new FormControl(''),
-        latitude: new FormControl('',
-          Validators.compose([
-            Validators.max(90),
-            Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-        longitude: new FormControl('',
-          Validators.compose([
-            Validators.max(180),
-            Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
+        coordinates: new FormArray ([
+          new FormControl('',
+            Validators.compose([
+              Validators.max(180),
+              Validators.min(-180),
+              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+            ])),
+          new FormControl('',
+            Validators.compose([
+              Validators.max(90),
+              Validators.min(-90),
+              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+            ])),
+        ]),
       }),
     });
     // Form
@@ -118,8 +119,7 @@ export class SiteComponent implements OnInit {
     this.department = this.address.controls['department'];
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
-    this.latitude = this.address.controls['latitude'];
-    this.longitude = this.address.controls['longitude'];
+    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE);
 
@@ -225,11 +225,9 @@ export class SiteComponent implements OnInit {
       if (site.address && site.address.country) {
         this.address.controls.country.setValue(site.address.country);
       }
-      if (site.address && site.address.latitude) {
-        this.address.controls.latitude.setValue(site.address.latitude);
-      }
-      if (site.address && site.address.longitude) {
-        this.address.controls.longitude.setValue(site.address.longitude);
+      if (site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+        this.coordinates.at(0).setValue(site.address.coordinates[0]);
+        this.coordinates.at(1).setValue(site.address.coordinates[1]);
       }
       // Yes, get image
       return this.centralServerService.getSiteImage(this.currentSiteID);

@@ -150,7 +150,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : '',
+        formatter: (refundedAt) => this.datePipe.transform(refundedAt),
       },
       {
         id: 'refundData.status',
@@ -272,7 +272,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundData || row.refundData.status === 'cancelled';
+    return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 
   protected refundTransactions(transactions: Transaction[]) {

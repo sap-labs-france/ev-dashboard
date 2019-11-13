@@ -727,8 +727,8 @@ export class CentralServerService {
   }
 
   public getRefundReports(params: { [param: string]: string | string[]; },
-                                 paging: Paging = Constants.DEFAULT_PAGING,
-                                 ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+                          paging: Paging = Constants.DEFAULT_PAGING,
+                          ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging

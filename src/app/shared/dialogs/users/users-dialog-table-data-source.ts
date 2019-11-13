@@ -20,7 +20,7 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
     this.initDataSource();
   }
 
- public loadDataImpl(): Observable<DataResult<User>> {
+  public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getUsers(this.buildFilterValues(),

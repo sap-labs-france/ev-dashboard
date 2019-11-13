@@ -325,13 +325,17 @@ export interface RegistrationToken extends Data {
 export interface OcpiEndpoint extends Data {
   id: string;
   name: string;
+  role: string;
+  baseUrl: string;
   countryCode: string;
-  partyID: string;
-  version: string;
-  status: string;
+  partyId: string;
+  version?: string;
+  status?: string;
+  localToken: string;
+  token: string;
   backgroundPatchJob: boolean;
   lastPatchJobOn: Date;
-  lastPatchJobResult: any;
+  lastPatchJobResult?: any;
 }
 
 export interface OcpiEndpointDetail extends Data {

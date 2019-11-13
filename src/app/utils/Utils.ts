@@ -20,7 +20,7 @@ export class Utils {
       return null;
     }
     // Not Equal
-    return {notEqual: true};
+    return { notEqual: true };
   }
 
   public static handleError(error, messageService, errorMessage?, params?): Observable<any> {
@@ -35,9 +35,9 @@ export class Utils {
   public static getMobileVendor(): MobileType {
     let mobileVendor: MobileType = null;
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
-    if (userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i )) {
+    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
       mobileVendor = MobileType.IOS;
-    } else if (userAgent.match( /Android/i )) {
+    } else if (userAgent.match(/Android/i)) {
       mobileVendor = MobileType.ANDROID;
     }
     return mobileVendor;
@@ -54,7 +54,7 @@ export class Utils {
   }
 
   public static handleHttpError(error, router: Router, messageService: MessageService,
-      centralServerService: CentralServerService, errorMessage: string, params?) {
+    centralServerService: CentralServerService, errorMessage: string, params?) {
     // Check error
     switch (error.status) {
       // Server connection error`

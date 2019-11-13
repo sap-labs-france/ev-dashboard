@@ -106,7 +106,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value)
+        formatter: (value) => this.appUserNamePipe.transform(value),
       });
     }
     columns.push(
@@ -139,8 +139,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         name: 'errors.title',
         class: 'col-30p',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`)
-      }
+        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+      },
     );
     return columns as TableColumnDef[];
   }

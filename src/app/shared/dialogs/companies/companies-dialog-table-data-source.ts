@@ -20,7 +20,7 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
     this.initDataSource();
   }
 
- public loadDataImpl(): Observable<DataResult<Company>> {
+  public loadDataImpl(): Observable<DataResult<Company>> {
   return new Observable((observer) => {
     // Get data
     this.centralServerService.getCompanies(this.buildFilterValues(),

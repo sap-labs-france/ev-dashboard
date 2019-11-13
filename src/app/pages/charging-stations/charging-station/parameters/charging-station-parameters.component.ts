@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -51,8 +51,9 @@ export class ChargingStationParametersComponent implements OnInit {
   public cannotChargeInParallel: AbstractControl;
   public powerLimitUnit: AbstractControl;
   public maximumPower: AbstractControl;
-  public latitude: AbstractControl;
+  public coordinates: FormArray;
   public longitude: AbstractControl;
+  public latitude: AbstractControl;
   public siteArea: AbstractControl;
   public siteAreaID: AbstractControl;
 
@@ -113,20 +114,20 @@ export class ChargingStationParametersComponent implements OnInit {
         ])),
       siteArea: new FormControl(''),
       siteAreaID: new FormControl(''),
-      latitude: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.max(90),
-          Validators.min(-90),
-          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-        ])),
-      longitude: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.max(180),
-          Validators.min(-180),
-          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-        ])),
+      coordinates: new FormArray ([
+        new FormControl('',
+          Validators.compose([
+            Validators.max(180),
+            Validators.min(-180),
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+        new FormControl('',
+          Validators.compose([
+            Validators.max(90),
+            Validators.min(-90),
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+          ])),
+      ]),
     });
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
@@ -136,8 +137,9 @@ export class ChargingStationParametersComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.powerLimitUnit = this.formGroup.controls['powerLimitUnit'];
-    this.latitude = this.formGroup.controls['latitude'];
-    this.longitude = this.formGroup.controls['longitude'];
+    this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
+    this.longitude = this.coordinates.at(0);
+    this.latitude = this.coordinates.at(1);
 
     this.formGroup.updateValueAndValidity();
 
@@ -239,11 +241,9 @@ export class ChargingStationParametersComponent implements OnInit {
       if (this.charger.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(this.charger.maximumPower);
       }
-      if (this.charger.latitude) {
-        this.formGroup.controls.latitude.setValue(this.charger.latitude);
-      }
-      if (this.charger.longitude) {
-        this.formGroup.controls.longitude.setValue(this.charger.longitude);
+      if (this.charger.coordinates) {
+        this.longitude.setValue(this.charger.coordinates[0]);
+        this.latitude.setValue(this.charger.coordinates[1]);
       }
       if (this.charger.siteArea && this.charger.siteArea.name) {
         // tslint:disable-next-line:max-line-length
@@ -301,8 +301,7 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.numberOfConnectedPhase = this.numberOfConnectedPhase.value;
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
       this.charger.powerLimitUnit = this.powerLimitUnit.value;
-      this.charger.latitude = this.latitude.value;
-      this.charger.longitude = this.longitude.value;
+      this.charger.coordinates = [this.longitude.value, this.latitude.value];
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;
         connector.power = this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].value;
@@ -343,23 +342,23 @@ export class ChargingStationParametersComponent implements OnInit {
     dialogConfig.panelClass = 'transparent-dialog-container';
 
     // get latitud/longitude from form
-    let latitude = this.formGroup.controls.latitude.value;
-    let longitude = this.formGroup.controls.longitude.value;
+    let latitude = this.latitude.value;
+    let longitude = this.longitude.value;
 
     // if one is not available try to get from SiteArea and then from Site
     if (!latitude || !longitude) {
       const siteArea = this.charger.siteArea;
 
       if (siteArea && siteArea.address) {
-        if (siteArea.address.latitude && siteArea.address.longitude) {
-          latitude = siteArea.address.latitude;
-          longitude = siteArea.address.longitude;
+        if (siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
+          latitude = siteArea.address.coordinates[1];
+          longitude = siteArea.address.coordinates[0];
         } else {
           const site = siteArea.site;
 
-          if (site && site.address && site.address.latitude && site.address.longitude) {
-            latitude = site.address.latitude;
-            longitude = site.address.longitude;
+          if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+            latitude = site.address.coordinates[1];
+            longitude = site.address.coordinates[0];
           }
         }
       }
@@ -379,11 +378,11 @@ export class ChargingStationParametersComponent implements OnInit {
       .afterClosed().subscribe((result) => {
       if (result) {
         if (result.latitude) {
-          this.formGroup.controls.latitude.setValue(result.latitude);
+          this.latitude.setValue(result.latitude);
           this.formGroup.markAsDirty();
         }
         if (result.longitude) {
-          this.formGroup.controls.longitude.setValue(result.longitude);
+          this.longitude.setValue(result.longitude);
           this.formGroup.markAsDirty();
         }
       }

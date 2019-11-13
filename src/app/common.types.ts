@@ -235,8 +235,7 @@ export interface Charger extends Data {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
   currentIPAddress: string;
 }
 
@@ -254,8 +253,7 @@ export interface Address {
   department: string;
   region: string;
   country: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
 }
 
 export interface Company extends Data {
@@ -561,17 +559,7 @@ export interface User extends Data {
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
   };
-  address: {
-    address1: string;
-    address2: string;
-    postalCode: string;
-    city: string;
-    department: string;
-    region: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-  };
+  address: Address;
   iNumber: string;
   costCenter: boolean;
   status: string;

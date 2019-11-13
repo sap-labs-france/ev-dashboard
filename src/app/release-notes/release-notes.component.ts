@@ -24,14 +24,30 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.15',
+        date: new Date('2019-11-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Impossible to update an User in the Master Tenant`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.14',
-        date: new Date('2019-11-06'),
+        date: new Date('2019-11-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed Fold/Unflod the side menu manually`,
               `TypeScript migration of Exceptions`,
+              `Charging Station can be deleted if an attached ongoing Session is finished`,
+              `Fixed URL in OCPI credential object according endpoint role`,
+              `Fixed bug in Log's Search`,
+              `OCPI eMSP ongoing implementation`
             ],
           },
         ],
@@ -44,7 +60,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Prevent registration of Charging Stations with special characters`,
-              `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
+              `Allow Soft Stop a Session on a Charging Station that is not connected to the backend`,
               `Allow to delete a Charging Station linked with an outdated Session`,
               `Admin Users receive the notifications with the right locale`,
               `Connector IDs are translated into letters in notifications`,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { DataResult, TableColumnDef, Transaction, User } from '../../../common.types';
+import { DataResult, TableColumnDef, Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -30,8 +30,6 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Transact
       this.centralServerService.getRefundReports(filters,
         this.getPaging(), this.getSorting()).subscribe((transaction) => {
           // Ok
-          console.log(JSON.stringify(transaction));
-          console.log(transaction.result);
           observer.next(transaction);
           observer.complete();
         }, (error) => {
@@ -46,9 +44,10 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Transact
   buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'refundData.reportId',
+        id: 'id',
         name: 'transactions.reportId',
         class: 'text-left col-50p',
+        sortable: true,
       },
       {
         id: 'user',

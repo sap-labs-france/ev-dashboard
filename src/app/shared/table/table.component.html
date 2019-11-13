@@ -334,7 +334,7 @@
           <!-- n records / Max Records -->
           <span
             *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
-            {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | number}}
+            {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | appDecimal}}
           </span>
           <!-- n records === Max Records -->
           <span

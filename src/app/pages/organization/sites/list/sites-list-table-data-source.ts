@@ -145,7 +145,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (site && site.address && site.address.latitude && site.address.longitude) ? false : true;
+    openInMaps.disabled = (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) ? false : true;
 
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
@@ -207,9 +207,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     ];
   }
 
-  private _showPlace(rowItem) {
-    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
-      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+  private _showPlace(site: Site) {
+    if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+      window.open(`http://maps.google.com/maps?q=${site.address.coordinates[1]},${site.address.coordinates[0]}`);
     }
   }
 

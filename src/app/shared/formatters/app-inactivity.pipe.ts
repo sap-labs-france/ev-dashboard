@@ -5,9 +5,9 @@ import { AppDurationPipe } from '../../shared/formatters/app-duration.pipe';
 
 @Pipe({ name: 'appInactivity' })
 export class AppInactivityPipe implements PipeTransform {
-  private locale: string;
-  private percentPipe: PercentPipe;
-  private appDurationPipe: AppDurationPipe;
+  private locale!: string;
+  private percentPipe!: PercentPipe;
+  private appDurationPipe!: AppDurationPipe;
 
   constructor(localeService: LocaleService) {
     // Get the locale
@@ -19,7 +19,7 @@ export class AppInactivityPipe implements PipeTransform {
   }
 
   transform(totalInactivitySecs: number, totalDurationSecs?: number): string {
-    if(totalDurationSecs) {
+    if (totalDurationSecs) {
       const percentage = totalDurationSecs > 0 ? (totalInactivitySecs / totalDurationSecs) : 0;
       return this.appDurationPipe.transform(totalInactivitySecs) +
         ` (${this.percentPipe.transform(percentage, '1.0-0')})`;

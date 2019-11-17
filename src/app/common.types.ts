@@ -511,7 +511,7 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  formatter?: (value: any, row?: any) => void;
+  formatter?: (value: any, row?: any) => string | null;
   sortable?: boolean;
   sorted?: boolean;
   direction?: SortDirection;

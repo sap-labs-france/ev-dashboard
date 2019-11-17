@@ -102,7 +102,7 @@ export class Utils {
     }
   }
 
-  public static convertToDate(date) {
+  public static convertToDate(date: any) {
     // Check
     if (!date) {
       return date;
@@ -114,7 +114,7 @@ export class Utils {
     return date;
   }
 
-  public static convertToInteger(id) {
+  public static convertToInteger(id: any) {
     let changedID = id;
     if (!id) {
       return 0;
@@ -127,7 +127,7 @@ export class Utils {
     return changedID;
   }
 
-  public static convertToFloat(id) {
+  public static convertToFloat(id: any) {
     let changedID = id;
     if (!id) {
       return 0;
@@ -140,12 +140,12 @@ export class Utils {
     return changedID;
   }
 
-  public static isNull(obj) {
+  public static isNull(obj: any) {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }
 
-  public static copyToClipboard(content) {
+  public static copyToClipboard(content: any) {
     const element = document.createElement('textarea');
     element.style.position = 'fixed';
     element.style.left = '0';

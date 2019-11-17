@@ -37,7 +37,7 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
   private refundTransactionEnabled = false;
-  private refundSetting: Setting;
+  private refundSetting!: Setting;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -296,7 +296,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         this.spinnerService.hide();
         this.clearSelectedRows();
         this.refreshData().subscribe();
-    }, (error) => {
+    }, (error: any) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 560: // not authorized

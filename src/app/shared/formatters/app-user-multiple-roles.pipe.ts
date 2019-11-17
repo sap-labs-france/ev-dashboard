@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'appUserMultipleRoles' })
 export class AppUserMultipleRolesPipe implements PipeTransform {
-  transform(role: string): any {
+  transform(role: string): string {
     if (!role || role === '') {
       return 'users.role_mult_all';
     }

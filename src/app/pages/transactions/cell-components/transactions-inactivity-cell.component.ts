@@ -5,12 +5,12 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   template: `
   <span>
-    <ng-container *ngIf="row.stop && row.stop.inactivityStatusLevel">
+    <ng-container *ngIf="row.stop">
       <span [ngClass]="row.stop.inactivityStatusLevel | appColorByLevel">
         {{row.stop.totalInactivitySecs | appInactivity:row.stop.totalDurationSecs}}
       </span>
     </ng-container>
-    <ng-container *ngIf="row.currentInactivityStatusLevel">
+    <ng-container *ngIf="!row.stop">
       <span [ngClass]="row.currentInactivityStatusLevel | appColorByLevel">
         {{row.currentTotalInactivitySecs | appInactivity:row.currentTotalDurationSecs}}
       </span>
@@ -19,5 +19,5 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 `,
 })
 export class TransactionsInactivityCellComponent extends CellContentTemplateComponent {
-  @Input() row: Transaction;
+  @Input() row!: Transaction;
 }

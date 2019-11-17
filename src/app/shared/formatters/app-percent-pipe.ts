@@ -4,7 +4,7 @@ import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appPercent'})
 export class AppPercentPipe implements PipeTransform {
-  private percentPipe: PercentPipe;
+  private percentPipe!: PercentPipe;
 
   constructor(
     private localeService: LocaleService) {
@@ -13,7 +13,7 @@ export class AppPercentPipe implements PipeTransform {
     });
   }
 
-  transform(value: number, digitsInfo?: string): string {
+  transform(value: number, digitsInfo?: string): string | null {
     return this.percentPipe.transform(value, digitsInfo);
   }
 }

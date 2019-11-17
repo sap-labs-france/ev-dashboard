@@ -70,7 +70,8 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
     AppInactivityPipe,
-    AppColorByLevelPipe
+    AppPercentPipe,
+    AppColorByLevelPipe,
   ],
 })
 export class FormattersModule {

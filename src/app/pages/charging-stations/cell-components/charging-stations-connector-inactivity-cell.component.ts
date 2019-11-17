@@ -5,13 +5,8 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 @Component({
   template: `
   <span>
-    <ng-container *ngIf="row.inactivityStatusLevel">
-      <span [ngClass]="row.inactivityStatusLevel | appColorByLevel">
-        {{row.totalInactivitySecs | appInactivity}}
-      </span>
-    </ng-container>
-    <ng-container *ngIf="!row.inactivityStatusLevel">
-      <span class="ml-1">
+    <ng-container>
+      <span class="ml-1" [ngClass]="row.inactivityStatusLevel | appColorByLevel">
         {{row.totalInactivitySecs | appInactivity}}
       </span>
     </ng-container>
@@ -19,5 +14,5 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 `,
 })
 export class ChargingStationsConnectorInactivityCellComponent extends CellContentTemplateComponent {
-  @Input() row: Connector;
+  @Input() row!: Connector;
 }

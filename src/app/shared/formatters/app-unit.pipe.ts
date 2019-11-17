@@ -7,7 +7,7 @@ export class AppUnitPipe implements PipeTransform {
   constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  _parseMeasure(measureAsString): Measure {
+  _parseMeasure(measureAsString: string): Measure {
     if (Unit[Unit[measureAsString]] === measureAsString) {
       return {unit: Unit[measureAsString], size: Size.basis};
     }

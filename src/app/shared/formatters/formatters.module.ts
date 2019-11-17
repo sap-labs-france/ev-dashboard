@@ -7,8 +7,10 @@ import { AppConnectorIdPipe } from './app-connector-id.pipe';
 import { AppConnectorTypePipe } from './app-connector-type.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { AppDatePipe } from './app-date.pipe';
+import { AppDecimalPipe } from './app-decimal-pipe';
 import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
+import { AppPercentPipe } from './app-percent-pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
@@ -19,6 +21,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppArrayToStringPipe,
     AppUserNamePipe,
     AppDatePipe,
+    AppDecimalPipe,
     AppDurationPipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
@@ -28,11 +31,13 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppPercentPipe,
   ],
   exports: [
     AppArrayToStringPipe,
     AppUserNamePipe,
     AppDatePipe,
+    AppDecimalPipe,
     AppDurationPipe,
     AppConnectorIdPipe,
     AppFormatRowCellPipe,
@@ -42,12 +47,14 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppPercentPipe,
   ],
   providers: [
     LocaleService,
     AppArrayToStringPipe,
     AppUserNamePipe,
     AppDatePipe,
+    AppDecimalPipe,
     AppDurationPipe,
     AppConnectorIdPipe,
     AppConnectorTypePipe,
@@ -56,6 +63,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppPercentPipe,
   ],
 })
 export class FormattersModule {

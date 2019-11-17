@@ -1,14 +1,15 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { Charger, Connector } from '../../../common.types';
+import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.maximumPower === 0">
-        {{row.connectors | appChargingStationsFormatPowerCharger:'instantPowerKW':row | number}}
+        {{row.connectors | appChargingStationsFormatPowerCharger:'instantPowerKW':row}}
         &nbsp;/&nbsp;
-        {{row.connectors | appChargingStationsFormatPowerCharger:'maxPowerKW':row | number}} kW
+        {{row.connectors | appChargingStationsFormatPowerCharger:'maxPowerKW':row}} kW
       </div>
       <mat-progress-bar color="accent" class="d-flex" [hidden]="row.maximumPower === 0"
         [value]="row.connectors | appChargingStationsFormatPowerCharger:'instantPowerKWPercent':row" mode="determinate">
@@ -22,7 +23,11 @@ export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends
 
 @Pipe({name: 'appChargingStationsFormatPowerCharger'})
 export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform {
-  transform(connectors: Connector[], type: string, charger: Charger): number {
+  constructor(private decimalPipe: AppDecimalPipe) {
+  }
+
+  transform(connectors: Connector[], type: string, charger: Charger): string {
+    let value = 0;
     // Check
     switch (type) {
       // Compute Instance Power
@@ -42,12 +47,13 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         }
         if (type === 'instantPowerKWPercent') {
           if (instantPowerKW === 0) {
-            return 0;
+            value = 0;
           }
-          return Math.round((instantPowerKW * 1000 / charger.maximumPower) * 100);
+          value = Math.round((instantPowerKW * 1000 / charger.maximumPower) * 100);
         } else {
-          return instantPowerKW;
+          value = instantPowerKW;
         }
+        break;
 
       // Compute Max Power
       case 'maxPowerKW':
@@ -73,7 +79,9 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         }
         // Watt -> kWatts
         maxPowerKW /= 1000;
-        return Math.round((maxPowerKW * 10)) / 10;
+        value = Math.round((maxPowerKW * 10)) / 10;
+        break;
     }
+    return this.decimalPipe.transform(value);
   }
 }

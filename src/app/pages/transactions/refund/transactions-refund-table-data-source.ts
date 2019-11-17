@@ -1,4 +1,3 @@
-import { PercentPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +16,7 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -51,7 +51,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
+    private appPercentPipe: AppPercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
@@ -195,7 +195,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       return '';
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '2.0-0')})`;
+      ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
   }
 
   formatChargingStation(chargingStation, row) {

@@ -577,6 +577,7 @@ export interface User extends Data {
   companies: string[];
   sites: string[];
   sitesAdmin: string[];
+  sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
 }
@@ -599,18 +600,21 @@ export interface UserToken {
   sites?: string[];
   sitesAdmin?: string[];
   activeComponents?: string[];
+  sitesOwner?: string[];
 }
 
 export interface UserSite extends Data {
   user: User;
   siteID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface SiteUser extends Data {
   site: Site;
   userID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface VehicleManufacturer {

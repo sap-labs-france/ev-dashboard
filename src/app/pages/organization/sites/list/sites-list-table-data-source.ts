@@ -147,7 +147,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) ? false : true;
 
-    if (this.authorizationService.isSiteAdmin(site.id)) {
+    if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
       actions.push(this.editUsersAction);
     } else {

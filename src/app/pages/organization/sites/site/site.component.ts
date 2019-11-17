@@ -174,7 +174,7 @@ export class SiteComponent implements OnInit {
       return;
     }
 
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID);
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID) || this.authorizationService.isSiteOwner(this.currentSiteID);
 
     // if not admin switch in readonly mode
     if (!this.isAdmin) {

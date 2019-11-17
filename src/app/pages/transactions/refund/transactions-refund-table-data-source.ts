@@ -36,7 +36,7 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
 
-  private isAdmin = false;
+  private refundTransactionEnabled = false;
   private refundSetting = undefined;
 
   constructor(
@@ -57,8 +57,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
-    // Admin
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.refundTransactionEnabled = this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_REFUND_TRANSACTION);
     // Check
     this.checkConcurConnection();
     // Init
@@ -94,8 +93,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         enabled: true,
       },
       rowSelection: {
-        enabled: true,
-        multiple: true,
+        enabled: this.refundTransactionEnabled,
+        multiple: this.refundTransactionEnabled,
       },
       rowDetails: {
         enabled: false,
@@ -151,7 +150,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : '',
+        formatter: (refundedAt) => this.datePipe.transform(refundedAt),
       },
       {
         id: 'refundData.status',
@@ -223,11 +222,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      new TableRefundAction().getActionDef(),
-      new TableOpenInConcurAction().getActionDef(),
-      ...tableActionsDef,
-    ];
+    if (this.refundTransactionEnabled) {
+      return [
+        new TableRefundAction().getActionDef(),
+        new TableOpenInConcurAction().getActionDef(),
+        ...tableActionsDef,
+      ];
+    }
+    return tableActionsDef;
   }
 
   actionTriggered(actionDef: TableActionDef) {
@@ -270,7 +272,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundData || row.refundData.status === 'cancelled';
+    return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 
   protected refundTransactions(transactions: Transaction[]) {

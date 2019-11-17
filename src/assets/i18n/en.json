@@ -360,9 +360,12 @@
     "create_error": "Error occurred while creating the site",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "admin_role": "Site Admin",
+    "owner_role": "Site Owner",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
-    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
+    "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
+    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",

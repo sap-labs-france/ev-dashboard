@@ -738,6 +738,26 @@ export class CentralServerService {
       );
   }
 
+  public getRefundReports(params: { [param: string]: string | string[]; },
+                          paging: Paging = Constants.DEFAULT_PAGING,
+                          ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefundReports`,
+      {
+        headers: this._buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init

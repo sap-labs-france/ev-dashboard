@@ -10,10 +10,8 @@ export class ConfigService {
       this.load();
   }
 
-  public load() {
-    this.http.get('/assets/config.json').subscribe((data) => {
-      this._config = data;
-    });
+  public async load() {
+    this._config = await this.http.get('/assets/config.json').toPromise();
   }
 
   public getCentralSystemServer() {

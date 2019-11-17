@@ -148,7 +148,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.latitude && siteArea.address.longitude) ? false : true;
+    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.coordinates.length === 2) ? false : true;
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,
@@ -218,9 +218,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     ];
   }
 
-  private _showPlace(rowItem) {
-    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
-      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+  private _showPlace(siteArea: SiteArea) {
+    if (siteArea && siteArea.address && siteArea.address.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${siteArea.address.coordinates[1]},${siteArea.address.coordinates[0]}`);
     }
   }
 

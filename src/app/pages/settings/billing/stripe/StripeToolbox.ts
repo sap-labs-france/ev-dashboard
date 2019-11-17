@@ -11,7 +11,7 @@ export class StripeToolBox {
     return {invalid: true};
   }
 
-    public static validateSecretKey(control: AbstractControl) {
+  public static validateSecretKey(control: AbstractControl) {
     // Check
     if (!control.value || /(^sk_test_)/.test(control.value) || /(^sk_live_)/.test(control.value)) {
       // Ok

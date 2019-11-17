@@ -1,4 +1,4 @@
-import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,11 +31,6 @@ import { GaugesModule } from './gauge/gauge.module';
   ],
   entryComponents: [
     ConsumptionChartDetailComponent,
-  ],
-  providers: [
-    CurrencyPipe,
-    PercentPipe,
-    DecimalPipe,
   ],
 })
 export class ComponentModule {

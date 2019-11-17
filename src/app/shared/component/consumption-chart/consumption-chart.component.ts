@@ -1,5 +1,4 @@
-import { DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
@@ -8,6 +7,7 @@ import { Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -39,6 +39,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private amountColor: string;
   private stateOfChargeColor: string;
   private defaultColor: string;
+  private language: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -46,8 +47,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: DecimalPipe,
+    private decimalPipe: AppDecimalPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   static toRgba(rgb: string, alpha: number): string {
@@ -363,7 +367,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         sensitivity: 10,
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       this.options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

@@ -24,6 +24,35 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.15',
+        date: new Date('2019-11-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Impossible to update an User in the Master Tenant`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.1.14',
+        date: new Date('2019-11-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Fold/Unflod the side menu manually`,
+              `TypeScript migration of Exceptions`,
+              `Charging Station can be deleted if an attached ongoing Session is finished`,
+              `Fixed URL in OCPI credential object according endpoint role`,
+              `Fixed bug in Log's Search`,
+              `OCPI eMSP ongoing implementation`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.13',
         date: new Date('2019-10-28'),
         componentChanges: [
@@ -31,7 +60,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Prevent registration of Charging Stations with special characters`,
-              `Allow Soft Stop a Session on a Charging Station that is no longer ongoing`,
+              `Allow Soft Stop a Session on a Charging Station that is not connected to the backend`,
               `Allow to delete a Charging Station linked with an outdated Session`,
               `Admin Users receive the notifications with the right locale`,
               `Connector IDs are translated into letters in notifications`,
@@ -50,7 +79,7 @@ export class ReleaseNotesComponent {
               `Implemented Remote Push Notification`,
               `Refactored Notification to implement Remote Push Notification`,
               `Increased End of Session notification frequency according the charging station power`,
-              'Finished TypeScript migration of Notification and Configuration',
+              'TypeScript migration of Notification and Configuration',
               `Fixed handling of the State Of Charge when it starts at 0 %`,
               `Update End User Licence Agreement with third party products`,
             ],

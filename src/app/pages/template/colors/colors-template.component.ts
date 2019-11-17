@@ -12,4 +12,4 @@ export class ColorsTemplateComponent {
     'focused-button', 'selected-button', 'selected-disabled-button', 'disabled-button-toggle'];
   public foregroundProps = ['base', 'divider', 'dividers', 'disabled', 'disabled-button', 'disabled-text',
     'hint-text', 'secondary-text', 'icon', 'icons', 'text', 'slider-off', 'slider-off-active'];
-  }
+}

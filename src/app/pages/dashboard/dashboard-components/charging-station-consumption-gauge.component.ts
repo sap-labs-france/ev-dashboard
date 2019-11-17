@@ -3,17 +3,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 
 @Component({
-    selector: 'app-charging-station-consumption-gauge',
-    template: '<canvas #gauge></canvas>',
+  selector: 'app-charging-station-consumption-gauge',
+  template: '<canvas #gauge></canvas>',
 })
 export class ChargingStationConsumptionGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
-    @Input() consumption = 0;
-    @Input() maxConsumption = 0;
+  @Input() consumption = 0;
+  @Input() maxConsumption = 0;
 
   constructor(el: ElementRef,
-              zone: NgZone,
-              private translateService: TranslateService) {
+    zone: NgZone,
+    private translateService: TranslateService) {
     super(el, zone);
   }
 
@@ -87,22 +87,22 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if (this.options) {
-        if (this.maxConsumption !== this.options.majorTicks[this.options.majorTicks.length - 1]) {
-          this.options.maxValue = Math.round(this.maxConsumption / 1000);
-          this.buildTicks();
-          this.gauge.update(this.options);
-        }
-        this.options.value = Math.round(this.consumption / 1000);
-        this.gauge.value = Math.round(this.consumption / 1000);
-        this.gauge.draw();
+    if (this.options) {
+      if (this.maxConsumption !== this.options.majorTicks[this.options.majorTicks.length - 1]) {
+        this.options.maxValue = Math.round(this.maxConsumption / 1000);
+        this.buildTicks();
+        this.gauge.update(this.options);
       }
+      this.options.value = Math.round(this.consumption / 1000);
+      this.gauge.value = Math.round(this.consumption / 1000);
+      this.gauge.draw();
+    }
   }
 
   buildTicks() {
     this.options.majorTicks = [];
     this.options.highlights = [];
-    const tickRange = ( Math.floor(Math.round(this.maxConsumption / 1000) / 5) > 0 ?
+    const tickRange = (Math.floor(Math.round(this.maxConsumption / 1000) / 5) > 0 ?
       Math.floor(Math.round(this.maxConsumption / 1000) / 5) : 1);
     let currentTick = 0;
     for (let index = 0; index < 5; index++) {
@@ -119,9 +119,11 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
       }
       currentTick += tickRange;
     }
-    this.options.highlights.push({ from: this.options.highlights[1].to,
-              to: Math.round(this.maxConsumption / 1000),
-              color: 'rgba(255,30,0,.55)' });
+    this.options.highlights.push({
+      from: this.options.highlights[1].to,
+      to: Math.round(this.maxConsumption / 1000),
+      color: 'rgba(255,30,0,.55)',
+    });
     this.options.majorTicks = ([...this.options.majorTicks, Math.round(this.maxConsumption / 1000)] as number[]);
   }
 

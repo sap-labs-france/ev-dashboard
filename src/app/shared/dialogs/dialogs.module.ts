@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,6 +19,8 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
+import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
+import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
 import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
 import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
@@ -53,6 +55,7 @@ export class FooterModule {
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
+    ReportsDialogComponent,
   ],
   entryComponents: [
     SitesDialogComponent,
@@ -66,6 +69,7 @@ export class FooterModule {
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
+    ReportsDialogComponent,
   ],
   exports: [
     SitesDialogComponent,
@@ -77,11 +81,9 @@ export class FooterModule {
     TransactionDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
+    ReportsDialogComponent,
   ],
   providers: [
-    CurrencyPipe,
-    PercentPipe,
-    DecimalPipe,
     AppConnectorIdPipe,
     DialogService,
     ChargersDialogTableDataSource,
@@ -93,6 +95,7 @@ export class FooterModule {
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     CompaniesDialogTableDataSource,
+    ReportsDialogTableDataSource,
   ],
 })
 export class DialogsModule {

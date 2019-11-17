@@ -12,7 +12,7 @@ import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -20,6 +20,7 @@ import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -57,6 +58,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private componentService: ComponentService,
     private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
+    private appPercentPipe: AppPercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
@@ -167,6 +169,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return columns as TableColumnDef[];
   }
 
+  formatInactivity(totalInactivitySecs, row) {
+    let percentage = 0;
+    if (row.stop) {
+      percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
+    }
+    return this.appDurationPipe.transform(totalInactivitySecs) +
+      ` (${this.appPercentPipe.transform(percentage, '1.0-0')})`;
+  }
+
   formatChargingStation(chargingStation, row) {
     return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
@@ -188,7 +199,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
         // Total Price
         // tslint:disable-next-line:max-line-length
-        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, null, '1.0-0')}`;
+        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
         return stats;
       }
     }

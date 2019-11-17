@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization.service';
-import { ComponentType, ComponentService } from '../../services/component.service';
+import { ComponentService, ComponentType } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 import { Constants } from '../../utils/Constants';
@@ -19,7 +19,9 @@ export class TransactionsComponent extends AbstractTabComponent {
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'refund']);
-    this.showTransactionRefundTab = this.componentService.isActive(ComponentType.REFUND) && (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
+    this.showTransactionRefundTab = this.componentService.isActive(ComponentType.REFUND) &&
+      (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_REFUND_TRANSACTION)
+        || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
     this.showTransactionInError = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 }

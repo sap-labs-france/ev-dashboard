@@ -4,13 +4,16 @@ import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
-  private locale: string;
+  private datePipe: DatePipe;
+
   constructor(
     private localeService: LocaleService) {
-      this.locale = this.localeService.getCurrentLocaleJS();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.datePipe = new DatePipe(locale.currentLocaleJS);
+    });
   }
 
-  transform(value: any): string {
-    return new DatePipe(this.locale).transform(value, 'medium');
+  transform(value: any, format = 'medium'): string {
+    return this.datePipe.transform(value);
   }
 }

@@ -39,7 +39,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
-    this.toggleSidebar();
     // Get the routes
     this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
       return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, null);

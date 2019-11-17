@@ -150,7 +150,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
+    openInMaps.disabled = (company && company.address && company.address.coordinates && company.address.coordinates.length === 2 ) ? false : true;
     if (this.isAdmin) {
       return [
         this.editAction,
@@ -205,9 +205,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return [];
   }
 
-  private _showPlace(rowItem) {
-    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
-      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+  private _showPlace(company: Company) {
+    if (company && company.address && company.address.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${company.address.coordinates[1]},${company.address.coordinates[0]}`);
     }
   }
 

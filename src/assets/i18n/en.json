@@ -24,7 +24,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.13",
+    "last_update": "Version 2.1.15",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -360,9 +360,12 @@
     "create_error": "Error occurred while creating the site",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "admin_role": "Site Admin",
+    "owner_role": "Site Owner",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
-    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
+    "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
+    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",
@@ -1161,6 +1164,7 @@
   "ocpiendpoints": {
     "name": "Name",
     "baseUrl": "URL",
+    "role": "Role",
     "countryCode": "Country Code",
     "partyId": "Party ID",
     "status": "Status",
@@ -1349,6 +1353,7 @@
     "no_history": "No history during this period",
     "refundDate": "Transferred On",
     "reportId": "Report ID",
+    "select_report": "Select Report",
     "filter": {
       "type": {
         "name": "Type",
@@ -1466,7 +1471,7 @@
   },
   "errors": {
     "title": "Error",
-    "details": "Details", 
+    "details": "Details",
     "description": "Description",
     "action": "Recommended action"
   },
